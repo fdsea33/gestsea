@@ -459,6 +459,12 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
     <xsl:text>ALTER TABLE &#34;</xsl:text>
     <xsl:value-of select="translate(../@table,$majuscules,$minuscules)"/>
     <xsl:value-of select="translate(@name,$majuscules,$minuscules)"/>
+    <xsl:text>&#34; ALTER updated_by SET DEFAULT CURRENT_USER;
+</xsl:text>
+<!--
+    <xsl:text>ALTER TABLE &#34;</xsl:text>
+    <xsl:value-of select="translate(../@table,$majuscules,$minuscules)"/>
+    <xsl:value-of select="translate(@name,$majuscules,$minuscules)"/>
     <xsl:text>&#34; ADD id SERIAL NOT NULL UNIQUE;
 </xsl:text>
     <xsl:if test="count(column[@name='update_time'])">
@@ -475,6 +481,7 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
       <xsl:text>&#34; DROP COLUMN update_user;
 </xsl:text>
     </xsl:if>
+    -->
 <!--
     <xsl:text>ALTER TABLE &#34;</xsl:text>
     <xsl:value-of select="translate(../@table,$majuscules,$minuscules)"/>
@@ -829,6 +836,7 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
       <xsl:when test="@name='created_at' and $mode!='update'"><xsl:text>CURRENT_TIMESTAMP</xsl:text></xsl:when>
       <xsl:when test="@name='created_on' and $mode!='update'"><xsl:text>CURRENT_DATE</xsl:text></xsl:when>
       <xsl:when test="@name='created_by' and $mode!='update'"><xsl:text>CURRENT_USER</xsl:text></xsl:when>
+<!--      <xsl:when test="contains(@type,'SERIAL') and @notnull='true'"><xsl:text>COALESCE(NEW.</xsl:text><xsl:value-of select="translate(@name,$majuscules,$minuscules)"/><xsl:text>, DEFAULT)</xsl:text></xsl:when>-->
       <xsl:when test="@default!='' and @default!='NULL'">
         <xsl:text>COALESCE(NEW.</xsl:text>
         <xsl:value-of select="translate(@name,$majuscules,$minuscules)"/>

@@ -255,12 +255,47 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 CREATE OR REPLACE FUNCTION FC_NextVal(IN nom TEXT) RETURNS integer AS
 $$
 DECLARE
+  total INTEGER;
+  lasti INTEGER;
+  i INTEGER;
   val INTEGER;
   num_cache INTEGER;
+  SEQ table_sequence%ROWTYPE;
 BEGIN
-  SELECT sc_numero, sc_valeur FROM SequenceCache WHERE NOT SC_Locked AND SQ_Numero IN (SELECT sq_numero FROM sequence WHERE sq_nom ILIKE nom) FOR UPDATE OF table_SequenceCache INTO num_cache, val;
-  DELETE FROM SequenceCache WHERE SC_Numero=num_cache;
+  SELECT * FROM table_Sequence WHERE sq_nom ilike nom FOR UPDATE OF table_Sequence INTO SEQ;
+  IF SEQ.SQ_Numero IS NULL THEN
+    RAISE EXCEPTION 'Séquence % introuvable', nom;
+  END IF;
+  IF SEQ.SQ_Clear_Cache THEN
+    DELETE FROM table_SequenceCache WHERE SQ_Numero=SEQ.SQ_Numero;
+  END IF;
+  SELECT count(*) FROM table_SequenceCache WHERE SQ_Numero=SEQ.SQ_Numero INTO total;
+  IF total<SEQ.SQ_Nombre+1 THEN
+    lasti := SEQ.SQ_Last+(SEQ.SQ_Nombre-total)+1;
+    FOR i IN SEQ.SQ_Last+1..lasti LOOP
+      INSERT INTO table_SequenceCache(sq_numero, sc_valeur) VALUES (SEQ.SQ_Numero, i);
+    END LOOP;
+    SEQ.SQ_Last := lasti;
+  END IF;
+  SELECT sc_numero, sc_valeur FROM table_SequenceCache WHERE NOT SC_Locked AND SQ_Numero = SEQ.SQ_Numero ORDER BY sc_valeur FOR UPDATE OF table_SequenceCache INTO num_cache, val;
+  DELETE FROM table_SequenceCache WHERE SC_Numero=num_cache;
+  UPDATE table_Sequence SET SQ_Last = lasti, SQ_Clear_cache=false WHERE SQ_Numero=SEQ.SQ_Numero;
+  COMMIT;
   RETURN val;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+CREATE OR REPLACE FUNCTION FC_NextVal2(IN nom TEXT, IN nb integer) RETURNS TEXT AS
+$$
+DECLARE
+  i INTEGER;
+  ret TEXT;
+BEGIN
+  ret := '';
+  FOR i IN 0..nb LOOP
+    SELECT ret||' '||fc_nextval(nom) INTO ret;
+  END LOOP;
+  RETURN ret;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
@@ -1217,19 +1252,11 @@ CREATE OR REPLACE FUNCTION TG_Sequence_validation() RETURNS trigger AS
 $$
 BEGIN
   NEW.SQ_nom := LOWER(REPLACE(NEW.SQ_Nom,' ',''));
-  IF NOT NEW.SQ_nom ~ '^[a-z][a-z0-9]*$'
-    RAISE EXCEPTION 'Le nom d''une séquence ne doit commencer par une lettre et ne peut contenir que des caractères simples [a-z] et [0-9].'
+  IF NOT NEW.SQ_nom ~ '^[a-z][a-z0-9]*$' THEN
+    RAISE EXCEPTION 'Le nom d''une séquence ne doit commencer par une lettre et ne peut contenir que des caractères simples [a-z] et [0-9].';
   END IF;
-  IF NEW.SQ_Clear_Cache THEN
-    DELETE FROM SequenceCache WHERE SQ_Numero=NEW.SQ_Numero;
-  END IF;
-  SELECT count(*) FROM SequenceCache WHERE SQ_Numero=NEW.SQ_Numero INTO total;
-  IF total<NEW.SQ_Nombre THEN
-    lasti := NEW.SQ_Last+(NEW.SQ_Nombre-total)
-    FOR i IN NEW.SQ_Last+1..lasti LOOP
-      INSERT INTO SequenceCache(sq_numero, sc_valeur) VALUES (NEW.SQ_Numero, i);
-    END LOOP;
-    NEW.SQ_Last := lasti;
+  IF NEW.SQ_Nombre<1 THEN
+    NEW.SQ_Nombre = 30;
   END IF;
   RETURN NEW;
 END;
@@ -1272,12 +1299,12 @@ CREATE TRIGGER trigger_Sequence_treatments
 --===========================================================================--
 -- DROP TRIGGER trigger_SequenceCache_treatments ON table_Sequence;
 --DROP FUNCTION TG_SequenceCache_treatments();
-
+/*
 CREATE OR REPLACE FUNCTION TG_SequenceCache_treatments() RETURNS trigger AS
 $$
 BEGIN
   IF TG_OP='UPDATE' THEN 
-    RAISE EXCEPTION 'Opération interdite sur le cache des séquences.'
+    RAISE EXCEPTION 'Opération interdite sur le cache des séquences.';
   END IF;
   UPDATE Sequence SET SQ_used_on=CURRENT_TIMESTAMP WHERE SQ_Numero=OLD.SQ_Numero;
   RETURN OLD;
@@ -1287,7 +1314,7 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 CREATE TRIGGER trigger_SequenceCache_treatments 
   AFTER UPDATE OR DELETE ON table_SequenceCache 
   FOR EACH ROW EXECUTE PROCEDURE TG_SequenceCache_treatments();
-
+*/
 
 
 -- Société

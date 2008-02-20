@@ -1518,6 +1518,7 @@
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
 
+
   <table name="SequenceCache" abbrev="SC" label="Cache des séquences">
     <column name="SC_Numero"    type="SERIAL"       notnull="true" pkey="true"></column>
     <column name="SQ_Numero"    type="INTEGER"      notnull="true" fkey="Sequence(SQ_Numero)" opt="odcouc"></column>

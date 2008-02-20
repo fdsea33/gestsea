@@ -27,7 +27,7 @@ all: gestseax install
 	$(XSLT) -o ${MIGRATE}/$@${SQL-CONS}.sql --stringparam operation constraints ${STYLESH}/$(XSL-SQL) $<
 	$(XSLT) -o ${MIGRATE}/$@${SQL-VIEW}.sql --stringparam operation vues ${STYLESH}/$(XSL-SQL) $<
 	$(XSLT) -o $@-mcd.js ${STYLESH}/$(XSL-JS) $<
-	mv $@-mcd.js ../../app/gestsea/content/generator/
+	mv $@-mcd.js ../../content/generator/
 
 %_extra.sql: ${MODELS}/%.xml
 	$(XSLT) -o ${MIGRATE}/$@ --stringparam operation extra ${STYLESH}/$(XSL-SQL) $<
