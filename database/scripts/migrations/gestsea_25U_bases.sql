@@ -1,0 +1,263 @@
+/*****************************************************************************
+ * Fonctions de base                                                         *
+ *****************************************************************************/
+
+CREATE OR REPLACE FUNCTION strcat(IN s1 text, IN s2 text) RETURNS text AS $$ SELECT $1||$2 $$ LANGUAGE SQL IMMUTABLE;
+-- CREATE OR REPLACE FUNCTION strcat(IN s1 text, IN s2 text) RETURNS text AS $$ SELECT COALESCE($1,'')||COALESCE($2,'') $$ LANGUAGE SQL IMMUTABLE;
+
+-- DROP AGGREGATE concatenate (text);
+CREATE AGGREGATE concatenate (
+    sfunc = strcat,
+    basetype = text,
+    stype = text,
+    initcond = ''
+);
+
+
+/*****************************************************************************
+ * Vues de base                                                              *
+ *****************************************************************************/
+
+--===========================================================================--
+-- Permet de connaitre pour qui travaille la personne
+--DROP VIEW vue_current_societe;
+CREATE OR REPLACE VIEW vue_current_societe AS
+  SELECT SE_Societe FROM table_Service, table_Employe 
+  WHERE EM_Service=SE_Numero AND EM_Login=CURRENT_USER;
+
+GRANT SELECT ON vue_current_societe TO PUBLIC;
+
+--===========================================================================--
+-- Permet de savoir qui est la personne qui est connecté
+--DROP VIEW vue_current_agent;
+CREATE OR REPLACE VIEW vue_current_agent AS
+  SELECT table_employe.em_agent
+     FROM table_employe
+     WHERE table_employe.em_login::name = "current_user"();
+
+GRANT SELECT ON vue_current_agent TO PUBLIC;
+
+--===========================================================================--
+-- Permet de savoir qui est l'employe qui est connecté
+--DROP VIEW vue_current_employe;
+CREATE OR REPLACE VIEW vue_current_employe AS
+  SELECT table_employe.em_numero
+     FROM table_employe
+     WHERE table_employe.em_login::name = "current_user"();
+
+GRANT SELECT ON vue_current_employe TO PUBLIC;
+
+
+/*****************************************************************************
+ * Fonctions de bases                                                        *
+ *****************************************************************************/
+
+--===========================================================================--
+-- Renvoie le numéro de la société en cours
+-- DROP FUNCTION current_societe();
+
+CREATE OR REPLACE FUNCTION current_societe() RETURNS INTEGER AS
+$$
+DECLARE
+  ret integer;
+BEGIN
+  SELECT SE_Societe FROM vue_current_societe INTO ret;
+  RETURN ret;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+
+--===========================================================================--
+-- Renvoie le numéro de l'agent en cours
+--DROP FUNCTION current_agent();
+
+CREATE OR REPLACE FUNCTION current_agent() RETURNS INTEGER AS
+$$
+DECLARE
+  ret integer;
+BEGIN
+  SELECT EM_Agent FROM vue_current_agent INTO ret;
+  RETURN ret;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+
+--===========================================================================--
+-- Renvoie le numéro de l'employe en cours
+-- DROP FUNCTION current_employe();
+
+CREATE OR REPLACE FUNCTION current_employe() RETURNS INTEGER AS
+$$
+DECLARE
+  ret integer;
+BEGIN
+  SELECT EM_Numero FROM vue_current_employe INTO ret;
+  RETURN ret;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+
+--===========================================================================--
+-- Calcule la premiere date utilisable d'un journal à partir d'un mois et
+-- d'une année
+-- DROP FUNCTION FC_MoisEnLettre(integer);
+
+CREATE OR REPLACE FUNCTION FC_MoisEnLettre(integer) RETURNS text AS
+$$
+DECLARE
+  mois ALIAS FOR $1;
+  ret text;
+BEGIN
+  SELECT CASE
+           WHEN mois=00 THEN 'Janvier'
+           WHEN mois=01 THEN 'Février'
+           WHEN mois=02 THEN 'Mars'
+           WHEN mois=03 THEN 'Avril'
+           WHEN mois=04 THEN 'Mai'
+           WHEN mois=05 THEN 'Juin'
+           WHEN mois=06 THEN 'Juillet'
+           WHEN mois=07 THEN 'Août'
+           WHEN mois=08 THEN 'Septembre'
+           WHEN mois=09 THEN 'Octobre'
+           WHEN mois=10 THEN 'Novembre'
+           WHEN mois=11 THEN 'Décembre'
+           ELSE 'Mois inconnu'
+         END AS LeMois INTO ret;
+  RETURN ret;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+--===========================================================================--
+-- Calcule la premiere date utilisable d'un journal à partir d'un mois et
+-- d'une année
+-- DROP FUNCTION FC_MoisEnLettre(integer);
+
+CREATE OR REPLACE FUNCTION FC_DateEnLettre(in jour date) RETURNS text AS
+$$
+DECLARE
+  ret text;
+BEGIN
+  SELECT EXTRACT(DAY FROM jour)||' '||lower(fc_moisenlettre(EXTRACT(MONTH FROM jour)::integer-1))||' '||EXTRACT(YEAR FROM jour) INTO ret;
+  RETURN ret;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+
+--===========================================================================--
+-- Permet de réaliser un cast de boolean -> text
+CREATE OR REPLACE FUNCTION FC_text(boolean) RETURNS text AS
+$$ SELECT CASE WHEN $1 THEN 'true' ELSE 'false' END $$ LANGUAGE SQL IMMUTABLE;
+
+CREATE CAST (boolean AS text) WITH FUNCTION FC_text(boolean);
+
+-- Permet de réaliser un cast de text->boolean
+CREATE OR REPLACE FUNCTION FC_booleen(text) RETURNS boolean AS
+$$ SELECT CASE WHEN $1='false' THEN false ELSE true END $$ LANGUAGE SQL IMMUTABLE;
+
+CREATE CAST (text AS boolean) WITH FUNCTION FC_booleen(text);
+
+
+--===========================================================================--
+-- Permet de voir les totaux calculé crédit/débit des journaux et pièces
+
+CREATE OR REPLACE VIEW vue_totaux_piece AS
+  SELECT pi_numero, sum(ec_credit) AS pi_credit, sum(ec_debit) AS pi_debit 
+    FROM table_ecriture
+    GROUP BY pi_numero;
+
+CREATE OR REPLACE VIEW vue_totaux_journal AS
+  SELECT jo_numero, sum(pi_credit) AS jo_credit, sum(pi_debit) AS jo_debit 
+    FROM table_piece
+    GROUP BY jo_numero;
+
+
+--===========================================================================--
+-- Permet de voir les journaux à router
+-- DROP VIEW current_routage;
+
+CREATE OR REPLACE VIEW vue_current_routage AS 
+  SELECT DISTINCT RO_Numero AS cle, CS_Valeur AS RC_Numero, p.PE_Numero AS RC_NCLI, PE_Titre AS RC_TITR, COALESCE(PE_Nom||' ','')||COALESCE(PE_Prenom,'') AS RC_NOMP, AD_Ligne2 AS RC_CIDE, AD_Ligne3 AS RC_AD1, AD_Ligne4 AS RC_AD2, AD_Ligne5 AS RC_AD3, CP_Codepostal AS RC_CPOS, VI_Nom AS RC_BURD, RO_Quantite AS RC_NBEX
+  FROM table_Constante, table_Routage JOIN table_Personne p USING (PE_Numero) 
+                                      JOIN table_Adresse USING (AD_Numero) 
+                                      JOIN table_Codepostal USING (CP_Numero) 
+                                      JOIN table_Ville USING (VI_Numero)
+  WHERE RO_DebutService::integer<=CS_Valeur::integer AND CS_Valeur::integer<=RO_FinService::integer AND CS_Type=1
+  ORDER BY RC_CPOS, RC_BURD, RC_NOMP;
+	
+GRANT SELECT ON vue_current_routage TO PUBLIC;
+
+
+--===========================================================================--
+-- Permet de voir les abonnes a relancer
+
+-- DROP VIEW current_relance;
+CREATE OR REPLACE VIEW vue_current_relance AS 
+  SELECT DISTINCT ro_numero AS cle, 
+         ro_finservice AS RL_DernierNumero, 
+         ro_finservice::INTEGER-present.cs_valeur::INTEGER AS RL_Niveau, 
+         table_routage.pe_numero, pe_titre, pe_nom, pe_prenom, 
+         ad_ligne2, ad_ligne3, ad_ligne4, ad_ligne5, cp_codepostal, vi_nom, telephone.cn_coordonnee AS rl_telephone, portable.cn_coordonnee AS rl_portable
+    FROM table_Constante AS passe,
+         table_Constante AS present,
+         table_Constante AS futur,
+         table_Routage LEFT JOIN table_Personne USING (PE_Numero) 
+           LEFT JOIN table_Adresse USING (PE_Numero) 
+           LEFT JOIN table_Facture USING (FA_Numero)
+           LEFT JOIN table_Avoir USING (FA_Numero)
+           LEFT JOIN table_LigneFacture USING (FA_Numero)
+           LEFT JOIN table_Codepostal USING (CP_Numero) 
+           LEFT JOIN table_Ville USING (VI_Numero)
+           LEFT JOIN (SELECT pe_numero, cn_coordonnee FROM table_contact WHERE cn_actif AND ck_numero=107) AS telephone ON (table_Personne.pe_numero=telephone.pe_numero)
+           LEFT JOIN (SELECT pe_numero, cn_coordonnee FROM table_contact WHERE cn_actif AND ck_numero=106) AS portable ON (table_Personne.pe_numero=portable.pe_numero)
+    WHERE NOT RO_Suspendu
+      AND passe.cs_type=2 AND futur.cs_type=3 AND present.cs_type=1 
+      AND present.cs_valeur::integer+futur.cs_valeur::integer>=ro_finservice AND ro_finservice>=present.cs_valeur::integer-passe.cs_valeur::integer 
+      AND NOT ro_numero IN (SELECT ro_numero FROM (SELECT r.ro_numero, count(s) as total from table_routage as r left join table_routage as s using (pe_numero) where s.ro_finservice>r.ro_finservice group by r.ro_numero) as suivants WHERE total>=1)
+      AND AD_Active
+      AND pd_numero IN (500000094,500000098,500000099)
+      AND AV_Numero IS NULL;
+
+
+GRANT SELECT ON vue_current_relance TO PUBLIC;
+
+--===========================================================================--
+-- Renvoie le numéro de la dernière période en cours pour une date donnée
+-- et une
+--DROP FUNCTION FC_DernierePeriode();
+
+CREATE OR REPLACE FUNCTION FC_DernierePeriode(LA_Date date, LA_Adherence integer) RETURNS integer AS
+$$
+DECLARE
+  ret integer;
+BEGIN
+  SELECT PO_Numero FROM PeriodeAdherence JOIN Periode USING (po_numero) WHERE PO_Debut<=LA_Date AND LA_Date<=PO_Fin AND AH_Numero=LA_Adherence ORDER BY PO_Fin DESC INTO ret;
+  RETURN ret;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+
+--===========================================================================--
+-- Permet de voir les abonnes
+--DROP VIEW VUE_Adhesion;
+
+CREATE OR REPLACE VIEW VUE_Adhesion AS
+  SELECT ah_reduction, CASE WHEN el_personne1 IS NULL OR el_personne2 IS NULL THEN pe_numero WHEN el_personne1=pe_numero THEN el_personne2 ELSE el_personne1 END AS pe_numero, po_numero, ah_numero, fa_numero, lf_numero, pe_numero AS as_origine
+    FROM table_lignefacture JOIN table_facture USING (fa_numero)
+      JOIN table_adherence ah USING (pd_numero)
+      LEFT JOIN table_periodeadherence USING (AH_Numero)
+      LEFT JOIN table_periode USING(PO_Numero)
+      LEFT JOIN table_estlie el ON (ah.tl_numero=el.tl_numero AND ah.tl_numero IS NOT NULL AND AH_Cascade AND ((AH_LienDirect AND el_personne2=pe_numero) OR (AH_LienIndirect AND el_personne1=pe_numero)))
+     WHERE fa_numero NOT IN (SELECT fa_numero FROM table_avoir WHERE fa_numero is not null)
+       AND FA_Date BETWEEN PO_Debut AND PO_Fin;
+/*
+    FROM table_facture LEFT JOIN table_avoir USING (FA_Numero)
+                       LEFT JOIN table_lignefacture USING (FA_Numero)
+                       LEFT JOIN table_adherence USING (PD_Numero)
+                       LEFT JOIN table_periodeadherence USING (AH_Numero)
+                       LEFT JOIN table_periode USING (PO_Numero)
+    WHERE av_numero IS NULL AND AH_Numero IS NOT NULL AND PO_Numero=FC_DernierePeriode(FA_Date, AH_Numero);--PO_Debut<=FA_Date AND FA_Date<=PO_Fin;
+*/
+
+
+--===========================================================================--
+--

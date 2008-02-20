@@ -1,0 +1,939 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<analysis name="Cap" table="" view="">
+  <table name="CAMBSOCI" label="Fichier Société">
+    <column name="DMAJ" type="DATE">Date de Mise à jour</column>
+    <column name="SSIG" type="VARCHAR(5)">Sigle de la société</column>
+    <column name="SNOM" type="VARCHAR(32)">Nom de la société</column>
+    <column name="SCID" type="VARCHAR(32)">Complément d identification</column>
+    <column name="SAD1" type="VARCHAR(32)">Adresse 1</column>
+    <column name="SAD2" type="VARCHAR(32)">Adresse 2</column>
+    <column name="SPOS" type="VARCHAR(5)">Code Postal</column>
+    <column name="SBUR" type="VARCHAR(26)">Bureau Acheminement</column>
+    <column name="STEL" type="VARCHAR(10)">N° de téléphone de la société</column>
+    <column name="SFAX" type="VARCHAR(10)">N° de fax de la société</column>
+    <column name="SCHE" type="VARCHAR(30)">Chemin d'accès pour les fichiers Sociétés</column>
+    <column name="SMDP" type="VARCHAR(10)">Mot de passe de la société</column>
+    <column name="STCG" type="NUMERIC(2)">Taille des comptes généraux</column>
+    <column name="SPIE" type="VARCHAR(14)">Code Pièce pour Pont FC AC RC FF AF RF OD</column>
+    <column name="STAU" type="NUMERIC(2)">Taille des comptes auxiliaires</column>
+    <column name="STCA" type="VARCHAR(1)">Type de compte auxiliaire (Lettrable/Pointable)</column>
+    <column name="STAN" type="NUMERIC(2)">Taille des comptes analytiques</column>
+    <column name="SMRG" type="VARCHAR(3)">Mode de règlement par défaut</column>
+    <column name="SDRG" type="VARCHAR(3)">Délai de règlement par défaut</column>
+    <column name="SCL1" type="VARCHAR(15)">Libellé Classification N° 1</column>
+    <column name="SCL2" type="VARCHAR(15)">Libellé Classification N° 2</column>
+    <column name="CIND" type="VARCHAR(1)">Saisie Indicatif de distribution O/N</column>
+    <column name="CTEL" type="VARCHAR(1)">Saisie Téléphone O/N</column>
+    <column name="CFAX" type="VARCHAR(1)">Saisie Fax O/N</column>
+    <column name="CNAI" type="VARCHAR(1)">Saisie Date de naissance O/N</column>
+    <column name="CLA1" type="VARCHAR(1)">Saisie Classification N° 1 O/N</column>
+    <column name="CLA2" type="VARCHAR(1)">Saisie Classification N° 2 O/N</column>
+    <column name="SLA1" type="VARCHAR(10)">Libellé Asso.Locale Niveau 1</column>
+    <column name="SLA2" type="VARCHAR(10)">Libellé Asso.Locale Niveau 2</column>
+    <column name="SLA3" type="VARCHAR(10)">Libellé Asso.Locale Niveau 3</column>
+    <column name="NOBS" type="NUMERIC(2)">Nombre de lignes d'observations (1 à 99)</column>
+    <column name="DAB1" type="VARCHAR(20)">Libellé Tarif Adhésion N° 1 -ADER-</column>
+    <column name="DAB2" type="VARCHAR(20)">Libellé Tarif Adhésion N° 2 -ADER-</column>
+    <column name="DAB3" type="VARCHAR(20)">Libellé Tarif Adhésion N° 3 -ADER-</column>
+    <column name="DAB4" type="VARCHAR(20)">Libellé Tarif Adhésion N° 4 -ADER-</column>
+    <column name="DAB5" type="VARCHAR(20)">Libellé Tarif Adhésion N° 5 -ADER-</column>
+    <column name="ADAB" type="VARCHAR(1)">Saisie Abonnement à l'adhésion O/N</column>
+    <column name="ADTI" type="VARCHAR(3)">N° du titre pour l'abonnement à l'adhésion (001)</column>
+    <column name="SDO1" type="VARCHAR(10)">Libellé Classification Dossier (CAP-SERV)</column>
+    <column name="EURO" type="NUMERIC(7,5)">Valeur d'un Euro en francs</column>
+    <column name="AFFR" type="VARCHAR(1)">***</column>
+    <column name="PROF" type="NUMERIC(4)">***</column>
+  </table>
+  <table name="CAMBPARA" label="Paramètres Communs">
+    <column name="DMAJ" type="DATE">Date de Mise à jour</column>
+    <column name="NSTA" type="VARCHAR(3)">N° de Station</column>
+    <column name="TYPP" type="VARCHAR(2)">Type de paramètre</column>
+    <column name="NUME" type="VARCHAR(3)">N° du paramètre</column>
+    <column name="VALE" type="VARCHAR(90)">Valeur du paramètre</column>
+  </table>
+  <table name="CAMBLIBE" label="Codes Communs">
+    <column name="DMAJ" type="DATE">Date de Mise à jour</column>
+    <column name="NSTA" type="VARCHAR(3)">N° de Station</column>
+    <column name="TLIB" type="VARCHAR(2)">Type de code</column>
+    <column name="NLIB" type="VARCHAR(6)">N° du code</column>
+    <column name="CLIB" type="VARCHAR(8)">Code</column>
+    <column name="LLIB" type="VARCHAR(32)">Libellé du code</column>
+  </table>
+  <table name="CAMBSTAT" label="Stations">
+    <column name="DMAJ" type="DATE">Date de Mise à jour</column>
+    <column name="SNOM" type="VARCHAR(15)">Nom Utilisateur</column>
+    <column name="SMDP" type="VARCHAR(10)">Mot de passe Utilisateur</column>
+    <column name="SACT" type="VARCHAR(1)">Pointeur Activité (0/1)</column>
+    <column name="SEDF" type="VARCHAR(10)">Module en cours U-xx-yyy-Z</column>
+    <column name="SCL1" type="VARCHAR(50)">Clé en cours N° 1</column>
+    <column name="SCL2" type="VARCHAR(50)">Clé en cours N° 2</column>
+    <column name="SCL3" type="VARCHAR(50)">Clé en cours N° 3</column>
+    <column name="STMP" type="VARCHAR(30)">Répertoire temporaire</column>
+  </table>
+  <table name="CAMBPROF" label="Définition PROFILS">
+    <column name="DMAJ" type="DATE">Date de Mise à jour</column>
+    <column name="PNUM" type="VARCHAR(3)">N° de profil</column>
+    <column name="PMOD" type="VARCHAR(1)">Type de module Abon/Dader/Serv/Post/Rout/Cara</column>
+    <column name="PNOM" type="VARCHAR(30)">Nom du profil</column>
+    <column name="DMOD" type="VARCHAR(9)">Droits Utilisateur par module (9 x O/N)</column>
+    <column name="DMO1" type="VARCHAR(90)">Droits spécifiques</column>
+    <column name="DMO2" type="VARCHAR(90)">Droits spécifiques</column>
+    <column name="DMO3" type="VARCHAR(90)">Droits spécifiques</column>
+    <column name="DMO4" type="VARCHAR(90)">Droits spécifiques</column>
+    <column name="DMO5" type="VARCHAR(90)">Droits spécifiques</column>
+    <column name="DMO6" type="VARCHAR(90)">Droits spécifiques</column>
+    <column name="DMO7" type="VARCHAR(90)">Droits spécifiques</column>
+    <column name="DMO8" type="VARCHAR(90)">Droits spécifiques</column>
+    <column name="DMO9" type="VARCHAR(90)">Droits spécifiques</column>
+    <column name="NBED" type="NUMERIC(6)">Nombre Maxi d'occurences éditables</column>
+  </table>
+  <table name="CAMBSTPR" label="Affect. Station-Profil">
+    <column name="DMAJ" type="DATE">Date de Mise à jour</column>
+    <column name="NSTA" type="VARCHAR(3)">N° de station</column>
+    <column name="NSOC" type="VARCHAR(2)">N° de Société</column>
+    <column name="NPRO" type="VARCHAR(3)">N° de Profil</column>
+    <column name="PMOD" type="VARCHAR(1)">Type de module Abon/Dader/Serv/Post/Rout/Cara</column>
+  </table>
+  <table name="CAMBMOUC" label="Suivi Activités/Station">
+    <column name="NSTA" type="VARCHAR(3)">N° de station</column>
+    <column name="NSOC" type="VARCHAR(2)">N° de société</column>
+    <column name="DACT" type="VARCHAR(8)">Date Activité DTOS</column>
+    <column name="PMOD" type="VARCHAR(1)">Type de module Abon/Dader/Serv/Post/Rout/Cara</column>
+    <column name="MODU" type="VARCHAR(3)">N° module (type pointeur de droit)</column>
+    <column name="DURU" type="NUMERIC(5,2)">Durée Utilisation (en heures et centièmes)</column>
+  </table>
+  <table name="CAMBMOED" label="Suivi Editions/Station">
+    <column name="NSTA" type="VARCHAR(3)">N° de station</column>
+    <column name="NSOC" type="VARCHAR(2)">N° de société</column>
+    <column name="DACT" type="VARCHAR(8)">Date d'édition DTOS</column>
+    <column name="PMOD" type="VARCHAR(1)">Type de module Abon/Dader/Serv/Post/Rout/Cara</column>
+    <column name="MODU" type="VARCHAR(3)">N° module (type pointeur de droit)</column>
+    <column name="TYPD" type="VARCHAR(1)">Type d'édition Listing/Etiquette/Dbase/Ascdel/Fds</column>
+    <column name="NBED" type="NUMERIC(6)">Nombre d'occurences éditées</column>
+  </table>
+  <table name="CAMBRGEO" label="Regroupements Géo.">
+    <column name="DMAJ" type="DATE">Date Mise à jour</column>
+    <column name="NSTA" type="VARCHAR(3)">N° de station</column>
+    <column name="TLIE" type="VARCHAR(1)">Type de lien</column>
+    <column name="NIVE" type="VARCHAR(6)">N° du niveau correspondant</column>
+    <column name="CRGT" type="VARCHAR(6)">N° du regroupement correspondant</column>
+    <column name="BASE" type="VARCHAR(5)">Base correspondante (Localité ou département)</column>
+    <column name="POSI" type="VARCHAR(1)">Position En cours/Annulé</column>
+  </table>
+  <table name="COMMBLOC" label="Localités Postales">
+    <column name="CLOC" type="VARCHAR(5)">Code Localité</column>
+    <column name="PLOC" type="VARCHAR(1)">Particularité Localité</column>
+    <column name="NLOC" type="VARCHAR(32)">Nom de la localité</column>
+    <column name="CPOS" type="VARCHAR(5)">Code postal associé</column>
+    <column name="SPOS" type="VARCHAR(1)">Signe code postal</column>
+    <column name="BURD" type="VARCHAR(26)">Bureau acheminement associé</column>
+    <column name="PCOM" type="VARCHAR(5)">Poste comptable Médiapost associé</column>
+    <column name="CMVT" type="VARCHAR(1)">Code dernier mouvement</column>
+  </table>
+  <table name="COMMBCDX" label="Codes Cedex Spécifiques">
+    <column name="TENR" type="VARCHAR(1)">Type Enregistrement</column>
+    <column name="CLOC" type="VARCHAR(5)">Code Localité</column>
+    <column name="CPOS" type="VARCHAR(5)">Code postal spécifique</column>
+    <column name="NORD" type="VARCHAR(2)">N° d'Ordre</column>
+    <column name="NCLE" type="VARCHAR(1)">Clé associée</column>
+    <column name="BURD" type="VARCHAR(26)">Bureau acheminement associé</column>
+    <column name="BENE" type="VARCHAR(96)">Bénéficiaire du code spécifique</column>
+    <column name="CREG" type="VARCHAR(2)">Code de regroupement Médiapost</column>
+    <column name="NDEF" type="VARCHAR(5)">Nom défini (pour compatibilité Médiapost)</column>
+    <column name="CMVT" type="VARCHAR(1)">Code dernier mouvement</column>
+  </table>
+  <table name="COMMBRAP" label="Routage Acheminement">
+    <column name="TENR" type="VARCHAR(1)">Type Enregistrement</column>
+    <column name="TEXTE" type="VARCHAR(79)">Texte</column>
+  </table>
+  <table name="CAMBCPTF" label="Fichier Compteur">
+    <column name="NCPT" type="NUMERIC(8)">Compteur pour la base (dernier N° créÂé)</column>
+  </table>
+  <table name="CAMBPARA" label="Paramètres Société">
+    <column name="DMAJ" type="DATE">Date de mise à jour</column>
+    <column name="NSTA" type="VARCHAR(3)">N° de station</column>
+    <column name="TYPP" type="VARCHAR(2)">Type de paramètre</column>
+    <column name="NUME" type="VARCHAR(3)">N° du paramètre</column>
+    <column name="VALE" type="VARCHAR(90)">Valeur du paramètre</column>
+  </table>
+  <table name="CAMBLIBE" label="Codes Sociétés">
+    <column name="DMAJ" type="DATE">Date de mise à jour</column>
+    <column name="NSTA" type="VARCHAR(3)">N° de station</column>
+    <column name="TLIB" type="VARCHAR(2)">Type de code</column>
+    <column name="NLIB" type="VARCHAR(6)">N° du code</column>
+    <column name="CLIB" type="VARCHAR(8)">Code</column>
+    <column name="LLIB" type="VARCHAR(32)">Libellé du code</column>
+  </table>
+  <table name="CAMBCOSO" label="Données Compta. Société">
+    <column name="DMAJ" type="DATE">Date de mise à jour</column>
+    <column name="TDON" type="VARCHAR(1)">Type de données Compta (S=SERV D=ADER A=Abon X=Soc)</column>
+    <column name="JOU1" type="VARCHAR(3)">Code Journal N° 1</column>
+    <column name="JOU2" type="VARCHAR(3)">Code Journal N° 2</column>
+    <column name="CPT1" type="VARCHAR(13)">Compte N° 1</column>
+    <column name="CPT2" type="VARCHAR(13)">Compte N° 2</column>
+    <column name="CPT3" type="VARCHAR(13)">Compte N° 3</column>
+    <column name="CPT4" type="VARCHAR(13)">Compte N° 4</column>
+    <column name="TVA1" type="VARCHAR(1)">Code TVA N° 1</column>
+    <column name="TVA2" type="VARCHAR(1)">Code TVA N° 2</column>
+    <column name="ANNE" type="VARCHAR(4)">Année en cours</column>
+    <column name="CLE1" type="VARCHAR(10)">Clé N° 1</column>
+    <column name="CLE2" type="VARCHAR(10)">Clé N° 2</column>
+    <column name="CLE3" type="VARCHAR(10)">Clé N° 3</column>
+  </table>
+  <table name="CAMBCOCL" label="Données Compta. Client">
+    <column name="DMAJ" type="DATE">Date de mise à jour</column>
+    <column name="NSTA" type="VARCHAR(3)">N° de Station</column>
+    <column name="NCLI" type="VARCHAR(8)" fkey="CAMBCLIE(NCLI)" opt="">N° de client (fd20)</column>
+    <column name="CAUX" type="VARCHAR(13)">N° de compte Auxiliaire</column>
+    <column name="MRGT" type="VARCHAR(3)">Mode de règlement par défaut (fd02)</column>
+    <column name="DRGT" type="VARCHAR(3)">Délai de règlement par défaut (fd02)</column>
+    <column name="LBAN" type="VARCHAR(24)">Libellé de la banque du tiré</column>
+    <column name="NRIB" type="VARCHAR(23)">N° de compte bancaire</column>
+    <column name="ACTS" type="VARCHAR(1)">Actif pour CAP-SERV O/N</column>
+    <column name="NDOS" type="NUMERIC(4)">Dernier N° de dossier -SERV-</column>
+    <column name="ACTD" type="VARCHAR(1)">Actif pour CAP-ADER O/N</column>
+    <column name="ANCO" type="NUMERIC(4)">Dernière Année de cotisation -ADER-</column>
+    <column name="NOPE" type="NUMERIC(6)">Dernière N° d'opération financière- CAP-</column>
+    <column name="ACTA" type="VARCHAR(1)">Actif pour CAP-ABON O/N</column>
+    <column name="NCON" type="NUMERIC(6)">Dernièr N° de contrat d'abonnement - ABON-</column>
+  </table>
+  <table name="CAMBCLIE" label="Clients">
+    <column name="DMAJ" type="DATE">Date de mise à jour</column>
+    <column name="NSTA" type="VARCHAR(3)">N° de Station</column>
+    <column name="NCLI" type="VARCHAR(8)" notnull="true" pkey="true">N° de client</column>
+    <column name="TITR" type="VARCHAR(5)">N° du titre client(fd03)</column>
+    <column name="NOMP" type="VARCHAR(26)">Nom et prénom du client</column>
+    <column name="CIDE" type="VARCHAR(32)">Complément d'identification</column>
+    <column name="ADR1" type="VARCHAR(32)">Adresse Ligne 1</column>
+    <column name="ADR2" type="VARCHAR(32)">Adresse Ligne 2</column>
+    <column name="CLOC" type="VARCHAR(5)">Code Localité (fd10)</column>
+    <column name="CPOS" type="VARCHAR(5)">Code postal</column>
+    <column name="BURA" type="VARCHAR(26)">Bureau d'acheminement</column>
+    <column name="INDD" type="VARCHAR(4)">Indicatif de distribution</column>
+    <column name="PAYS" type="VARCHAR(3)">N° du code pays (000=France) (fd03)</column>
+    <column name="TELE" type="VARCHAR(13)">N° de téléphone</column>
+    <column name="NFAX" type="VARCHAR(13)">N° de fax</column>
+    <column name="CLA1" type="VARCHAR(6)">N° de classification 1(fd17)</column>
+    <column name="CLA2" type="VARCHAR(6)">N° de classification 2(fd17)</column>
+    <column name="DNAI" type="DATE">Date de naissance</column>
+    <column name="VOIR" type="VARCHAR(15)">Autre clé (champ caché pour lien)</column>
+    <column name="EXPL" type="VARCHAR(1)">Exploité En cours/Inactif/A épurer E/I/A</column>
+  </table>
+  <table name="CAMBFACT" label="Opérat. Financières">
+    <column name="NSTA" type="VARCHAR(3)">N° de Station</column>
+    <column name="TOPE" type="VARCHAR(1)">Type Opération financière F/A/R/O/G/D/B/E/I/P/Z</column>
+    <column name="TCAP" type="VARCHAR(1)">Module Facture Abon/Serv/aDer/Vente/X=Général (ROB)</column>
+    <column name="NFAC" type="VARCHAR(10)">N° de facture (AAAA+N° ordre) ou N° Opération</column>
+    <column name="TFAC" type="VARCHAR(1)">Type de facture</column>
+    <column name="DFAC" type="VARCHAR(8)">Date de facture DTOS</column>
+    <column name="NCLI" type="VARCHAR(8)" fkey="CAMBCLIE(NCLI)" opt="">N° de client fd20</column>
+    <column name="NDOS" type="VARCHAR(4)">N° de dossier ou 0000 -CAP SERV-</column>
+    <column name="MTHT" type="NUMERIC(10,2)">Montant total H.T.</column>
+    <column name="MTTC" type="NUMERIC(10,2)">Montant total TTC</column>
+    <column name="DECH" type="VARCHAR(8)">Date d'échéance (ou N° Bordereau O-G-B) DTOS</column>
+    <column name="MRGT" type="VARCHAR(3)">Mode de règlement prévu</column>
+    <column name="REGL" type="VARCHAR(1)">Réglé Total/Non/Partiel (T si tope$OGBC) T/N/P</column>
+    <column name="MREG" type="NUMERIC(10,2)">Montant réglé total</column>
+    <column name="PONT" type="VARCHAR(6)">Dernièr N° de pont réalisé ou 000000 si non fait</column>
+    <column name="TTVA" type="VARCHAR(1)">Taux de TVA (0-9) ou M si facture Multi-TVA</column>
+  </table>
+  <table name="CAMBREGT" label="Règlements">
+    <column name="NSTA" type="VARCHAR(3)">N° de Station</column>
+    <column name="NCLI" type="VARCHAR(8)" fkey="CAMBCLIE(NCLI)" opt="">N° de clientfd20</column>
+    <column name="NOPE" type="VARCHAR(10)">N° d'opération fd21</column>
+    <column name="MODR" type="VARCHAR(3)">Mode de règlement fd02</column>
+    <column name="CBQR" type="VARCHAR(3)">Banque de remisefd02</column>
+    <column name="LBAN" type="VARCHAR(24)">Libellé de la banque (par défaut : fd19)</column>
+    <column name="NRIB" type="VARCHAR(23)">RIB du compte (par défaut fd19) ou N° CB</column>
+    <column name="DCHQ" type="DATE">Date du chèque</column>
+    <column name="REFR" type="VARCHAR(8)">Référence règlement (N° Chèque ou expiration CB)</column>
+    <column name="NBOR" type="VARCHAR(8)">N° Bordereau (Année+N° 0000)</column>
+  </table>
+  <table name="CAMBFARG" label="Lien Opération Financ.">
+    <column name="NCLI" type="VARCHAR(8)" fkey="CAMBCLIE(NCLI)" opt="">N° de clientfd20</column>
+    <column name="NOP1" type="VARCHAR(11)">N° D'opération 1</column>
+    <column name="NOP2" type="VARCHAR(11)">N° d'opération 2</column>
+    <column name="TOPE" type="VARCHAR(2)">Type d'opération</column>
+    <column name="MONT" type="NUMERIC(10,2)">Montant de l'opération affectée à la facturefd22</column>
+    <column name="MFRA" type="NUMERIC(10,2)">Ancien montant en francs (surtout pour les écarts)</column>
+  </table>
+  <table name="CAMBLIEN" label="Liens Spécifiques">
+    <column name="DMAJ" type="DATE">Date Mise à jour</column>
+    <column name="NSTA" type="VARCHAR( 3)">N° de station</column>
+    <column name="TLIE" type="VARCHAR(2)">Type de lien</column>
+    <column name="LORI" type="VARCHAR(8)">Lien Origine</column>
+    <column name="LDES" type="VARCHAR(8)">Lien destination</column>
+  </table>
+  <table name="CAMBOBSV" label="Observations Clients">
+    <column name="NCLI" type="VARCHAR(8)" fkey="CAMBCLIE(NCLI)" opt="">N° de client</column>
+    <column name="NLIG" type="VARCHAR(3)">E/A + N° de lignes (FSTRZ) de 01 à 40</column>
+    <column name="OBSV" type="VARCHAR(60)">Observations</column>
+  </table>
+  <table name="CAMBEDFA" label="Factures à éditer">
+    <column name="NCLI" type="VARCHAR(8)" fkey="CAMBCLIE(NCLI)" opt="">N° de client</column>
+    <column name="TCAP" type="VARCHAR(1)">Module Facture Abon/Serv/aDer/X=Général @ si édité</column>
+    <column name="NFAC" type="VARCHAR(10)">N° de facture (AAAA+N° ordre)</column>
+    <column name="NBEX" type="NUMERIC(1)">Nombre d'exemplaires à éditer</column>
+  </table>
+  <table name="CACBCLCA" label="Liens Clients-Caract.">
+    <column name="DMAJ" type="DATE">Date Mise à jour</column>
+    <column name="NSTA" type="VARCHAR(3)">N° de station</column>
+    <column name="NCLI" type="VARCHAR(8)" fkey="CAMBCLIE(NCLI)" opt="">N° de client</column>
+    <column name="NCAR" type="VARCHAR(6)">N° de caractéristique</column>
+    <column name="NOMB" type="VARCHAR(10)">Nombre (vide si non renseigné)</column>
+    <column name="QUAT" type="VARCHAR(10)">Quantité (vide si non renseigné)</column>
+    <column name="NIVE" type="NUMERIC(1)">Niveau (0 si non renseigné)</column>
+  </table>
+  <table name="CACBCARA" label="Déf. Caractéristiques">
+    <column name="DMAJ" type="DATE">Date Mise à jour</column>
+    <column name="NCAR" type="VARCHAR(6)">N° de caractéristique</column>
+    <column name="CCAR" type="VARCHAR(6)">Code de la caractéristique</column>
+    <column name="LCAR" type="VARCHAR(32)">Libellé de la caractéristique</column>
+    <column name="TCAR" type="VARCHAR(1)">Type Numérique ou Date N/D</column>
+    <column name="EXPO" type="VARCHAR(1)">Exportable O/N O/N</column>
+    <column name="NACC" type="VARCHAR(1)">Accord saisie Nombre O/N</column>
+    <column name="NUNI" type="VARCHAR(2)">Unité pour Nombre</column>
+    <column name="NLIB" type="VARCHAR(20)">Libellé pour Nombre</column>
+    <column name="NDEC" type="NUMERIC(1)">Nb de décimales pour Nombre (0 à 9)</column>
+    <column name="NMIN" type="VARCHAR(10)">Valeur minimale autorisée</column>
+    <column name="NMAX" type="VARCHAR(10)">Valeur maximale autorisée</column>
+    <column name="QACC" type="VARCHAR(1)">Accord saisie Quantité O/N</column>
+    <column name="QUNI" type="VARCHAR(2)">Unité pour Quantité</column>
+    <column name="QLIB" type="VARCHAR(20)">Libellé pour Quantité</column>
+    <column name="QDEC" type="NUMERIC(1)">Nb de décimales pour Quantité (0 à 9)</column>
+    <column name="QMIN" type="VARCHAR(10)">Valeur minimale autorisée</column>
+    <column name="QMAX" type="VARCHAR(10)">Valeur maximale autorisée</column>
+    <column name="VACC" type="VARCHAR(1)">Accord saisie Niveau O/N</column>
+    <column name="VNOM" type="NUMERIC(1)">Nombre maxi de niveau</column>
+    <column name="EQUI" type="NUMERIC(11,2)">Equivalence Nombre/Niveau</column>
+    <column name="EXPL" type="VARCHAR(1)">Exploité Annulé</column>
+  </table>
+  <table name="CACBNIVE" label="Déf. NIveau/Caract.">
+    <column name="DMAJ" type="DATE">Date Mise à jour</column>
+    <column name="NCAR" type="VARCHAR(6)">N° de caractéristique</column>
+    <column name="NNIV" type="VARCHAR(1)">Numéro du niveau</column>
+    <column name="LNIV" type="VARCHAR(20)">Libellé du niveau</column>
+    <column name="NMAX" type="VARCHAR(10)">Nombre Inférieur ou égal</column>
+    <column name="NMOY" type="VARCHAR(10)">Equivalence Nombre</column>
+    <column name="QMAX" type="VARCHAR(10)">Quantité inférieure ou égale à</column>
+    <column name="QMOY" type="VARCHAR(10)">Equivalence Quantité</column>
+  </table>
+  <table name="CADBRUBR" label="Paramétrage Rubriques">
+    <column name="DMAJ" type="DATE">Date de mise à jour</column>
+    <column name="TBAS" type="VARCHAR(1)">Type de rubrique Calcul/Stat (C/S)</column>
+    <column name="NBAS" type="VARCHAR(6)">N° de la rubrique</column>
+    <column name="CBAS" type="VARCHAR(6)">Code de la rubrique</column>
+    <column name="LBAS" type="VARCHAR(32)">Libellé de la rubrique</column>
+    <column name="LBUL" type="VARCHAR(32)">Libellé devant apparaître sur le bulletin</column>
+    <column name="VMIN" type="NUMERIC(10,2)">Valeur minimale en saisie</column>
+    <column name="VMAX" type="NUMERIC(10,2)">Valeur maximale en saisie</column>
+    <column name="NCUM" type="VARCHAR(1)">Niveau de cumul (de 1 à 9)</column>
+    <column name="CPTD" type="VARCHAR(13)">Compte comptable associé à cette base</column>
+  </table>
+  <table name="CADBTYAN" label="Type Adhérent / Année">
+    <column name="DMAJ" type="DATE">Date de mise à jour</column>
+    <column name="NTAD" type="VARCHAR(6)">N° du type d'adhérent</column>
+    <column name="ANNE" type="VARCHAR(4)">Année Début Cotisation</column>
+    <column name="DECH" type="DATE">Date d'échéance par défaut</column>
+    <column name="ANCI" type="VARCHAR(1)">Type Ancien O/N</column>
+    <column name="CTAR" type="VARCHAR(1)">Code Tarif par défaut (1 à 5)</column>
+    <column name="TVAD" type="VARCHAR(1)">Code TVA Adhésion</column>
+    <column name="TVAA" type="VARCHAR(1)">Code TVA Abonnement</column>
+    <column name="VMIN" type="NUMERIC(10,2)">Valeur minimale d'appel pour le type et l'année</column>
+    <column name="VMAX" type="NUMERIC(10,2)">Valeur maximale d'appel pour le type et l'année</column>
+  </table>
+  <table name="CADBMETH" label="Méthodes de gestion">
+    <column name="NTAD" type="VARCHAR(6)">N° du type d'adhérent</column>
+    <column name="ANNE" type="VARCHAR(4)">Année Début Cotisation</column>
+    <column name="NBAS" type="VARCHAR(6)">N° de la rubrique (Uniquement Calcul)</column>
+    <column name="NTRA" type="NUMERIC(1)">Nombre de tranche (1 à 9)</column>
+    <column name="TTRA" type="VARCHAR(1)">Type de tranche Exclusive/Cumulative E/C</column>
+    <column name="BCO1" type="NUMERIC(10,2)">Borne Maxi pour la tranche 1</column>
+    <column name="TCO1" type="VARCHAR(1)">Type Coefficient 1 Fixe/Variable/Prorata F/V/P</column>
+    <column name="VCO1" type="NUMERIC(10,2)">Valeur du coefficient 1</column>
+    <column name="BCO2" type="NUMERIC(10,2)">Borne Maxi pour la tranche 2</column>
+    <column name="TCO2" type="VARCHAR(1)">Type Coefficient 2 Fixe/Variable/Prorata F/V/P</column>
+    <column name="VCO2" type="NUMERIC(10,2)">Valeur du coefficient 2</column>
+    <column name="BCO3" type="NUMERIC(10,2)">Borne Maxi pour la tranche 3</column>
+    <column name="TCO3" type="VARCHAR(1)">Type Coefficient 3 Fixe/Variable/Prorata F/V/P</column>
+    <column name="VCO3" type="NUMERIC(10,2)">Valeur du coefficient 3</column>
+    <column name="BCO4" type="NUMERIC(10,2)">Borne Maxi pour la tranche 4</column>
+    <column name="TCO4" type="VARCHAR(1)">Type Coefficient 4 Fixe/Variable/Prorata F/V/P</column>
+    <column name="VCO4" type="NUMERIC(10,2)">Valeur du coefficient 4</column>
+    <column name="BCO5" type="NUMERIC(10,2)">Borne Maxi pour la tranche 5</column>
+    <column name="TCO5" type="VARCHAR(1)">Type Coefficient 5 Fixe/Variable/Prorata F/V/P</column>
+    <column name="VCO5" type="NUMERIC(10,2)">Valeur du coefficient 5</column>
+    <column name="BCO6" type="NUMERIC(10,2)">Borne Maxi pour la tranche 6</column>
+    <column name="TCO6" type="VARCHAR(1)">Type Coefficient 6 Fixe/Variable/Prorata F/V/P</column>
+    <column name="VCO6" type="NUMERIC(10,2)">Valeur du coefficient 6</column>
+    <column name="BCO7" type="NUMERIC(10,2)">Borne Maxi pour la tranche 7</column>
+    <column name="TCO7" type="VARCHAR(1)">Type Coefficient 7 Fixe/Variable/Prorata F/V/P</column>
+    <column name="VCO7" type="NUMERIC(10,2)">Valeur du coefficient 7</column>
+    <column name="BCO8" type="NUMERIC(10,2)">Borne Maxi pour la tranche 8</column>
+    <column name="TCO8" type="VARCHAR(1)">Type Coefficient 8 Fixe/Variable/Prorata F/V/P</column>
+    <column name="VCO8" type="NUMERIC(10,2)">Valeur du coefficient 8</column>
+    <column name="BCO9" type="NUMERIC(10,2)">Borne Maxi pour la tranche 9</column>
+    <column name="TCO9" type="VARCHAR(1)">Type Coefficient 9 Fixe/Variable/Prorata F/V/P</column>
+    <column name="VCO9" type="NUMERIC(10,2)">Valeur du coefficient 9</column>
+  </table>
+  <table name="CADBADGE" label="Adhérent Généralité">
+    <column name="DMAJ" type="DATE">Date de mise à jour</column>
+    <column name="NSTA" type="VARCHAR(3)">N° de station</column>
+    <column name="NCLI" type="VARCHAR(8)" fkey="CAMBCLIE(NCLI)" opt="">N° de client</column>
+    <column name="ANNE" type="VARCHAR(4)">Année Début Cotisation</column>
+    <column name="NTAD" type="VARCHAR(6)">N° de type d'adhérent pour cette année</column>
+    <column name="MAPP" type="NUMERIC(10,2)">Montant appelé</column>
+    <column name="NASS" type="VARCHAR(6)">N° de l'association Locale</column>
+    <column name="ETAT" type="VARCHAR(1)">Etat 0=non appelé 1=Appelé 2=Adhérent 3=Non adhérent</column>
+    <column name="DAPP" type="VARCHAR(8)">Date de dernier appel DTOS</column>
+    <column name="DADH" type="VARCHAR(8)">Date d'adhésion DTOS</column>
+    <column name="MADH" type="NUMERIC(10,2)">Montant de l'adhésion</column>
+    <column name="NFAC" type="VARCHAR(10)">N° de la facture de cotisation</column>
+    <column name="TPAD" type="VARCHAR(1)">Type de Payeur 1-Client 2-Ass.Loc. 3-Autre client</column>
+    <column name="DECH" type="VARCHAR(8)">Date d'échéance de la cotisation de l'année DTOS</column>
+    <column name="RECO" type="VARCHAR(1)">Reconduction 0 à 4 (voir après)</column>
+    <column name="RANN" type="VARCHAR(4)">Année à partir de laquelle il faut reconduire</column>
+    <column name="RTAD" type="VARCHAR(6)">Type d'adhérent si RECO=2</column>
+    <column name="RASL" type="VARCHAR(6)">N° de l'association de reconduction</column>
+    <column name="TABO" type="VARCHAR(1)">Type Abonnement 0 1-&gt;5 ou X (voir ci-après)</column>
+    <column name="NFAB" type="VARCHAR(10)">N° de la facture Abonnement + Couplage</column>
+    <column name="MABT" type="NUMERIC(10,2)">Montant de l'abonnemet</column>
+    <column name="NBEX" type="NUMERIC(2)">Nombre d'exemplaires de l'abonnement</column>
+    <column name="NBCO" type="NUMERIC(2)">Nombre de couplés</column>
+    <column name="TPAB" type="VARCHAR(1)">Type de Payeur 1-Client 2-Ass.Loc. 3-Autre client</column>
+  </table>
+  <table name="CADBADDE" label="Adhérent -&gt; Détail">
+    <column name="DMAJ" type="DATE">Date de mise à jour</column>
+    <column name="NSTA" type="VARCHAR(3)">N° de station</column>
+    <column name="NCLI" type="VARCHAR(8)" fkey="CAMBCLIE(NCLI)" opt="">N° de client</column>
+    <column name="ANNE" type="VARCHAR(4)">Année Début Cotisation</column>
+    <column name="TBAS" type="VARCHAR(1)">Type de rubrique C/S</column>
+    <column name="NBAS" type="VARCHAR(6)">N° de la rubrique (fd30)</column>
+    <column name="VALE" type="NUMERIC(10,2)">Valeur de la rubrique -99999.99</column>
+  </table>
+  <table name="CADBASLO" label="Association Locale">
+    <column name="DMAJ" type="DATE">Date de mise à jour</column>
+    <column name="NSTA" type="VARCHAR(3)">N° de station</column>
+    <column name="TASS" type="VARCHAR(1)">Type d'association locale (1/2/3)</column>
+    <column name="NASS" type="VARCHAR(6)">N° de l'association locale</column>
+    <column name="CASS" type="VARCHAR(6)">Code de l'association locale</column>
+    <column name="LASS" type="VARCHAR(32)">Libellé de l'association locale</column>
+    <column name="NCLI" type="VARCHAR(8)" fkey="CAMBCLIE(NCLI)" opt="">N° de client Payeursi NASS=1</column>
+    <column name="NAS2" type="VARCHAR(6)">N° de l'association de niveau 2si NASS=1</column>
+    <column name="NAS3" type="VARCHAR(6)">N° de l'association de niveau 3si NASS=1</column>
+    <column name="NOMA" type="VARCHAR(32)">Nom de l'association (siège) si NASS=1</column>
+    <column name="CIDE" type="VARCHAR(32)">CIDE de l'association</column>
+    <column name="ADR1" type="VARCHAR(32)">ADR1 du président de l'association</column>
+    <column name="ADR2" type="VARCHAR(32)">ADR2 du président de l'association</column>
+    <column name="PAYS" type="VARCHAR(3)">N° du pays de l'association</column>
+    <column name="CLOC" type="VARCHAR(5)">CLOC de l'association</column>
+    <column name="CPOS" type="VARCHAR(5)">CPOS de l'association</column>
+    <column name="BURA" type="VARCHAR(26)">BURA de l'association</column>
+    <column name="CRI1" type="VARCHAR(1)">Critère N° 1 (structuré O/N)</column>
+    <column name="CRI2" type="VARCHAR(1)">Critère N° 2</column>
+    <column name="CRI3" type="VARCHAR(1)">Critère N° 3</column>
+  </table>
+  <table name="CADBASFI" label="Association Locale">
+    <column name="NAS1" type="VARCHAR(6)">N° d'association Locale</column>
+    <column name="CAS1" type="VARCHAR(6)">Code de l'association Locale</column>
+    <column name="CRI1" type="VARCHAR(1)">Structuré O/N</column>
+    <column name="NAS2" type="VARCHAR(6)">N° Association Canton</column>
+    <column name="CAS2" type="VARCHAR(6)">CodeAssociation Canton</column>
+    <column name="LAS2" type="VARCHAR(32)">Libellé Association Canton</column>
+    <column name="NAS3" type="VARCHAR(6)">N° Association Arrondissement</column>
+    <column name="CAS3" type="VARCHAR(6)">CodeAssociation Arrondissement</column>
+    <column name="LAS3" type="VARCHAR(32)">Libellé Association Arrondissement</column>
+  </table>
+  <table name="CADBRESP" label="Responsabilités">
+    <column name="DMAJ" type="DATE">Date de mise à jour</column>
+    <column name="NSTA" type="VARCHAR(3)">N° de station</column>
+    <column name="NCLI" type="VARCHAR(8)" fkey="CAMBCLIE(NCLI)" opt="">N° de clientfd20</column>
+    <column name="NIVE" type="VARCHAR(1)">Niveau (1-local 2-canton 3-arrond 4-global)</column>
+    <column name="NASS" type="VARCHAR(6)">N° de l'association fd35</column>
+    <column name="SECT" type="VARCHAR(6)">N° de section fd17</column>
+    <column name="RESP" type="VARCHAR(6)">N° de responsabilitéfd17</column>
+    <column name="ANNE" type="VARCHAR(4)">Année d'échéance (jusqu'à inclus)</column>
+  </table>
+  <table name="CADBRIST" label="Ristournes">
+    <column name="NASS" type="VARCHAR(6)">N° d'association locale fd36</column>
+    <column name="ANNE" type="VARCHAR(4)">Année d'adhésion</column>
+  </table>
+  <table name="CADBPROD" label="Cotisations sur produit">
+    <column name="DMAJ" type="DATE">Date de mise à jour</column>
+    <column name="NSTA" type="VARCHAR(3)">N° de station</column>
+    <column name="NCLI" type="VARCHAR(8)" fkey="CAMBCLIE(NCLI)" opt="">N° de client cotisant</column>
+    <column name="NPRO" type="VARCHAR(6)">N° du produit fd17</column>
+    <column name="NCOL" type="VARCHAR(8)">N° de client collecteur fd20</column>
+    <column name="DAUT" type="VARCHAR(8)">Date d'autorisation de prélèvement DTOS</column>
+    <column name="DRES" type="VARCHAR(8)">Date de résiliation (vide si en cours) DTOS</column>
+    <column name="NREF" type="VARCHAR(12)">Référence cotisant chez le collecteur</column>
+    <column name="ETAT" type="VARCHAR(1)">En cours / Résilié / A épurer E/R/A</column>
+  </table>
+  <table name="CASBAGEN" label="Table des Agents">
+    <column name="DMAJ" type="DATE">Date de mise à jour</column>
+    <column name="NSTA" type="VARCHAR(3)">N° de Station</column>
+    <column name="NAGE" type="VARCHAR(6)">N° de l'agent</column>
+    <column name="CAGE" type="VARCHAR(6)">Code de l'agent</column>
+    <column name="NOMA" type="VARCHAR(30)">Nom de l'agent</column>
+    <column name="EMPA" type="VARCHAR(30)">Emploi de l'agent</column>
+    <column name="NEQU" type="VARCHAR(6)">N° de l'Equipe de l'agent (fd17)</column>
+    <column name="STAA" type="VARCHAR(1)">Statut de l'agent (Interne/Externe) I/E</column>
+    <column name="COUH" type="NUMERIC(8,2)">Coût Horaire de l'agent</column>
+    <column name="DMIN" type="NUMERIC(5,2)">Durée minimale de la journée (heure et centième)</column>
+    <column name="DMAX" type="NUMERIC(5,2)">Durée maximale de la journée (heure et centième)</column>
+  </table>
+  <table name="CASBTACH" label="Tâches/Familles de Taches">
+    <column name="DMAJ" type="DATE">Date de mise à jour</column>
+    <column name="NSTA" type="VARCHAR(3)">N° de Station</column>
+    <column name="TTAC" type="VARCHAR(1)">Type de Tâche (Tâche ou Famille) T/F</column>
+    <column name="NTAC" type="VARCHAR(6)">N° de le tâche (deux compteurs 120 et 121)</column>
+    <column name="CTAC" type="VARCHAR(6)">Code de la tâche</column>
+    <column name="NOMT" type="VARCHAR(30)">Libellé de la tâche</column>
+    <column name="NFA1" type="VARCHAR(45)">Libellé de facturation (1ère ligne)</column>
+    <column name="NFA2" type="VARCHAR(45)">Libellé de facturation (2ème ligne)</column>
+    <column name="FACT" type="VARCHAR(1)">Facturable (Non/Tâche/Famille) N/T/F</column>
+    <column name="FATA" type="VARCHAR(6)">N° de la famille de tâche (si FACT=='F')</column>
+    <column name="TYPF" type="VARCHAR(1)">Type d'unité (Temps/Autre) T/A</column>
+    <column name="UNIF" type="VARCHAR(2)">Unité de facturation</column>
+    <column name="PUNF" type="NUMERIC(8,2)">Prix unitaire de facturation</column>
+    <column name="TVAF" type="VARCHAR(1)">Code TVA France (1 à 9)</column>
+    <column name="TVAE" type="VARCHAR(1)">Code TVA Etranger(1 à 9)</column>
+    <column name="CPRF" type="VARCHAR(13)">Compte Produit France</column>
+    <column name="CPRE" type="VARCHAR(13)">Compte Produit Etranger</column>
+    <column name="MODP" type="VARCHAR(1)">Modification PUNF (Autorisé/Non) A/N</column>
+    <column name="NTOT" type="VARCHAR(1)">Niveau de cumul Préfacturation (1 à 9)</column>
+    <column name="CUMA" type="VARCHAR(1)">Tâche à cumuler pour HT acompte O/N</column>
+    <column name="CUMP" type="VARCHAR(1)">Tâche à cumuler pour Total Présence O/N</column>
+    <column name="CUMR" type="VARCHAR(1)">Tâche à cumuler pour Remise (type JA) O/N</column>
+  </table>
+  <table name="CASBTYDO" label="Type de dossiers">
+    <column name="DMAJ" type="DATE">Date de mise à jour</column>
+    <column name="NSTA" type="VARCHAR(3)">N° de Station</column>
+    <column name="NTYP" type="VARCHAR(6)">N° du type de dossier</column>
+    <column name="CTYP" type="VARCHAR(6)">Code du type de dossier</column>
+    <column name="LTYP" type="VARCHAR(30)">Libellé du type de dossier</column>
+    <column name="DTYP" type="NUMERIC(3)">Durée de vie du dossier (Calcul de la date fin)</column>
+    <column name="ACOM" type="VARCHAR(1)">Acompte ? O/N</column>
+    <column name="SCOM" type="NUMERIC(9,2)">Seuil HT Facture N-1 (acompte si HT&gt;SCOM et ACOM=O)</column>
+    <column name="PCOM" type="NUMERIC(5,2)">% d'acompte pour N sur seuil SCOM</column>
+    <column name="PPAR" type="VARCHAR(5)">Position de l'arrondi pour le calcul de l'acompte</column>
+    <column name="TREC" type="VARCHAR(1)">A reconduire par défaut O/N</column>
+    <column name="DREC" type="NUMERIC(3,0)">Durée de reconduction en jours</column>
+    <column name="LRE1" type="VARCHAR(32)">Libellé Ligne N° 1 de remise sur la facture</column>
+    <column name="LRE2" type="VARCHAR(32)">Libellé Ligne N° 2 de remise sur la facture</column>
+  </table>
+  <table name="CASBDOSS" label="Dossiers Clients">
+    <column name="DMAJ" type="DATE">Date de mise à jour</column>
+    <column name="NSTA" type="VARCHAR(3)">N° de Station</column>
+    <column name="NCLI" type="VARCHAR(8)" fkey="CAMBCLIE(NCLI)" opt="">N° de client (fd20)</column>
+    <column name="NDOS" type="VARCHAR(4)">N° de dossier (fd19)</column>
+    <column name="LDO1" type="VARCHAR(30)">Libellé du dossier N° 1</column>
+    <column name="LDO2" type="VARCHAR(30)">Libellé du dossier N° 2</column>
+    <column name="NTYP" type="VARCHAR(6)">Type du dossier (fd42)</column>
+    <column name="NAGE" type="VARCHAR(6)">N° de l'agent responsable (fd40)</column>
+    <column name="NEQU" type="VARCHAR(6)">N° de l'équipe du dossier (fd17)</column>
+    <column name="DDEB" type="DATE">Date de début du dossier (à titre indicatif)</column>
+    <column name="DFIN" type="DATE">Date de fin du dossier (à titre indicatif)</column>
+    <column name="MRGF" type="VARCHAR(3)">Mode de règlement de la facture (fd02)</column>
+    <column name="DRGF" type="VARCHAR(3)">Délai de règlement de la facture (fd02)</column>
+    <column name="REFF" type="VARCHAR(10)">Référence pour la facture</column>
+    <column name="ETAR" type="VARCHAR(1)">Etat de reconduction du dossierA/N/R</column>
+    <column name="ETAD" type="VARCHAR(1)">Etat du dossier0 à 4</column>
+    <column name="FACD" type="VARCHAR(10)">N° de la facture du dossier</column>
+    <column name="PREM" type="NUMERIC(5,2)">% de remise sur le dossier (remise J.A.)</column>
+    <column name="ETAA" type="VARCHAR(1)">Etat de l'acompte 0 à 5</column>
+    <column name="BASA" type="NUMERIC(10,2)">Base de calcul de l'acompte en H.T. (reconduction)</column>
+    <column name="MRGA" type="VARCHAR(3)">Mode de règlement de l'acompte(fd03)</column>
+    <column name="DRGA" type="VARCHAR(3)">Délai de règlement de l'acompte (fd03)</column>
+    <column name="FACA" type="VARCHAR(10)">N° de la facture d'acompte(fd22)</column>
+    <column name="NDOP" type="VARCHAR(4)">N° du dossier précédent (ou 0000)</column>
+    <column name="CLAD" type="VARCHAR(6)">N° de la classification Dossier (fd17)</column>
+  </table>
+  <table name="CASBTRDO" label="Travaux par dossiers">
+    <column name="DMAJ" type="DATE">Date de mise à jour</column>
+    <column name="NSTA" type="VARCHAR(3)">N° de Station</column>
+    <column name="NCLI" type="VARCHAR(8)" fkey="CAMBCLIE(NCLI)" opt="">N° de client (fd20)</column>
+    <column name="NDOS" type="VARCHAR(4)">N° de dossier (fd43)</column>
+    <column name="NAGE" type="VARCHAR(6)">N° d'agent(fd40)</column>
+    <column name="NTAC" type="VARCHAR(6)">N° de tâche (fd41)</column>
+    <column name="DTAC" type="VARCHAR(8)">Date d'exécution de la tâche DTOS</column>
+    <column name="NBUN" type="NUMERIC(8,2)">Nombre d'unités (1 si PU modifiable)</column>
+    <column name="PXUN" type="NUMERIC(8,2)">Prix Unitaire (éventuellement modifiable)</column>
+    <column name="ETAT" type="VARCHAR(1)">Etat de la tâche0-&gt;3</column>
+    <column name="COMT" type="VARCHAR(30)">Commentaire dur la tâche</column>
+    <column name="TYPF" type="VARCHAR(1)">Type d'unité de la tâche Temps/Autre</column>
+  </table>
+  <table name="CAVBARTI" label="Articles Vente Comptoir">
+    <column name="DMAJ" type="DATE">Date de mise à jour</column>
+    <column name="NSTA" type="VARCHAR(3)">N° de station</column>
+    <column name="NART" type="VARCHAR(6)">N° du code article</column>
+    <column name="CART" type="VARCHAR(8)">Code article</column>
+    <column name="LART" type="VARCHAR(32)">Libellé de l'article</column>
+    <column name="LFA1" type="VARCHAR(50)">Libellé de facturation N° 1</column>
+    <column name="LFA2" type="VARCHAR(50)">Libellé de facturation N° 2</column>
+    <column name="CVEN" type="VARCHAR(13)">Compte de vente de l'article</column>
+    <column name="CANA" type="VARCHAR(13)">Compte analytique</column>
+    <column name="EXPL" type="VARCHAR(1)">Article exploité ( O/N)</column>
+  </table>
+  <table name="CAVBHTAR" label="Historique Tarifs">
+    <column name="NART" type="VARCHAR(6)">N° du code article</column>
+    <column name="DAPP" type="VARCHAR(8)">Date d'application du tarif (DTOS)</column>
+    <column name="PUHT" type="NUMERIC(9,2)">Prix unitaire HT</column>
+    <column name="CTVA" type="VARCHAR(1)">Code Tva</column>
+    <column name="PTTC" type="NUMERIC(9,2)">Prix unitaire TTC (resaisie pour arrondi)</column>
+  </table>
+  <table name="CAVBVENT" label="Articles vendus">
+    <column name="NCLI" type="VARCHAR(8)" fkey="CAMBCLIE(NCLI)" opt="">N° du client</column>
+    <column name="NFAC" type="VARCHAR(11)">N° de facture (tope+nfac)(idem fd21)</column>
+    <column name="NART" type="VARCHAR(6)">N° code article</column>
+    <column name="QVEN" type="NUMERIC(6)">Quantité vendue</column>
+    <column name="PUHT" type="NUMERIC(9,2)">Prix de vente HT</column>
+    <column name="CTVA" type="VARCHAR(1)">Code TVA (pour mémoire)</column>
+    <column name="PTTC" type="NUMERIC(9,2)">Prix de vente TTC (si facturation TTC)</column>
+  </table>
+  <table name="CAABTITR" label="Fichier des Titres">
+    <column name="DMAJ" type="DATE">Date Mise à jour</column>
+    <column name="NSTA" type="VARCHAR(3)">N° de station</column>
+    <column name="NTIT" type="VARCHAR(3)">N° du titre</column>
+    <column name="NOMT" type="VARCHAR(32)">Nom du titre</column>
+    <column name="CIDT" type="VARCHAR(32)">Complément Identification du titre</column>
+    <column name="AD1T" type="VARCHAR(32)">1ère ligne d adresse</column>
+    <column name="AD2T" type="VARCHAR(32)">2ème ligne d'adresse</column>
+    <column name="CPOT" type="VARCHAR(5)">Code postal</column>
+    <column name="BURT" type="VARCHAR(26)">Bureau d'acheminement</column>
+    <column name="STIT" type="VARCHAR(8)">Sigle du titre</column>
+    <column name="DRGT" type="VARCHAR(3)">Délai de règlement (facture non réglée)</column>
+    <column name="MROU" type="VARCHAR(1)">Mode fichier Routage 1-CapRout 2-Ascii</column>
+    <column name="DROU" type="VARCHAR(2)">Département Dépot du routage</column>
+    <column name="LROU" type="VARCHAR(26)">Lieu de Dépot du routage</column>
+    <column name="NNUM" type="NUMERIC(3)">Nombre de numéros servis par an</column>
+    <column name="NBGC" type="NUMERIC(3)">Nombre Maxi de grâce-copies pour Tiers Collectés</column>
+    <column name="GRNO" type="NUMERIC(2)">Nombre de couplés autorisés pour Gratuits</column>
+    <column name="GRCO" type="VARCHAR(15)">Couplés Obligatoire/Facultatif/Interdit GRATUIT</column>
+    <column name="PRNO" type="NUMERIC(2)">Nombre de couplés autorisés pour Prospects</column>
+    <column name="PRCO" type="VARCHAR(15)">Couplés Obligatoire/Facultatif/Interdit PROSPECT</column>
+    <column name="NDJO" type="NUMERIC(5)">Numéro du dernier journal extrait</column>
+    <column name="DDJO" type="DATE">Date du dernier journal extrait</column>
+    <column name="NTAR" type="NUMERIC(6)">N° du dernier tarif créÂé pour le titre</column>
+    <column name="ECAA" type="NUMERIC(3)">Ecart Alerte sur saisie du N° Début</column>
+    <column name="ECAX" type="NUMERIC(3)">Ecart Maxi sur saisie du N° Début</column>
+    <column name="ECAR" type="NUMERIC(3)">Ecart sur NERS lors du réabonnement</column>
+  </table>
+  <table name="CAABABON" label="Abonnements">
+    <column name="DMAJ" type="DATE">Date Mise à jour</column>
+    <column name="NSTA" type="VARCHAR(3)">N° de station</column>
+    <column name="NCLI" type="VARCHAR(8)" fkey="CAMBCLIE(NCLI)" opt="">N° de client</column>
+    <column name="NTIT" type="VARCHAR(3)">N° de titre</column>
+    <column name="NCON" type="VARCHAR(3)">N° de contrat d'abonnement (unique cf fd19)</column>
+    <column name="CFAM" type="VARCHAR(6)">N° de la famille</column>
+    <column name="ORIG" type="VARCHAR(6)">N° de l'origine</column>
+    <column name="EDIT" type="VARCHAR(6)">N° de l'édition</column>
+    <column name="DAB1" type="DATE">Date de 1er abonnement</column>
+    <column name="CDIS" type="VARCHAR(6)">N° du mode de distribution (000000 pour Routage)</column>
+    <column name="CATE" type="VARCHAR(1)">Catégorie de gestion 0 à 7</column>
+    <column name="COJD" type="VARCHAR(2)">Catégorie O.J.D. 0 à 7</column>
+    <column name="CSUS" type="VARCHAR(1)">Cause de suspension0 à 9</column>
+    <column name="DSUS" type="DATE">Date de suspension</column>
+    <column name="NTIE" type="VARCHAR(8)">N° du tiers associé (0-4-5)</column>
+    <column name="CTIE" type="VARCHAR(3)">N° du contrat du tiers associé (4-5)</column>
+    <column name="NABT" type="VARCHAR(3)">N° d'ordre pour ce contrat (toute catégorie)</column>
+    <column name="DRAB" type="DATE">Date de réabonnement (déclenche le tarif)</column>
+    <column name="NDJO" type="VARCHAR(5)">N° du premier journal à servir</column>
+    <column name="NFJO" type="VARCHAR(5)">N° du dernier journal à servir</column>
+    <column name="NDJS" type="VARCHAR(5)">N° du journal suivant (réabonnement)</column>
+    <column name="NERS" type="NUMERIC(4)">Nombre restant à servir</column>
+    <column name="NROU" type="VARCHAR(5)">Dernier N° routé</column>
+    <column name="NBEX" type="NUMERIC(2)">Nombre d'exmplaires</column>
+    <column name="CTAR" type="VARCHAR(6)">N° du code Tarif</column>
+    <column name="CTVA" type="VARCHAR(1)">Code TVA (0 à 9)</column>
+    <column name="COUP" type="VARCHAR(15)">Couplage autres revues O/N</column>
+    <column name="NFAC" type="VARCHAR(10)">N° de la facture associée</column>
+    <column name="TTCD" type="NUMERIC(10,2)">TTC Dû pour ce réabonnement</column>
+    <column name="CDAB" type="VARCHAR(1)">Niveau de la dernière relance 0 à 5</column>
+    <column name="DDAB" type="DATE">Date de la dernière relance</column>
+    <column name="CRAB" type="VARCHAR(1)">Niveau de relance lors du réabonnement 0 à 5</column>
+    <column name="RECO" type="VARCHAR(1)">Type reconduction Normal/Prélèvement (Caté 1)N/P</column>
+  </table>
+  <table name="CAABHABO" label="Historique Abonnement">
+    <column name="DMAJ" type="DATE">Date Mise à jour</column>
+    <column name="NSTA" type="VARCHAR(3)">N° de station</column>
+    <column name="NCLI" type="VARCHAR(8)" fkey="CAMBCLIE(NCLI)" opt="">N° de client</column>
+    <column name="NTIT" type="VARCHAR(3)">N° de titre</column>
+    <column name="NCON" type="VARCHAR(3)">N° de contrat d'abonnement (unique cf fd19)</column>
+    <column name="CFAM" type="VARCHAR(6)">N° de la famille</column>
+    <column name="ORIG" type="VARCHAR(6)">N° de l'origine</column>
+    <column name="EDIT" type="VARCHAR(6)">N° de l'édition</column>
+    <column name="DAB1" type="DATE">Date de 1er abonnement</column>
+    <column name="CDIS" type="VARCHAR(6)">N° du mode de distribution (000000 pour Routage)</column>
+    <column name="CATE" type="VARCHAR(1)">Catégorie de gestion 0 à 7</column>
+    <column name="COJD" type="VARCHAR(2)">Catégorie O.J.D. 0 à 7</column>
+    <column name="CSUS" type="VARCHAR(1)">Cause de suspension0 à 9</column>
+    <column name="DSUS" type="DATE">Date de suspension</column>
+    <column name="NTIE" type="VARCHAR(8)">N° du tiers associé (0-4-5)</column>
+    <column name="CTIE" type="VARCHAR(3)">N° du contrat du tiers associé (4-5)</column>
+    <column name="NABT" type="VARCHAR(3)">N° d'ordre pour ce contrat (toute catégorie)</column>
+    <column name="DRAB" type="DATE">Date de réabonnement (déclenche le tarif)</column>
+    <column name="NDJO" type="VARCHAR(5)">N° du premier journal à servir</column>
+    <column name="NFJO" type="VARCHAR(5)">N° du dernier journal à servir</column>
+    <column name="NDJS" type="VARCHAR(5)">N° du journal suivant (réabonnement)</column>
+    <column name="NERS" type="NUMERIC(4)">Nombre restant à servir</column>
+    <column name="NROU" type="VARCHAR(5)">Dernier N° routé</column>
+    <column name="NBEX" type="NUMERIC(2)">Nombre d'exmplaires</column>
+    <column name="CTAR" type="VARCHAR(6)">N° du code Tarif</column>
+    <column name="CTVA" type="VARCHAR(1)">Code TVA (0 à 9)</column>
+    <column name="COUP" type="VARCHAR(15)">Couplage autres revues O/N</column>
+    <column name="NFAC" type="VARCHAR(10)">N° de la facture associée</column>
+    <column name="TTCD" type="NUMERIC(10,2)">TTC Dû pour ce réabonnement</column>
+    <column name="CDAB" type="VARCHAR(1)">Niveau de la dernière relance 0 à 5</column>
+    <column name="DDAB" type="DATE">Date de la dernière relance</column>
+    <column name="CRAB" type="VARCHAR(1)">Niveau de relance lors du réabonnement 0 à 5</column>
+    <column name="RECO" type="VARCHAR(1)">Type reconduction Normal/Prélèvement (Caté 1)N/P</column>
+  </table>
+  <table name="CAABTARI" label="Tarif par titres">
+    <column name="DMAJ" type="DATE">Date Mise à jour</column>
+    <column name="NTIT" type="VARCHAR(3)">N° du titre</column>
+    <column name="NTAR" type="VARCHAR(6)">N° du tarif</column>
+    <column name="CTAR" type="VARCHAR(6)">Code du tarif</column>
+    <column name="LTAR" type="VARCHAR(32)">Libellé du tarif</column>
+    <column name="NBJO" type="NUMERIC(3)">Nombre de journaux à servir</column>
+    <column name="TREL" type="VARCHAR(1)">Type de relance 1-Même tarif 2-Autre tarif</column>
+    <column name="NREL" type="VARCHAR(6)">N° du tarif pour les relances (si TREL=2)</column>
+  </table>
+  <table name="CAABHTAR" label="Historique Valeur Tarif">
+    <column name="DMAJ" type="DATE">Date Mise à jour</column>
+    <column name="NTIT" type="VARCHAR(3)">N° du titre</column>
+    <column name="NTAR" type="VARCHAR(6)">N° du tarif</column>
+    <column name="DAPP" type="VARCHAR(8)">Date d'application du tarif DTOS</column>
+    <column name="MTTC" type="NUMERIC(8,2)">Montant TTC du tarif</column>
+    <column name="NBCO" type="NUMERIC(2)">Nombre de couplés autorisés (0 à 15)</column>
+    <column name="CVEN" type="VARCHAR(13)">Compte de vente</column>
+    <column name="CANA" type="VARCHAR(13)">Compte analytique</column>
+    <column name="CTVA" type="VARCHAR(1)">Code TVA associé</column>
+    <column name="TTAR" type="VARCHAR(1)">Type de tarif 1 si inférieur à 33%, 2 de 33 à 50%</column>
+    <column name="SA01" type="VARCHAR(1)">Saisie 1er couplé Obligatoire-Facultatif-Interdit</column>
+    <column name="MT01" type="NUMERIC(8,2)">Part en francs du couplé dans MTTC</column>
+    <column name="CV01" type="VARCHAR(13)">Compte de vente du couplé</column>
+    <column name="CA01" type="VARCHAR(13)">Compte analytique du couplé</column>
+    <column name="RL01" type="VARCHAR(1)">Edition du couplé lors des relances O/N</column>
+    <column name="FA01" type="VARCHAR(1)">Edition du couplé lors des factures O/N</column>
+    <column name="SA02" type="VARCHAR(1)">Saisie 2e couplé Obligatoire-Facultatif-Interdit</column>
+    <column name="MT02" type="NUMERIC(8,2)">Part en francs du couplé dans MTTC</column>
+    <column name="CV02" type="VARCHAR(13)">Compte de vente du couplé</column>
+    <column name="CA02" type="VARCHAR(13)">Compte analytique du couplé</column>
+    <column name="RL02" type="VARCHAR(1)">Edition du couplé lors des relances O/N</column>
+    <column name="FA02" type="VARCHAR(1)">Edition du couplé lors des factures O/N</column>
+    <column name="SA03" type="VARCHAR(1)">Saisie 3e couplé Obligatoire-Facultatif-Interdit</column>
+    <column name="MT03" type="NUMERIC(8,2)">Part en francs du couplé dans MTTC</column>
+    <column name="CV03" type="VARCHAR(13)">Compte de vente du couplé</column>
+    <column name="CA03" type="VARCHAR(13)">Compte analytique du couplé</column>
+    <column name="RL03" type="VARCHAR(1)">Edition du couplé lors des relances O/N</column>
+    <column name="FA03" type="VARCHAR(1)">Edition du couplé lors des factures O/N</column>
+    <column name="SA04" type="VARCHAR(1)">Saisie 4e couplé Obligatoire-Facultatif-Interdit</column>
+    <column name="MT04" type="NUMERIC(8,2)">Part en francs du couplé dans MTTC</column>
+    <column name="CV04" type="VARCHAR(13)">Compte de vente du couplé</column>
+    <column name="CA04" type="VARCHAR(13)">Compte analytique du couplé</column>
+    <column name="RL04" type="VARCHAR(1)">Edition du couplé lors des relances O/N</column>
+    <column name="FA04" type="VARCHAR(1)">Edition du couplé lors des factures O/N</column>
+    <column name="SA05" type="VARCHAR(1)">Saisie 5e couplé Obligatoire-Facultatif-Interdit</column>
+    <column name="MT05" type="NUMERIC(8,2)">Part en francs du couplé dans MTTC</column>
+    <column name="CV05" type="VARCHAR(13)">Compte de vente du couplé</column>
+    <column name="CA05" type="VARCHAR(13)">Compte analytique du couplé</column>
+    <column name="RL05" type="VARCHAR(1)">Edition du couplé lors des relances O/N</column>
+    <column name="FA05" type="VARCHAR(1)">Edition du couplé lors des factures O/N</column>
+    <column name="SA06" type="VARCHAR(1)">Saisie 6e couplé Obligatoire-Facultatif-Interdit</column>
+    <column name="MT06" type="NUMERIC(8,2)">Part en francs du couplé dans MTTC</column>
+    <column name="CV06" type="VARCHAR(13)">Compte de vente du couplé</column>
+    <column name="CA06" type="VARCHAR(13)">Compte analytique du couplé</column>
+    <column name="RL06" type="VARCHAR(1)">Edition du couplé lors des relances O/N</column>
+    <column name="FA06" type="VARCHAR(1)">Edition du couplé lors des factures O/N</column>
+    <column name="SA07" type="VARCHAR(1)">Saisie 7e couplé Obligatoire-Facultatif-Interdit</column>
+    <column name="MT07" type="NUMERIC(8,2)">Part en francs du couplé dans MTTC</column>
+    <column name="CV07" type="VARCHAR(13)">Compte de vente du couplé</column>
+    <column name="CA07" type="VARCHAR(13)">Compte analytique du couplé</column>
+    <column name="RL07" type="VARCHAR(1)">Edition du couplé lors des relances O/N</column>
+    <column name="FA07" type="VARCHAR(1)">Edition du couplé lors des factures O/N</column>
+    <column name="SA08" type="VARCHAR(1)">Saisie 8e couplé Obligatoire-Facultatif-Interdit</column>
+    <column name="MT08" type="NUMERIC(8,2)">Part en francs du couplé dans MTTC</column>
+    <column name="CV08" type="VARCHAR(13)">Compte de vente du couplé</column>
+    <column name="CA08" type="VARCHAR(13)">Compte analytique du couplé</column>
+    <column name="RL08" type="VARCHAR(1)">Edition du couplé lors des relances O/N</column>
+    <column name="FA08" type="VARCHAR(1)">Edition du couplé lors des factures O/N</column>
+    <column name="SA09" type="VARCHAR(1)">Saisie 9e couplé Obligatoire-Facultatif-Interdit</column>
+    <column name="MT09" type="NUMERIC(8,2)">Part en francs du couplé dans MTTC</column>
+    <column name="CV09" type="VARCHAR(13)">Compte de vente du couplé</column>
+    <column name="CA09" type="VARCHAR(13)">Compte analytique du couplé</column>
+    <column name="RL09" type="VARCHAR(1)">Edition du couplé lors des relances O/N</column>
+    <column name="FA09" type="VARCHAR(1)">Edition du couplé lors des factures O/N</column>
+    <column name="SA10" type="VARCHAR(1)">Saisie 10e couplé Obligatoire-Facultatif-Interdit</column>
+    <column name="MT10" type="NUMERIC(8,2)">Part en francs du couplé dans MTTC</column>
+    <column name="CV10" type="VARCHAR(13)">Compte de vente du couplé</column>
+    <column name="CA10" type="VARCHAR(13)">Compte analytique du couplé</column>
+    <column name="RL10" type="VARCHAR(1)">Edition du couplé lors des relances O/N</column>
+    <column name="FA10" type="VARCHAR(1)">Edition du couplé lors des factures O/N</column>
+    <column name="SA11" type="VARCHAR(1)">Saisie 11e couplé Obligatoire-Facultatif-Interdit</column>
+    <column name="MT11" type="NUMERIC(8,2)">Part en francs du couplé dans MTTC</column>
+    <column name="CV11" type="VARCHAR(13)">Compte de vente du couplé</column>
+    <column name="CA11" type="VARCHAR(13)">Compte analytique du couplé</column>
+    <column name="RL11" type="VARCHAR(1)">Edition du couplé lors des relances O/N</column>
+    <column name="FA11" type="VARCHAR(1)">Edition du couplé lors des factures O/N</column>
+    <column name="SA12" type="VARCHAR(1)">Saisie 12e couplé Obligatoire-Facultatif-Interdit</column>
+    <column name="MT12" type="NUMERIC(8,2)">Part en francs du couplé dans MTTC</column>
+    <column name="CV12" type="VARCHAR(13)">Compte de vente du couplé</column>
+    <column name="CA12" type="VARCHAR(13)">Compte analytique du couplé</column>
+    <column name="RL12" type="VARCHAR(1)">Edition du couplé lors des relances O/N</column>
+    <column name="FA12" type="VARCHAR(1)">Edition du couplé lors des factures O/N</column>
+    <column name="SA13" type="VARCHAR(1)">Saisie 13e couplé Obligatoire-Facultatif-Interdit</column>
+    <column name="MT13" type="NUMERIC(8,2)">Part en francs du couplé dans MTTC</column>
+    <column name="CV13" type="VARCHAR(13)">Compte de vente du couplé</column>
+    <column name="CA13" type="VARCHAR(13)">Compte analytique du couplé</column>
+    <column name="RL13" type="VARCHAR(1)">Edition du couplé lors des relances O/N</column>
+    <column name="FA13" type="VARCHAR(1)">Edition du couplé lors des factures O/N</column>
+    <column name="SA14" type="VARCHAR(1)">Saisie 14e couplé Obligatoire-Facultatif-Interdit</column>
+    <column name="MT14" type="NUMERIC(8,2)">Part en francs du couplé dans MTTC</column>
+    <column name="CV14" type="VARCHAR(13)">Compte de vente du couplé</column>
+    <column name="CA14" type="VARCHAR(13)">Compte analytique du couplé</column>
+    <column name="RL14" type="VARCHAR(1)">Edition du couplé lors des relances O/N</column>
+    <column name="FA14" type="VARCHAR(1)">Edition du couplé lors des factures O/N</column>
+    <column name="SA15" type="VARCHAR(1)">Saisie 15e couplé Obligatoire-Facultatif-Interdit</column>
+    <column name="MT15" type="NUMERIC(8,2)">Part en francs du couplé dans MTTC</column>
+    <column name="CV15" type="VARCHAR(13)">Compte de vente du couplé</column>
+    <column name="CA15" type="VARCHAR(13)">Compte analytique du couplé</column>
+    <column name="RL15" type="VARCHAR(1)">Edition du couplé lors des relances O/N</column>
+    <column name="FA15" type="VARCHAR(1)">Edition du couplé lors des factures O/N</column>
+  </table>
+  <table name="CAABHCAL" label="Historique Calendaire">
+    <column name="NTIT" type="VARCHAR(3)">N° du titre</column>
+    <column name="NUJO" type="VARCHAR(5)">N° du journal FSTRZ</column>
+    <column name="DPAR" type="VARCHAR(8)">Date de parutionDTOS</column>
+    <column name="NBGR" type="NUMERIC(2)">Nombre de journaux groupés (pour la décrémentation)</column>
+    <column name="NB04" type="NUMERIC(6)">Colonne 04 Direct inférieur ou égal à 33%</column>
+    <column name="NB05" type="NUMERIC(6)">Colonne 05 Direct 33-50%</column>
+    <column name="NB06" type="NUMERIC(6)">Colonne 06 Collectés</column>
+    <column name="NB07" type="NUMERIC(6)">Colonne 07 Directs Couplés</column>
+    <column name="NB08" type="NUMERIC(6)">Colonne 08 Tiers Payés Offerts</column>
+    <column name="NB09" type="NUMERIC(6)">Colonne 09 Tiers Payés Collectifs</column>
+    <column name="NB11" type="NUMERIC(6)">Colonne 11 Vente au numéro</column>
+    <column name="NB12" type="NUMERIC(6)">Colonne 12 Diffusion payé sur Exemplaire antérieurs</column>
+    <column name="NB14" type="NUMERIC(6)">Colonne 14 Gratuit Nominatif</column>
+    <column name="NB15" type="NUMERIC(6)">Colonne 15 Gratuit Administratif</column>
+    <column name="NB16" type="NUMERIC(6)">Colonne 16 Prospects</column>
+  </table>
+  <table name="CAABHOPE" label="Historique Opérations">
+    <column name="NTIT" type="VARCHAR(3)">N° du titre</column>
+    <column name="CTYP" type="VARCHAR(2)">Type d'opération</column>
+    <column name="TIER" type="VARCHAR(11)">N° Client Tiers associé (NCLI+NCON)</column>
+    <column name="NORD" type="VARCHAR(6)">N° d'ordre pour l'opération</column>
+    <column name="LIBE" type="VARCHAR(20)">Libellé</column>
+    <column name="FICH" type="VARCHAR(20)">Fichier ?</column>
+    <column name="DCRE" type="DATE">Date 1</column>
+    <column name="DMOD" type="DATE">Date 2</column>
+    <column name="COPT" type="VARCHAR(1)">Code Fin Opération</column>
+    <column name="NPT1" type="NUMERIC(6)">Nombre 1</column>
+    <column name="NPT2" type="NUMERIC(6)">Nombre 2</column>
+    <column name="NPT3" type="NUMERIC(6)">Nombre 3</column>
+    <column name="NPT4" type="NUMERIC(6)">Nombre 4</column>
+    <column name="NPT5" type="NUMERIC(6)">Nombre 5</column>
+    <column name="NPT6" type="NUMERIC(6)">Nombre 6</column>
+    <column name="CPT1" type="VARCHAR(3)">Code 1</column>
+    <column name="CPT2" type="VARCHAR(3)">Code 2</column>
+    <column name="CPT3" type="VARCHAR(4)">Code 3</column>
+    <column name="CPT4" type="VARCHAR(4)">Code 4</column>
+    <column name="CPT5" type="VARCHAR(4)">Code 5</column>
+    <column name="CPT6" type="VARCHAR(5)">Code 6</column>
+    <column name="CPT7" type="VARCHAR(5)">Code 7</column>
+    <column name="CPT8" type="VARCHAR(15)">Code 8</column>
+    <column name="LIM0" type="NUMERIC(6)">Limite 0</column>
+    <column name="LIM1" type="NUMERIC(6)">Limite 1</column>
+    <column name="LIM2" type="NUMERIC(6)">Limite 2</column>
+    <column name="LIM3" type="NUMERIC(6)">Limite 3</column>
+    <column name="LIM4" type="NUMERIC(6)">Limite 4</column>
+    <column name="LIM5" type="NUMERIC(6)">Limite 5</column>
+    <column name="LIM6" type="NUMERIC(6)">Limite 6</column>
+    <column name="LIM7" type="NUMERIC(6)">Limite 7</column>
+    <column name="LIM8" type="NUMERIC(6)">Limite 8</column>
+    <column name="LIM9" type="NUMERIC(6)">Limite 9</column>
+  </table>
+  <table name="CAABENVC" label="Envois complémentaires">
+    <column name="NTIT" type="VARCHAR(3)">N° du titre</column>
+    <column name="TENV" type="VARCHAR(1)">Type Envoi (R=rétroactif N-non routé -@-épuré)</column>
+    <column name="NCLI" type="VARCHAR(8)" fkey="CAMBCLIE(NCLI)" opt="">N° de client</column>
+    <column name="NUJO" type="VARCHAR(5)">N° du journal à expédier</column>
+    <column name="NBEX" type="NUMERIC(2)">Nombre d'exemplaires</column>
+    <column name="CDIS" type="VARCHAR(6)">Code distribution spéciale (si non routé)</column>
+  </table>
+  <table name="CAABFCOL" label="Facturation Collecteur">
+    <column name="NTIT" type="VARCHAR(3)">N° du titre</column>
+    <column name="NJOU" type="VARCHAR(5)">Numéro du journal</column>
+    <column name="NCLI" type="VARCHAR(8)" fkey="CAMBCLIE(NCLI)" opt="">N° Client du tiers collecteur</column>
+    <column name="NJFA" type="NUMERIC(6)">Nb de journaux facturés (déjà édités)</column>
+    <column name="NJAF" type="NUMERIC(6)">Nb de journaux à facturer (non encore édité)</column>
+  </table>
+  <table name="COMABAS1" label="Extraction Routage">
+    <column name="NCLI" type="VARCHAR(8)" fkey="CAMBCLIE(NCLI)" opt="">N° de client</column>
+    <column name="TITR" type="VARCHAR(5)">Titre du client (en clair)</column>
+    <column name="NOMP" type="VARCHAR(26)">Nom et prénom du client</column>
+    <column name="CIDE" type="VARCHAR(32)">Complément d'identification</column>
+    <column name="AD1" type="VARCHAR(32)">Adresse Ligne 1</column>
+    <column name="AD2" type="VARCHAR(32)">Adresse Ligne 2</column>
+    <column name="CLOC" type="VARCHAR(5)">Code Localité (fd10)</column>
+    <column name="CPOS" type="VARCHAR(5)">Code postal</column>
+    <column name="BURD" type="VARCHAR(26)">Bureau d'acheminement</column>
+    <column name="PAYS" type="VARCHAR(3)">N° du code pays (000=France) (fd03)</column>
+    <column name="INDD" type="VARCHAR(4)">Indicatif de distribution</column>
+    <column name="NBEX" type="NUMERIC(2)">Nombre d'exemplaires à servir</column>
+    <column name="CATE" type="VARCHAR(1)">Catégorie d'abonné (0 à 5)</column>
+    <column name="REGR" type="VARCHAR(5)">Code Regroupement Routage</column>
+  </table>
+  <table name="CAABREAB" label="Réabonnement (in)directs">
+    <column name="NTIT" type="VARCHAR(3)">N° du titre</column>
+    <column name="CATE" type="VARCHAR(1)">Catégorie concernée (0 ou 1)</column>
+    <column name="NREL" type="VARCHAR(1)">Niveau de relance (1 à 5)</column>
+    <column name="NCLI" type="VARCHAR(8)" fkey="CAMBCLIE(NCLI)" opt="">N° de client (fd20)</column>
+    <column name="NCON" type="VARCHAR(3)">N° de contrat du client</column>
+    <column name="CCLE" type="VARCHAR(8)">Clé secondaire (Pays+Cpos si 1 - NCLI Payeur si 2)</column>
+    <column name="RECO" type="VARCHAR(1)">Type réabonnement Normal/Prélèvement</column>
+  </table>
+  <table name="CAABHSEL" label="Histo. Sélection">
+    <column name="NTIT" type="VARCHAR(3)">N° du titre</column>
+    <column name="MODU" type="VARCHAR(3)">Module associé</column>
+    <column name="NORD" type="VARCHAR(6)">N° d'ordre pour le module</column>
+    <column name="CLEF" type="VARCHAR(2)">Clé d'affectation</column>
+    <column name="VALE" type="VARCHAR(8)">N° du code sélectionné</column>
+  </table>
+  <table name="CAABREFA" label="Référence Facture Abont">
+    <column name="TCAP" type="VARCHAR(1)">Type de facture A/D/S/X @ si annulé</column>
+    <column name="NFAC" type="VARCHAR(10)">N° de facture</column>
+    <column name="REFE" type="VARCHAR(60)">Référence Facture</column>
+    <column name="OBSV" type="VARCHAR(60)">Observations</column>
+  </table>
+  <table name="CAABCOUP" label="Couplage">
+    <column name="NCLI" type="VARCHAR(8)" fkey="CAMBCLIE(NCLI)" opt="">N° de client</column>
+    <column name="TITR" type="VARCHAR(5)">Titre Client (en clair)</column>
+    <column name="NOMP" type="VARCHAR(26)">Nom et prénom du client</column>
+    <column name="CIDE" type="VARCHAR(32)">Complément d'identification</column>
+    <column name="ADR1" type="VARCHAR(32)">Adresse Ligne 1</column>
+    <column name="ADR2" type="VARCHAR(32)">Adresse Ligne 2</column>
+    <column name="CLOC" type="VARCHAR(5)">Code Localité (fd10)</column>
+    <column name="CPOS" type="VARCHAR(5)">Code postal</column>
+    <column name="BURA" type="VARCHAR(26)">Bureau d'acheminement</column>
+    <column name="INDD" type="VARCHAR(4)">Indicatif de distribution</column>
+    <column name="PAYS" type="VARCHAR(3)">Code du pays en clair</column>
+    <column name="CARA" type="VARCHAR(15)">Couplage(15 O/N)</column>
+    <column name="CMVT" type="VARCHAR(1)">Code Mouvement Création-Modif-Annulation-Inchangé</column>
+  </table>
+  <table name="CAABCOLD" label="Ancien Couplage">
+    <column name="NCLI" type="VARCHAR(8)" fkey="CAMBCLIE(NCLI)" opt="">N° de client</column>
+    <column name="TITR" type="VARCHAR(5)">Titre Client (en clair)</column>
+    <column name="NOMP" type="VARCHAR(26)">Nom et prénom du client</column>
+    <column name="CIDE" type="VARCHAR(32)">Complément d'identification</column>
+    <column name="ADR1" type="VARCHAR(32)">Adresse Ligne 1</column>
+    <column name="ADR2" type="VARCHAR(32)">Adresse Ligne 2</column>
+    <column name="CLOC" type="VARCHAR(5)">Code Localité (fd10)</column>
+    <column name="CPOS" type="VARCHAR(5)">Code postal</column>
+    <column name="BURA" type="VARCHAR(26)">Bureau d'acheminement</column>
+    <column name="INDD" type="VARCHAR(4)">Indicatif de distribution</column>
+    <column name="PAYS" type="VARCHAR(3)">Code du pays en clair</column>
+    <column name="CARA" type="VARCHAR(15)">Couplage(15 O/N)</column>
+    <column name="CMVT" type="VARCHAR(1)">Code Mouvement Création-Modif-Annulation-Inchangé</column>
+  </table>
+</analysis>

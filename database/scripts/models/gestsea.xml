@@ -1,0 +1,1536 @@
+<?xml version="1.0" encoding="ISO-8859-15"?>
+<?xml-stylesheet type="text/xsl" href="analysis-html.xsl"?>
+<analysis name="GestSEA" table="table_" view="">
+  <text>Voici le MCD du projet <it text="GestSEA"/>.</text>
+
+  <table name="Constante" abbrev="CS" label="Constantes personnelles">
+    <column name="CS_Numero" type="INTEGER" notnull="true" pkey="true" default="nextval('seq_constante')"></column>
+    <column name="CS_Type"   type="INTEGER" notnull="true">Identifiant du type de constante</column>
+    <column name="CS_Valeur" type="VARCHAR" notnull="true"></column>
+    <seq name="seq_constante" start="1000"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="TypeAdresse" abbrev="AK" label="Types d'adresses">
+    <column name="AK_Numero"     type="INTEGER"      notnull="true" default="nextval('seq_typeadresse')" pkey="true">Clef primaire</column>
+    <column name="AK_Nom"        type="VARCHAR(32)"  notnull="true" const="UNIQUE">Nom (personnelle, courrier, professionnelle)</column>
+    <seq name="seq_typeadresse" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+
+  <table name="Adresse" abbrev="AD" label="Adresses" select="COALESCE(Ad_Ligne2||', ','')||COALESCE(Ad_Ligne3||', ','')||COALESCE(Ad_Ligne4||', ','')||COALESCE(Ad_Ligne5||', ','')||CP_CodePostal||' '||VI_Nom AS AD_Libelle, COALESCE(Ad_Ligne2,'')||';'||COALESCE(Ad_Ligne3,'')||';'||COALESCE(Ad_Ligne4,'')||';'||COALESCE(Ad_Ligne5,'')||';'||CP_CodePostal||';'||VI_Nom AS AD_CSV, AK_Nom AS AD_Type" from="JOIN ###_TypeAdresse USING (AK_Numero) JOIN ###_CodePostal AS CP USING (CP_Numero) JOIN ###_Ville AS VI USING (VI_Numero)" where="AD_Active">
+    <column name="AD_Numero"     type="INTEGER"      notnull="true" pkey="true">Clef primaire</column>
+    <column name="AK_Numero"     type="INTEGER"      notnull="true" fkey="TypeAdresse(AK_Numero)" opt="odrour">Lien vers le type d'adresse</column>
+    <column name="CP_Numero"     type="INTEGER"      notnull="true" fkey="CodePostal(CP_Numero)" opt="odrour">Lien vers le code postal</column>
+    <column name="VI_Numero"     type="INTEGER"      notnull="true" fkey="Ville(VI_Numero)"      opt="odrour">Lien vers la ville</column>
+    <column name="PE_Numero"     type="INTEGER"      notnull="true" fkey="Personne(PE_Numero)"   opt="odrour"></column>
+    <column name="AD_Active"     type="BOOLEAN"      notnull="true" default="true"></column>
+    <column name="AD_Ligne2"     type="VARCHAR(38)"  default="NULL">Ligne 2 de l'adresse : N°App ou Boite - Etage - Couloir - Escalier ou Service - Identité du Destinataire</column>
+    <column name="AD_Ligne3"      type="VARCHAR(38)"  default="NULL">Ligne 3 de l'adresse : Entrée - Tour - Immeuble - Batiment - Residence - ZI...</column>
+    <column name="AD_Ligne4"      type="VARCHAR(38)"  default="NULL">Ligne 4 de l'adresse : N° - Type et nom de la voie </column>
+    <column name="AD_Ligne5"      type="VARCHAR(38)"  default="NULL">Ligne 5 de l'adresse : Mention spéciale de distribution et N°(Ex : BP, TSA...) ou Lieu-dit</column>
+    <column name="AD_DateStop"   type="DATE"         default="NULL">Date d'arret de la date</column>
+    <seq name="seq_adresse" start="1000000"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+		<rule sur='vue' on="DELETE" instead="true" do="UPDATE ###_adresse SET AD_Active=FALSE, AD_DateStop=CURRENT_DATE WHERE ad_numero=OLD.AD_Numero"/>
+  </table>
+
+
+  <table name="AdresseVersion" abbrev="AW" label="Version d'adresses" select="COALESCE(Aw_Ligne2||', ','')||COALESCE(Aw_Ligne3||', ','')||COALESCE(Aw_Ligne4||', ','')||COALESCE(Aw_Ligne5||', ','')||CP_CodePostal||' '||VI_Nom AS AW_Libelle, COALESCE(Aw_Ligne2,'')||';'||COALESCE(Aw_Ligne3,'')||';'||COALESCE(Aw_Ligne4,'')||';'||COALESCE(Aw_Ligne5,'')||';'||CP_CodePostal||';'||VI_Nom AS AW_CSV, AK_Nom AS AW_Type" from="JOIN ###_TypeAdresse USING (AK_Numero) JOIN ###_CodePostal AS CP USING (CP_Numero) JOIN ###_Ville AS VI USING (VI_Numero)">
+    <column name="AW_Numero"     type="INTEGER"      notnull="true" default="nextval('seq_adresseversion')" pkey="true">Clef primaire</column>
+    <column name="AD_Numero"     type="INTEGER"      notnull="true" fkey="Adresse(AD_Numero)" opt="odrour">Lien vers l'adresse</column>
+    <column name="AK_Numero"     type="INTEGER"      notnull="true" fkey="TypeAdresse(AK_Numero)" opt="odrour">Lien vers le type d'adresse</column>
+    <column name="CP_Numero"     type="INTEGER"      notnull="true" fkey="CodePostal(CP_Numero)"  opt="odrour">Lien vers le code postal</column>
+    <column name="VI_Numero"     type="INTEGER"      notnull="true" fkey="Ville(VI_Numero)"       opt="odrour">Lien vers la ville</column>
+    <column name="PE_Numero"     type="INTEGER"      notnull="true" fkey="Personne(PE_Numero)"    opt="odrour">Lien vers la personne</column>
+    <column name="AW_Ligne2"     type="VARCHAR(38)"  default="NULL" >Ligne 2 de l'adresse : N°App ou Boite - Etage - Couloir - Escalier ou Service - Identité du Destinataire</column>
+    <column name="AW_Ligne3"     type="VARCHAR(38)"  default="NULL" >Ligne 3 de l'adresse : Entrée - Tour - Immeuble - Batiment - Residence - ZI...</column>
+    <column name="Aw_Ligne4"     type="VARCHAR(38)"  default="NULL" >Ligne 4 de l'adresse : N° - Type et nom de la voie </column>
+    <column name="AW_Ligne5"     type="VARCHAR(38)"  default="NULL" >Ligne 5 de l'adresse : Mention spéciale de distribution et N°(Ex : BP, TSA...) ou Lieu-dit</column>
+    <column name="version"      label="Version de l'original" type="INTEGER" notnull="true">Version de l'adresse originale</column>
+    <column name="operation"    label="Opération effectuée"   type="VARCHAR(16)" notnull="true">Opération effectuée</column>
+    <seq name="seq_adresseversion" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="Canton" abbrev="CT" label="Cantons">
+    <column name="CT_Numero"   type="INTEGER"      notnull="true" pkey="true">Clef primaire (Numéro INSEE du canton)</column>
+    <column name="CT_Nom"      type="VARCHAR(128)" notnull="true">Nom du canton</column>
+    <seq name="seq_canton" start="1000000"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+  <table name="AppartientA" abbrev="AA" label="Liens entre cantons et groupements de canton">
+    <column name="CT_Numero"     type="INTEGER"     notnull="true" fkey="Canton(CT_Numero)"      opt="oucodc">Lien vers la ville</column>
+    <column name="GC_Numero"     type="INTEGER"     notnull="true" fkey="GroupeCanton(GC_Numero)" opt="oucodc">Lien vers le code postal</column>
+    <pkey keys="CT_Numero, GC_Numero"/>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+  <table name="GroupeCanton" abbrev="GC" label="Groupements de canton">
+    <column name="GC_Numero"   type="INTEGER"      notnull="true" pkey="true">Clef primaire</column>
+    <column name="GC_Nom"      type="VARCHAR(128)" notnull="true">Nom du groupement</column>
+    <seq name="seq_groupecanton" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="CodePostal" abbrev="CP" label="Codes postaux">
+    <column name="CP_Numero"     type="INTEGER"      notnull="true" pkey="true">Clef primaire (=code postal)</column>
+    <column name="CP_CodePostal" type="INTEGER"      notnull="true">Code Postal</column>
+    <column name="CP_Bureau"     type="VARCHAR(128)" default="NULL">Bureau distributeur</column> 
+    <seq name="seq_codepostal" start="1000000"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="VilleCp" abbrev="VC" label="Liens entre les villes et leur code postal">
+    <column name="VI_Numero"     type="INTEGER"     notnull="true" fkey="Ville(VI_Numero)"      opt="ourodr">Lien vers la ville</column>
+    <column name="CP_Numero"     type="INTEGER"     notnull="true" fkey="CodePostal(CP_Numero)" opt="ourodr">Lien vers le code postal</column>
+    <pkey keys="VI_Numero, CP_Numero"/>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="Ville" abbrev="VI" label="Villes">
+    <column name="VI_Numero"      type="INTEGER"      notnull="true" pkey="true">Clef primaire</column>
+    <column name="VI_Nom"         type="VARCHAR(128)" notnull="true">Nom du canton</column>
+    <column name="CT_Numero"      type="INTEGER"      default="NULL" fkey="Canton(CT_Numero)" opt="odrour">Lien vers le canton</column>
+    <seq name="seq_ville" start="1000000"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="ContactType" abbrev="CK" label="Types de contact">
+    <column name="CK_Numero"     type="INTEGER"      notnull="true" default="nextval('seq_contacttype')" pkey="true">Clef primaire</column>
+    <column name="CK_Code"       type="VARCHAR(4)"   notnull="true" const="UNIQUE">Code</column>
+    <column name="CK_Nom"        type="VARCHAR(64)"  notnull="true" const="UNIQUE">Libellé</column>
+    <column name="CK_Number"     type="BOOLEAN"      notnull="true" default="false">Teste et nettoie le texte</column>
+    <column name="CK_Email"      type="BOOLEAN"      notnull="true" default="false">Teste et nettoie le texte</column>
+    <column name="CK_Url"        type="BOOLEAN"      notnull="true" default="false">Teste et nettoie le texte</column>
+    <seq name="seq_contacttype" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="Contact" abbrev="CN" label="Contacts" where="CN_Actif">
+    <column name="CN_Numero"     type="INTEGER"      notnull="true" pkey="true">Clef primaire</column>
+    <column name="CN_Coordonnee" type="VARCHAR(255)" notnull="true">Coordonnée du type ...</column>
+    <column name="CN_Actif"      type="BOOLEAN"      notnull="true" default="true">Si la coordonnée est active</column>
+    <column name="CK_Numero"     type="INTEGER"      notnull="true" fkey="ContactType(CK_Numero)" opt="odrour">Type de contact</column>
+    <column name="PE_Numero"     type="INTEGER"      notnull="true" fkey="Personne(PE_Numero)" opt="odrour">Personne concernée</column>
+    <seq name="seq_contact" start="1000000"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+		<rule sur='vue' on="DELETE" instead="true" do="UPDATE ###_contact SET CN_Actif=FALSE WHERE cn_numero=OLD.CN_Numero"/>
+  </table>
+
+
+  <table name="ContactVersion" abbrev="CW" label="Version de contacts">
+    <column name="CW_Numero"     type="INTEGER"      notnull="true" default="nextval('seq_contactversion')" pkey="true">Clef primaire</column>
+    <column name="CW_Coordonnee" type="VARCHAR(255)" notnull="true">Coordonnée du type ...</column>
+    <column name="CK_Numero"     type="INTEGER"      notnull="true" fkey="ContactType(CK_Numero)" opt="odrour">Type de contact</column>
+    <column name="PE_Numero"     type="INTEGER"      notnull="true" fkey="Personne(PE_Numero)" opt="odrour">Personne concernée</column>
+    <column name="CN_Numero"     type="INTEGER"      notnull="true" fkey="Contact(CN_Numero)" opt="odrour">Contact</column>
+    <column name="version"      label="Version de l'original" type="INTEGER" notnull="true">Version de l'adresse originale</column>
+    <column name="operation"    label="Opération effectuée"   type="VARCHAR(16)" notnull="true">Opération effectuée</column>
+    <seq name="seq_contactversion" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+<!--
+  <table name="EstJoignable" abbrev="EJ" label="Liens entre les personnes et leurs contacts" select="CASE WHEN EJ_Actif THEN 'Actif' ELSE 'Inactif' END AS EJ_Etat">
+    <column name="EJ_Numero"   type="INTEGER"     notnull="true" pkey="true">Clé primaire nécessaire pour pouvoir faire un système N..N</column>
+    <column name="PE_Numero"   type="INTEGER"     notnull="true" fkey="Personne(PE_Numero)" opt="odrour">Lien vers la personne</column>
+    <column name="CN_Numero"   type="INTEGER"     notnull="true" fkey="Contact(CN_Numero)"  opt="odrour">Lien vers le contact</column>
+    <column name="EJ_Actif"    type="BOOLEAN"     notnull="true" default="true">Si le numéro est actif</column>
+    <seq name="seq_estjoignable" start="1000000"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+-->
+
+  <table name="TypeLien" abbrev="TL" label="Types de liens entre personnes">
+    <column name="TL_Numero"      type="INTEGER"      notnull="true" pkey="true" default="nextval('seq_typelien')">Clé unique</column>
+    <column name="TL_Libelle"     type="VARCHAR(64)"  notnull="true" const="UNIQUE">Nom de la nature du lien</column>
+    <column name="TL_Action12"    type="VARCHAR(128)" notnull="true" default="'[NoAction]'">Action de la nature du lien de 1 vers 2</column>
+    <column name="TL_Action21"    type="VARCHAR(128)" notnull="true" default="'[NoReverseAction]'">Action de la nature du lien de 2 vers 1</column>
+    <column name="TL_Description" type="VARCHAR"      default="NULL">Détail de la nature du lien</column>
+    <seq name="seq_typelien" start="1000"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="EstLie" abbrev="EL" label="Liens entre personnes" select="TRIM(COALESCE(p1.PE_Titre||' ','')||COALESCE(p1.PE_Nom,'')||COALESCE(' '||p1.PE_Prenom,'')||' / '||p1.pe_id) AS EL_Libelle1, TRIM(COALESCE(p2.PE_Titre||' ','')||COALESCE(p2.PE_Nom,'')||COALESCE(' '||p2.PE_Prenom,'')||' / '||p2.pe_id) AS EL_Libelle2, TL_Action12, TL_Action21" from="JOIN ###_Personne AS p1 ON (EL_Personne1=p1.PE_Numero) JOIN ###_Personne AS p2 ON (EL_Personne2=p2.PE_Numero) JOIN ###_TypeLien USING (TL_Numero)" where="EL_Actif">
+    <column name="EL_Numero"    type="INTEGER"     notnull="true" pkey="true" default="nextval('seq_estlie')">Lien vers la personne 1</column>
+    <column name="EL_Personne1" type="INTEGER"     notnull="true" fkey="Personne(PE_Numero)" opt="odrour">Lien vers la personne 1</column>
+    <column name="EL_Personne2" type="INTEGER"     notnull="true" fkey="Personne(PE_Numero)" opt="odrour">Lien vers la personne 2</column>
+    <column name="EL_Actif"     type="BOOLEAN"     notnull="true" default="true">Si ce lien est encore actif</column>
+    <column name="TL_Numero"    type="INTEGER"     notnull="true" fkey="TypeLien(TL_Numero)" opt="odrouc">Lien vers nature du lien</column>
+    <column name="EL_Debut"     type="TIMESTAMP"   notnull="true" default="CURRENT_TIMESTAMP">Date de création du lien</column>
+    <column name="EL_Fin"       type="TIMESTAMP"   default="NULL">Date de la rupture</column>
+    <seq name="seq_estlie" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+<!--    <pkey keys="EL_Personne1, EL_Personne2"/>-->
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+		<rule sur='vue' on="DELETE" instead="true" do="UPDATE ###_estlie SET EL_Actif=FALSE, EL_Fin=CURRENT_TIMESTAMP WHERE el_numero=OLD.EL_Numero"/>
+  </table>
+
+
+  <table name="EtatPersonne" abbrev="EP" label="Etats des personnes (INACTIF, ACTIF, etc.)">
+    <column name="EP_Numero"   type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="EP_Libelle"  type="VARCHAR(64)" notnull="true" const="UNIQUE"></column>
+    <seq name="seq_etatpersonne" start="10"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="NaturePersonne" abbrev="NP" label="Nature de l'entité (M, Mme, SCEA, EARL...)" select="TRIM(CASE WHEN NP_Inclu THEN COALESCE(NULLIF(TRIM(NP_Abrev),'')||', ','') ELSE '' END||NP_Nom||CASE WHEN NOT NP_AvecTitre THEN ' *' ELSE '' END) AS NP_Libelle" order="16">
+    <column name="NP_Numero"     type="INTEGER"     notnull="true" pkey="true" default="nextval('seq_naturepersonne')"></column>
+    <column name="NP_Nom"        type="VARCHAR(64)" notnull="true" const="UNIQUE"></column>
+    <column name="NP_Abrev"      type="VARCHAR(32)" notnull="true">Abreviation legale et postale</column>
+    <column name="NP_Titre"      type="VARCHAR(32)" notnull="true">Titre postal</column>
+    <column name="NP_Morale"     type="BOOLEAN"     notnull="true" default="false">Entité morale ou entité physique</column>
+    <column name="NP_AvecTitre"  type="BOOLEAN"     notnull="true" default="false">La nature de personne utilise le titre</column>
+    <column name="NP_Inclu"      type="BOOLEAN"     notnull="true" default="false">Le titre doit être inclu dans la désignation sociale ?</column>
+    <column name="NP_Temporaire" type="BOOLEAN"     notnull="true" default="false">Le titre est temporaire et peut être modifié ?</column>
+    <column name="NP_Genre"      type="VARCHAR(16)" notnull="true" default="'MORALE'">Genre</column>
+    <seq name="seq_naturepersonne" start="10"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="Personne" abbrev="PE" label="Personnes" distinct-on="pe_numero" select="TRIM(COALESCE(PE_Titre||' ','')|| COALESCE(PE_Nom,'')|| COALESCE(' '||PE_Prenom,'')) AS PE_Libelle, COALESCE(PE_Nom||' ','')|| COALESCE(PE_Prenom,'')||COALESCE(' ('||NULLIF(TRIM(PE_Titre),'')||')','') AS PE_Fullname, to_char(PE_ID,'FM099999') AS PE_NumPersonne, Tel.CN_Coordonnee AS PE_telephone, Fax.CN_Coordonnee AS PE_Fax, CT_Nom, COALESCE(PE_Titre,'')||';'|| COALESCE(PE_Nom,'')||';'|| COALESCE(PE_Prenom,'')||';'||COALESCE(AD_Ligne2,'')||';'|| COALESCE(Ad_Ligne3,'')||';'|| COALESCE(Ad_Ligne4,'')||';'|| COALESCE(Ad_Ligne5,'')||';'|| CP_CodePostal||';'|| VI_Nom AS PE_Adresse, VI_Nom AS PE_Ville, CP_CodePostal AS PE_CP, CT_Nom AS PE_Canton, to_char(PE_ID,'FM099999')||' - '||TRIM(COALESCE(PE_Titre||' ','')|| COALESCE(PE_Nom,'')|| COALESCE(' '||PE_Prenom,''))||' ('||COALESCE(CP_CodePostal,0)||' '||COALESCE(vi_nom,'???')||')' AS PE_Description" from="LEFT JOIN ###_Adresse AS a ON (a.PE_Numero=###_Personne.PE_Numero AND AD_Active IS NOT False) LEFT JOIN ###_Codepostal USING (CP_Numero) LEFT JOIN ###_Ville USING (VI_Numero) LEFT JOIN ###_Canton USING (CT_Numero) LEFT JOIN ###_Contact AS Tel ON (Tel.PE_Numero=###_Personne.PE_Numero AND Tel.CN_Actif IS NOT false AND Tel.CK_Numero=107) LEFT JOIN ###_Contact AS Fax  ON (Fax.PE_Numero=###_Personne.PE_Numero AND Fax.CN_Actif IS NOT false AND Fax.CK_Numero=105)">
+    <text> La vue associée renverra autant pour une personne qu'elle a d'adresses active</text>
+    <column name="PE_Numero"       type="INTEGER"      notnull="true" pkey="true">Clef primaire</column>
+    <column name="PE_ID"           type="INTEGER"      >Clef primaire dupliquée (NON OBLIGATOIRE)</column>
+    <column name="TP_Numero"       type="INTEGER"      notnull="true" fkey="TypePersonne(TP_Numero)" opt="odrour">Lien vers le type d'adherent (agriculteur, ancien, labo, annonceur, coop, etc.)</column>
+    <column name="NP_Numero"       type="INTEGER"      notnull="true" fkey="NaturePersonne(NP_Numero)" opt="odrour">Nature</column>
+    <column name="PE_Titre"        type="VARCHAR(32)"  notnull="true">Titre de la personne (M., Mme, Melle, EARL, SA, SARL, etc.)</column>
+    <column name="PE_Nom"          type="VARCHAR(48)"  notnull="true">Nom de la personne</column>
+    <column name="PE_RegimeFiscal" type="VARCHAR(32)"  notnull="true" default="'NON RENSEIGNE'">Regime fiscale (forfait, réel, non renseigné)</column>
+    <column name="EP_Numero"       type="INTEGER"      notnull="true" fkey="EtatPersonne(EP_Numero)" opt="odrour">Etat de la fiche (actif, inactif)</column>
+    <column name="PE_Morale"       type="BOOLEAN"      notnull="true" default="false">La personne est-elle une entreprise ou non</column>
+    <column name="PE_Prenom"       type="VARCHAR(32)"  default="NULL">Prénom de la personne</column>
+    <column name="PE_MotDePasse"   type="VARCHAR(32)"  default="NULL">Mot de passe de la personne</column>
+<!--    <column name="PE_Complement"   type="VARCHAR(512)" default="NULL">Complément au nom</column>-->
+    <column name="PE_Naissance"    type="DATE"         default="NULL">Date de naissance</column>
+    <column name="PE_NumTVAIC"     type="VARCHAR(32)"  default="NULL">Numéro de TVA IntraCommunautaire</column>
+<!--    <column name="PE_Cascade"      type="INTEGER"      notnull="true" fkey="TypePersonne(TP_Numero)" opt="odrour">Personne qui profite des adhesions en cascade</column>-->
+    <seq name="seq_personne" start="1017666"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <trigger execute="AFTER INSERT OR UPDATE OR DELETE" foreach="ROW" function="EnregistrePersonne"/>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="PersonneUpdate" abbrev="PU" label="Personnes modifiées" select="COALESCE(PE_Titre||' ','')||COALESCE(PE_Nom||' ','')||COALESCE(PE_Prenom,'') AS PE_Libelle, to_char(PE_Numero-1000000,'0999999') AS PE_NumPersonne, to_char(updated_at,'YYYY-MM-DD HH24:MI:SS.US') AS PU_Date">
+    <column name="PU_Numero"       type="INTEGER"      notnull="true" pkey="true" default="nextval('seq_personneupdate')">Clef primaire</column>
+    <column name="PU_Action"       type="VARCHAR(10)"  default="NULL"></column>
+    <column name="PU_Bilan"        type="VARCHAR"      default="NULL">Bilan de modif</column>
+    <column name="PE_Numero"       type="INTEGER"      notnull="true">Clef primaire étrangère</column>
+    <column name="TP_Numero"       type="INTEGER"	   notnull="true">Lien vers le type d'adherent (agriculteur, ancien, labo, annonceur, coop, etc.)</column>
+    <column name="PE_Titre"        type="VARCHAR(32)"  notnull="true">Titre de la personne (M., Mme, Melle, EARL, SA, SARL, etc.)</column>
+    <column name="PE_Nom"          type="VARCHAR(512)" notnull="true">Nom de la personne</column>
+    <column name="PE_RegimeFiscal" type="VARCHAR(32)"  notnull="true" default="'NON RENSEIGNE'">Regime fiscale (forfait, réel, non renseigné)</column>
+    <column name="EP_Numero"       type="INTEGER"      default="NULL">Etat de la fiche (actif, inactif)</column>
+    <column name="PE_Morale"       type="BOOLEAN"      notnull="true" default="false">La personne est-elle une entreprise ou non</column>
+    <column name="PE_Prenom"       type="VARCHAR(32)"  default="NULL">Prénom de la personne</column>
+<!--    <column name="PE_Complement"   type="VARCHAR(512)" default="NULL">Complément au nom</column>-->
+    <column name="PE_Naissance"    type="DATE"         default="NULL">Date de naissance</column>
+    <seq name="seq_personneupdate" start="1"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="EstResponsable" abbrev="PEAC" label="Liens des responsabilités" select="CASE WHEN PEAC_Fini THEN 'Terminé' ELSE 'En cours' END AS PEAC_Status">
+    <column name="PEAC_Numero"       type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="PE_Numero"         type="INTEGER"     notnull="true" fkey="Personne(PE_Numero)" opt="odcouc"></column>
+    <column name="RE_Numero"         type="INTEGER"     notnull="true" fkey="Responsabilite(RE_Numero)" opt="odcouc"></column>
+    <column name="PEAC_PeriodeDebut" type="DATE"        notnull="true"></column>
+    <column name="PEAC_PeriodeFin"   type="DATE"        default="NULL"></column>
+    <column name="PEAC_Titre"        type="VARCHAR(32)" default="NULL"></column>
+    <column name="PEAC_Fini"         type="BOOLEAN"     notnull="true" default="false">Si le mandat est en cours</column>
+    <seq name="seq_estresponsable" start="1000000"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="Responsabilite" abbrev="RE" label="Responsabilités">
+    <column name="RE_Numero"   type="INTEGER"     notnull="true" pkey="true">Clef primaire</column>
+    <column name="RE_Code"     type="VARCHAR(32)" notnull="true" const="UNIQUE">Code de la responsabilité</column>
+    <column name="RE_Nom"      type="VARCHAR(32)" notnull="true">Responsabilité</column>
+    <column name="RE_Famille"  type="VARCHAR(32)" notnull="true">Famille de la responsabilité</column>
+    <seq name="seq_responsabilite" start="1000000"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+  
+
+  <table name="Attribut" abbrev="AT" label="Attributs d'une personne">
+    <column name="AT_Numero"   type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="PE_Numero"   type="INTEGER"     notnull="true" fkey="Personne(PE_Numero)"     opt="odrour"></column>
+    <column name="TA_Numero"   type="INTEGER"     notnull="true" fkey="TypeAttribut(TA_Numero)" opt="odrour"></column>
+    <column name="CR_Numero"   type="INTEGER"     notnull="true" fkey="Categorie(CR_Numero)"    opt="odrouc">Valeur (par cat.)</column>
+    <column name="AT_Valeur"   type="VARCHAR"     default="NULL">Valeur de l'attribut(Pas toujours nécessaire)</column>
+    <seq name="seq_attribut" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="TypeAttribut" abbrev="TA" label="Types d'attributs">
+    <column name="TA_Numero"   type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="TA_Nom"      type="VARCHAR"     notnull="true"></column>
+    <seq name="seq_typeattribut" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+  
+
+  <table name="Categorie" abbrev="CR" label="Catégories des types d'attributs">
+    <column name="CR_Numero"      type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="CR_Libelle"     type="VARCHAR(64)" notnull="true">Libellé de la catégorie</column>
+    <column name="TA_Numero"      type="INTEGER"     notnull="true" fkey="TypeAttribut(TA_Numero)" opt="odrouc"></column>
+    <column name="CR_Description" type="VARCHAR"     default="NULL">Détail de la catégorie</column>
+    <seq name="seq_categorie" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="Tva" abbrev="TV" label="Taux de TVA" select="to_char(TV_Taux,'FM90.90')||'%' AS TV_TauxTVA, TV_Taux||' % ('||TV_Code||')' AS TV_Pourcentage, CASE WHEN TV_Actif THEN 'Actif' ELSE 'Inactif' END AS TV_Etat" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+    <column name="TV_Numero"   type="INTEGER"     notnull="true" pkey="true">Clé primaire</column>
+    <column name="TV_Code"     type="INTEGER"     notnull="true">Code TVA</column>
+    <column name="TV_Taux"     type="NUMERIC" notnull="true" default="0">Pourcentage</column>
+    <column name="TV_Actif"    type="BOOLEAN"     notnull="true" default="true"></column>
+    <column name="SO_Numero"   type="INTEGER"     notnull="true" default="current_societe()" fkey="Societe(SO_Numero)" opt="odrour"></column>
+    <column name="CG_Numero"   type="INTEGER"     notnull="true" fkey="CompteGen(CG_Numero)" opt="odrour"></column>
+    <seq name="seq_tva" start="1000000"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="TypePersonne" abbrev="TP" label="Types de personnes" order="TP_Type">
+    <column name="TP_Numero"   type="INTEGER"     notnull="true" pkey="true">Clef primaire</column>
+    <column name="TP_Type"     type="VARCHAR(32)" notnull="true" const="UNIQUE">Libellé du type d'adhérent</column>
+    <seq name="seq_typepersonne" start="1000000"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="TypeTache" abbrev="TH" label="Type de tâches (anciennement appels)">
+    <column name="TH_Numero"      type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="TH_Libelle"     type="VARCHAR"     notnull="true"></column>
+    <column name="TH_Description" type="VARCHAR"     default="NULL"></column>
+    <seq name="seq_typetache" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="Appel" abbrev="AP" label="Appels" select="TO_CHAR(AP_DATE,'YYYY-MM-DD') AS AP_RDate">
+    <column name="AP_Numero"      type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="AP_Libelle"     type="VARCHAR"     notnull="true"></column>
+    <column name="TH_Numero"      type="INTEGER"     notnull="true" fkey="TypeTache(TH_Numero)" opt="odrouc"></column>
+    <column name="AP_Date"        type="DATE"        notnull="true" default="CURRENT_DATE"></column>
+    <column name="AP_Description" type="VARCHAR"     default="NULL"></column>
+    <column name="AP_Duree"       type="NUMERIC"     default="NULL"></column>
+    <column name="PE_Numero"      type="INTEGER"     notnull="true" fkey="Personne(PE_Numero)"></column>
+    <seq name="seq_appel" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+  
+
+  <table name="Societe" abbrev="SO" label="Sociétés" ordre="1">
+    <text>Ce sont les sociétés qui gèrent les départements, les classes et leurs comptas.</text>
+    <column name="SO_Numero"   type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="SO_Libelle"  type="VARCHAR(64)" notnull="true" const="UNIQUE"></column>
+    <column name="SO_Abbrev"   type="VARCHAR(3)"  notnull="true" const="UNIQUE"></column>
+    <column name="PE_Numero"   type="INTEGER"     default="NULL" fkey="Personne(PE_Numero)" opt="odrour"></column>
+    <column name="SO_Detail"   type="VARCHAR"     default="NULL"></column>
+    <column name="SO_Sequence" type="VARCHAR(32)" notnull="true"></column>
+    <column name="TS_Numero"   type="INTEGER"     default="NULL" fkey="TypeSociete(TS_Numero)"></column>
+    <seq name="seq_societe" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="TypeSociete" abbrev="TS" label="Types de société">
+    <column name="TS_Numero"   type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="TS_Libelle"  type="VARCHAR"     notnull="true"></column>
+    <seq name="seq_typesociete" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+
+  <table name="Adherence" abbrev="AH" label="Adhérences">
+    <column name="AH_Numero"       type="INTEGER" notnull="true" pkey="true"></column>
+    <column name="PD_Numero"       type="INTEGER" notnull="true" fkey="Produit(PD_Numero)" opt="odrour">Produit ouvrant à une adhérence</column>
+    <column name="AH_Libelle"      type="VARCHAR" notnull="true">Libellé de l'adherence. Ex. : Adhérent(e) FDSEA, Abonnement Conseil SACEA</column>
+    <column name="AH_Reduction"    type="NUMERIC" notnull="true" default="0">Montant de la reduction donnée par l'adhésion</column>
+<!--    <column name="AH_Quantite"  type="NUMERIC" notnull="true" default="1">???</column>-->
+    <column name="AH_Cascade"      type="BOOLEAN" notnull="true" default="false">Si l'adhésion s'applique en cascade</column>
+    <column name="TL_Numero"       type="INTEGER" fkey="TypeLien(TL_Numero)" opt="odrour">Type de lien à utiliser pour la cascade</column>
+    <column name="AH_LienDirect"   type="BOOLEAN" notnull="true" default="false">Si le lien est pris en sens direct</column>
+    <column name="AH_LienIndirect" type="BOOLEAN" notnull="true" default="false">Si le lien est pris en sens indirect</column>
+    <seq name="seq_adherence" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+  
+
+  <table name="PeriodeAdherence" abbrev="PA" label="Périodes d'adhérences">
+    <column name="PO_Numero"    type="INTEGER"     notnull="true" fkey="Periode(PO_Numero)"   opt="odrour"></column>
+    <column name="AH_Numero"    type="INTEGER"     notnull="true" fkey="Adherence(AH_Numero)" opt="odrour"></column>
+    <pkey keys="PO_Numero, AH_Numero"/>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+  
+  <table name="Adhesion" abbrev="AS" label="Adhésions de personnes">
+    <text>Cette table permet de connaitre pour une personne quelles adhésions il a eûes pendant quelles périodes. Elle est mise à jour par un trigger sur la table ligne qui regarde si le produit est sujet à adherence et dans le cas ou c'est un avoir on supprime la ligne et dans le cas ou c'est une facture on la met. Un trigger sur cette table vérifie sur qui elle se répercute en cascade.</text>
+    <column name="AS_Numero"    type="INTEGER"     notnull="true" pkey="true" default="nextval('seq_adhesion')">Clé primaire</column>
+    <column name="AS_ReductionMax" type="NUMERIC"  default="NULL">Réduction maximale pour l'adhérent</column>
+    <column name="PE_Numero"    type="INTEGER"     notnull="true" fkey="Personne(PE_Numero)"  opt="odrour"></column>
+    <column name="PO_Numero"    type="INTEGER"     notnull="true" fkey="Periode(PO_Numero)"   opt="odrour"></column>
+    <column name="AH_Numero"    type="INTEGER"     notnull="true" fkey="Adherence(AH_Numero)" opt="odrour"></column>
+    <column name="FA_Numero"    type="INTEGER"     notnull="true" fkey="Facture(FA_Numero)"   opt="odcouc"></column>
+    <column name="LF_Numero"    type="INTEGER"     notnull="true" fkey="LigneFacture(FA_Numero)" opt="odcouc"></column>
+    <column name="AS_Origine"   type="INTEGER"     notnull="true" fkey="Personne(PE_Numero)" opt="odrour">Personne à l'origine de l'adhesion</column>
+    <seq name="seq_adhesion" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+  
+  
+  <table name="Periode" abbrev="PO" label="Périodes" select="EXTRACT(YEAR FROM PO_Debut)||CASE WHEN EXTRACT(YEAR FROM PO_Debut)!=EXTRACT(YEAR FROM PO_Fin) THEN '/'||EXTRACT(YEAR FROM PO_Fin) ELSE '' END AS PO_Annee, 'Du '||PO_Debut||' au '||PO_Fin AS PO_Libelle">
+    <column name="PO_Numero"   type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="PO_Debut"    type="DATE"        notnull="true">Date de début de la période</column>
+    <column name="PO_Fin"      type="DATE"        notnull="true">Date de fin de la période</column>
+    <seq name="seq_periode" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+  
+  
+  <table name="Observation" abbrev="OB" label="Observations">
+    <column name="OB_Numero"      type="INTEGER"     notnull="true" pkey="true">Clef primaire</column>
+    <column name="PE_Numero"      type="INTEGER"     notnull="true" fkey="Personne(PE_Numero)" opt="odrour">Lien vers la personne</column>
+    <column name="OB_Observation" type="VARCHAR"     notnull="true">Observation</column>
+    <column name="OB_Niveau"      type="INTEGER"     notnull="true">Niveau (1 : observation prioritaire, 3 : observation simple)</column>
+    <seq name="seq_observation" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+  <table name="TypeJournal" abbrev="TJ" label="Types de journaux">
+    <column name="TJ_Numero"   type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="TJ_Libelle"  type="VARCHAR(32)" default="NULL"></column>
+     <seq name="seq_typejournal" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="Modele" abbrev="MO" label="Modèle de devis" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+    <column name="MO_Numero"  type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="MO_Libelle" type="VARCHAR(64)" notnull="true"></column>
+    <column name="SO_Numero"  type="INTEGER"     notnull="true" default="current_societe()" fkey="Societe(SO_Numero)" opt="odcouc"></column>
+    <seq name="seq_modele" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="LigneModele" abbrev="LM" label="Lignes de modèle" from="JOIN ###_Produit USING (PD_Numero)" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+    <column name="LM_Numero"     type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="PD_Numero"     type="INTEGER"     notnull="true" fkey="Produit(PD_Numero)" opt="odrour"></column>
+    <column name="MO_Numero"     type="INTEGER"     notnull="true" fkey="Modele(MO_Numero)"  opt="odrour"></column>
+    <column name="LM_Quantite"   type="NUMERIC"     default="1"></column>
+    <column name="LM_MontantHT"  type="NUMERIC(16,2)"></column>
+    <column name="LM_MontantTTC" type="NUMERIC(16,2)"></column>
+    <seq name="seq_lignemodele" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="Produit" abbrev="PD" distinct="true" label="Produits"  select="CASE WHEN PD_Actif THEN 'Actif' ELSE 'Inactif' END AS PD_Etat, 'P'||to_char(pd_id,'FM0999') AS pd_code" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)" order="pd_libelle">
+    <column name="PD_Numero"       type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="PD_ID"           type="SERIAL"      notnull="true" unique="true"></column>
+    <column name="PD_Libelle"      type="VARCHAR"     notnull="true"></column>
+    <column name="PD_Titre"        type="VARCHAR(64)" notnull="true"></column>
+    <column name="JO_Numero"       type="INTEGER"     notnull="true"  fkey="Journal(JO_Numero)" opt="odrour"> </column>
+    <column name="SO_Numero"       type="INTEGER"     notnull="true" default="current_societe()"  fkey="Societe(SO_Numero)" opt="odcouc"></column>
+    <column name="PD_Actif"        type="BOOLEAN"     notnull="true" default="true">Si le produit est en service ou non</column>
+    <column name="PD_SansQuantite" type="BOOLEAN"     notnull="true" default="false">Si le produit est quantifiable ou non</column>
+    <column name="PD_Reduction"    type="BOOLEAN"     notnull="true" default="false">Ce produit peut avoir une réduction Oui/Non</column>
+    <seq name="seq_produit" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+
+  <table name="Prix" abbrev="PX" label="Prix" select="pd_libelle||' / '||px_tarifht::float||'€ HT' AS px_libelle, pd_actif AND px_actif AS px_vendable" from="JOIN ###_Produit USING (PD_Numero)" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe) AND px_actif" order="pd_libelle">
+    <column name="PX_Numero"    type="INTEGER"       notnull="true" pkey="true" default="nextval('seq_prix')"></column>
+    <column name="TV_Numero"    type="INTEGER"       notnull="true" fkey="Tva(TV_Numero)" opt="odrour"></column>
+    <column name="PD_Numero"    type="INTEGER"       notnull="true" fkey="Produit(PD_Numero)" opt="odrour"></column>
+    <column name="PX_TarifHT"   type="NUMERIC(16,4)" notnull="true"></column>
+    <column name="PX_TarifTTC"  type="NUMERIC(16,4)" notnull="true"></column>
+    <column name="PX_Actif"     type="BOOLEAN"       notnull="true" default="true"></column>
+    <column name="PX_DateDebut" type="TIMESTAMP"     default="CURRENT_TIMESTAMP"></column>
+    <column name="PX_DateFin"   type="TIMESTAMP"     default="NULL"></column>
+    <seq name="seq_prix" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+		<rule sur='vue' on="DELETE" instead="true" do="UPDATE ###_prix SET PX_Actif=FALSE, PX_DateFin=CURRENT_TIMESTAMP WHERE PX_numero=OLD.PX_Numero"/>
+		<rule sur='vue' on="UPDATE" instead="true" do="INSERT INTO ###_prix (TV_Numero, PD_Numero,PX_TarifHT,PX_TarifTTC,PX_Actif,PX_DateDebut, PX_DateFin, created_at,created_by,updated_at,updated_by,lock_version) VALUES (NEW.TV_Numero,OLD.PD_Numero,NEW.PX_TarifHT,NEW.PX_TarifTTC, true,CURRENT_TIMESTAMP, NULL, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0); UPDATE ###_prix SET PX_Actif=FALSE, PX_DateFin=CURRENT_TIMESTAMP WHERE PX_numero=OLD.PX_Numero"/>
+  </table>
+
+
+  <table name="Ligne" abbrev="L" label="Lignes de Devis" from="JOIN ###_Produit USING (PD_Numero)" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+    <column name="L_Numero"      type="INTEGER"     notnull="true" pkey="true" default="nextval('seq_ligne')"></column>
+    <column name="PD_Numero"     type="INTEGER"     notnull="true" fkey="Produit(PD_Numero)"   opt="odrour"></column>
+    <column name="DE_Numero"     type="INTEGER"     notnull="true" fkey="Devis(DE_Numero)"     opt="odcouc"></column>
+    <column name="L_Quantite"    type="NUMERIC(16,4)" default="1"></column>
+    <column name="L_MontantHT"   type="NUMERIC(16,2)"></column>
+    <column name="L_MontantTTC"  type="NUMERIC(16,2)"></column>
+    <column name="PX_Numero"     type="INTEGER"     default="NULL" fkey="Prix(PX_Numero)"  opt="odrour"></column>
+    <column name="L_Notes"       type="VARCHAR"     default="NULL">Notes sur le produit</column>
+    <seq name="seq_ligne" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+  
+  <table name="Devis" abbrev="DE" label="Devis" distinct="true" select="NOT DE_Locked AS PX_Vendable, CASE WHEN DE_Acompte THEN ROUND(0.3*DE_MontantTTC,2) ELSE 0 END AS DE_MontantAcompte" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+    <column name="DE_Numero"       type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="PE_Numero"       type="INTEGER"     notnull="true" fkey="Personne(PE_Numero)" opt="odrour"></column>
+    <column name="SO_Numero"       type="INTEGER"     notnull="true" fkey="Societe(SO_Numero)" opt="odrour" default=""></column>
+    <column name="DE_Date"         type="DATE"        default="CURRENT_DATE"></column>
+    <column name="DE_Libelle"      type="VARCHAR"     default="NULL"></column>
+    <column name="DE_Reduction"    type="NUMERIC">Réduction appliqué sur le devis </column>
+    <column name="DE_MontantHT"    type="NUMERIC(16,2)">Montant Hors Taxe réduction comprise</column>
+    <column name="DE_MontantTTC"   type="NUMERIC(16,2)">Montant Toutes Taxes Comprises réduction comprise</column>
+<!--    <column name="AG_Numero"       type="INTEGER"     default="NULL" fkey="Agent(AG_Numero)">Agent en charge du devis (Suivi par)</column>-->
+    <column name="EM_Numero"       type="INTEGER"     notnull="true" fkey="Employe(EM_Numero)">Employé en charge du devis (Suivi par)</column>
+    <column name="DE_Locked"       type="BOOLEAN"     default="false">Devis verrouillé</column>
+    <column name="DE_Acompte"      type="BOOLEAN"     notnull="true" default="false">Acompte à payer</column>
+    <column name="DE_Lettre"       type="BOOLEAN"     notnull="true" default="false">Devis sous forme de lettre</column>
+    <column name="DE_Civilites"    type="VARCHAR"     default="NULL">Civilités (Ex : 'Chère Madame')</column>
+    <column name="DE_Introduction" type="VARCHAR"     default="NULL">Paragraphe d'introduction du courrier</column>
+    <seq name="seq_devis" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+  
+  <table name="LigneFacture" abbrev="LF" label="Lignes de factures" from="JOIN ###_Produit USING (PD_Numero)" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+    <column name="LF_Numero"   type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="FA_Numero"   type="INTEGER"     notnull="true" fkey="Facture(FA_Numero)" opt="odrour"></column>
+    <column name="PX_Numero"   type="INTEGER"     default="NULL"     fkey="Prix(PX_Numero)"    opt="odrour"></column>
+    <column name="PD_Numero"   type="INTEGER"     default="NULL"     fkey="Produit(PD_Numero)" opt="odrour"></column>
+    <column name="LF_Quantite" type="NUMERIC"     notnull="true" default="0"></column>
+    <column name="LF_MontantHT"  type="NUMERIC(16,2)"></column>
+    <column name="LF_MontantTTC" type="NUMERIC(16,2)"></column>
+    <column name="LF_Notes" type="VARCHAR"></column>
+    <seq name="seq_lignefacture" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+  
+  <table name="Facture" abbrev="FA" label="Factures" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+    <column name="FA_Numero"     type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="DE_Numero"     type="INTEGER"     notnull="true" fkey="Devis(DE_Numero)" opt="odrour">Devis qui a donné naissance à la facture</column>
+    <column name="PE_Numero"     type="INTEGER"     notnull="true" fkey="Personne(PE_Numero)" opt="odrour"></column>
+    <column name="AG_Numero"     type="INTEGER"     notnull="true" fkey="Agent(AG_Numero)" opt="odrour"></column>
+    <column name="FA_NumFact"    type="INTEGER"     notnull="true">Numero de facture officiel</column>
+    <column name="FA_Date"       type="DATE"        notnull="true" default="CURRENT_DATE"></column>
+    <column name="FA_Reduction"  type="NUMERIC"     notnull="true" default="0">Réduction appliqué sur le devis </column>
+    <column name="FA_MontantHT"  type="NUMERIC(16,2)"     notnull="true" default="0">Montant Hors Taxe réduction comprise</column>
+    <column name="FA_MontantTTC" type="NUMERIC(16,2)"     notnull="true" default="0">Montant Toutes Taxes Comprises réduction comprise</column>
+    <column name="FA_Accompte"   type="NUMERIC(16,2)"     default="NULL"></column>
+    <column name="FA_Annotation" type="VARCHAR(64)" default="NULL"></column>
+    <column name="FA_Libelle"    type="VARCHAR(64)" default="NULL"></column>
+<!--    <column name="RG_Numero"     type="INTEGER"     default="NULL" fkey="Reglement(RG_Numero)" opt="odsnouc"></column>-->
+    <column name="SO_Numero"     type="INTEGER"     notnull="true" default="current_societe()" fkey="Societe(SO_Numero)" opt="odcouc">Redondant societe de la facture</column>
+    <seq name="seq_facture" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+  
+
+  <table name="LigneAvoir" abbrev="LA" label="Lignes d'avoirs" from="JOIN ###_Produit USING (PD_Numero)" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+    <column name="LA_Numero"     type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="PD_Numero"     type="INTEGER"     notnull="true" fkey="Produit(PD_Numero)" opt="odrour"></column>
+    <column name="AV_Numero"     type="INTEGER"     notnull="true" fkey="Avoir(AV_Numero)" opt="odrour"></column>
+    <column name="PX_Numero"     type="INTEGER"     notnull="true" fkey="Prix(PX_Numero)" opt="odrour"></column>
+    <column name="LA_Quantite"   type="NUMERIC"     notnull="true" default="0"></column>
+    <column name="LA_MontantHT"  type="NUMERIC(16,2)"     default="NULL"></column>
+    <column name="LA_MontantTTC" type="NUMERIC(16,2)"     default="NULL"></column>
+    <seq name="seq_ligneavoir" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+  
+
+  <table name="Avoir" abbrev="AV" label="Avoirs" distinct="true" from="JOIN ###_LigneAvoir USING (AV_Numero) JOIN ###_Produit USING (PD_Numero)" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+    <column name="AV_Numero"     type="INTEGER"     notnull="true" pkey="true"></column>
+<!--    <column name="FA_Numero"   type="INTEGER" default="NULL" fkey="Facture(FA_Numero)" opt="odrour"></column>-->
+    <column name="FA_Numero"     type="INTEGER"     notnull="true" fkey="Facture(FA_Numero)" opt="odrour"></column>
+    <column name="AV_NumFact"    type="INTEGER"     notnull="true"></column>
+    <column name="AV_Date"       type="DATE"        notnull="true" default="CURRENT_DATE"></column>
+    <column name="AV_MontantHT"  type="NUMERIC(16,2)"     default="NULL"></column>
+    <column name="AV_MontantTTC" type="NUMERIC(16,2)"     default="NULL"></column>
+    <column name="AV_Reduction"  type="NUMERIC"     default="NULL"></column>
+    <seq name="seq_avoir" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="Routage" abbrev="RO" label="Routages" select="'du '||RO_DebutService||' au '||RO_FinService||' ('||RO_Numero||')' AS RO_Libelle">
+    <column name="RO_Numero"       type="INTEGER"     notnull="true" pkey="true" default="nextval('seq_routage')"></column>
+    <column name="AD_Numero"       type="INTEGER"     notnull="true" fkey="Adresse(AD_Numero)" opt="odrour"></column>
+<!--    <column name="AW_Numero"       type="INTEGER"     notnull="true" fkey="AdresseVersion(AW_Numero)" opt="odrour">Lien vers l'adresse archivée</column>-->    <column name="PE_Numero"       type="INTEGER"     notnull="true" fkey="Personne(PE_Numero)" opt="odrour"></column>
+    <column name="RO_DebutService" type="INTEGER"     notnull="true"></column>
+    <column name="RO_FinService"   type="INTEGER"     notnull="true"></column>
+    <column name="RO_Quantite"     type="INTEGER"     notnull="true"></column>
+    <column name="RO_Suspendu"     type="BOOLEAN"     notnull="true" default="false"></column>
+    <column name="RO_DernierRoute" type="INTEGER"     default="NULL"></column>
+    <column name="FA_Numero"       type="INTEGER"     default="NULL" fkey="Facture(FA_Numero)" opt="odrour"></column>
+    <seq name="seq_routage" start="1000000"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <grant priv="ALL" to="brice"/>   
+  <column name="created_at" label="Date de creation" type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by" label="Login du createur" type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at" label="Date de mise à jour" type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by" label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version" type="INTEGER" notnull="true" default="0">Numero de version</column>
+  </table>
+  
+
+  <table name="Service" abbrev="SE" label="Services" ordre="2">
+    <text>Un service est une partie d'une entreprise. Exemple : le service informatique, le service juridique...et j'en passe et des meilleurs</text>
+    <column name="SE_Numero"   type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="SE_Nom"      type="VARCHAR"     notnull="true">Nom du service</column>
+    <column name="SE_Societe"  type="INTEGER"     notnull="true" fkey="Societe(SO_Numero)" opt="odrour">Societe à laquelle appartient le service</column>
+    <column name="SE_Agent"    type="INTEGER"     default="NULL" fkey="Agent(AG_Numero)" opt="odrour">Agent responsable du service</column>
+    <seq name="seq_service" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+  
+  <table name="Employe" abbrev="EM" label="Employés" ordre="3" select="AG_Prenom||' '||AG_Nom||' (Service '||SE_Nom||')' AS EM_Libelle" from="JOIN ###_Agent ON (EM_Agent=AG_Numero) JOIN ###_Service ON (EM_Service=SE_Numero)" order="AG_Nom, AG_Prenom">
+    <text>Permet de spécifier quel agent travaille pour qui et cet <it text="emploi"/> est la reference pour les actions entreprises</text>
+    <column name="EM_Numero"   type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="DP_Numero"   type="INTEGER"     notnull="true" fkey="DroitProfil(DP_Numero)" opt="odrour">Profil de droits</column>
+    <column name="EM_Emploi"   type="VARCHAR"     notnull="true">Permet de spécifier l'intitulé de l'emploi Ex: Comptable, Standardiste....</column>
+    <column name="EM_Service"  type="INTEGER"     notnull="true" fkey="Service(SE_Numero)" opt="odrour">Service employeur</column>
+    <column name="EM_Agent"    type="INTEGER"     notnull="true" fkey="Agent(AG_Numero)" opt="odrour">Agent employé</column>
+    <column name="EM_Login"    type="VARCHAR"     notnull="true">Login de l'employé</column>
+    <column name="EM_Reglement" type="BOOLEAN"    notnull="true" default="false">Si l'employé gère l'encaissement de reglements</column>
+    <column name="EM_Acces"    type="INTEGER"     notnull="true" fkey="Acces(AC_Numero)" opt="odrour">Niveau d'accès à la compta</column>
+    <column name="EM_Password" type="VARCHAR(16)" notnull="true">Mot de passe pas enregistré (juste pour l'interface le mot de passe est supprimé par trigger avant)</column>
+    <column name="EM_Super"    type="BOOLEAN"     notnull="true" default="false">Défini si l'utilisateur peut créer des employés</column>
+    <seq name="seq_employe" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="Agent" abbrev="AG" label="Agents" select="COALESCE(AG_Prenom||' ','')||COALESCE(AG_Nom,'') AS AG_Libelle">
+    <column name="AG_Numero"      type="INTEGER"      notnull="true" pkey="true">Clef primaire</column>
+    <column name="AG_Nom"         type="VARCHAR(64)"  notnull="true">Nom de l'agent</column>
+    <column name="AG_Prenom"      type="VARCHAR(64)"  notnull="true">Prenom de l'agent</column>
+<!--    <column name="AG_Login"       type="VARCHAR(32)"  notnull="true">Login de l'agent</column>-->
+    <column name="AG_Initiales"   type="VARCHAR(8)"   notnull="true" const="UNIQUE">Initiales de l'agent</column>
+<!--    <column name="AC_Numero"      type="INTEGER"      notnull="true" fkey="Acces(AC_Numero)" opt="odrour">Niveau d'accès à la compta</column>-->
+    <column name="AG_Actif"       type="BOOLEAN"      notnull="true" default="true">Agent en service</column>
+    <column name="EQ_Numero"      type="INTEGER"      default="NULL" fkey="Equipe(EQ_Numero)" opt="odrour">Lien vers l'équipe</column>
+    <column name="AG_Role"        type="VARCHAR(128)" default="NULL">Role de l'agent</column>
+    <column name="AG_Telephone"   type="VARCHAR(16)"  default="NULL">Numéro de téléphone fixe professionnel</column>
+    <column name="AG_Mobile"      type="VARCHAR(16)"  default="NULL">Numéro de téléphone mobile</column>
+    <column name="AG_Email"       type="VARCHAR(64)"  default="NULL">Mail</column>
+    <column name="AG_Commentaire" type="VARCHAR(128)" default="NULL">Informations supplémentaires</column>
+    <seq name="seq_agent" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="Equipe" abbrev="EQ" label="Equipes">
+    <column name="EQ_Numero"   type="INTEGER"     notnull="true" pkey="true">Clef primaire</column>
+    <column name="EQ_Nom"      type="VARCHAR(64)" notnull="true">Nom de l'équipe</column>
+    <seq name="seq_equipe" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <!-- Comptabilité -->
+  <table name="Exercice" abbrev="EX" label="Exercices comptables" select="EXTRACT (YEAR FROM EX_DateDebut) AS EX_Libelle" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+    <column name="EX_Numero"        type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="SO_Numero"        type="INTEGER"     notnull="true" default="current_societe()" fkey="Societe(SO_Numero)"></column>
+    <column name="EX_DateDebut"     type="DATE"        notnull="true">Date de début de l'exercice</column>
+    <column name="EX_DateFin"       type="DATE"        notnull="true">Date de fin de l'exercice</column>
+    <column name="EX_Cloture"       type="BOOLEAN"     notnull="true" default="false"></column>
+    <column name="EX_Password"      type="VARCHAR"     notnull="true" default="md5('root')"></column>
+    <column name="EX_CompteAttente" type="INTEGER"></column>
+    <column name="EX_Actif"         type="BOOLEAN"></column>
+    <seq name="seq_exercice" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+  
+  <table name="Journal" abbrev="JO" label="Journaux comptables" select="FC_MoisEnLettre(COALESCE(JO_Mois-1,12))||' '||JO_Annee AS JO_MoisLettre, CASE WHEN JO_Contrepartie THEN 'Oui' ELSE 'Non' END AS JO_CP" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+    <column name="JO_Numero"       type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="JO_Abbrev"       type="VARCHAR(4)"  notnull="true">Abbreviation du libellé du journal</column>
+    <column name="JO_Libelle"      type="VARCHAR"     notnull="true">Libellé explicite du journal</column>
+    <column name="JO_Debit"        type="NUMERIC"     notnull="true" default="0">Total des débits</column>
+    <column name="JO_Credit"       type="NUMERIC"     notnull="true" default="0">Total des crédits</column>
+    <column name="SO_Numero"       type="INTEGER"     notnull="true" default="current_societe()" fkey="Societe(SO_Numero)" opt="odrour"></column>
+    <column name="TJ_Numero"       type="INTEGER"     default="NULL" fkey="TypeJournal(TJ_Numero)" opt="odrouc"></column>
+<!--    <column name="EX_Numero"       type="INTEGER"     default="NULL" fkey="Exercice(EX_Numero)" opt="odrour"></column>-->
+    <column name="CG_Numero"       type="INTEGER"     default="NULL" fkey="CompteGen(CG_Numero)" opt="odrour"></column>
+<!--    <column name="JO_MoisMinimum"  type="INTEGER"     default="NULL"></column>-->
+    <column name="JO_Mois"         type="INTEGER"     notnull="true" default="1">Mois de la derniere cloture</column>
+    <column name="JO_Annee"        type="INTEGER"     notnull="true" default="1900">Annee de la derniere cloture</column>
+    <column name="JO_Contrepartie" type="BOOLEAN"     notnull="true" default="false"></column>
+    <column name="JO_Provisoire"   type="BOOLEAN"     notnull="true" default="false"></column>
+    <column name="JO_Visible"      type="BOOLEAN"     notnull="true" default="true"></column>
+    <column name="JO_Sequence"     type="VARCHAR"     default="NULL">Sequence des pieces</column>
+    <seq name="seq_journal" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="Piece" abbrev="PI" label="Pièces comptables" select="CASE WHEN PI_Debit=PI_Credit THEN 'OUI' ELSE 'NON' END AS PI_Equilibre" from="JOIN ###_Exercice USING (EX_Numero)" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+    <column name="PI_Numero"   type="INTEGER" notnull="true" pkey="true"></column>
+    <column name="JO_Numero"   type="INTEGER" notnull="true" fkey="Journal(JO_Numero) " opt="odrour"></column>
+    <column name="PI_NumPiece" type="INTEGER" notnull="true">Numero de la piece par rapport au journal</column>
+    <column name="EX_Numero"   type="INTEGER" notnull="true" fkey="Exercice(EX_Numero)" opt="odrour"></column>
+    <column name="PI_Libelle"  type="VARCHAR" notnull="true"></column>
+    <column name="PI_Debit"    type="NUMERIC" notnull="true" default="0"></column>
+    <column name="PI_Credit"   type="NUMERIC" notnull="true" default="0"></column>
+    <column name="PI_Date"     type="DATE"    notnull="true" default="CURRENT_DATE"></column>
+    <column name="PI_NumSeq"   type="INTEGER" default="NULL"></column>
+    <seq name="seq_piece" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+  
+  <table name="Ecriture" abbrev="EC" label="Ecritures comptables" select="CASE WHEN EC_Aux THEN true ELSE cg.CG_Lettrable END AS EC_Lettrable, CASE WHEN EC_Aux THEN true ELSE cg.CG_Pointable END AS EC_Pointable" from="JOIN ###_CompteGen AS cg USING (CG_Numero)" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+    <column name="EC_Numero"      type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="EC_NumEcriture" type="INTEGER"     notnull="true">Numero au sein de la piece</column>
+    <column name="PI_Numero"      type="INTEGER"     notnull="true"     fkey="Piece(PI_Numero)"     opt="odrour"></column>
+    <column name="EX_Numero"      type="INTEGER"     notnull="true"     fkey="Exercice(EX_Numero)"  opt="odrour"></column>
+    <column name="CG_Numero"      type="INTEGER"     default="NULL" fkey="CompteGen(CG_Numero)" opt="odrour"></column>
+    <column name="CA_Numero"      type="INTEGER"     default="NULL" fkey="CompteAux(CA_Numero)" opt="odrour"></column>
+    <column name="EC_Aux"         type="BOOLEAN"     notnull="true" const="CHECK(CG_Numero IS NOT NULL AND NOT EC_Aux OR CA_Numero IS NOT NULL AND EC_Aux)"></column>
+    <column name="PF_Numero"      type="INTEGER"     notnull="true"     fkey="Prefixe(PF_Numero)"   opt="odrour"></column>
+    <column name="EC_Compte"      type="VARCHAR(16)" notnull="true">Numéro de compte en toute lettre (Se remplit automatiquement)</column>
+    <column name="EC_Libelle"     type="VARCHAR"     notnull="true"></column>
+    <column name="EC_Debit"       type="NUMERIC"     notnull="true" default="0"></column>
+    <column name="EC_Credit"      type="NUMERIC"     notnull="true" default="0"></column>
+    <column name="PT_Numero"      type="INTEGER"     default="NULL" fkey="Pointage(PT_Numero)"  opt="odrour"></column>
+    <column name="AV_Numero"      type="INTEGER"     default="NULL" fkey="Avoir(AV_Numero)" opt="odrour"></column>
+    <column name="LT_Numero"      type="INTEGER"     default="NULL" fkey="Lettrage(LT_Numero)" opt="odrour"></column>
+    <column name="DB_Numero"      type="INTEGER"     default="NULL" ></column>
+    <column name="RG_Numero"      type="INTEGER"     default="NULL" fkey="Reglement(RG_Numero)" opt="odrour"></column>
+    <column name="FA_Numero"      type="INTEGER"     default="NULL" fkey="Facture(FA_Numero)" opt="odrour"></column>
+    <seq name="seq_ecriture" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+  
+
+  <table name="CompteGen" abbrev="CG" label="Comptes généraux" select="CG_NumCompte||' '||CG_Libelle AS CG_Nom, COALESCE(SUM(ec_debit),0) AS cg_vdebit, COALESCE(SUM(ec_credit),0) AS cg_vcredit" from="LEFT JOIN ###_Ecriture USING(cg_numero), ###_Acces AS a, ###_Acces AS b, ###_Employe" where="###_CompteGen.AC_Numero=a.AC_Numero AND EM_Login=CURRENT_USER AND EM_Acces=b.AC_Numero AND a.AC_Niveau>=b.AC_Niveau AND SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe) GROUP BY ">
+    <column name="CG_Numero"     type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="CG_NumCompte"  type="INTEGER"     notnull="true">Numero du compte</column>
+    <column name="CG_Libelle"    type="VARCHAR"     notnull="true"></column>
+    <column name="AC_Numero"     type="INTEGER"     notnull="true" fkey="Acces(AC_Numero)" opt="odrour"></column>
+    <column name="CG_AccepteAux" type="BOOLEAN"     notnull="true" default="true">Si on peut rattacher des comptes auxilaires</column>
+    <column name="CG_Utilisable" type="BOOLEAN"     notnull="true" default="true">Si on peut l'utiliser</column>
+    <column name="CG_Lettrable"  type="BOOLEAN"     notnull="true" default="true">Si on peut le lettrer</column>
+    <column name="CG_Pointable"  type="BOOLEAN"     notnull="true" default="false">Si on peut le pointer</column>
+    <column name="SO_Numero"     type="INTEGER"     notnull="true" default="current_societe()" fkey="Societe(SO_Numero)" opt="odrour"></column>
+    <column name="CG_Groupable"  type="BOOLEAN"     default="NULL"></column>
+    <column name="CG_Debit"      type="BOOLEAN"     default="NULL"></column>
+    <seq name="seq_comptegen" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="CompteProduit" abbrev="CI" label="Comptes liés aux produits" from="JOIN ###_CompteGen AS CG USING (CG_Numero) JOIN ###_Produit AS PD USING (PD_Numero)" where="CG.SO_Numero=PD.SO_Numero AND PD.SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+    <column name="CI_Numero"   type="INTEGER" notnull="true" pkey="true"></column>
+    <column name="PD_Numero"   type="INTEGER" notnull="true" fkey="Produit(PD_Numero)" opt="odrour"></column>
+    <column name="CG_Numero"   type="INTEGER" notnull="true" fkey="CompteGen(CG_Numero)" opt="odrour"></column>
+    <column name="CI_Actif"    type="BOOLEAN" default="true"></column>
+    <seq name="seq_compteproduit" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="CompteAux" abbrev="CA" label="Comptes auxiliaires" select="CA_Numero||' '||CA_Libelle AS CA_Nom, COALESCE(SUM(ec_debit),0) AS ca_vdebit, COALESCE(SUM(ec_credit),0) AS ca_vcredit" from="JOIN ###_CompteGen USING (CG_Numero) LEFT OUTER JOIN ###_Ecriture USING(ca_numero), ###_Acces AS a, ###_Acces AS b, ###_Employe" where="###_CompteAux.AC_Numero=a.AC_Numero AND EM_Login=CURRENT_USER AND EM_Acces=b.AC_Numero AND a.AC_Niveau>b.AC_Niveau AND SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe) GROUP BY ">
+    <column name="CA_Numero"    type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="CG_Numero"    type="INTEGER"     notnull="true" fkey="CompteGen(CG_Numero)" opt="odrour"></column>
+    <column name="CA_NumCompte" type="VARCHAR"     notnull="true">Numero du compte alpha-num</column>
+    <column name="CA_Libelle"   type="VARCHAR"     notnull="true"></column>
+    <column name="AC_Numero"    type="INTEGER"     notnull="true" fkey="Acces(AC_Numero)" opt="odrour"></column>
+    <column name="CA_Debit"     type="BOOLEAN"     default="NULL"></column>
+    <seq name="seq_compteaux" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+  <table name="Acces" abbrev="AC" label="Niveaux d'accès" select="AC_Libelle||' ('||AC_Niveau||')' AS AC_Nom">
+    <text>Les niveaux d'accès sont spécifieés sous forme ordonnée</text>
+    <column name="AC_Numero"   type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="AC_Libelle"  type="VARCHAR(64)" notnull="true">Libellé du niveau acces</column>
+    <column name="AC_Niveau"   type="INTEGER"     notnull="true">Valeur du niveau d'accès</column>
+<!--    <column name="AG_Numero"   type="INTEGER"     default="NULL" fkey="Agent(AG_Numero)"></column>-->
+    <seq name="seq_acces" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+  
+  <table name="Pointage" abbrev="PT" label="Pointages" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+    <column name="PT_Numero"   type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="PT_Date"     type="DATE"        notnull="true" default="CURRENT_DATE"></column>
+    <column name="PT_Releve"   type="VARCHAR"     notnull="true">Identifiant unique du relevé de banque : son numéro</column>
+    <column name="PT_Debit"    type="NUMERIC"     notnull="true" default="0" >Débit affiché sur le relevé de banque</column>
+    <column name="PT_Credit"   type="NUMERIC"     notnull="true" default="0">Crédit affiché sur le relevé de banque</column>
+    <column name="SO_Numero"   type="INTEGER"     notnull="true" default="current_societe()" opt="odrour">Seul lien permettant d'identifier la societé</column>
+    <seq name="seq_pointage" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+  <table name="Lettrage" abbrev="LT" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+    <column name="LT_Numero"   type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="LT_Lettre"   type="VARCHAR(10)" default="NULL"></column>
+    <column name="SO_Numero"   type="INTEGER"     notnull="true" default="current_societe()" opt="odrour">Seul lien permettant d'identifier la societé</column>
+    <seq name="seq_lettrage" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+  
+  <table name="Prefixe" abbrev="PF" label="Préfixes d'écriture comptable">
+    <column name="PF_Numero"   type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="PF_Nom"      type="VARCHAR(8)"  notnull="true"></column>
+    <seq name="seq_prefixe" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+<!--
+  <table name="DonneesBancaires" abbrev="DB" label="Données des paiements perçus" distinct="true" from="LEFT OUTER JOIN Ecriture USING (DB_Numero) LEFT OUTER JOIN Exercice USING (EX_Numero)" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+    <column name="DB_Numero"          type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="PE_Numero"          type="INTEGER"     notnull="true" fkey="Personne(PE_Numero)" opt="odrour"></column>
+    <column name="DB_LibelleBanque"   type="VARCHAR(32)" default="NULL"></column>
+    <column name="DB_NumeroCompte"    type="VARCHAR(32)" default="NULL"></column>
+    <column name="DB_ModeReglement"   type="VARCHAR(10)" default="NULL"></column>
+    <column name="DB_Reference"       type="VARCHAR(32)" default="NULL"></column>
+    <column name="DB_Bordereaux"      type="VARCHAR(32)" default="NULL"></column>
+    <seq name="seq_donneesbancaires" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+-->
+
+  <table name="FactureReglement" abbrev="FR" label="Liens entre factures et règlements" select="CASE WHEN fr_partiel::boolean THEN 'Partiel' ELSE 'Entier' END AS fr_type">
+    <text>Cette table permet de faire le lien entre les factures et les règlements</text>
+    <column name="FR_Numero"      type="INTEGER"     notnull="true" pkey="true" default="nextval('seq_facturereglement')"></column>
+    <column name="RG_Numero"      type="INTEGER"     notnull="true" fkey="Reglement(RG_Numero)" opt="odcouc"></column>
+    <column name="FA_Numero"      type="INTEGER"     notnull="true" fkey="Facture(FA_Numero)" opt="odcouc"></column>
+<!--    <column name="SO_Numero"      type="INTEGER"     notnull="true" default="current_societe()" fkey="Societe(SO_Numero)" opt="odrour"></column>-->
+    <column name="FR_Acompte"     type="BOOLEAN"     notnull="true" default="false">Si c'est un règlement pour acompte</column>
+    <column name="FR_Partiel"     type="BOOLEAN"     notnull="true" default="false">Si c'est un règlement partiel</column>
+    <column name="FR_Montant"     type="NUMERIC"     default="NULL"></column>
+    <seq name="seq_facturereglement" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="ModeReglement" abbrev="MR" label="Modes de règlement" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+    <text>Cette table permet d'enregistrer tous les modes de reglèment sous forme de lien vers un compte général.</text>
+    <column name="MR_Numero"      type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="MR_Libelle"     type="VARCHAR(64)" notnull="true">Exemple : 'Chèque à encaisser au Crédit Agricole', 'Espèces',... </column>
+    <column name="MR_Compte"      type="VARCHAR(64)" notnull="true">Numéro de compte bancaire</column>
+    <column name="CG_Numero"      type="INTEGER"     notnull="true" fkey="CompteGen(CG_Numero)" opt="odrour"></column>
+    <column name="SO_Numero"      type="INTEGER"     notnull="true" default="current_societe()" fkey="Societe(SO_Numero)" opt="odrour"></column>
+    <column name="MR_Cheque"      type="BOOLEAN"     notnull="true" default="false">Si ce mode de règlement est par chèque</column>
+    <column name="MR_Actif"       type="BOOLEAN"     notnull="true" default="true">Si ce mode de règlement est en activité</column>
+    <column name="MR_Description" type="VARCHAR"     default="NULL"></column>
+    <seq name="seq_modereglement" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="ListeReglement" abbrev="LR" label="Liste de réglements" where="###_ListeReglement.SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+    <text>Cette table permet d'enregistrer les remises de chèques</text>
+    <column name="LR_Numero"        type="INTEGER"     notnull="true" pkey="true" default="nextval('seq_listereglement')"></column>
+    <column name="LR_Indice"        type="INTEGER"     default="1">Copie de LR_Numero</column>
+    <column name="LR_Commentaire"   type="TEXT"        >Commentaire</column>
+    <column name="EM_Numero"        type="INTEGER"     notnull="true" fkey="Employe(EM_Numero)" opt="odrour">Agent créant la liste de réglements</column>
+    <column name="LR_Montant"       type="NUMERIC"     notnull="true" default="0"></column>
+    <column name="LR_Date"          type="DATE"        notnull="true"></column>
+    <column name="MR_Numero"        type="INTEGER"     notnull="true" fkey="ModeReglement(MR_Numero)" opt="odrour"></column>
+    <column name="SO_Numero"        type="INTEGER"     notnull="true" default="current_societe()" fkey="Societe(SO_Numero)" opt="odrour"></column>
+    <seq name="seq_listereglement" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+
+  <table name="Reglement" abbrev="RG" label="Réglements" select="CASE WHEN RG_EnCompta::boolean THEN 'Validé' ELSE 'En cours' END AS RG_Etat, MR_Libelle AS RG_Mode, RG_Numero||' - '||RG_Montant||' Euros du '||RG_Date AS RG_Libelle" from="JOIN ###_ModeReglement AS memere USING (MR_Numero)" where="###_Reglement.SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+    <text>Cette table permet d'enregistrer les banques qu'utilise une société et les comptes rattachés pour les chèques et les virements. Il est aussi possible de définir une banque 'Caisse' qui aurait pour comptes le '5310000'.</text>
+    <column name="RG_Numero"        type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="PE_Numero"        type="INTEGER"     notnull="true" fkey="Personne(PE_Numero)" opt="odrour">Personne effectuant le réglement</column>
+    <column name="RG_Montant"       type="NUMERIC"     notnull="true"></column>
+    <column name="RG_Date"          type="DATE"        notnull="true"></column>
+    <column name="EM_Numero"        type="INTEGER"     notnull="true" fkey="Employe(EM_Numero)" opt="odrour"></column>
+    <column name="LR_Numero"        type="INTEGER"     fkey="ListeReglement(LR_Numero)" opt="odsnouc"></column>
+    <column name="MR_Numero"        type="INTEGER"     notnull="true" fkey="ModeReglement(MR_Numero)" opt="odrour"></column>
+    <column name="SO_Numero"        type="INTEGER"     notnull="true" default="current_societe()" fkey="Societe(SO_Numero)" opt="odrour"></column>
+    <column name="RG_EnCompta"      type="BOOLEAN"     notnull="true" default="false"></column>
+    <column name="RG_LibelleBanque" type="VARCHAR(32)" default="NULL"></column>
+    <column name="RG_NumeroCompte"  type="VARCHAR(32)" default="NULL"></column>
+    <column name="RG_Reference"     type="VARCHAR(32)" default="NULL"></column>
+<!--    <column name="FA_Numero"        type="INTEGER"     default="NULL" fkey="Facture(FA_Numero)" opt="odrour">Permet de spécifier la facture si c'est une règlement simple</column>-->
+    <seq name="seq_reglement" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+
+  <table name="ModeRepartition" abbrev="MP" label="Modes de répartition" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+    <text>Cette table permet d'enregistrer tous les modes de reglèment sous forme de lien vers un compte général.</text>
+    <column name="MP_Numero"      type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="MP_Libelle"     type="VARCHAR(64)" notnull="true">Exemple : 'au SACEA', 'à l'Avenir Aquitain',... </column>
+    <column name="CG_Numero"      type="INTEGER"     notnull="true" fkey="CompteGen(CG_Numero)" opt="odrour"></column>
+    <column name="SO_Numero"      type="INTEGER"     notnull="true" default="current_societe()" fkey="Societe(SO_Numero)" opt="odrour"></column>
+    <column name="MP_Actif"       type="BOOLEAN"     notnull="true" default="true">Si ce mode de règlement est en activité</column>
+    <column name="MP_Societe"     type="INTEGER"     default="NULL" fkey="Societe(SO_Numero)" opt="odrour">Société visée éventuelle mais permet de faire les écritures dans la compta distante si c'est le même système</column>
+    <column name="MP_Description" type="VARCHAR"     default="NULL"></column>
+    <seq name="seq_moderepartition" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="Repartition" abbrev="RP" label="Répartitions" from="JOIN ###_Reglement USING (RG_Numero)" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+    <text>Cette table permet de décrire tous les reversements effectués sur un règlement</text>
+    <column name="RP_Numero"        type="INTEGER"     notnull="true" pkey="true" default="nextval('seq_repartition')"></column>
+    <column name="RG_Numero"        type="INTEGER"     notnull="true" fkey="Reglement(RG_Numero)" opt="odcouc"></column>
+    <column name="MP_Numero"        type="INTEGER"     notnull="true" fkey="ModeRepartition(MP_Numero)" opt="odrour">Lien vers le mode de répartition, c'est à dire vers le compte d'attente d'une autre societe</column>
+    <column name="RP_Montant"       type="NUMERIC"     notnull="true"></column>
+    <seq name="seq_repartition" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+
+  <table name="Impression" abbrev="IM" label="Modèles d'impression" where="IM_Societe IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+    <column name="IM_Numero"   type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="IM_Libelle"  type="VARCHAR(64)" notnull="true">Libellé du modèle</column>
+    <column name="IM_Nom"      type="VARCHAR(32)" notnull="true">Nom du préfixe du fichier ou nom logique</column>
+    <column name="IM_Societe"  type="INTEGER"     notnull="true" default="current_societe()" fkey="Societe(SO_Numero)" opt="odrour"></column>
+    <column name="IM_Modele"   type="VARCHAR"     notnull="true">Contenu du modèle en latex</column>
+    <column name="IM_Defaut"   type="BOOLEAN"     notnull="true">Si c'est un modèle par défaut</column>
+    <column name="IM_KeyTable" type="VARCHAR(32)" notnull="true">Nom de la table sur laquelle se base le modele</column>
+    <column name="IM_KeyCle"   type="VARCHAR(32)" notnull="true">Nom du champs contenant la clé utilisée dans le modèle (<it text="%KEY%"/>)</column>
+    <column name="IM_KeyDate"  type="VARCHAR(32)" default="NULL">Nom contenant le champs date qui permet d'imprimer plusieurs document par date</column>
+    <column name="IM_Fonction" type="VARCHAR(64)" notnull="true" default="'no_name'">Nom de la fonction générée</column>
+    <seq name="seq_impression" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="ImpressionLot" abbrev="IL" label="Lots d'impression">
+    <column name="IL_Numero"   type="SERIAL"      notnull="true" pkey="true"></column>
+    <column name="IL_Nom"      type="VARCHAR(32)" notnull="true">Nom du préfixe du fichier ou nom logique</column>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="ImpressionGroupe" abbrev="IG" label="Groupes de documents pour l'impression">
+    <column name="IG_Numero"   type="SERIAL"      notnull="true" pkey="true"></column>
+    <column name="IL_Numero"   type="INTEGER"     notnull="true" fkey="ImpressionLot(IL_Numero)" opt="odrouc"></column>
+    <column name="IG_Date"     type="VARCHAR(32)" notnull="true"></column>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+  <table name="ImpressionDocument" abbrev="ID" label="Documents pour l'impression">
+    <column name="ID_Numero"   type="SERIAL"      notnull="true" pkey="true"></column>
+    <column name="IG_Numero"   type="INTEGER"     notnull="true" fkey="ImpressionGroupe(IG_Numero)" opt="odrouc"></column>
+    <column name="ID_Cle"      type="VARCHAR(32)" notnull="true"></column>
+    <column name="ID_Modele"   type="VARCHAR(32)" notnull="true"></column>
+    <column name="ID_Filename" type="VARCHAR(512)"></column>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="Cotisation" abbrev="CS" label="Cotisations">
+    <column name="CS_Numero"   type="SERIAL"      notnull="true" pkey="true"></column>
+    <column name="PE_Numero"   type="INTEGER"     notnull="true" fkey="Personne(PE_Numero)" opt="odrouc"></column>
+    <column name="IG_Numero"   type="INTEGER"     fkey="ImpressionGroupe(IG_Numero)" opt="odrouc">Impressions liées à la cotisation</column>
+    <column name="CS_Standard" type="BOOLEAN"     notnull="true" default="false">Si c'est une cotisation standard à traiter Sinon c'est une cotisation annexe qui a déjà été traitée par le biais d'une cotisation standard</column>
+    <column name="CS_Annee"    type="INTEGER"     notnull="true"></column>
+    <column name="CS_Detail"   type="TEXT"        notnull="true" default="'{saved:false}'">Détail de la cotisation</column>
+    <column name="CS_Duo"      type="BOOLEAN"     notnull="true" default="false">Si la cotisation est destinée à un couple/duo</column>
+    <column name="CS_Done"     type="BOOLEAN"     notnull="true" default="false">Si la cotisation a ete traitee</column>
+    <column name="CS_Valid"    type="BOOLEAN"     notnull="true" default="false">Si la cotisation etait valide</column>
+    <column name="CS_Report"   type="TEXT"        >Rapport sur le traitement de la cotisation</column>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+
+  <table name="GroupeTable" abbrev="GT" label="Groupe de tables" ordre="200">
+    <column name="GT_Numero"   type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="GT_Libelle"  type="VARCHAR(64)" notnull="true">Libellé du groupe</column>
+    <column name="GT_Tables"   type="VARCHAR"     notnull="true">Nom des tables/vues séparés par des virgules</column>
+    <seq name="seq_groupetable" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <trigger execute="AFTER INSERT OR UPDATE OR DELETE" foreach="STATEMENT" function="trigger_affecte_droits"/>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="Droit" abbrev="DR" label="Droits par profils" select="CASE WHEN DR_Select THEN 'Lecture' ELSE '' END || CASE WHEN DR_Insert AND DR_Select THEN ', Ajout' WHEN DR_Insert THEN 'Ajout' ELSE '' END || CASE WHEN DR_Update AND (DR_Select OR DR_Insert) THEN ', Modification' WHEN DR_Update THEN 'Modification' ELSE '' END || CASE WHEN DR_Delete AND (DR_Insert OR DR_Update OR DR_Delete) THEN ', Suppression' WHEN DR_Delete THEN 'Suppression' ELSE '' END AS DR_Droits" ordre="100">
+    <column name="DR_Numero"   type="INTEGER"     notnull="true" pkey="true"></column>
+<!--    <column name="EM_Numero"   type="INTEGER"     notnull="true" fkey="Employe(EM_Numero)" opt="odcouc"></column>-->
+    <column name="DP_Numero"   type="INTEGER"     notnull="true" fkey="DroitProfil(DP_Numero)" opt="odcouc"></column>   
+    <column name="GT_Numero"   type="INTEGER"     notnull="true" fkey="GroupeTable(GT_Numero)" opt="odcouc">Groupe de table</column>
+    <column name="DR_Select"   type="BOOLEAN"     notnull="true" default="false"></column>
+    <column name="DR_Insert"   type="BOOLEAN"     notnull="true" default="false"></column>
+    <column name="DR_Update"   type="BOOLEAN"     notnull="true" default="false"></column>
+    <column name="DR_Delete"   type="BOOLEAN"     notnull="true" default="false"></column>
+    <seq name="seq_droit" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="DroitProfil" abbrev="DP" label="Profils de droits">
+    <column name="DP_Numero"   type="INTEGER"     notnull="true" pkey="true" default="nextval('seq_droitprofil')"></column>
+    <column name="DP_Libelle"  type="VARCHAR(64)" notnull="true" const="UNIQUE"></column>
+    <column name="DP_Notes"    type="VARCHAR"     default="NULL"></column>    
+    <seq name="seq_droitprofil" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="Activite" abbrev="ZA" label="Activités">
+    <column name="ZA_Numero"     type="INTEGER"      notnull="true" pkey="true" default="nextval('seq_activite')"></column>
+<!--    <column name="ZA_DateDebut" type="TIMESTAMP"   default="NULL"/>-->
+<!--    <column name="ZA_DateFin"   type="TIMESTAMP"   default="NULL"/>-->
+    <column name="ZA_HeureDebut" type="TIME"         default="NULL"/>
+    <column name="ZA_HeureFin"   type="TIME"         default="NULL"/>
+    <column name="ZA_Date"       type="DATE"         notnull="true"/>
+    <column name="ZA_Duree"      type="INTEGER"      notnull="true" default="0"/>
+    <column name="EM_Numero"     type="INTEGER"      notnull="true" default="current_employe()" fkey="Employe(EM_Numero)" opt="odrour">Qui a fait?</column>
+    <column name="ZT_Numero"     type="INTEGER"      notnull="true" fkey="Tache(ZT_Numero)" opt="odcouc">Quelle tâche?</column>
+    <column name="ZS_Numero"     type="INTEGER"      notnull="true" fkey="Sujet(ZS_Numero)" opt="odcouc">Quel sujet?</column>
+    <column name="ZL_Numero"     type="INTEGER"      notnull="true" fkey="Lieu(ZL_Numero)" opt="odcouc">Où?</column>
+    <column name="ZA_Pour"       type="VARCHAR(256)" default="NULL">Pourky en texte</column>
+    <column name="ZA_Qui"        type="INTEGER"      notnull="true">Pour Qui? 0 - Facture, 1 - Devis, 2 - Personne, 3 - Groupe</column>
+    <column name="ZA_Champ"      type="VARCHAR"      notnull="true"/>
+    <column name="FA_Numero"     type="INTEGER"      default="NULL" fkey="Facture(FA_Numero)" opt="odcouc">Facture?</column>
+    <column name="DE_Numero"     type="INTEGER"      default="NULL" fkey="Devis(DE_Numero)" opt="odcouc">Devis?</column>
+    <column name="PE_Numero"     type="INTEGER"      default="NULL" fkey="Personne(PE_Numero)" opt="odcouc">Personne?</column>
+    <column name="ZG_Numero"     type="INTEGER"      default="NULL" fkey="Groupe(ZG_Numero)" opt="odcouc">Groupe?</column>
+    <seq name="seq_activite" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="Tache" abbrev="ZT" label="Tâches">
+    <column name="ZT_Numero"    type="INTEGER"       notnull="true" pkey="true" default="nextval('seq_tache')"></column>
+    <column name="ZT_Libelle"   type="VARCHAR(128)"  notnull="true" const="UNIQUE"/>
+    <column name="ZT_Phrase"    type="VARCHAR(128)"  notnull="true" const="UNIQUE"/>
+    <column name="ZT_Notes"     type="VARCHAR(1024)" default="NULL"/>
+    <seq name="seq_tache" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="TypeSujet" abbrev="ZU" label="Catégories de sujets">
+    <column name="ZU_Numero"    type="INTEGER"       notnull="true" pkey="true" default="nextval('seq_typesujet')"></column>
+    <column name="ZU_Libelle"   type="VARCHAR(128)"  notnull="true" const="UNIQUE"/>
+    <column name="ZU_Notes"     type="VARCHAR(1024)" default="NULL"/>
+    <seq name="seq_typesujet" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="Sujet" abbrev="ZS" label="Sujets">
+    <column name="ZS_Numero"    type="INTEGER"       notnull="true" pkey="true" default="nextval('seq_sujet')"></column>
+    <column name="ZS_Libelle"   type="VARCHAR(128)"  notnull="true" const="UNIQUE"/>
+    <column name="ZU_Numero"    type="INTEGER"       notnull="true" fkey="TypeSujet(ZU_Numero)" opt="odcouc">Quel type de sujet?</column>
+    <column name="ZS_Notes"     type="VARCHAR(1024)" default="NULL"/>
+    <seq name="seq_sujet" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+
+  <table name="Lieu" abbrev="ZL" label="Lieux">
+    <column name="ZL_Numero"    type="INTEGER"       notnull="true" pkey="true" default="nextval('seq_lieu')"></column>
+    <column name="ZL_Libelle"   type="VARCHAR(128)"  notnull="true" const="UNIQUE"/>
+    <column name="ZL_Notes"     type="VARCHAR(1024)" default="NULL"/>
+    <seq name="seq_lieu" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="Groupe" abbrev="ZG" label="Groupes de personnes">
+    <column name="ZG_Numero"    type="INTEGER"       notnull="true" pkey="true" default="nextval('seq_groupe')"></column>
+    <column name="ZG_Libelle"   type="VARCHAR(128)"  notnull="true" const="UNIQUE"/>
+    <column name="ZG_Notes"     type="VARCHAR(1024)" default="NULL"/>
+    <seq name="seq_groupe" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="NonAdherent" abbrev="NA" label="Appels non adhérents">
+    <column name="NA_Numero"    type="INTEGER"       notnull="true" pkey="true" default="nextval('seq_nonadherent')"></column>
+    <column name="PE_Numero"    type="INTEGER"/>
+    <column name="NA_Titre"     type="VARCHAR(8)"/>
+    <column name="NA_Nom"       type="VARCHAR(32)"/>
+    <column name="NA_Prenom"    type="VARCHAR(32)"/>
+    <column name="NA_Adresse1"  type="VARCHAR(38)"/>
+    <column name="NA_Adresse2"  type="VARCHAR(38)"/>
+    <column name="NA_CP"        type="VARCHAR(5)"/>
+    <column name="NA_Ville"     type="VARCHAR(32)"/>
+    <column name="NA_Tel"       type="VARCHAR(128)"/>
+    <column name="NA_Date"      type="DATE"/>
+    <column name="NA_NA"        type="BOOLEAN"/>
+    <column name="AG_Numero"    type="INTEGER"/>
+    <column name="NA_Raison"    type="VARCHAR(256)"/>
+    <seq name="seq_nonadherent" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="Sequence" abbrev="SQ" label="Séquences">
+    <column name="SQ_Numero"    type="SERIAL"       notnull="true" pkey="true"></column>
+    <column name="SQ_Nom"       type="VARCHAR(64)"  notnull="true" const="UNIQUE"/>
+<!--    <column name="SQ_Format"    type="VARCHAR(64)"  notnull="true" default="'FM999999999999999'"/>-->
+    <column name="SQ_Last"      type="INTEGER"      notnull="true" default="1"/>
+    <column name="SQ_Nombre"    type="INTEGER"      notnull="true" default="50"/>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+  <table name="SequenceCache" abbrev="SC" label="Cache des séquences">
+    <column name="SC_Numero"    type="SERIAL"       notnull="true" pkey="true"></column>
+    <column name="SQ_Numero"    type="INTEGER"      notnull="true" fkey="Sequence(SQ_Numero)" opt="odcouc"></column>
+    <column name="SC_Valeur"    type="INTEGER"      notnull="true"/>
+    <column name="SC_Locked"    type="BOOLEAN"      notnull="true" default="false"/>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+
+</analysis>
