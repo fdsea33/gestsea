@@ -22,7 +22,7 @@ const SUPPRESSION = 4;
 const NomTabGlobalCompo = "TAB_GLOBAL_COMPO";
 const NOM_CONTENEUR_ONGLETS = "Tous_les_onglets";
 
-const MCD_PREFIX="gestseax-";
+const MCD_PREFIX="gestsea-";
 
 const NBONGLET = 10;
 

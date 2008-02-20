@@ -4,7 +4,7 @@
 <?xml-stylesheet href="chrome://gestsea/skin/icons.css" type="text/css"?>
 
 <window	id="gestsea-generator"	title="Générateur de 'GestSEA X'" orient="vertical" sizemode="normal" xmlns:html="http://www.w3.org/1999/xhtml" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <script src="chrome://gestsea/content/generator/gestseax-mcd.js"/>
+  <script src="chrome://gestsea/content/generator/gestsea-mcd.js"/>
   <script src="chrome://gestsea/content/generator/pgsql.js"/>
   <script src="chrome://gestsea/content/generator/pointer.js"/>
   <script src="chrome://gestsea/content/generator/generator_sql.js"/>
