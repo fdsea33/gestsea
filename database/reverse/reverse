@@ -7,5 +7,5 @@ date=`date +%Y%m%d_%H%M`
 database=$1
 file=${database}_${date}
 psql $database -q -f sql2xml.sql > $file.xml
-xsltproc -o $file.html ../stylesheets/analysis-html.xsl $file.xml
+xsltproc -o $file.html ../scripts/stylesheets/analysis-html.xsl $file.xml
 rm -f *~

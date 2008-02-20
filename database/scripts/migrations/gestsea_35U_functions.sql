@@ -1216,40 +1216,58 @@ CREATE TRIGGER trigger_routage_validation
 CREATE OR REPLACE FUNCTION TG_Sequence_validation() RETURNS trigger AS
 $$
 BEGIN
-  NEW.SQ_nom := LOWER(NEW.SQ_Nom);
+  NEW.SQ_nom := LOWER(REPLACE(NEW.SQ_Nom,' ',''));
+  IF NOT NEW.SQ_nom ~ '^[a-z][a-z0-9]*$'
+    RAISE EXCEPTION 'Le nom d''une séquence ne doit commencer par une lettre et ne peut contenir que des caractères simples [a-z] et [0-9].'
+  END IF;
+  IF NEW.SQ_Clear_Cache THEN
+    DELETE FROM SequenceCache WHERE SQ_Numero=NEW.SQ_Numero;
+  END IF;
+  SELECT count(*) FROM SequenceCache WHERE SQ_Numero=NEW.SQ_Numero INTO total;
+  IF total<NEW.SQ_Nombre THEN
+    lasti := NEW.SQ_Last+(NEW.SQ_Nombre-total)
+    FOR i IN NEW.SQ_Last+1..lasti LOOP
+      INSERT INTO SequenceCache(sq_numero, sc_valeur) VALUES (NEW.SQ_Numero, i);
+    END LOOP;
+    NEW.SQ_Last := lasti;
+  END IF;
+  RETURN NEW;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
 CREATE TRIGGER trigger_Sequence_validation
-  BEFORE INSERT OR UPDATE OR DELETE ON table_Sequence 
+  BEFORE INSERT OR UPDATE ON table_Sequence 
   FOR EACH ROW EXECUTE PROCEDURE TG_Sequence_validation();
 
 --===========================================================================--
 -- DROP TRIGGER trigger_Sequence_treatments ON table_Sequence;
 --DROP FUNCTION TG_Sequence_treatments();
-
+/*
 CREATE OR REPLACE FUNCTION TG_Sequence_treatments() RETURNS trigger AS
 $$
 DECLARE
   total INTEGER;
+  lasti INTEGER;
   i INTEGER;
 BEGIN
   IF NOT NEW.SQ_Clear_Cache THEN
     SELECT count(*) FROM SequenceCache WHERE SQ_Numero=NEW.SQ_Numero INTO total;
     IF total<NEW.SQ_Nombre THEN
-      FOR i IN NEW.SQ_Last+1..NEW.SQ_Last+(NEW.SQ_Nombre-total) LOOP
+      lasti := NEW.SQ_Last+(NEW.SQ_Nombre-total)
+      FOR i IN NEW.SQ_Last+1..lasti LOOP
         INSERT INTO SequenceCache(sq_numero, sc_valeur) VALUES (NEW.SQ_Numero, i);
       END LOOP;
+      NEW.SQ_Last := lasti
     END IF;
   END IF;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
 CREATE TRIGGER trigger_Sequence_treatments 
-  BEFORE INSERT OR UPDATE ON table_Sequence 
+  AFTER INSERT OR UPDATE ON table_Sequence 
   FOR EACH ROW EXECUTE PROCEDURE TG_Sequence_treatments();
 
-
+*/
 -- SequenceCache
 --===========================================================================--
 -- DROP TRIGGER trigger_SequenceCache_treatments ON table_Sequence;
@@ -1258,12 +1276,11 @@ CREATE TRIGGER trigger_Sequence_treatments
 CREATE OR REPLACE FUNCTION TG_SequenceCache_treatments() RETURNS trigger AS
 $$
 BEGIN
-  UPDATE Sequence SET SQ_used_on=CURRENT_TIMESTAMP WHERE SQ_Numero=NEW.SQ_Numero;
   IF TG_OP='UPDATE' THEN 
-    RETURN NEW;
-  ELSE 
-    RETURN OLD;
+    RAISE EXCEPTION 'Opération interdite sur le cache des séquences.'
   END IF;
+  UPDATE Sequence SET SQ_used_on=CURRENT_TIMESTAMP WHERE SQ_Numero=OLD.SQ_Numero;
+  RETURN OLD;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
