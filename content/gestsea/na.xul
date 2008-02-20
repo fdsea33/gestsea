@@ -2,15 +2,15 @@
 
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://browser/skin/" type="text/css"?>
-<?xml-stylesheet href="gestsea_temps.css" type="text/css"?>
+<?xml-stylesheet href="chrome://gestsea/skin/temps.css" type="text/css"?>
 
 <window	id="gestsea-na" 
         title="GestSEA Enregistrement des Non Adhérents" 
         onload="na_onload()" orient="vertical" sizemode="maximized" 
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <script src="../generateur/utils_xul.js"/>
-  <script src="../generateur/pgsql.js"/>
-  <script src="gestsea_na.js"/>
+  <script src="../generator/utils_xul.js"/>
+  <script src="../generator/pgsql.js"/>
+  <script src="na.js"/>
 
   <vbox flex="1" class="bg">
     <hbox align="center" pack="center" style=" -moz-border-radius:1em; background-color:#FFCCCC;border:3px solid red; margin :5px;">

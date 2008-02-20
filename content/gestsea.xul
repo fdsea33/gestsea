@@ -25,27 +25,27 @@ top.document.getElementById('gestsea-lanceur').setAttribute('screenY',(screen.av
       </columns>
       <rows>
         <row align="center">
-          <button label="GestSEA Principal" oncommand="window.openDialog('chrome://gestsea/content/gestsea/gestsea_principal.xul');"/>
+          <button label="GestSEA Principal" oncommand="window.openDialog('chrome://gestsea/content/gestsea/principal.xul');"/>
           <description>Logiciel principal permettant la gestion des personnes et la facturation.</description>
         </row>
         <separator class="groove"/>
         <row align="center">
-          <button label="GestSEA MOTO" oncommand="window.openDialog('chrome://gestsea/content/gestsea/gestsea_moto.xul');"/>
+          <button label="GestSEA MOTO" oncommand="window.openDialog('chrome://gestsea/content/gestsea/moto.xul');"/>
           <description>Mesure Optimale des Temps d'Occupation</description>
         </row>
         <separator class="groove"/>
         <row align="center">
-          <button label="GestSEA Cotisation" oncommand="window.openDialog('chrome://gestsea/content/gestsea/gestsea_cotisation.xul');"/>
+          <button label="GestSEA Cotisation" oncommand="window.openDialog('chrome://gestsea/content/gestsea/cotisation.xul');"/>
           <description>Fenêtre de saisie des coupons-réponses (seulement en mode administrateur).</description>
         </row>
         <separator class="groove"/>
         <row align="center">
-          <button label="GestSEA Paramétrage" oncommand="window.openDialog('chrome://gestsea/content/gestsea/gestsea_parametrage.xul');"/>
+          <button label="GestSEA Paramétrage" oncommand="window.openDialog('chrome://gestsea/content/gestsea/parametrage.xul');"/>
           <description>Logiciel permettant de configurer et paramétrer les constantes de l'application principale.</description>
         </row>
         <separator class="groove"/>
         <row align="center">
-          <button label="GestSEA Comptabilité" oncommand="window.openDialog('chrome://gestsea/content/gestsea/gestsea_comptabilite.xul');"/>
+          <button label="GestSEA Comptabilité" oncommand="window.openDialog('chrome://gestsea/content/gestsea/comptabilite.xul');"/>
           <description>Logiciel de comptabilité efficace et puissant. Un outil indispensable pour le comptable professionnel ou amateur.</description>
         </row>
       </rows>

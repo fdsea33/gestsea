@@ -722,5 +722,5 @@
     </vbox>
   </hbox>
 
-  <script src="gestsea_cotisation_2008.js"/>
+  <script src="cotisation_2008.js"/>
 </window>
