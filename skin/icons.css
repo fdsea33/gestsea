@@ -102,7 +102,7 @@
 .export-button16[checked="true"]{-moz-image-region:rect(48px,256px,64px,240px);}
 
 .new-button16,.edit-button16,.delete-button16,.cancel-button16,.close-button16,.find-button16,.back-button16,.forward-button16,.home-button16,.menu-button16,.accept-button16,.action-button16,.list-button16,.goto-button16,.right-button16,.bottom-button16,.left-button16,.top-button16,.print-button16,.export-button16
-{list-style-image:url("chrome://agrisig/skin/images/boutons16.png");}
+{list-style-image:url("images/boutons16.png");}
 /** END SCALE **/
 
 /** BEGIN SCALE Export **/
@@ -207,7 +207,7 @@
 .export-button[checked="true"]{-moz-image-region:rect(72px,384px,96px,360px);}
 
 .new-button,.edit-button,.delete-button,.cancel-button,.close-button,.find-button,.back-button,.forward-button,.home-button,.menu-button,.accept-button,.action-button,.list-button,.goto-button,.right-button,.bottom-button,.left-button,.top-button,.print-button,.export-button
-{list-style-image:url("chrome://agrisig/skin/images/boutons24.png");}
+{list-style-image:url("images/boutons24.png");}
 /** END SCALE **/
 
 /** BEGIN SCALE Export **/
@@ -312,7 +312,7 @@
 .export-button48[checked="true"]{-moz-image-region:rect(144px,768px,192px,720px);}
 
 .new-button48,.edit-button48,.delete-button48,.cancel-button48,.close-button48,.find-button48,.back-button48,.forward-button48,.home-button48,.menu-button48,.accept-button48,.action-button48,.list-button48,.goto-button48,.right-button48,.bottom-button48,.left-button48,.top-button48,.print-button48,.export-button48
-{list-style-image:url("chrome://agrisig/skin/images/boutons48.png");}
+{list-style-image:url("images/boutons48.png");}
 /** END SCALE **/
 
 /* END IMAGE-BUTTON */
@@ -412,80 +412,80 @@ toolbarbutton[disabled="true"]:hover {
 /* border-top: groove; */
 	border-top: 2px solid #99F;
 	background-color: #FED;
-//        background-image: url("chrome://agrisig/skin/images/degrade.png");
+//        background-image: url("images/degrade.png");
 	background-repeat: repeat-x;
 }
 
 .test {
-	 list-style-image: url("chrome://agrisig/skin/images/zoom_ar.gif");
+	 list-style-image: url("images/zoom_ar.gif");
 }
 
 
 .icon_filtre_col {
-	 list-style-image: url("chrome://agrisig/skin/images/loupe.png");
+	 list-style-image: url("images/loupe.png");
 }
 
 .icon_filtre_col_active {
-	 list-style-image: url("chrome://agrisig/skin/images/loupeActive.png");
+	 list-style-image: url("images/loupeActive.png");
 }
 
 .icon_filtre_defaut_inactif {
-	 list-style-image: url("chrome://agrisig/skin/images/loupe.png");
+	 list-style-image: url("images/loupe.png");
 }
 
 .icon_filtre_defaut_actif {
-	 list-style-image: url("chrome://agrisig/skin/images/loupeActive.png");
+	 list-style-image: url("images/loupeActive.png");
 }
 
 .icon_filtre_actif {
-	 list-style-image: url("chrome://agrisig/skin/images/actif.png");
+	 list-style-image: url("images/actif.png");
 }
 
 .icon_filtre_inactif {
-	 list-style-image: url("chrome://agrisig/skin/images/inactif.png");
+	 list-style-image: url("images/inactif.png");
 }
 
 .icon_Ajouter{
-	 list-style-image: url("chrome://agrisig/skin/images/outilsAdd.gif");
+	 list-style-image: url("images/outilsAdd.gif");
 }
 
 .icon_Ajouter[disabled=true] {
-	 list-style-image: url("chrome://agrisig/skin/images/outilsAdd_disabled.png");
+	 list-style-image: url("images/outilsAdd_disabled.png");
 }
 
 .icon_Supprimer{
-	 list-style-image: url("chrome://agrisig/skin/images/outilsSuppr.gif");
+	 list-style-image: url("images/outilsSuppr.gif");
 }
 
 .icon_Supprimer[disabled=true] {
-	 list-style-image: url("chrome://agrisig/skin/images/outilsSuppr_disabled.png");
+	 list-style-image: url("images/outilsSuppr_disabled.png");
 }
 
 
 .icon_Modifier {
-	 list-style-image: url("chrome://agrisig/skin/images/outilsMAJ.gif");
+	 list-style-image: url("images/outilsMAJ.gif");
 }
 
 .icon_Modifier[disabled=true] {
-	 list-style-image: url("chrome://agrisig/skin/images/outilsMAJ_disabled.png");
+	 list-style-image: url("images/outilsMAJ_disabled.png");
 }
 
 
 
 .icon_FlecheHaut {
-	 list-style-image: url("chrome://agrisig/skin/images/FlecheHaut.png");
+	 list-style-image: url("images/FlecheHaut.png");
 }
 
 .icon_FlecheHaut_Inactif {
-	 list-style-image: url("chrome://agrisig/skin/images/FlecheHautDisabled.png");
+	 list-style-image: url("images/FlecheHautDisabled.png");
 }
 
 .icon_FlecheBas {
-	 list-style-image: url("chrome://agrisig/skin/images/FlecheBas.png");
+	 list-style-image: url("images/FlecheBas.png");
 }
 
 .icon_FlecheBas_Inactif {
-	 list-style-image: url("chrome://agrisig/skin/images/FlecheBasDisabled.png");
+	 list-style-image: url("images/FlecheBasDisabled.png");
 }
 /*
 vbox,hbox,panel,panels,tab,tabs,tabbox,tabpanel,tabpanels,groupbox,window,dialog,box,deck,spacer,label,panel,stack,splitter,scrollbar
