@@ -2,12 +2,12 @@
 
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://browser/skin/" type="text/css"?>
-<!--<?xml-stylesheet href="chrome://agrisig/skin/icons.css" type="text/css"?>-->
-<?xml-stylesheet href="gestsea_cotisation.css" type="text/css"?>
+<!--<?xml-stylesheet href="chrome://gestsea/skin/icons.css" type="text/css"?>-->
+<?xml-stylesheet href="chrome://gestsea/skin/cotisation.css" type="text/css"?>
 
 <window  id="gestsea-cotisation"  title="GestSEA - Saisie des cotisations" onload="wg_onload();" onclose="wg_onclose();" orient="vertical" sizemode="maximized" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <script src="../generateur/utils_xul.js"/>
-  <script src="../generateur/pgsql_utf8.js"/>
+  <script src="../generator/utils_xul.js"/>
+  <script src="../generator/pgsql_utf8.js"/>
   <hbox flex="1" id="wg-master-hbox">
     <vbox style="overflow: auto; width:432px">
 
