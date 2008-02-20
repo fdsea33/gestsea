@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://gestsea/skin/icons.css" type="text/css"?>
+
+<window	id="gestsea-generator"	title="Générateur de 'GestSEA X'" orient="vertical" sizemode="normal" xmlns:html="http://www.w3.org/1999/xhtml" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script src="chrome://gestsea/content/generator/gestseax-mcd.js"/>
+  <script src="chrome://gestsea/content/generator/pgsql.js"/>
+  <script src="chrome://gestsea/content/generator/pointer.js"/>
+  <script src="chrome://gestsea/content/generator/generator_sql.js"/>
+  <script src="chrome://gestsea/content/generator/generator_xul.js"/>
+  <script src="chrome://gestsea/content/generator/libIO.js"/>
+  <script src="chrome://gestsea/content/generator/generator_lib.js"/>
+<!--  <script src="chrome://gestsea/content/generator/sources/constructeur.js"/>-->
+  <script src="chrome://gestsea/content/generator/sources/comptabilite.js"/>
+  <script src="chrome://gestsea/content/generator/sources/parametrage.js"/>
+  <script src="chrome://gestsea/content/generator/sources/principal.js"/>
+  <script src="chrome://gestsea/content/generator/sources/personne.js"/>
+  <script src="chrome://gestsea/content/generator/sources/reglement.js"/>
+  <script src="chrome://gestsea/content/generator/sources/moto.js"/>
+  <script>function jauge(x){document.getElementById('jauge').setAttribute('value',x);}; window.FactureEnCours='7159621111';</script>
+  <groupbox>
+    <caption label="Générations des modules"/>
+    <grid>
+      <columns>
+        <column flex="3"/>
+        <column flex="1"/>
+      </columns>
+      <rows>
+<!--
+        <row>
+          <button label="Générer 'GestSEA Constructeur'"  oncommand="CodeInConstructeur();"/>
+          <button label="Ouvrir" oncommand="window.open('chrome://gestsea/content/gestsea/constructeur.xul');"/>
+        </row>
+-->
+        <row>
+          <button label="Générer 'GestSEA Comptabilité'"  oncommand="CodeInComptabilite();"/>
+          <button label="Ouvrir" oncommand="window.open('chrome://gestsea/content/gestsea/comptabilite.xul');"/>
+        </row>
+        <row>
+          <button label="Générer 'GestSEA Paramétrage'"  oncommand="CodeInParametrage();"/>
+          <button label="Ouvrir" oncommand="window.open('chrome://gestsea/content/gestsea/parametrage.xul');"/>
+        </row>
+        <row>
+          <button label="Générer 'GestSEA Principal'"  oncommand="CodeInPrincipal('');"/>
+          <button label="Ouvrir" oncommand="window.open('chrome://gestsea/content/gestsea/principal.xul');"/>
+        </row>
+        <row>
+          <button label="Générer 'GestSEA Personne'"  oncommand="CodeInPersonne();"/>
+          <button label="Ouvrir" oncommand="window.open('chrome://gestsea/content/gestsea/personne.xul');"/>
+        </row>
+        <row>
+          <button label="Générer 'GestSEA Reglement'"  oncommand="CodeInReglement();"/>
+          <button label="Ouvrir" oncommand="window.open('chrome://gestsea/content/gestsea/reglement.xul');"/>
+        </row>
+        <row>
+          <button label="Générer 'GestSEA MOTO'"  oncommand="CodeInMoto('');"/>
+          <button label="Ouvrir" oncommand="window.open('chrome://gestsea/content/gestsea/moto.xul');"/>
+        </row>
+        <row>
+          <button label="Générer 'GestSEA Temps'" disabled="true"/>
+          <button label="Ouvrir" oncommand="window.openDialog('chrome://gestsea/content/gestsea/temps.xul');"/>
+        </row>
+        <row>
+          <button label="Générer tous les modules"  oncommand="jauge('0%');CodeInComptabilite();jauge('20%');CodeInParametrage();jauge('50%');CodeInPrincipal('');jauge('80%');CodeInPersonne();jauge('85%');CodeInReglement();jauge('92%');CodeInMoto('');jauge('100%');"/>
+          <progressmeter id="jauge" value="0%"/>
+        </row>
+      </rows>
+    </grid>
+  </groupbox>
+  <hbox>
+<!--    <button label="es"  oncommand="alert(mcd_getType('personne','pe_id'));"/>-->
+<!--    <button label="Popup" oncommand="window.xtd001 = 'ototo'; window.openDialog('chrome://gestsea/content/gestsea/routage.xul', 'gestsea-routage', 'chrome,modal', {status: 'Lecture des données distantes', maxProgress: 50, progress: 10});"/>-->
+    <button label="Gérer les alias" oncommand="pgsql_configaliases();"/>
+    <button label="Venkman Debugger" oncommand="window.open('chrome://venkman/content/','JavaScript Debugger','chrome,centerscreen,resizable');"/>
+  </hbox>
+  <vbox flex="1" style="overflow:auto;height:160px;width:160px;">
+    <textbox id="res" flex="1" multiline="true" value="" />
+  </vbox>
+
+</window>

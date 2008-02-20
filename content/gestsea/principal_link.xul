@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://gestsea/skin/icons.css" type="text/css"?>
+
+<dialog	id="gestsea:link" title="GestSEA - Ajout d'un lien" buttons="accept,cancel" onload="wg_onload();" ondialogaccept="wg_ondialogaccept(); return true;" ondialogcancel="return true;" orient="vertical" sizemode="normal" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script src="principal_link.js"/>
+  <vbox style="padding:4px; min-width:640px;">
+    <hbox align="center">
+      <label id="wg-personne"/>
+      <menulist id="wg-typelien-menulist" flex="2" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" onselect="wg_display_result();" oncommand="wg_display_result();">
+        <template>
+          <menupopup>
+            <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#tl_action" direct="rdf:http://www.mozilla.org/SQL-rdf#tl_direct" value="rdf:http://www.mozilla.org/SQL-rdf#tl_numero"/>
+          </menupopup>
+        </template>
+      </menulist>
+<!--      <label value=":"/>-->
+    </hbox>
+		<vbox id="wg-target">
+		<label style="color: #999; font-size:80%" value="Saisissez 4 caractères minimum"/>
+    <hbox align="center">
+			<textbox class="find-button16" id="wg-search" value="" oninput="wg_find_people(this.value)"/>
+      <menulist id="wg-personne-menulist" flex="2" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" oninput="wg_find_people(this.value)" onselect="wg_display_result();" oncommand="wg_display_result();">
+        <template>
+          <menupopup>
+            <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#pe_description" value="rdf:http://www.mozilla.org/SQL-rdf#pe_numero"/>
+          </menupopup>
+        </template>
+      </menulist>
+      <label style="color: #888; font-size:80%" id="wg-total"/>
+    </hbox>
+		</vbox>
+		<label style="color: blue; font-weight: bold;" id="wg-result" value="X ? Y"/>
+  </vbox>
+</dialog>

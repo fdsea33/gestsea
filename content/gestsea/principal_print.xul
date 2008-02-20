@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<window id="gestsea-print" title="Utilitaire d'impression GestSEA" onload="print_onload();" orient="vertical" sizemode="normal" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script src="print.js"/>
+  <script src="libxul.js"/>
+  <script src="../generator/utils_xul.js"/>
+  <vbox>
+    <stack flex="1" >
+      <image flex="1" height="58" width="496" src="banniere.jpg"/>
+      <description top="10" left="20" class="header">Impression</description>
+      <description top="25" left="20" class="indent">Imprimez des factures, devis, avoirs...</description>
+      <hbox pack="end" style="padding: 3px;">
+        <image src="gestsea.png"/>
+      </hbox>
+    </stack>
+    <separator flex="1" class="groove-thin"/>  
+  </vbox>
+  <hbox flex="1" style="padding:10px;" height="249">
+    <deck flex="1">
+      <vbox>
+        <label value="Choisissez le type de document à imprimer"/>
+        <menulist id="print-modele-list" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content">
+          <template>
+            <menupopup>
+              <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#im_libelle" value="rdf:http://www.mozilla.org/SQL-rdf#im_numero"/>
+            </menupopup>
+          </template>
+        </menulist>
+        <separator class="groove"/>
+        <label value="Choisissez le mode d'impression"/>
+        <radiogroup id="print-radio">
+          <radio label="Un seul document :" value="1" selected="true"/>
+          <hbox align="center" flex="1">
+            <label control="print-numero" value="Son numéro "/>
+            <textbox id="print-numero" flex="1"/>
+          </hbox>
+          <radio label="Plusieurs documents :" value="2"/>
+          <hbox align="center">
+            <label value="Pendant la période du" control="print-date-debut"/>
+            <textbox id="print-date-debut" flex="1"/>
+            <label value="au" control="print-date-fin"/>
+            <textbox id="print-date-fin" flex="1"/>
+          </hbox>
+        </radiogroup>
+	<groupbox flex="1" align="center" pack="center">
+	  <caption label="Fichier PDF à  récupérer"/>
+	  <html:a id="print-url" href="">Fichier PDF</html:a>
+	</groupbox>
+      </vbox>
+    </deck>
+  </hbox>
+  <vbox height="51">
+    <separator class="groove"/>  
+    <hbox flex="1" align="center" pack="end">
+      <button label="Générer" oncommand="print_generer();"/>
+      <button label="Fermer" oncommand="window.close();"/>
+      <box width="5"/>
+    </hbox>
+  </vbox>
+  
+</window>

@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://gestsea/skin/icons.css" type="text/css"?>
+<!-- CE FICHIER A ETE GENERE PAR GENERATOR_LIB -->
+
+<window windowtype="gestsea:comptabilite" name="comptabilite" sizemode="maximized" 
+	id="Page_comptabilite"
+	title="GestSEA Comptabilité"
+	orient="vertical"
+	onload="comptabilite_Chargement();"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<!-- FICHIERS DE SCRIPTS NECESSAIRES -->
+
+<script src="chrome://gestsea/content/generator/pgsql.js"/>
+<script src="chrome://gestsea/content/generator/utils_xul.js"/>
+<script src="chrome://gestsea/content/generator/pointer.js"/>
+<script src="chrome://gestsea/content/generator/generator_sql.js"/>
+<script src="chrome://gestsea/content/generator/generator_xul.js"/>
+<script src="chrome://global/content/nsDragAndDrop.js"/>
+<script src="chrome://global/content/nsTransferable.js"/>
+<script src="chrome://global/content/globalOverlay.js"/>
+<script src="chrome://browser/content/browser.js"/>
+<script src="comptabilite_plus.js"/>
+<script src="chrome://gestsea/content/gestsea/export.js"/>
+<script src="chrome://gestsea/content/generator/libIO.js"/>
+<script src="chrome://gestsea/content/generator/gestseax-mcd.js"/>
+<!-- AJOUTER chrome://agrisig/content/Onglets/Agrisig SI NECESSAIRE -->
+<script src="comptabilite.js"/>
+<script src="comptabilite_User.js"/>
+<toolbox>
+  <menubar id="menu-application">
+    <menu id="donnee-menu" label="Gestion des données">
+      <menupopup id="donnee-popup">
+      <menuitem label="Exercice" oncommand="AllerAOnglet(0)"/>
+      <menuitem label="Journaux" oncommand="AllerAOnglet(1)"/>
+      <menuitem label="Pièces" oncommand="AllerAOnglet(2)"/>
+      <menuitem label="Ecritures" oncommand="AllerAOnglet(3)"/>
+      <menuitem label="Comptes généraux" oncommand="AllerAOnglet(4)"/>
+      <menuitem label="Comptes auxiliaires" oncommand="AllerAOnglet(5)"/>
+      </menupopup>
+    </menu>
+    <menu id="edition-menu" label="Edition">
+      <menupopup id="edit-popup">
+        <menuitem label="Annuler"/>
+        <menuitem label="Refaire"/>
+      </menupopup>
+    </menu>
+    <menu id="theme-menu" label="Changer de thème">
+      <menupopup id="theme-popup">
+        <menuitem label="Choisir" oncommand="BrowserOpenExtensions('themes')"/>
+      </menupopup>
+    </menu>
+  </menubar>
+</toolbox>
+
+<!-- COMPOSANT OU SE DESSINERONT LES COMPOSANTS -->
+
+<vbox flex="1">
+<tabbox id="Main_Tabbox" flex="1">
+<hbox id="box_overflow" class="tabbrowser-strip chromeclass-toolbar">
+<tabs flex="1" class="tabbrowser-tabs" id="Tous_les_onglets">
+ <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Exercice" label="Exercice"/>
+ <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Journaux" label="Journaux"/>
+ <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Pièces" label="Pièces"/>
+ <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Ecritures" label="Ecritures"/>
+ <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Comptes_généraux" label="Comptes généraux"/>
+ <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Comptes_auxiliaires" label="Comptes auxiliaires"/>
+</tabs>
+</hbox>
+<tabpanels id="Tous_les_panels" flex="1">
+<tabpanel flex="1" id="OngletPanel_Exercice" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Exercice_Liste_des_exercices_comptables0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox id="Exercice_Liste_des_exercices_comptables0_Slaves"/>
+<hbox flex="1">
+<vbox id="Exercice_Pièces_de_l_exercice_6" flex="1"/>
+</hbox>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Exercice_Liste_des_exercices_comptables0" label="Ajouter" oncommand="Insert_Exercice_Liste_des_exercices_comptables0()" />
+    <button class="edit-button16" disabled="true" id="Update_Exercice_Liste_des_exercices_comptables0" label="Modifier" oncommand="Update_Exercice_Liste_des_exercices_comptables0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Exercice_Liste_des_exercices_comptables0" label="Supprimer" oncommand="Delete_Exercice_Liste_des_exercices_comptables0()" />
+    <button class="accept-button16" id="Validate_Exercice_Liste_des_exercices_comptables0" label="Valider" oncommand="Validate_Exercice_Liste_des_exercices_comptables0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Exercice_Liste_des_exercices_comptables0" label="Annuler" oncommand="Annuler_Exercice_Liste_des_exercices_comptables0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Journaux" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Journaux_Liste_des_journaux0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox id="Journaux_Liste_des_journaux0_Slaves"/>
+<hbox flex="1">
+<vbox id="Journaux_Pièces_comptables_8" flex="1"/>
+</hbox>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Journaux_Liste_des_journaux0" label="Ajouter" oncommand="Insert_Journaux_Liste_des_journaux0()" />
+    <button class="edit-button16" disabled="true" id="Update_Journaux_Liste_des_journaux0" label="Modifier" oncommand="Update_Journaux_Liste_des_journaux0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Journaux_Liste_des_journaux0" label="Supprimer" oncommand="Delete_Journaux_Liste_des_journaux0()" />
+    <button class="accept-button16" id="Validate_Journaux_Liste_des_journaux0" label="Valider" oncommand="Validate_Journaux_Liste_des_journaux0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Journaux_Liste_des_journaux0" label="Annuler" oncommand="Annuler_Journaux_Liste_des_journaux0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+<hbox class="fondstyle" pack="end">
+  <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
+    <button label="Cloturer le journal..." oncommand="CloturerJournal(TAB_GLOBAL_COMPO[703]);"/>
+  </arrowscrollbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Pièces" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Pièces_Liste_des_pièces_comptables0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox id="Pièces_Liste_des_pièces_comptables0_Slaves"/>
+<hbox flex="1">
+<vbox id="Pièces_Écritures_3" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Pièces_Écritures_3_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Pièces_Écritures_3" label="Ajouter" oncommand="Insert_Pièces_Écritures_3()" />
+    <button class="edit-button16" disabled="true" id="Update_Pièces_Écritures_3" label="Modifier" oncommand="Update_Pièces_Écritures_3()" />
+    <button class="delete-button16" disabled="true" id="Delete_Pièces_Écritures_3" label="Supprimer" oncommand="Delete_Pièces_Écritures_3()" />
+    <button class="accept-button16" id="Validate_Pièces_Écritures_3" label="Valider" oncommand="Validate_Pièces_Écritures_3()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Pièces_Écritures_3" label="Annuler" oncommand="Annuler_Pièces_Écritures_3()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Pièces_Liste_des_pièces_comptables0" label="Ajouter" oncommand="Insert_Pièces_Liste_des_pièces_comptables0()" />
+    <button class="edit-button16" disabled="true" id="Update_Pièces_Liste_des_pièces_comptables0" label="Modifier" oncommand="Update_Pièces_Liste_des_pièces_comptables0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Pièces_Liste_des_pièces_comptables0" label="Supprimer" oncommand="Delete_Pièces_Liste_des_pièces_comptables0()" />
+    <button class="accept-button16" id="Validate_Pièces_Liste_des_pièces_comptables0" label="Valider" oncommand="Validate_Pièces_Liste_des_pièces_comptables0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Pièces_Liste_des_pièces_comptables0" label="Annuler" oncommand="Annuler_Pièces_Liste_des_pièces_comptables0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+<hbox class="fondstyle" pack="end">
+  <hbox pack="end" align="center">
+    <separator class="groove"/>
+    <button class="back-button16" label="Précédent" oncommand="Retour_Pièces()"/>
+  </hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Ecritures" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Ecritures_Liste_des_écritures_comptables0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Ecritures_Liste_des_écritures_comptables0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Ecritures_Liste_des_écritures_comptables0" label="Ajouter" oncommand="Insert_Ecritures_Liste_des_écritures_comptables0()" />
+    <button class="edit-button16" disabled="true" id="Update_Ecritures_Liste_des_écritures_comptables0" label="Modifier" oncommand="Update_Ecritures_Liste_des_écritures_comptables0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Ecritures_Liste_des_écritures_comptables0" label="Supprimer" oncommand="Delete_Ecritures_Liste_des_écritures_comptables0()" />
+    <button class="accept-button16" id="Validate_Ecritures_Liste_des_écritures_comptables0" label="Valider" oncommand="Validate_Ecritures_Liste_des_écritures_comptables0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Ecritures_Liste_des_écritures_comptables0" label="Annuler" oncommand="Annuler_Ecritures_Liste_des_écritures_comptables0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+<hbox class="fondstyle" pack="end">
+  <hbox pack="end" align="center">
+    <separator class="groove"/>
+    <button class="back-button16" label="Précédent" oncommand="Retour_Ecritures()"/>
+  </hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Comptes_généraux" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Comptes_généraux_Liste_des_comptes_généraux0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox id="Comptes_généraux_Liste_des_comptes_généraux0_Slaves"/>
+<tabbox id="tabbox_Comptes_généraux_Liste_des_comptes_généraux0" flex="1">
+<tabs >
+<tab label="Comptes auxiliaires"/>
+<tab label="Ecriture"/>
+</tabs>
+<tabpanels flex="1">
+<tabpanel flex="1">
+<hbox flex="1">
+<vbox id="Comptes_généraux_Comptes_auxiliaires_10" flex="1"/>
+</hbox>
+</tabpanel>
+<tabpanel flex="1">
+<hbox flex="1">
+<vbox id="Comptes_généraux_Ecriture_11" flex="1"/>
+</hbox>
+</tabpanel>
+</tabpanels>
+</tabbox>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Comptes_généraux_Liste_des_comptes_généraux0" label="Ajouter" oncommand="Insert_Comptes_généraux_Liste_des_comptes_généraux0()" />
+    <button class="edit-button16" disabled="true" id="Update_Comptes_généraux_Liste_des_comptes_généraux0" label="Modifier" oncommand="Update_Comptes_généraux_Liste_des_comptes_généraux0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Comptes_généraux_Liste_des_comptes_généraux0" label="Supprimer" oncommand="Delete_Comptes_généraux_Liste_des_comptes_généraux0()" />
+    <button class="accept-button16" id="Validate_Comptes_généraux_Liste_des_comptes_généraux0" label="Valider" oncommand="Validate_Comptes_généraux_Liste_des_comptes_généraux0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Comptes_généraux_Liste_des_comptes_généraux0" label="Annuler" oncommand="Annuler_Comptes_généraux_Liste_des_comptes_généraux0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Comptes_auxiliaires" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Comptes_auxiliaires_Liste_des_comptes_auxiliaires0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox id="Comptes_auxiliaires_Liste_des_comptes_auxiliaires0_Slaves"/>
+<hbox flex="1">
+<vbox id="Comptes_auxiliaires_Ecriture_5" flex="1"/>
+</hbox>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Comptes_auxiliaires_Liste_des_comptes_auxiliaires0" label="Ajouter" oncommand="Insert_Comptes_auxiliaires_Liste_des_comptes_auxiliaires0()" />
+    <button class="edit-button16" disabled="true" id="Update_Comptes_auxiliaires_Liste_des_comptes_auxiliaires0" label="Modifier" oncommand="Update_Comptes_auxiliaires_Liste_des_comptes_auxiliaires0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Comptes_auxiliaires_Liste_des_comptes_auxiliaires0" label="Supprimer" oncommand="Delete_Comptes_auxiliaires_Liste_des_comptes_auxiliaires0()" />
+    <button class="accept-button16" id="Validate_Comptes_auxiliaires_Liste_des_comptes_auxiliaires0" label="Valider" oncommand="Validate_Comptes_auxiliaires_Liste_des_comptes_auxiliaires0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Comptes_auxiliaires_Liste_des_comptes_auxiliaires0" label="Annuler" oncommand="Annuler_Comptes_auxiliaires_Liste_des_comptes_auxiliaires0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+<hbox class="fondstyle" pack="end">
+  <hbox pack="end" align="center">
+    <separator class="groove"/>
+    <button class="back-button16" label="Précédent" oncommand="Retour_Comptes_auxiliaires()"/>
+  </hbox>
+</hbox>
+</vbox>
+</tabpanel>
+</tabpanels>
+</tabbox>
+</vbox>
+<statusbar id="statusbar">
+  <statusbarpanel id="status_espace" label="" width="5"/>
+  <statusbarpanel id="status_login" label=""/>
+  <statusbarpanel id="status_Info" label=""/>
+  <statusbarpanel id="status_TpsExec" flex="1" label=""/>
+  <statusbarpanel id="status_counter" flex="1" label=""/>
+</statusbar>
+</window>

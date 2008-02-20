@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://gestsea/skin/temps.css" type="text/css"?>
+
+<window	id="gestsea-temps" 
+        title="GestSEA Temps - Just'à Temps!" 
+        onload="tps_onload()" orient="vertical" sizemode="normal" 
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script src="../generator/utils_xul.js"/>
+  <script src="../generator/pgsql.js"/>
+  <script src="temps.js"/>
+  <vbox flex="1" class="bg">
+    <hbox align="center" pack="center" style=" -moz-border-radius:1em; background-color:#FFCCCC;border:3px solid red; margin :5px;">
+      <label style="font-weight:bold;" value="Date des activités"/>
+      <textbox id="current-date" class="important" style="text-align:center; width:8em;" disabled="true" value="99/99/9999"/>
+      <button id="date-update" oncommand="tps_date_update()" class="mybutton" label="Modifier la date"/>
+      <button id="date-commit" oncommand="tps_date_commit()" class="mybutton commit" label="Enregistrer" hidden="true"/>
+      <button id="date-cancel" oncommand="tps_date_cancel()" class="mybutton cancel" label="Annuler" hidden="true"/>
+    </hbox>
+    <box flex="1" orient="vertical">
+
+      <tree id="activite-menulist" flex="1" rows="10" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content">
+        <treecols>
+          <treecol label="Tâche" flex="6" sort="rdf:http://www.mozilla.org/SQL-rdf#zt_libelle"/>
+          <splitter class="tree-splitter"/>
+          <treecol label="Sujet" flex="6" sort="rdf:http://www.mozilla.org/SQL-rdf#zs_libelle"/>
+          <splitter class="tree-splitter"/>
+          <treecol label="Lieu"  flex="3" sort="rdf:http://www.mozilla.org/SQL-rdf#zl_libelle"/>
+          <splitter class="tree-splitter"/>
+          <treecol label="Pour"  flex="4" sort="rdf:http://www.mozilla.org/SQL-rdf#za_pour"/>
+          <splitter class="tree-splitter"/>
+          <treecol label="De" flex="1" sort="rdf:http://www.mozilla.org/SQL-rdf#za_heuredebut" sortActive="true"/>
+          <splitter class="tree-splitter"/>
+          <treecol label="A" flex="1" sort="rdf:http://www.mozilla.org/SQL-rdf#za_heurefin"/>
+          <splitter class="tree-splitter"/>
+          <treecol label="D." flex="1" sort="rdf:http://www.mozilla.org/SQL-rdf#za_duree"/>
+        </treecols>
+        <template>
+          <treechildren>
+            <treeitem uri="rdf:*">
+              <treerow>
+                <treecell label="rdf:http://www.mozilla.org/SQL-rdf#zt_libelle"    value="rdf:http://www.mozilla.org/SQL-rdf#zt_numero"/>
+                <treecell label="rdf:http://www.mozilla.org/SQL-rdf#zs_libelle"    value="rdf:http://www.mozilla.org/SQL-rdf#zs_numero"/>
+                <treecell label="rdf:http://www.mozilla.org/SQL-rdf#zl_libelle"    value="rdf:http://www.mozilla.org/SQL-rdf#zl_numero"/>
+                <treecell label="rdf:http://www.mozilla.org/SQL-rdf#za_pour"       value="rdf:http://www.mozilla.org/SQL-rdf#za_numero"/>
+                <treecell label="rdf:http://www.mozilla.org/SQL-rdf#za_heuredebut" value="rdf:http://www.mozilla.org/SQL-rdf#za_numero"/>
+                <treecell label="rdf:http://www.mozilla.org/SQL-rdf#za_heurefin"   value="rdf:http://www.mozilla.org/SQL-rdf#za_numero"/>
+                <treecell label="rdf:http://www.mozilla.org/SQL-rdf#za_duree"      value="rdf:http://www.mozilla.org/SQL-rdf#za_numero"/>
+              </treerow>
+            </treeitem>
+          </treechildren>
+        </template>
+      </tree>
+      <groupbox>
+        <caption label="Statistiques"/>
+	<hbox>
+          <hbox class="section">
+            <label  class="personal-title" value="Total horaire"/>
+            <label  class="personal-text"  id="stat-total-horaire" value="min"/>
+          </hbox>
+          <hbox class="section">
+            <label  class="personal-title" value="Nombre d'activités"/>
+            <label  class="personal-text"  id="stat-nombre" value=""/>
+          </hbox>
+	</hbox>
+      </groupbox>
+
+    </box>
+  </vbox>
+<!--  <separator />-->
+<!--  <splitter collapse="before"/>-->
+    <splitter collapse="after">
+      <grippy/>
+    </splitter>
+  <hbox class="bg">
+    <groupbox orient="vertical" flex="1">
+      <caption label="Infos personnelles"/>
+      <grid flex="1" >
+        <columns>
+          <column flex="1" align="end"/>
+          <column flex="2"/>
+        </columns>
+        <rows>
+          <row class="section">
+            <label class="personal-title" value="Nom"/>
+            <label class="personal-text" id="agent-nom" value=""/>
+          </row>
+          <row class="section">
+            <label class="personal-title" value="Prénom"/>
+            <label class="personal-text" id="agent-prenom"  value=""/>
+          </row>
+          <row class="section">
+            <label class="personal-title" value="N°Emp."/>
+            <label class="personal-text" id="current-employe" value=""/>
+          </row>
+        </rows>
+      </grid>
+    </groupbox>
+
+    <splitter collapse="before">
+      <grippy/>
+    </splitter>
+    
+    <groupbox orient="vertical" flex="3">
+      <caption label="Activité"/>
+
+      <hbox align="center">
+        <label  control="tache-menulist" value="J'ai"/>
+        <menulist editable="true" id="tache-menulist" flex="2" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content">
+          <template>
+            <menupopup>
+              <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#zt_phrase" value="rdf:http://www.mozilla.org/SQL-rdf#zt_numero"/>
+            </menupopup>
+          </template>
+        </menulist>      
+      </hbox>
+
+      <hbox align="center">
+        <label control="theme-menulist" value="sur le thème"/>
+        <menulist editable="true" id="theme-menulist" oncommand="tps_activite_load_sujets();" onselect="tps_activite_load_sujets();" flex="1" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content">
+          <template>
+            <menupopup>
+              <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#zu_libelle" value="rdf:http://www.mozilla.org/SQL-rdf#zu_numero"/>
+            </menupopup>
+          </template>
+        </menulist>      
+        <label control="sujet-menulist" value="au sujet de"/>
+        <menulist editable="true" id="sujet-menulist" flex="5" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content">
+          <template>
+            <menupopup>
+              <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#zs_libelle" value="rdf:http://www.mozilla.org/SQL-rdf#zs_numero"/>
+            </menupopup>
+          </template>
+        </menulist>
+      </hbox>
+
+      <hbox align="center">
+        <label control="lieu-menulist" value="Où ?"/>
+        <menulist editable="true" id="lieu-menulist" flex="2" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content">
+          <template>
+            <menupopup>
+              <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#zl_libelle" value="rdf:http://www.mozilla.org/SQL-rdf#zl_numero"/>
+            </menupopup>
+          </template>
+        </menulist>      
+      </hbox>
+
+      <hbox align="center">
+        <label control="pour-radiogroup" value="Pour ?"/>
+        <radiogroup orient="horizontal" id="pour-radiogroup" oncommand="tps_activite_load_pour();">
+          <radio label="une facture" selected="true"/>
+          <radio label="un devis"/>
+          <radio label="un adhérent"/>
+          <radio label="un groupe"/>
+        </radiogroup>
+      
+        <textbox id="pour-textbox" value="" flex="1"/>
+        <menulist editable="true" id="groupe-menulist" flex="2" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content">
+          <template>
+            <menupopup>
+              <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#zg_libelle" value="rdf:http://www.mozilla.org/SQL-rdf#zg_numero"/>
+            </menupopup>
+          </template>
+        </menulist> 
+      </hbox>     
+
+      <hbox align="center">
+        <label control="de-textbox" value="De (HH:MM)"/>
+        <textbox id="de-textbox" value="" maxlenght="5" label="l'heure de début" flex="1" onchange="verifieDuree(this);"/>
+        <label control="a-textbox" value="à (HH:MM)"/>
+        <textbox id="a-textbox" value="" maxlenght="5" label="l'heure de fin" flex="1" onchange="verifieDuree(this);"/>
+        <label control="duree-textbox" value="soit un total de"/>
+        <textbox id="duree-textbox" value="" flex="1"  onchange="verifieDuree(this);"  oninput="verifieDuree(this);" />
+        <label value="minutes"/>
+      </hbox>
+
+      <hbox flex="1"/>
+
+      <hbox align="center"  style="background-color: #F0E088; margin-top:5px;-moz-border-radius:8px;">
+        <hbox pack="start">
+          <toolbarbutton id="reload-button" class="toolbarbutton-1 chromeclass-toolbar-additional" oncommand="tps_activite_load_all()"/>
+        </hbox>
+        <hbox pack="end" flex="1">
+          <button id="activite-insert" oncommand="tps_activite_insert();" class="mybutton" label="Nouvelle activité"/>
+          <button id="activite-update" oncommand="tps_activite_update();" class="mybutton" label="Modifier l'activité"/>
+          <button id="activite-delete" oncommand="tps_activite_delete();" class="mybutton" label="Supprimer l'activité"/>
+          <button id="activite-commit" oncommand="tps_activite_commit();" class="mybutton commit" label="Enregistrer" hidden="true"/>
+          <button id="activite-cancel" oncommand="tps_activite_cancel();" class="mybutton cancel" label="Annuler" hidden="true"/>
+        </hbox>
+      </hbox>
+
+
+
+    </groupbox>
+  </hbox>
+</window>

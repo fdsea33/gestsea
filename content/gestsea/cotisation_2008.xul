@@ -1,0 +1,726 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/skin/" type="text/css"?>
+<!--<?xml-stylesheet href="chrome://agrisig/skin/icons.css" type="text/css"?>-->
+<?xml-stylesheet href="gestsea_cotisation.css" type="text/css"?>
+
+<window  id="gestsea-cotisation"  title="GestSEA - Saisie des cotisations" onload="wg_onload();" onclose="wg_onclose();" orient="vertical" sizemode="maximized" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script src="../generateur/utils_xul.js"/>
+  <script src="../generateur/pgsql_utf8.js"/>
+  <hbox flex="1" id="wg-master-hbox">
+    <vbox style="overflow: auto; width:432px">
+
+
+
+
+
+
+
+      <groupbox id="wg-personne">
+        <caption label="Personne" align="center">
+          <label value="Personne"/>
+          <menulist editable="true" style="width:320px;" id="wg-personne-menulist" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" onchange="wg_personne_search(); this.doCommand();" oncommand="this.inputField.select(); wg_personne_load();" onfocus="this.inputField.select();">
+            <template>
+              <menupopup>
+                <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#pe_description" value="rdf:http://www.mozilla.org/SQL-rdf#pe_numero"/>
+              </menupopup>
+            </template>
+          </menulist>
+        </caption>
+        <checkbox id="wg-personne-nouveau-checkbox" label="Créer une nouvelle fiche à partir des informations ci-dessous" oncommand="var b=elem('wg-personne-duplicate-button'); b.hidden = !this.checked; if (this.checked) {b.doCommand();}"/>
+        <hbox align="center">
+          <label value="Titre" class="firstlabel" control="wg-personne-titre"/>
+          <radiogroup id="wg-personne-titre" orient="horizontal">
+            <radio label="M."   value="21" selected="true"/>
+            <radio label="Mlle" value="23"/>
+            <radio label="Mme"  value="25"/>
+          </radiogroup>
+          <label value="" class="softer" id="wg-personne-extitre"/>
+        </hbox>
+        <hbox align="center">
+          <label value="Nom" class="firstlabel" control="wg-personne-nom"/>
+          <textbox value="" id="wg-personne-nom" flex="1"/>
+        </hbox>
+        <hbox align="center">
+          <label value="Prénom" class="firstlabel" control="wg-personne-prenom"/>
+          <textbox value="" id="wg-personne-prenom" flex="1"/>
+        </hbox>
+<!--        <checkbox id="wg-personne-duplicate-checkbox" hidden="true" label="Dupliquer les infos complémentaires à partir de la société" oncommand="elem('wg-personne-complement').hidden = this.checked; checkbox_check('wg-societe-checkbox',true, this.checked);"/>-->
+        <vbox id="wg-personne-complement">
+          <hbox align="center">
+            <label class="important" value="Adresse" flex="1"/>
+            <label class="important" id="wg-personne-adresse" hidden="true"/>
+          </hbox>
+          <hbox align="center">
+            <label value="Apt ou Dest." class="firstlabel" control="wg-personne-ligne2"/>
+            <textbox value="" id="wg-personne-ligne2" flex="1"/>
+          </hbox>
+          <hbox align="center">
+            <label value="Res, Bat" class="firstlabel" control="wg-personne-ligne3"/>
+            <textbox value="" id="wg-personne-ligne3" flex="1"/>
+          </hbox>
+          <hbox align="center">
+            <label value="N° et Voie" class="firstlabel" control="wg-personne-ligne4"/>
+            <textbox value="" id="wg-personne-ligne4" flex="1"/>
+          </hbox>
+          <hbox align="center">
+            <label value="BP ou LD" class="firstlabel" control="wg-personne-ligne5"/>
+            <textbox value="" id="wg-personne-ligne5" flex="1"/>
+          </hbox>
+          <hbox align="center">
+            <label value="CP" control="wg-personne-cp"/>
+            <textbox value="" id="wg-personne-cp" width="50" size="5" oninput="wg_load_cities('wg-personne-ville',this.value);"/>
+            <label value="Ville" control="wg-personne-ville"/>
+            <menulist flex="1" id="wg-personne-ville" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content">
+              <template>
+                <menupopup>
+                  <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#vi_nom" value="rdf:http://www.mozilla.org/SQL-rdf#vi_numero"/>
+                </menupopup>
+              </template>
+            </menulist>
+<!--          <textbox value="" id="wg-personne-ville" flex="1"/>-->
+          </hbox>
+          <label class="important" value="Contact"/>
+          <hbox align="center">
+            <label value="Tél" control="wg-personne-contact0" flex="1" class="nlabel"/>
+            <textbox value="" id="wg-personne-contact0" width="90"/>
+            <label value="Fax" control="wg-personne-contact1" flex="1" class="nlabel"/>
+            <textbox value="" id="wg-personne-contact1" width="90"/>
+            <label value="Mobile" control="wg-personne-contact2" flex="1" class="nlabel"/>
+            <textbox value="" id="wg-personne-contact2" width="90"/>
+          </hbox>
+          <hbox align="center">
+            <label value="E-mail" class="firstlabel" control="wg-personne-contact3"/>
+            <textbox value="" id="wg-personne-contact3" flex="3"/>
+          </hbox>
+          <hbox align="center">
+            <label value="Site web" class="firstlabel" control="wg-personne-contact4"/>
+            <textbox value="" id="wg-personne-contact4" flex="3"/>
+          </hbox>
+          <button id="wg-personne-duplicate-button" style="margin:5px;" label="Dupliquer les infos à partir de la société" hidden="true" oncommand="wg_personne_duplicate()"/>
+
+          <vbox id="wg-personne-routage">
+          <label class="important" value="Routage"/>
+          <menulist id="wg-personne-routage-menulist" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" oncommand="wg_routage_load_current('personne');">
+            <template>
+              <menupopup>
+                <menuitem flex="1" uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#ro_libelle" value="rdf:http://www.mozilla.org/SQL-rdf#ro_numero"/>
+              </menupopup>
+            </template>
+          </menulist>
+          <box orient="horizontal" align="center">
+            <label hidden="true" id="wg-personne-routage-numero" style="color:red;"/>
+            <label value="Début"/>
+            <textbox id="wg-personne-routage-debut" style="width:4em;" align="center"/>
+            <label value="Fin"/>
+            <textbox id="wg-personne-routage-fin" style="width:4em;" align="center"/>
+            <button id="wg-personne-routage-update" label="Modifier" flex="1" oncommand="if (confirm('Etes-vous sûr(e) de vouloir modifier le routage?')) wg_routage_update_current('personne')"/>
+          </box>
+          </vbox>
+
+        </vbox>
+      </groupbox>
+
+
+
+
+
+
+
+      <groupbox id="wg-societe">
+        <caption label="Société" align="center">
+          <label value="Société"/>
+          <menulist editable="true" style="width:320px;" id="wg-societe-menulist" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" onchange="wg_societe_search(); this.doCommand();" oncommand="this.inputField.select(); wg_societe_load();" onfocus="this.inputField.select();">
+            <template>
+              <menupopup>
+                <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#pe_description" value="rdf:http://www.mozilla.org/SQL-rdf#pe_numero"/>
+              </menupopup>
+            </template>
+          </menulist>
+        </caption>
+
+        <checkbox id="wg-societe-checkbox" label="La société doit être prise en compte" oncommand="elem('wg-societe-complement').hidden=!this.checked; checkbox_check('wg-reglement-societe-checkbox',this.checked); checkbox_check('wg-journal-societe-checkbox',this.checked);"/>
+        <vbox id="wg-societe-complement" hidden="true">
+
+        <checkbox id="wg-societe-nouveau-checkbox" label="Créer une nouvelle fiche à partir des informations ci-dessous" oncommand="elem('wg-societe-routage').hidden = this.checked"/>
+        <hbox align="center">
+          <label value="Forme juridique" class="firstlabel" control="wg-societe-titre"/>
+          <menulist flex="1" id="wg-societe-titre" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content">
+            <template>
+              <menupopup>
+                <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#np_libelle" value="rdf:http://www.mozilla.org/SQL-rdf#np_numero"/>
+              </menupopup>
+            </template>
+          </menulist>
+          <label value="" class="softer" id="wg-societe-extitre"/>
+        </hbox>
+        <hbox align="center">
+          <label value="Désignation sociale" class="firstlabel" control="wg-societe-nom"/>
+          <textbox value="" id="wg-societe-nom" flex="1"/>
+        </hbox>
+        <hbox align="center">
+          <label value="Prénom (à vider)" class="firstlabel" control="wg-societe-prenom"/>
+          <textbox value="" id="wg-societe-prenom" flex="1"/>
+        </hbox>
+        <hbox align="center">
+          <label class="important" value="Adresse" flex="1"/>
+          <label class="important" id="wg-societe-adresse" hidden="true"/>
+        </hbox>
+        <hbox align="center">
+          <label value="Apt ou Dest." class="firstlabel" control="wg-societe-ligne2"/>
+          <textbox value="" id="wg-societe-ligne2" flex="1"/>
+        </hbox>
+        <hbox align="center">
+          <label value="Res, Bat" class="firstlabel" control="wg-societe-ligne3"/>
+          <textbox value="" id="wg-societe-ligne3" flex="1"/>
+        </hbox>
+        <hbox align="center">
+          <label value="N° et Voie" class="firstlabel" control="wg-societe-ligne4"/>
+          <textbox value="" id="wg-societe-ligne4" flex="1"/>
+        </hbox>
+        <hbox align="center">
+          <label value="BP ou LD" class="firstlabel" control="wg-societe-ligne5"/>
+          <textbox value="" id="wg-societe-ligne5" flex="1"/>
+        </hbox>
+        <hbox align="center">
+          <label value="CP" control="wg-societe-cp"/>
+          <textbox value="" id="wg-societe-cp" width="50" size="5" oninput="wg_load_cities('wg-societe-ville',this.value);"/>
+          <label value="Ville" control="wg-societe-ville"/>
+          <menulist flex="1" id="wg-societe-ville" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content">
+            <template>
+              <menupopup>
+                <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#vi_nom" value="rdf:http://www.mozilla.org/SQL-rdf#vi_numero"/>
+              </menupopup>
+            </template>
+          </menulist>
+<!--          <textbox value="" id="wg-societe-ville" flex="1"/>-->
+        </hbox>
+        <label class="important" value="Contact"/>
+          <hbox align="center">
+            <label value="Tél" control="wg-societe-contact0" flex="1" class="nlabel"/>
+            <textbox value="" id="wg-societe-contact0" width="90"/>
+            <label value="Fax" control="wg-societe-contact1" flex="1" class="nlabel"/>
+            <textbox value="" id="wg-societe-contact1" width="90"/>
+            <label value="Mobile" control="wg-societe-contact2" flex="1" class="nlabel"/>
+            <textbox value="" id="wg-societe-contact2" width="90"/>
+          </hbox>
+          <hbox align="center">
+            <label value="E-mail" class="firstlabel" control="wg-societe-contact3"/>
+            <textbox value="" id="wg-societe-contact3" flex="3"/>
+          </hbox>
+        <hbox align="center">
+          <label value="Site web" class="firstlabel" control="wg-societe-contact4"/>
+          <textbox value="" id="wg-societe-contact4" flex="3"/>
+        </hbox>
+        <vbox id="wg-societe-routage">
+        <label class="important" value="Routage"/>
+        <menulist id="wg-societe-routage-menulist" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" oncommand="wg_routage_load_current('societe');">
+          <template>
+            <menupopup>
+              <menuitem flex="1" uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#ro_libelle" value="rdf:http://www.mozilla.org/SQL-rdf#ro_numero"/>
+            </menupopup>
+          </template>
+        </menulist>
+        <box orient="horizontal" align="center">
+          <label hidden="true" id="wg-societe-routage-numero" style="color:red;"/>
+          <label value="Début"/>
+          <textbox id="wg-societe-routage-debut" style="width:4em;" align="center"/>
+          <label value="Fin"/>
+          <textbox id="wg-societe-routage-fin" style="width:4em;" align="center"/>
+          <button id="wg-societe-routage-update" label="Modifier" flex="1" oncommand="if (confirm('Etes-vous sûr(e) de vouloir modifier le routage?')) wg_routage_update_current('societe')"/>
+        </box>
+        </vbox> <!-- wg-societe-routage -->
+        </vbox> <!-- wg-societe-complement -->
+
+      </groupbox>
+
+
+
+
+
+
+
+
+
+
+
+
+      <hbox flex="1"/>
+      <hbox style="padding:5px;">
+        <button id="wg-save-button" flex="1" oncommand="wg_send_cotisation(false);" label="Valider les infos"/>
+      </hbox>
+
+    </vbox>
+
+
+<!--    <splitter/>-->
+
+
+    <vbox flex="1" style="overflow:auto">
+
+
+
+
+
+<!-- Menulist des types de cotisation -->
+<vbox flex="1" style="padding:8px;">
+<!--
+  <caption label="Détail de la cotisation"/>
+-->
+      <tabbox flex="1">
+        <tabs><tab class="tabby" label="Cotisation et services"/><tab class="tabby" id="wg-associe-tab" label="Associés"/></tabs>
+        <tabpanels flex="1">
+          <tabpanel orient="vertical" flex="1">
+          <hbox align="center" orient="horizontal">
+            <label value="Responsable" class="important"/>
+            <menulist id="wg-cotisation-responsable-menulist" flex="1" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content">
+              <template>
+                <menupopup>
+                  <menuitem flex="1" uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#em_libelle" value="rdf:http://www.mozilla.org/SQL-rdf#em_numero"/>
+                </menupopup>
+              </template>
+            </menulist>
+          </hbox>
+          <hbox align="center" orient="horizontal">
+            <label value="Année de cotisation" class="important"/>
+            <menulist id="wg-cotisation-annee-menulist" flex="1" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content">
+              <template>
+                <menupopup>
+                  <menuitem flex="1" uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#an_libelle" value="rdf:http://www.mozilla.org/SQL-rdf#an_numero"/>
+                </menupopup>
+              </template>
+            </menulist>
+          </hbox>
+          <hbox align="center" orient="horizontal">
+            <label value="Type de cotisation" class="important"/>
+            <radiogroup id="wg-cotisation-radiogroup" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" flex="1" orient="horizontal" oncommand="wg_cotisation_select(); wg_totalize();">
+              <template>
+                <radio uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#px_libelle" tarif="rdf:http://www.mozilla.org/SQL-rdf#px_tarifttc" value="rdf:http://www.mozilla.org/SQL-rdf#pd_numero" onmouseover="elem('wg-cotisation-tarifx').value = 'rdf:http://www.mozilla.org/SQL-rdf#px_tarifttc €'" onmouseout="elem('wg-cotisation-tarifx').value = '';"/>
+<!-- oncommand="wg_cotisation_select();"/>-->
+              </template>
+            </radiogroup>
+            <label id="wg-cotisation-tarifx" class="softer"/>
+            <hbox pack="end" class="subtotal">
+              <label value="Total (€)" class="title"/>
+              <label id="wg-cotisation-total" value="999.99" class="value"/>
+            </hbox>
+          </hbox>
+
+      <vbox flex="1">
+        <hbox>
+
+
+
+          <groupbox flex="1" id="wg-hectare-groupbox">
+            <caption label="Cotisations à l'hectare">
+              <checkbox id="wg-hectare-checkbox" label="Cotisations à l'hectare" oncommand="wg_totalize();"/>
+            </caption>
+              <vbox id="c-culture-vbox">
+                <grid>
+                  <columns>
+                    <column flex="1"/>
+                    <column />
+                    <column />
+                  </columns>
+                  <rows id="wg-hectare-rows" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content">
+                    <template>
+                      <row uri="rdf:*" class="subsubtotal">
+                        <checkbox checked="false" style="color:#039;" label="rdf:http://www.mozilla.org/SQL-rdf#pd_libelle (rdf:http://www.mozilla.org/SQL-rdf#pd_tarif €/Ha)" numero="rdf:http://www.mozilla.org/SQL-rdf#pd_numero" oncommand="elem('wg-hectare-checkbox').checked=true; wg_totalize();"/>
+                        <textbox style="color:#039;" tarif="rdf:http://www.mozilla.org/SQL-rdf#pd_tarif" width="40" value="0" onchange="wg_totalize();" oninput="this.previousSibling.checked=true; this.previousSibling.doCommand();"/>
+                        <label id="wg-hectare-subtotal" value="999.99" class="value"/>
+                      </row>
+                    </template>
+                  </rows>
+                </grid>
+              </vbox>
+            <hbox pack="end" class="subtotal">
+              <label value="Total (€)" class="title"/>
+              <label id="wg-hectare-total" value="999.99" class="value"/>
+            </hbox>
+          </groupbox>
+
+
+
+          <groupbox flex="1" id="wg-conjoint-groupbox">
+            <caption label="Conjoint Ancien">
+              <checkbox id="wg-conjoint-checkbox" label="Avec un conjoint" oncommand="wg_totalize();"/>
+              <menulist editable="true" flex="1" width="320" id="wg-conjoint-menulist" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" onchange="wg_conjoint_search(); this.doCommand();" oncommand="this.inputField.select(); wg_conjoint_load();" onfocus="this.inputField.select();" oninput="elem('wg-conjoint-checkbox').checked=true; wg_totalize();">
+                <template>
+                  <menupopup>
+                    <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#pe_description" value="rdf:http://www.mozilla.org/SQL-rdf#pe_numero"/>
+                  </menupopup>
+                </template>
+              </menulist>
+            </caption>
+            <checkbox width="256" id="wg-conjoint-nouveau-checkbox" label="Créer une nouvelle fiche à partir des informations ci-dessous" oncommand="elem('wg-conjoint-checkbox').checked=true; wg_totalize();"/>
+            <hbox align="center">
+              <label value="Titre" class="firstlabel" control="wg-conjoint-titre"/>
+              <radiogroup id="wg-conjoint-titre" orient="horizontal">
+                <radio label="M."   value="21" selected="true"/>
+                <radio label="Mlle" value="23"/>
+                <radio label="Mme"  value="25"/>
+              </radiogroup>
+              <label value="" class="softer" id="wg-conjoint-extitre"/>
+            </hbox>
+            <hbox align="center">
+              <label value="Prénom" class="firstlabel" control="wg-conjoint-prenom"/>
+              <textbox value="" id="wg-conjoint-prenom" flex="1" oninput="elem('wg-conjoint-checkbox').checked=true; wg_totalize();"/>
+            </hbox>
+            <hbox align="center">
+              <label value="(Nom)" class="firstlabel" control="wg-conjoint-nom"/>
+              <textbox value="" id="wg-conjoint-nom" flex="1" oninput="elem('wg-conjoint-checkbox').checked=true; wg_totalize();"/>
+            </hbox>
+            <radiogroup id="wg-conjoint-radiogroup" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" oncommand="elem('wg-conjoint-checkbox').checked=true; wg_totalize();">
+              <template>
+                <radio uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#px_libelle" tarif="rdf:http://www.mozilla.org/SQL-rdf#px_tarifttc" value="rdf:http://www.mozilla.org/SQL-rdf#pd_numero"/>
+              </template>
+            </radiogroup>
+            <hbox pack="end" class="subtotal">
+              <label value="Total (€)" class="title"/>
+              <label id="wg-conjoint-total" value="999.99" class="value"/>
+            </hbox>
+          </groupbox>
+
+
+        </hbox>
+        <hbox>
+
+
+          <groupbox flex="1">
+            <caption label="Abonnement conseil">
+              <checkbox id="wg-conseil-checkbox" label="Abonnement conseil juridique SACEA" oncommand="wg_totalize();"/>
+            </caption>
+            <radiogroup id="wg-conseil-radiogroup" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" oncommand="elem('wg-conseil-checkbox').checked=true; wg_totalize();">
+              <template>
+                <radio uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#px_libelle" tarif="rdf:http://www.mozilla.org/SQL-rdf#px_tarifttc" value="rdf:http://www.mozilla.org/SQL-rdf#pd_numero"/>
+              </template>
+            </radiogroup>
+            <hbox pack="end" class="subtotal">
+              <label value="Total (€)" class="title"/>
+              <label id="wg-conseil-total" value="999.99" class="value"/>
+            </hbox>
+          </groupbox>
+
+
+
+          <groupbox flex="1">
+            <caption label="Avenir Aquitain">
+              <checkbox id="wg-journal-checkbox" class="price" label="Abonnement au journal L'AAVA" oncommand="wg_totalize();"/>
+            </caption>
+            <radiogroup id="wg-journal-radiogroup" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" oncommand="checkbox_check('wg-journal-checkbox',true);">
+              <template>
+                <radio uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#px_libelle" tarif="rdf:http://www.mozilla.org/SQL-rdf#px_tarifttc" value="rdf:http://www.mozilla.org/SQL-rdf#pd_numero"/>
+              </template>
+            </radiogroup>
+            <hbox align="center">
+              <label value="Début"/>
+              <textbox id="wg-journal-debut" width="50" value="778" oninput="checkbox_check('wg-journal-checkbox',true); elem('wg-journal-fin').value = this.value*1+21;"/>
+              <label value="Fin"/>
+              <textbox id="wg-journal-fin" width="50"  value="799" oninput="checkbox_check('wg-journal-checkbox',true);"/>
+              <label value="Nb. Ex."/>
+              <textbox id="wg-journal-nbex" width="50" value="1" oninput="checkbox_check('wg-journal-checkbox',true);"/>
+            </hbox>
+            <checkbox id="wg-journal-societe-checkbox" label="La société recoit le journal (Sinon c'est le gérant)" oncommand="checkbox_check('wg-societe-checkbox',true,this.checked); wg_journal_load_adresses(); checkbox_check('wg-journal-checkbox',true); "/>
+            <radiogroup id="wg-journal-adresses" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" oncommand="checkbox_check('wg-journal-checkbox',true);">
+              <template>
+                <radio uri="rdf:*" width="256" label="rdf:http://www.mozilla.org/SQL-rdf#ad_libelle" value="rdf:http://www.mozilla.org/SQL-rdf#ad_numero"/>
+              </template>
+            </radiogroup>
+            <hbox pack="end" class="subtotal">
+              <label value="Total (€)" class="title"/>
+              <label id="wg-journal-total" value="999.99" class="value"/>
+            </hbox>
+          </groupbox>
+
+
+
+        </hbox>
+      </vbox>
+
+
+          </tabpanel>
+
+
+
+          <tabpanel flex="1" orient="vertical">
+            <checkbox id="wg-associe-checkbox" label="Prendre en compte les associés" oncommand="wg_associe_check();"/>
+            <description>En cochant cette case, vous validez toutes les informations sur la fiche de la personne, de la société et du conjoint s'il y a des nouvelles fiches à créer.</description>
+            <radiogroup id="wg-associe-radiogroup" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" oncommand="checkbox_check('wg-associe-checkbox',true);">
+              <template>
+                <radio uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#px_libelle" tarif="rdf:http://www.mozilla.org/SQL-rdf#px_tarifttc" value="rdf:http://www.mozilla.org/SQL-rdf#pd_numero"/>
+              </template>
+            </radiogroup>
+            <hbox flex="1" id="wg-associe-list" hidden="true">
+              <vbox flex="1">
+                <hbox pack="end">
+                  <label value="Nombre d'associés validés"/>
+                  <label id="wg-associe-nombre" value="0"/>
+                </hbox>
+                <listbox allowevents="true" id="wg-associe-listbox" flex="1" style="overflow:auto;" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content">
+                  <template>
+                    <listitem uri="rdf:*" allowevents="true">
+                      <checkbox style="margin-right:10em;" checked="true" label="rdf:http://www.mozilla.org/SQL-rdf#pe_description" numero="rdf:http://www.mozilla.org/SQL-rdf#pe_numero" oncommand="elem('wg-associe-checkbox').checked=true; wg_totalize();"/>
+                    </listitem>
+                  </template>
+                </listbox>
+                <hbox id="wg-associe-update-buttons">
+                  <button flex="1" label="Ajouter"  oncommand="wg_associe_add();"/>
+                  <button flex="1" label="Modifier" oncommand="wg_associe_edit();"/>
+                  <button flex="1" label="Enlever"  oncommand="wg_associe_remove();"/>
+                </hbox>
+              </vbox>
+
+              <groupbox flex="2" id="wg-associe" hidden="true">
+
+        <caption label="Associé" align="center">
+          <label value="Associé"/>
+          <menulist editable="true" style="width:320px;" id="wg-associe-menulist" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" onchange="wg_associe_search(); this.doCommand();" oncommand="this.inputField.select(); wg_associe_load();" onfocus="this.inputField.select();">
+            <template>
+              <menupopup>
+                <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#pe_description" value="rdf:http://www.mozilla.org/SQL-rdf#pe_numero"/>
+              </menupopup>
+            </template>
+          </menulist>
+        </caption>
+        <checkbox id="wg-associe-nouveau-checkbox" label="Créer une nouvelle fiche à partir des informations ci-dessous" oncommand="elem('wg-associe-routage').hidden=this.checked; var b=elem('wg-associe-duplicate-button'); b.hidden = !this.checked; if (this.checked) {b.doCommand();}"/>
+        <hbox align="center">
+          <label value="Titre" class="firstlabel" control="wg-associe-titre"/>
+          <radiogroup id="wg-associe-titre" orient="horizontal">
+            <radio label="M."   value="21" selected="true"/>
+            <radio label="Mlle" value="23"/>
+            <radio label="Mme"  value="25"/>
+          </radiogroup>
+          <label value="" class="softer" id="wg-associe-extitre"/>
+        </hbox>
+        <hbox align="center">
+          <label value="Nom" class="firstlabel" control="wg-associe-nom"/>
+          <textbox value="" id="wg-associe-nom" flex="1"/>
+        </hbox>
+        <hbox align="center">
+          <label value="Prénom" class="firstlabel" control="wg-associe-prenom"/>
+          <textbox value="" id="wg-associe-prenom" flex="1"/>
+        </hbox>
+<!--        <checkbox id="wg-associe-duplicate-checkbox" hidden="true" label="Dupliquer les infos complémentaires à partir de la société" oncommand="elem('wg-associe-complement').hidden = this.checked; checkbox_check('wg-societe-checkbox',true, this.checked);"/>-->
+        <vbox id="wg-associe-complement">
+          <hbox align="center">
+            <label class="important" value="Adresse" flex="1"/>
+            <label class="important" id="wg-associe-adresse" hidden="true"/>
+          </hbox>
+          <hbox align="center">
+            <label value="Apt ou Dest." class="firstlabel" control="wg-associe-ligne2"/>
+            <textbox value="" id="wg-associe-ligne2" flex="1"/>
+          </hbox>
+          <hbox align="center">
+            <label value="Res, Bat" class="firstlabel" control="wg-associe-ligne3"/>
+            <textbox value="" id="wg-associe-ligne3" flex="1"/>
+          </hbox>
+          <hbox align="center">
+            <label value="N° et Voie" class="firstlabel" control="wg-associe-ligne4"/>
+            <textbox value="" id="wg-associe-ligne4" flex="1"/>
+          </hbox>
+          <hbox align="center">
+            <label value="BP ou LD" class="firstlabel" control="wg-associe-ligne5"/>
+            <textbox value="" id="wg-associe-ligne5" flex="1"/>
+          </hbox>
+          <hbox align="center">
+            <label value="CP" control="wg-associe-cp"/>
+            <textbox value="" id="wg-associe-cp" width="50" size="5" oninput="wg_load_cities('wg-associe-ville',this.value);"/>
+            <label value="Ville" control="wg-associe-ville"/>
+            <menulist flex="1" id="wg-associe-ville" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content">
+              <template>
+                <menupopup>
+                  <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#vi_nom" value="rdf:http://www.mozilla.org/SQL-rdf#vi_numero"/>
+                </menupopup>
+              </template>
+            </menulist>
+<!--          <textbox value="" id="wg-associe-ville" flex="1"/>-->
+          </hbox>
+          <label class="important" value="Contact"/>
+          <hbox align="center">
+            <label value="Tél" control="wg-associe-contact0" flex="1" class="nlabel"/>
+            <textbox value="" id="wg-associe-contact0" width="90"/>
+            <label value="Fax" control="wg-associe-contact1" flex="1" class="nlabel"/>
+            <textbox value="" id="wg-associe-contact1" width="90"/>
+            <label value="Mobile" control="wg-associe-contact2" flex="1" class="nlabel"/>
+            <textbox value="" id="wg-associe-contact2" width="90"/>
+          </hbox>
+          <hbox align="center">
+            <label value="E-mail" class="firstlabel" control="wg-associe-contact3"/>
+            <textbox value="" id="wg-associe-contact3" flex="3"/>
+          </hbox>
+          <hbox align="center">
+            <label value="Site web" class="firstlabel" control="wg-associe-contact4"/>
+            <textbox value="" id="wg-associe-contact4" flex="3"/>
+          </hbox>
+          <button id="wg-associe-duplicate-button" style="margin:5px;" label="Dupliquer les infos à partir de la société" hidden="true" oncommand="wg_personne_duplicate()"/>
+
+          <vbox id="wg-associe-routage">
+          <label class="important" value="Routage"/>
+          <menulist id="wg-associe-routage-menulist" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" oncommand="wg_routage_load_current('personne');">
+            <template>
+              <menupopup>
+                <menuitem flex="1" uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#ro_libelle" value="rdf:http://www.mozilla.org/SQL-rdf#ro_numero"/>
+              </menupopup>
+            </template>
+          </menulist>
+          <box orient="horizontal" align="center">
+            <label hidden="true" id="wg-associe-routage-numero" style="color:red;"/>
+            <label value="Début"/>
+            <textbox id="wg-associe-routage-debut" style="width:4em;" align="center"/>
+            <label value="Fin"/>
+            <textbox id="wg-associe-routage-fin" style="width:4em;" align="center"/>
+            <button id="wg-associe-routage-update" label="Modifier" flex="1" oncommand="if (confirm('Etes-vous sûr(e) de vouloir modifier le routage?')) wg_routage_update_current('personne')"/>
+          </box>
+          </vbox>
+
+        </vbox>
+                <hbox flex="1"/>
+                <hbox id="wg-associe-validate-button">
+                  <button flex="1" label="Valider" oncommand="wg_associe_validate();"/>
+                  <button flex="1" label="Annuler" oncommand="wg_associe_cancel();"/>
+                </hbox>
+              </groupbox>
+
+            </hbox>
+            <hbox pack="end" class="subtotal">
+              <label value="Total (€)" class="title"/>
+              <label id="wg-associe-total" value="999.99" class="value"/>
+            </hbox>
+          </tabpanel>
+
+
+
+        </tabpanels>
+      </tabbox>
+
+      <hbox pack="end" class="total">
+        <label value="TOTAL (€)" class="title"/>
+        <label id="wg-total" value="9345.96" class="value"/>
+      </hbox>
+</vbox>
+
+
+      
+        <hbox id="wg-bottom">
+
+
+      <groupbox orient="vertical" flex="1">
+        <caption label="Réglement"/>
+
+        <checkbox id="wg-reglement-don-checkbox" label="Mettre la différence en profits et pertes"/>
+        <checkbox id="wg-reglement-nouveau-checkbox" checked="true" label="Enregistrer un nouveau réglement (Adhérent direct)" oncommand="d=elem('wg-reglement-detail-deck'); if (this.checked) d.selectedIndex=0; else d.selectedIndex=1;"/>
+
+<!--
+        <radiogroup orient="horizontal" class="important" id="wg-reglement-radiogroup" oncommand="elem('wg-reglement-detail-deck').selectedIndex = this.selectedIndex;">
+          <radio id="wg-reglement-direct" label="Adhérent direct (Nouveau réglement)" selected="true"/>
+          <radio id="wg-reglement-tiersreglement" label="Réglement déjà enregistré"/>
+        </radiogroup>
+-->
+
+        <deck id="wg-reglement-detail-deck" align="start">
+
+          <vbox id="wg-reglement-direct-box">
+            <checkbox id="wg-reglement-societe-checkbox" checked="true" label="Le réglement est au nom de la société (Si NON, au nom de la personne)" oncommand="checkbox_check('wg-societe-checkbox',true,this.checked);"/>
+<!--
+            <hbox align="center">
+              <label value="Le réglement est au nom de :"/>
+              <radiogroup orient="horizontal">
+                <radio label="la société" selected="true"/>
+                <radio label="la personne"/>
+              </radiogroup>
+            </hbox>
+-->
+            <hbox align="center">
+              <label value="Montant"/>
+              <textbox id="wg-reglement-montant" value="0" style="width:96px;"/>
+              <label value="Date"/>
+              <textbox id="wg-reglement-date" value="01/01/2008" style="width:96px;"/>
+              <label value="Réglement par"/>
+              <menulist id="wg-reglement-mode" flex="1" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content">
+                <template>
+                  <menupopup>
+                    <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#mr_libelle" value="rdf:http://www.mozilla.org/SQL-rdf#mr_numero"/>
+                  </menupopup>
+                </template>
+              </menulist>
+            </hbox>
+            <hbox align="center">
+              <label value="Banque"/>
+              <textbox flex="1" id="wg-reglement-banque"/>
+              <label value="N°Compte"/>
+              <textbox flex="1" id="wg-reglement-compte"/>
+              <label value="N°Chèque"/>
+              <textbox flex="1" id="wg-reglement-cheque"/>
+            </hbox>
+          </vbox>
+
+          <vbox id="wg-reglement-tiersreglement-box">
+            <hbox align="center">
+              <label value="N°Réglement"/>
+              <menulist editable="true" id="wg-reglement-menulist" flex="2" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" onchange="wg_reglement_search(); this.doCommand();" oncommand="this.inputField.select(); wg_reglement_load();" onfocus="this.inputField.select();">
+                <template>
+                  <menupopup>
+                    <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#rg_libelle" value="rdf:http://www.mozilla.org/SQL-rdf#rg_numero"/>
+                  </menupopup>
+                </template>
+              </menulist>
+            </hbox>
+            <label id="wg-reglement-tiersreglement-detail"  class="softer" value="::" width="512"/>
+            <label id="wg-reglement-tiersreglement-adresse" class="softer" value="::"/>
+          </vbox>
+
+<!--
+          <vbox id="wg-reglement-tierspayeur-box">
+            <hbox align="center">
+              <label value="Payé par le groupement"/>
+              <menulist editable="true" id="c-payeur-menulist" flex="2" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" oncommand="cot_charge_reg();" onselect="cot_charge_reg();">
+                <template>
+                  <menupopup>
+                    <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#pe_numpersonne rdf:http://www.mozilla.org/SQL-rdf#pe_nom" value="rdf:http://www.mozilla.org/SQL-rdf#pe_numero"/>
+                  </menupopup>
+                </template>
+              </menulist>
+              <button label="Rafraîchir" onclick="cot_charge_tiers_payeurs();"/>
+            </hbox>
+            <hbox align="center">
+              <label value="Réglement servant à payer la cotisation"/>
+              <menulist editable="true" id="c-payeur-reg-menulist" flex="2" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content">
+                <template>
+                  <menupopup>
+                    <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#rg_numero - rdf:http://www.mozilla.org/SQL-rdf#rg_montant euros" value="rdf:http://www.mozilla.org/SQL-rdf#rg_numero"/>
+                  </menupopup>
+                </template>
+              </menulist>
+              <button label="Rafraîchir" onclick="cot_charge_reg();"/>
+            </hbox>
+          </vbox>
+-->
+
+        </deck>
+
+        </groupbox>
+
+
+
+
+
+
+
+
+        <button id="wg-send-button" label="OK" flex="1" oncommand="wg_send_cotisation(true);"><label  style="font-weight:bold; font-size:70px; padding : 10px;" value="OK"/></button>
+      </hbox>
+
+  <statusbar>
+    <statusbarpanel id="wg-status-text" flex="1" crop="end" label="State"/>
+    <statusbarpanel id="wg-status-f" flex="1" crop="end" label="-"/>
+    <statusbarpanel flex="9">
+      <progressmeter  flex="1" id="wg-status-progress" mode="determined" value="50"/>
+    </statusbarpanel>
+  </statusbar>
+
+    </vbox>
+  </hbox>
+
+  <script src="gestsea_cotisation_2008.js"/>
+</window>

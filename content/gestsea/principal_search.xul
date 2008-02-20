@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/skin" type="text/css"?>
+
+<!--
+buttons="accept,extra1,cancel"
+  buttonlabelextra1="Appliquer"
+    buttonaccesskeyextra1="A"
+    ondialogaccept="return Saisie_Valider(window.arguments[0][2]);"
+    ondialogextra1="Saisie_Valider(window.arguments[0][1]);return false;">
+    ondialogcancel="return true;"
+
+-->
+<dialog id="Saisie_Float_Window" title="Recherche de personnes"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    buttons=""
+    onload="OnLoadPop(window.arguments[0],window.arguments[1]);">
+
+<script src="principal_search.js"/>
+
+  <hbox>
+  <!--
+    <toolbarbutton oncommand="Prec()" tooltiptext="Précédent" id="back-button" class="toolbarbutton-1 chromeclass-toolbar-additional"/>
+    <toolbarbutton oncommand="Suiv()" tooltiptext="Suivant" id="forward-button" class="toolbarbutton-1 chromeclass-toolbar-additional"/>
+    <label id="Enrg" value="1"/>
+  -->
+    <label id="MaxEnrg" value=""/>
+    <label value="personne(s) trouvée(s)"/>
+  </hbox>
+
+  <tree id="arbre" seltype="single" flex="1"
+    datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" style="min-height:576px;min-width:768px" onselect="tree_select(this)">
+    <treecols  disabled="true">
+      <treecol flex="1" label="N°"  persist="hidden" id="pe_numerofede" sort="rdf:http://www.mozilla.org/SQL-rdf#pe_numero" sortActive="true"/>
+      <treecol flex="1" label="Titre"  persist="hidden" id="pe_titre" sort="rdf:http://www.mozilla.org/SQL-rdf#pe_titre" sortActive="true"/>
+      <treecol flex="5" label="Nom Prénom (Titre)"  persist="hidden" id="pe_nom" sort="rdf:http://www.mozilla.org/SQL-rdf#pe_fullname" sortActive="true"/>
+      <treecol flex="1" label="Complément"  persist="hidden" id="pe_complement" sort="rdf:http://www.mozilla.org/SQL-rdf#pe_complement" sortActive="true" hidden="true"/>
+      <treecol flex="1" label="C.P."  persist="hidden" id="pe_cp" sort="rdf:http://www.mozilla.org/SQL-rdf#pe_cp" sortActive="true"/>
+      <treecol flex="3" label="Ville"  persist="hidden" id="pe_ville" sort="rdf:http://www.mozilla.org/SQL-rdf#pe_ville" sortActive="true"/>
+      <treecol flex="1" label="Téléphone"  persist="hidden" id="pe_telephone" sort="rdf:http://www.mozilla.org/SQL-rdf#pe_telephone" sortActive="true"/>
+      <treecol flex="1" label="Fax"  persist="hidden" id="pe_fax" sort="rdf:http://www.mozilla.org/SQL-rdf#pe_fax" sortActive="true" hidden="true"/>
+    </treecols>
+      <template>
+        <treechildren id="arbreChild">
+          <treeitem uri="rdf:*">
+            <treerow  properties="makeItRed" disabled="true">
+              <treecell label="rdf:http://www.mozilla.org/SQL-rdf#pe_numero" value="rdf:http://www.mozilla.org/SQL-rdf#pe_numero"/>
+              <treecell label="rdf:http://www.mozilla.org/SQL-rdf#pe_titre" value="rdf:http://www.mozilla.org/SQL-rdf#pe_numero"/>
+              <treecell label="rdf:http://www.mozilla.org/SQL-rdf#pe_fullname" value="rdf:http://www.mozilla.org/SQL-rdf#pe_numero"/>
+              <treecell label="rdf:http://www.mozilla.org/SQL-rdf#pe_complement" value="rdf:http://www.mozilla.org/SQL-rdf#pe_numero"/>
+              <treecell label="rdf:http://www.mozilla.org/SQL-rdf#pe_cp" value="rdf:http://www.mozilla.org/SQL-rdf#pe_numero"/>
+              <treecell label="rdf:http://www.mozilla.org/SQL-rdf#pe_ville" value="rdf:http://www.mozilla.org/SQL-rdf#pe_numero"/>
+              <treecell label="rdf:http://www.mozilla.org/SQL-rdf#pe_telephone" value="rdf:http://www.mozilla.org/SQL-rdf#pe_telephone"/>
+              <treecell label="rdf:http://www.mozilla.org/SQL-rdf#pe_fax" value="rdf:http://www.mozilla.org/SQL-rdf#pe_fax"/>
+            </treerow>
+          </treeitem>
+        </treechildren>
+      </template>
+  </tree>
+
+
+
+</dialog>

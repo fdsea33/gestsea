@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="ISO-8859-15"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/skin/" type="text/css"?>
+<?xml-stylesheet href="gestsea_temps.css" type="text/css"?>
+
+<window	id="gestsea-na" 
+        title="GestSEA Enregistrement des Non Adhérents" 
+        onload="na_onload()" orient="vertical" sizemode="maximized" 
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script src="../generateur/utils_xul.js"/>
+  <script src="../generateur/pgsql.js"/>
+  <script src="gestsea_na.js"/>
+
+  <vbox flex="1" class="bg">
+    <hbox align="center" pack="center" style=" -moz-border-radius:1em; background-color:#FFCCCC;border:3px solid red; margin :5px;">
+      <label style="font-weight:bold;" value="Date des appels"/>
+      <textbox id="current-date" class="important" style="text-align:center; width:8em;" disabled="true" value="99/99/9999"/>
+      <button id="date-update" oncommand="na_date_update()" class="mybutton" label="Modifier la date"/>
+      <button id="date-commit" oncommand="na_date_commit()" class="mybutton commit" label="Enregistrer" hidden="true"/>
+      <button id="date-cancel" oncommand="na_date_cancel()" class="mybutton cancel" label="Annuler" hidden="true"/>
+    </hbox>
+    <box flex="1" orient="vertical">
+
+      <tree id="appel-menulist" flex="1" rows="10" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content">
+        <treecols>
+          <treecol label="N°Pers." flex="2" sort="rdf:http://www.mozilla.org/SQL-rdf#pe_num"/>
+          <splitter class="tree-splitter"/>
+          <treecol label="Titre" flex="2" sort="rdf:http://www.mozilla.org/SQL-rdf#na_titre"/>
+          <splitter class="tree-splitter"/>
+          <treecol label="Nom" flex="6" sort="rdf:http://www.mozilla.org/SQL-rdf#na_nom"/>
+          <splitter class="tree-splitter"/>
+          <treecol label="Prénom" flex="6" sort="rdf:http://www.mozilla.org/SQL-rdf#na_prenom"/>
+          <splitter class="tree-splitter"/>
+          <treecol label="Adresse 1" flex="6" sort="rdf:http://www.mozilla.org/SQL-rdf#na_adresse1"/>
+          <splitter class="tree-splitter"/>
+          <treecol label="Adresse 2"  flex="3" sort="rdf:http://www.mozilla.org/SQL-rdf#na_adresse2"/>
+          <splitter class="tree-splitter"/>
+          <treecol label="C.P."  flex="2" sort="rdf:http://www.mozilla.org/SQL-rdf#na_cp"/>
+          <splitter class="tree-splitter"/>
+          <treecol label="Ville"  flex="3" sort="rdf:http://www.mozilla.org/SQL-rdf#na_ville"/>
+          <splitter class="tree-splitter"/>
+          <treecol label="Tel"  flex="3" sort="rdf:http://www.mozilla.org/SQL-rdf#na_tel"/>
+<!--
+          <splitter class="tree-splitter"/>
+          <treecol label="Date"  flex="3" sort="rdf:http://www.mozilla.org/SQL-rdf#na_date"/>
+-->
+          <splitter class="tree-splitter"/>
+          <treecol label="S."  flex="1" sort="rdf:http://www.mozilla.org/SQL-rdf#na_status"/>
+          <splitter class="tree-splitter"/>
+          <treecol label="C."  flex="1" sort="rdf:http://www.mozilla.org/SQL-rdf#ag_numero"/>
+          <splitter class="tree-splitter"/>
+          <treecol label="Raison"  flex="12" sort="rdf:http://www.mozilla.org/SQL-rdf#na_raison"/>
+        </treecols>
+        <template>
+          <treechildren>
+            <treeitem uri="rdf:*">
+              <treerow>
+                <treecell label="rdf:http://www.mozilla.org/SQL-rdf#pe_num"         value="rdf:http://www.mozilla.org/SQL-rdf#pe_numero"/>
+                <treecell label="rdf:http://www.mozilla.org/SQL-rdf#na_titre"       value="rdf:http://www.mozilla.org/SQL-rdf#na_numero"/>
+                <treecell label="rdf:http://www.mozilla.org/SQL-rdf#na_nom"         value="rdf:http://www.mozilla.org/SQL-rdf#na_numero"/>
+                <treecell label="rdf:http://www.mozilla.org/SQL-rdf#na_prenom"      value="rdf:http://www.mozilla.org/SQL-rdf#na_numero"/>
+                <treecell label="rdf:http://www.mozilla.org/SQL-rdf#na_adresse1"    value="rdf:http://www.mozilla.org/SQL-rdf#na_numero"/>
+                <treecell label="rdf:http://www.mozilla.org/SQL-rdf#na_adresse2"    value="rdf:http://www.mozilla.org/SQL-rdf#na_numero"/>
+                <treecell label="rdf:http://www.mozilla.org/SQL-rdf#na_cp"          value="rdf:http://www.mozilla.org/SQL-rdf#na_numero"/>
+                <treecell label="rdf:http://www.mozilla.org/SQL-rdf#na_ville"       value="rdf:http://www.mozilla.org/SQL-rdf#na_numero"/>
+                <treecell label="rdf:http://www.mozilla.org/SQL-rdf#na_tel"         value="rdf:http://www.mozilla.org/SQL-rdf#na_numero"/>
+<!--                <treecell label="rdf:http://www.mozilla.org/SQL-rdf#na_date"        value="rdf:http://www.mozilla.org/SQL-rdf#na_numero"/>-->
+                <treecell label="rdf:http://www.mozilla.org/SQL-rdf#na_status"      value="rdf:http://www.mozilla.org/SQL-rdf#na_numero"/>
+                <treecell label="rdf:http://www.mozilla.org/SQL-rdf#ag_initiales"   value="rdf:http://www.mozilla.org/SQL-rdf#ag_numero"/>
+                <treecell label="rdf:http://www.mozilla.org/SQL-rdf#na_raison"      value="rdf:http://www.mozilla.org/SQL-rdf#na_numero"/>
+              </treerow>
+            </treeitem>
+          </treechildren>
+        </template>
+      </tree>
+
+    </box>
+  </vbox>
+<!--  <separator />-->
+<!--  <splitter collapse="before"/>-->
+    <splitter collapse="after">
+      <grippy/>
+    </splitter>
+  <hbox class="bg">
+    <groupbox orient="vertical" flex="1">
+      <caption label="Infos personnelles"/>
+      <grid flex="1" >
+        <columns>
+          <column flex="1" align="end"/>
+          <column flex="2"/>
+        </columns>
+        <rows>
+          <row class="section">
+            <label class="personal-title" value="Nom"/>
+            <label class="personal-text" id="agent-nom" value=""/>
+          </row>
+          <row class="section">
+            <label class="personal-title" value="Prénom"/>
+            <label class="personal-text" id="agent-prenom"  value=""/>
+          </row>
+          <row class="section">
+            <label class="personal-title" value="N°Agent"/>
+            <label class="personal-text" id="agent-numero"  value=""/>
+          </row>
+          <row class="section">
+            <label class="personal-title" value="N°Emp."/>
+            <label class="personal-text" id="current-employe" value=""/>
+          </row>
+        </rows>
+      </grid>
+    </groupbox>
+
+    <splitter collapse="before" state="collapsed">
+      <grippy/>
+    </splitter>
+    
+    <groupbox orient="vertical" flex="3">
+      <caption label="Appel"/>
+
+      <vbox flex="1">
+        <vbox>
+          <hbox>
+            <vbox flex="1">
+              <hbox align="center">
+                <label control="na-titre-menulist" value="Titre"/>
+                <menulist editable="true" id="na-titre-menulist" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content">
+                  <template>
+                    <menupopup>
+                      <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#na_titre" value="rdf:http://www.mozilla.org/SQL-rdf#na_titre"/>
+                    </menupopup>
+                  </template>
+                </menulist>      
+                <label control="na-nom-textbox" value="Nom" class="important"/>
+                <textbox id="na-nom-textbox" flex="1" value="" maxlength="32" oninput="na_appel_load_prospects('');"/>
+              </hbox>
+              <hbox align="center">
+                <label control="na-adresse1-textbox" value="Adresse 1"/>
+                <textbox id="na-adresse1-textbox" flex="1" value="" maxlength="38"/>
+              </hbox>
+              <hbox align="center">
+                <label control="na-cp-textbox" value="Code postal" class="important"/>
+                <textbox id="na-cp-textbox" value="" maxlength="5"  style="max-width : 6em;" onchange="na_appel_load_villes(this.value);" oninput="na_appel_load_prospects('cp');"/>
+                <label control="na-ville-menulist" value="Ville"/>
+                <menulist editable="true" id="na-ville-menulist" flex="1" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content">
+                  <template>
+                    <menupopup>
+                      <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#vi_nom" value="rdf:http://www.mozilla.org/SQL-rdf#vi_nom"/>
+                    </menupopup>
+                  </template>
+                </menulist>
+              </hbox>
+            </vbox>
+
+            <vbox flex="1">
+              <hbox align="center">
+                <label control="na-prenom-textbox" value="Prénom" class="important"/>
+                <textbox id="na-prenom-textbox" flex="1" value="" maxlength="32" oninput="na_appel_load_prospects('');"/>
+                <label control="na-numero-textbox" value="N°"/>
+                <textbox id="na-numero-textbox" value="" maxlength="6" style="max-width : 7em;" onchange="na_appel_load_personne();"/>
+              </hbox>
+              <hbox align="center">
+                <label control="na-adresse2-textbox" value="Adresse 2"/>
+                <textbox id="na-adresse2-textbox" flex="1" value="" maxlength="38"/>
+              </hbox>
+              <hbox align="center">
+                <label control="na-tel-textbox" value="Téléphone" class="important"/>
+                <textbox id="na-tel-textbox" flex="1" value=""/>
+              </hbox>
+            </vbox>
+          </hbox>
+          
+
+          <hbox align="center">
+            <label control="na-date-textbox" value="Date"/>
+            <textbox id="na-date-textbox" value="" maxlength="10"/>
+            <checkbox id="na-na-checkbox" label="N'a JAMAIS adhéré" flex="1" checked="true"/>
+          </hbox>
+
+          <hbox align="center">
+            <label control="na-raison-menulist" value="Raison de l'appel" class="important"/>
+            <menulist editable="true" id="na-raison-menulist" flex="1" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content">
+              <template>
+                <menupopup>
+                  <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#na_raison" value="rdf:http://www.mozilla.org/SQL-rdf#na_raison"/>
+                </menupopup>
+              </template>
+            </menulist>      
+          </hbox>
+   
+          
+        </vbox>
+        <separator class="groove"/>
+		<vbox flex="1" id="prospect" orient="vertical">
+          <hbox align="center">
+            <label class="info" value="Nombre de possibilités"/>
+            <label class="info" id="prospect-nombre"/>
+            <button flex="1"    id="prospect-display" label="Afficher quand même les résultats" hidden="true"/>
+          </hbox>
+          <tree id="prospect-tree" hidden="true" flex="1" rows="10" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" ondblclick="elem('na-numero-textbox').value = this.view.getCellValue(this.view.selection.currentIndex, this.treeBoxObject.columns.getColumnAt(0))-1000000; na_appel_load_personne();">
+            <treecols>
+              <treecol label="N°Pers." flex="2" sort="rdf:http://www.mozilla.org/SQL-rdf#pe_num"/>
+              <splitter class="tree-splitter"/>
+              <treecol label="Titre" flex="2" sort="rdf:http://www.mozilla.org/SQL-rdf#pe_titre"/>
+              <splitter class="tree-splitter"/>
+              <treecol label="Nom" flex="6" sort="rdf:http://www.mozilla.org/SQL-rdf#pe_nom"/>
+              <splitter class="tree-splitter"/>
+              <treecol label="Prénom" flex="6" sort="rdf:http://www.mozilla.org/SQL-rdf#pe_prenom"/>
+              <splitter class="tree-splitter"/>
+              <treecol label="C.P."  flex="2" sort="rdf:http://www.mozilla.org/SQL-rdf#pe_cp"/>
+              <splitter class="tree-splitter"/>
+              <treecol label="Ville"  flex="3" sort="rdf:http://www.mozilla.org/SQL-rdf#pe_ville"/>
+              <splitter class="tree-splitter"/>
+              <treecol label="Tel"  flex="3" sort="rdf:http://www.mozilla.org/SQL-rdf#pe_tel"/>
+            </treecols>
+            <template>
+              <treechildren>
+                <treeitem uri="rdf:*">
+                  <treerow>
+                    <treecell label="rdf:http://www.mozilla.org/SQL-rdf#pe_num"       value="rdf:http://www.mozilla.org/SQL-rdf#pe_numero"/>
+                    <treecell label="rdf:http://www.mozilla.org/SQL-rdf#pe_titre"     value="rdf:http://www.mozilla.org/SQL-rdf#pe_numero"/>
+                    <treecell label="rdf:http://www.mozilla.org/SQL-rdf#pe_nom"       value="rdf:http://www.mozilla.org/SQL-rdf#pe_numero"/>
+                    <treecell label="rdf:http://www.mozilla.org/SQL-rdf#pe_prenom"    value="rdf:http://www.mozilla.org/SQL-rdf#pe_numero"/>
+                    <treecell label="rdf:http://www.mozilla.org/SQL-rdf#pe_cp"        value="rdf:http://www.mozilla.org/SQL-rdf#pe_numero"/>
+                    <treecell label="rdf:http://www.mozilla.org/SQL-rdf#pe_ville"     value="rdf:http://www.mozilla.org/SQL-rdf#pe_numero"/>
+                    <treecell label="rdf:http://www.mozilla.org/SQL-rdf#pe_tel"       value="rdf:http://www.mozilla.org/SQL-rdf#pe_numero"/>
+                  </treerow>
+                </treeitem>
+              </treechildren>
+            </template>
+		  </tree>
+        </vbox>
+
+      </vbox>
+	
+
+      <hbox align="center"  style="background-color: #F0E088; margin-top:5px;-moz-border-radius:8px;">
+        <hbox pack="start">
+          <toolbarbutton id="reload-button" class="toolbarbutton-1 chromeclass-toolbar-additional" oncommand="na_appel_load_all()"/>
+        </hbox>
+        <hbox pack="end" flex="1">
+          <button id="appel-insert" oncommand="na_appel_insert();" class="mybutton" label="Nouvel appel"/>
+          <button id="appel-update" oncommand="na_appel_update();" class="mybutton" label="Modifier l'appel"/>
+          <button id="appel-delete" oncommand="na_appel_delete();" class="mybutton" label="Supprimer l'appel"/>
+          <button id="appel-commit" oncommand="na_appel_commit();" class="mybutton commit" label="Enregistrer" hidden="true"/>
+          <button id="appel-cancel" oncommand="na_appel_cancel();" class="mybutton cancel" label="Annuler" hidden="true"/>
+        </hbox>
+      </hbox>
+
+
+
+    </groupbox>
+  </hbox>
+  <statusbar>
+    <statusbarpanel flex="1" id="prospect-query"/>
+  </statusbar>
+</window>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://gestsea/skin/icons.css" type="text/css"?>
+
+<dialog	id="gestsea:routage" title="GestSEA - Saisie de groupe de routage" buttons="accept,cancel" onload="ro_start();" ondialogaccept="ro_valide(); return true;" ondialogcancel="return true;" orient="vertical" sizemode="normal" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script src="principal_routage.js"/>
+  <vbox style="padding:20px">
+    <hbox align="center">
+      <label value="Selectionnez la catégorie à router pour la facture N°"/>
+      <label id="r-facture"/>
+      <label value=":"/>
+    </hbox>
+    <hbox align="center">
+      <label value="Type d'attribut"/>
+      <menulist editable="true" id="r-typeattribut-menulist" flex="2" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" oncommand="ro_charge_categorie(this.selectedItem.value);" onselect="ro_charge_categorie(this.selectedItem.value);">
+        <template>
+          <menupopup>
+            <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#ta_nom" value="rdf:http://www.mozilla.org/SQL-rdf#ta_numero"/>
+          </menupopup>
+        </template>
+      </menulist>
+    </hbox>
+    <hbox align="center">
+      <label value="Catégorie"/>
+      <menulist editable="true" id="r-categorie-menulist" flex="2" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" oncommand="ro_charge_detail(this.selectedItem.value);" onselect="ro_charge_detail(this.selectedItem.value);">
+        <template>
+          <menupopup>
+            <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#cr_libelle" value="rdf:http://www.mozilla.org/SQL-rdf#cr_numero"/>
+          </menupopup>
+        </template>
+      </menulist>
+    </hbox>
+    <label id="r-categorie-détail"/>
+    <hbox align="center">
+      <label value="Du numéro"/>
+      <textbox flex="1" id="r-debut"/>
+      <label value=" au numero"/>
+      <textbox flex="1" id="r-fin"/>
+    </hbox>
+  </vbox>
+</dialog>

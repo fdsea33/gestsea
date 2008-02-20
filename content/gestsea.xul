@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://gestsea/skin/icons.css" type="text/css"?>
+
+<window	id="gestsea-lanceur" align="center" pack="center" title="GestSEA Suite 2008" orient="vertical" sizemode="normal" xmlns:html="http://www.w3.org/1999/xhtml" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script>
+//alert(top.document.getElementById('gestsea-lanceur').getAttribute('width'));
+top.document.getElementById('gestsea-lanceur').setAttribute('screenX',(screen.availWidth-1*top.document.getElementById('gestsea-lanceur').getAttribute('width'))/2);
+top.document.getElementById('gestsea-lanceur').setAttribute('screenY',(screen.availHeight-1*top.document.getElementById('gestsea-lanceur').getAttribute('height'))/2);
+//top.document.getElementById('gestsea-lanceur').screenY=100;//(screen.availHeight-document.getElementById('gestsea-lanceur').height)/2;
+  </script>
+  <vbox>
+<!--    <stack flex="1" >-->
+      <image flex="1" height="58" width="496" src="chrome://gestsea/skin/images/gestsea2008.png"/>
+<!--    </stack>-->
+    <separator flex="1" class="groove-thin"/>  
+  </vbox>
+  <hbox flex="1" style="padding:30px;" align="center">
+    <grid flex="1">
+      <columns>
+        <column flex="3" align="center" pack="center"/>
+        <column width="250"/>
+      </columns>
+      <rows>
+        <row align="center">
+          <button label="GestSEA Principal" oncommand="window.openDialog('chrome://gestsea/content/gestsea/gestsea_principal.xul');"/>
+          <description>Logiciel principal permettant la gestion des personnes et la facturation.</description>
+        </row>
+        <separator class="groove"/>
+        <row align="center">
+          <button label="GestSEA MOTO" oncommand="window.openDialog('chrome://gestsea/content/gestsea/gestsea_moto.xul');"/>
+          <description>Mesure Optimale des Temps d'Occupation</description>
+        </row>
+        <separator class="groove"/>
+        <row align="center">
+          <button label="GestSEA Cotisation" oncommand="window.openDialog('chrome://gestsea/content/gestsea/gestsea_cotisation.xul');"/>
+          <description>Fenêtre de saisie des coupons-réponses (seulement en mode administrateur).</description>
+        </row>
+        <separator class="groove"/>
+        <row align="center">
+          <button label="GestSEA Paramétrage" oncommand="window.openDialog('chrome://gestsea/content/gestsea/gestsea_parametrage.xul');"/>
+          <description>Logiciel permettant de configurer et paramétrer les constantes de l'application principale.</description>
+        </row>
+        <separator class="groove"/>
+        <row align="center">
+          <button label="GestSEA Comptabilité" oncommand="window.openDialog('chrome://gestsea/content/gestsea/gestsea_comptabilite.xul');"/>
+          <description>Logiciel de comptabilité efficace et puissant. Un outil indispensable pour le comptable professionnel ou amateur.</description>
+        </row>
+      </rows>
+    </grid>
+  </hbox>
+</window>

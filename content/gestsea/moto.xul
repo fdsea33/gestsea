@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://gestsea/skin/icons.css" type="text/css"?>
+<!-- CE FICHIER A ETE GENERE PAR GENERATOR_LIB -->
+
+<window windowtype="gestsea:moto" name="moto" sizemode="maximized" 
+	id="Page_moto"
+	title="GestSEA MOTO - Mesure Optimale des Temps d'Occupation"
+	orient="vertical"
+	onload="moto_Chargement();"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<!-- FICHIERS DE SCRIPTS NECESSAIRES -->
+
+<script src="chrome://gestsea/content/generator/pgsql.js"/>
+<script src="chrome://gestsea/content/generator/utils_xul.js"/>
+<script src="chrome://gestsea/content/generator/pointer.js"/>
+<script src="chrome://gestsea/content/generator/generator_sql.js"/>
+<script src="chrome://gestsea/content/generator/generator_xul.js"/>
+<script src="chrome://global/content/nsDragAndDrop.js"/>
+<script src="chrome://global/content/nsTransferable.js"/>
+<script src="chrome://global/content/globalOverlay.js"/>
+<script src="chrome://browser/content/browser.js"/>
+<script src="chrome://gestsea/content/gestsea/export.js"/>
+<script src="chrome://gestsea/content/generator/libIO.js"/>
+<script src="chrome://gestsea/content/generator/gestseax-mcd.js"/>
+<!-- AJOUTER chrome://agrisig/content/Onglets/Agrisig SI NECESSAIRE -->
+<script src="moto.js"/>
+<script src="moto_User.js"/>
+<toolbox>
+  <menubar id="menu-application">
+    <menu id="donnee-menu" label="Gestion des données">
+      <menupopup id="donnee-popup">
+      <menuitem label="Activités" oncommand="AllerAOnglet(0)"/>
+      <menuitem label="Tâches" oncommand="AllerAOnglet(1)"/>
+      <menuitem label="Sujets" oncommand="AllerAOnglet(2)"/>
+      <menuitem label="Groupe" oncommand="AllerAOnglet(3)"/>
+      <menuitem label="Lieu" oncommand="AllerAOnglet(4)"/>
+      </menupopup>
+    </menu>
+    <menu id="edition-menu" label="Edition">
+      <menupopup id="edit-popup">
+        <menuitem label="Annuler"/>
+        <menuitem label="Refaire"/>
+      </menupopup>
+    </menu>
+    <menu id="theme-menu" label="Changer de thème">
+      <menupopup id="theme-popup">
+        <menuitem label="Choisir" oncommand="BrowserOpenExtensions('themes')"/>
+      </menupopup>
+    </menu>
+  </menubar>
+</toolbox>
+
+<!-- COMPOSANT OU SE DESSINERONT LES COMPOSANTS -->
+
+<vbox flex="1">
+<tabbox id="Main_Tabbox" flex="1">
+<hbox id="box_overflow" class="tabbrowser-strip chromeclass-toolbar">
+<tabs flex="1" class="tabbrowser-tabs" id="Tous_les_onglets">
+ <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Activités" label="Activités"/>
+ <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Tâches" label="Tâches"/>
+ <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Sujets" label="Sujets"/>
+ <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Groupe" label="Groupe"/>
+ <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Lieu" label="Lieu"/>
+</tabs>
+</hbox>
+<tabpanels id="Tous_les_panels" flex="1">
+<tabpanel flex="1" id="OngletPanel_Activités" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Activités_Liste_des_activités0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Activités_Liste_des_activités0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Activités_Liste_des_activités0" label="Ajouter" oncommand="Insert_Activités_Liste_des_activités0()" />
+    <button class="edit-button16" disabled="true" id="Update_Activités_Liste_des_activités0" label="Modifier" oncommand="Update_Activités_Liste_des_activités0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Activités_Liste_des_activités0" label="Supprimer" oncommand="Delete_Activités_Liste_des_activités0()" />
+    <button class="accept-button16" id="Validate_Activités_Liste_des_activités0" label="Valider" oncommand="Validate_Activités_Liste_des_activités0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Activités_Liste_des_activités0" label="Annuler" oncommand="Annuler_Activités_Liste_des_activités0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Tâches" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Tâches_Liste_des_tâches0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Tâches_Liste_des_tâches0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Tâches_Liste_des_tâches0" label="Ajouter" oncommand="Insert_Tâches_Liste_des_tâches0()" />
+    <button class="edit-button16" disabled="true" id="Update_Tâches_Liste_des_tâches0" label="Modifier" oncommand="Update_Tâches_Liste_des_tâches0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Tâches_Liste_des_tâches0" label="Supprimer" oncommand="Delete_Tâches_Liste_des_tâches0()" />
+    <button class="accept-button16" id="Validate_Tâches_Liste_des_tâches0" label="Valider" oncommand="Validate_Tâches_Liste_des_tâches0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Tâches_Liste_des_tâches0" label="Annuler" oncommand="Annuler_Tâches_Liste_des_tâches0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Sujets" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Sujets_Liste_des_types_de_sujets0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox id="Sujets_Liste_des_types_de_sujets0_Slaves"/>
+<hbox flex="1">
+<vbox id="Sujets_Sujets_3" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Sujets_Sujets_3_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Sujets_Sujets_3" label="Ajouter" oncommand="Insert_Sujets_Sujets_3()" />
+    <button class="edit-button16" disabled="true" id="Update_Sujets_Sujets_3" label="Modifier" oncommand="Update_Sujets_Sujets_3()" />
+    <button class="delete-button16" disabled="true" id="Delete_Sujets_Sujets_3" label="Supprimer" oncommand="Delete_Sujets_Sujets_3()" />
+    <button class="accept-button16" id="Validate_Sujets_Sujets_3" label="Valider" oncommand="Validate_Sujets_Sujets_3()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Sujets_Sujets_3" label="Annuler" oncommand="Annuler_Sujets_Sujets_3()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Sujets_Liste_des_types_de_sujets0" label="Ajouter" oncommand="Insert_Sujets_Liste_des_types_de_sujets0()" />
+    <button class="edit-button16" disabled="true" id="Update_Sujets_Liste_des_types_de_sujets0" label="Modifier" oncommand="Update_Sujets_Liste_des_types_de_sujets0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Sujets_Liste_des_types_de_sujets0" label="Supprimer" oncommand="Delete_Sujets_Liste_des_types_de_sujets0()" />
+    <button class="accept-button16" id="Validate_Sujets_Liste_des_types_de_sujets0" label="Valider" oncommand="Validate_Sujets_Liste_des_types_de_sujets0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Sujets_Liste_des_types_de_sujets0" label="Annuler" oncommand="Annuler_Sujets_Liste_des_types_de_sujets0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Groupe" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Groupe_Liste_des_groupes0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Groupe_Liste_des_groupes0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Groupe_Liste_des_groupes0" label="Ajouter" oncommand="Insert_Groupe_Liste_des_groupes0()" />
+    <button class="edit-button16" disabled="true" id="Update_Groupe_Liste_des_groupes0" label="Modifier" oncommand="Update_Groupe_Liste_des_groupes0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Groupe_Liste_des_groupes0" label="Supprimer" oncommand="Delete_Groupe_Liste_des_groupes0()" />
+    <button class="accept-button16" id="Validate_Groupe_Liste_des_groupes0" label="Valider" oncommand="Validate_Groupe_Liste_des_groupes0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Groupe_Liste_des_groupes0" label="Annuler" oncommand="Annuler_Groupe_Liste_des_groupes0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Lieu" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Lieu_Liste_des_lieus0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Lieu_Liste_des_lieus0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Lieu_Liste_des_lieus0" label="Ajouter" oncommand="Insert_Lieu_Liste_des_lieus0()" />
+    <button class="edit-button16" disabled="true" id="Update_Lieu_Liste_des_lieus0" label="Modifier" oncommand="Update_Lieu_Liste_des_lieus0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Lieu_Liste_des_lieus0" label="Supprimer" oncommand="Delete_Lieu_Liste_des_lieus0()" />
+    <button class="accept-button16" id="Validate_Lieu_Liste_des_lieus0" label="Valider" oncommand="Validate_Lieu_Liste_des_lieus0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Lieu_Liste_des_lieus0" label="Annuler" oncommand="Annuler_Lieu_Liste_des_lieus0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+</vbox>
+</tabpanel>
+</tabpanels>
+</tabbox>
+</vbox>
+<statusbar id="statusbar">
+  <statusbarpanel id="status_espace" label="" width="5"/>
+  <statusbarpanel id="status_login" label=""/>
+  <statusbarpanel id="status_Info" label=""/>
+  <statusbarpanel id="status_TpsExec" flex="1" label=""/>
+  <statusbarpanel id="status_counter" flex="1" label=""/>
+</statusbar>
+</window>

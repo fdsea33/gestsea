@@ -1,0 +1,1005 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://gestsea/skin/icons.css" type="text/css"?>
+<!-- CE FICHIER A ETE GENERE PAR GENERATOR_LIB -->
+
+<window windowtype="gestsea:parametrage" name="parametrage" sizemode="maximized" 
+	id="Page_parametrage"
+	title="GestSEA Paramétrage"
+	orient="vertical"
+	onload="parametrage_Chargement();"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<!-- FICHIERS DE SCRIPTS NECESSAIRES -->
+
+<script src="chrome://gestsea/content/generator/pgsql.js"/>
+<script src="chrome://gestsea/content/generator/utils_xul.js"/>
+<script src="chrome://gestsea/content/generator/pointer.js"/>
+<script src="chrome://gestsea/content/generator/generator_sql.js"/>
+<script src="chrome://gestsea/content/generator/generator_xul.js"/>
+<script src="chrome://global/content/nsDragAndDrop.js"/>
+<script src="chrome://global/content/nsTransferable.js"/>
+<script src="chrome://global/content/globalOverlay.js"/>
+<script src="chrome://browser/content/browser.js"/>
+<script src="export.js"/>
+<script src="parametrage_plus.js"/>
+<script src="chrome://gestsea/content/generator/gestseax-mcd.js"/>
+<!-- AJOUTER chrome://agrisig/content/Onglets/Agrisig SI NECESSAIRE -->
+<script src="parametrage.js"/>
+<script src="parametrage_User.js"/>
+<toolbox>
+  <menubar id="menu-application">
+    <menu id="donnee-menu" label="Gestion des données">
+      <menupopup id="donnee-popup">
+      <menuitem label="Accès" oncommand="AllerAOnglet(0)"/>
+      <menuitem label="Adhérence" oncommand="AllerAOnglet(1)"/>
+      <menuitem label="Agents" oncommand="AllerAOnglet(2)"/>
+      <menuitem label="Cantons" oncommand="AllerAOnglet(3)"/>
+      <menuitem label="Codes postaux" oncommand="AllerAOnglet(4)"/>
+      <menuitem label="Profils de droits" oncommand="AllerAOnglet(5)"/>
+      <menuitem label="Employés" oncommand="AllerAOnglet(6)"/>
+      <menuitem label="Équipes" oncommand="AllerAOnglet(7)"/>
+      <menuitem label="Etats de personne" oncommand="AllerAOnglet(8)"/>
+      <menuitem label="Groupe de tables" oncommand="AllerAOnglet(9)"/>
+      <menuitem label="Groupes de cantons" oncommand="AllerAOnglet(10)"/>
+      <menuitem label="Modèles d'impressions" oncommand="AllerAOnglet(11)"/>
+      <menuitem label="Impressions" oncommand="AllerAOnglet(12)"/>
+      <menuitem label="Modèles" oncommand="AllerAOnglet(13)"/>
+      <menuitem label="Mode de réglements" oncommand="AllerAOnglet(14)"/>
+      <menuitem label="Modes de répartition" oncommand="AllerAOnglet(15)"/>
+      <menuitem label="Natures de personne" oncommand="AllerAOnglet(16)"/>
+      <menuitem label="Périodes" oncommand="AllerAOnglet(17)"/>
+      <menuitem label="Préfixes" oncommand="AllerAOnglet(18)"/>
+      <menuitem label="Produits" oncommand="AllerAOnglet(19)"/>
+      <menuitem label="Responsabilités" oncommand="AllerAOnglet(20)"/>
+      <menuitem label="Services" oncommand="AllerAOnglet(21)"/>
+      <menuitem label="Sociétés" oncommand="AllerAOnglet(22)"/>
+      <menuitem label="TVA" oncommand="AllerAOnglet(23)"/>
+      <menuitem label="Types d'adresses" oncommand="AllerAOnglet(24)"/>
+      <menuitem label="Types d'attribut" oncommand="AllerAOnglet(25)"/>
+      <menuitem label="Types de contacts" oncommand="AllerAOnglet(26)"/>
+      <menuitem label="Types de journaux" oncommand="AllerAOnglet(27)"/>
+      <menuitem label="Types de lien" oncommand="AllerAOnglet(28)"/>
+      <menuitem label="Types de personne" oncommand="AllerAOnglet(29)"/>
+      <menuitem label="Types de sociétés" oncommand="AllerAOnglet(30)"/>
+      <menuitem label="Types de tâches" oncommand="AllerAOnglet(31)"/>
+      <menuitem label="Villes" oncommand="AllerAOnglet(32)"/>
+      </menupopup>
+    </menu>
+    <menu id="edition-menu" label="Edition">
+      <menupopup id="edit-popup">
+        <menuitem label="Annuler"/>
+        <menuitem label="Refaire"/>
+      </menupopup>
+    </menu>
+    <menu id="theme-menu" label="Changer de thème">
+      <menupopup id="theme-popup">
+        <menuitem label="Choisir" oncommand="BrowserOpenExtensions('themes')"/>
+      </menupopup>
+    </menu>
+  </menubar>
+</toolbox>
+
+<!-- COMPOSANT OU SE DESSINERONT LES COMPOSANTS -->
+
+<vbox flex="1">
+<tabbox id="Main_Tabbox" flex="1">
+<hbox id="box_overflow" class="tabbrowser-strip chromeclass-toolbar" style="overflow: auto;" >
+<tabs flex="1" class="tabbrowser-tabs" id="Tous_les_onglets">
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Accès" label="Accès"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Adhérence" label="Adhérence"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Agents" label="Agents"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Cantons" label="Cantons"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Codes_postaux" label="Codes postaux"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Profils_de_droits" label="Profils de droits"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Employés" label="Employés"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Équipes" label="Équipes"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Etats_de_personne" label="Etats de personne"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Groupe_de_tables" label="Groupe de tables"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Groupes_de_cantons" label="Groupes de cantons"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Modèles_d_impressions" label="Modèles d'impressions"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Impressions" label="Impressions"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Modèles" label="Modèles"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Mode_de_réglements" label="Mode de réglements"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Modes_de_répartition" label="Modes de répartition"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Natures_de_personne" label="Natures de personne"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Périodes" label="Périodes"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Préfixes" label="Préfixes"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Produits" label="Produits"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Responsabilités" label="Responsabilités"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Services" label="Services"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Sociétés" label="Sociétés"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_TVA" label="TVA"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Types_d_adresses" label="Types d'adresses"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Types_d_attribut" label="Types d'attribut"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Types_de_contacts" label="Types de contacts"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Types_de_journaux" label="Types de journaux"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Types_de_lien" label="Types de lien"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Types_de_personne" label="Types de personne"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Types_de_sociétés" label="Types de sociétés"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Types_de_tâches" label="Types de tâches"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Villes" label="Villes"/>
+</tabs>
+</hbox>
+<tabpanels id="Tous_les_panels" flex="1">
+<tabpanel flex="1" id="OngletPanel_Accès" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Accès_Liste_des_niveaux_d_accès0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Accès_Liste_des_niveaux_d_accès0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Accès_Liste_des_niveaux_d_accès0" label="Ajouter" oncommand="Insert_Accès_Liste_des_niveaux_d_accès0()" />
+    <button class="edit-button16" disabled="true" id="Update_Accès_Liste_des_niveaux_d_accès0" label="Modifier" oncommand="Update_Accès_Liste_des_niveaux_d_accès0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Accès_Liste_des_niveaux_d_accès0" label="Supprimer" oncommand="Delete_Accès_Liste_des_niveaux_d_accès0()" />
+    <button class="accept-button16" id="Validate_Accès_Liste_des_niveaux_d_accès0" label="Valider" oncommand="Validate_Accès_Liste_des_niveaux_d_accès0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Accès_Liste_des_niveaux_d_accès0" label="Annuler" oncommand="Annuler_Accès_Liste_des_niveaux_d_accès0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+<hbox class="fondstyle" pack="end">
+  <hbox pack="end" align="center">
+    <separator class="groove"/>
+    <button class="back-button16" label="Précédent" oncommand="Retour_Accès()"/>
+  </hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Adhérence" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Adhérence_Liste_des_adhérences0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox id="Adhérence_Liste_des_adhérences0_Slaves"/>
+<hbox flex="1">
+<vbox id="ListeDessus_Adhérence_Périodes_de_validité_7" flex="1"/>
+<splitter><grippy/></splitter>
+<vbox id="Adhérence_Périodes_de_validité_7" flex="1"/>
+</hbox>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Adhérence_Liste_des_adhérences0" label="Ajouter" oncommand="Insert_Adhérence_Liste_des_adhérences0()" />
+    <button class="edit-button16" disabled="true" id="Update_Adhérence_Liste_des_adhérences0" label="Modifier" oncommand="Update_Adhérence_Liste_des_adhérences0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Adhérence_Liste_des_adhérences0" label="Supprimer" oncommand="Delete_Adhérence_Liste_des_adhérences0()" />
+    <button class="accept-button16" id="Validate_Adhérence_Liste_des_adhérences0" label="Valider" oncommand="Validate_Adhérence_Liste_des_adhérences0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Adhérence_Liste_des_adhérences0" label="Annuler" oncommand="Annuler_Adhérence_Liste_des_adhérences0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+<hbox class="fondstyle" pack="end">
+  <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
+    <button label="Mettre à jour les adhésions" oncommand="MiseAJourAdhesion();"/>
+  </arrowscrollbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Agents" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Agents_Liste_des_agents0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Agents_Liste_des_agents0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Agents_Liste_des_agents0" label="Ajouter" oncommand="Insert_Agents_Liste_des_agents0()" />
+    <button class="edit-button16" disabled="true" id="Update_Agents_Liste_des_agents0" label="Modifier" oncommand="Update_Agents_Liste_des_agents0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Agents_Liste_des_agents0" label="Supprimer" oncommand="Delete_Agents_Liste_des_agents0()" />
+    <button class="accept-button16" id="Validate_Agents_Liste_des_agents0" label="Valider" oncommand="Validate_Agents_Liste_des_agents0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Agents_Liste_des_agents0" label="Annuler" oncommand="Annuler_Agents_Liste_des_agents0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+<hbox class="fondstyle" pack="end">
+  <hbox pack="end" align="center">
+    <separator class="groove"/>
+    <button class="back-button16" label="Précédent" oncommand="Retour_Agents()"/>
+  </hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Cantons" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Cantons_Liste_des_cantons0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox id="Cantons_Liste_des_cantons0_Slaves"/>
+<hbox flex="1">
+<vbox id="Cantons_Villes_2" flex="1"/>
+</hbox>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Cantons_Liste_des_cantons0" label="Ajouter" oncommand="Insert_Cantons_Liste_des_cantons0()" />
+    <button class="edit-button16" disabled="true" id="Update_Cantons_Liste_des_cantons0" label="Modifier" oncommand="Update_Cantons_Liste_des_cantons0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Cantons_Liste_des_cantons0" label="Supprimer" oncommand="Delete_Cantons_Liste_des_cantons0()" />
+    <button class="accept-button16" id="Validate_Cantons_Liste_des_cantons0" label="Valider" oncommand="Validate_Cantons_Liste_des_cantons0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Cantons_Liste_des_cantons0" label="Annuler" oncommand="Annuler_Cantons_Liste_des_cantons0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+<hbox class="fondstyle" pack="end">
+  <hbox pack="end" align="center">
+    <separator class="groove"/>
+    <button class="back-button16" label="Précédent" oncommand="Retour_Cantons()"/>
+  </hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Codes_postaux" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Codes_postaux_Liste_des_codes_postaux0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox id="Codes_postaux_Liste_des_codes_postaux0_Slaves"/>
+<hbox flex="1">
+<vbox id="ListeDessus_Codes_postaux_Villes_liées_au_code_postal_4" flex="1"/>
+<splitter><grippy/></splitter>
+<vbox id="Codes_postaux_Villes_liées_au_code_postal_4" flex="1"/>
+</hbox>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Codes_postaux_Liste_des_codes_postaux0" label="Ajouter" oncommand="Insert_Codes_postaux_Liste_des_codes_postaux0()" />
+    <button class="edit-button16" disabled="true" id="Update_Codes_postaux_Liste_des_codes_postaux0" label="Modifier" oncommand="Update_Codes_postaux_Liste_des_codes_postaux0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Codes_postaux_Liste_des_codes_postaux0" label="Supprimer" oncommand="Delete_Codes_postaux_Liste_des_codes_postaux0()" />
+    <button class="accept-button16" id="Validate_Codes_postaux_Liste_des_codes_postaux0" label="Valider" oncommand="Validate_Codes_postaux_Liste_des_codes_postaux0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Codes_postaux_Liste_des_codes_postaux0" label="Annuler" oncommand="Annuler_Codes_postaux_Liste_des_codes_postaux0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Profils_de_droits" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Profils_de_droits_Liste_des_profils_de_droits0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox id="Profils_de_droits_Liste_des_profils_de_droits0_Slaves"/>
+<hbox flex="1">
+<vbox id="Profils_de_droits_Droits_2" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Profils_de_droits_Droits_2_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Profils_de_droits_Droits_2" label="Ajouter" oncommand="Insert_Profils_de_droits_Droits_2()" />
+    <button class="edit-button16" disabled="true" id="Update_Profils_de_droits_Droits_2" label="Modifier" oncommand="Update_Profils_de_droits_Droits_2()" />
+    <button class="delete-button16" disabled="true" id="Delete_Profils_de_droits_Droits_2" label="Supprimer" oncommand="Delete_Profils_de_droits_Droits_2()" />
+    <button class="accept-button16" id="Validate_Profils_de_droits_Droits_2" label="Valider" oncommand="Validate_Profils_de_droits_Droits_2()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Profils_de_droits_Droits_2" label="Annuler" oncommand="Annuler_Profils_de_droits_Droits_2()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Profils_de_droits_Liste_des_profils_de_droits0" label="Ajouter" oncommand="Insert_Profils_de_droits_Liste_des_profils_de_droits0()" />
+    <button class="edit-button16" disabled="true" id="Update_Profils_de_droits_Liste_des_profils_de_droits0" label="Modifier" oncommand="Update_Profils_de_droits_Liste_des_profils_de_droits0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Profils_de_droits_Liste_des_profils_de_droits0" label="Supprimer" oncommand="Delete_Profils_de_droits_Liste_des_profils_de_droits0()" />
+    <button class="accept-button16" id="Validate_Profils_de_droits_Liste_des_profils_de_droits0" label="Valider" oncommand="Validate_Profils_de_droits_Liste_des_profils_de_droits0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Profils_de_droits_Liste_des_profils_de_droits0" label="Annuler" oncommand="Annuler_Profils_de_droits_Liste_des_profils_de_droits0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+<hbox class="fondstyle" pack="end">
+  <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
+    <button label="Mettre à jour les droits" oncommand="DroitsUpdate();"/>
+  </arrowscrollbox>
+  <hbox pack="end" align="center">
+    <separator class="groove"/>
+    <button class="back-button16" label="Précédent" oncommand="Retour_Profils_de_droits()"/>
+  </hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Employés" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Employés_Liste_des_employés0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Employés_Liste_des_employés0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Employés_Liste_des_employés0" label="Ajouter" oncommand="Insert_Employés_Liste_des_employés0()" />
+    <button class="edit-button16" disabled="true" id="Update_Employés_Liste_des_employés0" label="Modifier" oncommand="Update_Employés_Liste_des_employés0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Employés_Liste_des_employés0" label="Supprimer" oncommand="Delete_Employés_Liste_des_employés0()" />
+    <button class="accept-button16" id="Validate_Employés_Liste_des_employés0" label="Valider" oncommand="Validate_Employés_Liste_des_employés0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Employés_Liste_des_employés0" label="Annuler" oncommand="Annuler_Employés_Liste_des_employés0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+<hbox class="fondstyle" pack="end">
+  <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
+    <button label="Mettre à jour les droits" oncommand="DroitsUpdate();"/>
+  </arrowscrollbox>
+  <hbox pack="end" align="center">
+    <separator class="groove"/>
+    <button class="back-button16" label="Précédent" oncommand="Retour_Employés()"/>
+  </hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Équipes" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Équipes_Liste_des_équipes0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Équipes_Liste_des_équipes0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Équipes_Liste_des_équipes0" label="Ajouter" oncommand="Insert_Équipes_Liste_des_équipes0()" />
+    <button class="edit-button16" disabled="true" id="Update_Équipes_Liste_des_équipes0" label="Modifier" oncommand="Update_Équipes_Liste_des_équipes0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Équipes_Liste_des_équipes0" label="Supprimer" oncommand="Delete_Équipes_Liste_des_équipes0()" />
+    <button class="accept-button16" id="Validate_Équipes_Liste_des_équipes0" label="Valider" oncommand="Validate_Équipes_Liste_des_équipes0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Équipes_Liste_des_équipes0" label="Annuler" oncommand="Annuler_Équipes_Liste_des_équipes0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+<hbox class="fondstyle" pack="end">
+  <hbox pack="end" align="center">
+    <separator class="groove"/>
+    <button class="back-button16" label="Précédent" oncommand="Retour_Équipes()"/>
+  </hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Etats_de_personne" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Etats_de_personne_Liste_des_états_de_personne0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Etats_de_personne_Liste_des_états_de_personne0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Etats_de_personne_Liste_des_états_de_personne0" label="Ajouter" oncommand="Insert_Etats_de_personne_Liste_des_états_de_personne0()" />
+    <button class="edit-button16" disabled="true" id="Update_Etats_de_personne_Liste_des_états_de_personne0" label="Modifier" oncommand="Update_Etats_de_personne_Liste_des_états_de_personne0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Etats_de_personne_Liste_des_états_de_personne0" label="Supprimer" oncommand="Delete_Etats_de_personne_Liste_des_états_de_personne0()" />
+    <button class="accept-button16" id="Validate_Etats_de_personne_Liste_des_états_de_personne0" label="Valider" oncommand="Validate_Etats_de_personne_Liste_des_états_de_personne0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Etats_de_personne_Liste_des_états_de_personne0" label="Annuler" oncommand="Annuler_Etats_de_personne_Liste_des_états_de_personne0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Groupe_de_tables" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Groupe_de_tables_Liste_des_groupes_de_tables0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Groupe_de_tables_Liste_des_groupes_de_tables0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Groupe_de_tables_Liste_des_groupes_de_tables0" label="Ajouter" oncommand="Insert_Groupe_de_tables_Liste_des_groupes_de_tables0()" />
+    <button class="edit-button16" disabled="true" id="Update_Groupe_de_tables_Liste_des_groupes_de_tables0" label="Modifier" oncommand="Update_Groupe_de_tables_Liste_des_groupes_de_tables0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Groupe_de_tables_Liste_des_groupes_de_tables0" label="Supprimer" oncommand="Delete_Groupe_de_tables_Liste_des_groupes_de_tables0()" />
+    <button class="accept-button16" id="Validate_Groupe_de_tables_Liste_des_groupes_de_tables0" label="Valider" oncommand="Validate_Groupe_de_tables_Liste_des_groupes_de_tables0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Groupe_de_tables_Liste_des_groupes_de_tables0" label="Annuler" oncommand="Annuler_Groupe_de_tables_Liste_des_groupes_de_tables0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+<hbox class="fondstyle" pack="end">
+  <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
+    <button label="Mettre à jour les droits" oncommand="DroitsUpdate();"/>
+  </arrowscrollbox>
+  <hbox pack="end" align="center">
+    <separator class="groove"/>
+    <button class="back-button16" label="Précédent" oncommand="Retour_Groupe_de_tables()"/>
+  </hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Groupes_de_cantons" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Groupes_de_cantons_Liste_des_groupes_de_cantons0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox id="Groupes_de_cantons_Liste_des_groupes_de_cantons0_Slaves"/>
+<hbox flex="1">
+<vbox id="ListeDessus_Groupes_de_cantons_Cantons_appartenant_au_groupe_3" flex="1"/>
+<splitter><grippy/></splitter>
+<vbox id="Groupes_de_cantons_Cantons_appartenant_au_groupe_3" flex="1"/>
+</hbox>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Groupes_de_cantons_Liste_des_groupes_de_cantons0" label="Ajouter" oncommand="Insert_Groupes_de_cantons_Liste_des_groupes_de_cantons0()" />
+    <button class="edit-button16" disabled="true" id="Update_Groupes_de_cantons_Liste_des_groupes_de_cantons0" label="Modifier" oncommand="Update_Groupes_de_cantons_Liste_des_groupes_de_cantons0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Groupes_de_cantons_Liste_des_groupes_de_cantons0" label="Supprimer" oncommand="Delete_Groupes_de_cantons_Liste_des_groupes_de_cantons0()" />
+    <button class="accept-button16" id="Validate_Groupes_de_cantons_Liste_des_groupes_de_cantons0" label="Valider" oncommand="Validate_Groupes_de_cantons_Liste_des_groupes_de_cantons0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Groupes_de_cantons_Liste_des_groupes_de_cantons0" label="Annuler" oncommand="Annuler_Groupes_de_cantons_Liste_des_groupes_de_cantons0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Modèles_d_impressions" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Modèles_d_impressions_Liste_des_modèles_d_impressions0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Modèles_d_impressions_Liste_des_modèles_d_impressions0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Modèles_d_impressions_Liste_des_modèles_d_impressions0" label="Ajouter" oncommand="Insert_Modèles_d_impressions_Liste_des_modèles_d_impressions0()" />
+    <button class="edit-button16" disabled="true" id="Update_Modèles_d_impressions_Liste_des_modèles_d_impressions0" label="Modifier" oncommand="Update_Modèles_d_impressions_Liste_des_modèles_d_impressions0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Modèles_d_impressions_Liste_des_modèles_d_impressions0" label="Supprimer" oncommand="Delete_Modèles_d_impressions_Liste_des_modèles_d_impressions0()" />
+    <button class="accept-button16" id="Validate_Modèles_d_impressions_Liste_des_modèles_d_impressions0" label="Valider" oncommand="Validate_Modèles_d_impressions_Liste_des_modèles_d_impressions0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Modèles_d_impressions_Liste_des_modèles_d_impressions0" label="Annuler" oncommand="Annuler_Modèles_d_impressions_Liste_des_modèles_d_impressions0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Impressions" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Impressions_Liste_des_modèles_d_impressions0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Impressions_Liste_des_modèles_d_impressions0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Impressions_Liste_des_modèles_d_impressions0" label="Ajouter" oncommand="Insert_Impressions_Liste_des_modèles_d_impressions0()" />
+    <button class="edit-button16" disabled="true" id="Update_Impressions_Liste_des_modèles_d_impressions0" label="Modifier" oncommand="Update_Impressions_Liste_des_modèles_d_impressions0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Impressions_Liste_des_modèles_d_impressions0" label="Supprimer" oncommand="Delete_Impressions_Liste_des_modèles_d_impressions0()" />
+    <button class="accept-button16" id="Validate_Impressions_Liste_des_modèles_d_impressions0" label="Valider" oncommand="Validate_Impressions_Liste_des_modèles_d_impressions0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Impressions_Liste_des_modèles_d_impressions0" label="Annuler" oncommand="Annuler_Impressions_Liste_des_modèles_d_impressions0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+<hbox class="fondstyle" pack="end">
+  <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
+    <button label="Mettre à jour les fonctions d'impression" oncommand="ImpressionsUpdate();"/>
+  </arrowscrollbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Modèles" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Modèles_Liste_des_modèles0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox id="Modèles_Liste_des_modèles0_Slaves"/>
+<hbox flex="1">
+<vbox id="Modèles_Lignes_du_modèle_2" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Modèles_Lignes_du_modèle_2_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Modèles_Lignes_du_modèle_2" label="Ajouter" oncommand="Insert_Modèles_Lignes_du_modèle_2()" />
+    <button class="edit-button16" disabled="true" id="Update_Modèles_Lignes_du_modèle_2" label="Modifier" oncommand="Update_Modèles_Lignes_du_modèle_2()" />
+    <button class="delete-button16" disabled="true" id="Delete_Modèles_Lignes_du_modèle_2" label="Supprimer" oncommand="Delete_Modèles_Lignes_du_modèle_2()" />
+    <button class="accept-button16" id="Validate_Modèles_Lignes_du_modèle_2" label="Valider" oncommand="Validate_Modèles_Lignes_du_modèle_2()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Modèles_Lignes_du_modèle_2" label="Annuler" oncommand="Annuler_Modèles_Lignes_du_modèle_2()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Modèles_Liste_des_modèles0" label="Ajouter" oncommand="Insert_Modèles_Liste_des_modèles0()" />
+    <button class="edit-button16" disabled="true" id="Update_Modèles_Liste_des_modèles0" label="Modifier" oncommand="Update_Modèles_Liste_des_modèles0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Modèles_Liste_des_modèles0" label="Supprimer" oncommand="Delete_Modèles_Liste_des_modèles0()" />
+    <button class="accept-button16" id="Validate_Modèles_Liste_des_modèles0" label="Valider" oncommand="Validate_Modèles_Liste_des_modèles0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Modèles_Liste_des_modèles0" label="Annuler" oncommand="Annuler_Modèles_Liste_des_modèles0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Mode_de_réglements" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Mode_de_réglements_Liste_des_modes_de_réglement0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Mode_de_réglements_Liste_des_modes_de_réglement0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Mode_de_réglements_Liste_des_modes_de_réglement0" label="Ajouter" oncommand="Insert_Mode_de_réglements_Liste_des_modes_de_réglement0()" />
+    <button class="edit-button16" disabled="true" id="Update_Mode_de_réglements_Liste_des_modes_de_réglement0" label="Modifier" oncommand="Update_Mode_de_réglements_Liste_des_modes_de_réglement0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Mode_de_réglements_Liste_des_modes_de_réglement0" label="Supprimer" oncommand="Delete_Mode_de_réglements_Liste_des_modes_de_réglement0()" />
+    <button class="accept-button16" id="Validate_Mode_de_réglements_Liste_des_modes_de_réglement0" label="Valider" oncommand="Validate_Mode_de_réglements_Liste_des_modes_de_réglement0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Mode_de_réglements_Liste_des_modes_de_réglement0" label="Annuler" oncommand="Annuler_Mode_de_réglements_Liste_des_modes_de_réglement0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Modes_de_répartition" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Modes_de_répartition_Liste_des_modes_de_répartition0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Modes_de_répartition_Liste_des_modes_de_répartition0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Modes_de_répartition_Liste_des_modes_de_répartition0" label="Ajouter" oncommand="Insert_Modes_de_répartition_Liste_des_modes_de_répartition0()" />
+    <button class="edit-button16" disabled="true" id="Update_Modes_de_répartition_Liste_des_modes_de_répartition0" label="Modifier" oncommand="Update_Modes_de_répartition_Liste_des_modes_de_répartition0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Modes_de_répartition_Liste_des_modes_de_répartition0" label="Supprimer" oncommand="Delete_Modes_de_répartition_Liste_des_modes_de_répartition0()" />
+    <button class="accept-button16" id="Validate_Modes_de_répartition_Liste_des_modes_de_répartition0" label="Valider" oncommand="Validate_Modes_de_répartition_Liste_des_modes_de_répartition0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Modes_de_répartition_Liste_des_modes_de_répartition0" label="Annuler" oncommand="Annuler_Modes_de_répartition_Liste_des_modes_de_répartition0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Natures_de_personne" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Natures_de_personne_Liste_des_états_de_personne0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Natures_de_personne_Liste_des_états_de_personne0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Natures_de_personne_Liste_des_états_de_personne0" label="Ajouter" oncommand="Insert_Natures_de_personne_Liste_des_états_de_personne0()" />
+    <button class="edit-button16" disabled="true" id="Update_Natures_de_personne_Liste_des_états_de_personne0" label="Modifier" oncommand="Update_Natures_de_personne_Liste_des_états_de_personne0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Natures_de_personne_Liste_des_états_de_personne0" label="Supprimer" oncommand="Delete_Natures_de_personne_Liste_des_états_de_personne0()" />
+    <button class="accept-button16" id="Validate_Natures_de_personne_Liste_des_états_de_personne0" label="Valider" oncommand="Validate_Natures_de_personne_Liste_des_états_de_personne0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Natures_de_personne_Liste_des_états_de_personne0" label="Annuler" oncommand="Annuler_Natures_de_personne_Liste_des_états_de_personne0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Périodes" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Périodes_Liste_des_périodes0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Périodes_Liste_des_périodes0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Périodes_Liste_des_périodes0" label="Ajouter" oncommand="Insert_Périodes_Liste_des_périodes0()" />
+    <button class="edit-button16" disabled="true" id="Update_Périodes_Liste_des_périodes0" label="Modifier" oncommand="Update_Périodes_Liste_des_périodes0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Périodes_Liste_des_périodes0" label="Supprimer" oncommand="Delete_Périodes_Liste_des_périodes0()" />
+    <button class="accept-button16" id="Validate_Périodes_Liste_des_périodes0" label="Valider" oncommand="Validate_Périodes_Liste_des_périodes0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Périodes_Liste_des_périodes0" label="Annuler" oncommand="Annuler_Périodes_Liste_des_périodes0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+<hbox class="fondstyle" pack="end">
+  <hbox pack="end" align="center">
+    <separator class="groove"/>
+    <button class="back-button16" label="Précédent" oncommand="Retour_Périodes()"/>
+  </hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Préfixes" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Préfixes_Liste_des_préfixes0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Préfixes_Liste_des_préfixes0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Préfixes_Liste_des_préfixes0" label="Ajouter" oncommand="Insert_Préfixes_Liste_des_préfixes0()" />
+    <button class="edit-button16" disabled="true" id="Update_Préfixes_Liste_des_préfixes0" label="Modifier" oncommand="Update_Préfixes_Liste_des_préfixes0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Préfixes_Liste_des_préfixes0" label="Supprimer" oncommand="Delete_Préfixes_Liste_des_préfixes0()" />
+    <button class="accept-button16" id="Validate_Préfixes_Liste_des_préfixes0" label="Valider" oncommand="Validate_Préfixes_Liste_des_préfixes0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Préfixes_Liste_des_préfixes0" label="Annuler" oncommand="Annuler_Préfixes_Liste_des_préfixes0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Produits" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Produits_Liste_des_produits0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox id="Produits_Liste_des_produits0_Slaves"/>
+<tabbox id="tabbox_Produits_Liste_des_produits0" flex="1">
+<tabs >
+<tab label="Prix"/>
+<tab label="Comptes généraux"/>
+</tabs>
+<tabpanels flex="1">
+<tabpanel flex="1">
+<hbox flex="1">
+<vbox id="Produits_Prix_7" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Produits_Prix_7_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Produits_Prix_7" label="Ajouter" oncommand="Insert_Produits_Prix_7()" />
+    <button class="edit-button16" disabled="true" id="Update_Produits_Prix_7" label="Modifier" oncommand="Update_Produits_Prix_7()" />
+    <button class="delete-button16" disabled="true" id="Delete_Produits_Prix_7" label="Supprimer" oncommand="Delete_Produits_Prix_7()" />
+    <button class="accept-button16" id="Validate_Produits_Prix_7" label="Valider" oncommand="Validate_Produits_Prix_7()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Produits_Prix_7" label="Annuler" oncommand="Annuler_Produits_Prix_7()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</tabpanel>
+<tabpanel flex="1">
+<hbox flex="1">
+<vbox id="Produits_Comptes_généraux_11" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Produits_Comptes_généraux_11_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Produits_Comptes_généraux_11" label="Ajouter" oncommand="Insert_Produits_Comptes_généraux_11()" />
+    <button class="edit-button16" disabled="true" id="Update_Produits_Comptes_généraux_11" label="Modifier" oncommand="Update_Produits_Comptes_généraux_11()" />
+    <button class="delete-button16" disabled="true" id="Delete_Produits_Comptes_généraux_11" label="Supprimer" oncommand="Delete_Produits_Comptes_généraux_11()" />
+    <button class="accept-button16" id="Validate_Produits_Comptes_généraux_11" label="Valider" oncommand="Validate_Produits_Comptes_généraux_11()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Produits_Comptes_généraux_11" label="Annuler" oncommand="Annuler_Produits_Comptes_généraux_11()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</tabpanel>
+</tabpanels>
+</tabbox>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Produits_Liste_des_produits0" label="Ajouter" oncommand="Insert_Produits_Liste_des_produits0()" />
+    <button class="edit-button16" disabled="true" id="Update_Produits_Liste_des_produits0" label="Modifier" oncommand="Update_Produits_Liste_des_produits0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Produits_Liste_des_produits0" label="Supprimer" oncommand="Delete_Produits_Liste_des_produits0()" />
+    <button class="accept-button16" id="Validate_Produits_Liste_des_produits0" label="Valider" oncommand="Validate_Produits_Liste_des_produits0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Produits_Liste_des_produits0" label="Annuler" oncommand="Annuler_Produits_Liste_des_produits0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+<hbox class="fondstyle" pack="end">
+  <hbox pack="end" align="center">
+    <separator class="groove"/>
+    <button class="back-button16" label="Précédent" oncommand="Retour_Produits()"/>
+  </hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Responsabilités" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Responsabilités_Responsabilités0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Responsabilités_Responsabilités0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Responsabilités_Responsabilités0" label="Ajouter" oncommand="Insert_Responsabilités_Responsabilités0()" />
+    <button class="edit-button16" disabled="true" id="Update_Responsabilités_Responsabilités0" label="Modifier" oncommand="Update_Responsabilités_Responsabilités0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Responsabilités_Responsabilités0" label="Supprimer" oncommand="Delete_Responsabilités_Responsabilités0()" />
+    <button class="accept-button16" id="Validate_Responsabilités_Responsabilités0" label="Valider" oncommand="Validate_Responsabilités_Responsabilités0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Responsabilités_Responsabilités0" label="Annuler" oncommand="Annuler_Responsabilités_Responsabilités0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Services" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Services_Liste_des_services0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox id="Services_Liste_des_services0_Slaves"/>
+<hbox flex="1">
+<vbox id="Services_Employés_3" flex="1"/>
+</hbox>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Services_Liste_des_services0" label="Ajouter" oncommand="Insert_Services_Liste_des_services0()" />
+    <button class="edit-button16" disabled="true" id="Update_Services_Liste_des_services0" label="Modifier" oncommand="Update_Services_Liste_des_services0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Services_Liste_des_services0" label="Supprimer" oncommand="Delete_Services_Liste_des_services0()" />
+    <button class="accept-button16" id="Validate_Services_Liste_des_services0" label="Valider" oncommand="Validate_Services_Liste_des_services0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Services_Liste_des_services0" label="Annuler" oncommand="Annuler_Services_Liste_des_services0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+<hbox class="fondstyle" pack="end">
+  <hbox pack="end" align="center">
+    <separator class="groove"/>
+    <button class="back-button16" label="Précédent" oncommand="Retour_Services()"/>
+  </hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Sociétés" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Sociétés_Liste_des_sociétés0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox id="Sociétés_Liste_des_sociétés0_Slaves"/>
+<hbox flex="1">
+<vbox id="Sociétés_Services_6" flex="1"/>
+</hbox>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Sociétés_Liste_des_sociétés0" label="Ajouter" oncommand="Insert_Sociétés_Liste_des_sociétés0()" />
+    <button class="edit-button16" disabled="true" id="Update_Sociétés_Liste_des_sociétés0" label="Modifier" oncommand="Update_Sociétés_Liste_des_sociétés0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Sociétés_Liste_des_sociétés0" label="Supprimer" oncommand="Delete_Sociétés_Liste_des_sociétés0()" />
+    <button class="accept-button16" id="Validate_Sociétés_Liste_des_sociétés0" label="Valider" oncommand="Validate_Sociétés_Liste_des_sociétés0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Sociétés_Liste_des_sociétés0" label="Annuler" oncommand="Annuler_Sociétés_Liste_des_sociétés0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_TVA" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="TVA_Liste_des_T_V_A_0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="TVA_Liste_des_T_V_A_0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_TVA_Liste_des_T_V_A_0" label="Ajouter" oncommand="Insert_TVA_Liste_des_T_V_A_0()" />
+    <button class="edit-button16" disabled="true" id="Update_TVA_Liste_des_T_V_A_0" label="Modifier" oncommand="Update_TVA_Liste_des_T_V_A_0()" />
+    <button class="delete-button16" disabled="true" id="Delete_TVA_Liste_des_T_V_A_0" label="Supprimer" oncommand="Delete_TVA_Liste_des_T_V_A_0()" />
+    <button class="accept-button16" id="Validate_TVA_Liste_des_T_V_A_0" label="Valider" oncommand="Validate_TVA_Liste_des_T_V_A_0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_TVA_Liste_des_T_V_A_0" label="Annuler" oncommand="Annuler_TVA_Liste_des_T_V_A_0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+<hbox class="fondstyle" pack="end">
+  <hbox pack="end" align="center">
+    <separator class="groove"/>
+    <button class="back-button16" label="Précédent" oncommand="Retour_TVA()"/>
+  </hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Types_d_adresses" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Types_d_adresses_Liste_des_types_d_adresses0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Types_d_adresses_Liste_des_types_d_adresses0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Types_d_adresses_Liste_des_types_d_adresses0" label="Ajouter" oncommand="Insert_Types_d_adresses_Liste_des_types_d_adresses0()" />
+    <button class="edit-button16" disabled="true" id="Update_Types_d_adresses_Liste_des_types_d_adresses0" label="Modifier" oncommand="Update_Types_d_adresses_Liste_des_types_d_adresses0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Types_d_adresses_Liste_des_types_d_adresses0" label="Supprimer" oncommand="Delete_Types_d_adresses_Liste_des_types_d_adresses0()" />
+    <button class="accept-button16" id="Validate_Types_d_adresses_Liste_des_types_d_adresses0" label="Valider" oncommand="Validate_Types_d_adresses_Liste_des_types_d_adresses0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Types_d_adresses_Liste_des_types_d_adresses0" label="Annuler" oncommand="Annuler_Types_d_adresses_Liste_des_types_d_adresses0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Types_d_attribut" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Types_d_attribut_Liste_des_types_d_attribut_de_personne0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox id="Types_d_attribut_Liste_des_types_d_attribut_de_personne0_Slaves"/>
+<hbox flex="1">
+<vbox id="Types_d_attribut_Catégories_2" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Types_d_attribut_Catégories_2_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Types_d_attribut_Catégories_2" label="Ajouter" oncommand="Insert_Types_d_attribut_Catégories_2()" />
+    <button class="edit-button16" disabled="true" id="Update_Types_d_attribut_Catégories_2" label="Modifier" oncommand="Update_Types_d_attribut_Catégories_2()" />
+    <button class="delete-button16" disabled="true" id="Delete_Types_d_attribut_Catégories_2" label="Supprimer" oncommand="Delete_Types_d_attribut_Catégories_2()" />
+    <button class="accept-button16" id="Validate_Types_d_attribut_Catégories_2" label="Valider" oncommand="Validate_Types_d_attribut_Catégories_2()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Types_d_attribut_Catégories_2" label="Annuler" oncommand="Annuler_Types_d_attribut_Catégories_2()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Types_d_attribut_Liste_des_types_d_attribut_de_personne0" label="Ajouter" oncommand="Insert_Types_d_attribut_Liste_des_types_d_attribut_de_personne0()" />
+    <button class="edit-button16" disabled="true" id="Update_Types_d_attribut_Liste_des_types_d_attribut_de_personne0" label="Modifier" oncommand="Update_Types_d_attribut_Liste_des_types_d_attribut_de_personne0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Types_d_attribut_Liste_des_types_d_attribut_de_personne0" label="Supprimer" oncommand="Delete_Types_d_attribut_Liste_des_types_d_attribut_de_personne0()" />
+    <button class="accept-button16" id="Validate_Types_d_attribut_Liste_des_types_d_attribut_de_personne0" label="Valider" oncommand="Validate_Types_d_attribut_Liste_des_types_d_attribut_de_personne0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Types_d_attribut_Liste_des_types_d_attribut_de_personne0" label="Annuler" oncommand="Annuler_Types_d_attribut_Liste_des_types_d_attribut_de_personne0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Types_de_contacts" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Types_de_contacts_Liste_des_types_de_contacts0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Types_de_contacts_Liste_des_types_de_contacts0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Types_de_contacts_Liste_des_types_de_contacts0" label="Ajouter" oncommand="Insert_Types_de_contacts_Liste_des_types_de_contacts0()" />
+    <button class="edit-button16" disabled="true" id="Update_Types_de_contacts_Liste_des_types_de_contacts0" label="Modifier" oncommand="Update_Types_de_contacts_Liste_des_types_de_contacts0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Types_de_contacts_Liste_des_types_de_contacts0" label="Supprimer" oncommand="Delete_Types_de_contacts_Liste_des_types_de_contacts0()" />
+    <button class="accept-button16" id="Validate_Types_de_contacts_Liste_des_types_de_contacts0" label="Valider" oncommand="Validate_Types_de_contacts_Liste_des_types_de_contacts0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Types_de_contacts_Liste_des_types_de_contacts0" label="Annuler" oncommand="Annuler_Types_de_contacts_Liste_des_types_de_contacts0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Types_de_journaux" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Types_de_journaux_Liste_des_types_de_journaux0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Types_de_journaux_Liste_des_types_de_journaux0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Types_de_journaux_Liste_des_types_de_journaux0" label="Ajouter" oncommand="Insert_Types_de_journaux_Liste_des_types_de_journaux0()" />
+    <button class="edit-button16" disabled="true" id="Update_Types_de_journaux_Liste_des_types_de_journaux0" label="Modifier" oncommand="Update_Types_de_journaux_Liste_des_types_de_journaux0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Types_de_journaux_Liste_des_types_de_journaux0" label="Supprimer" oncommand="Delete_Types_de_journaux_Liste_des_types_de_journaux0()" />
+    <button class="accept-button16" id="Validate_Types_de_journaux_Liste_des_types_de_journaux0" label="Valider" oncommand="Validate_Types_de_journaux_Liste_des_types_de_journaux0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Types_de_journaux_Liste_des_types_de_journaux0" label="Annuler" oncommand="Annuler_Types_de_journaux_Liste_des_types_de_journaux0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Types_de_lien" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Types_de_lien_Liste_des_types_de_lien_entre_personne0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Types_de_lien_Liste_des_types_de_lien_entre_personne0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Types_de_lien_Liste_des_types_de_lien_entre_personne0" label="Ajouter" oncommand="Insert_Types_de_lien_Liste_des_types_de_lien_entre_personne0()" />
+    <button class="edit-button16" disabled="true" id="Update_Types_de_lien_Liste_des_types_de_lien_entre_personne0" label="Modifier" oncommand="Update_Types_de_lien_Liste_des_types_de_lien_entre_personne0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Types_de_lien_Liste_des_types_de_lien_entre_personne0" label="Supprimer" oncommand="Delete_Types_de_lien_Liste_des_types_de_lien_entre_personne0()" />
+    <button class="accept-button16" id="Validate_Types_de_lien_Liste_des_types_de_lien_entre_personne0" label="Valider" oncommand="Validate_Types_de_lien_Liste_des_types_de_lien_entre_personne0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Types_de_lien_Liste_des_types_de_lien_entre_personne0" label="Annuler" oncommand="Annuler_Types_de_lien_Liste_des_types_de_lien_entre_personne0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+<hbox class="fondstyle" pack="end">
+  <hbox pack="end" align="center">
+    <separator class="groove"/>
+    <button class="back-button16" label="Précédent" oncommand="Retour_Types_de_lien()"/>
+  </hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Types_de_personne" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Types_de_personne_Liste_des_types_de_personne0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Types_de_personne_Liste_des_types_de_personne0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Types_de_personne_Liste_des_types_de_personne0" label="Ajouter" oncommand="Insert_Types_de_personne_Liste_des_types_de_personne0()" />
+    <button class="edit-button16" disabled="true" id="Update_Types_de_personne_Liste_des_types_de_personne0" label="Modifier" oncommand="Update_Types_de_personne_Liste_des_types_de_personne0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Types_de_personne_Liste_des_types_de_personne0" label="Supprimer" oncommand="Delete_Types_de_personne_Liste_des_types_de_personne0()" />
+    <button class="accept-button16" id="Validate_Types_de_personne_Liste_des_types_de_personne0" label="Valider" oncommand="Validate_Types_de_personne_Liste_des_types_de_personne0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Types_de_personne_Liste_des_types_de_personne0" label="Annuler" oncommand="Annuler_Types_de_personne_Liste_des_types_de_personne0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Types_de_sociétés" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Types_de_sociétés_Liste_des_types_de_sociétés0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Types_de_sociétés_Liste_des_types_de_sociétés0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Types_de_sociétés_Liste_des_types_de_sociétés0" label="Ajouter" oncommand="Insert_Types_de_sociétés_Liste_des_types_de_sociétés0()" />
+    <button class="edit-button16" disabled="true" id="Update_Types_de_sociétés_Liste_des_types_de_sociétés0" label="Modifier" oncommand="Update_Types_de_sociétés_Liste_des_types_de_sociétés0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Types_de_sociétés_Liste_des_types_de_sociétés0" label="Supprimer" oncommand="Delete_Types_de_sociétés_Liste_des_types_de_sociétés0()" />
+    <button class="accept-button16" id="Validate_Types_de_sociétés_Liste_des_types_de_sociétés0" label="Valider" oncommand="Validate_Types_de_sociétés_Liste_des_types_de_sociétés0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Types_de_sociétés_Liste_des_types_de_sociétés0" label="Annuler" oncommand="Annuler_Types_de_sociétés_Liste_des_types_de_sociétés0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+<hbox class="fondstyle" pack="end">
+  <hbox pack="end" align="center">
+    <separator class="groove"/>
+    <button class="back-button16" label="Précédent" oncommand="Retour_Types_de_sociétés()"/>
+  </hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Types_de_tâches" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Types_de_tâches_Liste_des_types_de_tâches0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Types_de_tâches_Liste_des_types_de_tâches0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Types_de_tâches_Liste_des_types_de_tâches0" label="Ajouter" oncommand="Insert_Types_de_tâches_Liste_des_types_de_tâches0()" />
+    <button class="edit-button16" disabled="true" id="Update_Types_de_tâches_Liste_des_types_de_tâches0" label="Modifier" oncommand="Update_Types_de_tâches_Liste_des_types_de_tâches0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Types_de_tâches_Liste_des_types_de_tâches0" label="Supprimer" oncommand="Delete_Types_de_tâches_Liste_des_types_de_tâches0()" />
+    <button class="accept-button16" id="Validate_Types_de_tâches_Liste_des_types_de_tâches0" label="Valider" oncommand="Validate_Types_de_tâches_Liste_des_types_de_tâches0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Types_de_tâches_Liste_des_types_de_tâches0" label="Annuler" oncommand="Annuler_Types_de_tâches_Liste_des_types_de_tâches0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Villes" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Villes_Liste_des_villes0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Villes_Liste_des_villes0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Villes_Liste_des_villes0" label="Ajouter" oncommand="Insert_Villes_Liste_des_villes0()" />
+    <button class="edit-button16" disabled="true" id="Update_Villes_Liste_des_villes0" label="Modifier" oncommand="Update_Villes_Liste_des_villes0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Villes_Liste_des_villes0" label="Supprimer" oncommand="Delete_Villes_Liste_des_villes0()" />
+    <button class="accept-button16" id="Validate_Villes_Liste_des_villes0" label="Valider" oncommand="Validate_Villes_Liste_des_villes0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Villes_Liste_des_villes0" label="Annuler" oncommand="Annuler_Villes_Liste_des_villes0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+<hbox class="fondstyle" pack="end">
+  <hbox pack="end" align="center">
+    <separator class="groove"/>
+    <button class="back-button16" label="Précédent" oncommand="Retour_Villes()"/>
+  </hbox>
+</hbox>
+</vbox>
+</tabpanel>
+</tabpanels>
+</tabbox>
+</vbox>
+<statusbar id="statusbar">
+  <statusbarpanel id="status_espace" label="" width="5"/>
+  <statusbarpanel id="status_login" label=""/>
+  <statusbarpanel id="status_Info" label=""/>
+  <statusbarpanel id="status_TpsExec" flex="1" label=""/>
+  <statusbarpanel id="status_counter" flex="1" label=""/>
+</statusbar>
+</window>

@@ -1,0 +1,520 @@
+/* BEGIN IMAGE-BUTTON Standard */
+
+/** BEGIN SCALE Standard **/
+.new-button16{-moz-image-region:rect(0px,16px,16px,0px);}
+.new-button16:hover{-moz-image-region:rect(16px,16px,32px,0px);}
+.new-button16[disabled="true"]{-moz-image-region:rect(32px,16px,48px,0px);}
+.new-button16[checked="true"]{-moz-image-region:rect(48px,16px,64px,0px);}
+
+.edit-button16{-moz-image-region:rect(0px,32px,16px,16px);}
+.edit-button16:hover{-moz-image-region:rect(16px,32px,32px,16px);}
+.edit-button16[disabled="true"]{-moz-image-region:rect(32px,32px,48px,16px);}
+.edit-button16[checked="true"]{-moz-image-region:rect(48px,32px,64px,16px);}
+
+.delete-button16{-moz-image-region:rect(0px,48px,16px,32px);}
+.delete-button16:hover{-moz-image-region:rect(16px,48px,32px,32px);}
+.delete-button16[disabled="true"]{-moz-image-region:rect(32px,48px,48px,32px);}
+.delete-button16[checked="true"]{-moz-image-region:rect(48px,48px,64px,32px);}
+
+.cancel-button16{-moz-image-region:rect(0px,48px,16px,32px);}
+.cancel-button16:hover{-moz-image-region:rect(16px,48px,32px,32px);}
+.cancel-button16[disabled="true"]{-moz-image-region:rect(32px,48px,48px,32px);}
+.cancel-button16[checked="true"]{-moz-image-region:rect(48px,48px,64px,32px);}
+
+.close-button16{-moz-image-region:rect(0px,48px,16px,32px);}
+.close-button16:hover{-moz-image-region:rect(16px,48px,32px,32px);}
+.close-button16[disabled="true"]{-moz-image-region:rect(32px,48px,48px,32px);}
+.close-button16[checked="true"]{-moz-image-region:rect(48px,48px,64px,32px);}
+
+.find-button16{-moz-image-region:rect(0px,64px,16px,48px);}
+.find-button16:hover{-moz-image-region:rect(16px,64px,32px,48px);}
+.find-button16[disabled="true"]{-moz-image-region:rect(32px,64px,48px,48px);}
+.find-button16[checked="true"]{-moz-image-region:rect(48px,64px,64px,48px);}
+
+.back-button16{-moz-image-region:rect(0px,80px,16px,64px);}
+.back-button16:hover{-moz-image-region:rect(16px,80px,32px,64px);}
+.back-button16[disabled="true"]{-moz-image-region:rect(32px,80px,48px,64px);}
+.back-button16[checked="true"]{-moz-image-region:rect(48px,80px,64px,64px);}
+
+.forward-button16{-moz-image-region:rect(0px,96px,16px,80px);}
+.forward-button16:hover{-moz-image-region:rect(16px,96px,32px,80px);}
+.forward-button16[disabled="true"]{-moz-image-region:rect(32px,96px,48px,80px);}
+.forward-button16[checked="true"]{-moz-image-region:rect(48px,96px,64px,80px);}
+
+.home-button16{-moz-image-region:rect(0px,112px,16px,96px);}
+.home-button16:hover{-moz-image-region:rect(16px,112px,32px,96px);}
+.home-button16[disabled="true"]{-moz-image-region:rect(32px,112px,48px,96px);}
+.home-button16[checked="true"]{-moz-image-region:rect(48px,112px,64px,96px);}
+
+.menu-button16{-moz-image-region:rect(0px,128px,16px,112px);}
+.menu-button16:hover{-moz-image-region:rect(16px,128px,32px,112px);}
+.menu-button16[disabled="true"]{-moz-image-region:rect(32px,128px,48px,112px);}
+.menu-button16[checked="true"]{-moz-image-region:rect(48px,128px,64px,112px);}
+
+.accept-button16{-moz-image-region:rect(0px,144px,16px,128px);}
+.accept-button16:hover{-moz-image-region:rect(16px,144px,32px,128px);}
+.accept-button16[disabled="true"]{-moz-image-region:rect(32px,144px,48px,128px);}
+.accept-button16[checked="true"]{-moz-image-region:rect(48px,144px,64px,128px);}
+
+.action-button16{-moz-image-region:rect(0px,160px,16px,144px);}
+.action-button16:hover{-moz-image-region:rect(16px,160px,32px,144px);}
+.action-button16[disabled="true"]{-moz-image-region:rect(32px,160px,48px,144px);}
+.action-button16[checked="true"]{-moz-image-region:rect(48px,160px,64px,144px);}
+
+.list-button16{-moz-image-region:rect(0px,176px,16px,160px);}
+.list-button16:hover{-moz-image-region:rect(16px,176px,32px,160px);}
+.list-button16[disabled="true"]{-moz-image-region:rect(32px,176px,48px,160px);}
+.list-button16[checked="true"]{-moz-image-region:rect(48px,176px,64px,160px);}
+
+.goto-button16{-moz-image-region:rect(0px,176px,16px,160px);}
+.goto-button16:hover{-moz-image-region:rect(16px,176px,32px,160px);}
+.goto-button16[disabled="true"]{-moz-image-region:rect(32px,176px,48px,160px);}
+.goto-button16[checked="true"]{-moz-image-region:rect(48px,176px,64px,160px);}
+
+.right-button16{-moz-image-region:rect(0px,176px,16px,160px);}
+.right-button16:hover{-moz-image-region:rect(16px,176px,32px,160px);}
+.right-button16[disabled="true"]{-moz-image-region:rect(32px,176px,48px,160px);}
+.right-button16[checked="true"]{-moz-image-region:rect(48px,176px,64px,160px);}
+
+.bottom-button16{-moz-image-region:rect(0px,192px,16px,176px);}
+.bottom-button16:hover{-moz-image-region:rect(16px,192px,32px,176px);}
+.bottom-button16[disabled="true"]{-moz-image-region:rect(32px,192px,48px,176px);}
+.bottom-button16[checked="true"]{-moz-image-region:rect(48px,192px,64px,176px);}
+
+.left-button16{-moz-image-region:rect(0px,208px,16px,192px);}
+.left-button16:hover{-moz-image-region:rect(16px,208px,32px,192px);}
+.left-button16[disabled="true"]{-moz-image-region:rect(32px,208px,48px,192px);}
+.left-button16[checked="true"]{-moz-image-region:rect(48px,208px,64px,192px);}
+
+.top-button16{-moz-image-region:rect(0px,224px,16px,208px);}
+.top-button16:hover{-moz-image-region:rect(16px,224px,32px,208px);}
+.top-button16[disabled="true"]{-moz-image-region:rect(32px,224px,48px,208px);}
+.top-button16[checked="true"]{-moz-image-region:rect(48px,224px,64px,208px);}
+
+.print-button16{-moz-image-region:rect(0px,240px,16px,224px);}
+.print-button16:hover{-moz-image-region:rect(16px,240px,32px,224px);}
+.print-button16[disabled="true"]{-moz-image-region:rect(32px,240px,48px,224px);}
+.print-button16[checked="true"]{-moz-image-region:rect(48px,240px,64px,224px);}
+
+.export-button16{-moz-image-region:rect(0px,256px,16px,240px);}
+.export-button16:hover{-moz-image-region:rect(16px,256px,32px,240px);}
+.export-button16[disabled="true"]{-moz-image-region:rect(32px,256px,48px,240px);}
+.export-button16[checked="true"]{-moz-image-region:rect(48px,256px,64px,240px);}
+
+.new-button16,.edit-button16,.delete-button16,.cancel-button16,.close-button16,.find-button16,.back-button16,.forward-button16,.home-button16,.menu-button16,.accept-button16,.action-button16,.list-button16,.goto-button16,.right-button16,.bottom-button16,.left-button16,.top-button16,.print-button16,.export-button16
+{list-style-image:url("chrome://agrisig/skin/images/boutons16.png");}
+/** END SCALE **/
+
+/** BEGIN SCALE Export **/
+.new-button{-moz-image-region:rect(0px,24px,24px,0px);}
+.new-button:hover{-moz-image-region:rect(24px,24px,48px,0px);}
+.new-button[disabled="true"]{-moz-image-region:rect(48px,24px,72px,0px);}
+.new-button[checked="true"]{-moz-image-region:rect(72px,24px,96px,0px);}
+
+.edit-button{-moz-image-region:rect(0px,48px,24px,24px);}
+.edit-button:hover{-moz-image-region:rect(24px,48px,48px,24px);}
+.edit-button[disabled="true"]{-moz-image-region:rect(48px,48px,72px,24px);}
+.edit-button[checked="true"]{-moz-image-region:rect(72px,48px,96px,24px);}
+
+.delete-button{-moz-image-region:rect(0px,72px,24px,48px);}
+.delete-button:hover{-moz-image-region:rect(24px,72px,48px,48px);}
+.delete-button[disabled="true"]{-moz-image-region:rect(48px,72px,72px,48px);}
+.delete-button[checked="true"]{-moz-image-region:rect(72px,72px,96px,48px);}
+
+.cancel-button{-moz-image-region:rect(0px,72px,24px,48px);}
+.cancel-button:hover{-moz-image-region:rect(24px,72px,48px,48px);}
+.cancel-button[disabled="true"]{-moz-image-region:rect(48px,72px,72px,48px);}
+.cancel-button[checked="true"]{-moz-image-region:rect(72px,72px,96px,48px);}
+
+.close-button{-moz-image-region:rect(0px,72px,24px,48px);}
+.close-button:hover{-moz-image-region:rect(24px,72px,48px,48px);}
+.close-button[disabled="true"]{-moz-image-region:rect(48px,72px,72px,48px);}
+.close-button[checked="true"]{-moz-image-region:rect(72px,72px,96px,48px);}
+
+.find-button{-moz-image-region:rect(0px,96px,24px,72px);}
+.find-button:hover{-moz-image-region:rect(24px,96px,48px,72px);}
+.find-button[disabled="true"]{-moz-image-region:rect(48px,96px,72px,72px);}
+.find-button[checked="true"]{-moz-image-region:rect(72px,96px,96px,72px);}
+
+.back-button{-moz-image-region:rect(0px,120px,24px,96px);}
+.back-button:hover{-moz-image-region:rect(24px,120px,48px,96px);}
+.back-button[disabled="true"]{-moz-image-region:rect(48px,120px,72px,96px);}
+.back-button[checked="true"]{-moz-image-region:rect(72px,120px,96px,96px);}
+
+.forward-button{-moz-image-region:rect(0px,144px,24px,120px);}
+.forward-button:hover{-moz-image-region:rect(24px,144px,48px,120px);}
+.forward-button[disabled="true"]{-moz-image-region:rect(48px,144px,72px,120px);}
+.forward-button[checked="true"]{-moz-image-region:rect(72px,144px,96px,120px);}
+
+.home-button{-moz-image-region:rect(0px,168px,24px,144px);}
+.home-button:hover{-moz-image-region:rect(24px,168px,48px,144px);}
+.home-button[disabled="true"]{-moz-image-region:rect(48px,168px,72px,144px);}
+.home-button[checked="true"]{-moz-image-region:rect(72px,168px,96px,144px);}
+
+.menu-button{-moz-image-region:rect(0px,192px,24px,168px);}
+.menu-button:hover{-moz-image-region:rect(24px,192px,48px,168px);}
+.menu-button[disabled="true"]{-moz-image-region:rect(48px,192px,72px,168px);}
+.menu-button[checked="true"]{-moz-image-region:rect(72px,192px,96px,168px);}
+
+.accept-button{-moz-image-region:rect(0px,216px,24px,192px);}
+.accept-button:hover{-moz-image-region:rect(24px,216px,48px,192px);}
+.accept-button[disabled="true"]{-moz-image-region:rect(48px,216px,72px,192px);}
+.accept-button[checked="true"]{-moz-image-region:rect(72px,216px,96px,192px);}
+
+.action-button{-moz-image-region:rect(0px,240px,24px,216px);}
+.action-button:hover{-moz-image-region:rect(24px,240px,48px,216px);}
+.action-button[disabled="true"]{-moz-image-region:rect(48px,240px,72px,216px);}
+.action-button[checked="true"]{-moz-image-region:rect(72px,240px,96px,216px);}
+
+.list-button{-moz-image-region:rect(0px,264px,24px,240px);}
+.list-button:hover{-moz-image-region:rect(24px,264px,48px,240px);}
+.list-button[disabled="true"]{-moz-image-region:rect(48px,264px,72px,240px);}
+.list-button[checked="true"]{-moz-image-region:rect(72px,264px,96px,240px);}
+
+.goto-button{-moz-image-region:rect(0px,264px,24px,240px);}
+.goto-button:hover{-moz-image-region:rect(24px,264px,48px,240px);}
+.goto-button[disabled="true"]{-moz-image-region:rect(48px,264px,72px,240px);}
+.goto-button[checked="true"]{-moz-image-region:rect(72px,264px,96px,240px);}
+
+.right-button{-moz-image-region:rect(0px,264px,24px,240px);}
+.right-button:hover{-moz-image-region:rect(24px,264px,48px,240px);}
+.right-button[disabled="true"]{-moz-image-region:rect(48px,264px,72px,240px);}
+.right-button[checked="true"]{-moz-image-region:rect(72px,264px,96px,240px);}
+
+.bottom-button{-moz-image-region:rect(0px,288px,24px,264px);}
+.bottom-button:hover{-moz-image-region:rect(24px,288px,48px,264px);}
+.bottom-button[disabled="true"]{-moz-image-region:rect(48px,288px,72px,264px);}
+.bottom-button[checked="true"]{-moz-image-region:rect(72px,288px,96px,264px);}
+
+.left-button{-moz-image-region:rect(0px,312px,24px,288px);}
+.left-button:hover{-moz-image-region:rect(24px,312px,48px,288px);}
+.left-button[disabled="true"]{-moz-image-region:rect(48px,312px,72px,288px);}
+.left-button[checked="true"]{-moz-image-region:rect(72px,312px,96px,288px);}
+
+.top-button{-moz-image-region:rect(0px,336px,24px,312px);}
+.top-button:hover{-moz-image-region:rect(24px,336px,48px,312px);}
+.top-button[disabled="true"]{-moz-image-region:rect(48px,336px,72px,312px);}
+.top-button[checked="true"]{-moz-image-region:rect(72px,336px,96px,312px);}
+
+.print-button{-moz-image-region:rect(0px,360px,24px,336px);}
+.print-button:hover{-moz-image-region:rect(24px,360px,48px,336px);}
+.print-button[disabled="true"]{-moz-image-region:rect(48px,360px,72px,336px);}
+.print-button[checked="true"]{-moz-image-region:rect(72px,360px,96px,336px);}
+
+.export-button{-moz-image-region:rect(0px,384px,24px,360px);}
+.export-button:hover{-moz-image-region:rect(24px,384px,48px,360px);}
+.export-button[disabled="true"]{-moz-image-region:rect(48px,384px,72px,360px);}
+.export-button[checked="true"]{-moz-image-region:rect(72px,384px,96px,360px);}
+
+.new-button,.edit-button,.delete-button,.cancel-button,.close-button,.find-button,.back-button,.forward-button,.home-button,.menu-button,.accept-button,.action-button,.list-button,.goto-button,.right-button,.bottom-button,.left-button,.top-button,.print-button,.export-button
+{list-style-image:url("chrome://agrisig/skin/images/boutons24.png");}
+/** END SCALE **/
+
+/** BEGIN SCALE Export **/
+.new-button48{-moz-image-region:rect(0px,48px,48px,0px);}
+.new-button48:hover{-moz-image-region:rect(48px,48px,96px,0px);}
+.new-button48[disabled="true"]{-moz-image-region:rect(96px,48px,144px,0px);}
+.new-button48[checked="true"]{-moz-image-region:rect(144px,48px,192px,0px);}
+
+.edit-button48{-moz-image-region:rect(0px,96px,48px,48px);}
+.edit-button48:hover{-moz-image-region:rect(48px,96px,96px,48px);}
+.edit-button48[disabled="true"]{-moz-image-region:rect(96px,96px,144px,48px);}
+.edit-button48[checked="true"]{-moz-image-region:rect(144px,96px,192px,48px);}
+
+.delete-button48{-moz-image-region:rect(0px,144px,48px,96px);}
+.delete-button48:hover{-moz-image-region:rect(48px,144px,96px,96px);}
+.delete-button48[disabled="true"]{-moz-image-region:rect(96px,144px,144px,96px);}
+.delete-button48[checked="true"]{-moz-image-region:rect(144px,144px,192px,96px);}
+
+.cancel-button48{-moz-image-region:rect(0px,144px,48px,96px);}
+.cancel-button48:hover{-moz-image-region:rect(48px,144px,96px,96px);}
+.cancel-button48[disabled="true"]{-moz-image-region:rect(96px,144px,144px,96px);}
+.cancel-button48[checked="true"]{-moz-image-region:rect(144px,144px,192px,96px);}
+
+.close-button48{-moz-image-region:rect(0px,144px,48px,96px);}
+.close-button48:hover{-moz-image-region:rect(48px,144px,96px,96px);}
+.close-button48[disabled="true"]{-moz-image-region:rect(96px,144px,144px,96px);}
+.close-button48[checked="true"]{-moz-image-region:rect(144px,144px,192px,96px);}
+
+.find-button48{-moz-image-region:rect(0px,192px,48px,144px);}
+.find-button48:hover{-moz-image-region:rect(48px,192px,96px,144px);}
+.find-button48[disabled="true"]{-moz-image-region:rect(96px,192px,144px,144px);}
+.find-button48[checked="true"]{-moz-image-region:rect(144px,192px,192px,144px);}
+
+.back-button48{-moz-image-region:rect(0px,240px,48px,192px);}
+.back-button48:hover{-moz-image-region:rect(48px,240px,96px,192px);}
+.back-button48[disabled="true"]{-moz-image-region:rect(96px,240px,144px,192px);}
+.back-button48[checked="true"]{-moz-image-region:rect(144px,240px,192px,192px);}
+
+.forward-button48{-moz-image-region:rect(0px,288px,48px,240px);}
+.forward-button48:hover{-moz-image-region:rect(48px,288px,96px,240px);}
+.forward-button48[disabled="true"]{-moz-image-region:rect(96px,288px,144px,240px);}
+.forward-button48[checked="true"]{-moz-image-region:rect(144px,288px,192px,240px);}
+
+.home-button48{-moz-image-region:rect(0px,336px,48px,288px);}
+.home-button48:hover{-moz-image-region:rect(48px,336px,96px,288px);}
+.home-button48[disabled="true"]{-moz-image-region:rect(96px,336px,144px,288px);}
+.home-button48[checked="true"]{-moz-image-region:rect(144px,336px,192px,288px);}
+
+.menu-button48{-moz-image-region:rect(0px,384px,48px,336px);}
+.menu-button48:hover{-moz-image-region:rect(48px,384px,96px,336px);}
+.menu-button48[disabled="true"]{-moz-image-region:rect(96px,384px,144px,336px);}
+.menu-button48[checked="true"]{-moz-image-region:rect(144px,384px,192px,336px);}
+
+.accept-button48{-moz-image-region:rect(0px,432px,48px,384px);}
+.accept-button48:hover{-moz-image-region:rect(48px,432px,96px,384px);}
+.accept-button48[disabled="true"]{-moz-image-region:rect(96px,432px,144px,384px);}
+.accept-button48[checked="true"]{-moz-image-region:rect(144px,432px,192px,384px);}
+
+.action-button48{-moz-image-region:rect(0px,480px,48px,432px);}
+.action-button48:hover{-moz-image-region:rect(48px,480px,96px,432px);}
+.action-button48[disabled="true"]{-moz-image-region:rect(96px,480px,144px,432px);}
+.action-button48[checked="true"]{-moz-image-region:rect(144px,480px,192px,432px);}
+
+.list-button48{-moz-image-region:rect(0px,528px,48px,480px);}
+.list-button48:hover{-moz-image-region:rect(48px,528px,96px,480px);}
+.list-button48[disabled="true"]{-moz-image-region:rect(96px,528px,144px,480px);}
+.list-button48[checked="true"]{-moz-image-region:rect(144px,528px,192px,480px);}
+
+.goto-button48{-moz-image-region:rect(0px,528px,48px,480px);}
+.goto-button48:hover{-moz-image-region:rect(48px,528px,96px,480px);}
+.goto-button48[disabled="true"]{-moz-image-region:rect(96px,528px,144px,480px);}
+.goto-button48[checked="true"]{-moz-image-region:rect(144px,528px,192px,480px);}
+
+.right-button48{-moz-image-region:rect(0px,528px,48px,480px);}
+.right-button48:hover{-moz-image-region:rect(48px,528px,96px,480px);}
+.right-button48[disabled="true"]{-moz-image-region:rect(96px,528px,144px,480px);}
+.right-button48[checked="true"]{-moz-image-region:rect(144px,528px,192px,480px);}
+
+.bottom-button48{-moz-image-region:rect(0px,576px,48px,528px);}
+.bottom-button48:hover{-moz-image-region:rect(48px,576px,96px,528px);}
+.bottom-button48[disabled="true"]{-moz-image-region:rect(96px,576px,144px,528px);}
+.bottom-button48[checked="true"]{-moz-image-region:rect(144px,576px,192px,528px);}
+
+.left-button48{-moz-image-region:rect(0px,624px,48px,576px);}
+.left-button48:hover{-moz-image-region:rect(48px,624px,96px,576px);}
+.left-button48[disabled="true"]{-moz-image-region:rect(96px,624px,144px,576px);}
+.left-button48[checked="true"]{-moz-image-region:rect(144px,624px,192px,576px);}
+
+.top-button48{-moz-image-region:rect(0px,672px,48px,624px);}
+.top-button48:hover{-moz-image-region:rect(48px,672px,96px,624px);}
+.top-button48[disabled="true"]{-moz-image-region:rect(96px,672px,144px,624px);}
+.top-button48[checked="true"]{-moz-image-region:rect(144px,672px,192px,624px);}
+
+.print-button48{-moz-image-region:rect(0px,720px,48px,672px);}
+.print-button48:hover{-moz-image-region:rect(48px,720px,96px,672px);}
+.print-button48[disabled="true"]{-moz-image-region:rect(96px,720px,144px,672px);}
+.print-button48[checked="true"]{-moz-image-region:rect(144px,720px,192px,672px);}
+
+.export-button48{-moz-image-region:rect(0px,768px,48px,720px);}
+.export-button48:hover{-moz-image-region:rect(48px,768px,96px,720px);}
+.export-button48[disabled="true"]{-moz-image-region:rect(96px,768px,144px,720px);}
+.export-button48[checked="true"]{-moz-image-region:rect(144px,768px,192px,720px);}
+
+.new-button48,.edit-button48,.delete-button48,.cancel-button48,.close-button48,.find-button48,.back-button48,.forward-button48,.home-button48,.menu-button48,.accept-button48,.action-button48,.list-button48,.goto-button48,.right-button48,.bottom-button48,.left-button48,.top-button48,.print-button48,.export-button48
+{list-style-image:url("chrome://agrisig/skin/images/boutons48.png");}
+/** END SCALE **/
+
+/* END IMAGE-BUTTON */
+
+
+* {
+  font-size : 12px;
+}
+
+.price {
+  min-width : 40px;
+}
+
+/*
+treecol,treechildren {
+  font-size : 11px;
+}
+*/
+treechildren::-moz-tree-cell-text(hyperlink) {
+  color:#43F;
+  text-decoration:underline;
+  cursor:pointer;
+}
+
+/* -------------------- */
+treechildren::-moz-tree-row(selected) {
+  background-color:#cccedf;
+}
+
+/* -------------------- */
+treechildren::-moz-tree-cell-text(selected), treechildren::-moz-tree-cell-text(odd, selected) {
+  color:#000213;
+}
+
+treechildren::-moz-tree-row(odd) {
+  background-color:#e7eeff;
+}
+
+/* -------------------- */
+treechildren::-moz-tree-row(odd, selected) {
+  background-color:#b8c0df;
+}
+
+
+label.numero {
+  font-weight : bold;
+  color : green;
+}
+
+.important {
+  font-size : 130%;
+  font-weight : bold;
+  color : #050;
+}
+
+caption {
+  color : blue;
+}
+
+textbox {
+  padding : 0px;
+	margin  : 1px;
+}
+
+/*Icon Buttons*/
+
+.menulistheader {
+	padding: 1px;
+	background-color: #FFFFE8;
+	font-weight: bold;
+}
+
+.menulistAddOn {
+	padding: 1px;
+	background-color: #FFFFE8;
+	font-weight: bold;
+	border-bottom: solid 1px blue;
+}
+
+toolbarbutton {
+  margin-left:3px;
+  font-size:80%;
+}
+
+toolbarbutton:hover {
+	color: blue;
+  text-decoration:underline;
+}
+
+toolbarbutton[disabled="true"]:hover {
+	color: #A88;
+  text-decoration:none;
+}
+
+.fondstyle {
+	padding: 5px;
+/* border-top: groove; */
+	border-top: 2px solid #99F;
+	background-color: #FED;
+//        background-image: url("chrome://agrisig/skin/images/degrade.png");
+	background-repeat: repeat-x;
+}
+
+.test {
+	 list-style-image: url("chrome://agrisig/skin/images/zoom_ar.gif");
+}
+
+
+.icon_filtre_col {
+	 list-style-image: url("chrome://agrisig/skin/images/loupe.png");
+}
+
+.icon_filtre_col_active {
+	 list-style-image: url("chrome://agrisig/skin/images/loupeActive.png");
+}
+
+.icon_filtre_defaut_inactif {
+	 list-style-image: url("chrome://agrisig/skin/images/loupe.png");
+}
+
+.icon_filtre_defaut_actif {
+	 list-style-image: url("chrome://agrisig/skin/images/loupeActive.png");
+}
+
+.icon_filtre_actif {
+	 list-style-image: url("chrome://agrisig/skin/images/actif.png");
+}
+
+.icon_filtre_inactif {
+	 list-style-image: url("chrome://agrisig/skin/images/inactif.png");
+}
+
+.icon_Ajouter{
+	 list-style-image: url("chrome://agrisig/skin/images/outilsAdd.gif");
+}
+
+.icon_Ajouter[disabled=true] {
+	 list-style-image: url("chrome://agrisig/skin/images/outilsAdd_disabled.png");
+}
+
+.icon_Supprimer{
+	 list-style-image: url("chrome://agrisig/skin/images/outilsSuppr.gif");
+}
+
+.icon_Supprimer[disabled=true] {
+	 list-style-image: url("chrome://agrisig/skin/images/outilsSuppr_disabled.png");
+}
+
+
+.icon_Modifier {
+	 list-style-image: url("chrome://agrisig/skin/images/outilsMAJ.gif");
+}
+
+.icon_Modifier[disabled=true] {
+	 list-style-image: url("chrome://agrisig/skin/images/outilsMAJ_disabled.png");
+}
+
+
+
+.icon_FlecheHaut {
+	 list-style-image: url("chrome://agrisig/skin/images/FlecheHaut.png");
+}
+
+.icon_FlecheHaut_Inactif {
+	 list-style-image: url("chrome://agrisig/skin/images/FlecheHautDisabled.png");
+}
+
+.icon_FlecheBas {
+	 list-style-image: url("chrome://agrisig/skin/images/FlecheBas.png");
+}
+
+.icon_FlecheBas_Inactif {
+	 list-style-image: url("chrome://agrisig/skin/images/FlecheBasDisabled.png");
+}
+/*
+vbox,hbox,panel,panels,tab,tabs,tabbox,tabpanel,tabpanels,groupbox,window,dialog,box,deck,spacer,label,panel,stack,splitter,scrollbar
+{
+	color: #5555FF;
+	background-color: #DDDDFF;
+}
+*/
+.labelize-uniline, .labelize-multiline {
+  color : #005;
+  text-align : left;
+}
+
+label.labelize-uniline {
+  min-width : 96px;
+  text-align : right;
+}
+
+textbox[disabled=true],menulist[disabled=true],label[disabled=true],checkbox[disabled=true] {
+  color: #FF0000
+}
+
+treechildren::-moz-tree-row(makeItRed)
+{
+  background-color: red;
+}
+
+
+treechildren::-moz-tree-cell(makeItBlue)
+{
+  background-color: blue;
+}

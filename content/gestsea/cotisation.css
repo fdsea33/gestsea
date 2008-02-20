@@ -1,0 +1,39 @@
+* {font-size:12px;}
+
+.total {padding : 5px 1px;font-size:28px;}
+.total .title {color: #007;}
+.total .value {width:192px; text-align:right; background : #007; color:white; padding: 0px 5px;}
+.total .title, .total .value {font-size:28px;}
+
+.subtotal {padding : 3px 1px;}
+.subtotal .title {color: #700;}
+.subtotal .value {width:96px; text-align:right; background : #700; color:white; padding-right : 3px;}
+.subtotal .title, .subtotal .value {font-size:14px; font-weight : bold;}
+
+.subsubtotal {padding : 1px 1px;}
+.subsubtotal .title {color: #050;}
+.subsubtotal .value {width:54px; text-align:right; background : #050; color:white; padding : 2px 3px;}
+.subsubtotal .title, .subsubtotal .value {vertical-align : middle;}
+
+
+#wg-master-hbox {border-top: 1px solid #CDE; background:#ABC;}
+groupbox {background: threedface; border-color : #007}
+/*
+caption {color : #007;background: transparent; padding:0px;}
+caption > label {color : #007;background: threedface; padding:2px 8px; border-left : 1px solid #007;border-top : 1px solid #007; -moz-border-radius-topright:8px;}
+caption label {color : #007;background: #DDF; margin : 0px;padding:2px 8px; border-top : 2px solid #47F;border-bottom : 2px solid #9AC; border-left:1px solid #007; border-right:1px solid #007}
+*/
+/*
+#wg-master-hbox {border-top: 1xp solid threedhighlight; background:#347;}
+groupbox {border-color : blue; background: threedface;}
+caption {color : #00B; font-weight : bold; font-size:14px;padding:3px; background-color : #BBF; -moz-border-radius : 4px;}
+*/
+
+/*caption checkbox {margin 0px; padding 0px;}*/
+textbox {padding : 0px 2px;	margin : 1px 1px 1px 4px; color: #271}
+
+radiogroup.important radio {color : #730;font-weight : bold; }
+label.important {color : #B52;border-bottom : 1px solid #B52;font-weight : bold; min-width:160px;}
+label.firstlabel, label.nlabel {text-align : right;}
+label.firstlabel {width:80px;}
+label.softer {font-weight : bold; color : #966;}

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<overlay id="gestseaTasksOverlay"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script type="application/x-javascript">
+  <![CDATA[
+    function toGestsea() {
+      if (!CycleWindow("gestsea:main")) 
+    	  NewGestseaWindow();
+    }
+    function NewGestseaWindow() {
+      // Open Gestsea window
+      toOpenWindowByType('gestsea:main', 'chrome://gestsea/content/');
+    }
+  ]]>
+</script>
+  
+  <menupopup id="taskPopup">
+    <menuitem 
+      id="gestsea-menuitem" 
+      label="Gestsea" 
+    	oncommand="toGestsea()" />
+  </menupopup>
+  
+  <menupopup id="menu_ToolsPopup">
+    <menuitem
+    	id="gestsea-menuitem" 
+    	label="Gestsea" 
+    	oncommand="NewGestseaWindow()"/>
+  </menupopup> 
+  
+</overlay>
+
+ 
+  
+  

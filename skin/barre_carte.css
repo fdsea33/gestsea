@@ -1,0 +1,184 @@
+/*Icon Buttons */
+
+#carte_zoomP[disabled=false]{
+	 list-style-image: url(chrome://agrisig/skin/images/zoom_ar.gif);
+}
+
+#carte_zoomP[disabled=true]{
+	 list-style-image: url(chrome://agrisig/skin/images/zoom_ar_desactivee.gif);
+}
+
+#carte_zoomM[disabled=false]{
+	 list-style-image: url(chrome://agrisig/skin/images/zoom_av.gif);
+}
+
+#carte_zoomM[disabled=true]{
+	 list-style-image: url(chrome://agrisig/skin/images/zoom_av_desactivee.gif);
+}
+
+#carte_zoomPC[disabled=false]{
+	 list-style-image: url(chrome://agrisig/skin/images/zoom_ar.gif);
+}
+#carte_zoomMC[disabled=false]{
+	 list-style-image: url(chrome://agrisig/skin/images/zoom_av.gif);
+}
+
+#carte_PtOff[disabled=false]{
+	 list-style-image: url(chrome://agrisig/skin/images/masquer_point.png);
+}
+
+#carte_PtOff[disabled=true]{
+	 list-style-image: url(chrome://agrisig/skin/images/vide.png);
+}
+
+#carte_PtOn[disabled=false]{
+	 list-style-image: url(chrome://agrisig/skin/images/afficher_point.png);
+}
+
+#carte_PtOn[disabled=true]{
+	 list-style-image: url(chrome://agrisig/skin/images/xafficher_point_desactivee.png);
+}
+
+#carte_bande[disabled=false]{
+	 list-style-image: url(chrome://agrisig/skin/images/bande.png);
+}
+
+#carte_bande[disabled=true]{
+	 list-style-image: url(chrome://agrisig/skin/images/vide.png);
+}
+
+#carte_DivComplexe[disabled=false]{
+	 list-style-image: url(chrome://agrisig/skin/images/DivComplexe.png);
+}
+
+#carte_DivComplexe[disabled=true]{
+	 list-style-image: url(chrome://agrisig/skin/images/vide.png);
+}
+
+#carte_DivSimple[disabled=false]{
+	 list-style-image: url(chrome://agrisig/skin/images/DivSimple.png);
+}
+
+#carte_DivSimple[disabled=true]{
+	 list-style-image: url(chrome://agrisig/skin/images/vide.png);
+}
+
+#carte_perpend[disabled=false]{
+	 list-style-image: url(chrome://agrisig/skin/images/perpend.png);
+}
+
+#carte_perpend[disabled=true]{
+	 list-style-image: url(chrome://agrisig/skin/images/vide.png);
+}
+
+#carte_insertion[disabled=false]{
+	 list-style-image: url(chrome://agrisig/skin/images/insertion.png);
+}
+
+#carte_insertion[disabled=true]{
+	 list-style-image: url(chrome://agrisig/skin/images/vide.png);
+}
+
+#carte_cercle[disabled=false]{
+	 list-style-image: url(chrome://agrisig/skin/images/cercle.png);
+}
+
+#carte_cercle[disabled=true]{
+	 list-style-image: url(chrome://agrisig/skin/images/vide.png);
+}
+
+#carte_parall[disabled=false]{
+	 list-style-image: url(chrome://agrisig/skin/images/parall.png);
+}
+
+#carte_parall[disabled=true]{
+	 list-style-image: url(chrome://agrisig/skin/images/vide.png);
+}
+
+#carte_annuler[disabled=true]{
+	 list-style-image: url(chrome://agrisig/skin/images/vide.png);
+}
+
+#carte_annuler[disabled=false]{
+	 list-style-image: url(chrome://agrisig/skin/images/annuler.png);
+}
+
+#carte_dplt[disabled=false]{
+	 list-style-image: url(chrome://agrisig/skin/images/dplt.gif);
+}
+
+#carte_creerilot[disabled=false]{
+	 list-style-image: url(chrome://agrisig/skin/images/creerilot.gif);
+}
+
+#carte_DivComplexeSelectBande[disabled=false]{
+	 list-style-image: url(chrome://agrisig/skin/images/DivComplexeBande2.png);
+}
+
+#carte_DivComplexeSelectBande[disabled=true]{
+	 list-style-image: url(chrome://agrisig/skin/images/vide.png);
+}
+
+#carte_DivComplexeAjPt[disabled=false]{
+	 list-style-image: url(chrome://agrisig/skin/images/DivComplexePtSupp.png);
+}
+
+#carte_DivComplexeAjPt[disabled=true]{
+	 list-style-image: url(chrome://agrisig/skin/images/vide.png);
+}
+
+#carte_DivComplexeSuppPt[disabled=false]{
+	 list-style-image: url(chrome://agrisig/skin/images/DivComplexeAnnuler2.png);
+}
+
+#carte_DivComplexeSuppPt[disabled=true]{
+	 list-style-image: url(chrome://agrisig/skin/images/vide.png);
+}
+
+#carte_DivComplexeFin[disabled=false]{
+	 list-style-image: url(chrome://agrisig/skin/images/DivComplexeFin.png);
+}
+
+#carte_DivComplexeFin[disabled=true]{
+	 list-style-image: url(chrome://agrisig/skin/images/vide.png);
+}
+
+#carte_DivComplexe[disabled=true]{
+	 list-style-image: url(chrome://agrisig/skin/images/vide.png);
+}
+
+#carte_DivComplexe[disabled=false]{
+	 list-style-image: url(chrome://agrisig/skin/images/DivComplexe.png);
+}
+
+#carte_distance[disabled=true]{
+	 list-style-image: url(chrome://agrisig/skin/images/vide.png);
+}
+
+#carte_distance[disabled=false]{
+	 list-style-image: url(chrome://agrisig/skin/images/distance.png);
+}
+
+#carte_ref[disabled=true]{
+	 list-style-image: url(chrome://agrisig/skin/images/vide.png);
+}
+
+#carte_ref[disabled=false]{
+	 list-style-image: url(chrome://agrisig/skin/images/origine.png);
+}
+
+#carte_centrer_select[disabled=true]{
+	 list-style-image: url(chrome://agrisig/skin/images/vide.png);
+}
+
+#carte_centrer_select[disabled=false]{
+	 list-style-image: url(chrome://agrisig/skin/images/centrer_ssilot.png);
+}
+
+#carte_centrer[disabled=true]{
+	 list-style-image: url(chrome://agrisig/skin/images/vide.png);
+}
+
+#carte_centrer[disabled=false]{
+	 list-style-image: url(chrome://agrisig/skin/images/centrer_ssilot.png);
+}

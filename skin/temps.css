@@ -1,0 +1,108 @@
+.personal-title {
+  font-weight :bold;
+}
+
+.personal-text {
+ color: #000077;
+}
+
+.section {
+  padding : 2px;
+  margin : 2px;
+  border: 1px dashed #FFDDAA;
+}
+
+.info {
+  color: #888;
+  font-style : italic;
+}
+
+.mybutton{
+  margin-right: 5px;
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  color: black;
+//  font-weight :bold;
+}
+
+button.mybutton:hover{
+  text-decoration:none;
+}
+
+textbox {
+  color : red;
+}
+
+.mybutton[disabled="true"]:hover{
+  color:#444444;
+}
+
+.mybutton[disabled="true"]{
+  color:#888888;
+}
+
+.important[disabled="true"] {
+  color : #880000;
+}
+
+.important {
+  font-weight:bold;
+  color : #AA0000;
+}
+
+groupbox {
+  border : 1px solid #4466FF;
+  background-color: #FFFFEE;
+}
+
+
+caption {
+  color: #4466FF;
+  background-color: white;
+//  font-weight :bold;
+  -moz-border-radius:0.4em;
+}
+
+separator {
+  height: 0.6em;
+  background-color : #9999CC;
+  margin-top: 5px;
+}
+
+splitter {
+/*  width :0.6em;*/
+  border : 0px solid red;
+  background-color : #E0E0FF;
+}
+
+splitter:hover{
+  background-color : #4466FF;
+}
+
+.bg {
+  /*  background-color : #EEEEDD;*/
+  background-color : #EEEEFF;
+  
+}
+
+.cancel {
+  color : red;  
+}
+
+.commit {
+  color : green;
+}
+
+treecol {
+//  font-weight :bold;
+}
+
+treecol:hover {
+  color: blue;
+}
+
+treeitem:hover {
+ color:blue;
+  font-weight: bold;
+}

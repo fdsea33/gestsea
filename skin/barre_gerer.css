@@ -1,0 +1,12 @@
+/*Icon Buttons*/
+
+
+#gerer_ajout {
+	 list-style-image: url(../../skin/images/outilsAdd.gif);
+}
+#gerer_maj {
+	 list-style-image: url(../../skin/images/outilsMAJ.gif);
+}
+#gerer_suppr {
+	 list-style-image: url(../../skin/images/outilsSuppr.gif);
+}
