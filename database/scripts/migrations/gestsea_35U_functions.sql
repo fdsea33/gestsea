@@ -2176,14 +2176,15 @@ $$ LANGUAGE PLPGSQL VOLATILE;
 
 --===========================================================================--
 -- Procedure permettant d'enregistrer facilement des coupons-réponses standard
---           DROP FUNCTION FC_CotisationTraite(integer);
+--           DROP FUNCTION FC_Cotisation_vers_facture(integer);
 
 --  
-CREATE OR REPLACE FUNCTION FC_CotisationTraite(IN num_cotisation INTEGER) RETURNS BOOLEAN AS
+CREATE OR REPLACE FUNCTION FC_cotisation_vers_facture(IN num_cotisation INTEGER) RETURNS BOOLEAN AS
 $$
 DECLARE
-  num_personne personne.pe_numero%TYPE;
-  num_societe societe.so_numero%TYPE;
+--  num_personne personne.pe_numero%TYPE;
+  num_payeur personne.pe_numero%TYPE;
+--  num_societe societe.so_numero%TYPE;
   num_service service.se_numero%TYPE;
   num_employe employe.em_numero%TYPE;
   num_groupe impressiongroupe.ig_numero%TYPE;
@@ -2209,15 +2210,17 @@ DECLARE
   report TEXT;
   i INTEGER;
 BEGIN
-  RAISE EXCEPTION 'La procedure de traitement des cotisations est en cours de developpement.';
+--  RAISE EXCEPTION 'La procedure de traitement des cotisations est en cours de developpement.';
   SELECT * FROM cotisation WHERE cs_numero=num_cotisation INTO cotis;
+  IF cotis.cs_numero IS NULL THEN
+    RAISE EXCEPTION 'La cotisation n°% n''existe pas.', num_cotisation;
+  END IF;
   IF cotis.cs_done THEN
     RETURN false;
   END IF;
   detail := cotis.cs_detail;
-  num_personne := cotis.pe_numero;
   IF bml_extract(detail,'cotisation.type')='conjoint' THEN
-    SELECT cs_detail FROM cotisation WHERE bml_extract(cs_detail, 'fdsea.conjoint.numero')=num_personne INTO detail2;
+    SELECT cs_detail FROM cotisation WHERE bml_extract(cs_detail, 'fdsea.conjoint.numero')=cotis.pe_numero INTO detail2;
     detail := bml_put(detail, 'cotisation.societe', bml_extract(detail2, 'cotisation.societe'));
     detail := bml_put(detail, 'fdsea.forfait.produit', bml_extract(detail2, 'fdsea.conjoint.produit'));
     detail := bml_put(detail, 'fdsea.forfait.montant', bml_extract(detail2, 'fdsea.conjoint.montant'));
@@ -2237,8 +2240,6 @@ BEGIN
     RETURN false;
   END IF;
 
-  SELECT current_societe() INTO num_societe;
-  SELECT EM_Service, EM_Numero FROM Employe WHERE em_login=CURRENT_USER INTO num_service, num_employe;
 
   -- Validation
   report := '**************';
@@ -2250,19 +2251,22 @@ BEGIN
     UPDATE cotisation SET CS_Duo=true WHERE CS_Numero=num_cotisation;
   END IF;
 
-  SELECT rg_numero FROM table_reglement WHERE rg_numero LIKE bml_extract(detail,'reglement.numero') INTO num_reglement;
+  SELECT rg_numero, pe_numero FROM table_reglement WHERE rg_numero LIKE bml_extract(detail,'reglement.numero') INTO num_reglement, num_payeur;
   IF num_reglement IS NULL THEN
     report := report||E'\nPas de réglement :\n'||detail;
     UPDATE table_cotisation SET cs_valid = false, cs_report=report WHERE cs_numero=num_cotisation;
     RETURN false;
   END IF;
 
+  -- Sauvegarde du statut de l'utilisateur
+  SELECT EM_Service, EM_Numero FROM Employe WHERE em_login=CURRENT_USER INTO num_service, num_employe;
+
   -- Devis FDSEA
   UPDATE employe SET EM_Service=SE_Numero FROM service WHERE employe.EM_Numero=num_employe AND SE_Societe=2;
   SELECT nextval('seq_devis') INTO num_devis;
   detail := bml_put(detail,'fdsea.devis',num_devis);
   report := report||E'\nDevis FDSEA N°'||num_devis;
-  INSERT INTO devis (de_numero, pe_numero, de_libelle, em_numero) VALUES (num_devis, num_personne, '[CR] Cotisation du '||CURRENT_DATE, current_employe());
+  INSERT INTO devis (de_numero, pe_numero, de_libelle, em_numero) VALUES (num_devis, num_payeur, '[CR] Cotisation du '||CURRENT_DATE, current_employe());
   IF bml_extract(detail,'fdsea.hectare')='true' THEN
     FOR i IN 1..bml_extract(detail,'fdsea.hectare.nombre') LOOP
       report := report||E'\nCotisation hectare N°'||i;
@@ -2290,7 +2294,7 @@ BEGIN
     RETURN false;
   END IF;
   detail := bml_put(detail,'fdsea.forfait.prix',num_prix);
-  INSERT INTO ligne (de_numero, px_numero) VALUES (num_devis, num_prix);
+  INSERT INTO ligne (de_numero, px_numero, l_notes) SELECT num_devis, num_prix, 'Cotisation pour : '||pe_libelle FROM personne WHERE pe_numero=cotis.pe_numero;
   num_devis_fdsea := num_devis;
 
   -- Devis SACEA
@@ -2298,7 +2302,7 @@ BEGIN
   SELECT nextval('seq_devis') INTO num_devis;
   detail := bml_put(detail,'sacea.devis',num_devis);
   report := report||E'\nDevis SACEA N°'||num_devis;
-  INSERT INTO devis(de_numero, pe_numero, de_libelle, em_numero) SELECT num_devis, num_personne, '[CR] Abonnement conseil du '||CURRENT_DATE, current_employe();
+  INSERT INTO devis(de_numero, pe_numero, de_libelle, em_numero) SELECT num_devis, num_payeur, '[CR] Abonnement conseil du '||CURRENT_DATE, current_employe();
   SELECT px_numero FROM prix WHERE pd_numero=CASE WHEN bml_extract(detail,'sacea')::boolean THEN bml_extract(detail,'sacea.produit')::integer ELSE 500000095 END AND px_tarifttc=COALESCE(bml_extract(detail,'sacea.montant')::numeric,0)::numeric INTO num_prix;
   IF num_prix IS NULL THEN
     report := report||' : Pas de prix actifs pour le montant correspondant';
@@ -2316,7 +2320,7 @@ BEGIN
     SELECT nextval('seq_devis') INTO num_devis;
     detail := bml_put(detail,'aava.devis',num_devis);
     report := report||E'\nDevis AAVA N°'||num_devis;
-    INSERT INTO devis(de_numero, pe_numero, de_libelle, em_numero) SELECT num_devis, num_personne, '[CR] Abonnement du '||CURRENT_DATE, current_employe();
+    INSERT INTO devis(de_numero, pe_numero, de_libelle, em_numero) SELECT num_devis, num_payeur, '[CR] Abonnement du '||CURRENT_DATE, current_employe();
     SELECT px_numero FROM prix WHERE pd_numero=bml_extract(detail,'aava.produit')::integer INTO num_prix;
     IF num_prix IS NULL THEN
       report := report||' : Pas de prix actifs pour le montant correspondant';
@@ -2340,7 +2344,7 @@ BEGIN
   UPDATE employe SET EM_Service=SE_Numero FROM service WHERE employe.EM_Numero=num_employe AND SE_Societe=2;
   SELECT FC_DevisVersFacture(num_devis_fdsea) INTO num_facture_fdsea;
   INSERT INTO table_impressiondocument (ig_numero,id_modele,id_cle) VALUES (num_groupe, 'facture', num_facture_fdsea); 
-  IF bml_extract(detail,'cotisation.type')!='conjoint' THEN
+  IF bml_extract(detail,'cotisation.type')!='conjoint' OR bml_extract(detail,'fdsea.hectare')::boolean THEN
     INSERT INTO table_impressiondocument (ig_numero,id_modele,id_cle) VALUES (num_groupe, 'carte', num_facture_fdsea); 
   END IF;
   detail := bml_put(detail,'fdsea.facture',num_facture_fdsea);

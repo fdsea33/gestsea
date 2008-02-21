@@ -3000,7 +3000,7 @@ Nbr Jointure: PAS DE JOINTURE;
  var Req="insert into "+Table+" ";
 var TabInsertionEnPlus=new Array();
  Req+="("+NomCleMaitre+",sq_nom,sq_nombre,sq_last,sq_clear_cache"+(TabInsertionEnPlus.length!=0?","+TabInsertionEnPlus[0]:"")+")";
- Req+=" values ("+CleMaitre+","+(sq_nom=="" ? "null" : "'"+ValiderChaine(sq_nom)+"'" )+","+(sq_nombre=="" ? "null" : "'"+ValiderChaine(sq_nombre)+"'" )+","+(sq_last=="" ? "null" : "'"+ValiderChaine(sq_last)+"'" )+","+(sq_clear_cache=="" ? "null" : "'"+ValiderChaine(sq_clear_cache)+"'" )+""+(TabInsertionEnPlus.length!=0?","+TabInsertionEnPlus[1]:"")+")";
+ Req+=" values ("+CleMaitre+","+(sq_nom=="" ? "null" : "'"+ValiderChaine(sq_nom)+"'" )+","+(sq_nombre=="" ? "null" : "'"+ValiderChaine(sq_nombre)+"'" )+","+(sq_last=="" ? "null" : "'"+ValiderChaine(sq_last)+"'" )+","+(sq_clear_cache=="true" ? "true" : "false")+""+(TabInsertionEnPlus.length!=0?","+TabInsertionEnPlus[1]:"")+")";
 
  if (pgsql_update(Req)==0)
         alert("Echec lors de l'insertion");
@@ -3052,7 +3052,7 @@ function User_Update_Séquences_Liste_des_séquences0(Compo_Maitre)
  if (!ValiderChampsType(Table,"sq_clear_cache",TAB_GLOBAL_COMPO[203],sq_clear_cache))
          return -1;
  var Req="update "+Table+" set ";
- Req+="sq_nom="+(sq_nom=="" ? "null" : "'"+ValiderChaine(sq_nom)+"'" )+",sq_nombre="+(sq_nombre=="" ? "null" : "'"+ValiderChaine(sq_nombre)+"'" )+",sq_last="+(sq_last=="" ? "null" : "'"+ValiderChaine(sq_last)+"'" )+",sq_clear_cache="+(sq_clear_cache=="" ? "null" : "'"+ValiderChaine(sq_clear_cache)+"'" )+"";
+ Req+="sq_nom="+(sq_nom=="" ? "null" : "'"+ValiderChaine(sq_nom)+"'" )+",sq_nombre="+(sq_nombre=="" ? "null" : "'"+ValiderChaine(sq_nombre)+"'" )+",sq_last="+(sq_last=="" ? "null" : "'"+ValiderChaine(sq_last)+"'" )+",sq_clear_cache="+(sq_clear_cache=="true" ? "true" : "false")+"";
  Req+=" where "+NomCleMaitre+"="+CleMaitre;
 
  if (pgsql_update(Req)==0)
