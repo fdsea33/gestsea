@@ -11,7 +11,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -24,7 +24,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -47,7 +47,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
 		<rule sur='vue' on="DELETE" instead="true" do="UPDATE ###_adresse SET AD_Active=FALSE, AD_DateStop=CURRENT_DATE WHERE ad_numero=OLD.AD_Numero"/>
@@ -71,7 +71,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -84,7 +84,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -96,7 +96,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -108,7 +108,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -122,7 +122,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -135,7 +135,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -149,7 +149,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -166,7 +166,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -182,7 +182,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
 		<rule sur='vue' on="DELETE" instead="true" do="UPDATE ###_contact SET CN_Actif=FALSE WHERE cn_numero=OLD.CN_Numero"/>
@@ -201,7 +201,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -216,7 +216,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -232,7 +232,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -251,7 +251,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
 		<rule sur='vue' on="DELETE" instead="true" do="UPDATE ###_estlie SET EL_Actif=FALSE, EL_Fin=CURRENT_TIMESTAMP WHERE el_numero=OLD.EL_Numero"/>
@@ -265,7 +265,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -285,7 +285,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -313,7 +313,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -337,7 +337,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -355,7 +355,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -370,7 +370,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -386,7 +386,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -399,7 +399,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -414,7 +414,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -431,7 +431,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -444,7 +444,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -458,7 +458,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -476,7 +476,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -491,11 +491,12 @@
     <column name="SO_Detail"   type="VARCHAR"     default="NULL"></column>
     <column name="SO_Sequence" type="VARCHAR(32)" notnull="true"></column>
     <column name="TS_Numero"   type="INTEGER"     default="NULL" fkey="TypeSociete(TS_Numero)"></column>
+    <column name="SQ_Numero"   type="INTEGER"     notnull="true" fkey="Sequence(SQ_Numero)" opt="odrour"></column>
     <seq name="seq_societe" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -508,7 +509,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -529,7 +530,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -542,7 +543,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -562,7 +563,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -576,7 +577,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -591,7 +592,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -603,7 +604,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -617,7 +618,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -634,7 +635,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -654,7 +655,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -674,7 +675,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
 		<rule sur='vue' on="DELETE" instead="true" do="UPDATE ###_prix SET PX_Actif=FALSE, PX_DateFin=CURRENT_TIMESTAMP WHERE PX_numero=OLD.PX_Numero"/>
@@ -695,7 +696,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -721,13 +722,13 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
   
   <table name="LigneFacture" abbrev="LF" label="Lignes de factures" from="JOIN ###_Produit USING (PD_Numero)" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
-    <column name="LF_Numero"   type="INTEGER"     notnull="true" pkey="true"></column>
+    <column name="LF_Numero"   type="INTEGER"     notnull="true" pkey="true" default="nextval('seq_lignefacture')"></column>
     <column name="FA_Numero"   type="INTEGER"     notnull="true" fkey="Facture(FA_Numero)" opt="odrour"></column>
     <column name="PX_Numero"   type="INTEGER"     default="NULL"     fkey="Prix(PX_Numero)"    opt="odrour"></column>
     <column name="PD_Numero"   type="INTEGER"     default="NULL"     fkey="Produit(PD_Numero)" opt="odrour"></column>
@@ -739,7 +740,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -763,7 +764,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -781,7 +782,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -800,7 +801,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -821,7 +822,7 @@
   <column name="created_at" label="Date de creation" type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by" label="Login du createur" type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at" label="Date de mise à jour" type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by" label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by" label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version" type="INTEGER" notnull="true" default="0">Numero de version</column>
   </table>
   
@@ -836,7 +837,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -858,7 +859,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -882,7 +883,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -895,7 +896,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -915,7 +916,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -942,7 +943,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -962,7 +963,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -991,7 +992,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1013,7 +1014,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1028,7 +1029,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1045,7 +1046,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1060,7 +1061,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1076,7 +1077,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1089,7 +1090,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1101,7 +1102,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1120,7 +1121,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1139,7 +1140,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1159,7 +1160,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1179,7 +1180,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1205,7 +1206,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1225,7 +1226,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1241,7 +1242,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1263,7 +1264,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1275,7 +1276,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1288,7 +1289,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1302,7 +1303,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1322,7 +1323,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1338,7 +1339,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1357,7 +1358,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1371,7 +1372,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1400,7 +1401,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1415,7 +1416,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1429,7 +1430,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1444,7 +1445,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1459,7 +1460,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1473,7 +1474,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1498,7 +1499,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1513,7 +1514,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
@@ -1527,7 +1528,7 @@
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
-    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)">Login du modificateur</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>

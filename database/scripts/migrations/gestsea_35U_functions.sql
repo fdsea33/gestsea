@@ -250,9 +250,9 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 
 --===========================================================================--
 -- Fonctions Sequence
---DROP FUNCTION FC_NextVal(TEXT);
+--DROP FUNCTION FC_NextVal(INTEGER);
 
-CREATE OR REPLACE FUNCTION FC_NextVal(IN nom TEXT) RETURNS integer AS
+CREATE OR REPLACE FUNCTION FC_NextVal(IN num_sequence INTEGER) RETURNS integer AS
 $$
 DECLARE
   total INTEGER;
@@ -262,9 +262,9 @@ DECLARE
   num_cache INTEGER;
   SEQ table_sequence%ROWTYPE;
 BEGIN
-  SELECT * FROM table_Sequence WHERE sq_nom ilike nom FOR UPDATE OF table_Sequence INTO SEQ;
+  SELECT * FROM table_Sequence WHERE sq_numero=num_sequence FOR UPDATE OF table_Sequence INTO SEQ;
   IF SEQ.SQ_Numero IS NULL THEN
-    RAISE EXCEPTION 'Séquence % introuvable', nom;
+    RAISE EXCEPTION 'La séquence n°% n''existe pas.', num_sequence;
   END IF;
   IF SEQ.SQ_Clear_Cache THEN
     DELETE FROM table_SequenceCache WHERE SQ_Numero=SEQ.SQ_Numero;
@@ -280,10 +280,35 @@ BEGIN
   SELECT sc_numero, sc_valeur FROM table_SequenceCache WHERE NOT SC_Locked AND SQ_Numero = SEQ.SQ_Numero ORDER BY sc_valeur FOR UPDATE OF table_SequenceCache INTO num_cache, val;
   DELETE FROM table_SequenceCache WHERE SC_Numero=num_cache;
   UPDATE table_Sequence SET SQ_Last = lasti, SQ_Clear_cache=false WHERE SQ_Numero=SEQ.SQ_Numero;
-  COMMIT;
   RETURN val;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
+
+
+
+--===========================================================================--
+-- Fonctions Sequence
+--DROP FUNCTION FC_NextVal(TEXT);
+
+CREATE OR REPLACE FUNCTION FC_NextVal(IN nom_sequence TEXT) RETURNS integer AS
+$$
+DECLARE
+  val INTEGER;
+  num_sequence table_sequence.sq_numero%TYPE;
+BEGIN
+  SELECT sq_numero FROM table_Sequence WHERE sq_nom ilike nom_sequence INTO num_sequence;
+  IF num_sequence IS NULL THEN
+    RAISE EXCEPTION 'La séquence ''%'' n''existe pas.', nom_sequence;
+  END IF;
+  SELECT FC_Nextval(num_sequence) INTO val;
+  RETURN val;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+
+--===========================================================================--
+-- Fonctions Sequence
+--DROP FUNCTION FC_NextVal(TEXT);
 
 CREATE OR REPLACE FUNCTION FC_NextVal2(IN nom TEXT, IN nb integer) RETURNS TEXT AS
 $$
@@ -292,7 +317,7 @@ DECLARE
   ret TEXT;
 BEGIN
   ret := '';
-  FOR i IN 0..nb LOOP
+  FOR i IN 1..nb LOOP
     SELECT ret||' '||fc_nextval(nom) INTO ret;
   END LOOP;
   RETURN ret;
@@ -1362,6 +1387,62 @@ CREATE OR REPLACE FUNCTION FC_DevisVersFacture(IN num_devis integer) RETURNS int
 $$
 DECLARE
   num_facture   integer;
+  num_societe   integer;
+  num_numfact   integer;
+  compte        integer;
+  locked        boolean;
+  montant       numeric;
+BEGIN
+  SELECT count(*) FROM Devis WHERE DE_Numero=num_devis INTO compte;
+  IF compte<=0 THEN
+    RAISE EXCEPTION 'Ce numéro de devis ne correspond à aucun devis existant.';
+    RETURN 1;
+  END IF;
+-- On verifie que l'on a un nombre de ligne>0
+  SELECT count(*) FROM Ligne WHERE DE_Numero=num_devis INTO compte;
+  IF compte<=0 THEN
+    RAISE EXCEPTION 'Ce devis ne contient pas lignes. Il n''est pas possible de le passer en facturation.';
+    RETURN 1;
+  END IF;
+-- On verifie que le devis n'est pas déjà passé en facture
+  SELECT DE_Locked, so_numero FROM Devis WHERE DE_Numero=num_devis INTO locked, num_societe;
+  IF locked THEN
+    RAISE EXCEPTION 'Ce devis a déjà été passé en facturation. Il n''est plus possible de recommencer l''opération.';
+    RETURN 0;
+  END IF;
+
+-- Récupération des numéros
+  SELECT nextval('seq_facture') into num_facture;
+  SELECT fc_nextval(sq_numero) FROM societe where so_numero = num_societe INTO num_numfact;
+-- Creation de la facture
+  insert into facture (fa_numero, pe_numero, fa_date, fa_reduction, fa_libelle, fa_numfact, fa_montantht, fa_montantttc, de_numero, ag_numero)
+    select num_facture, pe_numero, current_date, de_reduction, de_libelle, num_numfact, de_montantht, de_montantttc, de_numero, em_agent
+      from devis join employe using (em_numero) where de_numero = num_devis;
+-- Création des lignes de la facture
+  insert into lignefacture (fa_numero, pd_numero, lf_montantht, lf_montantttc, lf_quantite, px_numero, lf_notes)  
+    select num_facture, pd_numero, l_montantht, l_montantttc, l_quantite, px_numero, l_notes 
+      from ligne where de_numero = num_devis;
+
+-- Mise à jour des adhésions
+  INSERT INTO Adhesion (as_reductionmax,pe_numero,po_numero,ah_numero,fa_numero,lf_numero, as_origine)
+    SELECT ah_reduction, pe_numero, po_numero, ah_numero, fa_numero, lf_numero, as_origine
+      FROM VUE_Adhesion
+      WHERE FA_Numero=num_facture;
+
+-- Verrouillage le devis
+  UPDATE devis SET de_locked=true WHERE de_numero=num_devis;
+ return num_facture;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+
+
+/*
+
+CREATE OR REPLACE FUNCTION FC_DevisVersFacture(IN num_devis integer) RETURNS integer AS
+$$
+DECLARE
+  num_facture   integer;
   date_facture  date;
   num_societe   integer;
   num_numfact   integer;
@@ -1514,6 +1595,13 @@ BEGIN
  return num_facture;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
+
+
+
+
+
+*/
+
 
 
 --===========================================================================--
