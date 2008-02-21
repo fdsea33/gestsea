@@ -343,6 +343,8 @@ ALTER TABLE "table_societe"
   DROP CONSTRAINT fk_table_societe_pe_numero;
 ALTER TABLE "table_societe"
   DROP CONSTRAINT fk_table_societe_ts_numero;
+ALTER TABLE "table_societe"
+  DROP CONSTRAINT fk_table_societe_sq_numero;
 ALTER TABLE "table_sujet"
   DROP CONSTRAINT fk_table_sujet_zu_numero;
 ALTER TABLE "table_tva"
@@ -531,6 +533,7 @@ CREATE TABLE "table_societe"
   "so_detail" VARCHAR,
   "so_sequence" VARCHAR(32),
   "ts_numero" INTEGER,
+  "sq_numero" INTEGER,
   "created_at" TIMESTAMP,
   "created_by" VARCHAR(32),
   "updated_at" TIMESTAMP,
@@ -1882,6 +1885,8 @@ CREATE TABLE "table_sequence"
   "sq_nom" VARCHAR(64) UNIQUE,
   "sq_last" INTEGER,
   "sq_nombre" INTEGER,
+  "sq_used_on" TIMESTAMP,
+  "sq_clear_cache" BOOLEAN,
   "created_at" TIMESTAMP,
   "created_by" VARCHAR(32),
   "updated_at" TIMESTAMP,

@@ -4,7 +4,7 @@
 
 -- Creation des vues sur tables et des règles qui vont avec
 CREATE OR REPLACE VIEW "societe" AS
-   SELECT table_societe.so_numero, table_societe.so_libelle, table_societe.so_abbrev, table_societe.pe_numero, table_societe.so_detail, table_societe.so_sequence, table_societe.ts_numero, table_societe.created_at, table_societe.created_by, table_societe.updated_at, table_societe.updated_by, table_societe.lock_version, table_societe.id 
+   SELECT table_societe.so_numero, table_societe.so_libelle, table_societe.so_abbrev, table_societe.pe_numero, table_societe.so_detail, table_societe.so_sequence, table_societe.ts_numero, table_societe.sq_numero, table_societe.created_at, table_societe.created_by, table_societe.updated_at, table_societe.updated_by, table_societe.lock_version, table_societe.id 
      FROM "table_societe";
 
 CREATE OR REPLACE VIEW "droit" AS
@@ -372,7 +372,7 @@ CREATE OR REPLACE VIEW "nonadherent" AS
      FROM "table_nonadherent";
 
 CREATE OR REPLACE VIEW "sequence" AS
-   SELECT table_sequence.sq_numero, table_sequence.sq_nom, table_sequence.sq_last, table_sequence.sq_nombre, table_sequence.created_at, table_sequence.created_by, table_sequence.updated_at, table_sequence.updated_by, table_sequence.lock_version, table_sequence.id 
+   SELECT table_sequence.sq_numero, table_sequence.sq_nom, table_sequence.sq_last, table_sequence.sq_nombre, table_sequence.sq_used_on, table_sequence.sq_clear_cache, table_sequence.created_at, table_sequence.created_by, table_sequence.updated_at, table_sequence.updated_by, table_sequence.lock_version, table_sequence.id 
      FROM "table_sequence";
 
 CREATE OR REPLACE VIEW "sequencecache" AS
@@ -841,10 +841,10 @@ CREATE OR REPLACE RULE rule_ligneavoir_delete AS
 
 CREATE OR REPLACE RULE rule_lignefacture_insert AS
   ON INSERT TO "lignefacture"
-  DO INSTEAD INSERT INTO "table_lignefacture"(lf_numero, fa_numero, px_numero, pd_numero, lf_quantite, lf_montantht, lf_montantttc, lf_notes, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (new.lf_numero, new.fa_numero, new.px_numero, new.pd_numero, ROUND(COALESCE(NEW.lf_quantite,0),2), ROUND(new.lf_montantht,2), ROUND(new.lf_montantttc,2), new.lf_notes, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
+  DO INSTEAD INSERT INTO "table_lignefacture"(lf_numero, fa_numero, px_numero, pd_numero, lf_quantite, lf_montantht, lf_montantttc, lf_notes, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (COALESCE(NEW.lf_numero,nextval('seq_lignefacture')), new.fa_numero, new.px_numero, new.pd_numero, ROUND(COALESCE(NEW.lf_quantite,0),2), ROUND(new.lf_montantht,2), ROUND(new.lf_montantttc,2), new.lf_notes, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
 CREATE OR REPLACE RULE rule_lignefacture_update AS
   ON UPDATE TO "lignefacture"
-  DO INSTEAD UPDATE "table_lignefacture" SET lf_numero=new.lf_numero, fa_numero=new.fa_numero, px_numero=new.px_numero, pd_numero=new.pd_numero, lf_quantite=ROUND(COALESCE(NEW.lf_quantite,0),2), lf_montantht=ROUND(new.lf_montantht,2), lf_montantttc=ROUND(new.lf_montantttc,2), lf_notes=new.lf_notes, created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.LF_Numero=LF_Numero;
+  DO INSTEAD UPDATE "table_lignefacture" SET lf_numero=COALESCE(NEW.lf_numero,nextval('seq_lignefacture')), fa_numero=new.fa_numero, px_numero=new.px_numero, pd_numero=new.pd_numero, lf_quantite=ROUND(COALESCE(NEW.lf_quantite,0),2), lf_montantht=ROUND(new.lf_montantht,2), lf_montantttc=ROUND(new.lf_montantttc,2), lf_notes=new.lf_notes, created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.LF_Numero=LF_Numero;
 CREATE OR REPLACE RULE rule_lignefacture_delete AS
   ON DELETE TO "lignefacture"
   DO INSTEAD DELETE FROM "table_lignefacture" WHERE old.LF_Numero=LF_Numero;
@@ -1061,10 +1061,10 @@ CREATE OR REPLACE RULE rule_routage_delete AS
 
 CREATE OR REPLACE RULE rule_sequence_insert AS
   ON INSERT TO "sequence"
-  DO INSTEAD INSERT INTO "table_sequence"(sq_numero, sq_nom, sq_last, sq_nombre, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (new.sq_numero, new.sq_nom, COALESCE(NEW.sq_last,1), COALESCE(NEW.sq_nombre,50), CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
+  DO INSTEAD INSERT INTO "table_sequence"(sq_numero, sq_nom, sq_last, sq_nombre, sq_used_on, sq_clear_cache, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (new.sq_numero, new.sq_nom, COALESCE(NEW.sq_last,1), COALESCE(NEW.sq_nombre,50), COALESCE(NEW.sq_used_on,CURRENT_TIMESTAMP), COALESCE(NEW.sq_clear_cache,false), CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
 CREATE OR REPLACE RULE rule_sequence_update AS
   ON UPDATE TO "sequence"
-  DO INSTEAD UPDATE "table_sequence" SET sq_numero=new.sq_numero, sq_nom=new.sq_nom, sq_last=COALESCE(NEW.sq_last,1), sq_nombre=COALESCE(NEW.sq_nombre,50), created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.SQ_Numero=SQ_Numero;
+  DO INSTEAD UPDATE "table_sequence" SET sq_numero=new.sq_numero, sq_nom=new.sq_nom, sq_last=COALESCE(NEW.sq_last,1), sq_nombre=COALESCE(NEW.sq_nombre,50), sq_used_on=COALESCE(NEW.sq_used_on,CURRENT_TIMESTAMP), sq_clear_cache=COALESCE(NEW.sq_clear_cache,false), created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.SQ_Numero=SQ_Numero;
 CREATE OR REPLACE RULE rule_sequence_delete AS
   ON DELETE TO "sequence"
   DO INSTEAD DELETE FROM "table_sequence" WHERE old.SQ_Numero=SQ_Numero;
@@ -1091,10 +1091,10 @@ CREATE OR REPLACE RULE rule_service_delete AS
 
 CREATE OR REPLACE RULE rule_societe_insert AS
   ON INSERT TO "societe"
-  DO INSTEAD INSERT INTO "table_societe"(so_numero, so_libelle, so_abbrev, pe_numero, so_detail, so_sequence, ts_numero, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (new.so_numero, new.so_libelle, new.so_abbrev, new.pe_numero, new.so_detail, new.so_sequence, new.ts_numero, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
+  DO INSTEAD INSERT INTO "table_societe"(so_numero, so_libelle, so_abbrev, pe_numero, so_detail, so_sequence, ts_numero, sq_numero, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (new.so_numero, new.so_libelle, new.so_abbrev, new.pe_numero, new.so_detail, new.so_sequence, new.ts_numero, new.sq_numero, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
 CREATE OR REPLACE RULE rule_societe_update AS
   ON UPDATE TO "societe"
-  DO INSTEAD UPDATE "table_societe" SET so_numero=new.so_numero, so_libelle=new.so_libelle, so_abbrev=new.so_abbrev, pe_numero=new.pe_numero, so_detail=new.so_detail, so_sequence=new.so_sequence, ts_numero=new.ts_numero, created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.SO_Numero=SO_Numero;
+  DO INSTEAD UPDATE "table_societe" SET so_numero=new.so_numero, so_libelle=new.so_libelle, so_abbrev=new.so_abbrev, pe_numero=new.pe_numero, so_detail=new.so_detail, so_sequence=new.so_sequence, ts_numero=new.ts_numero, sq_numero=new.sq_numero, created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.SO_Numero=SO_Numero;
 CREATE OR REPLACE RULE rule_societe_delete AS
   ON DELETE TO "societe"
   DO INSTEAD DELETE FROM "table_societe" WHERE old.SO_Numero=SO_Numero;

@@ -228,10 +228,10 @@ function mcd_getSequence(t) {
     <xsl:call-template name="minuscule"/>
     <xsl:text>': s=</xsl:text>
     <xsl:choose>
-      <xsl:when test="count(pkey)!=0">''</xsl:when>
-      <xsl:when test="count(column[@pkey='true' and contains(@type,'SERIAL')])=1">undefined</xsl:when>
+      <xsl:when test="count(pkey)!=0">'#'</xsl:when>
+      <xsl:when test="count(column[@pkey='true' and contains(@type,'SERIAL')])=1">'*'</xsl:when>
       <xsl:when test="count(column[@pkey='true'])=1 and count(seq)=1">'<xsl:value-of select="seq/@name"/>'</xsl:when>
-      <xsl:otherwise>''</xsl:otherwise>
+      <xsl:otherwise>null</xsl:otherwise>
     </xsl:choose>
     <xsl:text>;break;
 </xsl:text>

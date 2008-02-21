@@ -391,28 +391,22 @@ function getItemFromEnumerator(result, indicecol, atrouver) {
   return enumerator;
 }
 
-function getCle(TableP)
-{
+function getCle(TableP) {
   var Table=TableP.toLowerCase();
-    var cle=Table+".";
-    /*
+  var cle=Table+".";
+  /*
   if (Table.length>4 && Table.substring(0,4)=='vue_' )
     Table=Table.substring(4);
-    */
+  */
   var res=mcd_getCle(Table);
-
-  if (res==null)
-  {
-    //alert(">Erreur lors de la recherche de la clé de:\n"+Table);
+  if (res==null) {
     /* pour les vue: Norme de cle */
     return Table+".cle";
   }
-  if (res=='')
-  {
-    alert(">Attention clé primaire multiples dans:\n"+Table);
+  if (res=='') {
+    alert("Attention clé primaire multiples dans : "+Table+"\n\npgsql.js");
     return Table+".cle";
   }
-
   return (cle+res);
 }
 
@@ -420,19 +414,23 @@ function getNewCle(Table) {
   var result;
   var enumerator;
   var sequence = mcd_getSequence(Table);
-  if (sequence==undefined) {
-    result=pgsql_query("select pg_get_serial_sequence('"+Table+"', '"+mcd_getCle(Table)+"');");
+  if (sequence=='*') {
+    result=pgsql_query("select pg_get_serial_sequence('table_"+Table+"', '"+mcd_getCle(Table)+"');");
     enumerator=result.enumerate();
     enumerator.first();
     sequence = enumerator.getVariant(0);
   }
+  if (sequence=='#') {
+    alert("Erreur de génération d'une clé !\nTable : "+Table+"\npas de clés primaires donc pas de séquences");
+    return -1;
+  }
   if (sequence==null) {
-    alert("Erreur de génération d'une clé !\nTable : "+Table+"\nSequence introuvable");
+    alert("Erreur de génération d'une clé !\nTable : "+Table+"\nSéquence inexistante");
     return -1;
   }
   result=pgsql_query("select nextval('"+sequence+"');");
   if(result.rowCount==0)       {
-    alert("Erreur de génération d'une clé !\nTable : "+Table+"\nSequence introuvable : seq_"+Table);
+    alert("Erreur de génération d'une clé !\nTable : "+Table+"\nSéquence introuvable dans la base : seq_"+Table);
     return -1;
   }
   enumerator=result.enumerate();

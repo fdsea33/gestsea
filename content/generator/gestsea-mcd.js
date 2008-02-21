@@ -1325,6 +1325,8 @@ function mcd_getType(table,champs)
         case 'sq_nom': type=TYPE_STRING;break;
         case 'sq_last': type=TYPE_INT;break;
         case 'sq_nombre': type=TYPE_INT;break;
+        case 'sq_used_on': type=TYPE_DATETIME;break;
+        case 'sq_clear_cache': type=TYPE_BOOL;break;
         case 'created_at': type=TYPE_DATETIME;break;
         case 'created_by': type=TYPE_STRING;break;
         case 'updated_at': type=TYPE_DATETIME;break;
@@ -1376,6 +1378,7 @@ function mcd_getType(table,champs)
         case 'so_detail': type=TYPE_STRING;break;
         case 'so_sequence': type=TYPE_STRING;break;
         case 'ts_numero': type=TYPE_INT;break;
+        case 'sq_numero': type=TYPE_INT;break;
         case 'created_at': type=TYPE_DATETIME;break;
         case 'created_by': type=TYPE_STRING;break;
         case 'updated_at': type=TYPE_DATETIME;break;
@@ -2888,6 +2891,8 @@ function mcd_getLabel(table,champs)
         case 'sq_nom': label="";break;
         case 'sq_last': label="";break;
         case 'sq_nombre': label="";break;
+        case 'sq_used_on': label="";break;
+        case 'sq_clear_cache': label="";break;
         case 'created_at': label="Date de creation";break;
         case 'created_by': label="Login du createur";break;
         case 'updated_at': label="Date de mise à jour";break;
@@ -2939,6 +2944,7 @@ function mcd_getLabel(table,champs)
         case 'so_detail': label="";break;
         case 'so_sequence': label="";break;
         case 'ts_numero': label="";break;
+        case 'sq_numero': label="";break;
         case 'created_at': label="Date de creation";break;
         case 'created_by': label="Login du createur";break;
         case 'updated_at': label="Date de mise à jour";break;
@@ -4448,6 +4454,8 @@ function mcd_obligatoire(table,champs)
         case 'sq_nom': obligatoire=true;break;
         case 'sq_last': obligatoire=true;break;
         case 'sq_nombre': obligatoire=true;break;
+        case 'sq_used_on': obligatoire=true;break;
+        case 'sq_clear_cache': obligatoire=true;break;
         case 'created_at': obligatoire=false;break;
         case 'created_by': obligatoire=false;break;
         case 'updated_at': obligatoire=false;break;
@@ -4499,6 +4507,7 @@ function mcd_obligatoire(table,champs)
         case 'so_detail': obligatoire=false;break;
         case 'so_sequence': obligatoire=true;break;
         case 'ts_numero': obligatoire=false;break;
+        case 'sq_numero': obligatoire=true;break;
         case 'created_at': obligatoire=false;break;
         case 'created_by': obligatoire=false;break;
         case 'updated_at': obligatoire=false;break;
@@ -4906,7 +4915,7 @@ function mcd_getSequence(t) {
     case 'table_adresse': case 'adresse': s='seq_adresse';break;
     case 'table_adresseversion': case 'adresseversion': s='seq_adresseversion';break;
     case 'table_agent': case 'agent': s='seq_agent';break;
-    case 'table_appartienta': case 'appartienta': s='';break;
+    case 'table_appartienta': case 'appartienta': s='#';break;
     case 'table_appel': case 'appel': s='seq_appel';break;
     case 'table_attribut': case 'attribut': s='seq_attribut';break;
     case 'table_avoir': case 'avoir': s='seq_avoir';break;
@@ -4920,7 +4929,7 @@ function mcd_getSequence(t) {
     case 'table_contact': case 'contact': s='seq_contact';break;
     case 'table_contacttype': case 'contacttype': s='seq_contacttype';break;
     case 'table_contactversion': case 'contactversion': s='seq_contactversion';break;
-    case 'table_cotisation': case 'cotisation': s=undefined;break;
+    case 'table_cotisation': case 'cotisation': s='*';break;
     case 'table_devis': case 'devis': s='seq_devis';break;
     case 'table_droit': case 'droit': s='seq_droit';break;
     case 'table_droitprofil': case 'droitprofil': s='seq_droitprofil';break;
@@ -4937,9 +4946,9 @@ function mcd_getSequence(t) {
     case 'table_groupecanton': case 'groupecanton': s='seq_groupecanton';break;
     case 'table_groupetable': case 'groupetable': s='seq_groupetable';break;
     case 'table_impression': case 'impression': s='seq_impression';break;
-    case 'table_impressiondocument': case 'impressiondocument': s=undefined;break;
-    case 'table_impressiongroupe': case 'impressiongroupe': s=undefined;break;
-    case 'table_impressionlot': case 'impressionlot': s=undefined;break;
+    case 'table_impressiondocument': case 'impressiondocument': s='*';break;
+    case 'table_impressiongroupe': case 'impressiongroupe': s='*';break;
+    case 'table_impressionlot': case 'impressionlot': s='*';break;
     case 'table_journal': case 'journal': s='seq_journal';break;
     case 'table_lettrage': case 'lettrage': s='seq_lettrage';break;
     case 'table_lieu': case 'lieu': s='seq_lieu';break;
@@ -4955,7 +4964,7 @@ function mcd_getSequence(t) {
     case 'table_nonadherent': case 'nonadherent': s='seq_nonadherent';break;
     case 'table_observation': case 'observation': s='seq_observation';break;
     case 'table_periode': case 'periode': s='seq_periode';break;
-    case 'table_periodeadherence': case 'periodeadherence': s='';break;
+    case 'table_periodeadherence': case 'periodeadherence': s='#';break;
     case 'table_personne': case 'personne': s='seq_personne';break;
     case 'table_personneupdate': case 'personneupdate': s='seq_personneupdate';break;
     case 'table_piece': case 'piece': s='seq_piece';break;
@@ -4967,8 +4976,8 @@ function mcd_getSequence(t) {
     case 'table_repartition': case 'repartition': s='seq_repartition';break;
     case 'table_responsabilite': case 'responsabilite': s='seq_responsabilite';break;
     case 'table_routage': case 'routage': s='seq_routage';break;
-    case 'table_sequence': case 'sequence': s=undefined;break;
-    case 'table_sequencecache': case 'sequencecache': s=undefined;break;
+    case 'table_sequence': case 'sequence': s='*';break;
+    case 'table_sequencecache': case 'sequencecache': s='*';break;
     case 'table_service': case 'service': s='seq_service';break;
     case 'table_societe': case 'societe': s='seq_societe';break;
     case 'table_sujet': case 'sujet': s='seq_sujet';break;
@@ -4983,7 +4992,7 @@ function mcd_getSequence(t) {
     case 'table_typesujet': case 'typesujet': s='seq_typesujet';break;
     case 'table_typetache': case 'typetache': s='seq_typetache';break;
     case 'table_ville': case 'ville': s='seq_ville';break;
-    case 'table_villecp': case 'villecp': s='';break;
+    case 'table_villecp': case 'villecp': s='#';break;
 
     default: s = null;
   }
