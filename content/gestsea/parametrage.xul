@@ -53,18 +53,19 @@
       <menuitem label="Préfixes" oncommand="AllerAOnglet(18)"/>
       <menuitem label="Produits" oncommand="AllerAOnglet(19)"/>
       <menuitem label="Responsabilités" oncommand="AllerAOnglet(20)"/>
-      <menuitem label="Services" oncommand="AllerAOnglet(21)"/>
-      <menuitem label="Sociétés" oncommand="AllerAOnglet(22)"/>
-      <menuitem label="TVA" oncommand="AllerAOnglet(23)"/>
-      <menuitem label="Types d'adresses" oncommand="AllerAOnglet(24)"/>
-      <menuitem label="Types d'attribut" oncommand="AllerAOnglet(25)"/>
-      <menuitem label="Types de contacts" oncommand="AllerAOnglet(26)"/>
-      <menuitem label="Types de journaux" oncommand="AllerAOnglet(27)"/>
-      <menuitem label="Types de lien" oncommand="AllerAOnglet(28)"/>
-      <menuitem label="Types de personne" oncommand="AllerAOnglet(29)"/>
-      <menuitem label="Types de sociétés" oncommand="AllerAOnglet(30)"/>
-      <menuitem label="Types de tâches" oncommand="AllerAOnglet(31)"/>
-      <menuitem label="Villes" oncommand="AllerAOnglet(32)"/>
+      <menuitem label="Séquences" oncommand="AllerAOnglet(21)"/>
+      <menuitem label="Services" oncommand="AllerAOnglet(22)"/>
+      <menuitem label="Sociétés" oncommand="AllerAOnglet(23)"/>
+      <menuitem label="TVA" oncommand="AllerAOnglet(24)"/>
+      <menuitem label="Types d'adresses" oncommand="AllerAOnglet(25)"/>
+      <menuitem label="Types d'attribut" oncommand="AllerAOnglet(26)"/>
+      <menuitem label="Types de contacts" oncommand="AllerAOnglet(27)"/>
+      <menuitem label="Types de journaux" oncommand="AllerAOnglet(28)"/>
+      <menuitem label="Types de lien" oncommand="AllerAOnglet(29)"/>
+      <menuitem label="Types de personne" oncommand="AllerAOnglet(30)"/>
+      <menuitem label="Types de sociétés" oncommand="AllerAOnglet(31)"/>
+      <menuitem label="Types de tâches" oncommand="AllerAOnglet(32)"/>
+      <menuitem label="Villes" oncommand="AllerAOnglet(33)"/>
       </menupopup>
     </menu>
     <menu id="edition-menu" label="Edition">
@@ -108,6 +109,7 @@
  <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Préfixes" label="Préfixes"/>
  <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Produits" label="Produits"/>
  <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Responsabilités" label="Responsabilités"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Séquences" label="Séquences"/>
  <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Services" label="Services"/>
  <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Sociétés" label="Sociétés"/>
  <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_TVA" label="TVA"/>
@@ -702,6 +704,32 @@
 </hbox>
 </vbox>
 </tabpanel>
+<tabpanel flex="1" id="OngletPanel_Séquences" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Séquences_Liste_des_séquences0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Séquences_Liste_des_séquences0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Séquences_Liste_des_séquences0" label="Ajouter" oncommand="Insert_Séquences_Liste_des_séquences0()" />
+    <button class="edit-button16" disabled="true" id="Update_Séquences_Liste_des_séquences0" label="Modifier" oncommand="Update_Séquences_Liste_des_séquences0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Séquences_Liste_des_séquences0" label="Supprimer" oncommand="Delete_Séquences_Liste_des_séquences0()" />
+    <button class="accept-button16" id="Validate_Séquences_Liste_des_séquences0" label="Valider" oncommand="Validate_Séquences_Liste_des_séquences0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Séquences_Liste_des_séquences0" label="Annuler" oncommand="Annuler_Séquences_Liste_des_séquences0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+<hbox class="fondstyle" pack="end">
+  <hbox pack="end" align="center">
+    <separator class="groove"/>
+    <button class="back-button16" label="Précédent" oncommand="Retour_Séquences()"/>
+  </hbox>
+</hbox>
+</vbox>
+</tabpanel>
 <tabpanel flex="1" id="OngletPanel_Services" >
 <vbox flex="1">
 <hbox flex="1">
@@ -740,7 +768,7 @@
 <vbox flex="1" style="overflow:auto">
 <vbox id="Sociétés_Liste_des_sociétés0_Slaves"/>
 <hbox flex="1">
-<vbox id="Sociétés_Services_6" flex="1"/>
+<vbox id="Sociétés_Services_7" flex="1"/>
 </hbox>
 <arrowscrollbox  pack="end" align="stretch" class="fondstyle">
     <button class="new-button16" disabled="true" id="Insert_Sociétés_Liste_des_sociétés0" label="Ajouter" oncommand="Insert_Sociétés_Liste_des_sociétés0()" />

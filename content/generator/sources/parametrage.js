@@ -252,13 +252,14 @@ function CodeInParametrage(){
     It_Societe = new clInterfaceSimple("Sociétés");
 
     Maitre_Societe = It_Societe.AjouterMaitre("Liste des sociétés","societe");
-    Maitre_Societe.AjouterColonne("Abbr.","so_abbrev");
+    Maitre_Societe.AjouterColonne("Abr.","so_abbrev");
     Maitre_Societe.AjouterColonne("Nom","so_libelle");
 
-    SocieteTypesociete = It_Societe.AjouterComposantSimple("Type", "ts_libelle",new Array("ts_numero","ts_numero","typesociete"),null,LISTE_DEROULANTE);
+    var SocieteTypesociete = It_Societe.AjouterComposantSimple("Type", "ts_libelle",new Array("ts_numero","ts_numero","typesociete"),null,LISTE_DEROULANTE);
     It_Societe.AjouterComposantSimple("Nom", "so_libelle");
-    It_Societe.AjouterComposantSimple("Abbrev", "so_abbrev");
+    It_Societe.AjouterComposantSimple("Abréviation", "so_abbrev");
     It_Societe.AjouterComposantSimple("Personne", "pe_libelle", new Array("pe_numero","pe_numero","personne"),null, LISTE_DEROULANTE);
+    var SocieteSequence = It_Societe.AjouterComposantSimple("Séquence", "sq_nom",new Array("sq_numero","sq_numero","sequence"),null,LISTE_DEROULANTE);
     It_Societe.AjouterComposantSimple("Détails", "so_detail",null,null,null,null,null,true);
 
     SocieteService = It_Societe.AjouterComposantComplexe("Services", new Array("so_numero","se_societe","service"));
@@ -266,6 +267,27 @@ function CodeInParametrage(){
     SocieteService.AjouterColonne("Responsable","ag_libelle",new Array("se_agent","ag_numero","agent"));
 
     param_alert("Societe...OK!");
+
+
+    //****************************
+    // SEQUENCE
+    //****************************
+
+    var It_Sequence,Maitre_Sequence;
+
+    It_Sequence = new clInterfaceSimple("Séquences");
+
+    Maitre_Sequence = It_Sequence.AjouterMaitre("Liste des séquences","sequence");
+    Maitre_Sequence.AjouterColonne("Nom","sq_nom")
+    Maitre_Sequence.AjouterColonne("C.S.","sq_nombre");
+    Maitre_Sequence.AjouterColonne("L.V.","sq_last");
+
+    It_Sequence.AjouterComposantSimple("Nom", "sq_nom");
+    It_Sequence.AjouterComposantSimple("C.S.", "sq_nombre");
+    It_Sequence.AjouterComposantSimple("L.V.", "sq_last");
+    It_Sequence.AjouterComposantSimple("Vider le cache", "sq_clear_cache",null,null,CHECKBOX);
+
+    param_alert("Sequence...OK!");
 
 
     //****************************
@@ -832,6 +854,7 @@ function CodeInParametrage(){
     It_Periode.LierA(AdherencePeriodeREF, It_Adherence);
     It_Produit.LierA(AdherenceProduit, It_Adherence);
     It_Produit.LierA(ModeleLignemodeleProduit, It_Modele);
+    It_Sequence.LierA(SocieteSequence, It_Societe);
     It_Tva.LierA(ProduitPrixTva, It_Produit);
 		It_Typelien.LierA(AdherenceTypelien, It_Adherence);
     It_Typesociete.LierA(SocieteTypesociete, It_Societe);
@@ -862,6 +885,7 @@ function CodeInParametrage(){
     AllIt.AjouterInterface(It_Prefixe);   
     AllIt.AjouterInterface(It_Produit);   
     AllIt.AjouterInterface(It_Responsabilite);
+    AllIt.AjouterInterface(It_Sequence);
     AllIt.AjouterInterface(It_Service);
     AllIt.AjouterInterface(It_Societe);
     AllIt.AjouterInterface(It_Tva);

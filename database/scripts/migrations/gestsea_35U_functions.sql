@@ -279,7 +279,7 @@ BEGIN
   END IF;
   SELECT sc_numero, sc_valeur FROM table_SequenceCache WHERE NOT SC_Locked AND SQ_Numero = SEQ.SQ_Numero ORDER BY sc_valeur FOR UPDATE OF table_SequenceCache INTO num_cache, val;
   DELETE FROM table_SequenceCache WHERE SC_Numero=num_cache;
-  UPDATE table_Sequence SET SQ_Last = lasti, SQ_Clear_cache=false WHERE SQ_Numero=SEQ.SQ_Numero;
+  UPDATE table_Sequence SET SQ_Last = lasti, SQ_Clear_cache=false, SQ_Used_On=CURRENT_TIMESTAMP WHERE SQ_Numero=SEQ.SQ_Numero;
   RETURN val;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;

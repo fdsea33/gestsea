@@ -1506,11 +1506,13 @@
 
 
   <table name="Sequence" abbrev="SQ" label="Séquences">
-    <column name="SQ_Numero"    type="SERIAL"       notnull="true" pkey="true"></column>
-    <column name="SQ_Nom"       type="VARCHAR(64)"  notnull="true" const="UNIQUE"/>
+    <column name="SQ_Numero"      type="SERIAL"       notnull="true" pkey="true"></column>
+    <column name="SQ_Nom"         type="VARCHAR(64)"  notnull="true" const="UNIQUE"/>
 <!--    <column name="SQ_Format"    type="VARCHAR(64)"  notnull="true" default="'FM999999999999999'"/>-->
-    <column name="SQ_Last"      type="INTEGER"      notnull="true" default="1"/>
-    <column name="SQ_Nombre"    type="INTEGER"      notnull="true" default="50"/>
+    <column name="SQ_Last"        type="INTEGER"      notnull="true" default="1"/>
+    <column name="SQ_Nombre"      type="INTEGER"      notnull="true" default="50"/>
+    <column name="SQ_Used_On"     type="TIMESTAMP"    notnull="true" default="CURRENT_TIMESTAMP"/>
+    <column name="SQ_Clear_Cache" type="BOOLEAN"      notnull="true" default="false"/>
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>

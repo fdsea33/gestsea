@@ -3146,6 +3146,7 @@ clTabInterfaceSimple.prototype.GenererInterface=
 
     // top.document.getElementById("res").value+="/*********MAITRE XUL****************/"+StrXul;
     //top.document.getElementById("res").value+="/*********MAITRE JS ****************/"+StrJs;
+    top.document.getElementById("res").value+="--------------------------------\n";
     if (AutoSave){
       SaveFileDirectly(MonNomFichier+'.xul',StrXul);
       SaveFileDirectly(MonNomFichier+'.js',StrJs);
