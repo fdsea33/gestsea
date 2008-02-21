@@ -24,7 +24,7 @@
 <script src="chrome://browser/content/browser.js"/>
 <script src="export.js"/>
 <script src="parametrage_plus.js"/>
-<script src="chrome://gestsea/content/generator/gestseax-mcd.js"/>
+<script src="chrome://gestsea/content/generator/gestsea-mcd.js"/>
 <!-- AJOUTER chrome://agrisig/content/Onglets/Agrisig SI NECESSAIRE -->
 <script src="parametrage.js"/>
 <script src="parametrage_User.js"/>

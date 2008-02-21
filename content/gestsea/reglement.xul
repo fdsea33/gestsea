@@ -25,7 +25,7 @@
 <script src="chrome://gestsea/content/gestsea/export.js"/>
 <script src="chrome://gestsea/content/generator/libIO.js"/>
 <script src="chrome://gestsea/content/gestsea/principal_plus.js"/>
-<script src="chrome://gestsea/content/generator/gestseax-mcd.js"/>
+<script src="chrome://gestsea/content/generator/gestsea-mcd.js"/>
 <!-- AJOUTER chrome://agrisig/content/Onglets/Agrisig SI NECESSAIRE -->
 <script src="reglement.js"/>
 <script src="reglement_User.js"/>

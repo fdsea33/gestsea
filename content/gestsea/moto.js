@@ -70,7 +70,7 @@ function stProprieteCompo()
         this.Action_en_cours=null;
         this.NewCle=null;
 }
-var TAB_COMPO_PPTES = new Array(1408);
+var TAB_COMPO_PPTES = new Array(723);
 /* on init le tableau */
 var id
 for(id=0;id<TAB_COMPO_PPTES.length;id++)
@@ -108,38 +108,38 @@ function OuvrirOnglet_Activités()
 
 function Insert_Activités_Liste_des_activités0()
 {
- TAB_COMPO_PPTES[1370].Action_en_cours = INSERT;
+ TAB_COMPO_PPTES[685].Action_en_cours = INSERT;
 /* On calcule la nouvelle clé */
- TAB_COMPO_PPTES[1370].NewCle = getNewCle("activite");
+ TAB_COMPO_PPTES[685].NewCle = getNewCle("activite");
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[1370].ActiverComposant(false,true);
+ TAB_GLOBAL_COMPO[685].ActiverComposant(false,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[1377];
+ var Esclave_0=TAB_GLOBAL_COMPO[692];
  Esclave_0.ActiverComposant(true);
- var Esclave_1=TAB_GLOBAL_COMPO[1378];
+ var Esclave_1=TAB_GLOBAL_COMPO[693];
  Esclave_1.ActiverComposant(true);
- var Esclave_2=TAB_GLOBAL_COMPO[1379];
+ var Esclave_2=TAB_GLOBAL_COMPO[694];
  Esclave_2.ActiverComposant(true);
- var Esclave_3=TAB_GLOBAL_COMPO[1380];
+ var Esclave_3=TAB_GLOBAL_COMPO[695];
  Esclave_3.ActiverComposant(true);
- var Esclave_4=TAB_GLOBAL_COMPO[1381];
+ var Esclave_4=TAB_GLOBAL_COMPO[696];
  Esclave_4.ActiverComposant(true);
- var Esclave_5=TAB_GLOBAL_COMPO[1382];
+ var Esclave_5=TAB_GLOBAL_COMPO[697];
  Esclave_5.ActiverComposant(true);
- var Esclave_6=TAB_GLOBAL_COMPO[1383];
+ var Esclave_6=TAB_GLOBAL_COMPO[698];
  Esclave_6.ActiverComposant(true);
- var Esclave_7=TAB_GLOBAL_COMPO[1384];
+ var Esclave_7=TAB_GLOBAL_COMPO[699];
  Esclave_7.ActiverComposant(true);
- var Esclave_8=TAB_GLOBAL_COMPO[1385];
+ var Esclave_8=TAB_GLOBAL_COMPO[700];
  Esclave_8.ActiverComposant(true);
- var Esclave_9=TAB_GLOBAL_COMPO[1386];
+ var Esclave_9=TAB_GLOBAL_COMPO[701];
  Esclave_9.ActiverComposant(true);
 top.document.getElementById("Validate_Activités_Liste_des_activités0").disabled=false;
 top.document.getElementById("Annuler_Activités_Liste_des_activités0").disabled=false;
 top.document.getElementById("Insert_Activités_Liste_des_activités0").disabled=true;
 top.document.getElementById("Delete_Activités_Liste_des_activités0").disabled=true;
 top.document.getElementById("Update_Activités_Liste_des_activités0").disabled=true;
- var Maitre=TAB_GLOBAL_COMPO[1370];
+ var Maitre=TAB_GLOBAL_COMPO[685];
  /* Pour une insertion on désectionne */
  var tree=Maitre.getComposantXul();
  if (tree.view!=null)
@@ -147,21 +147,21 @@ top.document.getElementById("Update_Activités_Liste_des_activités0").disabled=tr
          tree.currentIndex=-1;
          tree.view.selection.clearSelection();
  }
-return TAB_COMPO_PPTES[1370].NewCle;
+return TAB_COMPO_PPTES[685].NewCle;
 }
 
 function Delete_Activités_Liste_des_activités0()
 {
- if (TAB_GLOBAL_COMPO[1370].getCleVal()==-1)
+ if (TAB_GLOBAL_COMPO[685].getCleVal()==-1)
  {
          alert("Vous devez sélectionner l'enregistrement à supprimer");
          return;
  }
  /* On recupère le composant maitre  */
- var Maitre=TAB_GLOBAL_COMPO[1370];
+ var Maitre=TAB_GLOBAL_COMPO[685];
  if (confirm("Voulez vous vraiment supprimer l'enregistrement en cours ?"))
  {
-        TAB_COMPO_PPTES[1370].Action_en_cours = DELETE;
+        TAB_COMPO_PPTES[685].Action_en_cours = DELETE;
          User_Delete_Activités_Liste_des_activités0(Maitre);
         Maitre.RefreshTotal();
  }
@@ -169,43 +169,43 @@ function Delete_Activités_Liste_des_activités0()
 
 function Update_Activités_Liste_des_activités0()
 {
- if (TAB_GLOBAL_COMPO[1370].getCleVal()==-1)
+ if (TAB_GLOBAL_COMPO[685].getCleVal()==-1)
  {
          alert("Vous devez selectionner l'enregistrement à mettre à jour");
          return -1;
  }
- TAB_COMPO_PPTES[1370].Action_en_cours = UPDATE;
+ TAB_COMPO_PPTES[685].Action_en_cours = UPDATE;
 /* On calcule la nouvelle clé */
- TAB_COMPO_PPTES[1370].NewCle = TAB_GLOBAL_COMPO[1370].getCleVal();
+ TAB_COMPO_PPTES[685].NewCle = TAB_GLOBAL_COMPO[685].getCleVal();
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[1370].ActiverComposant(false,true);
+ TAB_GLOBAL_COMPO[685].ActiverComposant(false,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[1377];
+ var Esclave_0=TAB_GLOBAL_COMPO[692];
  Esclave_0.ActiverComposant(true);
- var Esclave_1=TAB_GLOBAL_COMPO[1378];
+ var Esclave_1=TAB_GLOBAL_COMPO[693];
  Esclave_1.ActiverComposant(true);
- var Esclave_2=TAB_GLOBAL_COMPO[1379];
+ var Esclave_2=TAB_GLOBAL_COMPO[694];
  Esclave_2.ActiverComposant(true);
- var Esclave_3=TAB_GLOBAL_COMPO[1380];
+ var Esclave_3=TAB_GLOBAL_COMPO[695];
  Esclave_3.ActiverComposant(true);
- var Esclave_4=TAB_GLOBAL_COMPO[1381];
+ var Esclave_4=TAB_GLOBAL_COMPO[696];
  Esclave_4.ActiverComposant(true);
- var Esclave_5=TAB_GLOBAL_COMPO[1382];
+ var Esclave_5=TAB_GLOBAL_COMPO[697];
  Esclave_5.ActiverComposant(true);
- var Esclave_6=TAB_GLOBAL_COMPO[1383];
+ var Esclave_6=TAB_GLOBAL_COMPO[698];
  Esclave_6.ActiverComposant(true);
- var Esclave_7=TAB_GLOBAL_COMPO[1384];
+ var Esclave_7=TAB_GLOBAL_COMPO[699];
  Esclave_7.ActiverComposant(true);
- var Esclave_8=TAB_GLOBAL_COMPO[1385];
+ var Esclave_8=TAB_GLOBAL_COMPO[700];
  Esclave_8.ActiverComposant(true);
- var Esclave_9=TAB_GLOBAL_COMPO[1386];
+ var Esclave_9=TAB_GLOBAL_COMPO[701];
  Esclave_9.ActiverComposant(true);
 top.document.getElementById("Validate_Activités_Liste_des_activités0").disabled=false;
 top.document.getElementById("Annuler_Activités_Liste_des_activités0").disabled=false;
 top.document.getElementById("Insert_Activités_Liste_des_activités0").disabled=true;
 top.document.getElementById("Delete_Activités_Liste_des_activités0").disabled=true;
 top.document.getElementById("Update_Activités_Liste_des_activités0").disabled=true;
-return TAB_COMPO_PPTES[1370].NewCle;
+return TAB_COMPO_PPTES[685].NewCle;
 }
 
 function Validate_Activités_Liste_des_activités0(retour)
@@ -215,10 +215,10 @@ if (retour==null)
         retour=true;
 
  /* On recupère le composant maitre  */
- var Maitre=TAB_GLOBAL_COMPO[1370];
+ var Maitre=TAB_GLOBAL_COMPO[685];
  /* On recupère la clé du nouvel enregistrement */
  var NewCle=null;
- switch(TAB_COMPO_PPTES[1370].Action_en_cours){
+ switch(TAB_COMPO_PPTES[685].Action_en_cours){
         case INSERT :
         if ((NewCle = User_Insert_Activités_Liste_des_activités0(Maitre))==-1)
                 return -1;
@@ -245,27 +245,27 @@ if (retour==null)
         Maitre.Union(ReqNewCle);
  }
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[1370].ActiverComposant(true,true);
+ TAB_GLOBAL_COMPO[685].ActiverComposant(true,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[1377];
+ var Esclave_0=TAB_GLOBAL_COMPO[692];
  Esclave_0.ActiverComposant(false);
- var Esclave_1=TAB_GLOBAL_COMPO[1378];
+ var Esclave_1=TAB_GLOBAL_COMPO[693];
  Esclave_1.ActiverComposant(false);
- var Esclave_2=TAB_GLOBAL_COMPO[1379];
+ var Esclave_2=TAB_GLOBAL_COMPO[694];
  Esclave_2.ActiverComposant(false);
- var Esclave_3=TAB_GLOBAL_COMPO[1380];
+ var Esclave_3=TAB_GLOBAL_COMPO[695];
  Esclave_3.ActiverComposant(false);
- var Esclave_4=TAB_GLOBAL_COMPO[1381];
+ var Esclave_4=TAB_GLOBAL_COMPO[696];
  Esclave_4.ActiverComposant(false);
- var Esclave_5=TAB_GLOBAL_COMPO[1382];
+ var Esclave_5=TAB_GLOBAL_COMPO[697];
  Esclave_5.ActiverComposant(false);
- var Esclave_6=TAB_GLOBAL_COMPO[1383];
+ var Esclave_6=TAB_GLOBAL_COMPO[698];
  Esclave_6.ActiverComposant(false);
- var Esclave_7=TAB_GLOBAL_COMPO[1384];
+ var Esclave_7=TAB_GLOBAL_COMPO[699];
  Esclave_7.ActiverComposant(false);
- var Esclave_8=TAB_GLOBAL_COMPO[1385];
+ var Esclave_8=TAB_GLOBAL_COMPO[700];
  Esclave_8.ActiverComposant(false);
- var Esclave_9=TAB_GLOBAL_COMPO[1386];
+ var Esclave_9=TAB_GLOBAL_COMPO[701];
  Esclave_9.ActiverComposant(false);
 top.document.getElementById("Validate_Activités_Liste_des_activités0").disabled=true;
 top.document.getElementById("Annuler_Activités_Liste_des_activités0").disabled=true;
@@ -273,41 +273,41 @@ top.document.getElementById("Insert_Activités_Liste_des_activités0").disabled=fa
 top.document.getElementById("Delete_Activités_Liste_des_activités0").disabled=false;
 top.document.getElementById("Update_Activités_Liste_des_activités0").disabled=false;
  if (NewCle==null)
-         NewCle=TAB_COMPO_PPTES[1370].NewCle;
+         NewCle=TAB_COMPO_PPTES[685].NewCle;
  Maitre.ForceNextSelection(NewCle)
  Maitre.RefreshTotal();
  if(retour)
  {
  }
- TAB_COMPO_PPTES[1370].Action_en_cours = null;
+ TAB_COMPO_PPTES[685].Action_en_cours = null;
  return NewCle;
 }
 
 function Annuler_Activités_Liste_des_activités0()
 {
- TAB_COMPO_PPTES[1370].Action_en_cours = null;
+ TAB_COMPO_PPTES[685].Action_en_cours = null;
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[1370].ActiverComposant(true,true);
+ TAB_GLOBAL_COMPO[685].ActiverComposant(true,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[1377];
+ var Esclave_0=TAB_GLOBAL_COMPO[692];
  Esclave_0.ActiverComposant(false);
- var Esclave_1=TAB_GLOBAL_COMPO[1378];
+ var Esclave_1=TAB_GLOBAL_COMPO[693];
  Esclave_1.ActiverComposant(false);
- var Esclave_2=TAB_GLOBAL_COMPO[1379];
+ var Esclave_2=TAB_GLOBAL_COMPO[694];
  Esclave_2.ActiverComposant(false);
- var Esclave_3=TAB_GLOBAL_COMPO[1380];
+ var Esclave_3=TAB_GLOBAL_COMPO[695];
  Esclave_3.ActiverComposant(false);
- var Esclave_4=TAB_GLOBAL_COMPO[1381];
+ var Esclave_4=TAB_GLOBAL_COMPO[696];
  Esclave_4.ActiverComposant(false);
- var Esclave_5=TAB_GLOBAL_COMPO[1382];
+ var Esclave_5=TAB_GLOBAL_COMPO[697];
  Esclave_5.ActiverComposant(false);
- var Esclave_6=TAB_GLOBAL_COMPO[1383];
+ var Esclave_6=TAB_GLOBAL_COMPO[698];
  Esclave_6.ActiverComposant(false);
- var Esclave_7=TAB_GLOBAL_COMPO[1384];
+ var Esclave_7=TAB_GLOBAL_COMPO[699];
  Esclave_7.ActiverComposant(false);
- var Esclave_8=TAB_GLOBAL_COMPO[1385];
+ var Esclave_8=TAB_GLOBAL_COMPO[700];
  Esclave_8.ActiverComposant(false);
- var Esclave_9=TAB_GLOBAL_COMPO[1386];
+ var Esclave_9=TAB_GLOBAL_COMPO[701];
  Esclave_9.ActiverComposant(false);
 top.document.getElementById("Validate_Activités_Liste_des_activités0").disabled=true;
 top.document.getElementById("Annuler_Activités_Liste_des_activités0").disabled=true;
@@ -335,24 +335,24 @@ function OuvrirOnglet_Tâches()
 
 function Insert_Tâches_Liste_des_tâches0()
 {
- TAB_COMPO_PPTES[1387].Action_en_cours = INSERT;
+ TAB_COMPO_PPTES[702].Action_en_cours = INSERT;
 /* On calcule la nouvelle clé */
- TAB_COMPO_PPTES[1387].NewCle = getNewCle("tache");
+ TAB_COMPO_PPTES[702].NewCle = getNewCle("tache");
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[1387].ActiverComposant(false,true);
+ TAB_GLOBAL_COMPO[702].ActiverComposant(false,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[1389];
+ var Esclave_0=TAB_GLOBAL_COMPO[704];
  Esclave_0.ActiverComposant(true);
- var Esclave_1=TAB_GLOBAL_COMPO[1390];
+ var Esclave_1=TAB_GLOBAL_COMPO[705];
  Esclave_1.ActiverComposant(true);
- var Esclave_2=TAB_GLOBAL_COMPO[1391];
+ var Esclave_2=TAB_GLOBAL_COMPO[706];
  Esclave_2.ActiverComposant(true);
 top.document.getElementById("Validate_Tâches_Liste_des_tâches0").disabled=false;
 top.document.getElementById("Annuler_Tâches_Liste_des_tâches0").disabled=false;
 top.document.getElementById("Insert_Tâches_Liste_des_tâches0").disabled=true;
 top.document.getElementById("Delete_Tâches_Liste_des_tâches0").disabled=true;
 top.document.getElementById("Update_Tâches_Liste_des_tâches0").disabled=true;
- var Maitre=TAB_GLOBAL_COMPO[1387];
+ var Maitre=TAB_GLOBAL_COMPO[702];
  /* Pour une insertion on désectionne */
  var tree=Maitre.getComposantXul();
  if (tree.view!=null)
@@ -360,21 +360,21 @@ top.document.getElementById("Update_Tâches_Liste_des_tâches0").disabled=true;
          tree.currentIndex=-1;
          tree.view.selection.clearSelection();
  }
-return TAB_COMPO_PPTES[1387].NewCle;
+return TAB_COMPO_PPTES[702].NewCle;
 }
 
 function Delete_Tâches_Liste_des_tâches0()
 {
- if (TAB_GLOBAL_COMPO[1387].getCleVal()==-1)
+ if (TAB_GLOBAL_COMPO[702].getCleVal()==-1)
  {
          alert("Vous devez sélectionner l'enregistrement à supprimer");
          return;
  }
  /* On recupère le composant maitre  */
- var Maitre=TAB_GLOBAL_COMPO[1387];
+ var Maitre=TAB_GLOBAL_COMPO[702];
  if (confirm("Voulez vous vraiment supprimer l'enregistrement en cours ?"))
  {
-        TAB_COMPO_PPTES[1387].Action_en_cours = DELETE;
+        TAB_COMPO_PPTES[702].Action_en_cours = DELETE;
          User_Delete_Tâches_Liste_des_tâches0(Maitre);
         Maitre.RefreshTotal();
  }
@@ -382,29 +382,29 @@ function Delete_Tâches_Liste_des_tâches0()
 
 function Update_Tâches_Liste_des_tâches0()
 {
- if (TAB_GLOBAL_COMPO[1387].getCleVal()==-1)
+ if (TAB_GLOBAL_COMPO[702].getCleVal()==-1)
  {
          alert("Vous devez selectionner l'enregistrement à mettre à jour");
          return -1;
  }
- TAB_COMPO_PPTES[1387].Action_en_cours = UPDATE;
+ TAB_COMPO_PPTES[702].Action_en_cours = UPDATE;
 /* On calcule la nouvelle clé */
- TAB_COMPO_PPTES[1387].NewCle = TAB_GLOBAL_COMPO[1387].getCleVal();
+ TAB_COMPO_PPTES[702].NewCle = TAB_GLOBAL_COMPO[702].getCleVal();
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[1387].ActiverComposant(false,true);
+ TAB_GLOBAL_COMPO[702].ActiverComposant(false,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[1389];
+ var Esclave_0=TAB_GLOBAL_COMPO[704];
  Esclave_0.ActiverComposant(true);
- var Esclave_1=TAB_GLOBAL_COMPO[1390];
+ var Esclave_1=TAB_GLOBAL_COMPO[705];
  Esclave_1.ActiverComposant(true);
- var Esclave_2=TAB_GLOBAL_COMPO[1391];
+ var Esclave_2=TAB_GLOBAL_COMPO[706];
  Esclave_2.ActiverComposant(true);
 top.document.getElementById("Validate_Tâches_Liste_des_tâches0").disabled=false;
 top.document.getElementById("Annuler_Tâches_Liste_des_tâches0").disabled=false;
 top.document.getElementById("Insert_Tâches_Liste_des_tâches0").disabled=true;
 top.document.getElementById("Delete_Tâches_Liste_des_tâches0").disabled=true;
 top.document.getElementById("Update_Tâches_Liste_des_tâches0").disabled=true;
-return TAB_COMPO_PPTES[1387].NewCle;
+return TAB_COMPO_PPTES[702].NewCle;
 }
 
 function Validate_Tâches_Liste_des_tâches0(retour)
@@ -414,10 +414,10 @@ if (retour==null)
         retour=true;
 
  /* On recupère le composant maitre  */
- var Maitre=TAB_GLOBAL_COMPO[1387];
+ var Maitre=TAB_GLOBAL_COMPO[702];
  /* On recupère la clé du nouvel enregistrement */
  var NewCle=null;
- switch(TAB_COMPO_PPTES[1387].Action_en_cours){
+ switch(TAB_COMPO_PPTES[702].Action_en_cours){
         case INSERT :
         if ((NewCle = User_Insert_Tâches_Liste_des_tâches0(Maitre))==-1)
                 return -1;
@@ -444,13 +444,13 @@ if (retour==null)
         Maitre.Union(ReqNewCle);
  }
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[1387].ActiverComposant(true,true);
+ TAB_GLOBAL_COMPO[702].ActiverComposant(true,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[1389];
+ var Esclave_0=TAB_GLOBAL_COMPO[704];
  Esclave_0.ActiverComposant(false);
- var Esclave_1=TAB_GLOBAL_COMPO[1390];
+ var Esclave_1=TAB_GLOBAL_COMPO[705];
  Esclave_1.ActiverComposant(false);
- var Esclave_2=TAB_GLOBAL_COMPO[1391];
+ var Esclave_2=TAB_GLOBAL_COMPO[706];
  Esclave_2.ActiverComposant(false);
 top.document.getElementById("Validate_Tâches_Liste_des_tâches0").disabled=true;
 top.document.getElementById("Annuler_Tâches_Liste_des_tâches0").disabled=true;
@@ -458,27 +458,27 @@ top.document.getElementById("Insert_Tâches_Liste_des_tâches0").disabled=false;
 top.document.getElementById("Delete_Tâches_Liste_des_tâches0").disabled=false;
 top.document.getElementById("Update_Tâches_Liste_des_tâches0").disabled=false;
  if (NewCle==null)
-         NewCle=TAB_COMPO_PPTES[1387].NewCle;
+         NewCle=TAB_COMPO_PPTES[702].NewCle;
  Maitre.ForceNextSelection(NewCle)
  Maitre.RefreshTotal();
  if(retour)
  {
  }
- TAB_COMPO_PPTES[1387].Action_en_cours = null;
+ TAB_COMPO_PPTES[702].Action_en_cours = null;
  return NewCle;
 }
 
 function Annuler_Tâches_Liste_des_tâches0()
 {
- TAB_COMPO_PPTES[1387].Action_en_cours = null;
+ TAB_COMPO_PPTES[702].Action_en_cours = null;
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[1387].ActiverComposant(true,true);
+ TAB_GLOBAL_COMPO[702].ActiverComposant(true,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[1389];
+ var Esclave_0=TAB_GLOBAL_COMPO[704];
  Esclave_0.ActiverComposant(false);
- var Esclave_1=TAB_GLOBAL_COMPO[1390];
+ var Esclave_1=TAB_GLOBAL_COMPO[705];
  Esclave_1.ActiverComposant(false);
- var Esclave_2=TAB_GLOBAL_COMPO[1391];
+ var Esclave_2=TAB_GLOBAL_COMPO[706];
  Esclave_2.ActiverComposant(false);
 top.document.getElementById("Validate_Tâches_Liste_des_tâches0").disabled=true;
 top.document.getElementById("Annuler_Tâches_Liste_des_tâches0").disabled=true;
@@ -506,29 +506,29 @@ function OuvrirOnglet_Sujets()
 
 function Insert_Sujets_Liste_des_types_de_sujets0()
 {
- TAB_COMPO_PPTES[1396].Action_en_cours = INSERT;
+ TAB_COMPO_PPTES[711].Action_en_cours = INSERT;
 /* On calcule la nouvelle clé */
- TAB_COMPO_PPTES[1396].NewCle = getNewCle("typesujet");
+ TAB_COMPO_PPTES[711].NewCle = getNewCle("typesujet");
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[1396].ActiverComposant(false,true);
+ TAB_GLOBAL_COMPO[711].ActiverComposant(false,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[1398];
+ var Esclave_0=TAB_GLOBAL_COMPO[713];
  Esclave_0.ActiverComposant(true);
- var Esclave_1=TAB_GLOBAL_COMPO[1399];
+ var Esclave_1=TAB_GLOBAL_COMPO[714];
  Esclave_1.ActiverComposant(true);
 top.document.getElementById("Validate_Sujets_Sujets_3").disabled=true;
 top.document.getElementById("Annuler_Sujets_Sujets_3").disabled=true;
 top.document.getElementById("Insert_Sujets_Sujets_3").disabled=false;
 top.document.getElementById("Delete_Sujets_Sujets_3").disabled=false;
 top.document.getElementById("Update_Sujets_Sujets_3").disabled=false;
- var Esclave_2=TAB_GLOBAL_COMPO[1400];
+ var Esclave_2=TAB_GLOBAL_COMPO[715];
  Esclave_2.ActiverComposant(true);
 top.document.getElementById("Validate_Sujets_Liste_des_types_de_sujets0").disabled=false;
 top.document.getElementById("Annuler_Sujets_Liste_des_types_de_sujets0").disabled=false;
 top.document.getElementById("Insert_Sujets_Liste_des_types_de_sujets0").disabled=true;
 top.document.getElementById("Delete_Sujets_Liste_des_types_de_sujets0").disabled=true;
 top.document.getElementById("Update_Sujets_Liste_des_types_de_sujets0").disabled=true;
- var Maitre=TAB_GLOBAL_COMPO[1396];
+ var Maitre=TAB_GLOBAL_COMPO[711];
  /* Pour une insertion on désectionne */
  var tree=Maitre.getComposantXul();
  if (tree.view!=null)
@@ -536,21 +536,21 @@ top.document.getElementById("Update_Sujets_Liste_des_types_de_sujets0").disabled
          tree.currentIndex=-1;
          tree.view.selection.clearSelection();
  }
-return TAB_COMPO_PPTES[1396].NewCle;
+return TAB_COMPO_PPTES[711].NewCle;
 }
 
 function Delete_Sujets_Liste_des_types_de_sujets0()
 {
- if (TAB_GLOBAL_COMPO[1396].getCleVal()==-1)
+ if (TAB_GLOBAL_COMPO[711].getCleVal()==-1)
  {
          alert("Vous devez sélectionner l'enregistrement à supprimer");
          return;
  }
  /* On recupère le composant maitre  */
- var Maitre=TAB_GLOBAL_COMPO[1396];
+ var Maitre=TAB_GLOBAL_COMPO[711];
  if (confirm("Voulez vous vraiment supprimer l'enregistrement en cours ?"))
  {
-        TAB_COMPO_PPTES[1396].Action_en_cours = DELETE;
+        TAB_COMPO_PPTES[711].Action_en_cours = DELETE;
          User_Delete_Sujets_Liste_des_types_de_sujets0(Maitre);
         Maitre.RefreshTotal();
  }
@@ -558,34 +558,34 @@ function Delete_Sujets_Liste_des_types_de_sujets0()
 
 function Update_Sujets_Liste_des_types_de_sujets0()
 {
- if (TAB_GLOBAL_COMPO[1396].getCleVal()==-1)
+ if (TAB_GLOBAL_COMPO[711].getCleVal()==-1)
  {
          alert("Vous devez selectionner l'enregistrement à mettre à jour");
          return -1;
  }
- TAB_COMPO_PPTES[1396].Action_en_cours = UPDATE;
+ TAB_COMPO_PPTES[711].Action_en_cours = UPDATE;
 /* On calcule la nouvelle clé */
- TAB_COMPO_PPTES[1396].NewCle = TAB_GLOBAL_COMPO[1396].getCleVal();
+ TAB_COMPO_PPTES[711].NewCle = TAB_GLOBAL_COMPO[711].getCleVal();
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[1396].ActiverComposant(false,true);
+ TAB_GLOBAL_COMPO[711].ActiverComposant(false,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[1398];
+ var Esclave_0=TAB_GLOBAL_COMPO[713];
  Esclave_0.ActiverComposant(true);
- var Esclave_1=TAB_GLOBAL_COMPO[1399];
+ var Esclave_1=TAB_GLOBAL_COMPO[714];
  Esclave_1.ActiverComposant(true);
 top.document.getElementById("Validate_Sujets_Sujets_3").disabled=true;
 top.document.getElementById("Annuler_Sujets_Sujets_3").disabled=true;
 top.document.getElementById("Insert_Sujets_Sujets_3").disabled=false;
 top.document.getElementById("Delete_Sujets_Sujets_3").disabled=false;
 top.document.getElementById("Update_Sujets_Sujets_3").disabled=false;
- var Esclave_2=TAB_GLOBAL_COMPO[1400];
+ var Esclave_2=TAB_GLOBAL_COMPO[715];
  Esclave_2.ActiverComposant(true);
 top.document.getElementById("Validate_Sujets_Liste_des_types_de_sujets0").disabled=false;
 top.document.getElementById("Annuler_Sujets_Liste_des_types_de_sujets0").disabled=false;
 top.document.getElementById("Insert_Sujets_Liste_des_types_de_sujets0").disabled=true;
 top.document.getElementById("Delete_Sujets_Liste_des_types_de_sujets0").disabled=true;
 top.document.getElementById("Update_Sujets_Liste_des_types_de_sujets0").disabled=true;
-return TAB_COMPO_PPTES[1396].NewCle;
+return TAB_COMPO_PPTES[711].NewCle;
 }
 
 function Validate_Sujets_Liste_des_types_de_sujets0(retour)
@@ -595,10 +595,10 @@ if (retour==null)
         retour=true;
 
  /* On recupère le composant maitre  */
- var Maitre=TAB_GLOBAL_COMPO[1396];
+ var Maitre=TAB_GLOBAL_COMPO[711];
  /* On recupère la clé du nouvel enregistrement */
  var NewCle=null;
- switch(TAB_COMPO_PPTES[1396].Action_en_cours){
+ switch(TAB_COMPO_PPTES[711].Action_en_cours){
         case INSERT :
         if ((NewCle = User_Insert_Sujets_Liste_des_types_de_sujets0(Maitre))==-1)
                 return -1;
@@ -625,11 +625,11 @@ if (retour==null)
         Maitre.Union(ReqNewCle);
  }
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[1396].ActiverComposant(true,true);
+ TAB_GLOBAL_COMPO[711].ActiverComposant(true,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[1398];
+ var Esclave_0=TAB_GLOBAL_COMPO[713];
  Esclave_0.ActiverComposant(false);
- var Esclave_1=TAB_GLOBAL_COMPO[1399];
+ var Esclave_1=TAB_GLOBAL_COMPO[714];
  Esclave_1.ActiverComposant(false);
 Annuler_Sujets_Sujets_3();
 top.document.getElementById("Validate_Sujets_Sujets_3").disabled=true;
@@ -637,7 +637,7 @@ top.document.getElementById("Annuler_Sujets_Sujets_3").disabled=true;
 top.document.getElementById("Insert_Sujets_Sujets_3").disabled=true;
 top.document.getElementById("Delete_Sujets_Sujets_3").disabled=true;
 top.document.getElementById("Update_Sujets_Sujets_3").disabled=true;
- var Esclave_2=TAB_GLOBAL_COMPO[1400];
+ var Esclave_2=TAB_GLOBAL_COMPO[715];
  Esclave_2.ActiverComposant(false);
 top.document.getElementById("Validate_Sujets_Liste_des_types_de_sujets0").disabled=true;
 top.document.getElementById("Annuler_Sujets_Liste_des_types_de_sujets0").disabled=true;
@@ -645,25 +645,25 @@ top.document.getElementById("Insert_Sujets_Liste_des_types_de_sujets0").disabled
 top.document.getElementById("Delete_Sujets_Liste_des_types_de_sujets0").disabled=false;
 top.document.getElementById("Update_Sujets_Liste_des_types_de_sujets0").disabled=false;
  if (NewCle==null)
-         NewCle=TAB_COMPO_PPTES[1396].NewCle;
+         NewCle=TAB_COMPO_PPTES[711].NewCle;
  Maitre.ForceNextSelection(NewCle)
  Maitre.RefreshTotal();
  if(retour)
  {
  }
- TAB_COMPO_PPTES[1396].Action_en_cours = null;
+ TAB_COMPO_PPTES[711].Action_en_cours = null;
  return NewCle;
 }
 
 function Annuler_Sujets_Liste_des_types_de_sujets0()
 {
- TAB_COMPO_PPTES[1396].Action_en_cours = null;
+ TAB_COMPO_PPTES[711].Action_en_cours = null;
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[1396].ActiverComposant(true,true);
+ TAB_GLOBAL_COMPO[711].ActiverComposant(true,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[1398];
+ var Esclave_0=TAB_GLOBAL_COMPO[713];
  Esclave_0.ActiverComposant(false);
- var Esclave_1=TAB_GLOBAL_COMPO[1399];
+ var Esclave_1=TAB_GLOBAL_COMPO[714];
  Esclave_1.ActiverComposant(false);
 Annuler_Sujets_Sujets_3();
 top.document.getElementById("Validate_Sujets_Sujets_3").disabled=true;
@@ -671,7 +671,7 @@ top.document.getElementById("Annuler_Sujets_Sujets_3").disabled=true;
 top.document.getElementById("Insert_Sujets_Sujets_3").disabled=true;
 top.document.getElementById("Delete_Sujets_Sujets_3").disabled=true;
 top.document.getElementById("Update_Sujets_Sujets_3").disabled=true;
- var Esclave_2=TAB_GLOBAL_COMPO[1400];
+ var Esclave_2=TAB_GLOBAL_COMPO[715];
  Esclave_2.ActiverComposant(false);
 top.document.getElementById("Validate_Sujets_Liste_des_types_de_sujets0").disabled=true;
 top.document.getElementById("Annuler_Sujets_Liste_des_types_de_sujets0").disabled=true;
@@ -682,7 +682,7 @@ top.document.getElementById("Update_Sujets_Liste_des_types_de_sujets0").disabled
 
 function Insert_Sujets_Sujets_3()
 {
- if (TAB_COMPO_PPTES[1396].Action_en_cours == INSERT)
+ if (TAB_COMPO_PPTES[711].Action_en_cours == INSERT)
          {
                  if (confirm("Pour continuer, vous devez enregistrer votre saisie\n Voulez vous poursuivre ?"))
                 {
@@ -701,22 +701,22 @@ function Insert_Sujets_Sujets_3()
                 }
                  return;
          }
- TAB_COMPO_PPTES[1400].Action_en_cours = INSERT;
+ TAB_COMPO_PPTES[715].Action_en_cours = INSERT;
 /* On calcule la nouvelle clé */
- TAB_COMPO_PPTES[1400].NewCle = getNewCle("sujet");
+ TAB_COMPO_PPTES[715].NewCle = getNewCle("sujet");
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[1400].ActiverComposant(false,true);
+ TAB_GLOBAL_COMPO[715].ActiverComposant(false,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[1402];
+ var Esclave_0=TAB_GLOBAL_COMPO[717];
  Esclave_0.ActiverComposant(true);
- var Esclave_1=TAB_GLOBAL_COMPO[1403];
+ var Esclave_1=TAB_GLOBAL_COMPO[718];
  Esclave_1.ActiverComposant(true);
 top.document.getElementById("Validate_Sujets_Sujets_3").disabled=false;
 top.document.getElementById("Annuler_Sujets_Sujets_3").disabled=false;
 top.document.getElementById("Insert_Sujets_Sujets_3").disabled=true;
 top.document.getElementById("Delete_Sujets_Sujets_3").disabled=true;
 top.document.getElementById("Update_Sujets_Sujets_3").disabled=true;
- var Maitre=TAB_GLOBAL_COMPO[1400];
+ var Maitre=TAB_GLOBAL_COMPO[715];
  /* Pour une insertion on désectionne */
  var tree=Maitre.getComposantXul();
  if (tree.view!=null)
@@ -724,21 +724,21 @@ top.document.getElementById("Update_Sujets_Sujets_3").disabled=true;
          tree.currentIndex=-1;
          tree.view.selection.clearSelection();
  }
-return TAB_COMPO_PPTES[1400].NewCle;
+return TAB_COMPO_PPTES[715].NewCle;
 }
 
 function Delete_Sujets_Sujets_3()
 {
- if (TAB_GLOBAL_COMPO[1400].getCleVal()==-1)
+ if (TAB_GLOBAL_COMPO[715].getCleVal()==-1)
  {
          alert("Vous devez sélectionner l'enregistrement à supprimer");
          return;
  }
  /* On recupère le composant maitre  */
- var Maitre=TAB_GLOBAL_COMPO[1400];
+ var Maitre=TAB_GLOBAL_COMPO[715];
  if (confirm("Voulez vous vraiment supprimer l'enregistrement en cours ?"))
  {
-        TAB_COMPO_PPTES[1400].Action_en_cours = DELETE;
+        TAB_COMPO_PPTES[715].Action_en_cours = DELETE;
          User_Delete_Sujets_Sujets_3(Maitre);
         Maitre.RefreshTotal();
  }
@@ -746,27 +746,27 @@ function Delete_Sujets_Sujets_3()
 
 function Update_Sujets_Sujets_3()
 {
- if (TAB_GLOBAL_COMPO[1400].getCleVal()==-1)
+ if (TAB_GLOBAL_COMPO[715].getCleVal()==-1)
  {
          alert("Vous devez selectionner l'enregistrement à mettre à jour");
          return -1;
  }
- TAB_COMPO_PPTES[1400].Action_en_cours = UPDATE;
+ TAB_COMPO_PPTES[715].Action_en_cours = UPDATE;
 /* On calcule la nouvelle clé */
- TAB_COMPO_PPTES[1400].NewCle = TAB_GLOBAL_COMPO[1400].getCleVal();
+ TAB_COMPO_PPTES[715].NewCle = TAB_GLOBAL_COMPO[715].getCleVal();
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[1400].ActiverComposant(false,true);
+ TAB_GLOBAL_COMPO[715].ActiverComposant(false,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[1402];
+ var Esclave_0=TAB_GLOBAL_COMPO[717];
  Esclave_0.ActiverComposant(true);
- var Esclave_1=TAB_GLOBAL_COMPO[1403];
+ var Esclave_1=TAB_GLOBAL_COMPO[718];
  Esclave_1.ActiverComposant(true);
 top.document.getElementById("Validate_Sujets_Sujets_3").disabled=false;
 top.document.getElementById("Annuler_Sujets_Sujets_3").disabled=false;
 top.document.getElementById("Insert_Sujets_Sujets_3").disabled=true;
 top.document.getElementById("Delete_Sujets_Sujets_3").disabled=true;
 top.document.getElementById("Update_Sujets_Sujets_3").disabled=true;
-return TAB_COMPO_PPTES[1400].NewCle;
+return TAB_COMPO_PPTES[715].NewCle;
 }
 
 function Validate_Sujets_Sujets_3(retour)
@@ -776,10 +776,10 @@ if (retour==null)
         retour=true;
 
  /* On recupère le composant maitre  */
- var Maitre=TAB_GLOBAL_COMPO[1400];
+ var Maitre=TAB_GLOBAL_COMPO[715];
  /* On recupère la clé du nouvel enregistrement */
  var NewCle=null;
- switch(TAB_COMPO_PPTES[1400].Action_en_cours){
+ switch(TAB_COMPO_PPTES[715].Action_en_cours){
         case INSERT :
         if ((NewCle = User_Insert_Sujets_Sujets_3(Maitre))==-1)
                 return -1;
@@ -806,11 +806,11 @@ if (retour==null)
         Maitre.Union(ReqNewCle);
  }
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[1400].ActiverComposant(true,true);
+ TAB_GLOBAL_COMPO[715].ActiverComposant(true,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[1402];
+ var Esclave_0=TAB_GLOBAL_COMPO[717];
  Esclave_0.ActiverComposant(false);
- var Esclave_1=TAB_GLOBAL_COMPO[1403];
+ var Esclave_1=TAB_GLOBAL_COMPO[718];
  Esclave_1.ActiverComposant(false);
 top.document.getElementById("Validate_Sujets_Sujets_3").disabled=true;
 top.document.getElementById("Annuler_Sujets_Sujets_3").disabled=true;
@@ -818,25 +818,25 @@ top.document.getElementById("Insert_Sujets_Sujets_3").disabled=false;
 top.document.getElementById("Delete_Sujets_Sujets_3").disabled=false;
 top.document.getElementById("Update_Sujets_Sujets_3").disabled=false;
  if (NewCle==null)
-         NewCle=TAB_COMPO_PPTES[1400].NewCle;
+         NewCle=TAB_COMPO_PPTES[715].NewCle;
  Maitre.ForceNextSelection(NewCle)
  Maitre.RefreshTotal();
  if(retour)
  {
  }
- TAB_COMPO_PPTES[1400].Action_en_cours = null;
+ TAB_COMPO_PPTES[715].Action_en_cours = null;
  return NewCle;
 }
 
 function Annuler_Sujets_Sujets_3()
 {
- TAB_COMPO_PPTES[1400].Action_en_cours = null;
+ TAB_COMPO_PPTES[715].Action_en_cours = null;
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[1400].ActiverComposant(true,true);
+ TAB_GLOBAL_COMPO[715].ActiverComposant(true,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[1402];
+ var Esclave_0=TAB_GLOBAL_COMPO[717];
  Esclave_0.ActiverComposant(false);
- var Esclave_1=TAB_GLOBAL_COMPO[1403];
+ var Esclave_1=TAB_GLOBAL_COMPO[718];
  Esclave_1.ActiverComposant(false);
 top.document.getElementById("Validate_Sujets_Sujets_3").disabled=true;
 top.document.getElementById("Annuler_Sujets_Sujets_3").disabled=true;
@@ -864,22 +864,22 @@ function OuvrirOnglet_Groupe()
 
 function Insert_Groupe_Liste_des_groupes0()
 {
- TAB_COMPO_PPTES[1404].Action_en_cours = INSERT;
+ TAB_COMPO_PPTES[719].Action_en_cours = INSERT;
 /* On calcule la nouvelle clé */
- TAB_COMPO_PPTES[1404].NewCle = getNewCle("groupe");
+ TAB_COMPO_PPTES[719].NewCle = getNewCle("groupe");
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[1404].ActiverComposant(false,true);
+ TAB_GLOBAL_COMPO[719].ActiverComposant(false,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[1406];
+ var Esclave_0=TAB_GLOBAL_COMPO[721];
  Esclave_0.ActiverComposant(true);
- var Esclave_1=TAB_GLOBAL_COMPO[1407];
+ var Esclave_1=TAB_GLOBAL_COMPO[722];
  Esclave_1.ActiverComposant(true);
 top.document.getElementById("Validate_Groupe_Liste_des_groupes0").disabled=false;
 top.document.getElementById("Annuler_Groupe_Liste_des_groupes0").disabled=false;
 top.document.getElementById("Insert_Groupe_Liste_des_groupes0").disabled=true;
 top.document.getElementById("Delete_Groupe_Liste_des_groupes0").disabled=true;
 top.document.getElementById("Update_Groupe_Liste_des_groupes0").disabled=true;
- var Maitre=TAB_GLOBAL_COMPO[1404];
+ var Maitre=TAB_GLOBAL_COMPO[719];
  /* Pour une insertion on désectionne */
  var tree=Maitre.getComposantXul();
  if (tree.view!=null)
@@ -887,21 +887,21 @@ top.document.getElementById("Update_Groupe_Liste_des_groupes0").disabled=true;
          tree.currentIndex=-1;
          tree.view.selection.clearSelection();
  }
-return TAB_COMPO_PPTES[1404].NewCle;
+return TAB_COMPO_PPTES[719].NewCle;
 }
 
 function Delete_Groupe_Liste_des_groupes0()
 {
- if (TAB_GLOBAL_COMPO[1404].getCleVal()==-1)
+ if (TAB_GLOBAL_COMPO[719].getCleVal()==-1)
  {
          alert("Vous devez sélectionner l'enregistrement à supprimer");
          return;
  }
  /* On recupère le composant maitre  */
- var Maitre=TAB_GLOBAL_COMPO[1404];
+ var Maitre=TAB_GLOBAL_COMPO[719];
  if (confirm("Voulez vous vraiment supprimer l'enregistrement en cours ?"))
  {
-        TAB_COMPO_PPTES[1404].Action_en_cours = DELETE;
+        TAB_COMPO_PPTES[719].Action_en_cours = DELETE;
          User_Delete_Groupe_Liste_des_groupes0(Maitre);
         Maitre.RefreshTotal();
  }
@@ -909,27 +909,27 @@ function Delete_Groupe_Liste_des_groupes0()
 
 function Update_Groupe_Liste_des_groupes0()
 {
- if (TAB_GLOBAL_COMPO[1404].getCleVal()==-1)
+ if (TAB_GLOBAL_COMPO[719].getCleVal()==-1)
  {
          alert("Vous devez selectionner l'enregistrement à mettre à jour");
          return -1;
  }
- TAB_COMPO_PPTES[1404].Action_en_cours = UPDATE;
+ TAB_COMPO_PPTES[719].Action_en_cours = UPDATE;
 /* On calcule la nouvelle clé */
- TAB_COMPO_PPTES[1404].NewCle = TAB_GLOBAL_COMPO[1404].getCleVal();
+ TAB_COMPO_PPTES[719].NewCle = TAB_GLOBAL_COMPO[719].getCleVal();
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[1404].ActiverComposant(false,true);
+ TAB_GLOBAL_COMPO[719].ActiverComposant(false,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[1406];
+ var Esclave_0=TAB_GLOBAL_COMPO[721];
  Esclave_0.ActiverComposant(true);
- var Esclave_1=TAB_GLOBAL_COMPO[1407];
+ var Esclave_1=TAB_GLOBAL_COMPO[722];
  Esclave_1.ActiverComposant(true);
 top.document.getElementById("Validate_Groupe_Liste_des_groupes0").disabled=false;
 top.document.getElementById("Annuler_Groupe_Liste_des_groupes0").disabled=false;
 top.document.getElementById("Insert_Groupe_Liste_des_groupes0").disabled=true;
 top.document.getElementById("Delete_Groupe_Liste_des_groupes0").disabled=true;
 top.document.getElementById("Update_Groupe_Liste_des_groupes0").disabled=true;
-return TAB_COMPO_PPTES[1404].NewCle;
+return TAB_COMPO_PPTES[719].NewCle;
 }
 
 function Validate_Groupe_Liste_des_groupes0(retour)
@@ -939,10 +939,10 @@ if (retour==null)
         retour=true;
 
  /* On recupère le composant maitre  */
- var Maitre=TAB_GLOBAL_COMPO[1404];
+ var Maitre=TAB_GLOBAL_COMPO[719];
  /* On recupère la clé du nouvel enregistrement */
  var NewCle=null;
- switch(TAB_COMPO_PPTES[1404].Action_en_cours){
+ switch(TAB_COMPO_PPTES[719].Action_en_cours){
         case INSERT :
         if ((NewCle = User_Insert_Groupe_Liste_des_groupes0(Maitre))==-1)
                 return -1;
@@ -969,11 +969,11 @@ if (retour==null)
         Maitre.Union(ReqNewCle);
  }
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[1404].ActiverComposant(true,true);
+ TAB_GLOBAL_COMPO[719].ActiverComposant(true,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[1406];
+ var Esclave_0=TAB_GLOBAL_COMPO[721];
  Esclave_0.ActiverComposant(false);
- var Esclave_1=TAB_GLOBAL_COMPO[1407];
+ var Esclave_1=TAB_GLOBAL_COMPO[722];
  Esclave_1.ActiverComposant(false);
 top.document.getElementById("Validate_Groupe_Liste_des_groupes0").disabled=true;
 top.document.getElementById("Annuler_Groupe_Liste_des_groupes0").disabled=true;
@@ -981,25 +981,25 @@ top.document.getElementById("Insert_Groupe_Liste_des_groupes0").disabled=false;
 top.document.getElementById("Delete_Groupe_Liste_des_groupes0").disabled=false;
 top.document.getElementById("Update_Groupe_Liste_des_groupes0").disabled=false;
  if (NewCle==null)
-         NewCle=TAB_COMPO_PPTES[1404].NewCle;
+         NewCle=TAB_COMPO_PPTES[719].NewCle;
  Maitre.ForceNextSelection(NewCle)
  Maitre.RefreshTotal();
  if(retour)
  {
  }
- TAB_COMPO_PPTES[1404].Action_en_cours = null;
+ TAB_COMPO_PPTES[719].Action_en_cours = null;
  return NewCle;
 }
 
 function Annuler_Groupe_Liste_des_groupes0()
 {
- TAB_COMPO_PPTES[1404].Action_en_cours = null;
+ TAB_COMPO_PPTES[719].Action_en_cours = null;
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[1404].ActiverComposant(true,true);
+ TAB_GLOBAL_COMPO[719].ActiverComposant(true,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[1406];
+ var Esclave_0=TAB_GLOBAL_COMPO[721];
  Esclave_0.ActiverComposant(false);
- var Esclave_1=TAB_GLOBAL_COMPO[1407];
+ var Esclave_1=TAB_GLOBAL_COMPO[722];
  Esclave_1.ActiverComposant(false);
 top.document.getElementById("Validate_Groupe_Liste_des_groupes0").disabled=true;
 top.document.getElementById("Annuler_Groupe_Liste_des_groupes0").disabled=true;
@@ -1027,22 +1027,22 @@ function OuvrirOnglet_Lieu()
 
 function Insert_Lieu_Liste_des_lieus0()
 {
- TAB_COMPO_PPTES[1392].Action_en_cours = INSERT;
+ TAB_COMPO_PPTES[707].Action_en_cours = INSERT;
 /* On calcule la nouvelle clé */
- TAB_COMPO_PPTES[1392].NewCle = getNewCle("lieu");
+ TAB_COMPO_PPTES[707].NewCle = getNewCle("lieu");
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[1392].ActiverComposant(false,true);
+ TAB_GLOBAL_COMPO[707].ActiverComposant(false,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[1394];
+ var Esclave_0=TAB_GLOBAL_COMPO[709];
  Esclave_0.ActiverComposant(true);
- var Esclave_1=TAB_GLOBAL_COMPO[1395];
+ var Esclave_1=TAB_GLOBAL_COMPO[710];
  Esclave_1.ActiverComposant(true);
 top.document.getElementById("Validate_Lieu_Liste_des_lieus0").disabled=false;
 top.document.getElementById("Annuler_Lieu_Liste_des_lieus0").disabled=false;
 top.document.getElementById("Insert_Lieu_Liste_des_lieus0").disabled=true;
 top.document.getElementById("Delete_Lieu_Liste_des_lieus0").disabled=true;
 top.document.getElementById("Update_Lieu_Liste_des_lieus0").disabled=true;
- var Maitre=TAB_GLOBAL_COMPO[1392];
+ var Maitre=TAB_GLOBAL_COMPO[707];
  /* Pour une insertion on désectionne */
  var tree=Maitre.getComposantXul();
  if (tree.view!=null)
@@ -1050,21 +1050,21 @@ top.document.getElementById("Update_Lieu_Liste_des_lieus0").disabled=true;
          tree.currentIndex=-1;
          tree.view.selection.clearSelection();
  }
-return TAB_COMPO_PPTES[1392].NewCle;
+return TAB_COMPO_PPTES[707].NewCle;
 }
 
 function Delete_Lieu_Liste_des_lieus0()
 {
- if (TAB_GLOBAL_COMPO[1392].getCleVal()==-1)
+ if (TAB_GLOBAL_COMPO[707].getCleVal()==-1)
  {
          alert("Vous devez sélectionner l'enregistrement à supprimer");
          return;
  }
  /* On recupère le composant maitre  */
- var Maitre=TAB_GLOBAL_COMPO[1392];
+ var Maitre=TAB_GLOBAL_COMPO[707];
  if (confirm("Voulez vous vraiment supprimer l'enregistrement en cours ?"))
  {
-        TAB_COMPO_PPTES[1392].Action_en_cours = DELETE;
+        TAB_COMPO_PPTES[707].Action_en_cours = DELETE;
          User_Delete_Lieu_Liste_des_lieus0(Maitre);
         Maitre.RefreshTotal();
  }
@@ -1072,27 +1072,27 @@ function Delete_Lieu_Liste_des_lieus0()
 
 function Update_Lieu_Liste_des_lieus0()
 {
- if (TAB_GLOBAL_COMPO[1392].getCleVal()==-1)
+ if (TAB_GLOBAL_COMPO[707].getCleVal()==-1)
  {
          alert("Vous devez selectionner l'enregistrement à mettre à jour");
          return -1;
  }
- TAB_COMPO_PPTES[1392].Action_en_cours = UPDATE;
+ TAB_COMPO_PPTES[707].Action_en_cours = UPDATE;
 /* On calcule la nouvelle clé */
- TAB_COMPO_PPTES[1392].NewCle = TAB_GLOBAL_COMPO[1392].getCleVal();
+ TAB_COMPO_PPTES[707].NewCle = TAB_GLOBAL_COMPO[707].getCleVal();
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[1392].ActiverComposant(false,true);
+ TAB_GLOBAL_COMPO[707].ActiverComposant(false,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[1394];
+ var Esclave_0=TAB_GLOBAL_COMPO[709];
  Esclave_0.ActiverComposant(true);
- var Esclave_1=TAB_GLOBAL_COMPO[1395];
+ var Esclave_1=TAB_GLOBAL_COMPO[710];
  Esclave_1.ActiverComposant(true);
 top.document.getElementById("Validate_Lieu_Liste_des_lieus0").disabled=false;
 top.document.getElementById("Annuler_Lieu_Liste_des_lieus0").disabled=false;
 top.document.getElementById("Insert_Lieu_Liste_des_lieus0").disabled=true;
 top.document.getElementById("Delete_Lieu_Liste_des_lieus0").disabled=true;
 top.document.getElementById("Update_Lieu_Liste_des_lieus0").disabled=true;
-return TAB_COMPO_PPTES[1392].NewCle;
+return TAB_COMPO_PPTES[707].NewCle;
 }
 
 function Validate_Lieu_Liste_des_lieus0(retour)
@@ -1102,10 +1102,10 @@ if (retour==null)
         retour=true;
 
  /* On recupère le composant maitre  */
- var Maitre=TAB_GLOBAL_COMPO[1392];
+ var Maitre=TAB_GLOBAL_COMPO[707];
  /* On recupère la clé du nouvel enregistrement */
  var NewCle=null;
- switch(TAB_COMPO_PPTES[1392].Action_en_cours){
+ switch(TAB_COMPO_PPTES[707].Action_en_cours){
         case INSERT :
         if ((NewCle = User_Insert_Lieu_Liste_des_lieus0(Maitre))==-1)
                 return -1;
@@ -1132,11 +1132,11 @@ if (retour==null)
         Maitre.Union(ReqNewCle);
  }
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[1392].ActiverComposant(true,true);
+ TAB_GLOBAL_COMPO[707].ActiverComposant(true,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[1394];
+ var Esclave_0=TAB_GLOBAL_COMPO[709];
  Esclave_0.ActiverComposant(false);
- var Esclave_1=TAB_GLOBAL_COMPO[1395];
+ var Esclave_1=TAB_GLOBAL_COMPO[710];
  Esclave_1.ActiverComposant(false);
 top.document.getElementById("Validate_Lieu_Liste_des_lieus0").disabled=true;
 top.document.getElementById("Annuler_Lieu_Liste_des_lieus0").disabled=true;
@@ -1144,25 +1144,25 @@ top.document.getElementById("Insert_Lieu_Liste_des_lieus0").disabled=false;
 top.document.getElementById("Delete_Lieu_Liste_des_lieus0").disabled=false;
 top.document.getElementById("Update_Lieu_Liste_des_lieus0").disabled=false;
  if (NewCle==null)
-         NewCle=TAB_COMPO_PPTES[1392].NewCle;
+         NewCle=TAB_COMPO_PPTES[707].NewCle;
  Maitre.ForceNextSelection(NewCle)
  Maitre.RefreshTotal();
  if(retour)
  {
  }
- TAB_COMPO_PPTES[1392].Action_en_cours = null;
+ TAB_COMPO_PPTES[707].Action_en_cours = null;
  return NewCle;
 }
 
 function Annuler_Lieu_Liste_des_lieus0()
 {
- TAB_COMPO_PPTES[1392].Action_en_cours = null;
+ TAB_COMPO_PPTES[707].Action_en_cours = null;
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[1392].ActiverComposant(true,true);
+ TAB_GLOBAL_COMPO[707].ActiverComposant(true,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[1394];
+ var Esclave_0=TAB_GLOBAL_COMPO[709];
  Esclave_0.ActiverComposant(false);
- var Esclave_1=TAB_GLOBAL_COMPO[1395];
+ var Esclave_1=TAB_GLOBAL_COMPO[710];
  Esclave_1.ActiverComposant(false);
 top.document.getElementById("Validate_Lieu_Liste_des_lieus0").disabled=true;
 top.document.getElementById("Annuler_Lieu_Liste_des_lieus0").disabled=true;
@@ -1311,8 +1311,8 @@ Compo_Activités_Liste_des_activités0.GenererXUL(top.document.getElementById("Act
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 1370*/
-top.TAB_GLOBAL_COMPO[1370]=Compo_Activités_Liste_des_activités0;
+	/* On l'ajoute au tableau global à l'indice 685*/
+top.TAB_GLOBAL_COMPO[685]=Compo_Activités_Liste_des_activités0;
 
 	/* Ce composant représente: des éléments de la table tache sous le nom "J'ai" */
  if(ALeDroit(0,"tache"))
@@ -1321,8 +1321,8 @@ Compo_Activités_J_ai_1.GenererXUL(top.document.getElementById("Activités_Liste_d
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 1377*/
-top.TAB_GLOBAL_COMPO[1377]=Compo_Activités_J_ai_1;
+	/* On l'ajoute au tableau global à l'indice 692*/
+top.TAB_GLOBAL_COMPO[692]=Compo_Activités_J_ai_1;
 
 	/* Ce composant représente: des éléments de la table sujet sous le nom "au sujet de" */
  if(ALeDroit(0,"sujet"))
@@ -1331,8 +1331,8 @@ Compo_Activités_au_sujet_de_2.GenererXUL(top.document.getElementById("Activités_
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 1378*/
-top.TAB_GLOBAL_COMPO[1378]=Compo_Activités_au_sujet_de_2;
+	/* On l'ajoute au tableau global à l'indice 693*/
+top.TAB_GLOBAL_COMPO[693]=Compo_Activités_au_sujet_de_2;
 
 	/* Ce composant représente: des éléments de la table lieu sous le nom "à" */
  if(ALeDroit(0,"lieu"))
@@ -1341,8 +1341,8 @@ Compo_Activités_à_3.GenererXUL(top.document.getElementById("Activités_Liste_des_
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 1379*/
-top.TAB_GLOBAL_COMPO[1379]=Compo_Activités_à_3;
+	/* On l'ajoute au tableau global à l'indice 694*/
+top.TAB_GLOBAL_COMPO[694]=Compo_Activités_à_3;
 
 	/* Ce composant représente: des éléments de la table activite sous le nom "Pendant (en minutes)" */
  if(ALeDroit(0,"activite"))
@@ -1351,8 +1351,8 @@ Compo_Activités_Pendant__en_minutes__4.GenererXUL(top.document.getElementById("A
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 1380*/
-top.TAB_GLOBAL_COMPO[1380]=Compo_Activités_Pendant__en_minutes__4;
+	/* On l'ajoute au tableau global à l'indice 695*/
+top.TAB_GLOBAL_COMPO[695]=Compo_Activités_Pendant__en_minutes__4;
 
 	/* Ce composant représente: des éléments de la table activite sous le nom "Le" */
  if(ALeDroit(0,"activite"))
@@ -1361,8 +1361,8 @@ Compo_Activités_Le_5.GenererXUL(top.document.getElementById("Activités_Liste_des
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 1381*/
-top.TAB_GLOBAL_COMPO[1381]=Compo_Activités_Le_5;
+	/* On l'ajoute au tableau global à l'indice 696*/
+top.TAB_GLOBAL_COMPO[696]=Compo_Activités_Le_5;
 
 	/* Ce composant représente: des éléments de la table activite sous le nom "de ('HH:MM')" */
  if(ALeDroit(0,"activite"))
@@ -1371,8 +1371,8 @@ Compo_Activités_de___HH_MM___6.GenererXUL(top.document.getElementById("Activités
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 1382*/
-top.TAB_GLOBAL_COMPO[1382]=Compo_Activités_de___HH_MM___6;
+	/* On l'ajoute au tableau global à l'indice 697*/
+top.TAB_GLOBAL_COMPO[697]=Compo_Activités_de___HH_MM___6;
 
 	/* Ce composant représente: des éléments de la table activite sous le nom "à ('HH:MM')" */
  if(ALeDroit(0,"activite"))
@@ -1381,8 +1381,8 @@ Compo_Activités_à___HH_MM___7.GenererXUL(top.document.getElementById("Activités_
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 1383*/
-top.TAB_GLOBAL_COMPO[1383]=Compo_Activités_à___HH_MM___7;
+	/* On l'ajoute au tableau global à l'indice 698*/
+top.TAB_GLOBAL_COMPO[698]=Compo_Activités_à___HH_MM___7;
 
 	/* Ce composant représente: des éléments de la table activite sous le nom "Pour quelle nature de personne ?" */
  if(ALeDroit(0,"activite"))
@@ -1391,8 +1391,8 @@ Compo_Activités_Pour_quelle_nature_de_personne___8.GenererXUL(top.document.getEl
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 1384*/
-top.TAB_GLOBAL_COMPO[1384]=Compo_Activités_Pour_quelle_nature_de_personne___8;
+	/* On l'ajoute au tableau global à l'indice 699*/
+top.TAB_GLOBAL_COMPO[699]=Compo_Activités_Pour_quelle_nature_de_personne___8;
 
 	/* Ce composant représente: des éléments de la table activite sous le nom "0, 1, 2. Valeur (N°facture, devis...)" */
  if(ALeDroit(0,"activite"))
@@ -1401,8 +1401,8 @@ Compo_Activités_0__1__2__Valeur__N_facture__devis_____9.GenererXUL(top.document.
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 1385*/
-top.TAB_GLOBAL_COMPO[1385]=Compo_Activités_0__1__2__Valeur__N_facture__devis_____9;
+	/* On l'ajoute au tableau global à l'indice 700*/
+top.TAB_GLOBAL_COMPO[700]=Compo_Activités_0__1__2__Valeur__N_facture__devis_____9;
 
 	/* Ce composant représente: des éléments de la table groupe sous le nom "3. Groupe" */
  if(ALeDroit(0,"groupe"))
@@ -1411,8 +1411,8 @@ Compo_Activités_3__Groupe_10.GenererXUL(top.document.getElementById("Activités_L
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 1386*/
-top.TAB_GLOBAL_COMPO[1386]=Compo_Activités_3__Groupe_10;
+	/* On l'ajoute au tableau global à l'indice 701*/
+top.TAB_GLOBAL_COMPO[701]=Compo_Activités_3__Groupe_10;
 var Col_N0_Libellé_De_Tâches_Liste_des_tâches0=new clAttribut("zt_libelle","tache",null);
 
 var Tâches_Libellé_1=new clAttribut("zt_libelle","tache",null);
@@ -1452,8 +1452,8 @@ Compo_Tâches_Liste_des_tâches0.GenererXUL(top.document.getElementById("Tâches_Li
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 1387*/
-top.TAB_GLOBAL_COMPO[1387]=Compo_Tâches_Liste_des_tâches0;
+	/* On l'ajoute au tableau global à l'indice 702*/
+top.TAB_GLOBAL_COMPO[702]=Compo_Tâches_Liste_des_tâches0;
 
 	/* Ce composant représente: des éléments de la table tache sous le nom "Libellé" */
  if(ALeDroit(0,"tache"))
@@ -1462,8 +1462,8 @@ Compo_Tâches_Libellé_1.GenererXUL(top.document.getElementById("Tâches_Liste_des_
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 1389*/
-top.TAB_GLOBAL_COMPO[1389]=Compo_Tâches_Libellé_1;
+	/* On l'ajoute au tableau global à l'indice 704*/
+top.TAB_GLOBAL_COMPO[704]=Compo_Tâches_Libellé_1;
 
 	/* Ce composant représente: des éléments de la table tache sous le nom "J'ai" */
  if(ALeDroit(0,"tache"))
@@ -1472,8 +1472,8 @@ Compo_Tâches_J_ai_2.GenererXUL(top.document.getElementById("Tâches_Liste_des_tâc
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 1390*/
-top.TAB_GLOBAL_COMPO[1390]=Compo_Tâches_J_ai_2;
+	/* On l'ajoute au tableau global à l'indice 705*/
+top.TAB_GLOBAL_COMPO[705]=Compo_Tâches_J_ai_2;
 
 	/* Ce composant représente: des éléments de la table tache sous le nom "Notes" */
  if(ALeDroit(0,"tache"))
@@ -1482,8 +1482,8 @@ Compo_Tâches_Notes_3.GenererXUL(top.document.getElementById("Tâches_Liste_des_tâ
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 1391*/
-top.TAB_GLOBAL_COMPO[1391]=Compo_Tâches_Notes_3;
+	/* On l'ajoute au tableau global à l'indice 706*/
+top.TAB_GLOBAL_COMPO[706]=Compo_Tâches_Notes_3;
 var Col_N0_Libellé_De_Sujets_Liste_des_types_de_sujets0=new clAttribut("zu_libelle","typesujet",null);
 
 var Sujets_Libellé_1=new clAttribut("zu_libelle","typesujet",null);
@@ -1547,8 +1547,8 @@ Compo_Sujets_Liste_des_types_de_sujets0.GenererXUL(top.document.getElementById("
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 1396*/
-top.TAB_GLOBAL_COMPO[1396]=Compo_Sujets_Liste_des_types_de_sujets0;
+	/* On l'ajoute au tableau global à l'indice 711*/
+top.TAB_GLOBAL_COMPO[711]=Compo_Sujets_Liste_des_types_de_sujets0;
 
 	/* Ce composant représente: des éléments de la table typesujet sous le nom "Libellé" */
  if(ALeDroit(0,"typesujet"))
@@ -1557,8 +1557,8 @@ Compo_Sujets_Libellé_1.GenererXUL(top.document.getElementById("Sujets_Liste_des_
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 1398*/
-top.TAB_GLOBAL_COMPO[1398]=Compo_Sujets_Libellé_1;
+	/* On l'ajoute au tableau global à l'indice 713*/
+top.TAB_GLOBAL_COMPO[713]=Compo_Sujets_Libellé_1;
 
 	/* Ce composant représente: des éléments de la table typesujet sous le nom "Notes" */
  if(ALeDroit(0,"typesujet"))
@@ -1567,8 +1567,8 @@ Compo_Sujets_Notes_2.GenererXUL(top.document.getElementById("Sujets_Liste_des_ty
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 1399*/
-top.TAB_GLOBAL_COMPO[1399]=Compo_Sujets_Notes_2;
+	/* On l'ajoute au tableau global à l'indice 714*/
+top.TAB_GLOBAL_COMPO[714]=Compo_Sujets_Notes_2;
 
 	/* Ce composant représente: sujet.undefined sous le nom "Sujets" */
  if(ALeDroit(0,"sujet"))
@@ -1577,8 +1577,8 @@ Compo_Sujets_Sujets_3.GenererXUL(top.document.getElementById("Sujets_Sujets_3"))
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 1400*/
-top.TAB_GLOBAL_COMPO[1400]=Compo_Sujets_Sujets_3;
+	/* On l'ajoute au tableau global à l'indice 715*/
+top.TAB_GLOBAL_COMPO[715]=Compo_Sujets_Sujets_3;
 
 	/* Ce composant représente: des éléments de la table sujet sous le nom "Libellé" */
  if(ALeDroit(0,"sujet"))
@@ -1587,8 +1587,8 @@ Compo_Sujets_Libellé_4.GenererXUL(top.document.getElementById("Sujets_Sujets_3_S
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 1402*/
-top.TAB_GLOBAL_COMPO[1402]=Compo_Sujets_Libellé_4;
+	/* On l'ajoute au tableau global à l'indice 717*/
+top.TAB_GLOBAL_COMPO[717]=Compo_Sujets_Libellé_4;
 
 	/* Ce composant représente: des éléments de la table sujet sous le nom "Notes" */
  if(ALeDroit(0,"sujet"))
@@ -1597,8 +1597,8 @@ Compo_Sujets_Notes_5.GenererXUL(top.document.getElementById("Sujets_Sujets_3_Sla
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 1403*/
-top.TAB_GLOBAL_COMPO[1403]=Compo_Sujets_Notes_5;
+	/* On l'ajoute au tableau global à l'indice 718*/
+top.TAB_GLOBAL_COMPO[718]=Compo_Sujets_Notes_5;
 var Col_N0_Libellé_De_Groupe_Liste_des_groupes0=new clAttribut("zg_libelle","groupe",null);
 
 var Groupe_Libellé_1=new clAttribut("zg_libelle","groupe",null);
@@ -1632,8 +1632,8 @@ Compo_Groupe_Liste_des_groupes0.GenererXUL(top.document.getElementById("Groupe_L
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 1404*/
-top.TAB_GLOBAL_COMPO[1404]=Compo_Groupe_Liste_des_groupes0;
+	/* On l'ajoute au tableau global à l'indice 719*/
+top.TAB_GLOBAL_COMPO[719]=Compo_Groupe_Liste_des_groupes0;
 
 	/* Ce composant représente: des éléments de la table groupe sous le nom "Libellé" */
  if(ALeDroit(0,"groupe"))
@@ -1642,8 +1642,8 @@ Compo_Groupe_Libellé_1.GenererXUL(top.document.getElementById("Groupe_Liste_des_
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 1406*/
-top.TAB_GLOBAL_COMPO[1406]=Compo_Groupe_Libellé_1;
+	/* On l'ajoute au tableau global à l'indice 721*/
+top.TAB_GLOBAL_COMPO[721]=Compo_Groupe_Libellé_1;
 
 	/* Ce composant représente: des éléments de la table groupe sous le nom "Notes" */
  if(ALeDroit(0,"groupe"))
@@ -1652,8 +1652,8 @@ Compo_Groupe_Notes_2.GenererXUL(top.document.getElementById("Groupe_Liste_des_gr
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 1407*/
-top.TAB_GLOBAL_COMPO[1407]=Compo_Groupe_Notes_2;
+	/* On l'ajoute au tableau global à l'indice 722*/
+top.TAB_GLOBAL_COMPO[722]=Compo_Groupe_Notes_2;
 var Col_N0_Libellé_De_Lieu_Liste_des_lieus0=new clAttribut("zl_libelle","lieu",null);
 
 var Lieu_Libellé_1=new clAttribut("zl_libelle","lieu",null);
@@ -1687,8 +1687,8 @@ Compo_Lieu_Liste_des_lieus0.GenererXUL(top.document.getElementById("Lieu_Liste_d
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 1392*/
-top.TAB_GLOBAL_COMPO[1392]=Compo_Lieu_Liste_des_lieus0;
+	/* On l'ajoute au tableau global à l'indice 707*/
+top.TAB_GLOBAL_COMPO[707]=Compo_Lieu_Liste_des_lieus0;
 
 	/* Ce composant représente: des éléments de la table lieu sous le nom "Libellé" */
  if(ALeDroit(0,"lieu"))
@@ -1697,8 +1697,8 @@ Compo_Lieu_Libellé_1.GenererXUL(top.document.getElementById("Lieu_Liste_des_lieu
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 1394*/
-top.TAB_GLOBAL_COMPO[1394]=Compo_Lieu_Libellé_1;
+	/* On l'ajoute au tableau global à l'indice 709*/
+top.TAB_GLOBAL_COMPO[709]=Compo_Lieu_Libellé_1;
 
 	/* Ce composant représente: des éléments de la table lieu sous le nom "Notes" */
  if(ALeDroit(0,"lieu"))
@@ -1707,12 +1707,12 @@ Compo_Lieu_Notes_2.GenererXUL(top.document.getElementById("Lieu_Liste_des_lieus0
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 1395*/
-top.TAB_GLOBAL_COMPO[1395]=Compo_Lieu_Notes_2;
+	/* On l'ajoute au tableau global à l'indice 710*/
+top.TAB_GLOBAL_COMPO[710]=Compo_Lieu_Notes_2;
  if(ALeDroit(5,"activite"))
  {
 /* On refresh les composants non dépendents de l'onget Activités*/
-var Composant_0 = TAB_GLOBAL_COMPO[1370];
+var Composant_0 = TAB_GLOBAL_COMPO[685];
 if (Composant_0!=null){
 Composant_0.ActiverComposant(true);
 Composant_0.Refresh();
@@ -1768,7 +1768,7 @@ if (nb_button==0)
  if(ALeDroit(5,"tache"))
  {
 /* On refresh les composants non dépendents de l'onget Tâches*/
-var Composant_0 = TAB_GLOBAL_COMPO[1387];
+var Composant_0 = TAB_GLOBAL_COMPO[702];
 if (Composant_0!=null){
 Composant_0.ActiverComposant(true);
 Composant_0.Refresh();
@@ -1824,7 +1824,7 @@ if (nb_button==0)
  if(ALeDroit(5,"typesujet"))
  {
 /* On refresh les composants non dépendents de l'onget Sujets*/
-var Composant_0 = TAB_GLOBAL_COMPO[1396];
+var Composant_0 = TAB_GLOBAL_COMPO[711];
 if (Composant_0!=null){
 Composant_0.ActiverComposant(true);
 Composant_0.Refresh();
@@ -1916,7 +1916,7 @@ if (nb_button==0)
  if(ALeDroit(5,"groupe"))
  {
 /* On refresh les composants non dépendents de l'onget Groupe*/
-var Composant_0 = TAB_GLOBAL_COMPO[1404];
+var Composant_0 = TAB_GLOBAL_COMPO[719];
 if (Composant_0!=null){
 Composant_0.ActiverComposant(true);
 Composant_0.Refresh();
@@ -1972,7 +1972,7 @@ if (nb_button==0)
  if(ALeDroit(5,"lieu"))
  {
 /* On refresh les composants non dépendents de l'onget Lieu*/
-var Composant_0 = TAB_GLOBAL_COMPO[1392];
+var Composant_0 = TAB_GLOBAL_COMPO[707];
 if (Composant_0!=null){
 Composant_0.ActiverComposant(true);
 Composant_0.Refresh();

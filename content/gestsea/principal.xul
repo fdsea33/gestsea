@@ -25,7 +25,7 @@
 <script src="chrome://gestsea/content/gestsea/export.js"/>
 <script src="chrome://gestsea/content/generator/libIO.js"/>
 <script src="chrome://gestsea/content/gestsea/principal_plus.js"/>
-<script src="chrome://gestsea/content/generator/gestseax-mcd.js"/>
+<script src="chrome://gestsea/content/generator/gestsea-mcd.js"/>
 <!-- AJOUTER chrome://agrisig/content/Onglets/Agrisig SI NECESSAIRE -->
 <script src="principal.js"/>
 <script src="principal_User.js"/>
@@ -289,9 +289,9 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Passer le devis en facture" oncommand="DevisVersFacture(TAB_GLOBAL_COMPO[1166]);"/>
-    <button label="Imprimer le devis" oncommand="Imprimer(TAB_GLOBAL_COMPO[1166],'devis');"/>
-    <button label="Recalculer le taux de réduction" oncommand="MajReductionDevis(TAB_GLOBAL_COMPO[1166]);"/>
+    <button label="Passer le devis en facture" oncommand="DevisVersFacture(TAB_GLOBAL_COMPO[481]);"/>
+    <button label="Imprimer le devis" oncommand="Imprimer(TAB_GLOBAL_COMPO[481],'devis');"/>
+    <button label="Recalculer le taux de réduction" oncommand="MajReductionDevis(TAB_GLOBAL_COMPO[481]);"/>
   </arrowscrollbox>
   <hbox pack="end" align="center">
     <separator class="groove"/>
@@ -372,13 +372,13 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Passer la facture en avoir" oncommand="FactureVersAvoir(TAB_GLOBAL_COMPO[1186]);"/>
-    <button label="Imprimer la facture" oncommand="Imprimer(TAB_GLOBAL_COMPO[1186],'facture');"/>
+    <button label="Passer la facture en avoir" oncommand="FactureVersAvoir(TAB_GLOBAL_COMPO[501]);"/>
+    <button label="Imprimer la facture" oncommand="Imprimer(TAB_GLOBAL_COMPO[501],'facture');"/>
     <button label="Factures CM" oncommand="PrintLot(1,'facture');"/>
     <button label="Cartes CM" oncommand="PrintLot(1,'carte');"/>
-    <button label="Carte (Duplicata)" oncommand="PrintDuplicata(TAB_GLOBAL_COMPO[1186]);"/>
-    <button label="Router un groupe..." oncommand="GroupeRoutage(TAB_GLOBAL_COMPO[1186]);"/>
-    <button label="Supprimer les routages" oncommand="SupprimeRoutage(TAB_GLOBAL_COMPO[1186]);"/>
+    <button label="Carte (Duplicata)" oncommand="PrintDuplicata(TAB_GLOBAL_COMPO[501]);"/>
+    <button label="Router un groupe..." oncommand="GroupeRoutage(TAB_GLOBAL_COMPO[501]);"/>
+    <button label="Supprimer les routages" oncommand="SupprimeRoutage(TAB_GLOBAL_COMPO[501]);"/>
   </arrowscrollbox>
   <hbox pack="end" align="center">
     <separator class="groove"/>
@@ -411,7 +411,7 @@
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
     <button label="Mettre à jour les adhésions" oncommand="MiseAJourAdhesion();"/>
-    <button label="Imprimer l'avoir" oncommand="Imprimer(TAB_GLOBAL_COMPO[1226],'avoir');"/>
+    <button label="Imprimer l'avoir" oncommand="Imprimer(TAB_GLOBAL_COMPO[541],'avoir');"/>
   </arrowscrollbox>
   <hbox pack="end" align="center">
     <separator class="groove"/>
@@ -529,7 +529,7 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Imprimer le bordereau" oncommand="Imprimer(TAB_GLOBAL_COMPO[1270],'bordereau');"/>
+    <button label="Imprimer le bordereau" oncommand="Imprimer(TAB_GLOBAL_COMPO[585],'bordereau');"/>
   </arrowscrollbox>
 </hbox>
 </vbox>
