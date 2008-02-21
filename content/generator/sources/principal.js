@@ -76,16 +76,26 @@ function CodeInPrincipal(centre){
     AllIt.AjouterCodeUserLoad('Compo_'+Maitre_Personne.getNom_()+'.OnChangeUser=RefreshOngletEstLie;\n');
     AllIt.AjouterCodeUserLoad('Compo_'+Maitre_Personne.getNom_()+'.OnChangeUserParams=Compo_'+Maitre_Personne.getNom_()+';\n');
 
+
+    //***********************
+    // COTISATIONS
+    PersonneCotisation = It_Personne.AjouterComposantComplexe("Cotisations",new Array("pe_numero","pe_numero","cotisation"));
+    PersonneCotisation.AjouterColonne("Annee","po_annee");
+    PersonneCotisation.AjouterColonne("Annee","po_annee");
+    PersonneCotisation.AjouterColonne("Annee","po_annee");
+    PersonneCotisation.AjouterColonne("Annee","po_annee");
+    PersonneCotisation.AjouterColonne("Annee","po_annee");
+
+
     //***********************
     // ADHESION
+    /*
     PersonneAdhesion = It_Personne.AjouterComposantComplexe("Adhésions",new Array("pe_numero","pe_numero","adhesion"));
-    //    PersonneAdhesion.AjouterColonne("N°","ah_numero");
     PersonneAdhesion.AjouterColonne("Annee","po_annee", new Array("po_numero","po_numero","periode"));
     PersonneAdhesion.AjouterColonne("Libellé","ah_libelle",new Array("ah_numero","ah_numero","adherence"));
     PersonneAdhesion.AjouterColonne("Du","po_debut", new Array("po_numero","po_numero","periode"));
     PersonneAdhesion.AjouterColonne("Au","po_fin", new Array("po_numero","po_numero","periode"));
-//    PersonneAdhesion.AjouterColonne("Active","as_active");
-
+*/
     //***********************
     // OBSERVATION
     PersonneObservation = It_Personne.AjouterComposantComplexe("Observations",new Array("pe_numero","pe_numero","observation"));
