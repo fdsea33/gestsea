@@ -523,7 +523,7 @@ CREATE OR REPLACE FUNCTION TG_Cotisation_validation() RETURNS TRIGGER AS
 $$
 BEGIN 
   IF TG_OP='UPDATE' THEN
-    IF OLD.CS_Done THEN
+    IF OLD.CS_Done AND current_user!='brice' THEN
       RETURN OLD;
     ELSE
       RETURN NEW;
@@ -2144,30 +2144,42 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 -- substring('{toto:asdflkslf}{titi:bsdfsfssd}{tutu:csdfsfd}' FROM '{tutu:(.[^}]*)}');
 
 CREATE OR REPLACE FUNCTION bml_extract(IN detail TEXT, IN keyword TEXT) RETURNS TEXT AS
-$$ SELECT substring($1 FROM '{'||TRIM(LOWER($2)||':(.[^}]*)}')) $$ LANGUAGE SQL IMMUTABLE;
+$$ SELECT substring($1 FROM '{'||TRIM(LOWER($2)||':(.[^}{]*)}')) $$ LANGUAGE SQL IMMUTABLE;
 
 CREATE OR REPLACE FUNCTION bml_delete(IN detail TEXT, IN keyword TEXT) RETURNS TEXT AS
-$$ SELECT regexp_replace($1,'{'||TRIM(LOWER($2))||':.[^}]*}','','g') $$ LANGUAGE SQL IMMUTABLE;
+$$ SELECT REPLACE(regexp_replace($1,'{'||TRIM(LOWER($2))||':.[^}{]*}','','g'),E'\n\n',E'\n') $$ LANGUAGE SQL IMMUTABLE;
 
 CREATE OR REPLACE FUNCTION bml_put(IN detail TEXT, IN keyword TEXT, IN val TEXT) RETURNS TEXT AS
 $$ SELECT bml_delete($1,$2)||'{'||TRIM(LOWER(COALESCE($2,'unknown')))||':'||COALESCE($3,'')||E'}\n' $$ LANGUAGE SQL IMMUTABLE;
 
-CREATE OR REPLACE FUNCTION bml_sort(IN detail TEXT) RETURNS TEXT AS
+CREATE OR REPLACE FUNCTION bml_sort(IN detail0 TEXT) RETURNS TEXT AS
 $$
 DECLARE
+	detail TEXT;
   bml TEXT[]; 
   tablename TEXT;
   sorted TEXT;
   i INTEGER;
 BEGIN
+	detail := detail0;
+	LOOP
+		IF NOT detail LIKE E'%\n\n%' THEN
+			EXIT;
+		END IF;
+		SELECT REPLACE(detail, E'\n\n', E'\n') INTO detail;
+	END LOOP;
   bml := string_to_array(TRIM(TRIM(TRIM(TRIM(detail,E'\n'),'}'),E'\n'),'{'),E'}\n{');
-  tablename :=  'bml_sort_'||MD5(current_timestamp||RANDOM());
-  EXECUTE 'CREATE TEMPORARY TABLE '||tablename||' (keyword TEXT, val TEXT);';
-  FOR i IN array_lower(bml,1)..array_upper(bml,1) LOOP
-    EXECUTE 'INSERT INTO '||tablename||' VALUES ('''||SUBSTRING(bml[i] FROM '.[^:]*')||''','''||SUBSTR(SUBSTRING(bml[i] FROM ':.*'),2)||''');';
-  END LOOP;
-  EXECUTE E'SELECT concatenate(''{''||LOWER(TRIM(keyword))||'':''||val||E''}\\n'') FROM (SELECT * FROM '||tablename||' ORDER BY keyword) x;' INTO sorted;
-  EXECUTE 'DROP TABLE '||tablename||';';
+	IF array_upper(bml,1)>1 THEN
+	  tablename :=  'bml_sort_'||MD5(current_timestamp||RANDOM());
+  	EXECUTE 'CREATE TEMPORARY TABLE '||tablename||' (keyword TEXT, val TEXT);';
+  	FOR i IN array_lower(bml,1)..array_upper(bml,1) LOOP
+  	  EXECUTE 'INSERT INTO '||tablename||' VALUES ('''||SUBSTRING(bml[i] FROM '.[^:]*')||''','''||SUBSTR(SUBSTRING(bml[i] FROM ':.*'),2)||''');';
+	  END LOOP;
+  	EXECUTE E'SELECT concatenate(''{''||LOWER(TRIM(keyword))||'':''||val||E''}\\n'') FROM (SELECT * FROM '||tablename||' ORDER BY keyword) x;' INTO sorted;
+	  EXECUTE 'DROP TABLE '||tablename||';';
+	ELSE
+		sorted := detail;
+	END IF;
   RETURN sorted;
 END; 
 $$ LANGUAGE PLPGSQL VOLATILE;
@@ -2188,6 +2200,7 @@ DECLARE
   num_service service.se_numero%TYPE;
   num_employe employe.em_numero%TYPE;
   num_groupe impressiongroupe.ig_numero%TYPE;
+  num_adresse     adresse.ad_numero%TYPE;
   num_devis       devis.de_numero%TYPE;
   num_devis_fdsea devis.de_numero%TYPE;
   num_devis_sacea devis.de_numero%TYPE;
@@ -2220,7 +2233,8 @@ BEGIN
   END IF;
   detail := cotis.cs_detail;
   IF bml_extract(detail,'cotisation.type')='conjoint' THEN
-    SELECT cs_detail FROM cotisation WHERE bml_extract(cs_detail, 'fdsea.conjoint.numero')=cotis.pe_numero INTO detail2;
+    SELECT cs_detail FROM cotisation WHERE cs_numero=bml_extract(detail, 'cotisation.reference') INTO detail2;
+--    SELECT cs_detail FROM cotisation WHERE bml_extract(cs_detail, 'fdsea.conjoint.numero')=cotis.pe_numero INTO detail2;
     detail := bml_put(detail, 'cotisation.societe', bml_extract(detail2, 'cotisation.societe'));
     detail := bml_put(detail, 'fdsea.forfait.produit', bml_extract(detail2, 'fdsea.conjoint.produit'));
     detail := bml_put(detail, 'fdsea.forfait.montant', bml_extract(detail2, 'fdsea.conjoint.montant'));
@@ -2365,8 +2379,15 @@ BEGIN
     UPDATE employe SET EM_Service=SE_Numero FROM service WHERE employe.EM_Numero=num_employe AND SE_Societe=3;
     SELECT FC_DevisVersFacture(num_devis_aava) INTO num_facture_aava;
     INSERT INTO table_impressiondocument (ig_numero,id_modele,id_cle) VALUES (num_groupe, 'facture', num_facture_aava); 
+		SELECT COALESCE(bml_extract(detail,'aava.adresse')::integer,0) INTO num_adresse;
+		IF num_adresse=0 THEN
+			SELECT ad_numero FROM adresse WHERE ad_active AND pe_numero=cotis.pe_numero INTO num_adresse;
+			IF num_adresse IS NULL THEN
+				RAISE EXCEPTION 'La personne n°% n'' a pas d''adresses pour le routage (cotisation n°%)', cotis.pe_numero, num_cotisation;
+			END IF;
+		END IF;
     INSERT INTO routage(ad_numero, ro_debutservice, ro_finservice, ro_quantite, fa_numero)
-      VALUES (bml_extract(detail,'aava.adresse')::integer, bml_extract(detail,'aava.debut')::integer, bml_extract(detail,'aava.fin')::integer, bml_extract(detail,'aava.quantite')::integer, num_facture_aava);
+      VALUES (num_adresse, bml_extract(detail,'aava.debut')::integer, bml_extract(detail,'aava.fin')::integer, bml_extract(detail,'aava.quantite')::integer, num_facture_aava);
     detail := bml_put(detail,'aava.facture',num_facture_aava);
   END IF;
 
@@ -2402,7 +2423,7 @@ BEGIN
   END IF;
 
   SELECT rg_montant-(total_sacea+total_aava+total_fdsea) FROM reglement WHERE rg_numero=num_reglement INTO total_dons;
-  IF total_dons!=0 AND bml_extract(detail,'reglement.don')::boolean THEN 
+  IF (total_dons!=0 AND bml_extract(detail,'reglement.don')::boolean) THEN 
     INSERT INTO repartition(rg_numero, mp_numero, rp_montant)
       SELECT num_reglement, mp_numero, total_dons FROM moderepartition WHERE mp_societe=2;
   END IF;

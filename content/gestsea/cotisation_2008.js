@@ -732,7 +732,7 @@ function wg_totalize(){
   for (i=1;i<rows.childNodes.length;i++){
     row = rows.childNodes[i];
     if (row.childNodes[0].checked) {
-      row.childNodes[2].value = 1*Math.round(row.childNodes[1].value*row.childNodes[1].getAttribute("tarif")*100)/100;
+      row.childNodes[2].value = 1*arrondi(row.childNodes[1].value*row.childNodes[1].getAttribute("tarif"));
       if (elem("wg-hectare-checkbox").checked)
         somme += 1*row.childNodes[2].value;
     } else {
@@ -808,7 +808,7 @@ elem("wg-status-text").label = 'Fonctions total';
 
 
 
-function wg_entity_load(complement) {
+function wg_entity_load(complement, only_clean) {
   var prefix = (complement==null) ? "wg-" : "wg-"+complement+"-";
   elem(prefix+'extitre').value = '';
   elem(prefix+'titre').selectedIndex = 0;
@@ -823,6 +823,9 @@ function wg_entity_load(complement) {
     elem(prefix+"contact"+x).setAttribute("number",'');
     elem(prefix+"contact"+x).value = '';
   }
+
+  if (only_clean==true) return null;
+
   var num_entity;
   var morale;
   switch (complement) {
@@ -1433,17 +1436,17 @@ function wg_send_cotisation(send_query){
 
     alert(numeros);
 
-/*
-    query="SELECT * FROM FC_CouponReponseNG("+num_personne+", "+annee+", '"+bulletin+"');";
-    result=pgsql_query(query);
-    if (result.rowCount==1) {
-      alert("Cotisation enregistrée");
-      return true;
-    } else {
-      alert("Je crois qu'il y a un problème. Il faudrait prévenir Brice au cas où.");
-      return false;
-    }
-*/
+		// nettoyage des champs
+		//	Personne
+		menulist_fill('wg-personne-menulist', 'SELECT pe_numero, pe_description FROM personne WHERE pe_numero IS NULL;');
+		wg_entity_load('personne');
+		//	Societe
+		menulist_fill('wg-societe-menulist', 'SELECT pe_numero, pe_description FROM personne WHERE pe_numero IS NULL;');
+		wg_entity_load('societe');
+		//	Associe
+		menulist_fill('wg-associe-menulist', 'SELECT pe_numero, pe_description FROM personne WHERE pe_numero IS NULL;');
+		wg_entity_load('associe');
+
   }
   elem('wg-save-button').disabled = false;
   elem('wg-send-button').disabled = false;
@@ -1456,7 +1459,5 @@ function wg_send_cotisation(send_query){
 
 
 
-
-
-elem("wg-status-text").label = 'JS Chargé';
+elem("wg-status-text").label = 'cotisation_2008.js chargé.';
 //alert("Fichier chargé");
