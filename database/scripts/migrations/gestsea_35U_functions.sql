@@ -2233,10 +2233,17 @@ BEGIN
     IF detail2 IS NULL THEN
       RAISE EXCEPTION 'Erreur pas de cotisation';
     END IF;
-    RAISE EXCEPTION 'Erreur pas de cotisation  sdfqsdlmfjsdklfj';
+    detail := bml_put(detail, 'cotisation.societe', bml_extract(detail2, 'cotisation.societe'));
+    detail := bml_put(detail, 'fdsea.forfait.produit', bml_extract(detail2, 'fdsea.associe.produit'));
+    detail := bml_put(detail, 'fdsea.forfait.montant', bml_extract(detail2, 'fdsea.associe.montant')::numeric/bml_extract(detail2, 'fdsea.associe.nombre')::numeric);
+    detail := bml_put(detail, 'fdsea.hectare','false');
+    detail := bml_put(detail, 'reglement.numero', bml_extract(detail2, 'reglement.numero'));
+    detail := bml_put(detail, 'aava', 'false');
+    detail := bml_put(detail, 'sacea', 'false');
+--    RAISE EXCEPTION 'Erreur pas de cotisation  sdfqsdlmfjsdklfj';
   ELSIF bml_extract(detail,'cotisation.type') NOT IN ('standard', 'conjoint', 'associe') THEN
 --    RAISE EXCEPTION 'La procedure de traitement des cotisations est en cours de developpement.';
-    UPDATE table_cotisation SET cs_done=false, cs_report=bml_extract(detail,'cotisation.type') WHERE cs_numero=num_cotisation;
+    UPDATE table_cotisation SET cs_done=false, cs_valid = false, cs_report=bml_extract(detail,'cotisation.type') WHERE cs_numero=num_cotisation;
     RETURN false;
   END IF;
 
@@ -2344,7 +2351,7 @@ BEGIN
   UPDATE employe SET EM_Service=SE_Numero FROM service WHERE employe.EM_Numero=num_employe AND SE_Societe=2;
   SELECT FC_DevisVersFacture(num_devis_fdsea) INTO num_facture_fdsea;
   INSERT INTO table_impressiondocument (ig_numero,id_modele,id_cle) VALUES (num_groupe, 'facture', num_facture_fdsea); 
-  IF bml_extract(detail,'cotisation.type')!='conjoint' OR bml_extract(detail,'fdsea.hectare')::boolean THEN
+  IF bml_extract(detail,'cotisation.type')='associe' OR bml_extract(detail,'cotisation.type')!='conjoint' OR bml_extract(detail,'fdsea.hectare')::boolean THEN
     INSERT INTO table_impressiondocument (ig_numero,id_modele,id_cle) VALUES (num_groupe, 'carte', num_facture_fdsea); 
   END IF;
   detail := bml_put(detail,'fdsea.facture',num_facture_fdsea);
