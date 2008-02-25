@@ -2906,7 +2906,7 @@ DECLARE
   adresse    text;
 BEGIN
   SELECT 'SELECT '||im_fonction||E'('||cle||E');' FROM impression WHERE im_nom ilike nom_logique INTO query;
-  RAISE NOTICE '>> %', COALESCE(query,'x');
+--  RAISE NOTICE '>> %', COALESCE(query,'x');
   EXECUTE query INTO adresse;
   RETURN adresse;
 END;
@@ -2959,7 +2959,7 @@ BEGIN
     GROUP BY IL_Numero
     ORDER BY IL_Numero
     INTO query;
-  RAISE NOTICE '> Query : %', query;
+--  RAISE NOTICE '> Query : %', query;
   IF query IS NOT NULL THEN
     EXECUTE query;
   END IF;
