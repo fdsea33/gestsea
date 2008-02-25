@@ -2902,12 +2902,11 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 CREATE OR REPLACE FUNCTION FC_Imprime2(IN nom_logique TEXT,IN cle integer) RETURNS text AS
 $$
 DECLARE
-  num_modele text;
   query      text;
   adresse    text;
 BEGIN
-  SELECT im_fonction FROM impression WHERE im_nom ilike nom_logique INTO num_modele;
-  query := 'SELECT '||num_modele||E'('||cle||E');';
+  SELECT 'SELECT '||im_fonction||E'('||cle||E');' FROM impression WHERE im_nom ilike nom_logique INTO query;
+  RAISE NOTICE '>> %', COALESCE(query,'x');
   EXECUTE query INTO adresse;
   RETURN adresse;
 END;
@@ -2960,7 +2959,7 @@ BEGIN
     GROUP BY IL_Numero
     ORDER BY IL_Numero
     INTO query;
---  RAISE NOTICE '> Query : %', query;
+  RAISE NOTICE '> Query : %', query;
   IF query IS NOT NULL THEN
     EXECUTE query;
   END IF;
