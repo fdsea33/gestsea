@@ -2316,7 +2316,7 @@ BEGIN
     RETURN false;
   END IF;
   detail := bml_put(detail,'fdsea.forfait.prix',num_prix);
-  INSERT INTO ligne (de_numero, px_numero, l_notes) SELECT num_devis, num_prix, 'Cotisation pour : '||pe_libelle FROM personne WHERE pe_numero=cotis.pe_numero;
+  INSERT INTO ligne (de_numero, px_numero) SELECT num_devis, num_prix;
   num_devis_fdsea := num_devis;
 
   -- Devis SACEA
@@ -2905,7 +2905,7 @@ DECLARE
   query      text;
   adresse    text;
 BEGIN
-  SELECT 'SELECT '||im_fonction||E'('||cle||E');' FROM impression WHERE im_nom ilike nom_logique INTO query;
+  SELECT 'SELECT '||im_fonction||E'('||cle||E');' FROM impression WHERE im_nom ilike nom_logique AND IM_Defaut INTO query;
 --  RAISE NOTICE '>> %', COALESCE(query,'x');
   EXECUTE query INTO adresse;
   RETURN adresse;
@@ -2946,22 +2946,25 @@ BEGIN
       SET ID_Filename=FC_Imprime2(ID_Modele, ID_Cle::integer)
       FROM table_facture, table_impressiongroupe AS groupe
       WHERE groupe.ig_numero=table_impressiondocument.ig_numero 
-        AND IL_Numero=num_lot AND ID_Modele=modele
-        AND ID_Cle::integer=FA_Numero AND FA_MontantTTC>0 AND SO_Numero=s AND (fa_date BETWEEN debut AND fin);
+        AND IL_Numero=num_lot AND ID_Modele=modele AND FA_MontantTTC>0 AND (fa_date BETWEEN debut AND fin)
+        AND ID_Cle::integer=FA_Numero AND SO_Numero=s;
   END LOOP;
   -- Concatenation des documents
   SELECT '/tmp/'||current_user||E'_lot_pi_'||to_char(CURRENT_TIMESTAMP,'YYYYMMDD_HH24MISS_US')||E'.pdf' INTO adresse;
-  SELECT 'SELECT execution(''cd /tmp &&  touch '||adresse||E' && chmod 755 '||adresse||E' && gs -q -sPAPERSIZE=letter -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile='||adresse||concatenate(' '||SUBSTR(COALESCE(ID_Filename,''),8,8192))||E''');'
+  SELECT 'SELECT execution(''cd /tmp &&  touch '||adresse||E' && chmod 755 '||adresse||E' && gs -q -sPAPERSIZE=letter -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile='||adresse||concatenate(' '||SUBSTR(COALESCE(ID_Filename,''),8))||E''');'
     FROM table_impressiondocument 
          JOIN table_impressiongroupe USING (IG_Numero)
          JOIN table_facture ON (ID_Cle=FA_Numero) 
-    WHERE (fa_date BETWEEN debut AND fin) AND FA_MontantTTC>0 AND ID_Modele=modele AND IL_Numero=num_lot
+    WHERE true
+        AND IL_Numero=num_lot AND ID_Modele=modele AND FA_MontantTTC>0 AND (fa_date BETWEEN debut AND fin)
     GROUP BY IL_Numero
     ORDER BY IL_Numero
     INTO query;
 --  RAISE NOTICE '> Query : %', query;
   IF query IS NOT NULL THEN
     EXECUTE query;
+  ELSE
+    RAISE NOTICE 'Pas d''impressions.';
   END IF;
   -- Restauration du service
   UPDATE table_employe SET EM_Service=num_service WHERE EM_Login=CURRENT_USER;
