@@ -17,7 +17,7 @@ SQL-INIT = _10G_tables
 SQL-CONS = _20G_constraints
 SQL-VIEW = _30G_views
 
-all: gestseax install
+all: gestsea
 
 %.html: ${MODELS}/%.xml
 	$(XSLT) -o ${DOC}/$@ ${STYLESH}/$(XSL-HTML) $^
@@ -27,7 +27,7 @@ all: gestseax install
 	$(XSLT) -o ${MIGRATE}/$@${SQL-CONS}.sql --stringparam operation constraints ${STYLESH}/$(XSL-SQL) $<
 	$(XSLT) -o ${MIGRATE}/$@${SQL-VIEW}.sql --stringparam operation vues ${STYLESH}/$(XSL-SQL) $<
 	$(XSLT) -o $@-mcd.js ${STYLESH}/$(XSL-JS) $<
-	mv $@-mcd.js ../../content/generator/
+	mv $@-mcd.js ../content/generator/
 
 %_extra.sql: ${MODELS}/%.xml
 	$(XSLT) -o ${MIGRATE}/$@ --stringparam operation extra ${STYLESH}/$(XSL-SQL) $<
@@ -41,5 +41,5 @@ clean:
 
 k: clean
 	rm -fr *.html *.log *.aux *toc *.lot *.lof *.mtc*
-	rm -fr *${SQL-INIT}.sql *${SQL-CONS}.sql *${SQL-VIEW}.sql
+	rm -fr ${MIGRATE}/*${SQL-INIT}.sql ${MIGRATE}/*${SQL-CONS}.sql ${MIGRATE}/*${SQL-VIEW}.sql
 

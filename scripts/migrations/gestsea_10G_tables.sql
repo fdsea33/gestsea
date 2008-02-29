@@ -1270,6 +1270,7 @@ CREATE TABLE "table_facture"
   "ag_numero" INTEGER,
   "fa_numfact" INTEGER,
   "fa_date" DATE,
+  "fa_perte" BOOLEAN,
   "fa_reduction" NUMERIC,
   "fa_montantht" NUMERIC(16,2),
   "fa_montantttc" NUMERIC(16,2),

@@ -654,6 +654,7 @@ function mcd_getType(table,champs)
         case 'ag_numero': type=TYPE_INT;break;
         case 'fa_numfact': type=TYPE_INT;break;
         case 'fa_date': type=TYPE_DATE;break;
+        case 'fa_perte': type=TYPE_BOOL;break;
         case 'fa_reduction': type=TYPE_FLOAT;break;
         case 'fa_montantht': type=TYPE_FLOAT;break;
         case 'fa_montantttc': type=TYPE_FLOAT;break;
@@ -2220,6 +2221,7 @@ function mcd_getLabel(table,champs)
         case 'ag_numero': label="";break;
         case 'fa_numfact': label="";break;
         case 'fa_date': label="";break;
+        case 'fa_perte': label="";break;
         case 'fa_reduction': label="";break;
         case 'fa_montantht': label="";break;
         case 'fa_montantttc': label="";break;
@@ -3783,6 +3785,7 @@ function mcd_obligatoire(table,champs)
         case 'ag_numero': obligatoire=true;break;
         case 'fa_numfact': obligatoire=true;break;
         case 'fa_date': obligatoire=true;break;
+        case 'fa_perte': obligatoire=true;break;
         case 'fa_reduction': obligatoire=true;break;
         case 'fa_montantht': obligatoire=true;break;
         case 'fa_montantttc': obligatoire=true;break;

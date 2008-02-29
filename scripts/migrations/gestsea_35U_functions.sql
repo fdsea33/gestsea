@@ -529,7 +529,7 @@ BEGIN
       RETURN NEW;
     END IF;
   ELSIF TG_OP='DELETE' THEN
-    IF OLD.CS_Done THEN
+    IF OLD.CS_Done AND CURRENT_USER!='brice' THEN
       RAISE EXCEPTION 'Impossible de supprimer une cotisation traitée.';
     END IF;
     RETURN OLD;
@@ -2366,7 +2366,7 @@ BEGIN
   UPDATE employe SET EM_Service=SE_Numero FROM service WHERE employe.EM_Numero=num_employe AND SE_Societe=2;
   SELECT FC_DevisVersFacture(num_devis_fdsea) INTO num_facture_fdsea;
   INSERT INTO table_impressiondocument (ig_numero,id_modele,id_cle) VALUES (num_groupe, 'facture', num_facture_fdsea); 
-  IF bml_extract(detail,'cotisation.type')='associe' OR (bml_extract(detail,'cotisation.type')!='conjoint' AND bml_extract(detail,'fdsea.hectare')::boolean) THEN
+  IF (bml_extract(detail,'fdsea.forfait.produit')='500000052' AND bml_extract(detail,'fdsea.hectare')::boolean) OR (bml_extract(detail,'fdsea.forfait.produit')!='500000052' AND bml_extract(detail,'cotisation.type')!='conjoint') THEN
     INSERT INTO table_impressiondocument (ig_numero,id_modele,id_cle) VALUES (num_groupe, 'carte', num_facture_fdsea); 
   END IF;
   detail := bml_put(detail,'fdsea.facture',num_facture_fdsea);
@@ -2396,6 +2396,10 @@ BEGIN
   SELECT COALESCE(fa_montantttc,0) FROM table_facture WHERE fa_numero=num_facture_fdsea INTO total_fdsea;
   SELECT COALESCE(fa_montantttc,0) FROM table_facture WHERE fa_numero=num_facture_sacea INTO total_sacea;
   SELECT COALESCE(fa_montantttc,0) FROM table_facture WHERE fa_numero=num_facture_aava  INTO total_aava;
+  detail := bml_put(detail,'fdsea.montant',total_fdsea);
+  detail := bml_put(detail,'sacea.montant',total_sacea);
+  detail := bml_put(detail,'aava.montant',total_aava);
+  detail := bml_put(detail,'cotisation.montant',total_fdsea+total_sacea+total_aava);
 
   UPDATE employe SET EM_Service=SE_Numero FROM service WHERE employe.EM_Numero=num_employe AND SE_Societe=2;
 
@@ -2434,6 +2438,67 @@ BEGIN
   report := report||E'\n**************';
   UPDATE table_cotisation SET cs_valid=true, cs_done=true, cs_report=report, cs_detail=bml_sort(detail) WHERE cs_numero=num_cotisation;
   RETURN true;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+
+
+
+
+
+
+
+
+
+
+
+--===========================================================================--
+-- Permet de recréer une string de cotisation à partir d'un n° de personne et d'une année
+
+CREATE OR REPLACE FUNCTION FC_cotisation(IN num_personne INTEGER, IN annee INTEGER) RETURNS TEXT AS
+$$
+DECLARE
+  detail cotisation.cs_detail%TYPE;
+  lf table_lignefacture%ROWTYPE;
+BEGIN
+  SELECT l.* FROM table_lignefacture l JOIN table_facture USING (fa_numero) LEFT JOIN table_avoir USING (fa_numero) WHERE av_numero IS NULL AND EXTRACT(YEAR FROM fa_date)=annee AND pd_numero IN (500000124, 500000053, 500000150, 500000054, 500000052, 500000130, 500000162, 300006) INTO lf;
+  IF lf.fa_numero IS NULL THEN
+    RETURN '{saved:false}';
+  END IF;
+  detail := '';
+  detail := bml_put(detail,'saved','true');
+  detail := bml_put(detail,'fdsea.facture',lf.fa_numero::text);
+  detail := bml_put(detail,'fdsea.forfait.produit',lf.pd_numero::text);
+  detail := bml_put(detail,'fdsea.forfait.prix',lf.px_numero::text);
+  detail := bml_put(detail,'fdsea.forfait.montant',lf.lf_montantttc::text);
+  detail := bml_put(detail,'fdsea.hectare','unknown');
+  detail := bml_put(detail,'fdsea.conjoint','unknown');
+  detail := bml_put(detail,'fdsea.associe','unknown');
+  detail := bml_put(detail,'cotisation.personne',num_personne::text);
+  detail := bml_put(detail,'cotisation.annee',annee::text);
+  detail := bml_put(detail,'cotisation.type',CASE WHEN lf.pd_numero=500000162 THEN 'associe' WHEN lf.pd_numero=500000150 THEN 'conjoint' ELSE 'standard' END);
+  SELECT l.* FROM table_lignefacture l JOIN table_facture USING (fa_numero) LEFT JOIN table_avoir USING (fa_numero) WHERE av_numero IS NULL AND EXTRACT(YEAR FROM fa_date)=annee AND pd_numero-500000000 IN (36,65,69) INTO lf;
+  IF lf.fa_numero IS NULL THEN
+    detail := bml_put(detail,'sacea','false');
+  ELSE
+    detail := bml_put(detail,'sacea','true');
+    detail := bml_put(detail,'sacea.facture',lf.fa_numero::text);
+    detail := bml_put(detail,'sacea.produit',lf.pd_numero::text);
+    detail := bml_put(detail,'sacea.prix',lf.px_numero::text);
+    detail := bml_put(detail,'sacea.montant',lf.lf_montantttc::text);
+  END IF;
+  SELECT l.* FROM table_lignefacture l JOIN table_facture USING (fa_numero) LEFT JOIN table_avoir USING (fa_numero) WHERE av_numero IS NULL AND EXTRACT(YEAR FROM fa_date)=annee AND pd_numero-500000000 IN (96) INTO lf;
+  IF lf.fa_numero IS NULL THEN
+    detail := bml_put(detail,'aava','false');
+  ELSE
+    detail := bml_put(detail,'aava','true');
+    detail := bml_put(detail,'aava.facture',lf.fa_numero::text);
+    detail := bml_put(detail,'aava.produit',lf.pd_numero::text);
+    detail := bml_put(detail,'aava.prix',lf.px_numero::text);
+    detail := bml_put(detail,'aava.quantite',lf.lf_quantite::text);
+    detail := bml_put(detail,'aava.montant',lf.lf_montantttc::text);
+  END IF;
+  RETURN detail;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
@@ -2951,6 +3016,16 @@ BEGIN
   END LOOP;
   -- Concatenation des documents
   SELECT '/tmp/'||current_user||E'_lot_pi_'||to_char(CURRENT_TIMESTAMP,'YYYYMMDD_HH24MISS_US')||E'.pdf' INTO adresse;
+  SELECT 'SELECT execution(''cd /tmp && touch '||adresse||E' && chmod 755 '||adresse||E' && gs -q -sPAPERSIZE=letter -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile='||adresse||concatenate(' '||SUBSTR(COALESCE(ID_Filename,''),8))||E''');'
+    FROM (SELECT id_filename
+    FROM table_impressiondocument 
+         JOIN table_impressiongroupe USING (IG_Numero)
+         JOIN table_facture ON (ID_Cle=FA_Numero) 
+    WHERE true
+        AND IL_Numero=num_lot AND ID_Modele=modele AND FA_MontantTTC>0 AND (fa_date BETWEEN debut AND fin)
+       ORDER BY fa_numero) x
+    INTO query;
+/*
   SELECT 'SELECT execution(''cd /tmp &&  touch '||adresse||E' && chmod 755 '||adresse||E' && gs -q -sPAPERSIZE=letter -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile='||adresse||concatenate(' '||SUBSTR(COALESCE(ID_Filename,''),8))||E''');'
     FROM table_impressiondocument 
          JOIN table_impressiongroupe USING (IG_Numero)
@@ -2960,6 +3035,7 @@ BEGIN
     GROUP BY IL_Numero
     ORDER BY IL_Numero
     INTO query;
+*/
 --  RAISE NOTICE '> Query : %', query;
   IF query IS NOT NULL THEN
     EXECUTE query;
@@ -2972,5 +3048,46 @@ BEGIN
   RETURN 'file://'||adresse;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
+
+
+
+
+
+CREATE OR REPLACE FUNCTION FC_ImprimeLot2(IN num_lot INTEGER, IN modele VARCHAR, IN debut DATE, IN fin DATE) RETURNS text AS
+$$
+DECLARE
+  s INTEGER;
+  num_service INTEGER;
+  adresse TEXT;
+  query TEXT;
+BEGIN
+  -- Concatenation des documents
+  SELECT '/tmp/'||current_user||E'_lot_pi_'||to_char(CURRENT_TIMESTAMP,'YYYYMMDD_HH24MISS_US')||E'.pdf' INTO adresse;
+  SELECT 'SELECT execution(''cd /tmp && touch '||adresse||E' && chmod 755 '||adresse||E' && gs -q -sPAPERSIZE=letter -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile='||adresse||concatenate(' '||SUBSTR(COALESCE(ID_Filename,''),8))||E''');'
+    FROM (SELECT id_filename
+    FROM table_impressiondocument 
+         JOIN table_impressiongroupe USING (IG_Numero)
+         JOIN table_facture ON (ID_Cle=FA_Numero) 
+    WHERE true
+        AND IL_Numero=num_lot AND ID_Modele=modele AND FA_MontantTTC>0 AND (fa_date BETWEEN debut AND fin)
+       ORDER BY fa_numero LIMIT 100) x
+    INTO query;
+--  RAISE NOTICE '> Query : %', query;
+  IF query IS NOT NULL THEN
+    EXECUTE query;
+  ELSE
+    RAISE NOTICE 'Pas d''impressions.';
+  END IF;
+
+  RETURN 'file://'||adresse;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+/*
+UPDATE table_cotisation SET cs_detail = bml_put(cs_detail,'fdsea.montant',f.fa_montantttc::text) FROM table_facture WHERE fa_numero=bml_extract('fdsea.facture');
+UPDATE table_cotisation SET cs_detail = bml_put(cs_detail,'sacea.montant',f.fa_montantttc::text) FROM table_facture WHERE fa_numero=bml_extract('sacea.facture');
+UPDATE table_cotisation SET cs_detail = bml_put(cs_detail,'aava.montant',f.fa_montantttc::text) FROM table_facture WHERE fa_numero=bml_extract('aava.facture');
+UPDATE table_cotisation SET cs_detail = bml_put(cs_detail,'cotisation.montant', (bml_extract(cs_detail,'fdsea.montant')::numeric+bml_extract(cs_detail,'sacea.montant')::numeric+bml_extract(cs_detail,'aava.montant')::numeric)::text);
+*/
 
 

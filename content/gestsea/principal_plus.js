@@ -109,6 +109,17 @@ function FactureVersAvoir(compo){
   }
 }
 
+function FactureEnPerte(compo){
+  var num_facture =compo.getCleVal();
+  var enperte = requete('SELECT CASE WHEN fa_perte THEN 1 ELSE 0 END FROM facture WHERE fa_numero='+num_facture);
+  var question = '?';
+  if (enperte==1) question = 'Voulez-vous vraiment faire revenir cette facture en profit ?';
+  else question = 'Voulez-vous vraiment faire passer cette facture en perte ?';
+  if (confirm(question)) {
+    pgsql_update("UPDATE facture SET fa_perte=NOT fa_perte WHERE fa_numero="+num_facture);
+  }
+}
+
 function ViderPersonneUpdate(){
   pgsql_update("DELETE FROM Personneupdate;");
   alert("La liste a été vidée.");

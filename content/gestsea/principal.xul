@@ -96,7 +96,7 @@
 <vbox id="Personnes_Liste_des_personnes0_Slaves"/>
 <tabbox id="tabbox_Personnes_Liste_des_personnes0" flex="1">
 <tabs >
-<tab label="Adhésions"/>
+<tab label="Cotisations"/>
 <tab label="Observations"/>
 <tab label="Adresses"/>
 <tab label="Contact"/>
@@ -111,7 +111,7 @@
 <tabpanels flex="1">
 <tabpanel flex="1">
 <hbox flex="1">
-<vbox id="Personnes_Adhésions_9" flex="1"/>
+<vbox id="Personnes_Cotisations_9" flex="1"/>
 </hbox>
 </tabpanel>
 <tabpanel flex="1">
@@ -289,9 +289,9 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Passer le devis en facture" oncommand="DevisVersFacture(TAB_GLOBAL_COMPO[490]);"/>
-    <button label="Imprimer le devis" oncommand="Imprimer(TAB_GLOBAL_COMPO[490],'devis');"/>
-    <button label="Recalculer le taux de réduction" oncommand="MajReductionDevis(TAB_GLOBAL_COMPO[490]);"/>
+    <button label="Passer le devis en facture" oncommand="DevisVersFacture(TAB_GLOBAL_COMPO[106]);"/>
+    <button label="Imprimer le devis" oncommand="Imprimer(TAB_GLOBAL_COMPO[106],'devis');"/>
+    <button label="Recalculer le taux de réduction" oncommand="MajReductionDevis(TAB_GLOBAL_COMPO[106]);"/>
   </arrowscrollbox>
   <hbox pack="end" align="center">
     <separator class="groove"/>
@@ -318,42 +318,42 @@
 <tabpanels flex="1">
 <tabpanel flex="1">
 <hbox flex="1">
-<vbox id="Facture_Lignes_de_la_facture_8" flex="1"/>
+<vbox id="Facture_Lignes_de_la_facture_9" flex="1"/>
 </hbox>
 </tabpanel>
 <tabpanel flex="1">
 <hbox flex="1">
-<vbox id="Facture_Avoirs_de_la_facture_9" flex="1"/>
+<vbox id="Facture_Avoirs_de_la_facture_10" flex="1"/>
 </hbox>
 </tabpanel>
 <tabpanel flex="1">
 <hbox flex="1">
-<vbox id="Facture_Règlements_10" flex="1"/>
+<vbox id="Facture_Règlements_11" flex="1"/>
 <splitter collapse="before"> <grippy/> </splitter>
 <vbox flex="1" style="overflow:auto">
-<vbox flex="1" id="Facture_Règlements_10_Slaves"/>
+<vbox flex="1" id="Facture_Règlements_11_Slaves"/>
 <arrowscrollbox  pack="end" align="stretch" class="fondstyle">
-    <button class="new-button16" disabled="true" id="Insert_Facture_Règlements_10" label="Ajouter" oncommand="Insert_Facture_Règlements_10()" />
-    <button class="edit-button16" disabled="true" id="Update_Facture_Règlements_10" label="Modifier" oncommand="Update_Facture_Règlements_10()" />
-    <button class="delete-button16" disabled="true" id="Delete_Facture_Règlements_10" label="Supprimer" oncommand="Delete_Facture_Règlements_10()" />
-    <button class="accept-button16" id="Validate_Facture_Règlements_10" label="Valider" oncommand="Validate_Facture_Règlements_10()"  disabled="true" />
-    <button class="cancel-button16" id="Annuler_Facture_Règlements_10" label="Annuler" oncommand="Annuler_Facture_Règlements_10()"  disabled="true" />
+    <button class="new-button16" disabled="true" id="Insert_Facture_Règlements_11" label="Ajouter" oncommand="Insert_Facture_Règlements_11()" />
+    <button class="edit-button16" disabled="true" id="Update_Facture_Règlements_11" label="Modifier" oncommand="Update_Facture_Règlements_11()" />
+    <button class="delete-button16" disabled="true" id="Delete_Facture_Règlements_11" label="Supprimer" oncommand="Delete_Facture_Règlements_11()" />
+    <button class="accept-button16" id="Validate_Facture_Règlements_11" label="Valider" oncommand="Validate_Facture_Règlements_11()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Facture_Règlements_11" label="Annuler" oncommand="Annuler_Facture_Règlements_11()"  disabled="true" />
 </arrowscrollbox>
 </vbox>
 </hbox>
 </tabpanel>
 <tabpanel flex="1">
 <hbox flex="1">
-<vbox id="Facture_Routages_15" flex="1"/>
+<vbox id="Facture_Routages_16" flex="1"/>
 <splitter collapse="before"> <grippy/> </splitter>
 <vbox flex="1" style="overflow:auto">
-<vbox flex="1" id="Facture_Routages_15_Slaves"/>
+<vbox flex="1" id="Facture_Routages_16_Slaves"/>
 <arrowscrollbox  pack="end" align="stretch" class="fondstyle">
-    <button class="new-button16" disabled="true" id="Insert_Facture_Routages_15" label="Ajouter" oncommand="Insert_Facture_Routages_15()" />
-    <button class="edit-button16" disabled="true" id="Update_Facture_Routages_15" label="Modifier" oncommand="Update_Facture_Routages_15()" />
-    <button class="delete-button16" disabled="true" id="Delete_Facture_Routages_15" label="Supprimer" oncommand="Delete_Facture_Routages_15()" />
-    <button class="accept-button16" id="Validate_Facture_Routages_15" label="Valider" oncommand="Validate_Facture_Routages_15()"  disabled="true" />
-    <button class="cancel-button16" id="Annuler_Facture_Routages_15" label="Annuler" oncommand="Annuler_Facture_Routages_15()"  disabled="true" />
+    <button class="new-button16" disabled="true" id="Insert_Facture_Routages_16" label="Ajouter" oncommand="Insert_Facture_Routages_16()" />
+    <button class="edit-button16" disabled="true" id="Update_Facture_Routages_16" label="Modifier" oncommand="Update_Facture_Routages_16()" />
+    <button class="delete-button16" disabled="true" id="Delete_Facture_Routages_16" label="Supprimer" oncommand="Delete_Facture_Routages_16()" />
+    <button class="accept-button16" id="Validate_Facture_Routages_16" label="Valider" oncommand="Validate_Facture_Routages_16()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Facture_Routages_16" label="Annuler" oncommand="Annuler_Facture_Routages_16()"  disabled="true" />
 </arrowscrollbox>
 </vbox>
 </hbox>
@@ -372,13 +372,14 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Passer la facture en avoir" oncommand="FactureVersAvoir(TAB_GLOBAL_COMPO[510]);"/>
-    <button label="Imprimer la facture" oncommand="Imprimer(TAB_GLOBAL_COMPO[510],'facture');"/>
+    <button label="Passer en avoir" oncommand="FactureVersAvoir(TAB_GLOBAL_COMPO[126]);"/>
+    <button label="En perte" oncommand="FactureEnPerte(TAB_GLOBAL_COMPO[126]);"/>
+    <button label="Imprimer" oncommand="Imprimer(TAB_GLOBAL_COMPO[126],'facture');"/>
     <button label="Factures CM" oncommand="PrintLot(1,'facture');"/>
     <button label="Cartes CM" oncommand="PrintLot(1,'carte');"/>
-    <button label="Carte (Duplicata)" oncommand="PrintDuplicata(TAB_GLOBAL_COMPO[510]);"/>
-    <button label="Router un groupe..." oncommand="GroupeRoutage(TAB_GLOBAL_COMPO[510]);"/>
-    <button label="Supprimer les routages" oncommand="SupprimeRoutage(TAB_GLOBAL_COMPO[510]);"/>
+    <button label="Carte (Duplicata)" oncommand="PrintDuplicata(TAB_GLOBAL_COMPO[126]);"/>
+    <button label="Router un groupe..." oncommand="GroupeRoutage(TAB_GLOBAL_COMPO[126]);"/>
+    <button label="Supprimer les routages" oncommand="SupprimeRoutage(TAB_GLOBAL_COMPO[126]);"/>
   </arrowscrollbox>
   <hbox pack="end" align="center">
     <separator class="groove"/>
@@ -411,7 +412,7 @@
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
     <button label="Mettre à jour les adhésions" oncommand="MiseAJourAdhesion();"/>
-    <button label="Imprimer l'avoir" oncommand="Imprimer(TAB_GLOBAL_COMPO[550],'avoir');"/>
+    <button label="Imprimer l'avoir" oncommand="Imprimer(TAB_GLOBAL_COMPO[167],'avoir');"/>
   </arrowscrollbox>
   <hbox pack="end" align="center">
     <separator class="groove"/>
@@ -529,7 +530,7 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Imprimer le bordereau" oncommand="Imprimer(TAB_GLOBAL_COMPO[594],'bordereau');"/>
+    <button label="Imprimer le bordereau" oncommand="Imprimer(TAB_GLOBAL_COMPO[211],'bordereau');"/>
   </arrowscrollbox>
 </hbox>
 </vbox>

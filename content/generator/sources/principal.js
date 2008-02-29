@@ -80,18 +80,18 @@ function CodeInPrincipal(centre){
     //***********************
     // COTISATIONS
     PersonneCotisation = It_Personne.AjouterComposantComplexe("Cotisations",new Array("pe_numero","pe_numero","cotisation"));
-    PersonneCotisation.AjouterColonne("Annee","po_annee");
-    PersonneCotisation.AjouterColonne("Annee","po_annee");
-    PersonneCotisation.AjouterColonne("Annee","po_annee");
-    PersonneCotisation.AjouterColonne("Annee","po_annee");
-    PersonneCotisation.AjouterColonne("Annee","po_annee");
-
+    PersonneCotisation.AjouterColonne("Année","cs_annee");
+    PersonneCotisation.AjouterColonne("Type","cs_type");
+    PersonneCotisation.AjouterColonne("FDSEA","cs_fdsea");
+    PersonneCotisation.AjouterColonne("SACEA","cs_sacea");
+    PersonneCotisation.AjouterColonne("AAVA","cs_aava");
+    PersonneCotisation.AjouterColonne("Total","cs_total");
 
     //***********************
     // ADHESION
-    /*
+/*    
     PersonneAdhesion = It_Personne.AjouterComposantComplexe("Adhésions",new Array("pe_numero","pe_numero","adhesion"));
-    PersonneAdhesion.AjouterColonne("Annee","po_annee", new Array("po_numero","po_numero","periode"));
+    PersonneAdhesion.AjouterColonne("Année","po_annee", new Array("po_numero","po_numero","periode"));
     PersonneAdhesion.AjouterColonne("Libellé","ah_libelle",new Array("ah_numero","ah_numero","adherence"));
     PersonneAdhesion.AjouterColonne("Du","po_debut", new Array("po_numero","po_numero","periode"));
     PersonneAdhesion.AjouterColonne("Au","po_fin", new Array("po_numero","po_numero","periode"));
@@ -330,8 +330,9 @@ function CodeInPrincipal(centre){
     PersonneFacture.AjouterColonne("Date","fa_date");
     PersonneFacture.AjouterColonne("Libellé","fa_libelle");
     PersonneFacture.AjouterColonne("Agent","ag_libelle",new Array("ag_numero","ag_numero","agent"));
-    PersonneFacture.AjouterColonne("Montant HT","fa_montantht");
-    PersonneFacture.AjouterColonne("Montant TTC","fa_montantttc");
+    PersonneFacture.AjouterColonne("HT","fa_montantht");
+    PersonneFacture.AjouterColonne("TTC","fa_montantttc");
+    PersonneFacture.AjouterColonne("Etat","fa_etat");
 
     //***********************
     // REGLEMENT
@@ -469,21 +470,19 @@ function CodeInPrincipal(centre){
 
     Maitre_Facture = It_Facture.AjouterMaitre("Liste des factures","facture");
     Maitre_Facture.AjouterColonne("N° Fact.","fa_numfact");
-    Maitre_Facture.AjouterColonne("N° Devis","de_numero");
+//    Maitre_Facture.AjouterColonne("N° Devis","de_numero");
     Maitre_Facture.AjouterColonne("Date","fa_date");
     //Maitre_Facture.AjouterColonne("Client","pe_libelle",new Array("pe_numero","pe_numero","personne"));
     Maitre_Facture.AjouterColonne("Agent","ag_initiales",new Array("ag_numero","ag_numero","agent"));
-    Maitre_Facture.AjouterColonne("Montant TTC","fa_montantttc");
+    Maitre_Facture.AjouterColonne("TTC","fa_montantttc");
+    Maitre_Facture.AjouterColonne("Etat","fa_etat");
 
-    It_Facture.AjouterBouton("Passer la facture en avoir","FactureVersAvoir",ComposantDansCode(Maitre_Facture));
-    It_Facture.AjouterBouton("Imprimer la facture","Imprimer",ComposantDansCode(Maitre_Facture)+",'facture'");
+    It_Facture.AjouterBouton("Passer en avoir","FactureVersAvoir",ComposantDansCode(Maitre_Facture));
+    It_Facture.AjouterBouton("En perte","FactureEnPerte",ComposantDansCode(Maitre_Facture));
+    It_Facture.AjouterBouton("Imprimer","Imprimer",ComposantDansCode(Maitre_Facture)+",'facture'");
     It_Facture.AjouterBouton("Factures CM","PrintLot","1,'facture'");
     It_Facture.AjouterBouton("Cartes CM","PrintLot","1,'carte'");
     It_Facture.AjouterBouton("Carte (Duplicata)","PrintDuplicata",ComposantDansCode(Maitre_Facture));
-
-//	window.openDialog('chrome://gestsea/content/gestsea/routage.xul', "showmore", "centerscreen,close=no,modal,chrome,scrollbars,resizable=no",Param);
-//    It_Facture.AjouterBouton("Joindre un groupe de routage...", "window.current_invoice = "+ComposantDansCode(Maitre_Facture)+".getCleVal(); alert(window.current_invoice); window.openDialog", "'chrome://gestsea/content/gestsea/routage.xul','showmore', 'centerscreen,close=no,modal,chrome,scrollbars,resizable=no', {current_invoice:"+ComposantDansCode(Maitre_Facture)+".getCleVal(), win:window.self}");
-
     It_Facture.AjouterBouton("Router un groupe...","GroupeRoutage",ComposantDansCode(Maitre_Facture));
     It_Facture.AjouterBouton("Supprimer les routages","SupprimeRoutage",ComposantDansCode(Maitre_Facture));
 
@@ -495,6 +494,7 @@ function CodeInPrincipal(centre){
     It_Facture.AjouterComposantSimple("Réduction","fa_reduction",null,null,LABEL);
     It_Facture.AjouterComposantSimple("Montant HT","fa_montantht",null,null,LABEL);
     It_Facture.AjouterComposantSimple("Montant TTC","fa_montantttc",null,null,LABEL);
+    It_Facture.AjouterComposantSimple("N°Devis d'origine","de_numero",null,null,LABEL);
     It_Facture.AjouterComposantSimple("Annotation","fa_annotation");
     
     //***********************

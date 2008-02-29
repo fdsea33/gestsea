@@ -622,11 +622,17 @@ ORDER BY rg_date, pe_libelle;
 --DROP VIEW VUE_PRINT_Carte;
 CREATE OR REPLACE VIEW VUE_PRINT_Carte AS
 SELECT 
-'fdsea'||(pe_numero-1000000) AS pe_login,                  -- 0
-pe_motdepasse,                   -- 1
-to_char(pe_numero-1000000,'FM099999') AS pe_numpersonne,                  -- 2
-substr(TRIM(COALESCE(PE_Titre||' ','')|| COALESCE(PE_Nom||' ','')|| COALESCE(PE_Prenom,'')),1,32) AS PE_Libelle, -- 3
+'fdsea'||(adherent.pe_numero-1000000) AS CK_login,                  -- 0
+adherent.pe_motdepasse as CK_password,                   -- 1
+to_char(adherent.pe_numero-1000000,'FM099999') AS ck_numpersonne,                  -- 2
+substr(TRIM(COALESCE(adherent.PE_Titre||' ','')||adherent.PE_Nom||COALESCE(' '||adherent.PE_Prenom,'')),1,26) AS ck_Libelle,--3
+conjoint.pe_numero IS NOT NULL OR societe.pe_numero IS NOT NULL AS ck_duo,
+CASE WHEN conjoint.pe_numero IS NOT NULL THEN to_char(conjoint.pe_numero-1000000,'FM099999') WHEN societe.pe_numero IS NOT NULL THEN to_char(societe.pe_numero-1000000,'FM099999') ELSE '---' END AS ck_numpersonne2,
+substr(TRIM(CASE WHEN conjoint.pe_numero IS NOT NULL THEN COALESCE(conjoint.PE_Titre||' ','')||conjoint.PE_Nom||COALESCE(' '||conjoint.PE_Prenom,'') WHEN societe.pe_numero IS NOT NULL THEN COALESCE(societe.PE_Titre||' ','')||societe.PE_Nom||COALESCE(' '||societe.PE_Prenom,'') ELSE '---' END),1,24) AS ck_libelle2,
 fa_numero                        -- 4
-FROM table_facture JOIN table_personne USING (pe_numero);
+FROM table_facture JOIN table_cotisation c ON (bml_extract(cs_detail,'fdsea.facture')=fa_numero)
+  LEFT JOIN table_personne adherent ON (c.pe_numero=adherent.pe_numero)
+  LEFT JOIN table_personne conjoint ON (bml_extract(cs_detail,'fdsea.conjoint.numero')=conjoint.pe_numero)
+  LEFT JOIN table_personne societe ON (bml_extract(cs_detail,'cotisation.societe')=societe.pe_numero);
 
 GRANT SELECT ON VUE_PRINT_Carte TO PUBLIC;

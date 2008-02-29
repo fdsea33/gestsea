@@ -745,13 +745,14 @@
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
   
-  <table name="Facture" abbrev="FA" label="Factures" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+  <table name="Facture" abbrev="FA" label="Factures" select="CASE WHEN fa_perte THEN 'En perte' ELSE '-' END AS fa_etat" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
     <column name="FA_Numero"     type="INTEGER"     notnull="true" pkey="true"></column>
     <column name="DE_Numero"     type="INTEGER"     notnull="true" fkey="Devis(DE_Numero)" opt="odrour">Devis qui a donné naissance à la facture</column>
     <column name="PE_Numero"     type="INTEGER"     notnull="true" fkey="Personne(PE_Numero)" opt="odrour"></column>
     <column name="AG_Numero"     type="INTEGER"     notnull="true" fkey="Agent(AG_Numero)" opt="odrour"></column>
     <column name="FA_NumFact"    type="INTEGER"     notnull="true">Numero de facture officiel</column>
     <column name="FA_Date"       type="DATE"        notnull="true" default="CURRENT_DATE"></column>
+    <column name="FA_Perte"      type="BOOLEAN"     notnull="true" default="false">Si la facture est passée en perte.</column>
     <column name="FA_Reduction"  type="NUMERIC"     notnull="true" default="0">Réduction appliqué sur le devis </column>
     <column name="FA_MontantHT"  type="NUMERIC(16,2)"     notnull="true" default="0">Montant Hors Taxe réduction comprise</column>
     <column name="FA_MontantTTC" type="NUMERIC(16,2)"     notnull="true" default="0">Montant Toutes Taxes Comprises réduction comprise</column>
@@ -1309,7 +1310,7 @@
   </table>
 
 
-  <table name="Cotisation" abbrev="CS" label="Cotisations">
+  <table name="Cotisation" abbrev="CS" label="Cotisations" select="CASE WHEN bml_extract(cs_detail,'sacea')='true' THEN 'A+' ELSE '' END AS cs_type, bml_extract(cs_detail,'fdsea.montant')||' ¤' as cs_fdsea, CASE WHEN bml_extract(cs_detail,'sacea.produit')='500000036' THEN '0-5 s.' WHEN bml_extract(cs_detail,'sacea.produit')='500000065' THEN '6-10 s.' ELSE '11+ s.' as cs_sacea, COALESCE(bml_extract(cs_detail,'aava.quantite')||' ex.','') as cs_aava, bml_extract(cs_detail,'cotisation.montant')||' ¤' as cs_total">
     <column name="CS_Numero"   type="SERIAL"      notnull="true" pkey="true"></column>
     <column name="PE_Numero"   type="INTEGER"     notnull="true" fkey="Personne(PE_Numero)" opt="odrouc"></column>
     <column name="IG_Numero"   type="INTEGER"     fkey="ImpressionGroupe(IG_Numero)" opt="odrouc">Impressions liées à la cotisation</column>
