@@ -3146,7 +3146,15 @@ clTabInterfaceSimple.prototype.GenererInterface=
 
     // top.document.getElementById("res").value+="/*********MAITRE XUL****************/"+StrXul;
     //top.document.getElementById("res").value+="/*********MAITRE JS ****************/"+StrJs;
-    top.document.getElementById("res").value+="--------------------------------\n";
+    top.document.getElementById("res").value+="--------------------------------";
+		
+    var filePath = SaveFile(MonNomFichier+'.xul',StrXul);
+    top.document.getElementById("res").value+="*";
+    SaveFile(MonNomFichier+'.js',StrJs, filePath, true);
+    top.document.getElementById("res").value+="*";
+    SaveFile(MonNomFichier+'_User.js',StrJsUser, filePath, true);
+    top.document.getElementById("res").value+="*\n";
+		/*
     if (AutoSave){
       SaveFileDirectly(MonNomFichier+'.xul',StrXul);
       SaveFileDirectly(MonNomFichier+'.js',StrJs);
@@ -3156,6 +3164,7 @@ clTabInterfaceSimple.prototype.GenererInterface=
       SaveFile(MonNomFichier+'.js',StrJs);
       SaveFile(MonNomFichier+'_User.js',StrJsUser);
     }
+		*/
 }
 
 //alert("GIL chargé");

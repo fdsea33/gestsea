@@ -1,6 +1,6 @@
 const permissions=0777;
 const nsIFilePicker = Components.interfaces.nsIFilePicker;
-const CheminAbs = "/nopath";
+var CheminAbs = "/";
 
 function OpenFileByOS(NomFichier) {
   try {
@@ -14,7 +14,7 @@ function OpenFileByOS(NomFichier) {
 }
 
 
-function SaveFile(NomFichier,Donnees) {
+function SaveFile(NomFichier,Donnees,defaultPath,autoSave) {
   try {
     netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
   } catch (e) {
@@ -22,23 +22,29 @@ function SaveFile(NomFichier,Donnees) {
   }
     
   var rep= Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
-  rep.initWithPath( CheminAbs );
+	if (defaultPath!=null) rep.initWithPath( defaultPath );
+	else rep.initWithPath( CheminAbs );
     
-  /* dialogue pour sauver le fichier */
-  var fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
-  fp.displayDirectory=rep;
-  fp.init(window, "Enregistrer", nsIFilePicker.modeSave);
-  fp.appendFilters(nsIFilePicker.filterAll);
-  fp.defaultString = NomFichier;
-    
-  var rv = fp.show();
   var file;
-  if (rv == nsIFilePicker.returnOK || rv == nsIFilePicker.returnReplace) {
-    file = fp.file;
-    // work with returned nsILocalFile...
-  } else return null;
-    
+	if (autoSave!=true) {
+	  /* dialogue pour sauver le fichier */
+	  var fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
+  	fp.displayDirectory=rep;
+  	fp.init(window, "Enregistrer", nsIFilePicker.modeSave);
+  	fp.appendFilters(nsIFilePicker.filterAll);
+  	fp.defaultString = NomFichier;
+	  var rv = fp.show();
+	  if (rv == nsIFilePicker.returnOK || rv == nsIFilePicker.returnReplace) {
+	    file = fp.file;
+	    // work with returned nsILocalFile...
+	  } else return null;
+	} else {
+		file = rep.parent;
+		file.append(NomFichier);
+	}
   var path=file.path;
+
+	CheminAbs = file.parent.path;
     
   //  var file = Components.classes["@mozilla.org/file/local;1"]
   //    .createInstance(Components.interfaces.nsILocalFile);
@@ -79,6 +85,7 @@ function SaveFile(NomFichier,Donnees) {
   outputStream.init( file, 0x04 | 0x08 | 0x20, permissions, 0 );
   var result = outputStream.write( Donnees, Donnees.length );
   outputStream.close();
+	return path;
 }
 
 //function SaveFileDirectly(NomFichier,Donnees) {
