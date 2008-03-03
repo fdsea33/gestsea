@@ -149,6 +149,7 @@ function mcd_getSequence(t) {
     <xsl:choose>
       <xsl:when test="contains(@type,'VARCHAR')">TYPE_STRING</xsl:when>
       <xsl:when test="contains(@type,'CHAR')">TYPE_STRING</xsl:when>
+      <xsl:when test="@type='TEXT'">TYPE_STRING</xsl:when>
       <xsl:when test="@type='INTEGER'">TYPE_INT</xsl:when>
       <xsl:when test="@type='INT4'">TYPE_INT</xsl:when>
       <xsl:when test="@type='FLOAT'">TYPE_FLOAT</xsl:when>

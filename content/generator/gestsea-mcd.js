@@ -433,11 +433,11 @@ function mcd_getType(table,champs)
         case 'ig_numero': type=TYPE_INT;break;
         case 'cs_standard': type=TYPE_BOOL;break;
         case 'cs_annee': type=TYPE_INT;break;
-        case 'cs_detail': type=TYPE_UNKNOWN;break;
+        case 'cs_detail': type=TYPE_STRING;break;
         case 'cs_duo': type=TYPE_BOOL;break;
         case 'cs_done': type=TYPE_BOOL;break;
         case 'cs_valid': type=TYPE_BOOL;break;
-        case 'cs_report': type=TYPE_UNKNOWN;break;
+        case 'cs_report': type=TYPE_STRING;break;
         case 'created_at': type=TYPE_DATETIME;break;
         case 'created_by': type=TYPE_STRING;break;
         case 'updated_at': type=TYPE_DATETIME;break;
@@ -939,7 +939,7 @@ function mcd_getType(table,champs)
       switch(champs.toLowerCase()){
         case 'lr_numero': type=TYPE_INT;break;
         case 'lr_indice': type=TYPE_INT;break;
-        case 'lr_commentaire': type=TYPE_UNKNOWN;break;
+        case 'lr_commentaire': type=TYPE_STRING;break;
         case 'em_numero': type=TYPE_INT;break;
         case 'lr_montant': type=TYPE_FLOAT;break;
         case 'lr_date': type=TYPE_DATE;break;
