@@ -48,6 +48,7 @@ CREATE INDEX idx_table_contactversion_ck_numero ON table_contactversion(ck_numer
 CREATE INDEX idx_table_contactversion_pe_numero ON table_contactversion(pe_numero);
 CREATE INDEX idx_table_contactversion_cn_numero ON table_contactversion(cn_numero);
 CREATE INDEX idx_table_cotisation_pe_numero ON table_cotisation(pe_numero);
+CREATE INDEX idx_table_cotisation_cs_societe ON table_cotisation(cs_societe);
 CREATE INDEX idx_table_cotisation_ig_numero ON table_cotisation(ig_numero);
 CREATE INDEX idx_table_devis_pe_numero ON table_devis(pe_numero);
 CREATE INDEX idx_table_devis_so_numero ON table_devis(so_numero);
@@ -539,6 +540,11 @@ ALTER TABLE "table_contactversion"
 ALTER TABLE "table_cotisation"
   ADD CONSTRAINT fk_table_cotisation_pe_numero
   FOREIGN KEY (pe_numero) REFERENCES table_Personne(PE_Numero)
+    ON DELETE RESTRICT 
+    ON UPDATE CASCADE;
+ALTER TABLE "table_cotisation"
+  ADD CONSTRAINT fk_table_cotisation_cs_societe
+  FOREIGN KEY (cs_societe) REFERENCES table_Personne(PE_Numero)
     ON DELETE RESTRICT 
     ON UPDATE CASCADE;
 ALTER TABLE "table_cotisation"

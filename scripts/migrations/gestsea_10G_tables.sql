@@ -174,6 +174,8 @@ ALTER TABLE "table_contactversion"
 ALTER TABLE "table_cotisation"
   DROP CONSTRAINT fk_table_cotisation_pe_numero;
 ALTER TABLE "table_cotisation"
+  DROP CONSTRAINT fk_table_cotisation_cs_societe;
+ALTER TABLE "table_cotisation"
   DROP CONSTRAINT fk_table_cotisation_ig_numero;
 ALTER TABLE "table_devis"
   DROP CONSTRAINT fk_table_devis_pe_numero;
@@ -1734,6 +1736,7 @@ CREATE TABLE "table_cotisation"
 (
   "cs_numero" SERIAL,
   "pe_numero" INTEGER,
+  "cs_societe" INTEGER,
   "ig_numero" INTEGER,
   "cs_standard" BOOLEAN,
   "cs_annee" INTEGER,

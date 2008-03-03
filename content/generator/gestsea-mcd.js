@@ -430,6 +430,7 @@ function mcd_getType(table,champs)
       switch(champs.toLowerCase()){
         case 'cs_numero': type=TYPE_UNKNOWN;break;
         case 'pe_numero': type=TYPE_INT;break;
+        case 'cs_societe': type=TYPE_INT;break;
         case 'ig_numero': type=TYPE_INT;break;
         case 'cs_standard': type=TYPE_BOOL;break;
         case 'cs_annee': type=TYPE_INT;break;
@@ -1997,6 +1998,7 @@ function mcd_getLabel(table,champs)
       switch(champs.toLowerCase()){
         case 'cs_numero': label="";break;
         case 'pe_numero': label="";break;
+        case 'cs_societe': label="";break;
         case 'ig_numero': label="";break;
         case 'cs_standard': label="";break;
         case 'cs_annee': label="";break;
@@ -3561,6 +3563,7 @@ function mcd_obligatoire(table,champs)
       switch(champs.toLowerCase()){
         case 'cs_numero': obligatoire=true;break;
         case 'pe_numero': obligatoire=true;break;
+        case 'cs_societe': obligatoire=false;break;
         case 'ig_numero': obligatoire=false;break;
         case 'cs_standard': obligatoire=true;break;
         case 'cs_annee': obligatoire=true;break;

@@ -2169,7 +2169,7 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 CREATE OR REPLACE FUNCTION FC_cotisation_vers_facture(IN num_cotisation INTEGER) RETURNS BOOLEAN AS
 $$
 DECLARE
---  num_personne personne.pe_numero%TYPE;
+  num_gerance personne.pe_numero%TYPE;
   num_payeur personne.pe_numero%TYPE;
 --  num_societe societe.so_numero%TYPE;
   num_service service.se_numero%TYPE;
@@ -2254,6 +2254,8 @@ BEGIN
     UPDATE table_cotisation SET cs_valid = false, cs_report=report WHERE cs_numero=num_cotisation;
     RETURN false;
   END IF;
+
+  SELECT pe_numero FROM table_personne WHERE bml_extract(detail, 'cotisation.societe')=pe_numero::text INTO num_gerance;
 
   -- Sauvegarde du statut de l'utilisateur
   SELECT EM_Service, EM_Numero FROM Employe WHERE em_login=CURRENT_USER INTO num_service, num_employe;
@@ -2411,7 +2413,7 @@ BEGIN
 
   UPDATE employe SET EM_Service=num_service WHERE EM_Numero=num_employe;
   report := report||E'\n**************';
-  UPDATE table_cotisation SET cs_valid=true, cs_done=true, cs_report=report, cs_detail=bml_sort(detail) WHERE cs_numero=num_cotisation;
+  UPDATE table_cotisation SET cs_valid=true, cs_done=true, cs_report=report, cs_detail=bml_sort(detail), cs_societe=num_gerance WHERE cs_numero=num_cotisation;
   RETURN true;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;

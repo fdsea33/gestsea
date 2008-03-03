@@ -336,7 +336,7 @@ CREATE OR REPLACE VIEW "impressiondocument" AS
      FROM "table_impressiondocument";
 
 CREATE OR REPLACE VIEW "cotisation" AS
-   SELECT table_cotisation.cs_numero, table_cotisation.pe_numero, table_cotisation.ig_numero, table_cotisation.cs_standard, table_cotisation.cs_annee, table_cotisation.cs_detail, table_cotisation.cs_duo, table_cotisation.cs_done, table_cotisation.cs_valid, table_cotisation.cs_report, table_cotisation.created_at, table_cotisation.created_by, table_cotisation.updated_at, table_cotisation.updated_by, table_cotisation.lock_version, table_cotisation.id 
+   SELECT table_cotisation.cs_numero, table_cotisation.pe_numero, table_cotisation.cs_societe, table_cotisation.ig_numero, table_cotisation.cs_standard, table_cotisation.cs_annee, table_cotisation.cs_detail, table_cotisation.cs_duo, table_cotisation.cs_done, table_cotisation.cs_valid, table_cotisation.cs_report, table_cotisation.created_at, table_cotisation.created_by, table_cotisation.updated_at, table_cotisation.updated_by, table_cotisation.lock_version, table_cotisation.id 
      FROM "table_cotisation";
 
 CREATE OR REPLACE VIEW "droitprofil" AS
@@ -591,10 +591,10 @@ CREATE OR REPLACE RULE rule_contactversion_delete AS
 
 CREATE OR REPLACE RULE rule_cotisation_insert AS
   ON INSERT TO "cotisation"
-  DO INSTEAD INSERT INTO "table_cotisation"(cs_numero, pe_numero, ig_numero, cs_standard, cs_annee, cs_detail, cs_duo, cs_done, cs_valid, cs_report, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (new.cs_numero, new.pe_numero, new.ig_numero, COALESCE(NEW.cs_standard,false), new.cs_annee, COALESCE(NEW.cs_detail,'{saved:false}'), COALESCE(NEW.cs_duo,false), COALESCE(NEW.cs_done,false), COALESCE(NEW.cs_valid,false), new.cs_report, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
+  DO INSTEAD INSERT INTO "table_cotisation"(cs_numero, pe_numero, cs_societe, ig_numero, cs_standard, cs_annee, cs_detail, cs_duo, cs_done, cs_valid, cs_report, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (new.cs_numero, new.pe_numero, new.cs_societe, new.ig_numero, COALESCE(NEW.cs_standard,false), new.cs_annee, COALESCE(NEW.cs_detail,'{saved:false}'), COALESCE(NEW.cs_duo,false), COALESCE(NEW.cs_done,false), COALESCE(NEW.cs_valid,false), new.cs_report, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
 CREATE OR REPLACE RULE rule_cotisation_update AS
   ON UPDATE TO "cotisation"
-  DO INSTEAD UPDATE "table_cotisation" SET cs_numero=new.cs_numero, pe_numero=new.pe_numero, ig_numero=new.ig_numero, cs_standard=COALESCE(NEW.cs_standard,false), cs_annee=new.cs_annee, cs_detail=COALESCE(NEW.cs_detail,'{saved:false}'), cs_duo=COALESCE(NEW.cs_duo,false), cs_done=COALESCE(NEW.cs_done,false), cs_valid=COALESCE(NEW.cs_valid,false), cs_report=new.cs_report, created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.CS_Numero=CS_Numero;
+  DO INSTEAD UPDATE "table_cotisation" SET cs_numero=new.cs_numero, pe_numero=new.pe_numero, cs_societe=new.cs_societe, ig_numero=new.ig_numero, cs_standard=COALESCE(NEW.cs_standard,false), cs_annee=new.cs_annee, cs_detail=COALESCE(NEW.cs_detail,'{saved:false}'), cs_duo=COALESCE(NEW.cs_duo,false), cs_done=COALESCE(NEW.cs_done,false), cs_valid=COALESCE(NEW.cs_valid,false), cs_report=new.cs_report, created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.CS_Numero=CS_Numero;
 CREATE OR REPLACE RULE rule_cotisation_delete AS
   ON DELETE TO "cotisation"
   DO INSTEAD DELETE FROM "table_cotisation" WHERE old.CS_Numero=CS_Numero;
