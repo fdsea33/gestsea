@@ -107,6 +107,23 @@ $$ UPDATE Devis SET DE_MontantHT=ROUND(T.MontantHT,2), DE_MontantTTC=ROUND(T.Mon
   RETURN true;
 */
 
+--===========================================================================--
+-- Procedure permettant de calculer le taux de réduction d'une personne à une date d
+--DROP FUNCTION FC_Personne_Reduction(INTEGER,DATE);
+
+CREATE OR REPLACE FUNCTION FC_Personne_Reduction(IN num_personne INTEGER, IN computed_on DATE) RETURNS NUMERIC AS
+$$ 
+DECLARE
+  ret NUMERIC;
+  annee INTEGER;
+BEGIN
+--  RAISE EXCEPTION 'Le calcul de réduction est en cours de développement.';
+  SELECT EXTRACT(YEAR FROM computed_on) INTO annee;
+  SELECT COALESCE(MAX(ah_reduction),0.00) FROM vue_adhesion WHERE (cs_personne=num_personne OR cs_societe=num_personne) AND cs_annee=annee INTO ret;
+--  SELECT COALESCE(MAX(ah_reduction),0.00) FROM lignefacture JOIN vue_cotisation ON (fa_numero=bml_extract(cs_detail,'sacea.facture')) JOIN adherence USING (pd_numero) WHERE pe_numero=num_personne AND EXTRACT(YEAR FROM computed_on)=cs_annee INTO ret;
+  RETURN ret;
+END;
+$$ LANGUAGE 'plpgsql';
 
 --===========================================================================--
 -- Calcule la premiere date utilisable d'un journal à partir d'un mois et d'une année
@@ -135,7 +152,7 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 -- Cette fonction ne peut être utilisée que par les administrateurs de la base de données.         --
 -- Note cette fonction peut-être adaptée pour tout le monde en passsant par une vue.
 --DROP FUNCTION FC_MAJ_Adhesion();
-
+/*
 CREATE OR REPLACE FUNCTION FC_MAJ_Adhesion() RETURNS integer AS
 $$
 BEGIN
@@ -147,7 +164,7 @@ BEGIN
   RETURN 0;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
-
+*/
 
 --===========================================================================--
 -- Met à jour les totaux debit/crédit des pièces et journaux
@@ -552,8 +569,16 @@ CREATE OR REPLACE FUNCTION TG_Devis_validation() RETURNS TRIGGER AS
 $$
 DECLARE
   superuser boolean;
+  compte INTEGER;
 BEGIN 
+  SELECT usesuper FROM pg_user WHERE usename=CURRENT_USER INTO superuser;
   IF TG_OP='INSERT' THEN
+    IF NOT superuser THEN
+      SELECT count(*) FROM estlie WHERE tl_numero=1003 AND el_personne1=NEW.pe_numero INTO compte;
+      IF compte>0 THEN
+        RAISE EXCEPTION 'La personne possède une société, il vous faut donc utiliser la société pour faire un devis.\nMerci de votre compréhension.\n\nConseil : Pour trouver la société, allez voir dans l''onglet des liens.';
+      END IF;
+    END IF;
     SELECT current_societe() INTO NEW.SO_Numero;
   END IF;
   IF NEW.em_numero IS NULL THEN
@@ -563,8 +588,9 @@ BEGIN
       NEW.em_numero = OLD.em_numero;
     END IF;
   END IF;
-  SELECT usesuper FROM pg_user WHERE usename=CURRENT_USER INTO superuser;
   IF (TG_OP='INSERT' AND NOT NEW.de_locked) OR (TG_OP='UPDATE' AND NOT superuser) THEN
+    SELECT FC_Personne_Reduction(NEW.PE_Numero, CURRENT_DATE) INTO NEW.DE_Reduction;
+/*
     SELECT COALESCE(MAX(AS_ReductionMax),0.00)
       FROM Adhesion JOIN Adherence USING (AH_Numero)
                     JOIN Periode USING (PO_Numero)
@@ -572,6 +598,7 @@ BEGIN
       WHERE (NEW.DE_Date BETWEEN PO_Debut AND PO_Fin) AND PE_Numero=New.PE_Numero 
         AND SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)
       INTO NEW.DE_Reduction;
+*/
   END IF;
   RETURN NEW;
 END;
@@ -1424,11 +1451,12 @@ BEGIN
       from ligne where de_numero = num_devis;
 
 -- Mise à jour des adhésions
+/*
   INSERT INTO Adhesion (as_reductionmax,pe_numero,po_numero,ah_numero,fa_numero,lf_numero, as_origine)
     SELECT ah_reduction, pe_numero, po_numero, ah_numero, fa_numero, lf_numero, as_origine
       FROM VUE_Adhesion
       WHERE FA_Numero=num_facture;
-
+*/
 -- Verrouillage le devis
   UPDATE devis SET de_locked=true WHERE de_numero=num_devis;
  return num_facture;
@@ -2130,59 +2158,6 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 
 
 
-
-
-
---===========================================================================--
--- Procedure permettant d'extraire une valeur d'un fichier au format BML(Brice Meta Language)
--- SELECT SUBSTRING('{saved:false.,}{tutu:456, SDSD' FROM '%{titi:#"_[^}]*#"}%' FOR '#');
--- les mots clé sont sous la forme [a-z0-9.]*[a-z0-9]+-
-
--- Fonctions BML (Brice Meta Language)
-
--- DROP FUNCTION bml_extract(TEXT, TEXT);
--- substring('{toto:asdflkslf}{titi:bsdfsfssd}{tutu:csdfsfd}' FROM '{tutu:(.[^}]*)}');
-
-CREATE OR REPLACE FUNCTION bml_extract(IN detail TEXT, IN keyword TEXT) RETURNS TEXT AS
-$$ SELECT substring($1 FROM '{'||TRIM(LOWER($2)||':(.[^}{]*)}')) $$ LANGUAGE SQL IMMUTABLE;
-
-CREATE OR REPLACE FUNCTION bml_delete(IN detail TEXT, IN keyword TEXT) RETURNS TEXT AS
-$$ SELECT REPLACE(regexp_replace($1,'{'||TRIM(LOWER($2))||':.[^}{]*}','','g'),E'\n\n',E'\n') $$ LANGUAGE SQL IMMUTABLE;
-
-CREATE OR REPLACE FUNCTION bml_put(IN detail TEXT, IN keyword TEXT, IN val TEXT) RETURNS TEXT AS
-$$ SELECT bml_delete($1,$2)||'{'||TRIM(LOWER(COALESCE($2,'unknown')))||':'||COALESCE($3,'')||E'}\n' $$ LANGUAGE SQL IMMUTABLE;
-
-CREATE OR REPLACE FUNCTION bml_sort(IN detail0 TEXT) RETURNS TEXT AS
-$$
-DECLARE
-	detail TEXT;
-  bml TEXT[]; 
-  tablename TEXT;
-  sorted TEXT;
-  i INTEGER;
-BEGIN
-	detail := detail0;
-	LOOP
-		IF NOT detail LIKE E'%\n\n%' THEN
-			EXIT;
-		END IF;
-		SELECT REPLACE(detail, E'\n\n', E'\n') INTO detail;
-	END LOOP;
-  bml := string_to_array(TRIM(TRIM(TRIM(TRIM(detail,E'\n'),'}'),E'\n'),'{'),E'}\n{');
-	IF array_upper(bml,1)>1 THEN
-	  tablename :=  'bml_sort_'||MD5(current_timestamp||RANDOM());
-  	EXECUTE 'CREATE TEMPORARY TABLE '||tablename||' (keyword TEXT, val TEXT);';
-  	FOR i IN array_lower(bml,1)..array_upper(bml,1) LOOP
-  	  EXECUTE 'INSERT INTO '||tablename||' VALUES ('''||SUBSTRING(bml[i] FROM '.[^:]*')||''','''||SUBSTR(SUBSTRING(bml[i] FROM ':.*'),2)||''');';
-	  END LOOP;
-  	EXECUTE E'SELECT concatenate(''{''||LOWER(TRIM(keyword))||'':''||val||E''}\\n'') FROM (SELECT * FROM '||tablename||' ORDER BY keyword) x;' INTO sorted;
-	  EXECUTE 'DROP TABLE '||tablename||';';
-	ELSE
-		sorted := detail;
-	END IF;
-  RETURN sorted;
-END; 
-$$ LANGUAGE PLPGSQL VOLATILE;
 
 
 

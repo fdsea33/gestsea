@@ -14,6 +14,64 @@ CREATE AGGREGATE concatenate (
 );
 
 
+
+
+
+--===========================================================================--
+-- Procedure permettant d'extraire une valeur d'un fichier au format BML(Brice Meta Language)
+-- SELECT SUBSTRING('{saved:false.,}{tutu:456, SDSD' FROM '%{titi:#"_[^}]*#"}%' FOR '#');
+-- les mots clé sont sous la forme [a-z0-9.]*[a-z0-9]+-
+
+-- Fonctions BML (Brice Meta Language)
+
+-- DROP FUNCTION bml_extract(TEXT, TEXT);
+-- substring('{toto:asdflkslf}{titi:bsdfsfssd}{tutu:csdfsfd}' FROM '{tutu:(.[^}]*)}');
+
+CREATE OR REPLACE FUNCTION bml_extract(IN detail TEXT, IN keyword TEXT) RETURNS TEXT AS
+$$ SELECT substring($1 FROM '{'||TRIM(LOWER($2)||':(.[^}{]*)}')) $$ LANGUAGE SQL IMMUTABLE;
+
+CREATE OR REPLACE FUNCTION bml_delete(IN detail TEXT, IN keyword TEXT) RETURNS TEXT AS
+$$ SELECT REPLACE(regexp_replace($1,'{'||TRIM(LOWER($2))||':.[^}{]*}','','g'),E'\n\n',E'\n') $$ LANGUAGE SQL IMMUTABLE;
+
+CREATE OR REPLACE FUNCTION bml_put(IN detail TEXT, IN keyword TEXT, IN val TEXT) RETURNS TEXT AS
+$$ SELECT bml_delete($1,$2)||'{'||TRIM(LOWER(COALESCE($2,'unknown')))||':'||COALESCE($3,'')||E'}\n' $$ LANGUAGE SQL IMMUTABLE;
+
+CREATE OR REPLACE FUNCTION bml_sort(IN detail0 TEXT) RETURNS TEXT AS
+$$
+DECLARE
+	detail TEXT;
+  bml TEXT[]; 
+  tablename TEXT;
+  sorted TEXT;
+  i INTEGER;
+BEGIN
+	detail := detail0;
+	LOOP
+		IF NOT detail LIKE E'%\n\n%' THEN
+			EXIT;
+		END IF;
+		SELECT REPLACE(detail, E'\n\n', E'\n') INTO detail;
+	END LOOP;
+  bml := string_to_array(TRIM(TRIM(TRIM(TRIM(detail,E'\n'),'}'),E'\n'),'{'),E'}\n{');
+	IF array_upper(bml,1)>1 THEN
+	  tablename :=  'bml_sort_'||MD5(current_timestamp||RANDOM());
+  	EXECUTE 'CREATE TEMPORARY TABLE '||tablename||' (keyword TEXT, val TEXT);';
+  	FOR i IN array_lower(bml,1)..array_upper(bml,1) LOOP
+  	  EXECUTE 'INSERT INTO '||tablename||' VALUES ('''||SUBSTRING(bml[i] FROM '.[^:]*')||''','''||SUBSTR(SUBSTRING(bml[i] FROM ':.*'),2)||''');';
+	  END LOOP;
+  	EXECUTE E'SELECT concatenate(''{''||LOWER(TRIM(keyword))||'':''||val||E''}\\n'') FROM (SELECT * FROM '||tablename||' ORDER BY keyword) x;' INTO sorted;
+	  EXECUTE 'DROP TABLE '||tablename||';';
+	ELSE
+		sorted := detail;
+	END IF;
+  RETURN sorted;
+END; 
+$$ LANGUAGE PLPGSQL VOLATILE;
+
+
+
+
+
 /*****************************************************************************
  * Vues de base                                                              *
  *****************************************************************************/
@@ -239,7 +297,7 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 --===========================================================================--
 -- Permet de voir les abonnes
 --DROP VIEW VUE_Adhesion;
-
+/*
 CREATE OR REPLACE VIEW VUE_Adhesion AS
   SELECT ah_reduction, CASE WHEN el_personne1 IS NULL OR el_personne2 IS NULL THEN pe_numero WHEN el_personne1=pe_numero THEN el_personne2 ELSE el_personne1 END AS pe_numero, po_numero, ah_numero, fa_numero, lf_numero, pe_numero AS as_origine
     FROM table_lignefacture JOIN table_facture USING (fa_numero)
@@ -249,6 +307,7 @@ CREATE OR REPLACE VIEW VUE_Adhesion AS
       LEFT JOIN table_estlie el ON (ah.tl_numero=el.tl_numero AND ah.tl_numero IS NOT NULL AND AH_Cascade AND ((AH_LienDirect AND el_personne2=pe_numero) OR (AH_LienIndirect AND el_personne1=pe_numero)))
      WHERE fa_numero NOT IN (SELECT fa_numero FROM table_avoir WHERE fa_numero is not null)
        AND FA_Date BETWEEN PO_Debut AND PO_Fin;
+*/
 /*
     FROM table_facture LEFT JOIN table_avoir USING (FA_Numero)
                        LEFT JOIN table_lignefacture USING (FA_Numero)
@@ -258,6 +317,31 @@ CREATE OR REPLACE VIEW VUE_Adhesion AS
     WHERE av_numero IS NULL AND AH_Numero IS NOT NULL AND PO_Numero=FC_DernierePeriode(FA_Date, AH_Numero);--PO_Debut<=FA_Date AND FA_Date<=PO_Fin;
 */
 
+--DROP VIEW vue_adhesion;
 
+CREATE OR REPLACE VIEW vue_adhesion AS
+  SELECT cs_numero, cs_annee, pe_numero AS cs_personne, NULLIF(NULLIF(bml_extract(cs_detail,'cotisation.societe'),'null'),0) AS cs_societe, ah_reduction FROM table_lignefacture JOIN table_cotisation ON (fa_numero=bml_extract(cs_detail,'sacea.facture')) JOIN table_adherence USING (pd_numero);
+
+/*
+CREATE OR REPLACE VIEW vue_ad2 AS
+  SELECT cs_numero, cs_annee, pe_numero, ah_reduction FROM table_lignefacture JOIN table_cotisation ON (fa_numero=bml_extract(cs_detail,'sacea.facture')) JOIN table_adherence USING (pd_numero)
+  UNION ALL
+  SELECT cs_numero, cs_annee, bml_extract(cs_detail,'cotisation.societe')::integer AS pe_numero, ah_reduction FROM table_lignefacture JOIN table_cotisation ON (fa_numero=bml_extract(cs_detail,'sacea.facture')) JOIN table_adherence USING (pd_numero) WHERE  bml_extract(cs_detail,'cotisation.societe')!='null';
+*/
 --===========================================================================--
 --
+
+--DROP VIEW VUe_Cotisation_All;
+
+CREATE OR REPLACE VIEW VUE_Cotisation_All AS
+  SELECT cs_numero, cs_annee, pe_numero, cs_detail FROM table_cotisation
+  UNION ALL
+  SELECT cs_numero, cs_annee, COALESCE(bml_extract(cs_detail,'cotisation.societe')::integer,0) AS pe_numero, cs_detail FROM table_cotisation WHERE bml_extract(cs_detail,'cotisation.societe')!='null';
+
+--DROP VIEW VUe_Cotisation;
+
+CREATE OR REPLACE VIEW VUE_Cotisation AS
+SELECT cs_numero AS cle, cs_annee, pe_numero, cs_detail, CASE WHEN bml_extract(cs_detail,'sacea')='true' THEN 'A+' ELSE '' END AS cs_type, bml_extract(cs_detail,'fdsea.montant')||' €' as cs_fdsea, CASE WHEN bml_extract(cs_detail,'sacea.produit')='500000036' THEN '0-5 s.' WHEN bml_extract(cs_detail,'sacea.produit')='500000065' THEN '6-10 s.' ELSE '11+ s.' END as cs_sacea, COALESCE(bml_extract(cs_detail,'aava.quantite')::float::text||' ex.','') as cs_aava, bml_extract(cs_detail,'cotisation.montant')||' €' as cs_total
+  FROM vue_cotisation_all c;
+
+

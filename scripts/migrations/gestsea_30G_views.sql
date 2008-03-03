@@ -336,7 +336,7 @@ CREATE OR REPLACE VIEW "impressiondocument" AS
      FROM "table_impressiondocument";
 
 CREATE OR REPLACE VIEW "cotisation" AS
-   SELECT table_cotisation.cs_numero, table_cotisation.pe_numero, table_cotisation.ig_numero, table_cotisation.cs_standard, table_cotisation.cs_annee, table_cotisation.cs_detail, table_cotisation.cs_duo, table_cotisation.cs_done, table_cotisation.cs_valid, table_cotisation.cs_report, table_cotisation.created_at, table_cotisation.created_by, table_cotisation.updated_at, table_cotisation.updated_by, table_cotisation.lock_version, table_cotisation.id, CASE WHEN bml_extract(cs_detail,'sacea')='true' THEN 'A+' ELSE '' END AS cs_type, bml_extract(cs_detail,'fdsea.montant')||' €' as cs_fdsea, CASE WHEN bml_extract(cs_detail,'sacea.produit')='500000036' THEN '0-5 s.' WHEN bml_extract(cs_detail,'sacea.produit')='500000065' THEN '6-10 s.' ELSE '11+ s.' as cs_sacea, COALESCE(bml_extract(cs_detail,'aava.quantite')||' ex.','') as cs_aava, bml_extract(cs_detail,'cotisation.montant')||' €' as cs_total 
+   SELECT table_cotisation.cs_numero, table_cotisation.pe_numero, table_cotisation.ig_numero, table_cotisation.cs_standard, table_cotisation.cs_annee, table_cotisation.cs_detail, table_cotisation.cs_duo, table_cotisation.cs_done, table_cotisation.cs_valid, table_cotisation.cs_report, table_cotisation.created_at, table_cotisation.created_by, table_cotisation.updated_at, table_cotisation.updated_by, table_cotisation.lock_version, table_cotisation.id 
      FROM "table_cotisation";
 
 CREATE OR REPLACE VIEW "droitprofil" AS

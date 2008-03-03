@@ -1,6 +1,6 @@
 const permissions=0777;
 const nsIFilePicker = Components.interfaces.nsIFilePicker;
-var CheminAbs = "/";
+var CheminAbs = "/nopath";
 
 function OpenFileByOS(NomFichier) {
   try {

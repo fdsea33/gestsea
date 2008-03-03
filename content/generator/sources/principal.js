@@ -79,23 +79,23 @@ function CodeInPrincipal(centre){
 
     //***********************
     // COTISATIONS
-/*
-    PersonneCotisation = It_Personne.AjouterComposantComplexe("Cotisations",new Array("pe_numero","pe_numero","cotisation"));
+    PersonneCotisation = It_Personne.AjouterComposantComplexe("Cotisations",new Array("pe_numero","pe_numero","vue_cotisation"));
     PersonneCotisation.AjouterColonne("Année","cs_annee");
     PersonneCotisation.AjouterColonne("Type","cs_type");
     PersonneCotisation.AjouterColonne("FDSEA","cs_fdsea");
     PersonneCotisation.AjouterColonne("SACEA","cs_sacea");
     PersonneCotisation.AjouterColonne("AAVA","cs_aava");
     PersonneCotisation.AjouterColonne("Total","cs_total");
-*/
+
     //***********************
-    // ADHESION    
+    // ADHESION
+/*
     PersonneAdhesion = It_Personne.AjouterComposantComplexe("Adhésions",new Array("pe_numero","pe_numero","adhesion"));
     PersonneAdhesion.AjouterColonne("Année","po_annee", new Array("po_numero","po_numero","periode"));
     PersonneAdhesion.AjouterColonne("Libellé","ah_libelle",new Array("ah_numero","ah_numero","adherence"));
     PersonneAdhesion.AjouterColonne("Du","po_debut", new Array("po_numero","po_numero","periode"));
     PersonneAdhesion.AjouterColonne("Au","po_fin", new Array("po_numero","po_numero","periode"));
-
+*/
     //***********************
     // OBSERVATION
     PersonneObservation = It_Personne.AjouterComposantComplexe("Observations",new Array("pe_numero","pe_numero","observation"));
