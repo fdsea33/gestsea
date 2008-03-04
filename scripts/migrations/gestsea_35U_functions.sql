@@ -3068,3 +3068,50 @@ UPDATE table_cotisation SET cs_detail = bml_put(cs_detail,'cotisation.montant', 
 */
 
 
+CREATE OR REPLACE FC_AjouterJA(IN num_personne INTEGER) RETURNS BOOLEAN AS
+DECLARE
+  num_service service.se_numero%TYPE;
+  num_employe employe.em_numero%TYPE;
+  num_devis       devis.de_numero%TYPE;
+  num_devis_sacea devis.de_numero%TYPE;
+  num_devis_aava  devis.de_numero%TYPE;
+  num_facture_sacea facture.fa_numero%TYPE;
+  num_facture_aava  facture.fa_numero%TYPE;
+BEGIN
+  -- Sauvegarde du statut de l'utilisateur
+  SELECT EM_Service, EM_Numero FROM Employe WHERE em_login=CURRENT_USER INTO num_service, num_employe;
+
+  -- Devis SACEA
+  UPDATE employe SET EM_Service=SE_Numero FROM service WHERE employe.EM_Numero=num_employe AND SE_Societe=1;
+  SELECT nextval('seq_devis') INTO num_devis;
+  INSERT INTO devis(de_numero, pe_numero, de_libelle, em_numero) SELECT num_devis, num_personne, '[JA] Abonnement conseil du '||CURRENT_DATE, current_employe();
+  INSERT INTO ligne (de_numero, pd_numero) VALUES (num_devis, 500000123);
+  num_devis_sacea := num_devis;
+
+  -- Devis AAVA
+  UPDATE employe SET EM_Service=SE_Numero FROM service WHERE employe.EM_Numero=num_employe AND SE_Societe=3;
+  SELECT nextval('seq_devis') INTO num_devis;
+  INSERT INTO devis(de_numero, pe_numero, de_libelle, em_numero) SELECT num_devis, num_personne, '[JA] Abonnement du '||CURRENT_DATE,  current_employe();
+  INSERT INTO ligne (de_numero, pd_numero, l_quantite) VALUES (num_devis, 500000109, 1);
+  num_devis_aava := num_devis;
+
+  -- Facturation
+  UPDATE employe SET EM_Service=SE_Numero FROM service WHERE employe.EM_Numero=num_employe AND SE_Societe=1;
+  SELECT FC_DevisVersFacture(num_devis_sacea) INTO num_facture_sacea;
+
+  UPDATE employe SET EM_Service=SE_Numero FROM service WHERE employe.EM_Numero=num_employe AND SE_Societe=3;
+  SELECT FC_DevisVersFacture(num_devis_aava) INTO num_facture_aava;
+  
+  INSERT INTO routage (pe_numero, ad_numero, ro_debutservice, ro_finservice, fa_numero) 
+    SELECT pe_numero, a.ad_numero, MAX(ro_finservice)+1, MAX(ro_finservice)+22 FROM routage r left join adresse a USING (pe_numero) where pe_numero=num_personne group by 1,2 ORDER BY 3 DESC LIMIT 1;
+--    SELECT pe_numero, ad_numero, MAX(ro_finservice))+1, MAX(ro_finservice))+22 FROM routage left join adresse USING (pe_numero) WHERE pe_numero=num_personne;
+
+  UPDATE employe SET EM_Service=num_service WHERE EM_Numero=num_employe;
+
+  RETURN true;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+
+
+
