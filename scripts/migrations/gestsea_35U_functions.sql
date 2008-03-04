@@ -873,7 +873,7 @@ BEGIN
       IF compte<1 THEN
         RAISE EXCEPTION 'Ce produit ne possède pas de tarifs. Il est impossible de l''utiliser dans cette situation.';
       END IF;
-      SELECT PX_Numero FROM Produit LEFT JOIN Prix USING (PD_Numero) WHERE New.PD_Numero=PD_Numero AND px_actif ORDER BY id INTO NEW.PX_Numero;
+      SELECT PX_Numero FROM Prix WHERE New.PD_Numero=PD_Numero AND px_actif ORDER BY prix.id DESC INTO NEW.PX_Numero;
     END IF;
 
     SELECT PX_tarifHT, PX_tarifTTC, PX_Libelle, PX_Numero FROM Prix WHERE NEW.PX_Numero=PX_Numero INTO tarifs;
@@ -3068,7 +3068,8 @@ UPDATE table_cotisation SET cs_detail = bml_put(cs_detail,'cotisation.montant', 
 */
 
 
-CREATE OR REPLACE FC_AjouterJA(IN num_personne INTEGER) RETURNS BOOLEAN AS
+CREATE OR REPLACE FUNCTION FC_AjouterJA(IN num_personne INTEGER) RETURNS BOOLEAN AS
+$$
 DECLARE
   num_service service.se_numero%TYPE;
   num_employe employe.em_numero%TYPE;
@@ -3103,7 +3104,7 @@ BEGIN
   SELECT FC_DevisVersFacture(num_devis_aava) INTO num_facture_aava;
   
   INSERT INTO routage (pe_numero, ad_numero, ro_debutservice, ro_finservice, fa_numero) 
-    SELECT pe_numero, a.ad_numero, MAX(ro_finservice)+1, MAX(ro_finservice)+22 FROM routage r left join adresse a USING (pe_numero) where pe_numero=num_personne group by 1,2 ORDER BY 3 DESC LIMIT 1;
+    SELECT pe_numero, a.ad_numero, MAX(ro_finservice)+1, MAX(ro_finservice)+22, num_facture_aava FROM routage r left join adresse a USING (pe_numero) where pe_numero=num_personne group by 1,2 ORDER BY 3 DESC LIMIT 1;
 --    SELECT pe_numero, ad_numero, MAX(ro_finservice))+1, MAX(ro_finservice))+22 FROM routage left join adresse USING (pe_numero) WHERE pe_numero=num_personne;
 
   UPDATE employe SET EM_Service=num_service WHERE EM_Numero=num_employe;
