@@ -2949,6 +2949,9 @@ DECLARE
 BEGIN
   SELECT 'SELECT '||im_fonction||E'('||cle||E');' FROM impression WHERE im_nom ilike nom_logique AND IM_Defaut INTO query;
 --  RAISE NOTICE '>> %', COALESCE(query,'x');
+  IF query IS NULL THEN
+    RAISE EXCEPTION 'Le modèle % n''existe pas', COALESCE(nom_logique,'[unknown]');
+  END IF;
   EXECUTE query INTO adresse;
   RETURN adresse;
 END;
@@ -3030,6 +3033,71 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 
 
 
+--===========================================================================--
+-- Imprime un document en allant chercher le modèle en fonction de la table passée en parametre.
+--DROP FUNCTION FC_ImprimeLot(integer,date,date);
+
+CREATE OR REPLACE FUNCTION FC_ImprimeGroupe(IN num_groupe INTEGER) RETURNS text AS
+$$
+DECLARE
+  s INTEGER;
+  num_service INTEGER;
+  adresse TEXT;
+  query TEXT;
+BEGIN
+  -- Enregistrement service debut
+  SELECT EM_Service FROM Table_Employe WHERE EM_Login=CURRENT_USER INTO num_service;
+  -- Impressions des documents séparément
+  FOR s IN 1..3 LOOP
+    -- Passage dans la societe s
+    UPDATE table_employe 
+      SET EM_Service=se_numero 
+      FROM table_service 
+      WHERE se_societe=s AND em_login=current_user;
+    -- Impression de tous les documents de la societe
+    UPDATE table_impressiondocument 
+      SET ID_Filename=FC_Imprime2(ID_Modele, ID_Cle::integer)
+      FROM table_facture
+      WHERE num_groupe=table_impressiondocument.ig_numero 
+        AND FA_MontantTTC>0 AND ID_Cle::integer=FA_Numero AND SO_Numero=s;
+  END LOOP;
+  -- Concatenation des documents
+  SELECT '/tmp/'||current_user||E'_lot_pi_'||to_char(CURRENT_TIMESTAMP,'YYYYMMDD_HH24MISS_US')||E'.pdf' INTO adresse;
+  SELECT 'SELECT execution(''cd /tmp && touch '||adresse||E' && chmod 755 '||adresse||E' && gs -q -sPAPERSIZE=letter -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile='||adresse||concatenate(' '||SUBSTR(COALESCE(ID_Filename,''),8))||E''');'
+    FROM (SELECT id_filename
+    FROM table_impressiondocument JOIN table_facture ON (ID_Cle=FA_Numero)
+    WHERE num_groupe=table_impressiondocument.ig_numero AND FA_MontantTTC>0
+       ORDER BY fa_numero) x
+    INTO query;
+/*
+  SELECT 'SELECT execution(''cd /tmp &&  touch '||adresse||E' && chmod 755 '||adresse||E' && gs -q -sPAPERSIZE=letter -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile='||adresse||concatenate(' '||SUBSTR(COALESCE(ID_Filename,''),8))||E''');'
+    FROM table_impressiondocument 
+         JOIN table_impressiongroupe USING (IG_Numero)
+         JOIN table_facture ON (ID_Cle=FA_Numero) 
+    WHERE true
+        AND IL_Numero=num_lot AND ID_Modele=modele AND FA_MontantTTC>0 AND (fa_date BETWEEN debut AND fin)
+    GROUP BY IL_Numero
+    ORDER BY IL_Numero
+    INTO query;
+*/
+--  RAISE NOTICE '> Query : %', query;
+  IF query IS NOT NULL THEN
+    EXECUTE query;
+  ELSE
+    RAISE NOTICE 'Pas d''impressions.';
+  END IF;
+  -- Restauration du service
+  UPDATE table_employe SET EM_Service=num_service WHERE EM_Login=CURRENT_USER;
+
+  RETURN 'file://'||adresse;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+
+
+
+
+
 CREATE OR REPLACE FUNCTION FC_ImprimeLot2(IN num_lot INTEGER, IN modele VARCHAR, IN debut DATE, IN fin DATE) RETURNS text AS
 $$
 DECLARE
@@ -3068,7 +3136,7 @@ UPDATE table_cotisation SET cs_detail = bml_put(cs_detail,'cotisation.montant', 
 */
 
 
-CREATE OR REPLACE FUNCTION FC_AjouterJA(IN num_personne INTEGER) RETURNS BOOLEAN AS
+CREATE OR REPLACE FUNCTION FC_AjouterJA(IN num_personne INTEGER, IN aava BOOLEAN) RETURNS BOOLEAN AS
 $$
 DECLARE
   num_service service.se_numero%TYPE;
@@ -3088,24 +3156,20 @@ BEGIN
   INSERT INTO devis(de_numero, pe_numero, de_libelle, em_numero) SELECT num_devis, num_personne, '[JA] Abonnement conseil du '||CURRENT_DATE, current_employe();
   INSERT INTO ligne (de_numero, pd_numero) VALUES (num_devis, 500000123);
   num_devis_sacea := num_devis;
-
-  -- Devis AAVA
-  UPDATE employe SET EM_Service=SE_Numero FROM service WHERE employe.EM_Numero=num_employe AND SE_Societe=3;
-  SELECT nextval('seq_devis') INTO num_devis;
-  INSERT INTO devis(de_numero, pe_numero, de_libelle, em_numero) SELECT num_devis, num_personne, '[JA] Abonnement du '||CURRENT_DATE,  current_employe();
-  INSERT INTO ligne (de_numero, pd_numero, l_quantite) VALUES (num_devis, 500000109, 1);
-  num_devis_aava := num_devis;
-
-  -- Facturation
-  UPDATE employe SET EM_Service=SE_Numero FROM service WHERE employe.EM_Numero=num_employe AND SE_Societe=1;
   SELECT FC_DevisVersFacture(num_devis_sacea) INTO num_facture_sacea;
 
-  UPDATE employe SET EM_Service=SE_Numero FROM service WHERE employe.EM_Numero=num_employe AND SE_Societe=3;
-  SELECT FC_DevisVersFacture(num_devis_aava) INTO num_facture_aava;
-  
-  INSERT INTO routage (pe_numero, ad_numero, ro_debutservice, ro_finservice, fa_numero) 
-    SELECT pe_numero, a.ad_numero, MAX(ro_finservice)+1, MAX(ro_finservice)+22, num_facture_aava FROM routage r left join adresse a USING (pe_numero) where pe_numero=num_personne group by 1,2 ORDER BY 3 DESC LIMIT 1;
---    SELECT pe_numero, ad_numero, MAX(ro_finservice))+1, MAX(ro_finservice))+22 FROM routage left join adresse USING (pe_numero) WHERE pe_numero=num_personne;
+  -- Devis AAVA
+  IF aava THEN
+    UPDATE employe SET EM_Service=SE_Numero FROM service WHERE employe.EM_Numero=num_employe AND SE_Societe=3;
+    SELECT nextval('seq_devis') INTO num_devis;
+    INSERT INTO devis(de_numero, pe_numero, de_libelle, em_numero) SELECT num_devis, num_personne, '[JA] Abonnement du '||CURRENT_DATE,  current_employe();
+    INSERT INTO ligne (de_numero, pd_numero, l_quantite) VALUES (num_devis, 500000109, 1);
+    num_devis_aava := num_devis;
+    SELECT FC_DevisVersFacture(num_devis_aava) INTO num_facture_aava;  
+    INSERT INTO routage (pe_numero, ad_numero, ro_debutservice, ro_finservice, fa_numero) 
+      SELECT pe_numero, a.ad_numero, MAX(ro_finservice)+1, MAX(ro_finservice)+22, num_facture_aava FROM routage r left join adresse a USING (pe_numero) where pe_numero=num_personne group by 1,2 ORDER BY 3 DESC LIMIT 1;
+--      SELECT pe_numero, ad_numero, MAX(ro_finservice))+1, MAX(ro_finservice))+22 FROM routage left join adresse USING (pe_numero) WHERE pe_numero=num_personne;
+  END IF;
 
   UPDATE employe SET EM_Service=num_service WHERE EM_Numero=num_employe;
 
