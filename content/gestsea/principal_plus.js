@@ -158,17 +158,21 @@ function BordereauPrint(){
 
 
 function Imprimer(compo,mot){
+  if (compo.getCleVal()>=0){
+    Imprimer2(compo.getCleVal(),mot);
+  } else alert("Il faut sélectionner une ligne de la liste avant de lancer l'impression.");
+}
+
+function Imprimer2(cle,mot){
   var adresse;
   var modele;
-  if (compo.getCleVal()>=0){
-    modele = ChoisitModele(mot);
-    if (modele!=null) {
-      adresse = requete("SELECT "+modele+"("+compo.getCleVal()+");")
-      if (adresse!=null) {
-        window.setTimeout("window.open('"+adresse+"')",100);
-      } else alert("Une erreur est survenue lors de la création du document.\nLe modèle est peut-être invalide.");
-    } else alert("Aucun modèle n'a été trouvé pour ce type d'impression : \nPas de modèle '"+mot+"' par défaut!");
-  } else alert("Il faut sélectionner une ligne de la liste avant de lancer l'impression.");
+  modele = ChoisitModele(mot);
+  if (modele!=null) {
+    adresse = requete("SELECT "+modele+"("+cle+");")
+    if (adresse!=null) {
+      window.setTimeout("window.open('"+adresse+"')",100);
+    } else alert("Une erreur est survenue lors de la création du document.\nLe modèle est peut-être invalide.");
+  } else alert("Aucun modèle n'a été trouvé pour ce type d'impression : \nPas de modèle '"+mot+"' par défaut!");
 }
 
 
@@ -204,6 +208,39 @@ function PrintDuplicata(compo){
       Imprimer(compo,'carte-duplicata')
     } else { alert("Cette facture n'autorise pas la création de duplicata"); }
   } else { alert("Il faut sélectionner une facture");}
+}
+
+
+function EvoPrint(mode,compo) {
+//  FC_evoplus_print
+  var cle = compo.getCleVal();
+  var lot = requete('SELECT lot FROM table_evoplus WHERE id='+cle);
+  if (mode=='lot') {
+    lot = prompt('Saisissez le n° de lot à imprimer\nAstuce : Ne rien mettre pour imprimer le dernier lot');
+    if (lot=='' || lot==undefined) lot = null;
+    adresse = requete("SELECT fc_evoplus_print("+lot+")");
+    if (adresse!=null) {
+      window.setTimeout("window.open('"+adresse+"')",100);
+    } else alert("Une erreur est survenue lors de la création du document.\nLe modèle est peut-être invalide.");
+  } else if (mode=='remarques') {
+    Imprimer2(lot,'evoplusrem');
+  } else if (mode=='lettre') {
+    Imprimer(compo,'evoplus');
+  } else {
+    alert("Mode inconnu : "+mode);
+  }
+}
+
+function TestCotisation(compo,diff) {
+  var cle = compo.getCleVal();
+  var num = requete('SELECT pe_numero FROM table_evoplus WHERE id='+cle);  
+  var annee = requete('SELECT EXTRACT(YEAR FROM CURRENT_DATE)');  
+  if (diff!=null && !isNaN(diff)) annee += diff;
+  var count = requete("SELECT count(*) from table_cotisation WHERE cs_annee="+annee+" AND (pe_numero="+num+" OR bml_extract(cs_detail,'cotisation.societe')="+num+")");
+  if (count>0)
+    alert("La personne "+num+" est adhérente pour l'année "+annee);
+  else
+    alert("La personne "+num+" N'est PAS adhérente pour l'année "+annee);
 }
 
 

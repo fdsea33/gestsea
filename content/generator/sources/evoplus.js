@@ -5,7 +5,7 @@ function evoplus_alert(x){
 
 function CodeInEvoplus(){
 
-    evoplus_alert("DÃ©but de la construction");
+    evoplus_alert("Début de la construction");
     var AllIt = new clTabInterfaceSimple();
 
     /****************************
@@ -14,6 +14,8 @@ function CodeInEvoplus(){
 
     AllIt.IncludeJs("chrome://gestsea/content/gestsea/export.js");
     AllIt.IncludeJs("chrome://gestsea/content/generator/libIO.js");
+    AllIt.IncludeJs("chrome://gestsea/content/gestsea/principal_plus.js");
+
 
     /****************************
      * EVOPLUS
@@ -27,20 +29,26 @@ function CodeInEvoplus(){
 
     Maitre_Evoplus.AjouterColonne("Lot","lot");
     Maitre_Evoplus.AjouterColonne("ID","id");
-    Maitre_Evoplus.AjouterColonne("NÂ°","pe_numero");
+    Maitre_Evoplus.AjouterColonne("N°","pe_numero");
     Maitre_Evoplus.AjouterColonne("Nom","nom");
 
+    It_Evoplus.AjouterBouton("Imprimer le (dernier) lot","EvoPrint","'lot',"+ComposantDansCode(Maitre_Evoplus));
+    It_Evoplus.AjouterBouton("Imprimer les remarques du lot","EvoPrint","'remarques',"+ComposantDansCode(Maitre_Evoplus));
+    It_Evoplus.AjouterBouton("Imprimer le courrier","EvoPrint","'lettre',"+ComposantDansCode(Maitre_Evoplus));
+    It_Evoplus.AjouterBouton("Adhérent N ?","TestCotisation",ComposantDansCode(Maitre_Evoplus));
+    It_Evoplus.AjouterBouton("Adhérent N-1 ?","TestCotisation",ComposantDansCode(Maitre_Evoplus)+",-1");
+
     It_Evoplus.AjouterComposantSimple("Source","source");          // source                            - a
-    It_Evoplus.AjouterComposantSimple("NÂ°Fiche","numero");          // numero
+    It_Evoplus.AjouterComposantSimple("N°Fiche","numero");          // numero
     It_Evoplus.AjouterComposantSimple("Titre","titre");           // titre
-    It_Evoplus.AjouterComposantSimple("Nom/PrÃ©nom","nom");             // nom/prenom
-    It_Evoplus.AjouterComposantSimple("ComplÃ©ment","complement");      // complement
+    It_Evoplus.AjouterComposantSimple("Nom/Prénom","nom");             // nom/prenom
+    It_Evoplus.AjouterComposantSimple("Complément","complement");      // complement
     It_Evoplus.AjouterComposantSimple("Ad1","ad1");             // ad1
     It_Evoplus.AjouterComposantSimple("Ad2","ad2");             // ad2
     It_Evoplus.AjouterComposantSimple("Ad3","ad3");             // ad3
     It_Evoplus.AjouterComposantSimple("CP","cp");              // cp
     It_Evoplus.AjouterComposantSimple("Ville","ville");           // ville
-    It_Evoplus.AjouterComposantSimple("nÃ© le","naissance");       // nÃ© le
+    It_Evoplus.AjouterComposantSimple("né le","naissance");       // né le
     It_Evoplus.AjouterComposantSimple("tel","telephone");       // tel
     It_Evoplus.AjouterComposantSimple("fax","fax");             // fax                               - m
     It_Evoplus.AjouterComposantSimple("mob","portable");        // portable
@@ -51,7 +59,7 @@ function CodeInEvoplus(){
 //    It_Evoplus.AjouterComposantSimple("","eco_fuel");        // eco fuel
 //    It_Evoplus.AjouterComposantSimple("","eco_fuel_tipp");   // eco fuel tipp
     It_Evoplus.AjouterComposantSimple("Nb d'hectares","hectares_nb");     // nb hectare
-    It_Evoplus.AjouterComposantSimple("Nb salariÃ©s","salaries_nb");     // salaries nb
+    It_Evoplus.AjouterComposantSimple("Nb salariés","salaries_nb");     // salaries nb
     It_Evoplus.AjouterComposantSimple("SACEA montant","sacea_ttc");       // abt conseil cout
 /*
     It_Evoplus.AjouterComposantSimple("","h1_ha");           // aocreg ha
@@ -82,7 +90,7 @@ function CodeInEvoplus(){
     // Ajouts d'interfaces
     AllIt.AjouterInterface(It_Evoplus);
 
-    evoplus_alert("GÃ©nÃ©ration terminÃ©e");
+    evoplus_alert("Génération terminée");
     AllIt.GenererInterface("evoplus",null,"EVO+",true);
 }
 

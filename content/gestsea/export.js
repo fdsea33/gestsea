@@ -33,17 +33,17 @@ function SaveToTSV(requete){
 	    }
 	    //	    alert(fichier);
 	    /* Enregistrement des lignes */
-	    var enum=result.enumerate();
-	    enum.beforeFirst();
+	    var enumr=result.enumerate();
+	    enumr.beforeFirst();
 	    var encore=true;
 	    var value;
 	    while(encore){
-		encore = enum.next();
+		encore = enumr.next();
 		value="";
-		//		if (enum.getVariant(0)!=null && enum.getVariant(0)!=undefined) 
-		value=CleanValue(enum.getVariant(0));
+		//		if (enumr.getVariant(0)!=null && enumr.getVariant(0)!=undefined) 
+		value=CleanValue(enumr.getVariant(0));
 		fichier+="\n"+value;
-		for(i=1;i<max;i++) fichier+=sep+CleanValue(enum.getVariant(i));
+		for(i=1;i<max;i++) fichier+=sep+CleanValue(enumr.getVariant(i));
 	    }
 	    //alert("Fichier réalisé");
 	    SaveFile(requete.FromRoot+".csv",fichier);

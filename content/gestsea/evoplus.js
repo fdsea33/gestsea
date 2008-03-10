@@ -504,7 +504,7 @@ var Col_N0_Lot_De_Evoplus_Liste_des_evoplus0=new clAttribut("lot","table_evoplus
 
 var Col_N1_ID_De_Evoplus_Liste_des_evoplus0=new clAttribut("id","table_evoplus",null);
 
-var Col_N2_NÂ__De_Evoplus_Liste_des_evoplus0=new clAttribut("pe_numero","table_evoplus",null);
+var Col_N2_N__De_Evoplus_Liste_des_evoplus0=new clAttribut("pe_numero","table_evoplus",null);
 
 var Col_N3_Nom_De_Evoplus_Liste_des_evoplus0=new clAttribut("nom","table_evoplus",null);
 
@@ -513,26 +513,26 @@ var Evoplus_Source_1=new clAttribut("source","table_evoplus",null);
 
 	/* Ce composant représente: table_evoplus.source sous le nom "Source" */
 var Compo_Evoplus_Source_1=new clCompoTextBox(Evoplus_Source_1,null,"Source",false,false);
-var Evoplus_NÂ_Fiche_2=new clAttribut("numero","table_evoplus",null);
+var Evoplus_N_Fiche_2=new clAttribut("numero","table_evoplus",null);
 
 
-	/* Ce composant représente: table_evoplus.numero sous le nom "NÂ°Fiche" */
-var Compo_Evoplus_NÂ_Fiche_2=new clCompoTextBox(Evoplus_NÂ_Fiche_2,null,"NÂ°Fiche",false,false);
+	/* Ce composant représente: table_evoplus.numero sous le nom "N°Fiche" */
+var Compo_Evoplus_N_Fiche_2=new clCompoTextBox(Evoplus_N_Fiche_2,null,"N°Fiche",false,false);
 var Evoplus_Titre_3=new clAttribut("titre","table_evoplus",null);
 
 
 	/* Ce composant représente: table_evoplus.titre sous le nom "Titre" */
 var Compo_Evoplus_Titre_3=new clCompoTextBox(Evoplus_Titre_3,null,"Titre",false,false);
-var Evoplus_Nom_PrÃ©nom_4=new clAttribut("nom","table_evoplus",null);
+var Evoplus_Nom_Prénom_4=new clAttribut("nom","table_evoplus",null);
 
 
-	/* Ce composant représente: table_evoplus.nom sous le nom "Nom/PrÃ©nom" */
-var Compo_Evoplus_Nom_PrÃ©nom_4=new clCompoTextBox(Evoplus_Nom_PrÃ©nom_4,null,"Nom/PrÃ©nom",false,false);
-var Evoplus_ComplÃ©ment_5=new clAttribut("complement","table_evoplus",null);
+	/* Ce composant représente: table_evoplus.nom sous le nom "Nom/Prénom" */
+var Compo_Evoplus_Nom_Prénom_4=new clCompoTextBox(Evoplus_Nom_Prénom_4,null,"Nom/Prénom",false,false);
+var Evoplus_Complément_5=new clAttribut("complement","table_evoplus",null);
 
 
-	/* Ce composant représente: table_evoplus.complement sous le nom "ComplÃ©ment" */
-var Compo_Evoplus_ComplÃ©ment_5=new clCompoTextBox(Evoplus_ComplÃ©ment_5,null,"ComplÃ©ment",false,false);
+	/* Ce composant représente: table_evoplus.complement sous le nom "Complément" */
+var Compo_Evoplus_Complément_5=new clCompoTextBox(Evoplus_Complément_5,null,"Complément",false,false);
 var Evoplus_Ad1_6=new clAttribut("ad1","table_evoplus",null);
 
 
@@ -558,11 +558,11 @@ var Evoplus_Ville_10=new clAttribut("ville","table_evoplus",null);
 
 	/* Ce composant représente: table_evoplus.ville sous le nom "Ville" */
 var Compo_Evoplus_Ville_10=new clCompoTextBox(Evoplus_Ville_10,null,"Ville",false,false);
-var Evoplus_nÃ©_le_11=new clAttribut("naissance","table_evoplus",null);
+var Evoplus_né_le_11=new clAttribut("naissance","table_evoplus",null);
 
 
-	/* Ce composant représente: table_evoplus.naissance sous le nom "nÃ© le" */
-var Compo_Evoplus_nÃ©_le_11=new clCompoTextBox(Evoplus_nÃ©_le_11,null,"nÃ© le",false,false);
+	/* Ce composant représente: table_evoplus.naissance sous le nom "né le" */
+var Compo_Evoplus_né_le_11=new clCompoTextBox(Evoplus_né_le_11,null,"né le",false,false);
 var Evoplus_tel_12=new clAttribut("telephone","table_evoplus",null);
 
 
@@ -598,11 +598,11 @@ var Evoplus_Nb_d_hectares_18=new clAttribut("hectares_nb","table_evoplus",null);
 
 	/* Ce composant représente: table_evoplus.hectares_nb sous le nom "Nb d'hectares" */
 var Compo_Evoplus_Nb_d_hectares_18=new clCompoTextBox(Evoplus_Nb_d_hectares_18,null,"Nb d'hectares",false,false);
-var Evoplus_Nb_salariÃ©s_19=new clAttribut("salaries_nb","table_evoplus",null);
+var Evoplus_Nb_salariés_19=new clAttribut("salaries_nb","table_evoplus",null);
 
 
-	/* Ce composant représente: table_evoplus.salaries_nb sous le nom "Nb salariÃ©s" */
-var Compo_Evoplus_Nb_salariÃ©s_19=new clCompoTextBox(Evoplus_Nb_salariÃ©s_19,null,"Nb salariÃ©s",false,false);
+	/* Ce composant représente: table_evoplus.salaries_nb sous le nom "Nb salariés" */
+var Compo_Evoplus_Nb_salariés_19=new clCompoTextBox(Evoplus_Nb_salariés_19,null,"Nb salariés",false,false);
 var Evoplus_SACEA_montant_20=new clAttribut("sacea_ttc","table_evoplus",null);
 
 
@@ -667,21 +667,21 @@ var Evoplus_Liste_des_evoplus0=new clEnsembleAttributs("table_evoplus",
 	new Array(
 	new clLiaison(null,Col_N0_Lot_De_Evoplus_Liste_des_evoplus0)
 	,new clLiaison(null,Col_N1_ID_De_Evoplus_Liste_des_evoplus0)
-	,new clLiaison(null,Col_N2_NÂ__De_Evoplus_Liste_des_evoplus0)
+	,new clLiaison(null,Col_N2_N__De_Evoplus_Liste_des_evoplus0)
 	,new clLiaison(null,Col_N3_Nom_De_Evoplus_Liste_des_evoplus0)
 	),
 	new Array(
 	new clLiaison(null,Evoplus_Source_1)
-	,new clLiaison(null,Evoplus_NÂ_Fiche_2)
+	,new clLiaison(null,Evoplus_N_Fiche_2)
 	,new clLiaison(null,Evoplus_Titre_3)
-	,new clLiaison(null,Evoplus_Nom_PrÃ©nom_4)
-	,new clLiaison(null,Evoplus_ComplÃ©ment_5)
+	,new clLiaison(null,Evoplus_Nom_Prénom_4)
+	,new clLiaison(null,Evoplus_Complément_5)
 	,new clLiaison(null,Evoplus_Ad1_6)
 	,new clLiaison(null,Evoplus_Ad2_7)
 	,new clLiaison(null,Evoplus_Ad3_8)
 	,new clLiaison(null,Evoplus_CP_9)
 	,new clLiaison(null,Evoplus_Ville_10)
-	,new clLiaison(null,Evoplus_nÃ©_le_11)
+	,new clLiaison(null,Evoplus_né_le_11)
 	,new clLiaison(null,Evoplus_tel_12)
 	,new clLiaison(null,Evoplus_fax_13)
 	,new clLiaison(null,Evoplus_mob_14)
@@ -689,7 +689,7 @@ var Evoplus_Liste_des_evoplus0=new clEnsembleAttributs("table_evoplus",
 	,new clLiaison(null,Evoplus_Fortait__montant__16)
 	,new clLiaison(null,Evoplus_Productions_17)
 	,new clLiaison(null,Evoplus_Nb_d_hectares_18)
-	,new clLiaison(null,Evoplus_Nb_salariÃ©s_19)
+	,new clLiaison(null,Evoplus_Nb_salariés_19)
 	,new clLiaison(null,Evoplus_SACEA_montant_20)
 	,new clLiaison(null,Evoplus_Nb_CM_21)
 	,new clLiaison(null,Evoplus_CM_Montant_22)
@@ -704,7 +704,7 @@ var Evoplus_Liste_des_evoplus0=new clEnsembleAttributs("table_evoplus",
 	,new clLiaison(null,Evoplus_Remarque_31)
 	));
 
-var Titre_Evoplus_Liste_des_evoplus0=new Array("Lot","ID","NÂ°","Nom");
+var Titre_Evoplus_Liste_des_evoplus0=new Array("Lot","ID","N°","Nom");
 
 	/* Ce composant représente: des éléments de la table table_evoplus sous le nom "Liste des evoplus" */
 var Compo_Evoplus_Liste_des_evoplus0=new clCompoListe(Evoplus_Liste_des_evoplus0,new Array(new clInterfaceFiltrageVide()),Titre_Evoplus_Liste_des_evoplus0,"Liste des evoplus",true,false);
@@ -729,15 +729,15 @@ Compo_Evoplus_Source_1.GenererXUL(top.document.getElementById("Evoplus_Liste_des
 	/* On l'ajoute au tableau global à l'indice 8*/
 top.TAB_GLOBAL_COMPO[8]=Compo_Evoplus_Source_1;
 
-	/* Ce composant représente: des éléments de la table table_evoplus sous le nom "NÂ°Fiche" */
+	/* Ce composant représente: des éléments de la table table_evoplus sous le nom "N°Fiche" */
  if(ALeDroit(0,"table_evoplus"))
  {
-Compo_Evoplus_NÂ_Fiche_2.GenererXUL(top.document.getElementById("Evoplus_Liste_des_evoplus0_Slaves"));
+Compo_Evoplus_N_Fiche_2.GenererXUL(top.document.getElementById("Evoplus_Liste_des_evoplus0_Slaves"));
 
  }
 
 	/* On l'ajoute au tableau global à l'indice 9*/
-top.TAB_GLOBAL_COMPO[9]=Compo_Evoplus_NÂ_Fiche_2;
+top.TAB_GLOBAL_COMPO[9]=Compo_Evoplus_N_Fiche_2;
 
 	/* Ce composant représente: des éléments de la table table_evoplus sous le nom "Titre" */
  if(ALeDroit(0,"table_evoplus"))
@@ -749,25 +749,25 @@ Compo_Evoplus_Titre_3.GenererXUL(top.document.getElementById("Evoplus_Liste_des_
 	/* On l'ajoute au tableau global à l'indice 10*/
 top.TAB_GLOBAL_COMPO[10]=Compo_Evoplus_Titre_3;
 
-	/* Ce composant représente: des éléments de la table table_evoplus sous le nom "Nom/PrÃ©nom" */
+	/* Ce composant représente: des éléments de la table table_evoplus sous le nom "Nom/Prénom" */
  if(ALeDroit(0,"table_evoplus"))
  {
-Compo_Evoplus_Nom_PrÃ©nom_4.GenererXUL(top.document.getElementById("Evoplus_Liste_des_evoplus0_Slaves"));
+Compo_Evoplus_Nom_Prénom_4.GenererXUL(top.document.getElementById("Evoplus_Liste_des_evoplus0_Slaves"));
 
  }
 
 	/* On l'ajoute au tableau global à l'indice 11*/
-top.TAB_GLOBAL_COMPO[11]=Compo_Evoplus_Nom_PrÃ©nom_4;
+top.TAB_GLOBAL_COMPO[11]=Compo_Evoplus_Nom_Prénom_4;
 
-	/* Ce composant représente: des éléments de la table table_evoplus sous le nom "ComplÃ©ment" */
+	/* Ce composant représente: des éléments de la table table_evoplus sous le nom "Complément" */
  if(ALeDroit(0,"table_evoplus"))
  {
-Compo_Evoplus_ComplÃ©ment_5.GenererXUL(top.document.getElementById("Evoplus_Liste_des_evoplus0_Slaves"));
+Compo_Evoplus_Complément_5.GenererXUL(top.document.getElementById("Evoplus_Liste_des_evoplus0_Slaves"));
 
  }
 
 	/* On l'ajoute au tableau global à l'indice 12*/
-top.TAB_GLOBAL_COMPO[12]=Compo_Evoplus_ComplÃ©ment_5;
+top.TAB_GLOBAL_COMPO[12]=Compo_Evoplus_Complément_5;
 
 	/* Ce composant représente: des éléments de la table table_evoplus sous le nom "Ad1" */
  if(ALeDroit(0,"table_evoplus"))
@@ -819,15 +819,15 @@ Compo_Evoplus_Ville_10.GenererXUL(top.document.getElementById("Evoplus_Liste_des
 	/* On l'ajoute au tableau global à l'indice 17*/
 top.TAB_GLOBAL_COMPO[17]=Compo_Evoplus_Ville_10;
 
-	/* Ce composant représente: des éléments de la table table_evoplus sous le nom "nÃ© le" */
+	/* Ce composant représente: des éléments de la table table_evoplus sous le nom "né le" */
  if(ALeDroit(0,"table_evoplus"))
  {
-Compo_Evoplus_nÃ©_le_11.GenererXUL(top.document.getElementById("Evoplus_Liste_des_evoplus0_Slaves"));
+Compo_Evoplus_né_le_11.GenererXUL(top.document.getElementById("Evoplus_Liste_des_evoplus0_Slaves"));
 
  }
 
 	/* On l'ajoute au tableau global à l'indice 18*/
-top.TAB_GLOBAL_COMPO[18]=Compo_Evoplus_nÃ©_le_11;
+top.TAB_GLOBAL_COMPO[18]=Compo_Evoplus_né_le_11;
 
 	/* Ce composant représente: des éléments de la table table_evoplus sous le nom "tel" */
  if(ALeDroit(0,"table_evoplus"))
@@ -899,15 +899,15 @@ Compo_Evoplus_Nb_d_hectares_18.GenererXUL(top.document.getElementById("Evoplus_L
 	/* On l'ajoute au tableau global à l'indice 25*/
 top.TAB_GLOBAL_COMPO[25]=Compo_Evoplus_Nb_d_hectares_18;
 
-	/* Ce composant représente: des éléments de la table table_evoplus sous le nom "Nb salariÃ©s" */
+	/* Ce composant représente: des éléments de la table table_evoplus sous le nom "Nb salariés" */
  if(ALeDroit(0,"table_evoplus"))
  {
-Compo_Evoplus_Nb_salariÃ©s_19.GenererXUL(top.document.getElementById("Evoplus_Liste_des_evoplus0_Slaves"));
+Compo_Evoplus_Nb_salariés_19.GenererXUL(top.document.getElementById("Evoplus_Liste_des_evoplus0_Slaves"));
 
  }
 
 	/* On l'ajoute au tableau global à l'indice 26*/
-top.TAB_GLOBAL_COMPO[26]=Compo_Evoplus_Nb_salariÃ©s_19;
+top.TAB_GLOBAL_COMPO[26]=Compo_Evoplus_Nb_salariés_19;
 
 	/* Ce composant représente: des éléments de la table table_evoplus sous le nom "SACEA montant" */
  if(ALeDroit(0,"table_evoplus"))

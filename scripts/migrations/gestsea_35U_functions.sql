@@ -3180,3 +3180,81 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+CREATE OR REPLACE FUNCTION to_num(IN s TEXT) RETURNS TEXT AS
+$$
+DECLARE
+  ret TEXT;
+BEGIN
+  SELECT ROUND(COALESCE(s::numeric,0),2)::numeric(16,2)::text INTO ret;
+  RETURN ret;
+END;
+$$ LANGUAGE 'plpgsql';
+
+
+
+CREATE OR REPLACE VIEW vue_evoplus AS 
+  SELECT ev.*, pe_id, pe_libelle, CURRENT_DATE AS ev_date, COALESCE(ad1||' -- ','')||COALESCE(ad2||' -- ','')||COALESCE(ad3||' -- ','')||cp||' '||ville AS adline, 
+(CASE WHEN NOT proposition AND (opt_num=2 OR opt_num=4) THEN 0.00 ELSE sacea_ttc::numeric END)::numeric(16,2) AS op1_sacea, 
+0.00::numeric AS op2_sacea, 
+(CASE WHEN ((NOT proposition AND (opt_num=1 OR opt_num=2)) OR (proposition AND aava)) THEN 31.00 ELSE 0.00 END)::numeric(16,2) AS op1_aava, 
+(CASE WHEN aava THEN 31.00 ELSE 0.00 END)::numeric(16,2) AS op2_aava, 
+(CASE WHEN NOT proposition THEN opt_ttc WHEN proposition AND aava THEN opt1 ELSE opt3 END)::numeric(16,2) AS op1_total, 
+(CASE WHEN aava THEN opt2 ELSE opt4 END)::numeric(16,2) AS op2_total,
+CASE WHEN proposition THEN 'P' ELSE 'A' END AS nature
+    FROM table_evoplus ev join personne USING (pe_numero);
+
+
+CREATE OR REPLACE FUNCTION FC_evoplus_print(IN default_lot INTEGER) RETURNS TEXT AS
+$$
+DECLARE
+  adresse TEXt;
+  query TEXT;
+  sommaire TEXT;
+  compte INTEGER;
+  num_lot INTEGER;
+BEGIN
+  IF default_lot IS NULL THEN
+    SELECT count(*) FROM table_evoplus WHERE lot IS NULL INTO compte;
+    IF compte>0 THEN
+      SELECT COALESCE(max(lot),0)+1 FROM table_evoplus INTO num_lot;
+      UPDATE table_evoplus SET lot=num_lot WHERE lot IS NULL;
+    ELSE 
+      SELECT COALESCE(max(lot),0) FROM table_evoplus INTO num_lot;
+    END IF;
+  ELSE
+    num_lot := default_lot;
+  END IF;
+
+  SELECT SUBSTR(COALESCE(FC_Imprime2('evoplusrem', num_lot),''),8) INTO sommaire;
+
+  UPDATE table_evoplus SET Filename=FC_Imprime2('evoplus', id) WHERE lot=num_lot;
+  -- Concatenation des documents
+  SELECT '/tmp/evolot.pdf' INTO adresse;
+  SELECT 'SELECT execution(''cd /tmp && touch '||adresse||E' && chmod 755 '||adresse||E' && gs -q -sPAPERSIZE=letter -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile='||adresse||' '||sommaire||concatenate(' '||SUBSTR(COALESCE(filename,''),8))||E''');'
+    FROM (SELECT filename FROM table_evoplus WHERE lot=num_lot ORDER BY id) x
+    INTO query;
+--  RAISE NOTICE '> Query : %', query;
+  IF query IS NOT NULL THEN
+    EXECUTE query;
+  ELSE
+    RAISE NOTICE 'Pas d''impressions.';
+  END IF;
+  RETURN 'file://'||adresse;
+END;
+$$ LANGUAGE 'plpgsql';
+
+
+
+
+
