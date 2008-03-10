@@ -74,6 +74,7 @@ CREATE INDEX idx_table_estlie_el_personne2 ON table_estlie(el_personne2);
 CREATE INDEX idx_table_estlie_tl_numero ON table_estlie(tl_numero);
 CREATE INDEX idx_table_estresponsable_pe_numero ON table_estresponsable(pe_numero);
 CREATE INDEX idx_table_estresponsable_re_numero ON table_estresponsable(re_numero);
+CREATE INDEX idx_table_evoplus_pe_numero ON table_evoplus(pe_numero);
 CREATE INDEX idx_table_exercice_so_numero ON table_exercice(so_numero);
 CREATE INDEX idx_table_facture_de_numero ON table_facture(de_numero);
 CREATE INDEX idx_table_facture_pe_numero ON table_facture(pe_numero);
@@ -203,6 +204,8 @@ ALTER TABLE "table_estresponsable"
   ADD CONSTRAINT pk_table_estresponsable_peac_numero PRIMARY KEY (peac_numero);
 ALTER TABLE "table_etatpersonne"
   ADD CONSTRAINT pk_table_etatpersonne_ep_numero PRIMARY KEY (ep_numero);
+ALTER TABLE "table_evoplus"
+  ADD CONSTRAINT pk_table_evoplus_id PRIMARY KEY (id);
 ALTER TABLE "table_exercice"
   ADD CONSTRAINT pk_table_exercice_ex_numero PRIMARY KEY (ex_numero);
 ALTER TABLE "table_facture"
@@ -670,6 +673,9 @@ ALTER TABLE "table_estresponsable"
   FOREIGN KEY (re_numero) REFERENCES table_Responsabilite(RE_Numero)
     ON DELETE CASCADE 
     ON UPDATE CASCADE;
+ALTER TABLE "table_evoplus"
+  ADD CONSTRAINT fk_table_evoplus_pe_numero
+  FOREIGN KEY (pe_numero) REFERENCES table_Personne(PE_Numero);
 ALTER TABLE "table_exercice"
   ADD CONSTRAINT fk_table_exercice_so_numero
   FOREIGN KEY (so_numero) REFERENCES table_Societe(SO_Numero);
@@ -1226,6 +1232,10 @@ ALTER TABLE "table_etatpersonne" ALTER "created_at" SET DEFAULT CURRENT_TIMESTAM
 ALTER TABLE "table_etatpersonne" ALTER "updated_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_etatpersonne" ALTER "updated_by" SET DEFAULT CURRENT_USER;
 ALTER TABLE "table_etatpersonne" ALTER "lock_version" SET DEFAULT 0;
+ALTER TABLE "table_evoplus" ALTER "proposition" SET DEFAULT false;
+ALTER TABLE "table_evoplus" ALTER "aava" SET DEFAULT false;
+ALTER TABLE "table_evoplus" ALTER "created_at" SET DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE "table_evoplus" ALTER "created_by" SET DEFAULT CURRENT_USER;
 ALTER TABLE "table_exercice" ALTER "so_numero" SET DEFAULT current_societe();
 ALTER TABLE "table_exercice" ALTER "ex_cloture" SET DEFAULT false;
 ALTER TABLE "table_exercice" ALTER "ex_password" SET DEFAULT md5('root');
@@ -1803,6 +1813,11 @@ ALTER TABLE "table_etatpersonne" ALTER "ep_numero" SET NOT NULL ;
 ALTER TABLE "table_etatpersonne" ALTER "ep_libelle" SET NOT NULL ;
 ALTER TABLE "table_etatpersonne" ALTER "lock_version" SET NOT NULL ;
 ALTER TABLE "table_etatpersonne" ALTER "id" SET NOT NULL ;
+ALTER TABLE "table_evoplus" ALTER "proposition" SET NOT NULL ;
+ALTER TABLE "table_evoplus" ALTER "aava" SET NOT NULL ;
+ALTER TABLE "table_evoplus" ALTER "created_at" SET NOT NULL ;
+ALTER TABLE "table_evoplus" ALTER "created_by" SET NOT NULL ;
+ALTER TABLE "table_evoplus" ALTER "id" SET NOT NULL ;
 ALTER TABLE "table_exercice" ALTER "ex_numero" SET NOT NULL ;
 ALTER TABLE "table_exercice" ALTER "so_numero" SET NOT NULL ;
 ALTER TABLE "table_exercice" ALTER "ex_datedebut" SET NOT NULL ;

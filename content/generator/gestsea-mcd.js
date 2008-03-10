@@ -626,6 +626,71 @@ function mcd_getType(table,champs)
         default: type=TYPE_UNDEFINED;
       }
       break;
+    case 'table_evoplus':
+    case 'evoplus':
+      switch(champs.toLowerCase()){
+        case 'source': type=TYPE_STRING;break;
+        case 'numero': type=TYPE_STRING;break;
+        case 'titre': type=TYPE_STRING;break;
+        case 'nom': type=TYPE_STRING;break;
+        case 'complement': type=TYPE_STRING;break;
+        case 'ad1': type=TYPE_STRING;break;
+        case 'ad2': type=TYPE_STRING;break;
+        case 'ad3': type=TYPE_STRING;break;
+        case 'cp': type=TYPE_STRING;break;
+        case 'ville': type=TYPE_STRING;break;
+        case 'naissance': type=TYPE_STRING;break;
+        case 'telephone': type=TYPE_STRING;break;
+        case 'fax': type=TYPE_STRING;break;
+        case 'portable': type=TYPE_STRING;break;
+        case 'qualification': type=TYPE_STRING;break;
+        case 'base_ht': type=TYPE_STRING;break;
+        case 'productions': type=TYPE_STRING;break;
+        case 'fuel_m3': type=TYPE_STRING;break;
+        case 'eco_fuel': type=TYPE_STRING;break;
+        case 'eco_fuel_tipp': type=TYPE_STRING;break;
+        case 'hectares_nb': type=TYPE_STRING;break;
+        case 'salaries_nb': type=TYPE_STRING;break;
+        case 'sacea_ttc': type=TYPE_STRING;break;
+        case 'h1_ha': type=TYPE_STRING;break;
+        case 'h1_ht': type=TYPE_STRING;break;
+        case 'h2_ha': type=TYPE_STRING;break;
+        case 'h2_ht': type=TYPE_STRING;break;
+        case 'empty_ab': type=TYPE_STRING;break;
+        case 'h3_ha': type=TYPE_STRING;break;
+        case 'h3_ht': type=TYPE_STRING;break;
+        case 'empty_ae': type=TYPE_STRING;break;
+        case 'h4_ha': type=TYPE_STRING;break;
+        case 'h4_ht': type=TYPE_STRING;break;
+        case 'empty_ah': type=TYPE_STRING;break;
+        case 'h5_ha': type=TYPE_STRING;break;
+        case 'h5_ht': type=TYPE_STRING;break;
+        case 'empty_ak': type=TYPE_STRING;break;
+        case 'h6_ha': type=TYPE_STRING;break;
+        case 'h6_ht': type=TYPE_STRING;break;
+        case 'empty_an': type=TYPE_STRING;break;
+        case 'cm_nb': type=TYPE_STRING;break;
+        case 'cm_ht': type=TYPE_STRING;break;
+        case 'cm_noms': type=TYPE_STRING;break;
+        case 'opt1': type=TYPE_STRING;break;
+        case 'opt2': type=TYPE_STRING;break;
+        case 'opt3': type=TYPE_STRING;break;
+        case 'opt4': type=TYPE_STRING;break;
+        case 'opt_num': type=TYPE_INT;break;
+        case 'opt_ttc': type=TYPE_STRING;break;
+        case 'statut': type=TYPE_STRING;break;
+        case 'remarque': type=TYPE_STRING;break;
+        case 'proposition': type=TYPE_BOOL;break;
+        case 'aava': type=TYPE_BOOL;break;
+        case 'created_at': type=TYPE_DATETIME;break;
+        case 'created_by': type=TYPE_STRING;break;
+        case 'filename': type=TYPE_STRING;break;
+        case 'pe_numero': type=TYPE_INT;break;
+        case 'lot': type=TYPE_INT;break;
+        case 'id': type=TYPE_UNKNOWN;break;
+        default: type=TYPE_UNDEFINED;
+      }
+      break;
     case 'table_exercice':
     case 'exercice':
       switch(champs.toLowerCase()){
@@ -2194,6 +2259,71 @@ function mcd_getLabel(table,champs)
         default: label="";
       }
       break;
+    case 'table_evoplus':
+    case 'evoplus':
+      switch(champs.toLowerCase()){
+        case 'source': label="";break;
+        case 'numero': label="";break;
+        case 'titre': label="";break;
+        case 'nom': label="";break;
+        case 'complement': label="";break;
+        case 'ad1': label="";break;
+        case 'ad2': label="";break;
+        case 'ad3': label="";break;
+        case 'cp': label="";break;
+        case 'ville': label="";break;
+        case 'naissance': label="";break;
+        case 'telephone': label="";break;
+        case 'fax': label="";break;
+        case 'portable': label="";break;
+        case 'qualification': label="";break;
+        case 'base_ht': label="";break;
+        case 'productions': label="";break;
+        case 'fuel_m3': label="";break;
+        case 'eco_fuel': label="";break;
+        case 'eco_fuel_tipp': label="";break;
+        case 'hectares_nb': label="";break;
+        case 'salaries_nb': label="";break;
+        case 'sacea_ttc': label="";break;
+        case 'h1_ha': label="";break;
+        case 'h1_ht': label="";break;
+        case 'h2_ha': label="";break;
+        case 'h2_ht': label="";break;
+        case 'empty_ab': label="";break;
+        case 'h3_ha': label="";break;
+        case 'h3_ht': label="";break;
+        case 'empty_ae': label="";break;
+        case 'h4_ha': label="";break;
+        case 'h4_ht': label="";break;
+        case 'empty_ah': label="";break;
+        case 'h5_ha': label="";break;
+        case 'h5_ht': label="";break;
+        case 'empty_ak': label="";break;
+        case 'h6_ha': label="";break;
+        case 'h6_ht': label="";break;
+        case 'empty_an': label="";break;
+        case 'cm_nb': label="";break;
+        case 'cm_ht': label="";break;
+        case 'cm_noms': label="";break;
+        case 'opt1': label="";break;
+        case 'opt2': label="";break;
+        case 'opt3': label="";break;
+        case 'opt4': label="";break;
+        case 'opt_num': label="";break;
+        case 'opt_ttc': label="";break;
+        case 'statut': label="";break;
+        case 'remarque': label="";break;
+        case 'proposition': label="";break;
+        case 'aava': label="";break;
+        case 'created_at': label="";break;
+        case 'created_by': label="";break;
+        case 'filename': label="";break;
+        case 'pe_numero': label="";break;
+        case 'lot': label="";break;
+        case 'id': label="";break;
+        default: label="";
+      }
+      break;
     case 'table_exercice':
     case 'exercice':
       switch(champs.toLowerCase()){
@@ -3759,6 +3889,71 @@ function mcd_obligatoire(table,champs)
         default: obligatoire=false;
       }
       break;
+    case 'table_evoplus':
+    case 'evoplus':
+      switch(champs.toLowerCase()){
+        case 'source': obligatoire=false;break;
+        case 'numero': obligatoire=false;break;
+        case 'titre': obligatoire=false;break;
+        case 'nom': obligatoire=false;break;
+        case 'complement': obligatoire=false;break;
+        case 'ad1': obligatoire=false;break;
+        case 'ad2': obligatoire=false;break;
+        case 'ad3': obligatoire=false;break;
+        case 'cp': obligatoire=false;break;
+        case 'ville': obligatoire=false;break;
+        case 'naissance': obligatoire=false;break;
+        case 'telephone': obligatoire=false;break;
+        case 'fax': obligatoire=false;break;
+        case 'portable': obligatoire=false;break;
+        case 'qualification': obligatoire=false;break;
+        case 'base_ht': obligatoire=false;break;
+        case 'productions': obligatoire=false;break;
+        case 'fuel_m3': obligatoire=false;break;
+        case 'eco_fuel': obligatoire=false;break;
+        case 'eco_fuel_tipp': obligatoire=false;break;
+        case 'hectares_nb': obligatoire=false;break;
+        case 'salaries_nb': obligatoire=false;break;
+        case 'sacea_ttc': obligatoire=false;break;
+        case 'h1_ha': obligatoire=false;break;
+        case 'h1_ht': obligatoire=false;break;
+        case 'h2_ha': obligatoire=false;break;
+        case 'h2_ht': obligatoire=false;break;
+        case 'empty_ab': obligatoire=false;break;
+        case 'h3_ha': obligatoire=false;break;
+        case 'h3_ht': obligatoire=false;break;
+        case 'empty_ae': obligatoire=false;break;
+        case 'h4_ha': obligatoire=false;break;
+        case 'h4_ht': obligatoire=false;break;
+        case 'empty_ah': obligatoire=false;break;
+        case 'h5_ha': obligatoire=false;break;
+        case 'h5_ht': obligatoire=false;break;
+        case 'empty_ak': obligatoire=false;break;
+        case 'h6_ha': obligatoire=false;break;
+        case 'h6_ht': obligatoire=false;break;
+        case 'empty_an': obligatoire=false;break;
+        case 'cm_nb': obligatoire=false;break;
+        case 'cm_ht': obligatoire=false;break;
+        case 'cm_noms': obligatoire=false;break;
+        case 'opt1': obligatoire=false;break;
+        case 'opt2': obligatoire=false;break;
+        case 'opt3': obligatoire=false;break;
+        case 'opt4': obligatoire=false;break;
+        case 'opt_num': obligatoire=false;break;
+        case 'opt_ttc': obligatoire=false;break;
+        case 'statut': obligatoire=false;break;
+        case 'remarque': obligatoire=false;break;
+        case 'proposition': obligatoire=true;break;
+        case 'aava': obligatoire=true;break;
+        case 'created_at': obligatoire=true;break;
+        case 'created_by': obligatoire=true;break;
+        case 'filename': obligatoire=false;break;
+        case 'pe_numero': obligatoire=false;break;
+        case 'lot': obligatoire=false;break;
+        case 'id': obligatoire=true;break;
+        default: obligatoire=false;
+      }
+      break;
     case 'table_exercice':
     case 'exercice':
       switch(champs.toLowerCase()){
@@ -4795,6 +4990,8 @@ function mcd_getCle(table)
     case 'estresponsable': champs='PEAC_Numero';break;
     case 'table_etatpersonne': 
     case 'etatpersonne': champs='EP_Numero';break;
+    case 'table_evoplus': 
+    case 'evoplus': champs='id';break;
     case 'table_exercice': 
     case 'exercice': champs='EX_Numero';break;
     case 'table_facture': 
@@ -4945,6 +5142,7 @@ function mcd_getSequence(t) {
     case 'table_estlie': case 'estlie': s='seq_estlie';break;
     case 'table_estresponsable': case 'estresponsable': s='seq_estresponsable';break;
     case 'table_etatpersonne': case 'etatpersonne': s='seq_etatpersonne';break;
+    case 'table_evoplus': case 'evoplus': s='*';break;
     case 'table_exercice': case 'exercice': s='seq_exercice';break;
     case 'table_facture': case 'facture': s='seq_facture';break;
     case 'table_facturereglement': case 'facturereglement': s='seq_facturereglement';break;

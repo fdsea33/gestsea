@@ -18,6 +18,7 @@
   <script src="chrome://gestsea/content/generator/sources/personne.js"/>
   <script src="chrome://gestsea/content/generator/sources/reglement.js"/>
   <script src="chrome://gestsea/content/generator/sources/moto.js"/>
+  <script src="chrome://gestsea/content/generator/sources/evoplus.js"/>
   <script>function jauge(x){document.getElementById('jauge').setAttribute('value',x);}; window.FactureEnCours='7159621111';</script>
   <groupbox>
     <caption label="Générations des modules"/>
@@ -56,6 +57,10 @@
         <row>
           <button label="Générer 'GestSEA MOTO'"  oncommand="CodeInMoto('');"/>
           <button label="Ouvrir" oncommand="window.open('chrome://gestsea/content/gestsea/moto.xul');"/>
+        </row>
+        <row>
+          <button label="Générer 'GestSEA EVO+'" oncommand="CodeInEvoplus('');"/>
+          <button label="Ouvrir" oncommand="window.openDialog('chrome://gestsea/content/gestsea/evoplus.xul');"/>
         </row>
         <row>
           <button label="Générer 'GestSEA Temps'" disabled="true"/>

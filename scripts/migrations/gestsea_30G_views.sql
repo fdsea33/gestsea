@@ -379,6 +379,10 @@ CREATE OR REPLACE VIEW "sequencecache" AS
    SELECT table_sequencecache.sc_numero, table_sequencecache.sq_numero, table_sequencecache.sc_valeur, table_sequencecache.sc_locked, table_sequencecache.created_at, table_sequencecache.created_by, table_sequencecache.updated_at, table_sequencecache.updated_by, table_sequencecache.lock_version, table_sequencecache.id 
      FROM "table_sequencecache";
 
+CREATE OR REPLACE VIEW "evoplus" AS
+   SELECT table_evoplus.source, table_evoplus.numero, table_evoplus.titre, table_evoplus.nom, table_evoplus.complement, table_evoplus.ad1, table_evoplus.ad2, table_evoplus.ad3, table_evoplus.cp, table_evoplus.ville, table_evoplus.naissance, table_evoplus.telephone, table_evoplus.fax, table_evoplus.portable, table_evoplus.qualification, table_evoplus.base_ht, table_evoplus.productions, table_evoplus.fuel_m3, table_evoplus.eco_fuel, table_evoplus.eco_fuel_tipp, table_evoplus.hectares_nb, table_evoplus.salaries_nb, table_evoplus.sacea_ttc, table_evoplus.h1_ha, table_evoplus.h1_ht, table_evoplus.h2_ha, table_evoplus.h2_ht, table_evoplus.empty_ab, table_evoplus.h3_ha, table_evoplus.h3_ht, table_evoplus.empty_ae, table_evoplus.h4_ha, table_evoplus.h4_ht, table_evoplus.empty_ah, table_evoplus.h5_ha, table_evoplus.h5_ht, table_evoplus.empty_ak, table_evoplus.h6_ha, table_evoplus.h6_ht, table_evoplus.empty_an, table_evoplus.cm_nb, table_evoplus.cm_ht, table_evoplus.cm_noms, table_evoplus.opt1, table_evoplus.opt2, table_evoplus.opt3, table_evoplus.opt4, table_evoplus.opt_num, table_evoplus.opt_ttc, table_evoplus.statut, table_evoplus.remarque, table_evoplus.proposition, table_evoplus.aava, table_evoplus.created_at, table_evoplus.created_by, table_evoplus.filename, table_evoplus.pe_numero, table_evoplus.lot, table_evoplus.id 
+     FROM "table_evoplus";
+
 CREATE OR REPLACE RULE rule_acces_insert AS
   ON INSERT TO "acces"
   DO INSTEAD INSERT INTO "table_acces"(ac_numero, ac_libelle, ac_niveau, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (new.ac_numero, new.ac_libelle, new.ac_niveau, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
@@ -688,6 +692,16 @@ CREATE OR REPLACE RULE rule_etatpersonne_update AS
 CREATE OR REPLACE RULE rule_etatpersonne_delete AS
   ON DELETE TO "etatpersonne"
   DO INSTEAD DELETE FROM "table_etatpersonne" WHERE old.EP_Numero=EP_Numero;
+
+CREATE OR REPLACE RULE rule_evoplus_insert AS
+  ON INSERT TO "evoplus"
+  DO INSTEAD INSERT INTO "table_evoplus"(source, numero, titre, nom, complement, ad1, ad2, ad3, cp, ville, naissance, telephone, fax, portable, qualification, base_ht, productions, fuel_m3, eco_fuel, eco_fuel_tipp, hectares_nb, salaries_nb, sacea_ttc, h1_ha, h1_ht, h2_ha, h2_ht, empty_ab, h3_ha, h3_ht, empty_ae, h4_ha, h4_ht, empty_ah, h5_ha, h5_ht, empty_ak, h6_ha, h6_ht, empty_an, cm_nb, cm_ht, cm_noms, opt1, opt2, opt3, opt4, opt_num, opt_ttc, statut, remarque, proposition, aava, created_at, created_by, filename, pe_numero, lot, id) VALUES (new.source, new.numero, new.titre, new.nom, new.complement, new.ad1, new.ad2, new.ad3, new.cp, new.ville, new.naissance, new.telephone, new.fax, new.portable, new.qualification, new.base_ht, new.productions, new.fuel_m3, new.eco_fuel, new.eco_fuel_tipp, new.hectares_nb, new.salaries_nb, new.sacea_ttc, new.h1_ha, new.h1_ht, new.h2_ha, new.h2_ht, new.empty_ab, new.h3_ha, new.h3_ht, new.empty_ae, new.h4_ha, new.h4_ht, new.empty_ah, new.h5_ha, new.h5_ht, new.empty_ak, new.h6_ha, new.h6_ht, new.empty_an, new.cm_nb, new.cm_ht, new.cm_noms, new.opt1, new.opt2, new.opt3, new.opt4, new.opt_num, new.opt_ttc, new.statut, new.remarque, COALESCE(NEW.proposition,false), COALESCE(NEW.aava,false), CURRENT_TIMESTAMP, CURRENT_USER, new.filename, new.pe_numero, new.lot, DEFAULT);
+CREATE OR REPLACE RULE rule_evoplus_update AS
+  ON UPDATE TO "evoplus"
+  DO INSTEAD UPDATE "table_evoplus" SET source=new.source, numero=new.numero, titre=new.titre, nom=new.nom, complement=new.complement, ad1=new.ad1, ad2=new.ad2, ad3=new.ad3, cp=new.cp, ville=new.ville, naissance=new.naissance, telephone=new.telephone, fax=new.fax, portable=new.portable, qualification=new.qualification, base_ht=new.base_ht, productions=new.productions, fuel_m3=new.fuel_m3, eco_fuel=new.eco_fuel, eco_fuel_tipp=new.eco_fuel_tipp, hectares_nb=new.hectares_nb, salaries_nb=new.salaries_nb, sacea_ttc=new.sacea_ttc, h1_ha=new.h1_ha, h1_ht=new.h1_ht, h2_ha=new.h2_ha, h2_ht=new.h2_ht, empty_ab=new.empty_ab, h3_ha=new.h3_ha, h3_ht=new.h3_ht, empty_ae=new.empty_ae, h4_ha=new.h4_ha, h4_ht=new.h4_ht, empty_ah=new.empty_ah, h5_ha=new.h5_ha, h5_ht=new.h5_ht, empty_ak=new.empty_ak, h6_ha=new.h6_ha, h6_ht=new.h6_ht, empty_an=new.empty_an, cm_nb=new.cm_nb, cm_ht=new.cm_ht, cm_noms=new.cm_noms, opt1=new.opt1, opt2=new.opt2, opt3=new.opt3, opt4=new.opt4, opt_num=new.opt_num, opt_ttc=new.opt_ttc, statut=new.statut, remarque=new.remarque, proposition=COALESCE(NEW.proposition,false), aava=COALESCE(NEW.aava,false), created_at=OLD.created_at, created_by=OLD.created_by, filename=new.filename, pe_numero=new.pe_numero, lot=new.lot, id=OLD.id WHERE new.id=id;
+CREATE OR REPLACE RULE rule_evoplus_delete AS
+  ON DELETE TO "evoplus"
+  DO INSTEAD DELETE FROM "table_evoplus" WHERE old.id=id;
 
 CREATE OR REPLACE RULE rule_exercice_insert AS
   ON INSERT TO "exercice"
@@ -1339,4 +1353,5 @@ REVOKE ALL ON "groupe" FROM PUBLIC;
 REVOKE ALL ON "nonadherent" FROM PUBLIC;
 REVOKE ALL ON "sequence" FROM PUBLIC;
 REVOKE ALL ON "sequencecache" FROM PUBLIC;
+REVOKE ALL ON "evoplus" FROM PUBLIC;
 GRANT ALL ON "routage" TO brice;

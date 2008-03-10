@@ -225,6 +225,8 @@ ALTER TABLE "table_estresponsable"
   DROP CONSTRAINT fk_table_estresponsable_pe_numero;
 ALTER TABLE "table_estresponsable"
   DROP CONSTRAINT fk_table_estresponsable_re_numero;
+ALTER TABLE "table_evoplus"
+  DROP CONSTRAINT fk_table_evoplus_pe_numero;
 ALTER TABLE "table_exercice"
   DROP CONSTRAINT fk_table_exercice_so_numero;
 ALTER TABLE "table_facture"
@@ -392,6 +394,7 @@ DROP TABLE "table_equipe" CASCADE;
 DROP TABLE "table_estlie" CASCADE;
 DROP TABLE "table_estresponsable" CASCADE;
 DROP TABLE "table_etatpersonne" CASCADE;
+DROP TABLE "table_evoplus" CASCADE;
 DROP TABLE "table_exercice" CASCADE;
 DROP TABLE "table_facture" CASCADE;
 DROP TABLE "table_facturereglement" CASCADE;
@@ -1913,6 +1916,69 @@ CREATE TABLE "table_sequencecache"
   "id" SERIAL
 );
 
+CREATE TABLE "table_evoplus"
+(
+  "source" TEXT,
+  "numero" TEXT,
+  "titre" TEXT,
+  "nom" TEXT,
+  "complement" TEXT,
+  "ad1" TEXT,
+  "ad2" TEXT,
+  "ad3" TEXT,
+  "cp" TEXT,
+  "ville" TEXT,
+  "naissance" TEXT,
+  "telephone" TEXT,
+  "fax" TEXT,
+  "portable" TEXT,
+  "qualification" TEXT,
+  "base_ht" TEXT,
+  "productions" TEXT,
+  "fuel_m3" TEXT,
+  "eco_fuel" TEXT,
+  "eco_fuel_tipp" TEXT,
+  "hectares_nb" TEXT,
+  "salaries_nb" TEXT,
+  "sacea_ttc" TEXT,
+  "h1_ha" TEXT,
+  "h1_ht" TEXT,
+  "h2_ha" TEXT,
+  "h2_ht" TEXT,
+  "empty_ab" TEXT,
+  "h3_ha" TEXT,
+  "h3_ht" TEXT,
+  "empty_ae" TEXT,
+  "h4_ha" TEXT,
+  "h4_ht" TEXT,
+  "empty_ah" TEXT,
+  "h5_ha" TEXT,
+  "h5_ht" TEXT,
+  "empty_ak" TEXT,
+  "h6_ha" TEXT,
+  "h6_ht" TEXT,
+  "empty_an" TEXT,
+  "cm_nb" TEXT,
+  "cm_ht" TEXT,
+  "cm_noms" TEXT,
+  "opt1" TEXT,
+  "opt2" TEXT,
+  "opt3" TEXT,
+  "opt4" TEXT,
+  "opt_num" INTEGER,
+  "opt_ttc" TEXT,
+  "statut" TEXT,
+  "remarque" TEXT,
+  "proposition" BOOLEAN,
+  "aava" BOOLEAN,
+  "created_at" TIMESTAMP,
+  "created_by" VARCHAR(32),
+  "filename" VARCHAR(512),
+  "pe_numero" INTEGER,
+  "lot" INTEGER,
+  "id" SERIAL
+);
+
 
 ---- Tables
 REVOKE ALL ON "table_constante" FROM PUBLIC;
@@ -2000,6 +2066,7 @@ REVOKE ALL ON "table_groupe" FROM PUBLIC;
 REVOKE ALL ON "table_nonadherent" FROM PUBLIC;
 REVOKE ALL ON "table_sequence" FROM PUBLIC;
 REVOKE ALL ON "table_sequencecache" FROM PUBLIC;
+REVOKE ALL ON "table_evoplus" FROM PUBLIC;
 
 ---- Séquences
 GRANT SELECT, INSERT, UPDATE ON seq_acces TO PUBLIC;

@@ -1539,5 +1539,68 @@
   </table>
 
 
+  <table name="Evoplus" abbrev="EV" label="Table spéciale Evo+ (Hors catégorie)">
+    <column name="source" type="TEXT"          >source                            - a</column>
+    <column name="numero" type="TEXT"          >numero</column>
+    <column name="titre" type="TEXT"           >titre</column>
+    <column name="nom" type="TEXT"             >nom/prenom</column>
+    <column name="complement" type="TEXT"      >complement</column>
+    <column name="ad1" type="TEXT"             >ad1</column>
+    <column name="ad2" type="TEXT"             >ad2</column>
+    <column name="ad3" type="TEXT"             >ad3</column>
+    <column name="cp" type="TEXT"              >cp</column>
+    <column name="ville" type="TEXT"           >ville</column>
+    <column name="naissance" type="TEXT"       >né le</column>
+    <column name="telephone" type="TEXT"       >tel</column>
+    <column name="fax" type="TEXT"             >fax                               - m</column>
+    <column name="portable" type="TEXT"        >portable</column>
+    <column name="qualification" type="TEXT"   >qualif</column>
+    <column name="base_ht" type="TEXT"         >forfait (qualif cout)</column>
+    <column name="productions" type="TEXT"     >productions</column>
+    <column name="fuel_m3" type="TEXT"         >fuel m3</column>
+    <column name="eco_fuel" type="TEXT"        >eco fuel</column>
+    <column name="eco_fuel_tipp" type="TEXT"   >eco fuel tipp</column>
+    <column name="hectares_nb" type="TEXT"     >nb hectare</column>
+    <column name="salaries_nb" type="TEXT"     >salaries nb</column>
+    <column name="sacea_ttc" type="TEXT"       >abt conseil cout</column>
+    <column name="h1_ha" type="TEXT"           >aocreg ha</column>
+    <column name="h1_ht" type="TEXT"           >aocreg ht</column>
+    <column name="h2_ha" type="TEXT"           >aoccom ha                         - z</column>
+    <column name="h2_ht" type="TEXT"           >aoccom ht                         - aa</column>
+    <column name="empty_ab" type="TEXT"        ></column>
+    <column name="h3_ha" type="TEXT"           >tclarbo ha</column>
+    <column name="h3_ht" type="TEXT"           >tclarbo ht</column>
+    <column name="empty_ae" type="TEXT"        ></column>
+    <column name="h4_ha" type="TEXT"           >cereales ha</column>
+    <column name="h4_ht" type="TEXT"           >cereales ht</column>
+    <column name="empty_ah" type="TEXT"        > --</column>
+    <column name="h5_ha" type="TEXT"           >herbage ha</column>
+    <column name="h5_ht" type="TEXT"           >herbage ht</column>
+    <column name="empty_ak" type="TEXT"        > --</column>
+    <column name="h6_ha" type="TEXT"           >maraich ha</column>
+    <column name="h6_ht" type="TEXT"           >maraich ht</column>
+    <column name="empty_an" type="TEXT"        > --</column>
+    <column name="cm_nb" type="TEXT"           >cm nb                             - am</column>
+    <column name="cm_ht" type="TEXT"           >cm ht</column>
+    <column name="cm_noms" type="TEXT"         >cm noms</column>
+    <!--                                                : Actif ! Non Actif ! SACEA ! lAAVA !   -->
+    <column name="opt1" type="TEXT"            >option1 :   X   !           !   X   !   X</column>
+    <column name="opt2" type="TEXT"            >option2 :   X   OU    X     !       !   X</column>
+    <column name="opt3" type="TEXT"            >option3 :   X   !           !   X   !</column>
+    <column name="opt4" type="TEXT"            >option4 :   X   OU    X     !       !          </column>
+    <column name="opt_num" type="INTEGER"      >option retenu</column>
+    <column name="opt_ttc" type="TEXT"         >cout retenu</column>
+    <column name="statut" type="TEXT"          >statut</column>
+    <column name="remarque" type="TEXT"        >remarque</column>
+    <column name="proposition" type="BOOLEAN" notnull="true" default="false">est une proposition</column>
+    <column name="aava" type="BOOLEAN" notnull="true" default="false">si on lui colle le journal</column>
+    <column name="created_at" type="TIMESTAMP" notnull="true" default="CURRENT_TIMESTAMP"></column>
+    <column name="created_by" type="VARCHAR(32)" notnull="true" default="CURRENT_USER"></column>
+    <column name="filename" type="VARCHAR(512)"></column>
+    <column name="pe_numero" type="INTEGER" fkey="Personne(PE_Numero)"></column>
+    <column name="lot" type="INTEGER"></column>
+    <column name="id" type="SERIAL" notnull="true" pkey="true"></column>
+  </table>
+
 
 </analysis>
