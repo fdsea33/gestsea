@@ -1379,8 +1379,8 @@ function wg_send_cotisation(send_query){
     var numeros = "Numéros à inscrire sur le bulletin d'adhésion :\n"
     // Création du réglement et ajout au bulletin
   
-    if (elem("wg-reglement-menulist").selectedIndex>0)
-      num_reglement = elem("wg-reglement-menulist").selectedItem.value;
+//    if (elem("wg-reglement-menulist").selectedIndex>0)
+//      num_reglement = elem("wg-reglement-menulist").selectedItem.value;
     if (elem("wg-reglement-nouveau-checkbox").checked) {
       bulletin += wg_bml_field("reglement.saved", "true");
       num_reglement = requete("SELECT nextval('seq_reglement');");
@@ -1394,6 +1394,9 @@ function wg_send_cotisation(send_query){
         wg_reglement_load();
       }
       bulletin += wg_bml_field("reglement.numero", num_reglement);
+    } else {
+  //    if (elem("wg-reglement-menulist").selectedIndex>0)
+      num_reglement = elem("wg-reglement-menulist").selectedItem.value;
     }
     numeros += wg_error("RG"+num_reglement);
 
