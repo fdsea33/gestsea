@@ -289,9 +289,9 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Passer le devis en facture" oncommand="DevisVersFacture(TAB_GLOBAL_COMPO[493]);"/>
-    <button label="Imprimer le devis" oncommand="Imprimer(TAB_GLOBAL_COMPO[493],'devis');"/>
-    <button label="Recalculer le taux de réduction" oncommand="MajReductionDevis(TAB_GLOBAL_COMPO[493]);"/>
+    <button label="Passer le devis en facture" oncommand="DevisVersFacture(TAB_GLOBAL_COMPO[106]);"/>
+    <button label="Imprimer le devis" oncommand="Imprimer(TAB_GLOBAL_COMPO[106],'devis');"/>
+    <button label="Recalculer le taux de réduction" oncommand="MajReductionDevis(TAB_GLOBAL_COMPO[106]);"/>
   </arrowscrollbox>
   <hbox pack="end" align="center">
     <separator class="groove"/>
@@ -372,14 +372,15 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Passer en avoir" oncommand="FactureVersAvoir(TAB_GLOBAL_COMPO[513]);"/>
-    <button label="En perte" oncommand="FactureEnPerte(TAB_GLOBAL_COMPO[513]);"/>
-    <button label="Imprimer" oncommand="Imprimer(TAB_GLOBAL_COMPO[513],'facture');"/>
+    <button label="Passer en avoir" oncommand="FactureVersAvoir(TAB_GLOBAL_COMPO[126]);"/>
+    <button label="En perte" oncommand="FactureEnPerte(TAB_GLOBAL_COMPO[126]);"/>
+    <button label="Imprimer" oncommand="Imprimer(TAB_GLOBAL_COMPO[126],'facture');"/>
     <button label="Factures CM" oncommand="PrintLot(1,'facture');"/>
     <button label="Cartes CM" oncommand="PrintLot(1,'carte');"/>
-    <button label="Carte (Duplicata)" oncommand="PrintDuplicata(TAB_GLOBAL_COMPO[513]);"/>
-    <button label="Router un groupe..." oncommand="GroupeRoutage(TAB_GLOBAL_COMPO[513]);"/>
-    <button label="Supprimer les routages" oncommand="SupprimeRoutage(TAB_GLOBAL_COMPO[513]);"/>
+    <button label="Carte (Duplicata)" oncommand="PrintDuplicata(TAB_GLOBAL_COMPO[126]);"/>
+    <button label="Router un groupe..." oncommand="GroupeRoutage(TAB_GLOBAL_COMPO[126]);"/>
+    <button label="Supprimer les routages" oncommand="SupprimeRoutage(TAB_GLOBAL_COMPO[126]);"/>
+    <button label="Imprimer Pub" oncommand="Imprimer(TAB_GLOBAL_COMPO[126],'facture-publicite');"/>
   </arrowscrollbox>
   <hbox pack="end" align="center">
     <separator class="groove"/>
@@ -412,7 +413,7 @@
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
     <button label="Mettre à jour les adhésions" oncommand="MiseAJourAdhesion();"/>
-    <button label="Imprimer l'avoir" oncommand="Imprimer(TAB_GLOBAL_COMPO[554],'avoir');"/>
+    <button label="Imprimer l'avoir" oncommand="Imprimer(TAB_GLOBAL_COMPO[167],'avoir');"/>
   </arrowscrollbox>
   <hbox pack="end" align="center">
     <separator class="groove"/>
@@ -530,7 +531,7 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Imprimer le bordereau" oncommand="Imprimer(TAB_GLOBAL_COMPO[598],'bordereau');"/>
+    <button label="Imprimer le bordereau" oncommand="Imprimer(TAB_GLOBAL_COMPO[211],'bordereau');"/>
   </arrowscrollbox>
 </hbox>
 </vbox>

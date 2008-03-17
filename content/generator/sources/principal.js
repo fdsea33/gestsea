@@ -485,6 +485,7 @@ function CodeInPrincipal(centre){
     It_Facture.AjouterBouton("Carte (Duplicata)","PrintDuplicata",ComposantDansCode(Maitre_Facture));
     It_Facture.AjouterBouton("Router un groupe...","GroupeRoutage",ComposantDansCode(Maitre_Facture));
     It_Facture.AjouterBouton("Supprimer les routages","SupprimeRoutage",ComposantDansCode(Maitre_Facture));
+    It_Facture.AjouterBouton("Imprimer Pub","Imprimer",ComposantDansCode(Maitre_Facture)+",'facture-publicite'");
 
     It_Facture.AjouterComposantSimple("N° Facture","fa_numfact",null,null,LABEL);
     It_Facture.AjouterComposantSimple("Date","fa_date",null,null,LABEL);

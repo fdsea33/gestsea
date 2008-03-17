@@ -871,7 +871,7 @@ BEGIN
     IF NEW.PX_Numero IS NULL THEN
       SELECT count(*) FROM Prix WHERE New.PD_Numero=PD_Numero AND px_actif INTO compte;
       IF compte<1 THEN
-        RAISE EXCEPTION 'Ce produit ne possède pas de tarifs. Il est impossible de l''utiliser dans cette situation.';
+        RAISE EXCEPTION 'Le produit "%" ne possède pas de tarifs. Il est impossible de l''utiliser dans cette situation.', NEW.PD_Numero;
       END IF;
       SELECT PX_Numero FROM Prix WHERE New.PD_Numero=PD_Numero AND px_actif ORDER BY prix.id DESC INTO NEW.PX_Numero;
     END IF;

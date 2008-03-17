@@ -245,7 +245,7 @@ function wg_onload() {
   
   jeTravaillePour('FDS');
   // Mode de reglements
-  menulist_fill('wg-reglement-mode', "SELECT mr_libelle, mr_numero FROM modereglement WHERE mr_actif;");
+  menulist_fill('wg-reglement-mode', "SELECT mr_libelle, mr_numero FROM modereglement WHERE mr_actif ORDER BY 1;");
   
   // Cotisations principales  
   grid_fill("wg-cotisation-radiogroup","SELECT INITCAP(TRIM(SUBSTR(pd_libelle,POSITION(']' IN pd_libelle)+12))) AS px_libelle, px_tarifttc::float, pd_numero FROM produit LEFT JOIN prix using (pd_numero) WHERE px_Actif AND PD_Numero IN ("+PROD_COT.join(',')+");");
@@ -1062,7 +1062,7 @@ function wg_send_cotisation(send_query){
     num_cotisation = requete("SELECT cs_numero FROM cotisation WHERE cs_annee="+annee+" AND pe_numero="+num_personne+";");
     if (num_cotisation!=null) {
       if (confirm("Une cotisation a déjà été enregistrée pour la personne (CX"+num_cotisation+"). Voulez-vous arrêter la validation de la cotisation ?")) {
-        erreurs += wg_error("Une cotisation a déjà été enregistrée pour la personne (CX"+num_cotisation+")");
+        erreurs += wg_error("Cotisation annulée. (Une cotisation a déjà été enregistrée pour la personne (CX"+num_cotisation+"))");
         valide = false;
       }
     }
