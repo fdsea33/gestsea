@@ -2188,6 +2188,7 @@ DECLARE
   num_prix prix.px_numero%TYPE;
   num_reglement reglement.rg_numero%TYPE;
   total NUMERIC;
+  complement NUMERIC;
   total_fdsea NUMERIC;
   total_sacea NUMERIC;
   total_aava  NUMERIC;
@@ -2380,7 +2381,14 @@ BEGIN
 
   UPDATE employe SET EM_Service=SE_Numero FROM service WHERE employe.EM_Numero=num_employe AND SE_Societe=2;
 
-  INSERT INTO facturereglement (rg_numero, fa_numero, fr_partiel, fr_montant) VALUES (num_reglement,num_facture_fdsea,true,total_fdsea);
+  complement := 0;
+  IF NULLIF(bml_extract(detail,'reglement.complement.numero'),'null') IS NULL THEN
+    INSERT INTO facturereglement (rg_numero, fa_numero, fr_partiel, fr_montant) VALUES (num_reglement,num_facture_fdsea,true,total_fdsea);
+  ELSE
+    SELECT rg_montant FROM table_reglement WHERE rg_numero=bml_extract(detail,'reglement.complement.numero') INTO complement;
+    INSERT INTO facturereglement (rg_numero, fa_numero, fr_partiel, fr_montant) VALUES (bml_extract(detail,'reglement.complement.numero'),num_facture_fdsea,false,complement);
+    INSERT INTO facturereglement (rg_numero, fa_numero, fr_partiel, fr_montant) SELECT num_reglement,num_facture_fdsea,true,total_fdsea-complement;
+  END IF;
 
   IF bml_extract(detail,'sacea')::boolean THEN
     INSERT INTO repartition(rg_numero, mp_numero, rp_montant)
@@ -2404,7 +2412,7 @@ BEGIN
     total_fdsea := total_fdsea+bml_extract(detail,'fdsea.associe.montant')::float;
   END IF;
 
-  SELECT rg_montant-(total_sacea+total_aava+total_fdsea) FROM reglement WHERE rg_numero=num_reglement INTO total_dons;
+  SELECT rg_montant+complement-(total_sacea+total_aava+total_fdsea) FROM reglement WHERE rg_numero=num_reglement INTO total_dons;
   IF (total_dons!=0 AND bml_extract(detail,'reglement.don')::boolean) THEN 
     INSERT INTO repartition(rg_numero, mp_numero, rp_montant)
       SELECT num_reglement, mp_numero, total_dons FROM moderepartition WHERE mp_societe=2;

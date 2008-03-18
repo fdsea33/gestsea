@@ -269,7 +269,10 @@
   <caption label="Détail de la cotisation"/>
 -->
       <tabbox flex="1">
-        <tabs><tab class="tabby" label="Cotisation et services"/><tab class="tabby" id="wg-associe-tab" label="Associés"/></tabs>
+        <tabs>
+          <tab class="tabby" label="Cotisation et services"/>
+          <tab class="tabby" id="wg-associe-tab" label="Associés"/>
+        </tabs>
         <tabpanels flex="1">
           <tabpanel orient="vertical" flex="1">
           <hbox align="center" orient="horizontal">
@@ -308,7 +311,18 @@
           </hbox>
 
       <vbox flex="1">
-        <hbox>
+
+
+
+
+
+
+
+
+
+        <box orient="horizontal">
+
+
 
 
 
@@ -343,7 +357,7 @@
 
 
           <groupbox flex="1" id="wg-conjoint-groupbox">
-            <caption label="Conjoint Ancien">
+            <caption label="Conjoint Ancien" orient="vertical">
               <checkbox id="wg-conjoint-checkbox" label="Avec un conjoint" oncommand="wg_totalize();"/>
               <menulist editable="true" flex="1" width="320" id="wg-conjoint-menulist" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" onchange="wg_conjoint_search(); this.doCommand();" oncommand="this.inputField.select(); wg_conjoint_load();" onfocus="this.inputField.select();" oninput="elem('wg-conjoint-checkbox').checked=true; wg_totalize();">
                 <template>
@@ -383,7 +397,10 @@
           </groupbox>
 
 
-        </hbox>
+
+
+
+        </box>
         <hbox>
 
 
@@ -436,6 +453,22 @@
 
 
         </hbox>
+
+          <groupbox orient="vertical">
+            <caption label="RégSupp">
+              <checkbox id="wg-regsupp-checkbox" class="price" label="Réglements supplémentaires FDSEA"/>
+            </caption>
+            <hbox align="center">
+              <label value="N°Réglement"/>
+              <menulist editable="true" id="wg-regsupp-menulist" flex="2" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" onchange="wg_regsupp_search(); this.doCommand();" oncommand="this.inputField.select(); wg_regsupp_load();" onfocus="this.inputField.select();">
+                <template>
+                  <menupopup>
+                    <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#rg_libelle" value="rdf:http://www.mozilla.org/SQL-rdf#rg_numero"/>
+                  </menupopup>
+                </template>
+              </menulist>
+            </hbox>
+          </groupbox>
       </vbox>
 
 

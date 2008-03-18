@@ -258,7 +258,7 @@ function wg_onload() {
   elem('wg-cotisation-radiogroup').selectedIndex = 0;
   wg_cotisation_select();
   // Cotisations à l'hectare
-  grid_fill("wg-hectare-rows", "SELECT INITCAP(TRIM(SUBSTR(pd_libelle,POSITION(']' IN pd_libelle)+1))) AS pd_libelle, px_tarifttc as pd_tarif, pd_numero FROM produit LEFT JOIN prix using (pd_numero) WHERE px_Actif AND PD_Numero IN ("+PROD_HECT.join(',')+") ORDER BY pd_numero ASC;");
+  grid_fill("wg-hectare-rows", "SELECT SUBSTR(INITCAP(TRIM(SUBSTR(pd_libelle,POSITION(']' IN pd_libelle)+1))),1,20) AS pd_libelle, px_tarifttc as pd_tarif, pd_numero FROM produit LEFT JOIN prix using (pd_numero) WHERE px_Actif AND PD_Numero IN ("+PROD_HECT.join(',')+") ORDER BY pd_numero ASC;");
   // Tarifs conjoint
   grid_fill("wg-conjoint-radiogroup", "SELECT px_tarifttc::float||'€ - '||pd_titre AS px_libelle, px_tarifttc, pd_numero FROM produit LEFT JOIN prix using (pd_numero) WHERE px_Actif AND pd_numero IN ("+PROD_CONJ.join(',')+") ORDER BY px_tarifttc;");
   elem('wg-conjoint-radiogroup').selectedIndex = 0;
@@ -508,6 +508,17 @@ function wg_reglement_load(){
     elem("wg-reglement-tiersreglement-detail").value = requete("SELECT 'N°'||rg_numero||' : '||rg_montant||'€ payés le '||rg_date||' par '||pe_nom||COALESCE(' '||pe_prenom,'')||' (N°'||pe_numero-1000000||')' FROM table_reglement join personne USING (pe_numero) WHERE rg_numero="+menulist.selectedItem.value);
     elem("wg-reglement-tiersreglement-adresse").value = requete("SELECT COALESCE(ad_libelle,'') FROM table_reglement left join adresse USING (pe_numero) WHERE rg_numero="+menulist.selectedItem.value);
   } else elem("wg-reglement-tiersreglement-detail").value = "";
+}
+
+
+function wg_regsupp_search(){
+  var sw=elem('wg-regsupp-menulist').value;
+  var query="SELECT 'N°'||rg_numero||' : '||rg_montant||'€ payés le '||rg_date||' par '||pe_nom||' (N°'||pe_numero-1000000||')' AS rg_libelle, rg_numero from table_reglement join table_personne using (pe_numero) where so_numero=2 AND (rg_numero like '"+sw+"' OR pe_numero-1000000 like '"+sw+"' OR pe_nom ilike '%'||REPLACE('"+sw+"',' ','%')||'%');";
+  menulist_fill("wg-regsupp-menulist",query);
+}
+
+function wg_regsupp_load(){
+//  var menulist = elem("wg-regsupp-menulist");
 }
 
 
@@ -1211,6 +1222,11 @@ function wg_send_cotisation(send_query){
 
   
   if (send_query) {
+    if (elem("wg-regsupp").checked && elem("wg-regsupp-menulist").selectedIndex<0) {
+	    erreurs += wg_error("S'il y a un réglement supplémentaire, il faut le sélectionner dans la liste.");
+ 	    valide = false;
+    }
+
 		if (elem("wg-reglement-nouveau-checkbox").checked) {
 	    if (!elem('wg-societe-checkbox').checked && elem('wg-reglement-societe-checkbox').checked) {
   	    erreurs += wg_error("Si le réglement est au nom de la société, vous devez renseigner la société.");
@@ -1400,6 +1416,10 @@ function wg_send_cotisation(send_query){
     bulletin += wg_bml_field("reglement.numero", elem("wg-reglement-menulist").selectedItem.value);
   }
 
+  if (elem("wg-regsupp").checked) {
+    bulletin += wg_bml_field("reglement.complement.numero", elem("wg-regsupp-menulist").selectedItem.value);
+  }
+
   //  alert(bulletin);
   elem("wg-status-f").label = "4";
 
@@ -1481,6 +1501,8 @@ function wg_send_cotisation(send_query){
 		//	Associe
 		menulist_fill('wg-associe-menulist', 'SELECT pe_numero, pe_description FROM personne WHERE pe_numero IS NULL;');
 		wg_entity_load('associe');
+
+    elem("wg-regsupp").checked = false;
 
   }
   elem('wg-save-button').disabled = false;
