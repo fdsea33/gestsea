@@ -193,7 +193,7 @@ FROM facture LEFT JOIN ligneFacture USING (fa_numero)
        LEFT JOIN produit      USING (pd_numero)
        LEFT JOIN table_prix         USING (px_numero)
        LEFT JOIN tva          USING (tv_numero)
-  WHERE lf_montantht >= 0;
+  WHERE lf_montantht != 0;
 
 
 

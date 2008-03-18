@@ -140,7 +140,7 @@
           </menulist>
         </caption>
 
-        <checkbox id="wg-societe-checkbox" label="La société doit être prise en compte" oncommand="elem('wg-societe-complement').hidden=!this.checked; checkbox_check('wg-reglement-societe-checkbox',this.checked); checkbox_check('wg-journal-societe-checkbox',this.checked);"/>
+        <checkbox id="wg-societe-checkbox" label="La société doit être prise en compte" oncommand="elem('wg-societe-complement').hidden=!this.checked; checkbox_check('wg-reglement-societe-checkbox',this.checked); checkbox_check('wg-journal-societe-checkbox',this.checked); wg_associe_list();"/>
         <vbox id="wg-societe-complement" hidden="true">
 
         <checkbox id="wg-societe-nouveau-checkbox" label="Créer une nouvelle fiche à partir des informations ci-dessous" oncommand="elem('wg-societe-routage').hidden = this.checked"/>
@@ -460,7 +460,7 @@
                 <listbox allowevents="true" id="wg-associe-listbox" flex="1" style="overflow:auto;" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content">
                   <template>
                     <listitem uri="rdf:*" allowevents="true">
-                      <checkbox style="margin-right:10em;" checked="true" label="rdf:http://www.mozilla.org/SQL-rdf#pe_description" numero="rdf:http://www.mozilla.org/SQL-rdf#pe_numero" oncommand="elem('wg-associe-checkbox').checked=true; wg_totalize();"/>
+                      <checkbox style="margin-right:10em;" checked="true" label="rdf:http://www.mozilla.org/SQL-rdf#pe_description" numero="rdf:http://www.mozilla.org/SQL-rdf#pe_numero" lien="rdf:http://www.mozilla.org/SQL-rdf#el_numero" oncommand="elem('wg-associe-checkbox').checked=true; wg_totalize();"/>
                     </listitem>
                   </template>
                 </listbox>

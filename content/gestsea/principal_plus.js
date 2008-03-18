@@ -288,7 +288,7 @@ function Recherche_Nom(CompoPerso)
   var NomPerso=prompt("Entrez le nom de la personne","");
   if (NomPerso==null)
   return;
-  var Req="select distinct pe_numero,pe_titre,pe_fullname, pe_cp, pe_ville, pe_telephone, pe_fax from personne where pe_libelle ilike ('%'||REPLACE(TRIM('"+NomPerso+"'),' ','%')||'%') order by pe_fullname";
+  var Req="select distinct pe_numero,pe_titre,pe_fullname, pe_cp, pe_ville, pe_telephone, pe_fax from personne where pe_libelle ilike ('%'||REPLACE(TRIM('"+NomPerso+"'),' ','%')||'%') or pe_adresse ilike ('%'||REPLACE(TRIM('"+NomPerso+"'),' ','%')||'%') order by pe_fullname";
   Open_Rechercher(Req,CompoPerso);
 }
 

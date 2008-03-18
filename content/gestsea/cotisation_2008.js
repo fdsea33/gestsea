@@ -95,7 +95,7 @@ function listbox_fill(id, query){
   if (result.rowCount>0){
     if (idx<0) list.selectedIndex=0;
     else{
-      if (idx>=list.rowCount) list.selectedIndex=list.rowCount-1;
+      if (idx>=result.rowCount) list.selectedIndex=result.rowCount-1;
       else list.selectedIndex=idx;
     }
   }
@@ -189,17 +189,23 @@ function current_personne(){
 
 /* Retourne le numéro de la societe en cours */
 function current_societe(){
-  return current_value("wg-societe-menulist");
+  if (elem("wg-societe-checkbox").checked)
+    return current_value("wg-societe-menulist");
+  else return null;
 }
 
 /* Retourne le numéro de la conjoint en cours */
 function current_conjoint(){
-  return current_value("wg-conjoint-menulist");
+  if (elem("wg-conjoint-checkbox").checked)
+    return current_value("wg-conjoint-menulist");
+  else return null;
 }
 
 /* Retourne le numéro de la conjoint en cours */
 function current_associe(){
-  return current_value("wg-associe-menulist");
+  if (elem("wg-associe-checkbox").checked)
+    return current_value("wg-associe-menulist");
+  else return null;
 }
 
 /* Retourne le numéro du responsable en cours */
@@ -374,6 +380,9 @@ function wg_societe_search(){
 
 
 function wg_societe_load() {
+//  alert(elem("wg-societe-menulist").selectedIndex);
+  if (elem("wg-societe-menulist").selectedIndex>=0) 
+    checkbox_check("wg-societe-checkbox", true);
   // Fiche
   var num_societe = wg_entity_load('societe');
   // Conjoint
@@ -381,6 +390,7 @@ function wg_societe_load() {
     checkbox_check('wg-societe-checkbox', true);
   }
   // Associes
+  wg_associe_list();
 //  checkbox_check('wg-associe-checkbox', true);
   
   return num_societe;
@@ -541,6 +551,7 @@ function wg_conjoint_load(){
 /* Associé */
 
 function wg_associe_check() {
+/*
   if (elem('wg-associe-checkbox').checked) {
     if (!elem('wg-societe-checkbox').checked) {
       alert('Une société doit être déclarée pour pouvoir enregistrer les associés qui la gèrent.')
@@ -558,13 +569,23 @@ function wg_associe_check() {
     elem('wg-associe-list').hidden=false;
     wg_associe_list();
   }
-  wg_totalize();
+*/
+
+    if (elem('wg-societe-nouveau-checkbox').checked || elem('wg-personne-nouveau-checkbox').checked) {
+      wg_send_cotisation(false);
+    }
+    elem('wg-associe-list').hidden=!elem('wg-associe-checkbox').checked;
+    wg_associe_list();
+
+//  wg_totalize();
   return true;
 }
 
 function wg_associe_list() {
-  listbox_fill('wg-associe-listbox','SELECT pe_description, pe_numero FROM estlie join personne on (el_personne1=pe_numero) WHERE el_personne1!='+current_personne()+' AND el_personne2='+current_societe()+' AND tl_numero=1003');
-  wg_totalize();
+  if (!elem('wg-associe-list').hidden) {
+    listbox_fill('wg-associe-listbox',"SELECT pe_description||' ['||el_personne2-1000000||']' AS pe_description, pe_numero, el_numero FROM estlie join personne on (el_personne1=pe_numero) WHERE (el_personne1!="+current_personne()+" AND el_personne2="+current_societe()+" AND tl_numero=1003) OR (el_personne2="+current_personne()+" AND tl_numero=1007)");
+    wg_totalize();
+  }
 }
 
 /* Remplit la liste des personnes */
@@ -611,19 +632,21 @@ function wg_associe_edit() {
 }
 
 function wg_associe_remove() {
-  var num_societe = current_societe();
+//  var num_societe = current_societe();
+/*
   if (num_societe==null) {
     alert("Pas de société => pas d'associés!");
     return null;
   }
+*/
   if (elem('wg-associe-listbox').selectedIndex<0) {
     alert('Vous devez sélectionner une personne de la liste pour pouvoir la modifier');
     return false;
   }
   if (confirm('Vous voulez vraiment enlever le lien ?')) {
     if (confirm("Vraiment vraiment ? C'est quand même très bizarre...")) {
-      num_associe = elem('wg-associe-listbox').selectedItem.firstChild.getAttribute("numero");
-      query = "DELETE FROM estlie WHERE el_personne1="+num_associe+" AND el_personne2="+num_societe+" AND tl_numero=1003;";
+      num_lien = elem('wg-associe-listbox').selectedItem.firstChild.getAttribute("lien");
+      query = "DELETE FROM estlie WHERE el_numero="+num_lien;
       pgsql_update(query);
       wg_associe_list();
     }
@@ -634,15 +657,24 @@ function wg_associe_remove() {
 function wg_associe_validate() {
   var num_associe = wg_entity_save('associe', true);
   var num_societe = current_societe();
+  var num_personne = current_personne();
+/*
   if (num_societe==null) {
     alert("Pas de société => pas d'associés !");
     return null;
   }
+*/
   // Création/Mise à jour du lien Mise à jour du total
   if (num_associe!=null) {
-    var count = requete("SELECT el_numero FROM estlie WHERE el_personne1="+num_associe+" AND el_personne2="+num_societe+" AND tl_numero=1003;");
+    var typelien=1003;
+    var num_ref = num_societe;
+    if (num_societe==null) {
+      typelien=1007;
+      num_ref = num_personne;
+    }
+    var count = requete("SELECT el_numero FROM estlie WHERE el_personne1="+num_associe+" AND el_personne2="+num_ref+" AND tl_numero="+typelien);
     if (count==null) {
-      query = "INSERT INTO estlie (el_personne1, el_personne2, tl_numero, el_debut) VALUES("+num_associe+","+num_societe+",1003, CURRENT_TIMESTAMP);";
+      query = "INSERT INTO estlie (el_personne1, el_personne2, tl_numero, el_debut) VALUES("+num_associe+","+num_ref+","+typelien+", CURRENT_TIMESTAMP);";
       pgsql_update(query);
     }
     wg_associe_cancel();

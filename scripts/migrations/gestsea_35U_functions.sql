@@ -2902,9 +2902,9 @@ $$
 DECLARE
   fonction text;
 BEGIN
-  SELECT IM_Fonction FROM Impression WHERE IM_KeyTable ILIKE mot and IM_Societe=current_societe() AND IM_Defaut INTO fonction;
+  SELECT IM_Fonction FROM Impression WHERE IM_Nom ILIKE mot and IM_Societe=current_societe() AND IM_Defaut INTO fonction;
   IF fonction IS NULL THEN
-    SELECT IM_Fonction FROM Impression WHERE IM_Nom ILIKE mot and IM_Societe=current_societe() AND IM_Defaut INTO fonction;
+    SELECT IM_Fonction FROM Impression WHERE IM_KeyTable ILIKE mot and IM_Societe=current_societe() AND IM_Defaut INTO fonction;
     IF fonction IS NULL THEN
       RAISE EXCEPTION 'Le modèle "%" est introuvable.', mot;
     END IF;
