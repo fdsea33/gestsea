@@ -1283,7 +1283,11 @@ BEGIN
       RAISE EXCEPTION 'La personne % ne possède pas d''adresses actives. Veuillez régulariser sa situation.', NEW.PE_Numero;  
     END IF;
     SELECT AD_Numero FROM Adresse WHERE PE_Numero=NEW.PE_Numero AND AD_Active INTO NEW.AD_Numero;
-  ELSIF NEW.pe_numero IS NULL THEN
+  ELSIF TG_OP='UPDATE' THEN
+    IF OLD.ad_numero!=NEW.ad_numero THEN
+      SELECT PE_Numero FROM Adresse WHERE AD_Numero=NEW.AD_Numero INTO NEW.pe_numero;
+    END IF;
+  ELSE
     SELECT PE_Numero FROM Adresse WHERE AD_Numero=NEW.AD_Numero INTO NEW.pe_numero;
   END IF;
   RETURN NEW;
