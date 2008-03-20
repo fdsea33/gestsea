@@ -33,7 +33,7 @@ all: gestsea
 	$(XSLT) -o ${MIGRATE}/$@ --stringparam operation extra ${STYLESH}/$(XSL-SQL) $<
 
 %_rails.sh: ${MODELS}/%.xml
-	$(XSLT) -o ${MIGRATE}/$@ --stringparam operation models ${STYLESH}/$(XSL-RAILS) $<
+	$(XSLT) -o $@ --stringparam operation models ${STYLESH}/$(XSL-RAILS) $<
 	chmod 755 $@
 
 clean:

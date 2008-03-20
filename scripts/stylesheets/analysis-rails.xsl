@@ -5,48 +5,9 @@
   <variable name="minuscules">abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþ</variable>
   
   <template match="/">
-    <choose>
-      <when test="contains($operation,'migrate')">
-        <!-- Création du fichier SQL -->
-        <text>
-CREATE OR REPLACE FUNCTION migrate_to_rails() AS
-$$
-DECLARE
-  query text;
-BEGIN
-</text>
-        <apply-templates select="analysis" mode="pretraitement"/>
-        <text>
-</text>
-<!--        <apply-templates select="analysis">-->
-        <text>
---
--- Transfert des données
---
-</text>
-        <text>
---
--- Ajout des contraintes
---
-</text>
-        <text>
---
--- Post-traitement général
---
-END;
-$$ LANGUAGE 'plpgsql' VOLATILE;
-
-SELECT migrate_to_rails();
-
-DROP FUNCTION migrate_to_rails();
-
-VACUUM FULL;
-</text>
-      </when>
-      <when test="contains($operation,'models')">
-				<text>#!/bin/sh
-project=gestsea
-database=gestsea
+<text>#!/bin/sh
+project=</text><value-of select="translate(analysis/@rails,$majuscules,$minuscules)"/><text>
+database=</text><value-of select="translate(analysis/@database,$majuscules,$minuscules)"/><text>
 echo "\033[01;37m Rails \033[00m"
 rails -d -C -D postgresql ${project}
 cd ${project}
@@ -117,34 +78,12 @@ ruby script/plugin install --force http://repo.pragprog.com/svn/Public/plugins/a
 #rake annotate_models
 #rake db:schema:dump
 cd ..
-			</when>
-
-
-
-
-      <otherwise>
-        <!-- Création du fichier RUBY -->
-        <text>class CreateBase &lt; ActiveRecord::Migration
-  def self.up
-</text>
-        <apply-templates select="analysis/table" mode="create">
-					<sort select="@name"/>
-				</apply-templates>
-<text>  end
-
-  def self.down
-</text>
-<text>  end
-end</text>
-
-      </otherwise>
-    </choose>
   </template>
 
 
 
   <template match="table" mode="generate_models">
-# ruby script/generate model --skip-migration --quiet <value-of select="translate(@name,$majuscules,$minuscules)"/> 
+ruby script/generate model --skip-migration --quiet <value-of select="translate(@name,$majuscules,$minuscules)"/> 
   </template>
 
   <template match="table" mode="update_models">

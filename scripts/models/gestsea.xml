@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-15"?>
 <?xml-stylesheet type="text/xsl" href="analysis-html.xsl"?>
-<analysis name="GestSEA" table="table_" view="">
+<analysis name="GestSEA" table="table_" view="" rails="gopa" database="gestsea">
   <text>Voici le MCD du projet <it text="GestSEA"/>.</text>
 
   <table name="Constante" abbrev="CS" label="Constantes personnelles">
