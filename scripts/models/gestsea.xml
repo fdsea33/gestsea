@@ -757,8 +757,8 @@
     <column name="FA_MontantHT"  type="NUMERIC(16,2)"     notnull="true" default="0">Montant Hors Taxe réduction comprise</column>
     <column name="FA_MontantTTC" type="NUMERIC(16,2)"     notnull="true" default="0">Montant Toutes Taxes Comprises réduction comprise</column>
     <column name="FA_Accompte"   type="NUMERIC(16,2)"     default="NULL"></column>
-    <column name="FA_Annotation" type="VARCHAR(64)" default="NULL"></column>
-    <column name="FA_Libelle"    type="VARCHAR(64)" default="NULL"></column>
+    <column name="FA_Annotation" type="TEXT" default="NULL"></column>
+    <column name="FA_Libelle"    type="TEXT" default="NULL"></column>
 <!--    <column name="RG_Numero"     type="INTEGER"     default="NULL" fkey="Reglement(RG_Numero)" opt="odsnouc"></column>-->
     <column name="SO_Numero"     type="INTEGER"     notnull="true" default="current_societe()" fkey="Societe(SO_Numero)" opt="odcouc">Redondant societe de la facture</column>
     <seq name="seq_facture" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>

@@ -244,7 +244,7 @@ function wg_onload() {
   menulist_fill("wg-cotisation-responsable-menulist", "SELECT em_libelle, em_numero FROM employe join service on (em_service=se_numero) WHERE em_reglement and se_societe = 2");
 
   // Années
-  menulist_fill("wg-cotisation-annee-menulist", "SELECT 'Année '||fc_sequence AS an_libelle, fc_sequence AS an_numero FROM FC_Sequence((EXTRACT(YEAR FROM CURRENT_DATE)-0)::integer,(EXTRACT(YEAR FROM CURRENT_DATE)+0)::integer);",current_year());
+  menulist_fill("wg-cotisation-annee-menulist", "SELECT 'Année '||fc_sequence AS an_libelle, fc_sequence AS an_numero FROM FC_Sequence((EXTRACT(YEAR FROM CURRENT_DATE)-2)::integer,(EXTRACT(YEAR FROM CURRENT_DATE)+0)::integer);",current_year());
 
   // Formes juridiques
   menulist_fill("wg-societe-titre", "SELECT np_libelle, np_numero FROM naturepersonne WHERE np_morale ORDER BY 1 ;");
@@ -1222,7 +1222,7 @@ function wg_send_cotisation(send_query){
 
   
   if (send_query) {
-    if (elem("wg-regsupp").checked && elem("wg-regsupp-menulist").selectedIndex<0) {
+    if (elem("wg-regsupp-checkbox").checked && elem("wg-regsupp-menulist").selectedIndex<0) {
 	    erreurs += wg_error("S'il y a un réglement supplémentaire, il faut le sélectionner dans la liste.");
  	    valide = false;
     }
@@ -1416,7 +1416,7 @@ function wg_send_cotisation(send_query){
     bulletin += wg_bml_field("reglement.numero", elem("wg-reglement-menulist").selectedItem.value);
   }
 
-  if (elem("wg-regsupp").checked) {
+  if (elem("wg-regsupp-checkbox").checked) {
     bulletin += wg_bml_field("reglement.complement.numero", elem("wg-regsupp-menulist").selectedItem.value);
   }
 
@@ -1502,7 +1502,7 @@ function wg_send_cotisation(send_query){
 		menulist_fill('wg-associe-menulist', 'SELECT pe_numero, pe_description FROM personne WHERE pe_numero IS NULL;');
 		wg_entity_load('associe');
 
-    elem("wg-regsupp").checked = false;
+    elem("wg-regsupp-checkbox").checked = false;
 
   }
   elem('wg-save-button').disabled = false;
