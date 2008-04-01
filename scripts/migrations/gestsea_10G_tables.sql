@@ -719,7 +719,7 @@ CREATE TABLE "table_groupecanton"
 CREATE TABLE "table_codepostal"
 (
   "cp_numero" INTEGER,
-  "cp_codepostal" INTEGER,
+  "cp_codepostal" VARCHAR(12),
   "cp_bureau" VARCHAR(128),
   "created_at" TIMESTAMP,
   "created_by" VARCHAR(32),

@@ -2236,6 +2236,8 @@ BEGIN
     detail := bml_put(detail, 'aava', 'false');
     detail := bml_put(detail, 'sacea', 'false');
 --    RAISE EXCEPTION 'Erreur pas de cotisation  sdfqsdlmfjsdklfj';
+  ELSIF bml_extract(detail,'cotisation.type')='ja' THEN
+    RAISE EXCEPTION 'Ohohohohoho pas JA maintenant !'
   ELSIF bml_extract(detail,'cotisation.type') NOT IN ('standard', 'conjoint', 'associe') THEN
 --    RAISE EXCEPTION 'La procedure de traitement des cotisations est en cours de developpement.';
     UPDATE table_cotisation SET cs_done=false, cs_valid = false, cs_report=bml_extract(detail,'cotisation.type') WHERE cs_numero=num_cotisation;

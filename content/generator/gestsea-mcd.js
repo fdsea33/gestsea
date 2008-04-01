@@ -288,7 +288,7 @@ function mcd_getType(table,champs)
     case 'codepostal':
       switch(champs.toLowerCase()){
         case 'cp_numero': type=TYPE_INT;break;
-        case 'cp_codepostal': type=TYPE_INT;break;
+        case 'cp_codepostal': type=TYPE_STRING;break;
         case 'cp_bureau': type=TYPE_STRING;break;
         case 'created_at': type=TYPE_DATETIME;break;
         case 'created_by': type=TYPE_STRING;break;
