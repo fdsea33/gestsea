@@ -2390,7 +2390,7 @@ BEGIN
     INSERT INTO facturereglement (rg_numero, fa_numero, fr_partiel, fr_montant) VALUES (num_reglement,num_facture_fdsea,true,total_fdsea);
   ELSE
     SELECT rg_montant FROM table_reglement WHERE rg_numero=bml_extract(detail,'reglement.complement.numero') INTO complement;
-    INSERT INTO facturereglement (rg_numero, fa_numero, fr_partiel, fr_montant) VALUES (bml_extract(detail,'reglement.complement.numero'),num_facture_fdsea,false,complement);
+    INSERT INTO facturereglement (rg_numero, fa_numero, fr_partiel, fr_montant) VALUES (bml_extract(detail,'reglement.complement.numero')::integer,num_facture_fdsea,false,complement);
     INSERT INTO facturereglement (rg_numero, fa_numero, fr_partiel, fr_montant) SELECT num_reglement,num_facture_fdsea,true,total_fdsea-complement;
   END IF;
 
@@ -2450,7 +2450,7 @@ DECLARE
   detail cotisation.cs_detail%TYPE;
   lf table_lignefacture%ROWTYPE;
 BEGIN
-  SELECT l.* FROM table_lignefacture l JOIN table_facture USING (fa_numero) LEFT JOIN table_avoir USING (fa_numero) WHERE av_numero IS NULL AND EXTRACT(YEAR FROM fa_date)=annee AND pd_numero IN (500000124, 500000053, 500000150, 500000054, 500000052, 500000130, 500000162, 300006) INTO lf;
+  SELECT l.* FROM table_lignefacture l JOIN table_facture USING (fa_numero) LEFT JOIN table_avoir USING (fa_numero) WHERE av_numero IS NULL AND EXTRACT(YEAR FROM fa_date)=annee AND pd_numero IN (500000124, 500000053, 500000150, 500000054, 500000052, 500000130, 500000162, 300006) AND pe_numero=num_personne ORDER BY pd_numero INTO lf;
   IF lf.fa_numero IS NULL THEN
     RETURN '{saved:false}';
   END IF;
@@ -2466,7 +2466,7 @@ BEGIN
   detail := bml_put(detail,'cotisation.personne',num_personne::text);
   detail := bml_put(detail,'cotisation.annee',annee::text);
   detail := bml_put(detail,'cotisation.type',CASE WHEN lf.pd_numero=500000162 THEN 'associe' WHEN lf.pd_numero=500000150 THEN 'conjoint' ELSE 'standard' END);
-  SELECT l.* FROM table_lignefacture l JOIN table_facture USING (fa_numero) LEFT JOIN table_avoir USING (fa_numero) WHERE av_numero IS NULL AND EXTRACT(YEAR FROM fa_date)=annee AND pd_numero-500000000 IN (36,65,69) INTO lf;
+  SELECT l.* FROM table_lignefacture l JOIN table_facture USING (fa_numero) LEFT JOIN table_avoir USING (fa_numero) WHERE av_numero IS NULL AND EXTRACT(YEAR FROM fa_date)=annee AND pd_numero-500000000 IN (36,65,69) AND pe_numero=num_personne INTO lf;
   IF lf.fa_numero IS NULL THEN
     detail := bml_put(detail,'sacea','false');
   ELSE
@@ -2476,7 +2476,7 @@ BEGIN
     detail := bml_put(detail,'sacea.prix',lf.px_numero::text);
     detail := bml_put(detail,'sacea.montant',lf.lf_montantttc::text);
   END IF;
-  SELECT l.* FROM table_lignefacture l JOIN table_facture USING (fa_numero) LEFT JOIN table_avoir USING (fa_numero) WHERE av_numero IS NULL AND EXTRACT(YEAR FROM fa_date)=annee AND pd_numero-500000000 IN (96) INTO lf;
+  SELECT l.* FROM table_lignefacture l JOIN table_facture USING (fa_numero) LEFT JOIN table_avoir USING (fa_numero) WHERE av_numero IS NULL AND EXTRACT(YEAR FROM fa_date)=annee AND pd_numero-500000000 IN (96) AND pe_numero=num_personne INTO lf;
   IF lf.fa_numero IS NULL THEN
     detail := bml_put(detail,'aava','false');
   ELSE
