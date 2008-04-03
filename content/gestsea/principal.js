@@ -70,7 +70,7 @@ function stProprieteCompo()
         this.Action_en_cours=null;
         this.NewCle=null;
 }
-var TAB_COMPO_PPTES = new Array(253);
+var TAB_COMPO_PPTES = new Array(254);
 /* on init le tableau */
 var id
 for(id=0;id<TAB_COMPO_PPTES.length;id++)
@@ -3199,6 +3199,8 @@ function Insert_Cotisations_Liste_des_cotisations0()
 /* On active les composants esclaves et on vide les champs */
  var Esclave_0=TAB_GLOBAL_COMPO[210];
  Esclave_0.ActiverComposant(true);
+ var Esclave_1=TAB_GLOBAL_COMPO[211];
+ Esclave_1.ActiverComposant(true);
 top.document.getElementById("Validate_Cotisations_Liste_des_cotisations0").disabled=false;
 top.document.getElementById("Annuler_Cotisations_Liste_des_cotisations0").disabled=false;
 top.document.getElementById("Insert_Cotisations_Liste_des_cotisations0").disabled=true;
@@ -3247,6 +3249,8 @@ function Update_Cotisations_Liste_des_cotisations0()
 /* On active les composants esclaves et on vide les champs */
  var Esclave_0=TAB_GLOBAL_COMPO[210];
  Esclave_0.ActiverComposant(true);
+ var Esclave_1=TAB_GLOBAL_COMPO[211];
+ Esclave_1.ActiverComposant(true);
 top.document.getElementById("Validate_Cotisations_Liste_des_cotisations0").disabled=false;
 top.document.getElementById("Annuler_Cotisations_Liste_des_cotisations0").disabled=false;
 top.document.getElementById("Insert_Cotisations_Liste_des_cotisations0").disabled=true;
@@ -3296,6 +3300,8 @@ if (retour==null)
 /* On active les composants esclaves et on vide les champs */
  var Esclave_0=TAB_GLOBAL_COMPO[210];
  Esclave_0.ActiverComposant(false);
+ var Esclave_1=TAB_GLOBAL_COMPO[211];
+ Esclave_1.ActiverComposant(false);
 top.document.getElementById("Validate_Cotisations_Liste_des_cotisations0").disabled=true;
 top.document.getElementById("Annuler_Cotisations_Liste_des_cotisations0").disabled=true;
 top.document.getElementById("Insert_Cotisations_Liste_des_cotisations0").disabled=false;
@@ -3320,6 +3326,8 @@ function Annuler_Cotisations_Liste_des_cotisations0()
 /* On active les composants esclaves et on vide les champs */
  var Esclave_0=TAB_GLOBAL_COMPO[210];
  Esclave_0.ActiverComposant(false);
+ var Esclave_1=TAB_GLOBAL_COMPO[211];
+ Esclave_1.ActiverComposant(false);
 top.document.getElementById("Validate_Cotisations_Liste_des_cotisations0").disabled=true;
 top.document.getElementById("Annuler_Cotisations_Liste_des_cotisations0").disabled=true;
 top.document.getElementById("Insert_Cotisations_Liste_des_cotisations0").disabled=false;
@@ -4009,26 +4017,26 @@ function OuvrirOnglet_Bordereaux_de_réglements()
 
 function Insert_Bordereaux_de_réglements_Liste_des_bordereaux_de_remise_en_banque0()
 {
- TAB_COMPO_PPTES[211].Action_en_cours = INSERT;
+ TAB_COMPO_PPTES[212].Action_en_cours = INSERT;
 /* On calcule la nouvelle clé */
- TAB_COMPO_PPTES[211].NewCle = getNewCle("listereglement");
+ TAB_COMPO_PPTES[212].NewCle = getNewCle("listereglement");
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[211].ActiverComposant(false,true);
+ TAB_GLOBAL_COMPO[212].ActiverComposant(false,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[217];
+ var Esclave_0=TAB_GLOBAL_COMPO[218];
  Esclave_0.ActiverComposant(true);
- var Esclave_1=TAB_GLOBAL_COMPO[218];
+ var Esclave_1=TAB_GLOBAL_COMPO[219];
  Esclave_1.ActiverComposant(true);
- var Esclave_2=TAB_GLOBAL_COMPO[219];
+ var Esclave_2=TAB_GLOBAL_COMPO[220];
  Esclave_2.ActiverComposant(true);
- var Esclave_3=TAB_GLOBAL_COMPO[220];
+ var Esclave_3=TAB_GLOBAL_COMPO[221];
  Esclave_3.ActiverComposant(true);
 top.document.getElementById("Validate_Bordereaux_de_réglements_Liste_des_bordereaux_de_remise_en_banque0").disabled=false;
 top.document.getElementById("Annuler_Bordereaux_de_réglements_Liste_des_bordereaux_de_remise_en_banque0").disabled=false;
 top.document.getElementById("Insert_Bordereaux_de_réglements_Liste_des_bordereaux_de_remise_en_banque0").disabled=true;
 top.document.getElementById("Delete_Bordereaux_de_réglements_Liste_des_bordereaux_de_remise_en_banque0").disabled=true;
 top.document.getElementById("Update_Bordereaux_de_réglements_Liste_des_bordereaux_de_remise_en_banque0").disabled=true;
- var Maitre=TAB_GLOBAL_COMPO[211];
+ var Maitre=TAB_GLOBAL_COMPO[212];
  /* Pour une insertion on désectionne */
  var tree=Maitre.getComposantXul();
  if (tree.view!=null)
@@ -4036,21 +4044,21 @@ top.document.getElementById("Update_Bordereaux_de_réglements_Liste_des_bordereau
          tree.currentIndex=-1;
          tree.view.selection.clearSelection();
  }
-return TAB_COMPO_PPTES[211].NewCle;
+return TAB_COMPO_PPTES[212].NewCle;
 }
 
 function Delete_Bordereaux_de_réglements_Liste_des_bordereaux_de_remise_en_banque0()
 {
- if (TAB_GLOBAL_COMPO[211].getCleVal()==-1)
+ if (TAB_GLOBAL_COMPO[212].getCleVal()==-1)
  {
          alert("Vous devez sélectionner l'enregistrement à supprimer");
          return;
  }
  /* On recupère le composant maitre  */
- var Maitre=TAB_GLOBAL_COMPO[211];
+ var Maitre=TAB_GLOBAL_COMPO[212];
  if (confirm("Voulez vous vraiment supprimer l'enregistrement en cours ?"))
  {
-        TAB_COMPO_PPTES[211].Action_en_cours = DELETE;
+        TAB_COMPO_PPTES[212].Action_en_cours = DELETE;
          User_Delete_Bordereaux_de_réglements_Liste_des_bordereaux_de_remise_en_banque0(Maitre);
         Maitre.RefreshTotal();
  }
@@ -4058,31 +4066,31 @@ function Delete_Bordereaux_de_réglements_Liste_des_bordereaux_de_remise_en_banqu
 
 function Update_Bordereaux_de_réglements_Liste_des_bordereaux_de_remise_en_banque0()
 {
- if (TAB_GLOBAL_COMPO[211].getCleVal()==-1)
+ if (TAB_GLOBAL_COMPO[212].getCleVal()==-1)
  {
          alert("Vous devez selectionner l'enregistrement à mettre à jour");
          return -1;
  }
- TAB_COMPO_PPTES[211].Action_en_cours = UPDATE;
+ TAB_COMPO_PPTES[212].Action_en_cours = UPDATE;
 /* On calcule la nouvelle clé */
- TAB_COMPO_PPTES[211].NewCle = TAB_GLOBAL_COMPO[211].getCleVal();
+ TAB_COMPO_PPTES[212].NewCle = TAB_GLOBAL_COMPO[212].getCleVal();
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[211].ActiverComposant(false,true);
+ TAB_GLOBAL_COMPO[212].ActiverComposant(false,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[217];
+ var Esclave_0=TAB_GLOBAL_COMPO[218];
  Esclave_0.ActiverComposant(true);
- var Esclave_1=TAB_GLOBAL_COMPO[218];
+ var Esclave_1=TAB_GLOBAL_COMPO[219];
  Esclave_1.ActiverComposant(true);
- var Esclave_2=TAB_GLOBAL_COMPO[219];
+ var Esclave_2=TAB_GLOBAL_COMPO[220];
  Esclave_2.ActiverComposant(true);
- var Esclave_3=TAB_GLOBAL_COMPO[220];
+ var Esclave_3=TAB_GLOBAL_COMPO[221];
  Esclave_3.ActiverComposant(true);
 top.document.getElementById("Validate_Bordereaux_de_réglements_Liste_des_bordereaux_de_remise_en_banque0").disabled=false;
 top.document.getElementById("Annuler_Bordereaux_de_réglements_Liste_des_bordereaux_de_remise_en_banque0").disabled=false;
 top.document.getElementById("Insert_Bordereaux_de_réglements_Liste_des_bordereaux_de_remise_en_banque0").disabled=true;
 top.document.getElementById("Delete_Bordereaux_de_réglements_Liste_des_bordereaux_de_remise_en_banque0").disabled=true;
 top.document.getElementById("Update_Bordereaux_de_réglements_Liste_des_bordereaux_de_remise_en_banque0").disabled=true;
-return TAB_COMPO_PPTES[211].NewCle;
+return TAB_COMPO_PPTES[212].NewCle;
 }
 
 function Validate_Bordereaux_de_réglements_Liste_des_bordereaux_de_remise_en_banque0(retour)
@@ -4092,10 +4100,10 @@ if (retour==null)
         retour=true;
 
  /* On recupère le composant maitre  */
- var Maitre=TAB_GLOBAL_COMPO[211];
+ var Maitre=TAB_GLOBAL_COMPO[212];
  /* On recupère la clé du nouvel enregistrement */
  var NewCle=null;
- switch(TAB_COMPO_PPTES[211].Action_en_cours){
+ switch(TAB_COMPO_PPTES[212].Action_en_cours){
         case INSERT :
         if ((NewCle = User_Insert_Bordereaux_de_réglements_Liste_des_bordereaux_de_remise_en_banque0(Maitre))==-1)
                 return -1;
@@ -4122,15 +4130,15 @@ if (retour==null)
         Maitre.Union(ReqNewCle);
  }
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[211].ActiverComposant(true,true);
+ TAB_GLOBAL_COMPO[212].ActiverComposant(true,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[217];
+ var Esclave_0=TAB_GLOBAL_COMPO[218];
  Esclave_0.ActiverComposant(false);
- var Esclave_1=TAB_GLOBAL_COMPO[218];
+ var Esclave_1=TAB_GLOBAL_COMPO[219];
  Esclave_1.ActiverComposant(false);
- var Esclave_2=TAB_GLOBAL_COMPO[219];
+ var Esclave_2=TAB_GLOBAL_COMPO[220];
  Esclave_2.ActiverComposant(false);
- var Esclave_3=TAB_GLOBAL_COMPO[220];
+ var Esclave_3=TAB_GLOBAL_COMPO[221];
  Esclave_3.ActiverComposant(false);
 top.document.getElementById("Validate_Bordereaux_de_réglements_Liste_des_bordereaux_de_remise_en_banque0").disabled=true;
 top.document.getElementById("Annuler_Bordereaux_de_réglements_Liste_des_bordereaux_de_remise_en_banque0").disabled=true;
@@ -4138,29 +4146,29 @@ top.document.getElementById("Insert_Bordereaux_de_réglements_Liste_des_bordereau
 top.document.getElementById("Delete_Bordereaux_de_réglements_Liste_des_bordereaux_de_remise_en_banque0").disabled=false;
 top.document.getElementById("Update_Bordereaux_de_réglements_Liste_des_bordereaux_de_remise_en_banque0").disabled=false;
  if (NewCle==null)
-         NewCle=TAB_COMPO_PPTES[211].NewCle;
+         NewCle=TAB_COMPO_PPTES[212].NewCle;
  Maitre.ForceNextSelection(NewCle)
  Maitre.RefreshTotal();
  if(retour)
  {
  }
- TAB_COMPO_PPTES[211].Action_en_cours = null;
+ TAB_COMPO_PPTES[212].Action_en_cours = null;
  return NewCle;
 }
 
 function Annuler_Bordereaux_de_réglements_Liste_des_bordereaux_de_remise_en_banque0()
 {
- TAB_COMPO_PPTES[211].Action_en_cours = null;
+ TAB_COMPO_PPTES[212].Action_en_cours = null;
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[211].ActiverComposant(true,true);
+ TAB_GLOBAL_COMPO[212].ActiverComposant(true,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[217];
+ var Esclave_0=TAB_GLOBAL_COMPO[218];
  Esclave_0.ActiverComposant(false);
- var Esclave_1=TAB_GLOBAL_COMPO[218];
+ var Esclave_1=TAB_GLOBAL_COMPO[219];
  Esclave_1.ActiverComposant(false);
- var Esclave_2=TAB_GLOBAL_COMPO[219];
+ var Esclave_2=TAB_GLOBAL_COMPO[220];
  Esclave_2.ActiverComposant(false);
- var Esclave_3=TAB_GLOBAL_COMPO[220];
+ var Esclave_3=TAB_GLOBAL_COMPO[221];
  Esclave_3.ActiverComposant(false);
 top.document.getElementById("Validate_Bordereaux_de_réglements_Liste_des_bordereaux_de_remise_en_banque0").disabled=true;
 top.document.getElementById("Annuler_Bordereaux_de_réglements_Liste_des_bordereaux_de_remise_en_banque0").disabled=true;
@@ -6225,6 +6233,15 @@ var Cotisations_Description_1=new clAttribut("cs_detail","cotisation",null);
 
 	/* Ce composant représente: cotisation.cs_detail sous le nom "Description" */
 var Compo_Cotisations_Description_1=new clCompoTextBox(Cotisations_Description_1,null,"Description",false,true);
+var Cotisations_Société_2=new clAttribut("pe_description","personne",null);
+
+
+	/* Ce composant représente: personne.pe_description sous le nom "Société" */
+var Compo_Cotisations_Société_2=new clCompoListeDeroulanteSimple(Cotisations_Société_2,null,"Société");
+var Joint_Esclave_Cotisations_Société_2=new clJointureMulti("cotisation",
+	new Array(
+	new stJointure("personne","cs_societe","pe_numero",null,false)
+	));
 var Cotisations_Liste_des_cotisations0=new clEnsembleAttributs("cotisation",
 	new Array(
 	new clLiaison(null,Col_N0_N__De_Cotisations_Liste_des_cotisations0)
@@ -6234,6 +6251,7 @@ var Cotisations_Liste_des_cotisations0=new clEnsembleAttributs("cotisation",
 	),
 	new Array(
 	new clLiaison(null,Cotisations_Description_1)
+	,new clLiaison(Joint_Esclave_Cotisations_Société_2,Cotisations_Société_2)
 	));
 
 var Titre_Cotisations_Liste_des_cotisations0=new Array("N°","Année","N°P.","OK");
@@ -6260,6 +6278,16 @@ Compo_Cotisations_Description_1.GenererXUL(top.document.getElementById("Cotisati
 
 	/* On l'ajoute au tableau global à l'indice 210*/
 top.TAB_GLOBAL_COMPO[210]=Compo_Cotisations_Description_1;
+
+	/* Ce composant représente: des éléments de la table personne sous le nom "Société" */
+ if(ALeDroit(0,"personne"))
+ {
+Compo_Cotisations_Société_2.GenererXUL(top.document.getElementById("Cotisations_Liste_des_cotisations0_Slaves"));
+
+ }
+
+	/* On l'ajoute au tableau global à l'indice 211*/
+top.TAB_GLOBAL_COMPO[211]=Compo_Cotisations_Société_2;
 var Col_N0_N_______De_Réglement_Liste_des_réglements0=new clAttribut("rg_numero","reglement",null);
 
 var Col_N1_Date____De_Réglement_Liste_des_réglements0=new clAttribut("rg_date","reglement",null);
@@ -6693,8 +6721,8 @@ Compo_Bordereaux_de_réglements_Liste_des_bordereaux_de_remise_en_banque0.Generer
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 211*/
-top.TAB_GLOBAL_COMPO[211]=Compo_Bordereaux_de_réglements_Liste_des_bordereaux_de_remise_en_banque0;
+	/* On l'ajoute au tableau global à l'indice 212*/
+top.TAB_GLOBAL_COMPO[212]=Compo_Bordereaux_de_réglements_Liste_des_bordereaux_de_remise_en_banque0;
 
 	/* Ce composant représente: des éléments de la table vue_employe_reglement sous le nom "Employé(e)" */
  if(ALeDroit(0,"vue_employe_reglement"))
@@ -6703,8 +6731,8 @@ Compo_Bordereaux_de_réglements_Employé_e__1.GenererXUL(top.document.getElementBy
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 217*/
-top.TAB_GLOBAL_COMPO[217]=Compo_Bordereaux_de_réglements_Employé_e__1;
+	/* On l'ajoute au tableau global à l'indice 218*/
+top.TAB_GLOBAL_COMPO[218]=Compo_Bordereaux_de_réglements_Employé_e__1;
 
 	/* Ce composant représente: des éléments de la table modereglement sous le nom "Mode reg." */
  if(ALeDroit(0,"modereglement"))
@@ -6713,8 +6741,8 @@ Compo_Bordereaux_de_réglements_Mode_reg__2.GenererXUL(top.document.getElementByI
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 218*/
-top.TAB_GLOBAL_COMPO[218]=Compo_Bordereaux_de_réglements_Mode_reg__2;
+	/* On l'ajoute au tableau global à l'indice 219*/
+top.TAB_GLOBAL_COMPO[219]=Compo_Bordereaux_de_réglements_Mode_reg__2;
 
 	/* Ce composant représente: des éléments de la table listereglement sous le nom "Commentaire" */
  if(ALeDroit(0,"listereglement"))
@@ -6723,8 +6751,8 @@ Compo_Bordereaux_de_réglements_Commentaire_3.GenererXUL(top.document.getElementB
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 219*/
-top.TAB_GLOBAL_COMPO[219]=Compo_Bordereaux_de_réglements_Commentaire_3;
+	/* On l'ajoute au tableau global à l'indice 220*/
+top.TAB_GLOBAL_COMPO[220]=Compo_Bordereaux_de_réglements_Commentaire_3;
 
 	/* Ce composant représente: reglement.undefined sous le nom "Liste des règlements" */
  if(ALeDroit(0,"reglement"))
@@ -6733,8 +6761,8 @@ Compo_Bordereaux_de_réglements_Liste_des_règlements_4.GenererXUL(top.document.ge
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 220*/
-top.TAB_GLOBAL_COMPO[220]=Compo_Bordereaux_de_réglements_Liste_des_règlements_4;
+	/* On l'ajoute au tableau global à l'indice 221*/
+top.TAB_GLOBAL_COMPO[221]=Compo_Bordereaux_de_réglements_Liste_des_règlements_4;
 var Col_N0_N_Journal_De_Routage_Liste_des_routages0=new clAttribut("rc_numero","vue_current_routage",null);
 
 var Col_N1_N_Client_De_Routage_Liste_des_routages0=new clAttribut("rc_ncli","vue_current_routage",null);
@@ -6785,8 +6813,8 @@ Compo_Routage_Liste_des_routages0.GenererXUL(top.document.getElementById("Routag
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 226*/
-top.TAB_GLOBAL_COMPO[226]=Compo_Routage_Liste_des_routages0;
+	/* On l'ajoute au tableau global à l'indice 227*/
+top.TAB_GLOBAL_COMPO[227]=Compo_Routage_Liste_des_routages0;
 var Col_N0_Niveau_De_Relances_Liste_des_relances0=new clAttribut("rl_niveau","vue_current_relance",null);
 
 var Col_N1_Dernier_N__De_Relances_Liste_des_relances0=new clAttribut("rl_derniernumero","vue_current_relance",null);
@@ -6846,8 +6874,8 @@ Compo_Relances_Liste_des_relances0.GenererXUL(top.document.getElementById("Relan
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 238*/
-top.TAB_GLOBAL_COMPO[238]=Compo_Relances_Liste_des_relances0;
+	/* On l'ajoute au tableau global à l'indice 239*/
+top.TAB_GLOBAL_COMPO[239]=Compo_Relances_Liste_des_relances0;
 Filtre_DepFor_Devis_0.setComposant(TAB_GLOBAL_COMPO[106],null);
 Filtre_DepFor_Facture_0.setComposant(TAB_GLOBAL_COMPO[126],null);
 Filtre_Dep_Avoir_0.setComposant(TAB_GLOBAL_COMPO[167],null);
@@ -7624,7 +7652,7 @@ if (nb_button==0)
  if(ALeDroit(5,"listereglement"))
  {
 /* On refresh les composants non dépendents de l'onget Bordereaux de réglements*/
-var Composant_0 = TAB_GLOBAL_COMPO[211];
+var Composant_0 = TAB_GLOBAL_COMPO[212];
 if (Composant_0!=null){
 Composant_0.ActiverComposant(true);
 Composant_0.Refresh();
@@ -7680,7 +7708,7 @@ if (nb_button==0)
  if(ALeDroit(5,"vue_current_routage"))
  {
 /* On refresh les composants non dépendents de l'onget Routage*/
-var Composant_0 = TAB_GLOBAL_COMPO[226];
+var Composant_0 = TAB_GLOBAL_COMPO[227];
 if (Composant_0!=null){
 Composant_0.ActiverComposant(true);
 Composant_0.Refresh();
@@ -7697,7 +7725,7 @@ if (top.document.getElementById("Onglet_Routage").selected)
  if(ALeDroit(5,"vue_current_relance"))
  {
 /* On refresh les composants non dépendents de l'onget Relances*/
-var Composant_0 = TAB_GLOBAL_COMPO[238];
+var Composant_0 = TAB_GLOBAL_COMPO[239];
 if (Composant_0!=null){
 Composant_0.ActiverComposant(true);
 Composant_0.Refresh();

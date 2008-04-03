@@ -253,6 +253,11 @@
 </vbox>
 </hbox>
 </hbox>
+<hbox class="fondstyle" pack="end">
+  <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
+    <button label="Enregistrer une cotisation JA" oncommand="AjouterJA(TAB_GLOBAL_COMPO[3]);"/>
+  </arrowscrollbox>
+</hbox>
 </vbox>
 </tabpanel>
 <tabpanel flex="1" id="OngletPanel_Devis" >
@@ -531,7 +536,7 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Imprimer le bordereau" oncommand="Imprimer(TAB_GLOBAL_COMPO[211],'bordereau');"/>
+    <button label="Imprimer le bordereau" oncommand="Imprimer(TAB_GLOBAL_COMPO[212],'bordereau');"/>
   </arrowscrollbox>
 </hbox>
 </vbox>

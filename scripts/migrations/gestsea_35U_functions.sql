@@ -2213,6 +2213,8 @@ BEGIN
     RETURN true;
   END IF;
   detail := cotis.cs_detail;
+  SELECT pe_numero FROM table_personne WHERE bml_extract(detail, 'cotisation.societe')=pe_numero::text INTO num_gerance;
+
   IF bml_extract(detail,'cotisation.type')='conjoint' THEN
     SELECT cs_detail FROM cotisation WHERE cs_numero=bml_extract(detail, 'cotisation.reference') INTO detail2;
 --    SELECT cs_detail FROM cotisation WHERE bml_extract(cs_detail, 'fdsea.conjoint.numero')=cotis.pe_numero INTO detail2;
@@ -2237,7 +2239,15 @@ BEGIN
     detail := bml_put(detail, 'sacea', 'false');
 --    RAISE EXCEPTION 'Erreur pas de cotisation  sdfqsdlmfjsdklfj';
   ELSIF bml_extract(detail,'cotisation.type')='ja' THEN
-    RAISE EXCEPTION 'Ohohohohoho pas JA maintenant !'
+    RAISE EXCEPTION 'Ohohohohoho pas de JA maintenant !';
+/*
+    SELECT fc_ajouterja(cotis.pe_numero,true);
+    detail := bml_put(detail, 'fdsea', 'false');
+    detail := bml_put(detail, 'aava', 'false');
+    detail := bml_put(detail, 'sacea', 'false');
+*/
+    UPDATE table_cotisation SET cs_done=true, cs_societe=num_gerance, cs_valid = true, cs_report='*** JA ***' WHERE cs_numero=num_cotisation;
+    RETURN true;
   ELSIF bml_extract(detail,'cotisation.type') NOT IN ('standard', 'conjoint', 'associe') THEN
 --    RAISE EXCEPTION 'La procedure de traitement des cotisations est en cours de developpement.';
     UPDATE table_cotisation SET cs_done=false, cs_valid = false, cs_report=bml_extract(detail,'cotisation.type') WHERE cs_numero=num_cotisation;
@@ -2262,7 +2272,6 @@ BEGIN
     RETURN false;
   END IF;
 
-  SELECT pe_numero FROM table_personne WHERE bml_extract(detail, 'cotisation.societe')=pe_numero::text INTO num_gerance;
 
   -- Sauvegarde du statut de l'utilisateur
   SELECT EM_Service, EM_Numero FROM Employe WHERE em_login=CURRENT_USER INTO num_service, num_employe;
@@ -3150,7 +3159,7 @@ UPDATE table_cotisation SET cs_detail = bml_put(cs_detail,'cotisation.montant', 
 */
 
 
-CREATE OR REPLACE FUNCTION FC_AjouterJA(IN num_personne INTEGER, IN aava BOOLEAN) RETURNS BOOLEAN AS
+CREATE OR REPLACE FUNCTION FC_AjouterJA(IN num_personne INTEGER, IN num_personnesoc INTEGER) RETURNS BOOLEAN AS
 $$
 DECLARE
   num_service service.se_numero%TYPE;
@@ -3160,9 +3169,38 @@ DECLARE
   num_devis_aava  devis.de_numero%TYPE;
   num_facture_sacea facture.fa_numero%TYPE;
   num_facture_aava  facture.fa_numero%TYPE;
+  detail TEXT;
+  annee TEXT;
+  num_soc TEXT;
+  compte INTEGER;
 BEGIN
+  SELECT EXTRACT(YEAR FROM CURRENT_DATE) INTO annee;
+  SELECT count(*) FROM cotisation where cs_annee=annee AND pe_numero=num_personne AND 'ja'=bml_extract(cs_detail,'cotisation.type') INTO compte;
+  IF compte>0 THEN
+    RAISE EXCEPTION 'Une cotisation JA est déjà enregistrée pour la fiche % et l''année %',num_personne-1000000,annee;
+  END IF;
+
   -- Sauvegarde du statut de l'utilisateur
   SELECT EM_Service, EM_Numero FROM Employe WHERE em_login=CURRENT_USER INTO num_service, num_employe;
+  SELECT pe_numero::text FROM personne WHERE pe_numero=CASE WHEN num_personnesoc<1000000 THEN num_personnesoc+1000000 ELSE num_personnesoc END INTO num_soc;
+  IF num_soc IS NOT NULL THEN
+    SELECT count(*) FROM estlie WHERE el_personne1=num_personne AND el_personne2=num_soc AND tl_numero=1003 INTO compte;
+    IF compte<=0 THEN
+      INSERT INTO estlie(el_personne1,el_personne2,tl_numero) VALUES (num_personne,num_soc,1003);
+    END IF;
+  END IF;
+
+  detail := '';
+  detail := bml_put(detail,'saved', 'true');
+  detail := bml_put(detail,'cotisation.annee', annee);
+  detail := bml_put(detail,'cotisation.montant', '0');
+  detail := bml_put(detail,'cotisation.type', 'ja');
+  detail := bml_put(detail,'cotisation.personne', num_personne);
+  detail := bml_put(detail,'cotisation.societe', COALESCE(num_soc,''));
+  detail := bml_put(detail,'fdsea', 'false');
+  detail := bml_put(detail,'fdsea.associe', 'false');
+  detail := bml_put(detail,'fdsea.conjoint', 'false');
+  detail := bml_put(detail,'fdsea.hectare', 'false');
 
   -- Devis SACEA
   UPDATE employe SET EM_Service=SE_Numero FROM service WHERE employe.EM_Numero=num_employe AND SE_Societe=1;
@@ -3171,9 +3209,12 @@ BEGIN
   INSERT INTO ligne (de_numero, pd_numero) VALUES (num_devis, 500000123);
   num_devis_sacea := num_devis;
   SELECT FC_DevisVersFacture(num_devis_sacea) INTO num_facture_sacea;
+  detail := bml_put(detail,'sacea', 'false');
+  detail := bml_put(detail,'sacea.devis', num_devis_sacea::text);
+  detail := bml_put(detail,'sacea.facture', num_facture_sacea::text);
 
   -- Devis AAVA
-  IF aava THEN
+--  IF aava THEN
     UPDATE employe SET EM_Service=SE_Numero FROM service WHERE employe.EM_Numero=num_employe AND SE_Societe=3;
     SELECT nextval('seq_devis') INTO num_devis;
     INSERT INTO devis(de_numero, pe_numero, de_libelle, em_numero) SELECT num_devis, num_personne, '[JA] Abonnement du '||CURRENT_DATE,  current_employe();
@@ -3183,9 +3224,13 @@ BEGIN
     INSERT INTO routage (pe_numero, ad_numero, ro_debutservice, ro_finservice, fa_numero) 
       SELECT pe_numero, a.ad_numero, MAX(ro_finservice)+1, MAX(ro_finservice)+22, num_facture_aava FROM routage r left join adresse a USING (pe_numero) where pe_numero=num_personne group by 1,2 ORDER BY 3 DESC LIMIT 1;
 --      SELECT pe_numero, ad_numero, MAX(ro_finservice))+1, MAX(ro_finservice))+22 FROM routage left join adresse USING (pe_numero) WHERE pe_numero=num_personne;
-  END IF;
+  detail := bml_put(detail,'aava', 'true');
+  detail := bml_put(detail,'aava.devis', num_devis_aava::text);
+  detail := bml_put(detail,'aava.facture', num_facture_aava::text);
+--  END IF;
 
   UPDATE employe SET EM_Service=num_service WHERE EM_Numero=num_employe;
+  INSERT INTO cotisation (pe_numero,cs_societe, cs_detail, cs_annee, cs_done, cs_valid) VALUES (num_personne, num_soc, detail, annee, true, true);
 
   RETURN true;
 END;

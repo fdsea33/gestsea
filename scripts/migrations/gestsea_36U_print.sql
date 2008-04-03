@@ -629,6 +629,7 @@ substr(TRIM(COALESCE(adherent.PE_Titre||' ','')||adherent.PE_Nom||COALESCE(' '||
 conjoint.pe_numero IS NOT NULL OR societe.pe_numero IS NOT NULL AS ck_duo,
 CASE WHEN conjoint.pe_numero IS NOT NULL THEN to_char(conjoint.pe_numero-1000000,'FM099999') WHEN societe.pe_numero IS NOT NULL THEN to_char(societe.pe_numero-1000000,'FM099999') ELSE '---' END AS ck_numpersonne2,
 substr(TRIM(CASE WHEN conjoint.pe_numero IS NOT NULL THEN COALESCE(conjoint.PE_Titre||' ','')||conjoint.PE_Nom||COALESCE(' '||conjoint.PE_Prenom,'') WHEN societe.pe_numero IS NOT NULL THEN COALESCE(societe.PE_Titre||' ','')||societe.PE_Nom||COALESCE(' '||societe.PE_Prenom,'') ELSE '---' END),1,24) AS ck_libelle2,
+adherent.pe_numero,
 fa_numero                        -- 4
 FROM table_facture JOIN table_cotisation c ON (bml_extract(cs_detail,'fdsea.facture')=fa_numero)
   LEFT JOIN table_personne adherent ON (c.pe_numero=adherent.pe_numero)

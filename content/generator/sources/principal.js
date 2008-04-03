@@ -53,6 +53,7 @@ function CodeInPrincipal(centre){
     //    Maitre_Personne.getTheme().AddFiltre('Filtre_PersonneA=new clInterfaceFiltragePermanantCustom("pe_nom=\'AAA\'")');
     //AllIt.AjouterCodeUserLoad('Filtre_PersonneA.setComposant(Compo_'+Maitre_Personne.getNom_()+');\n');
 
+    It_Personne.AjouterBouton("Enregistrer une cotisation JA","AjouterJA",ComposantDansCode(Maitre_Personne));
 
 
     //    It_Personne.AjouterComposantSimple("N° Adhérent", "pe_numpersonne",null,null,LABEL);
@@ -667,6 +668,7 @@ function CodeInPrincipal(centre){
     Maitre_Cotisation.AjouterColonne("OK","cs_done");
 
     It_Cotisation.AjouterComposantSimple("Description","cs_detail",null,null,null,null,null,true);
+    It_Cotisation.AjouterComposantSimple("Société","pe_description",new Array("cs_societe","pe_numero","personne"),null,LISTE_DEROULANTE);
 
     principal_alert("Cotisation...OK!");
 

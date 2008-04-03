@@ -244,6 +244,22 @@ function TestCotisation(compo,diff) {
 }
 
 
+function AjouterJA(compo) {
+  var cle = compo.getCleVal();
+  var num = requete("SELECT CASE WHEN COALESCE(pe_naissance,'01/01/1800')<('01/01/'||(EXTRACT(YEAR FROM CURRENT_DATE)::integer-35)::text)::date THEN 'KO' ELSE 'OK' END FROM personne WHERE pe_numero="+cle);
+  if (num=='KO') {
+    alert("La date de naissance ne permet pas de dire que cette personne est un JA potentiel.")
+  } else {
+    if (confirm("Etes-vous sûr(e) de vouloir enregistrer une cotisation JA pour cette personne")) {
+      num = requete('SELECT fc_ajouterja('+cle+');');
+      alert("Cotisation enregistrée");
+    }
+  }
+}
+
+
+
+
 /*
 function Imprimer(compo,table){
   if (compo.getCleVal()>=0){
