@@ -523,6 +523,7 @@ function ConstruireOngletEstLie(Nom_tabbox,IdTab)
   
   tab=mydoc.createElement("tab");
   tab.setAttribute("label","Liens");
+  tab.setAttribute("style","font-weight:bold; color: #F42; font-size:12px;");
   tabbox.firstChild.appendChild(tab);
   tabbox.firstChild.setAttribute("style","display:inline;");
   

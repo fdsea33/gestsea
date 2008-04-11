@@ -16,9 +16,10 @@ echo "\033[01;37m Database \033[00m"
 dir=config
 echo "development:" > $dir/database.yml
 echo "  adapter: postgresql" >> $dir/database.yml
+echo "  encoding: unicode" >> $dir/database.yml
 echo "  database: ${database}" >> $dir/database.yml
-echo "  username: brice" >> $dir/database.yml
-echo "  password: calypso" >> $dir/database.yml
+echo "  username: rails" >> $dir/database.yml
+echo "  password: R4|L5" >> $dir/database.yml
 
 echo "\033[01;37m Controller \033[00m"
 # controller CRUD
@@ -27,7 +28,7 @@ Controller=Admin
 dir=app/controllers
 ruby script/generate controller $controller
 echo "class ${Controller}Controller &lt; ApplicationController" > $dir/${controller}_controller.rb
-echo "	scaffold_all_models" >> $dir/${controller}_controller.rb
+#echo "	scaffold_all_models" >> $dir/${controller}_controller.rb
 echo "end" >> $dir/${controller}_controller.rb
 
 echo "\033[01;37m Migration \033[00m"
@@ -74,7 +75,7 @@ echo "\033[01;37m Plugins \033[00m"
 #ruby script/plugin install --force http://www.redhillonrails.org/svn/branches/stable-1.2/vendor/plugins/schema_validations
 #sleep 1
 ruby script/plugin install --force svn://code.jeremyevans.net/rails/plugins/scaffolding_extensions
-ruby script/plugin install --force http://repo.pragprog.com/svn/Public/plugins/annotate_models
+#ruby script/plugin install --force http://repo.pragprog.com/svn/Public/plugins/annotate_models
 #rake annotate_models
 #rake db:schema:dump
 cd ..

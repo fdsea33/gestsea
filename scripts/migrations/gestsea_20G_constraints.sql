@@ -1335,6 +1335,7 @@ ALTER TABLE "table_ligne" ALTER "lock_version" SET DEFAULT 0;
 ALTER TABLE "table_ligneavoir" ALTER "la_quantite" SET DEFAULT 0;
 ALTER TABLE "table_ligneavoir" ALTER "la_montantht" SET DEFAULT NULL;
 ALTER TABLE "table_ligneavoir" ALTER "la_montantttc" SET DEFAULT NULL;
+ALTER TABLE "table_ligneavoir" ALTER "la_notes" SET DEFAULT NULL;
 ALTER TABLE "table_ligneavoir" ALTER "created_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_ligneavoir" ALTER "updated_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_ligneavoir" ALTER "updated_by" SET DEFAULT CURRENT_USER;

@@ -953,6 +953,7 @@ function mcd_getType(table,champs)
         case 'la_quantite': type=TYPE_FLOAT;break;
         case 'la_montantht': type=TYPE_FLOAT;break;
         case 'la_montantttc': type=TYPE_FLOAT;break;
+        case 'la_notes': type=TYPE_STRING;break;
         case 'created_at': type=TYPE_DATETIME;break;
         case 'created_by': type=TYPE_STRING;break;
         case 'updated_at': type=TYPE_DATETIME;break;
@@ -2586,6 +2587,7 @@ function mcd_getLabel(table,champs)
         case 'la_quantite': label="";break;
         case 'la_montantht': label="";break;
         case 'la_montantttc': label="";break;
+        case 'la_notes': label="";break;
         case 'created_at': label="Date de creation";break;
         case 'created_by': label="Login du createur";break;
         case 'updated_at': label="Date de mise à jour";break;
@@ -4216,6 +4218,7 @@ function mcd_obligatoire(table,champs)
         case 'la_quantite': obligatoire=true;break;
         case 'la_montantht': obligatoire=false;break;
         case 'la_montantttc': obligatoire=false;break;
+        case 'la_notes': obligatoire=false;break;
         case 'created_at': obligatoire=false;break;
         case 'created_by': obligatoire=false;break;
         case 'updated_at': obligatoire=false;break;

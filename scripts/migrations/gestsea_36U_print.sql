@@ -458,8 +458,12 @@ WHERE EM_Login=CURRENT_USER AND AD_Active;
 
 --===========================================================================--
 --DROP VIEW VUE_AvoirLignes;
+
+
+
 CREATE OR REPLACE VIEW VUE_AvoirLignes AS
 SELECT 
+pd_code AS LK_Code,
 pd_titre AS LK_Libelle,                                    -- 0
 CASE WHEN PD_SansQuantite 
   THEN round(1.00::NUMERIC, 2)
@@ -471,6 +475,18 @@ CASE WHEN PD_SansQuantite
 END AS LK_Montant, -- 2
 round((la_montantht)::NUMERIC, 2) AS LK_Total,               -- 3
 tv_code AS LK_TVA,                                           -- 4
+
+ROUND(CASE WHEN PD_SansQuantite THEN LA_MontantHT ELSE PX_TarifHT END, 2)
+               AS LK_PrixUnitaireHT,
+LA_MontantHT   AS LK_MontantHT,
+LA_MontantTTC-LA_MontantHT
+               AS LK_MontantTVA,
+TV_TauxTVA     AS LK_TauxTVA,
+(NOT(LA_Notes IS NULL OR LA_Notes=''))::boolean 
+               AS LK_NonVide, -- 5
+LA_Notes       AS LK_Notes,                                 -- 6
+
+
 av_numero                                                    -- 5
 FROM avoir LEFT JOIN ligneAvoir USING (av_numero)
      LEFT JOIN produit    USING (pd_numero)
@@ -484,15 +500,38 @@ FROM avoir LEFT JOIN ligneAvoir USING (av_numero)
 CREATE OR REPLACE VIEW VUE_AvoirReduction AS
 SELECT 
 'Remise de '||av_reduction||' sur : '||pd_titre AS RK_Libelle,      -- 0
-round(av_reduction::numeric,2) AS RK_Quantite, -- 1
-0 AS RK_Montant,             -- 2
-round(0-(sum(la_montantht)*av_reduction)/100, 2) AS RK_Total, -- 3
-'*' AS RK_TVA,               -- 4
+--round(av_reduction::numeric,2) AS RK_Quantite, -- 1
+--0 AS RK_Montant,             -- 2
+--round(0-(sum(la_montantht)*av_reduction)/100, 2) AS RK_Total, -- 3
+--'*' AS RK_TVA,               -- 4
+
+CASE WHEN PD_SansQuantite THEN 1 ELSE LA_Quantite END::float
+               AS RK_Quantite,
+ROUND((CASE WHEN PD_SansQuantite THEN ROUND(LA_MontantHT, 2) ELSE PX_TarifHT END)*(-AV_Reduction/100),2)
+               AS RK_PrixUnitaireHT,
+ROUND(-LA_MontantHT*AV_Reduction/100,2)
+               AS RK_MontantHT,
+ROUND((LA_MontantHT-LA_MontantTTC)*AV_Reduction/100,2)
+               AS RK_MontantTVA,
+TV_TauxTVA     AS RK_TauxTVA,
+
+--trunc(fa_reduction::numeric,2) AS RK_Quantite,               -- 1
+0.00           AS RK_Montant,                                            -- 2
+ROUND(-LA_MontantHT*AV_Reduction/100,2)
+--trunc(0-(sum(lf_montantht)*fa_reduction)/100, 2) 
+               AS RK_Total,  -- 3
+'*'::text      AS RK_TVA,                                                 -- 4
+
+
 av_numero                    -- 5
 FROM avoir LEFT JOIN ligneavoir USING (av_numero)
            LEFT JOIN produit    USING (pd_numero)
-WHERE pd_reduction = true
-GROUP BY RK_Libelle, av_reduction, RK_tva, av_numero;  
+           LEFT JOIN table_prix         USING (px_numero)
+           LEFT JOIN tva          USING (tv_numero)
+           
+WHERE pd_reduction = true AND la_montantttc>0 AND av_reduction>0;
+--GROUP BY RK_Libelle, av_reduction, RK_tva, av_numero;
+
 
 
 

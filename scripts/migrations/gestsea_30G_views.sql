@@ -181,7 +181,7 @@ CREATE OR REPLACE VIEW "lignemodele" AS
     WHERE SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
 
 CREATE OR REPLACE VIEW "produit" AS
-   SELECT DISTINCT table_produit.pd_numero, table_produit.pd_id, table_produit.pd_libelle, table_produit.pd_titre, table_produit.jo_numero, table_produit.so_numero, table_produit.pd_actif, table_produit.pd_sansquantite, table_produit.pd_reduction, table_produit.created_at, table_produit.created_by, table_produit.updated_at, table_produit.updated_by, table_produit.lock_version, table_produit.id, CASE WHEN PD_Actif THEN 'Actif' ELSE 'Inactif' END AS PD_Etat, 'P'||to_char(pd_id,'FM0999') AS pd_code 
+   SELECT table_produit.pd_numero, table_produit.pd_id, table_produit.pd_libelle, table_produit.pd_titre, table_produit.jo_numero, table_produit.so_numero, table_produit.pd_actif, table_produit.pd_sansquantite, table_produit.pd_reduction, table_produit.created_at, table_produit.created_by, table_produit.updated_at, table_produit.updated_by, table_produit.lock_version, table_produit.id, CASE WHEN PD_Actif THEN 'Actif' ELSE 'Inactif' END AS PD_Etat, 'P'||to_char(pd_id,'FM0999') AS pd_code 
      FROM "table_produit" 
     WHERE SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)
     ORDER BY pd_libelle;
@@ -198,7 +198,7 @@ CREATE OR REPLACE VIEW "ligne" AS
     WHERE SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
 
 CREATE OR REPLACE VIEW "devis" AS
-   SELECT DISTINCT table_devis.de_numero, table_devis.pe_numero, table_devis.so_numero, table_devis.de_date, table_devis.de_libelle, ROUND(table_devis.de_reduction,2) AS de_reduction, ROUND(table_devis.de_montantht,2) AS de_montantht, ROUND(table_devis.de_montantttc,2) AS de_montantttc, table_devis.em_numero, table_devis.de_locked, table_devis.de_acompte, table_devis.de_lettre, table_devis.de_civilites, table_devis.de_introduction, table_devis.created_at, table_devis.created_by, table_devis.updated_at, table_devis.updated_by, table_devis.lock_version, table_devis.id, NOT DE_Locked AS PX_Vendable, CASE WHEN DE_Acompte THEN ROUND(0.3*DE_MontantTTC,2) ELSE 0 END AS DE_MontantAcompte 
+   SELECT table_devis.de_numero, table_devis.pe_numero, table_devis.so_numero, table_devis.de_date, table_devis.de_libelle, ROUND(table_devis.de_reduction,2) AS de_reduction, ROUND(table_devis.de_montantht,2) AS de_montantht, ROUND(table_devis.de_montantttc,2) AS de_montantttc, table_devis.em_numero, table_devis.de_locked, table_devis.de_acompte, table_devis.de_lettre, table_devis.de_civilites, table_devis.de_introduction, table_devis.created_at, table_devis.created_by, table_devis.updated_at, table_devis.updated_by, table_devis.lock_version, table_devis.id, NOT DE_Locked AS PX_Vendable, CASE WHEN DE_Acompte THEN ROUND(0.3*DE_MontantTTC,2) ELSE 0 END AS DE_MontantAcompte 
      FROM "table_devis" 
     WHERE SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
 
@@ -213,7 +213,7 @@ CREATE OR REPLACE VIEW "facture" AS
     WHERE SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
 
 CREATE OR REPLACE VIEW "ligneavoir" AS
-   SELECT table_ligneavoir.la_numero, table_ligneavoir.pd_numero, table_ligneavoir.av_numero, table_ligneavoir.px_numero, ROUND(table_ligneavoir.la_quantite,2) AS la_quantite, ROUND(table_ligneavoir.la_montantht,2) AS la_montantht, ROUND(table_ligneavoir.la_montantttc,2) AS la_montantttc, table_ligneavoir.created_at, table_ligneavoir.created_by, table_ligneavoir.updated_at, table_ligneavoir.updated_by, table_ligneavoir.lock_version, table_ligneavoir.id 
+   SELECT table_ligneavoir.la_numero, table_ligneavoir.pd_numero, table_ligneavoir.av_numero, table_ligneavoir.px_numero, ROUND(table_ligneavoir.la_quantite,2) AS la_quantite, ROUND(table_ligneavoir.la_montantht,2) AS la_montantht, ROUND(table_ligneavoir.la_montantttc,2) AS la_montantttc, table_ligneavoir.la_notes, table_ligneavoir.created_at, table_ligneavoir.created_by, table_ligneavoir.updated_at, table_ligneavoir.updated_by, table_ligneavoir.lock_version, table_ligneavoir.id 
      FROM "table_ligneavoir" JOIN table_Produit USING (PD_Numero) 
     WHERE SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
 
@@ -845,10 +845,10 @@ CREATE OR REPLACE RULE rule_ligne_delete AS
 
 CREATE OR REPLACE RULE rule_ligneavoir_insert AS
   ON INSERT TO "ligneavoir"
-  DO INSTEAD INSERT INTO "table_ligneavoir"(la_numero, pd_numero, av_numero, px_numero, la_quantite, la_montantht, la_montantttc, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (new.la_numero, new.pd_numero, new.av_numero, new.px_numero, ROUND(COALESCE(NEW.la_quantite,0),2), ROUND(new.la_montantht,2), ROUND(new.la_montantttc,2), CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
+  DO INSTEAD INSERT INTO "table_ligneavoir"(la_numero, pd_numero, av_numero, px_numero, la_quantite, la_montantht, la_montantttc, la_notes, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (new.la_numero, new.pd_numero, new.av_numero, new.px_numero, ROUND(COALESCE(NEW.la_quantite,0),2), ROUND(new.la_montantht,2), ROUND(new.la_montantttc,2), new.la_notes, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
 CREATE OR REPLACE RULE rule_ligneavoir_update AS
   ON UPDATE TO "ligneavoir"
-  DO INSTEAD UPDATE "table_ligneavoir" SET la_numero=new.la_numero, pd_numero=new.pd_numero, av_numero=new.av_numero, px_numero=new.px_numero, la_quantite=ROUND(COALESCE(NEW.la_quantite,0),2), la_montantht=ROUND(new.la_montantht,2), la_montantttc=ROUND(new.la_montantttc,2), created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.LA_Numero=LA_Numero;
+  DO INSTEAD UPDATE "table_ligneavoir" SET la_numero=new.la_numero, pd_numero=new.pd_numero, av_numero=new.av_numero, px_numero=new.px_numero, la_quantite=ROUND(COALESCE(NEW.la_quantite,0),2), la_montantht=ROUND(new.la_montantht,2), la_montantttc=ROUND(new.la_montantttc,2), la_notes=new.la_notes, created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.LA_Numero=LA_Numero;
 CREATE OR REPLACE RULE rule_ligneavoir_delete AS
   ON DELETE TO "ligneavoir"
   DO INSTEAD DELETE FROM "table_ligneavoir" WHERE old.LA_Numero=LA_Numero;

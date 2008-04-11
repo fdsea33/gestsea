@@ -641,7 +641,7 @@
   </table>
 
 
-  <table name="Produit" abbrev="PD" distinct="true" label="Produits"  select="CASE WHEN PD_Actif THEN 'Actif' ELSE 'Inactif' END AS PD_Etat, 'P'||to_char(pd_id,'FM0999') AS pd_code" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)" order="pd_libelle">
+  <table name="Produit" abbrev="PD" label="Produits"  select="CASE WHEN PD_Actif THEN 'Actif' ELSE 'Inactif' END AS PD_Etat, 'P'||to_char(pd_id,'FM0999') AS pd_code" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)" order="pd_libelle">
     <column name="PD_Numero"       type="INTEGER"     notnull="true" pkey="true"></column>
     <column name="PD_ID"           type="SERIAL"      notnull="true" unique="true"></column>
     <column name="PD_Libelle"      type="VARCHAR"     notnull="true"></column>
@@ -702,7 +702,7 @@
   </table>
 
   
-  <table name="Devis" abbrev="DE" label="Devis" distinct="true" select="NOT DE_Locked AS PX_Vendable, CASE WHEN DE_Acompte THEN ROUND(0.3*DE_MontantTTC,2) ELSE 0 END AS DE_MontantAcompte" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+  <table name="Devis" abbrev="DE" label="Devis" select="NOT DE_Locked AS PX_Vendable, CASE WHEN DE_Acompte THEN ROUND(0.3*DE_MontantTTC,2) ELSE 0 END AS DE_MontantAcompte" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
     <column name="DE_Numero"       type="INTEGER"     notnull="true" pkey="true"></column>
     <column name="PE_Numero"       type="INTEGER"     notnull="true" fkey="Personne(PE_Numero)" opt="odrour"></column>
     <column name="SO_Numero"       type="INTEGER"     notnull="true" fkey="Societe(SO_Numero)" opt="odrour" default=""></column>
@@ -779,6 +779,7 @@
     <column name="LA_Quantite"   type="NUMERIC"     notnull="true" default="0"></column>
     <column name="LA_MontantHT"  type="NUMERIC(16,2)"     default="NULL"></column>
     <column name="LA_MontantTTC" type="NUMERIC(16,2)"     default="NULL"></column>
+    <column name="LA_Notes"      type="TEXT"     default="NULL"></column>
     <seq name="seq_ligneavoir" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>

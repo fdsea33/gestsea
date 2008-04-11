@@ -578,6 +578,10 @@ BEGIN
       IF compte>0 THEN
         RAISE EXCEPTION 'La personne possède une société, il vous faut donc utiliser la société pour faire un devis.\nMerci de votre compréhension.\n\nConseil : Pour trouver la société, allez voir dans l''onglet des liens.';
       END IF;
+      SELECT count(*) FROM estlie WHERE tl_numero=1006 AND el_personne1=NEW.pe_numero INTO compte;
+      IF compte>0 THEN
+        RAISE EXCEPTION 'La fiche est un doublon connu, il vous faut donc utiliser la fiche originale pour faire un devis.\nMerci de votre compréhension.\n\nConseil : Pour trouver la vraie fiche, allez voir dans l''onglet des liens.';
+      END IF;
     END IF;
     SELECT current_societe() INTO NEW.SO_Numero;
   END IF;
@@ -588,8 +592,17 @@ BEGIN
       NEW.em_numero = OLD.em_numero;
     END IF;
   END IF;
-  IF (TG_OP='INSERT' AND NOT NEW.de_locked) OR (TG_OP='UPDATE' AND NOT superuser) THEN
-    SELECT FC_Personne_Reduction(NEW.PE_Numero, CURRENT_DATE) INTO NEW.DE_Reduction;
+  IF NOT NEW.de_locked THEN
+    IF TG_OP='UPDATE' THEN
+      IF NEW.DE_Reduction=OLD.DE_Reduction THEN
+        SELECT FC_Personne_Reduction(NEW.PE_Numero, CURRENT_DATE) INTO NEW.DE_Reduction;
+      END IF;
+    ELSE
+      SELECT FC_Personne_Reduction(NEW.PE_Numero, CURRENT_DATE) INTO NEW.DE_Reduction;
+    END IF;
+  
+--  IF (TG_OP='INSERT' AND NOT NEW.de_locked) OR (TG_OP='UPDATE' AND NOT superuser) THEN
+--    SELECT FC_Personne_Reduction(NEW.PE_Numero, CURRENT_DATE) INTO NEW.DE_Reduction;
 /*
     SELECT COALESCE(MAX(AS_ReductionMax),0.00)
       FROM Adhesion JOIN Adherence USING (AH_Numero)
@@ -2201,6 +2214,7 @@ DECLARE
   detail2 cotisation.cs_detail%TYPE;
   cotis cotisation%ROWTYPE;
   valid BOOLEAN;
+  hectare BOOLEAN;
   report TEXT;
   i INTEGER;
 BEGIN
@@ -2272,6 +2286,10 @@ BEGIN
     RETURN false;
   END IF;
 
+  num_payeur := cotis.pe_numero;
+  IF num_gerance IS NOT NULL THEN
+    num_payeur := num_gerance;
+  END IF;
 
   -- Sauvegarde du statut de l'utilisateur
   SELECT EM_Service, EM_Numero FROM Employe WHERE em_login=CURRENT_USER INTO num_service, num_employe;
@@ -2282,6 +2300,7 @@ BEGIN
   detail := bml_put(detail,'fdsea.devis',num_devis);
   report := report||E'\nDevis FDSEA N°'||num_devis;
   INSERT INTO devis (de_numero, pe_numero, de_libelle, em_numero) VALUES (num_devis, num_payeur, '[CR] Cotisation du '||CURRENT_DATE, num_encaisseur);
+  hectare := false;
   IF bml_extract(detail,'fdsea.hectare')='true' THEN
     FOR i IN 1..bml_extract(detail,'fdsea.hectare.nombre') LOOP
       report := report||E'\nCotisation hectare N°'||i;
@@ -2293,6 +2312,7 @@ BEGIN
       END IF;
       detail := bml_put(detail,'fdsea.hectare.'||i||'.prix',num_prix);
       INSERT INTO ligne (de_numero, px_numero, l_quantite) VALUES (num_devis, num_prix, bml_extract(detail,'fdsea.hectare.'||i||'.quantite')::numeric);
+      hectare:=true;
     END LOOP;
   END IF;
   SELECT DE_MontantTTC FROM devis WHERE de_numero=num_devis INTO total;
@@ -2359,7 +2379,7 @@ BEGIN
   UPDATE employe SET EM_Service=SE_Numero FROM service WHERE employe.EM_Numero=num_employe AND SE_Societe=2;
   SELECT FC_DevisVersFacture(num_devis_fdsea) INTO num_facture_fdsea;
   INSERT INTO table_impressiondocument (ig_numero,id_modele,id_cle) VALUES (num_groupe, 'facture', num_facture_fdsea); 
-  IF (bml_extract(detail,'fdsea.forfait.produit')='500000052' AND bml_extract(detail,'fdsea.hectare')::boolean) OR (bml_extract(detail,'fdsea.forfait.produit')!='500000052' AND bml_extract(detail,'cotisation.type')!='conjoint') THEN
+  IF (bml_extract(detail,'fdsea.forfait.produit')='500000052' AND hectare) OR (bml_extract(detail,'fdsea.forfait.produit')!='500000052' AND bml_extract(detail,'cotisation.type')!='conjoint') THEN
     INSERT INTO table_impressiondocument (ig_numero,id_modele,id_cle) VALUES (num_groupe, 'carte', num_facture_fdsea); 
   END IF;
   detail := bml_put(detail,'fdsea.facture',num_facture_fdsea);

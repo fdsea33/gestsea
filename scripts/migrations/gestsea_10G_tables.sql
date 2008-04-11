@@ -1300,6 +1300,7 @@ CREATE TABLE "table_ligneavoir"
   "la_quantite" NUMERIC,
   "la_montantht" NUMERIC(16,2),
   "la_montantttc" NUMERIC(16,2),
+  "la_notes" TEXT,
   "created_at" TIMESTAMP,
   "created_by" VARCHAR(32),
   "updated_at" TIMESTAMP,
