@@ -37,15 +37,15 @@ function CodeInPrincipal(centre){
 
     Maitre_Personne = It_Personne.AjouterMaitre("Liste des personnes","personne");
 
-    Maitre_Personne.AjouterColonne("Nom","pe_fullname");
+    Maitre_Personne.AjouterColonne("Nom             ","pe_fullname");
     //    Maitre_Personne.AjouterColonne("Nom","pe_nom");
     //Maitre_Personne.AjouterColonne("Prénom","pe_prenom");
     //Maitre_Personne.AjouterColonne("Titre","pe_titre");
-    Maitre_Personne.AjouterColonne("N°Pers.","pe_id");
-    Maitre_Personne.AjouterColonne("Tél.","pe_telephone");
-    Maitre_Personne.AjouterColonne("Fax","pe_fax");
-    Maitre_Personne.AjouterColonne("Canton","ct_nom");
-    Maitre_Personne.AjouterColonne("Adresse","pe_adresse");//,new Array("pe_numero","pe_numero","adresse"));
+    Maitre_Personne.AjouterColonne("N°","pe_id");
+//    Maitre_Personne.AjouterColonne("Tél.","pe_telephone");
+//    Maitre_Personne.AjouterColonne("Fax","pe_fax");
+//    Maitre_Personne.AjouterColonne("Canton","ct_nom");
+//    Maitre_Personne.AjouterColonne("Adresse","pe_adresse");//,new Array("pe_numero","pe_numero","adresse"));
     
     
     //    Maitre_Personne.AjouterColonne("Complement","pe_complement");
@@ -65,9 +65,11 @@ function CodeInPrincipal(centre){
 //    It_Personne.AjouterComposantSimple("Complément","pe_complement");
     It_Personne.AjouterComposantSimple("N°TVA intrac.","pe_numtvaic");
     It_Personne.AjouterComposantSimple("Né(e) le","pe_naissance");
-    It_Personne.AjouterComposantSimple("Etat","ep_libelle",new Array("ep_numero","ep_numero","etatpersonne"),null,LISTE_DEROULANTE);
+    It_Personne.AjouterComposantSimple("La personne est active (et peut être contactée)","pe_actif",null,null,CHECKBOX);
+
+//    It_Personne.AjouterComposantSimple("Etat","ep_libelle",new Array("ep_numero","ep_numero","etatpersonne"),null,LISTE_DEROULANTE);
 //    It_Personne.AjouterComposantSimple("Entité morale","pe_morale",null,null,CHECKBOX);
-    It_Personne.AjouterComposantSimple("Type","tp_type",new Array("tp_numero","tp_numero","typepersonne"),null,LISTE_DEROULANTE);
+//    It_Personne.AjouterComposantSimple("Type","tp_type",new Array("tp_numero","tp_numero","typepersonne"),null,LISTE_DEROULANTE);
 //    It_Personne.AjouterComposantSimple("Régime fiscal","pe_regimefiscal",null,null,LISTE_DEROULANTE_STATIC,null,new Array("FORFAIT","NON RENSEIGNE","REEL"));
     
     //***********************
@@ -364,7 +366,7 @@ function CodeInPrincipal(centre){
     It_Personne.AjouterComposantSimple("Suspendre les relances","ro_suspendu",null,PersonneRoutage,CHECKBOX);
 
     // Bouton de recherche
-    Maitre_Personne.CodeUserOnInit='Compo_'+Maitre_Personne.getNom_()+'.AddCompoAddOn(new clAddon_Fctmenupopup("Rechercher",new Array("Par numéro","Par nom","Par code postal","Par ville","Par contact"),new Array(Recherche_Num,Recherche_Nom,Recherche_CP,Recherche_Ville,Recherche_Contact),new Array(Compo_'+Maitre_Personne.getNom_()+',Compo_'+Maitre_Personne.getNom_()+',Compo_'+Maitre_Personne.getNom_()+',Compo_'+Maitre_Personne.getNom_()+',Compo_'+Maitre_Personne.getNom_()+')));\n';
+    Maitre_Personne.CodeUserOnInit='Compo_'+Maitre_Personne.getNom_()+'.AddCompoAddOn(new clAddon_Fctmenupopup("Rechercher",new Array("Par numéro","Par nom","Par code postal","Par ville","Par contact","Par N.Devis","Par N.Facture"),new Array(Recherche_Num,Recherche_Nom,Recherche_CP,Recherche_Ville,Recherche_Contact,Recherche_Devis,Recherche_Facture),new Array(Compo_'+Maitre_Personne.getNom_()+',Compo_'+Maitre_Personne.getNom_()+',Compo_'+Maitre_Personne.getNom_()+',Compo_'+Maitre_Personne.getNom_()+',Compo_'+Maitre_Personne.getNom_()+',Compo_'+Maitre_Personne.getNom_()+',Compo_'+Maitre_Personne.getNom_()+')));\n';
 
     principal_alert("Personnes...OK!");
 

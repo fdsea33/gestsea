@@ -113,7 +113,6 @@ CREATE INDEX idx_table_periodeadherence_po_numero ON table_periodeadherence(po_n
 CREATE INDEX idx_table_periodeadherence_ah_numero ON table_periodeadherence(ah_numero);
 CREATE INDEX idx_table_personne_tp_numero ON table_personne(tp_numero);
 CREATE INDEX idx_table_personne_np_numero ON table_personne(np_numero);
-CREATE INDEX idx_table_personne_ep_numero ON table_personne(ep_numero);
 CREATE INDEX idx_table_piece_jo_numero ON table_piece(jo_numero);
 CREATE INDEX idx_table_piece_ex_numero ON table_piece(ex_numero);
 CREATE INDEX idx_table_prix_tv_numero ON table_prix(tv_numero);
@@ -864,11 +863,6 @@ ALTER TABLE "table_personne"
   FOREIGN KEY (np_numero) REFERENCES table_NaturePersonne(NP_Numero)
     ON DELETE RESTRICT 
     ON UPDATE RESTRICT;
-ALTER TABLE "table_personne"
-  ADD CONSTRAINT fk_table_personne_ep_numero
-  FOREIGN KEY (ep_numero) REFERENCES table_EtatPersonne(EP_Numero)
-    ON DELETE RESTRICT 
-    ON UPDATE RESTRICT;
 ALTER TABLE "table_piece"
   ADD CONSTRAINT fk_table_piece_jo_numero
   FOREIGN KEY (jo_numero) REFERENCES table_Journal(JO_Numero) 
@@ -1410,7 +1404,8 @@ ALTER TABLE "table_periodeadherence" ALTER "updated_at" SET DEFAULT CURRENT_TIME
 ALTER TABLE "table_periodeadherence" ALTER "updated_by" SET DEFAULT CURRENT_USER;
 ALTER TABLE "table_periodeadherence" ALTER "lock_version" SET DEFAULT 0;
 ALTER TABLE "table_personne" ALTER "pe_regimefiscal" SET DEFAULT 'NON RENSEIGNE';
-ALTER TABLE "table_personne" ALTER "pe_morale" SET DEFAULT false;
+ALTER TABLE "table_personne" ALTER "pe_actif" SET DEFAULT true;
+ALTER TABLE "table_personne" ALTER "deleted" SET DEFAULT false;
 ALTER TABLE "table_personne" ALTER "pe_prenom" SET DEFAULT NULL;
 ALTER TABLE "table_personne" ALTER "pe_motdepasse" SET DEFAULT NULL;
 ALTER TABLE "table_personne" ALTER "pe_naissance" SET DEFAULT NULL;
@@ -1993,8 +1988,8 @@ ALTER TABLE "table_personne" ALTER "np_numero" SET NOT NULL ;
 ALTER TABLE "table_personne" ALTER "pe_titre" SET NOT NULL ;
 ALTER TABLE "table_personne" ALTER "pe_nom" SET NOT NULL ;
 ALTER TABLE "table_personne" ALTER "pe_regimefiscal" SET NOT NULL ;
-ALTER TABLE "table_personne" ALTER "ep_numero" SET NOT NULL ;
-ALTER TABLE "table_personne" ALTER "pe_morale" SET NOT NULL ;
+ALTER TABLE "table_personne" ALTER "pe_actif" SET NOT NULL ;
+ALTER TABLE "table_personne" ALTER "deleted" SET NOT NULL ;
 ALTER TABLE "table_personne" ALTER "lock_version" SET NOT NULL ;
 ALTER TABLE "table_personne" ALTER "id" SET NOT NULL ;
 ALTER TABLE "table_personneupdate" ALTER "pu_numero" SET NOT NULL ;

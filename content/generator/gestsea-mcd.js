@@ -1177,8 +1177,8 @@ function mcd_getType(table,champs)
         case 'pe_titre': type=TYPE_STRING;break;
         case 'pe_nom': type=TYPE_STRING;break;
         case 'pe_regimefiscal': type=TYPE_STRING;break;
-        case 'ep_numero': type=TYPE_INT;break;
-        case 'pe_morale': type=TYPE_BOOL;break;
+        case 'pe_actif': type=TYPE_BOOL;break;
+        case 'deleted': type=TYPE_BOOL;break;
         case 'pe_prenom': type=TYPE_STRING;break;
         case 'pe_motdepasse': type=TYPE_STRING;break;
         case 'pe_naissance': type=TYPE_DATE;break;
@@ -2811,8 +2811,8 @@ function mcd_getLabel(table,champs)
         case 'pe_titre': label="";break;
         case 'pe_nom': label="";break;
         case 'pe_regimefiscal': label="";break;
-        case 'ep_numero': label="";break;
-        case 'pe_morale': label="";break;
+        case 'pe_actif': label="";break;
+        case 'deleted': label="";break;
         case 'pe_prenom': label="";break;
         case 'pe_motdepasse': label="";break;
         case 'pe_naissance': label="";break;
@@ -4442,8 +4442,8 @@ function mcd_obligatoire(table,champs)
         case 'pe_titre': obligatoire=true;break;
         case 'pe_nom': obligatoire=true;break;
         case 'pe_regimefiscal': obligatoire=true;break;
-        case 'ep_numero': obligatoire=true;break;
-        case 'pe_morale': obligatoire=true;break;
+        case 'pe_actif': obligatoire=true;break;
+        case 'deleted': obligatoire=true;break;
         case 'pe_prenom': obligatoire=false;break;
         case 'pe_motdepasse': obligatoire=false;break;
         case 'pe_naissance': obligatoire=false;break;

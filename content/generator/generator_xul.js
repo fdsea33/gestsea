@@ -2101,7 +2101,7 @@ clCompoTextBox.prototype.GenererCompoXUL =
 
 	if (this.MotDePasse) textbox.setAttribute("type","password");
 	textbox.setAttribute("multiline",this.MultiLine);
-        if (this.MultiLine) textbox.setAttribute("rows","5");
+        if (this.MultiLine) textbox.setAttribute("rows","8");
 	hbox.appendChild(textbox);
 
 	this.my_CompoXUL=textbox;
@@ -2176,18 +2176,28 @@ clCompoCheckBox.prototype.GenererCompoXUL =
 	var mydoc=top.document;
 	var ref=AddVar(this);
 
+  var hbox = mydoc.createElement("hbox");
+	hbox.setAttribute("align","center");
+	hbox.setAttribute("flex","1");
+	ParentXul.appendChild(hbox);
+
+  var label = mydoc.createElement("label");
+	label.setAttribute("value",this.NomChamps);
+  label.setAttribute("class","labelize-uniline");
+	hbox.appendChild(label);
+
 	checkbox = mydoc.createElement("checkbox");
 	checkbox.setAttribute("disabled","true");
 	checkbox.setAttribute("dir","reverse");
-	checkbox.setAttribute("label",this.NomChamps);
-  checkbox.setAttribute("class","labelize-uniline");
+//	checkbox.setAttribute("label",this.NomChamps);
+//  checkbox.setAttribute("class","labelize-uniline");
 	checkbox.setAttribute("value","false");
 	checkbox.setAttribute("oncommand","this.value=this.checked; GetVar("+ref+").OnChange();");
-	ParentXul.appendChild(checkbox);
+	hbox.appendChild(checkbox);
 
 	this.my_CompoXUL=checkbox;
 
-	return ParentXul;
+	return hbox;
     }
 
 

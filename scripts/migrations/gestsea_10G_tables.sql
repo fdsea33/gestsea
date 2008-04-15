@@ -303,8 +303,6 @@ ALTER TABLE "table_personne"
   DROP CONSTRAINT fk_table_personne_tp_numero;
 ALTER TABLE "table_personne"
   DROP CONSTRAINT fk_table_personne_np_numero;
-ALTER TABLE "table_personne"
-  DROP CONSTRAINT fk_table_personne_ep_numero;
 ALTER TABLE "table_piece"
   DROP CONSTRAINT fk_table_piece_jo_numero;
 ALTER TABLE "table_piece"
@@ -875,8 +873,8 @@ CREATE TABLE "table_personne"
   "pe_titre" VARCHAR(32),
   "pe_nom" VARCHAR(48),
   "pe_regimefiscal" VARCHAR(32),
-  "ep_numero" INTEGER,
-  "pe_morale" BOOLEAN,
+  "pe_actif" BOOLEAN,
+  "deleted" BOOLEAN,
   "pe_prenom" VARCHAR(32),
   "pe_motdepasse" VARCHAR(32),
   "pe_naissance" DATE,

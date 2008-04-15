@@ -299,12 +299,43 @@ function Recherche_Num(CompoPerso)
   } else alert("Personne non trouvée");
 }
 
+function Recherche_Devis(CompoPerso) {
+  var Cle=prompt("Entrez un numéro de devis","");
+  if (Cle==null) return;
+  if (Cle*1<500000000) Cle=Cle*1+500000000;
+  var Req='select pe_numero from devis where de_numero = '+Cle;
+  var res=pgsql_query(Req);
+  if (res.rowCount!=0){
+    var enumerator=res.enumerate();
+    enumerator.beforeFirst();
+    enumerator.next();
+    CompoPerso.ForceNextSelection(enumerator.getVariant(0));
+    CompoPerso.SelectItem(enumerator.getVariant(0));
+  } else alert("Personne non trouvée. Devis "+Cle+" inexistant.");
+}
+
+function Recherche_Facture(CompoPerso) {
+  var Cle=prompt("Entrez un numéro de facture","");
+  if (Cle==null) return;
+  if (Cle*1<1000000) Cle=Cle*1+2005000000;
+  var Req='select pe_numero from facture where fa_numfact = '+Cle;
+  var res=pgsql_query(Req);
+  if (res.rowCount!=0){
+    var enumerator=res.enumerate();
+    enumerator.beforeFirst();
+    enumerator.next();
+    CompoPerso.ForceNextSelection(enumerator.getVariant(0));
+    CompoPerso.SelectItem(enumerator.getVariant(0));
+  } else alert("Personne non trouvée. Facture "+Cle+" inexistante.");
+}
+
+
 function Recherche_Nom(CompoPerso)
 {
   var NomPerso=prompt("Entrez le nom de la personne","");
   if (NomPerso==null)
   return;
-  var Req="select distinct pe_numero,pe_titre,pe_fullname, pe_cp, pe_ville, pe_telephone, pe_fax from personne where pe_libelle ilike ('%'||REPLACE(TRIM('"+NomPerso+"'),' ','%')||'%') or pe_adresse ilike ('%'||REPLACE(TRIM('"+NomPerso+"'),' ','%')||'%') order by pe_fullname";
+  var Req="select distinct pe_numero,pe_titre,pe_fullname, pe_cp, pe_ville, pe_telephone, pe_fax from vue_personne where pe_libelle ilike ('%'||REPLACE(TRIM('"+NomPerso+"'),' ','%')||'%') or pe_adresse ilike ('%'||REPLACE(TRIM('"+NomPerso+"'),' ','%')||'%') order by pe_fullname";
   Open_Rechercher(Req,CompoPerso);
 }
 
@@ -313,7 +344,7 @@ function Recherche_CP(CompoPerso)
   var CpPerso=prompt("Entrez un code postal","");
   if (CpPerso==null)
   return;
-  var Req="select distinct pe_numero,pe_titre,pe_fullname, pe_cp, pe_ville, pe_telephone, pe_fax from personne where pe_cp="+CpPerso+" order by pe_fullname";
+  var Req="select distinct pe_numero,pe_titre,pe_fullname, pe_cp, pe_ville, pe_telephone, pe_fax from vue_personne where pe_cp="+CpPerso+" order by pe_fullname";
   Open_Rechercher(Req,CompoPerso);
 }
 
@@ -322,7 +353,7 @@ function Recherche_Ville(CompoPerso)
   var NomVille=prompt("Entrez le nom de la ville","");
   if (NomVille==null)
   return;
-  var Req="select distinct pe_numero,pe_titre,pe_fullname, pe_cp, pe_ville, pe_telephone, pe_fax from personne where pe_ville ilike('%'||REPLACE(TRIM('"+NomVille+"'),' ','%')||'%') order by pe_fullname";
+  var Req="select distinct pe_numero,pe_titre,pe_fullname, pe_cp, pe_ville, pe_telephone, pe_fax from vue_personne where pe_ville ilike('%'||REPLACE(TRIM('"+NomVille+"'),' ','%')||'%') order by pe_fullname";
   Open_Rechercher(Req,CompoPerso);
 }
 
@@ -331,7 +362,7 @@ function Recherche_Contact(CompoPerso)
   var NumCont=prompt("Entrez un numéro de téléphone, fax, portable ou un e-mail","");
   if (NumCont==null)
   return;
-  var Req="select distinct personne.pe_numero,pe_titre,pe_fullname, cp_codepostal AS pe_cp, vi_nom AS pe_ville, pe_telephone, pe_fax from personne join adresse using (pe_numero) join codepostal using (cp_numero) join ville using (vi_numero) join contact using (pe_numero) where cn_coordonnee ilike('%"+NumCont+"%') and ad_active IS NOT FALSE order by pe_fullname";
+  var Req="select distinct personne.pe_numero,pe_titre,pe_fullname, cp_codepostal AS pe_cp, vi_nom AS pe_ville, pe_telephone, pe_fax from vue_personne join adresse using (pe_numero) join codepostal using (cp_numero) join ville using (vi_numero) join contact using (pe_numero) where cn_coordonnee ilike('%"+NumCont+"%') and ad_active IS NOT FALSE order by pe_fullname";
   Open_Rechercher(Req,CompoPerso);
 }
 

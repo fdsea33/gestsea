@@ -1055,7 +1055,7 @@ BEGIN
 
   IF TG_OP='INSERT' THEN
     NEW.PE_MotDePasse := FC_Password(8);
-    INSERT INTO PersonneUpdate(PU_Action,PE_Numero,TP_Numero,PE_Titre,PE_Nom,PE_RegimeFiscal,EP_Numero,PE_Morale,PE_Prenom,PE_Naissance) VALUES ('Ajout',New.PE_Numero,New.TP_Numero,New.PE_Titre,New.PE_Nom,New.PE_RegimeFiscal,New.EP_Numero,New.PE_Morale,New.PE_Prenom,New.PE_Naissance);
+    INSERT INTO PersonneUpdate(PU_Action,PE_Numero,TP_Numero,PE_Titre,PE_Nom,PE_RegimeFiscal,PE_Morale,PE_Prenom,PE_Naissance) VALUES ('Ajout',New.PE_Numero,New.TP_Numero,New.PE_Titre,New.PE_Nom,New.PE_RegimeFiscal,New.PE_Morale,New.PE_Prenom,New.PE_Naissance);
     RETURN New;
   ELSIF TG_OP='UPDATE' THEN
 /*
@@ -1089,10 +1089,6 @@ BEGIN
       total:=total+1;
       description:='Régime fiscal ('||COALESCE(New.PE_RegimeFiscal,'[NULL]')||'), '||description;
     END IF;
-    IF Old.EP_Numero!=New.EP_Numero THEN
-      total:=total+1;
-      description:='Etat de la personne ('||COALESCE('['||New.EP_Numero||']','[NULL]')||'), '||description;
-    END IF;
     IF Old.PE_Morale!=New.PE_Morale THEN
       total:=total+1;
       description:='Entité morale, '||description;
@@ -1114,11 +1110,11 @@ BEGIN
 
     IF total!=0 THEN
       description:=total||' modification(s) : '||description||'...';
-      INSERT INTO PersonneUpdate(PU_Action,PU_Bilan,PE_Numero,TP_Numero,PE_Titre,PE_Nom,PE_RegimeFiscal,EP_Numero,PE_Morale,PE_Prenom,PE_Naissance) VALUES ('Modif',description,Old.PE_Numero,Old.TP_Numero,Old.PE_Titre,Old.PE_Nom,Old.PE_RegimeFiscal,Old.EP_Numero,Old.PE_Morale,Old.PE_Prenom,Old.PE_Naissance);
+      INSERT INTO PersonneUpdate(PU_Action,PU_Bilan,PE_Numero,TP_Numero,PE_Titre,PE_Nom,PE_RegimeFiscal,PE_Morale,PE_Prenom,PE_Naissance) VALUES ('Modif',description,Old.PE_Numero,Old.TP_Numero,Old.PE_Titre,Old.PE_Nom,Old.PE_RegimeFiscal,Old.PE_Morale,Old.PE_Prenom,Old.PE_Naissance);
     END IF;
     RETURN New;
   ELSE
-    INSERT INTO PersonneUpdate(PU_Action,PE_Numero,TP_Numero,PE_Titre,PE_Nom,PE_RegimeFiscal,EP_Numero,PE_Morale,PE_Prenom,PE_Naissance) VALUES ('Suppr.',Old.PE_Numero,Old.TP_Numero,Old.PE_Titre,Old.PE_Nom,Old.PE_RegimeFiscal,Old.EP_Numero,Old.PE_Morale,Old.PE_Prenom,Old.PE_Naissance);
+    INSERT INTO PersonneUpdate(PU_Action,PE_Numero,TP_Numero,PE_Titre,PE_Nom,PE_RegimeFiscal,PE_Morale,PE_Prenom,PE_Naissance) VALUES ('Suppr.',Old.PE_Numero,Old.TP_Numero,Old.PE_Titre,Old.PE_Nom,Old.PE_RegimeFiscal,Old.PE_Morale,Old.PE_Prenom,Old.PE_Naissance);
     RETURN Old;
   END IF;
 END;
