@@ -42,8 +42,7 @@ function CodeInReglement(centre){
     It_Personne.AjouterComposantSimple("Prénom","pe_prenom");
     It_Personne.AjouterComposantSimple("N°TVA intrac.","pe_numtvaic");
     It_Personne.AjouterComposantSimple("Né(e) le","pe_naissance");
-    It_Personne.AjouterComposantSimple("Etat","ep_libelle",new Array("ep_numero","ep_numero","etatpersonne"),null,LISTE_DEROULANTE);
-    It_Personne.AjouterComposantSimple("Type","tp_type",new Array("tp_numero","tp_numero","typepersonne"),null,LISTE_DEROULANTE);
+//    It_Personne.AjouterComposantSimple("Type","tp_type",new Array("tp_numero","tp_numero","typepersonne"),null,LISTE_DEROULANTE);
 
 
     //***********************
