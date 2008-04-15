@@ -201,8 +201,6 @@ ALTER TABLE "table_estlie"
   ADD CONSTRAINT pk_table_estlie_el_numero PRIMARY KEY (el_numero);
 ALTER TABLE "table_estresponsable"
   ADD CONSTRAINT pk_table_estresponsable_peac_numero PRIMARY KEY (peac_numero);
-ALTER TABLE "table_etatpersonne"
-  ADD CONSTRAINT pk_table_etatpersonne_ep_numero PRIMARY KEY (ep_numero);
 ALTER TABLE "table_evoplus"
   ADD CONSTRAINT pk_table_evoplus_id PRIMARY KEY (id);
 ALTER TABLE "table_exercice"
@@ -1222,10 +1220,6 @@ ALTER TABLE "table_estresponsable" ALTER "created_at" SET DEFAULT CURRENT_TIMEST
 ALTER TABLE "table_estresponsable" ALTER "updated_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_estresponsable" ALTER "updated_by" SET DEFAULT CURRENT_USER;
 ALTER TABLE "table_estresponsable" ALTER "lock_version" SET DEFAULT 0;
-ALTER TABLE "table_etatpersonne" ALTER "created_at" SET DEFAULT CURRENT_TIMESTAMP;
-ALTER TABLE "table_etatpersonne" ALTER "updated_at" SET DEFAULT CURRENT_TIMESTAMP;
-ALTER TABLE "table_etatpersonne" ALTER "updated_by" SET DEFAULT CURRENT_USER;
-ALTER TABLE "table_etatpersonne" ALTER "lock_version" SET DEFAULT 0;
 ALTER TABLE "table_evoplus" ALTER "proposition" SET DEFAULT false;
 ALTER TABLE "table_evoplus" ALTER "aava" SET DEFAULT false;
 ALTER TABLE "table_evoplus" ALTER "created_at" SET DEFAULT CURRENT_TIMESTAMP;
@@ -1418,7 +1412,6 @@ ALTER TABLE "table_personneupdate" ALTER "pu_numero" SET DEFAULT nextval('seq_pe
 ALTER TABLE "table_personneupdate" ALTER "pu_action" SET DEFAULT NULL;
 ALTER TABLE "table_personneupdate" ALTER "pu_bilan" SET DEFAULT NULL;
 ALTER TABLE "table_personneupdate" ALTER "pe_regimefiscal" SET DEFAULT 'NON RENSEIGNE';
-ALTER TABLE "table_personneupdate" ALTER "ep_numero" SET DEFAULT NULL;
 ALTER TABLE "table_personneupdate" ALTER "pe_morale" SET DEFAULT false;
 ALTER TABLE "table_personneupdate" ALTER "pe_prenom" SET DEFAULT NULL;
 ALTER TABLE "table_personneupdate" ALTER "pe_naissance" SET DEFAULT NULL;
@@ -1805,10 +1798,6 @@ ALTER TABLE "table_estresponsable" ALTER "peac_periodedebut" SET NOT NULL ;
 ALTER TABLE "table_estresponsable" ALTER "peac_fini" SET NOT NULL ;
 ALTER TABLE "table_estresponsable" ALTER "lock_version" SET NOT NULL ;
 ALTER TABLE "table_estresponsable" ALTER "id" SET NOT NULL ;
-ALTER TABLE "table_etatpersonne" ALTER "ep_numero" SET NOT NULL ;
-ALTER TABLE "table_etatpersonne" ALTER "ep_libelle" SET NOT NULL ;
-ALTER TABLE "table_etatpersonne" ALTER "lock_version" SET NOT NULL ;
-ALTER TABLE "table_etatpersonne" ALTER "id" SET NOT NULL ;
 ALTER TABLE "table_evoplus" ALTER "proposition" SET NOT NULL ;
 ALTER TABLE "table_evoplus" ALTER "aava" SET NOT NULL ;
 ALTER TABLE "table_evoplus" ALTER "created_at" SET NOT NULL ;

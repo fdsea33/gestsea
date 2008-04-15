@@ -87,10 +87,6 @@ CREATE OR REPLACE VIEW "estlie" AS
      FROM "table_estlie" JOIN table_Personne AS p1 ON (EL_Personne1=p1.PE_Numero) JOIN table_Personne AS p2 ON (EL_Personne2=p2.PE_Numero) JOIN table_TypeLien USING (TL_Numero) 
     WHERE EL_Actif;
 
-CREATE OR REPLACE VIEW "etatpersonne" AS
-   SELECT table_etatpersonne.ep_numero, table_etatpersonne.ep_libelle, table_etatpersonne.created_at, table_etatpersonne.created_by, table_etatpersonne.updated_at, table_etatpersonne.updated_by, table_etatpersonne.lock_version, table_etatpersonne.id 
-     FROM "table_etatpersonne";
-
 CREATE OR REPLACE VIEW "naturepersonne" AS
    SELECT table_naturepersonne.np_numero, table_naturepersonne.np_nom, table_naturepersonne.np_abrev, table_naturepersonne.np_titre, table_naturepersonne.np_morale, table_naturepersonne.np_avectitre, table_naturepersonne.np_inclu, table_naturepersonne.np_temporaire, table_naturepersonne.np_genre, table_naturepersonne.created_at, table_naturepersonne.created_by, table_naturepersonne.updated_at, table_naturepersonne.updated_by, table_naturepersonne.lock_version, table_naturepersonne.id, TRIM(CASE WHEN NP_Inclu THEN COALESCE(NULLIF(TRIM(NP_Abrev),'')||', ','') ELSE '' END||NP_Nom||CASE WHEN NOT NP_AvecTitre THEN ' *' ELSE '' END) AS NP_Libelle 
      FROM "table_naturepersonne"
@@ -101,7 +97,7 @@ CREATE OR REPLACE VIEW "personne" AS
      FROM "table_personne";
 
 CREATE OR REPLACE VIEW "personneupdate" AS
-   SELECT table_personneupdate.pu_numero, table_personneupdate.pu_action, table_personneupdate.pu_bilan, table_personneupdate.pe_numero, table_personneupdate.tp_numero, table_personneupdate.pe_titre, table_personneupdate.pe_nom, table_personneupdate.pe_regimefiscal, table_personneupdate.ep_numero, table_personneupdate.pe_morale, table_personneupdate.pe_prenom, table_personneupdate.pe_naissance, table_personneupdate.created_at, table_personneupdate.created_by, table_personneupdate.updated_at, table_personneupdate.updated_by, table_personneupdate.lock_version, table_personneupdate.id, COALESCE(PE_Titre||' ','')||COALESCE(PE_Nom||' ','')||COALESCE(PE_Prenom,'') AS PE_Libelle, to_char(PE_Numero-1000000,'0999999') AS PE_NumPersonne, to_char(updated_at,'YYYY-MM-DD HH24:MI:SS.US') AS PU_Date 
+   SELECT table_personneupdate.pu_numero, table_personneupdate.pu_action, table_personneupdate.pu_bilan, table_personneupdate.pe_numero, table_personneupdate.tp_numero, table_personneupdate.pe_titre, table_personneupdate.pe_nom, table_personneupdate.pe_regimefiscal, table_personneupdate.pe_morale, table_personneupdate.pe_prenom, table_personneupdate.pe_naissance, table_personneupdate.created_at, table_personneupdate.created_by, table_personneupdate.updated_at, table_personneupdate.updated_by, table_personneupdate.lock_version, table_personneupdate.id, COALESCE(PE_Titre||' ','')||COALESCE(PE_Nom||' ','')||COALESCE(PE_Prenom,'') AS PE_Libelle, to_char(PE_Numero-1000000,'0999999') AS PE_NumPersonne, to_char(updated_at,'YYYY-MM-DD HH24:MI:SS.US') AS PU_Date 
      FROM "table_personneupdate";
 
 CREATE OR REPLACE VIEW "estresponsable" AS
@@ -683,16 +679,6 @@ CREATE OR REPLACE RULE rule_estresponsable_delete AS
   ON DELETE TO "estresponsable"
   DO INSTEAD DELETE FROM "table_estresponsable" WHERE old.PEAC_Numero=PEAC_Numero;
 
-CREATE OR REPLACE RULE rule_etatpersonne_insert AS
-  ON INSERT TO "etatpersonne"
-  DO INSTEAD INSERT INTO "table_etatpersonne"(ep_numero, ep_libelle, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (new.ep_numero, new.ep_libelle, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
-CREATE OR REPLACE RULE rule_etatpersonne_update AS
-  ON UPDATE TO "etatpersonne"
-  DO INSTEAD UPDATE "table_etatpersonne" SET ep_numero=new.ep_numero, ep_libelle=new.ep_libelle, created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.EP_Numero=EP_Numero;
-CREATE OR REPLACE RULE rule_etatpersonne_delete AS
-  ON DELETE TO "etatpersonne"
-  DO INSTEAD DELETE FROM "table_etatpersonne" WHERE old.EP_Numero=EP_Numero;
-
 CREATE OR REPLACE RULE rule_evoplus_insert AS
   ON INSERT TO "evoplus"
   DO INSTEAD INSERT INTO "table_evoplus"(source, numero, titre, nom, complement, ad1, ad2, ad3, cp, ville, naissance, telephone, fax, portable, qualification, base_ht, productions, fuel_m3, eco_fuel, eco_fuel_tipp, hectares_nb, salaries_nb, sacea_ttc, h1_ha, h1_ht, h2_ha, h2_ht, empty_ab, h3_ha, h3_ht, empty_ae, h4_ha, h4_ht, empty_ah, h5_ha, h5_ht, empty_ak, h6_ha, h6_ht, empty_an, cm_nb, cm_ht, cm_noms, opt1, opt2, opt3, opt4, opt_num, opt_ttc, statut, remarque, proposition, aava, created_at, created_by, filename, pe_numero, lot, id) VALUES (new.source, new.numero, new.titre, new.nom, new.complement, new.ad1, new.ad2, new.ad3, new.cp, new.ville, new.naissance, new.telephone, new.fax, new.portable, new.qualification, new.base_ht, new.productions, new.fuel_m3, new.eco_fuel, new.eco_fuel_tipp, new.hectares_nb, new.salaries_nb, new.sacea_ttc, new.h1_ha, new.h1_ht, new.h2_ha, new.h2_ht, new.empty_ab, new.h3_ha, new.h3_ht, new.empty_ae, new.h4_ha, new.h4_ht, new.empty_ah, new.h5_ha, new.h5_ht, new.empty_ak, new.h6_ha, new.h6_ht, new.empty_an, new.cm_nb, new.cm_ht, new.cm_noms, new.opt1, new.opt2, new.opt3, new.opt4, new.opt_num, new.opt_ttc, new.statut, new.remarque, COALESCE(NEW.proposition,false), COALESCE(NEW.aava,false), CURRENT_TIMESTAMP, CURRENT_USER, new.filename, new.pe_numero, new.lot, DEFAULT);
@@ -975,10 +961,10 @@ CREATE OR REPLACE RULE rule_personne_delete AS
 
 CREATE OR REPLACE RULE rule_personneupdate_insert AS
   ON INSERT TO "personneupdate"
-  DO INSTEAD INSERT INTO "table_personneupdate"(pu_numero, pu_action, pu_bilan, pe_numero, tp_numero, pe_titre, pe_nom, pe_regimefiscal, ep_numero, pe_morale, pe_prenom, pe_naissance, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (COALESCE(NEW.pu_numero,nextval('seq_personneupdate')), new.pu_action, new.pu_bilan, new.pe_numero, new.tp_numero, new.pe_titre, new.pe_nom, COALESCE(NEW.pe_regimefiscal,'NON RENSEIGNE'), new.ep_numero, COALESCE(NEW.pe_morale,false), new.pe_prenom, new.pe_naissance, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
+  DO INSTEAD INSERT INTO "table_personneupdate"(pu_numero, pu_action, pu_bilan, pe_numero, tp_numero, pe_titre, pe_nom, pe_regimefiscal, pe_morale, pe_prenom, pe_naissance, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (COALESCE(NEW.pu_numero,nextval('seq_personneupdate')), new.pu_action, new.pu_bilan, new.pe_numero, new.tp_numero, new.pe_titre, new.pe_nom, COALESCE(NEW.pe_regimefiscal,'NON RENSEIGNE'), COALESCE(NEW.pe_morale,false), new.pe_prenom, new.pe_naissance, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
 CREATE OR REPLACE RULE rule_personneupdate_update AS
   ON UPDATE TO "personneupdate"
-  DO INSTEAD UPDATE "table_personneupdate" SET pu_numero=COALESCE(NEW.pu_numero,nextval('seq_personneupdate')), pu_action=new.pu_action, pu_bilan=new.pu_bilan, pe_numero=new.pe_numero, tp_numero=new.tp_numero, pe_titre=new.pe_titre, pe_nom=new.pe_nom, pe_regimefiscal=COALESCE(NEW.pe_regimefiscal,'NON RENSEIGNE'), ep_numero=new.ep_numero, pe_morale=COALESCE(NEW.pe_morale,false), pe_prenom=new.pe_prenom, pe_naissance=new.pe_naissance, created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.PU_Numero=PU_Numero;
+  DO INSTEAD UPDATE "table_personneupdate" SET pu_numero=COALESCE(NEW.pu_numero,nextval('seq_personneupdate')), pu_action=new.pu_action, pu_bilan=new.pu_bilan, pe_numero=new.pe_numero, tp_numero=new.tp_numero, pe_titre=new.pe_titre, pe_nom=new.pe_nom, pe_regimefiscal=COALESCE(NEW.pe_regimefiscal,'NON RENSEIGNE'), pe_morale=COALESCE(NEW.pe_morale,false), pe_prenom=new.pe_prenom, pe_naissance=new.pe_naissance, created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.PU_Numero=PU_Numero;
 CREATE OR REPLACE RULE rule_personneupdate_delete AS
   ON DELETE TO "personneupdate"
   DO INSTEAD DELETE FROM "table_personneupdate" WHERE old.PU_Numero=PU_Numero;
@@ -1283,7 +1269,6 @@ REVOKE ALL ON "contact" FROM PUBLIC;
 REVOKE ALL ON "contactversion" FROM PUBLIC;
 REVOKE ALL ON "typelien" FROM PUBLIC;
 REVOKE ALL ON "estlie" FROM PUBLIC;
-REVOKE ALL ON "etatpersonne" FROM PUBLIC;
 REVOKE ALL ON "naturepersonne" FROM PUBLIC;
 REVOKE ALL ON "personne" FROM PUBLIC;
 REVOKE ALL ON "personneupdate" FROM PUBLIC;

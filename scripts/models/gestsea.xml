@@ -257,7 +257,7 @@
 		<rule sur='vue' on="DELETE" instead="true" do="UPDATE ###_estlie SET EL_Actif=FALSE, EL_Fin=CURRENT_TIMESTAMP WHERE el_numero=OLD.EL_Numero"/>
   </table>
 
-
+<!--
   <table name="EtatPersonne" abbrev="EP" label="Etats des personnes (INACTIF, ACTIF, etc.)">
     <column name="EP_Numero"   type="INTEGER"     notnull="true" pkey="true"></column>
     <column name="EP_Libelle"  type="VARCHAR(64)" notnull="true" const="UNIQUE"></column>
@@ -269,7 +269,7 @@
     <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
-
+-->
 
   <table name="NaturePersonne" abbrev="NP" label="Nature de l'entité (M, Mme, SCEA, EARL...)" select="TRIM(CASE WHEN NP_Inclu THEN COALESCE(NULLIF(TRIM(NP_Abrev),'')||', ','') ELSE '' END||NP_Nom||CASE WHEN NOT NP_AvecTitre THEN ' *' ELSE '' END) AS NP_Libelle" order="16">
     <column name="NP_Numero"     type="INTEGER"     notnull="true" pkey="true" default="nextval('seq_naturepersonne')"></column>
@@ -331,7 +331,7 @@
     <column name="PE_Titre"        type="VARCHAR(32)"  notnull="true">Titre de la personne (M., Mme, Melle, EARL, SA, SARL, etc.)</column>
     <column name="PE_Nom"          type="VARCHAR(512)" notnull="true">Nom de la personne</column>
     <column name="PE_RegimeFiscal" type="VARCHAR(32)"  notnull="true" default="'NON RENSEIGNE'">Regime fiscale (forfait, réel, non renseigné)</column>
-    <column name="EP_Numero"       type="INTEGER"      default="NULL">Etat de la fiche (actif, inactif)</column>
+<!--    <column name="EP_Numero"       type="INTEGER"      default="NULL">Etat de la fiche (actif, inactif)</column>-->
     <column name="PE_Morale"       type="BOOLEAN"      notnull="true" default="false">La personne est-elle une entreprise ou non</column>
     <column name="PE_Prenom"       type="VARCHAR(32)"  default="NULL">Prénom de la personne</column>
 <!--    <column name="PE_Complement"   type="VARCHAR(512)" default="NULL">Complément au nom</column>-->

@@ -29,7 +29,6 @@ DROP SEQUENCE "seq_employe" CASCADE;
 DROP SEQUENCE "seq_equipe" CASCADE;
 DROP SEQUENCE "seq_estlie" CASCADE;
 DROP SEQUENCE "seq_estresponsable" CASCADE;
-DROP SEQUENCE "seq_etatpersonne" CASCADE;
 DROP SEQUENCE "seq_exercice" CASCADE;
 DROP SEQUENCE "seq_facture" CASCADE;
 DROP SEQUENCE "seq_facturereglement" CASCADE;
@@ -391,7 +390,6 @@ DROP TABLE "table_employe" CASCADE;
 DROP TABLE "table_equipe" CASCADE;
 DROP TABLE "table_estlie" CASCADE;
 DROP TABLE "table_estresponsable" CASCADE;
-DROP TABLE "table_etatpersonne" CASCADE;
 DROP TABLE "table_evoplus" CASCADE;
 DROP TABLE "table_exercice" CASCADE;
 DROP TABLE "table_facture" CASCADE;
@@ -477,7 +475,6 @@ CREATE SEQUENCE "seq_employe" START 100;
 CREATE SEQUENCE "seq_equipe" START 100;
 CREATE SEQUENCE "seq_estlie" START 100;
 CREATE SEQUENCE "seq_estresponsable" START 1000000;
-CREATE SEQUENCE "seq_etatpersonne" START 10;
 CREATE SEQUENCE "seq_exercice" START 100;
 CREATE SEQUENCE "seq_facture" START 100;
 CREATE SEQUENCE "seq_facturereglement" START 100;
@@ -833,18 +830,6 @@ CREATE TABLE "table_estlie"
   "id" SERIAL
 );
 
-CREATE TABLE "table_etatpersonne"
-(
-  "ep_numero" INTEGER,
-  "ep_libelle" VARCHAR(64) UNIQUE,
-  "created_at" TIMESTAMP,
-  "created_by" VARCHAR(32),
-  "updated_at" TIMESTAMP,
-  "updated_by" VARCHAR(32),
-  "lock_version" INTEGER,
-  "id" SERIAL
-);
-
 CREATE TABLE "table_naturepersonne"
 (
   "np_numero" INTEGER,
@@ -897,7 +882,6 @@ CREATE TABLE "table_personneupdate"
   "pe_titre" VARCHAR(32),
   "pe_nom" VARCHAR(512),
   "pe_regimefiscal" VARCHAR(32),
-  "ep_numero" INTEGER,
   "pe_morale" BOOLEAN,
   "pe_prenom" VARCHAR(32),
   "pe_naissance" DATE,
@@ -1995,7 +1979,6 @@ REVOKE ALL ON "table_contact" FROM PUBLIC;
 REVOKE ALL ON "table_contactversion" FROM PUBLIC;
 REVOKE ALL ON "table_typelien" FROM PUBLIC;
 REVOKE ALL ON "table_estlie" FROM PUBLIC;
-REVOKE ALL ON "table_etatpersonne" FROM PUBLIC;
 REVOKE ALL ON "table_naturepersonne" FROM PUBLIC;
 REVOKE ALL ON "table_personne" FROM PUBLIC;
 REVOKE ALL ON "table_personneupdate" FROM PUBLIC;
@@ -2096,7 +2079,6 @@ GRANT SELECT, INSERT, UPDATE ON seq_employe TO PUBLIC;
 GRANT SELECT, INSERT, UPDATE ON seq_equipe TO PUBLIC;
 GRANT SELECT, INSERT, UPDATE ON seq_estlie TO PUBLIC;
 GRANT SELECT, INSERT, UPDATE ON seq_estresponsable TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_etatpersonne TO PUBLIC;
 GRANT SELECT, INSERT, UPDATE ON seq_exercice TO PUBLIC;
 GRANT SELECT, INSERT, UPDATE ON seq_facture TO PUBLIC;
 GRANT SELECT, INSERT, UPDATE ON seq_facturereglement TO PUBLIC;

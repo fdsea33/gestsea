@@ -612,20 +612,6 @@ function mcd_getType(table,champs)
         default: type=TYPE_UNDEFINED;
       }
       break;
-    case 'table_etatpersonne':
-    case 'etatpersonne':
-      switch(champs.toLowerCase()){
-        case 'ep_numero': type=TYPE_INT;break;
-        case 'ep_libelle': type=TYPE_STRING;break;
-        case 'created_at': type=TYPE_DATETIME;break;
-        case 'created_by': type=TYPE_STRING;break;
-        case 'updated_at': type=TYPE_DATETIME;break;
-        case 'updated_by': type=TYPE_STRING;break;
-        case 'lock_version': type=TYPE_INT;break;
-        case 'id': type=TYPE_UNKNOWN;break;
-        default: type=TYPE_UNDEFINED;
-      }
-      break;
     case 'table_evoplus':
     case 'evoplus':
       switch(champs.toLowerCase()){
@@ -1203,7 +1189,6 @@ function mcd_getType(table,champs)
         case 'pe_titre': type=TYPE_STRING;break;
         case 'pe_nom': type=TYPE_STRING;break;
         case 'pe_regimefiscal': type=TYPE_STRING;break;
-        case 'ep_numero': type=TYPE_INT;break;
         case 'pe_morale': type=TYPE_BOOL;break;
         case 'pe_prenom': type=TYPE_STRING;break;
         case 'pe_naissance': type=TYPE_DATE;break;
@@ -2246,20 +2231,6 @@ function mcd_getLabel(table,champs)
         default: label="";
       }
       break;
-    case 'table_etatpersonne':
-    case 'etatpersonne':
-      switch(champs.toLowerCase()){
-        case 'ep_numero': label="";break;
-        case 'ep_libelle': label="";break;
-        case 'created_at': label="Date de creation";break;
-        case 'created_by': label="Login du createur";break;
-        case 'updated_at': label="Date de mise à jour";break;
-        case 'updated_by': label="Login du modificateur";break;
-        case 'lock_version': label="Numero de version";break;
-        case 'id': label="ID";break;
-        default: label="";
-      }
-      break;
     case 'table_evoplus':
     case 'evoplus':
       switch(champs.toLowerCase()){
@@ -2837,7 +2808,6 @@ function mcd_getLabel(table,champs)
         case 'pe_titre': label="";break;
         case 'pe_nom': label="";break;
         case 'pe_regimefiscal': label="";break;
-        case 'ep_numero': label="";break;
         case 'pe_morale': label="";break;
         case 'pe_prenom': label="";break;
         case 'pe_naissance': label="";break;
@@ -3877,20 +3847,6 @@ function mcd_obligatoire(table,champs)
         default: obligatoire=false;
       }
       break;
-    case 'table_etatpersonne':
-    case 'etatpersonne':
-      switch(champs.toLowerCase()){
-        case 'ep_numero': obligatoire=true;break;
-        case 'ep_libelle': obligatoire=true;break;
-        case 'created_at': obligatoire=false;break;
-        case 'created_by': obligatoire=false;break;
-        case 'updated_at': obligatoire=false;break;
-        case 'updated_by': obligatoire=false;break;
-        case 'lock_version': obligatoire=true;break;
-        case 'id': obligatoire=true;break;
-        default: obligatoire=false;
-      }
-      break;
     case 'table_evoplus':
     case 'evoplus':
       switch(champs.toLowerCase()){
@@ -4468,7 +4424,6 @@ function mcd_obligatoire(table,champs)
         case 'pe_titre': obligatoire=true;break;
         case 'pe_nom': obligatoire=true;break;
         case 'pe_regimefiscal': obligatoire=true;break;
-        case 'ep_numero': obligatoire=false;break;
         case 'pe_morale': obligatoire=true;break;
         case 'pe_prenom': obligatoire=false;break;
         case 'pe_naissance': obligatoire=false;break;
@@ -4991,8 +4946,6 @@ function mcd_getCle(table)
     case 'estlie': champs='EL_Numero';break;
     case 'table_estresponsable': 
     case 'estresponsable': champs='PEAC_Numero';break;
-    case 'table_etatpersonne': 
-    case 'etatpersonne': champs='EP_Numero';break;
     case 'table_evoplus': 
     case 'evoplus': champs='id';break;
     case 'table_exercice': 
@@ -5144,7 +5097,6 @@ function mcd_getSequence(t) {
     case 'table_equipe': case 'equipe': s='seq_equipe';break;
     case 'table_estlie': case 'estlie': s='seq_estlie';break;
     case 'table_estresponsable': case 'estresponsable': s='seq_estresponsable';break;
-    case 'table_etatpersonne': case 'etatpersonne': s='seq_etatpersonne';break;
     case 'table_evoplus': case 'evoplus': s='*';break;
     case 'table_exercice': case 'exercice': s='seq_exercice';break;
     case 'table_facture': case 'facture': s='seq_facture';break;
