@@ -340,7 +340,7 @@ elem("wg-status-text").label = 'Fonctions Complémentaires';
 
 /* Remplit la liste des personnes */
 function wg_personne_search(){
-  var queryend = "FROM personne join naturepersonne using (np_numero) WHERE pe_description ILIKE REPLACE('%"+elem('wg-personne-menulist').value+"%',' ','%') AND NOT np_morale AND pe_numero NOT IN (SELECT el_personne1 from estlie where tl_numero=1006)";
+  var queryend = "FROM vue_personne join naturepersonne using (np_numero) WHERE pe_description ILIKE REPLACE('%"+elem('wg-personne-menulist').value+"%',' ','%') AND NOT np_morale AND pe_numero NOT IN (SELECT el_personne1 from estlie where tl_numero=1006)";
   var query;
   if (requete("SELECT count(*) "+queryend)==0)
     query = "SELECT 'Pas de résultats pour la recherche' AS pe_description, 0 AS pe_numero;";
@@ -369,7 +369,7 @@ function wg_personne_load(){
 
 /* Remplit la liste des societes */
 function wg_societe_search(){
-  var queryend = "FROM personne join table_naturepersonne using (np_numero) WHERE pe_description ILIKE REPLACE('%"+elem('wg-societe-menulist').value+"%',' ','%') AND np_morale";
+  var queryend = "FROM vue_personne join table_naturepersonne using (np_numero) WHERE pe_description ILIKE REPLACE('%"+elem('wg-societe-menulist').value+"%',' ','%') AND np_morale";
   var query;
   if (requete("SELECT count(*) "+queryend)==0)
     query = "SELECT 'Pas de résultats pour la recherche' AS pe_description, 0 AS pe_numero;";
@@ -526,9 +526,9 @@ function wg_regsupp_load(){
 function wg_conjoint_search(){
   var query;
   var word = elem('wg-conjoint-menulist').value;
-  var queryend = "FROM personne WHERE pe_description ILIKE REPLACE('%"+word+"%',' ','%') AND pe_nom ilike '"+elem("wg-personne-nom").value+"'  AND np_numero IN (21,23,25)";
+  var queryend = "FROM vue_personne WHERE pe_description ILIKE REPLACE('%"+word+"%',' ','%') AND pe_nom ilike '"+elem("wg-personne-nom").value+"'  AND np_numero IN (21,23,25)";
   if (requete("SELECT count(*) "+queryend)==0)
-    queryend = "FROM personne WHERE pe_description ILIKE REPLACE('%"+word+"%',' ','%') AND np_numero IN (21,23,25)";
+    queryend = "FROM vue_personne WHERE pe_description ILIKE REPLACE('%"+word+"%',' ','%') AND np_numero IN (21,23,25)";
   if (requete("SELECT count(*) "+queryend)==0) {
     elem("wg-conjoint-prenom").value = word;
     elem("wg-conjoint-nom").value = "";
@@ -544,7 +544,7 @@ function wg_conjoint_load(){
   var menulist = elem("wg-conjoint-menulist");
   if (menulist.selectedIndex>-1) {
     if (menulist.selectedItem.value!=0) {
-      var personne = find_first("SELECT np_numero, pe_prenom, pe_nom FROM personne WHERE pe_numero="+menulist.selectedItem.value);
+      var personne = find_first("SELECT np_numero, pe_prenom, pe_nom FROM vue_personne WHERE pe_numero="+menulist.selectedItem.value);
       if (personne[0]==21 || personne[0]==23 || personne[0]==25) {
         elem('wg-conjoint-extitre').value = '';
         elem('wg-conjoint-titre').value  = personne[0];
@@ -601,7 +601,7 @@ function wg_associe_list() {
 
 /* Remplit la liste des personnes */
 function wg_associe_search(){
-  var queryend = "FROM personne join naturepersonne using (np_numero) WHERE pe_description ILIKE REPLACE('%"+elem('wg-associe-menulist').value+"%',' ','%') AND NOT np_morale AND pe_numero NOT IN (SELECT el_personne1 from estlie where tl_numero=1006)";
+  var queryend = "FROM vue_personne join naturepersonne using (np_numero) WHERE pe_description ILIKE REPLACE('%"+elem('wg-associe-menulist').value+"%',' ','%') AND NOT np_morale AND pe_numero NOT IN (SELECT el_personne1 from estlie where tl_numero=1006)";
   var query;
   if (requete("SELECT count(*) "+queryend)==0)
     query = "SELECT 'Pas de résultats pour la recherche' AS pe_description, 0 AS pe_numero;";
@@ -632,7 +632,7 @@ function wg_associe_edit() {
     return false;
   }
   var num_personne = elem('wg-associe-listbox').selectedItem.firstChild.getAttribute("numero");
-  menulist_fill('wg-associe-menulist','SELECT pe_description,pe_numero FROM personne WHERE pe_numero='+num_personne+';');
+  menulist_fill('wg-associe-menulist','SELECT pe_description,pe_numero FROM vue_personne WHERE pe_numero='+num_personne+';');
   wg_entity_load('associe');
   elem('wg-associe').hidden=false;
   elem('wg-associe-update-buttons').hidden=!elem('wg-associe').hidden;
@@ -880,7 +880,7 @@ function wg_entity_load(complement, only_clean) {
   if (num_entity==null) return null;
 
   // Nom
-  var nom = find_first("SELECT np_numero, pe_nom, COALESCE(pe_prenom,''), np_morale::text FROM personne join naturepersonne using (np_numero) WHERE pe_numero="+num_entity);
+  var nom = find_first("SELECT np_numero, pe_nom, COALESCE(pe_prenom,''), np_morale::text FROM vue_personne join naturepersonne using (np_numero) WHERE pe_numero="+num_entity);
   if (nom[3]==morale) {
     elem(prefix+'extitre').value = '';
     elem(prefix+'titre').value  = nom[0];
@@ -976,7 +976,8 @@ function wg_entity_save(complement, validate) {
       valide = false;
     }
 	  if (elem(prefix+"nouveau-checkbox").checked) {
-	    query = "SELECT count(*) FROM personne WHERE pe_nom ilike '"+elem(prefix+"nom").value+"' AND pe_prenom ilike '"+elem(prefix+"prenom").value+"' AND pe_cp ilike '"+elem(prefix+"cp").value+"' AND pe_ville ILIKE '"+elem(prefix+"ville").label+"';";
+	    query = "SELECT count(*) FROM vue_personne WHERE pe_nom ilike '"+elem(prefix+"nom").value+"' AND pe_prenom ilike '"+elem(prefix+"prenom").value+"' AND pe_cp ilike '"+elem(prefix+"cp").value+"' AND pe_ville ILIKE '"+elem(prefix+"ville").label+"';";
+//	    query = "SELECT count(*) FROM vue_personne WHERE pe_nom ilike '"+elem(prefix+"nom").value+"' AND pe_prenom ilike '"+elem(prefix+"prenom").value+"' AND pe_cp ilike '"+elem(prefix+"cp").value+"' AND pe_ville ILIKE '"+elem(prefix+"ville").label+"';";
 	    if (requete(query)>0) {
 	      erreurs += wg_error("Il semble y avoir déjà une fiche. Vous ne pourrez pas en créer une identique. Contactez Brice si nécessaire.\n(Requête : "+query+")");
 	      valide = false;
@@ -996,12 +997,12 @@ function wg_entity_save(complement, validate) {
 */
   if (elem(prefix+"nouveau-checkbox").checked) {
     num_entity = requete("SELECT nextval('seq_personne');");
-    query = "INSERT INTO personne (pe_numero, pe_nom, pe_prenom, np_numero, tp_numero, ep_numero) VALUES ("+num_entity+",'"+elem(prefix+"nom").value+"','"+elem(prefix+"prenom").value+"',"+elem(prefix+"titre").value+",3,500000002);";
+    query = "INSERT INTO personne (pe_numero, pe_nom, pe_prenom, np_numero, tp_numero, pe_actif) VALUES ("+num_entity+",'"+elem(prefix+"nom").value+"','"+elem(prefix+"prenom").value+"',"+elem(prefix+"titre").value+",3,true);";
   } else {
-    query = "UPDATE personne SET pe_nom='"+elem(prefix+"nom").value+"', pe_prenom='"+elem(prefix+"prenom").value+"', np_numero="+elem(prefix+"titre").value+", ep_numero=500000002 WHERE pe_numero="+num_entity;
+    query = "UPDATE personne SET pe_nom='"+elem(prefix+"nom").value+"', pe_prenom='"+elem(prefix+"prenom").value+"', np_numero="+elem(prefix+"titre").value+", pe_actif=true WHERE pe_numero="+num_entity;
   }
   pgsql_update(query);
-  menulist_fill(prefix+"menulist","SELECT pe_description, pe_numero FROM personne WHERE pe_numero="+num_entity);
+  menulist_fill(prefix+"menulist","SELECT pe_description, pe_numero FROM vue_personne WHERE pe_numero="+num_entity);
   elem(prefix+"nouveau-checkbox").checked = false;
 
   num_codepostal = requete("SELECT cp_numero FROM table_codepostal join table_villecp  using (cp_numero) join table_ville using (vi_numero) WHERE cp_codepostal='"+elem(prefix+"cp").value+"' AND vi_numero="+elem(prefix+"ville").value+";");
@@ -1018,7 +1019,7 @@ function wg_entity_save(complement, validate) {
   }
   elem(prefix+"adresse").value = num_adresse;
   pgsql_update(query);
-  menulist_fill(prefix+"menulist","SELECT pe_description, pe_numero FROM personne WHERE pe_numero="+num_entity);
+  menulist_fill(prefix+"menulist","SELECT pe_description, pe_numero FROM vue_personne WHERE pe_numero="+num_entity);
 
   var coordonnee;
   for (x=0;x<CONTACTTYPES.length;x++) {
@@ -1126,7 +1127,7 @@ function wg_send_cotisation(send_query){
   }
 
   if (elem('wg-personne-nouveau-checkbox').checked) {
-    query = "SELECT count(*) FROM personne WHERE pe_nom ilike '"+elem("wg-personne-nom").value+"' AND pe_prenom ilike '"+elem("wg-personne-prenom").value+"' AND pe_cp ilike '"+elem("wg-personne-cp").value+"' AND pe_ville ILIKE '"+elem("wg-personne-ville").label+"';"
+    query = "SELECT count(*) FROM vue_personne WHERE pe_nom ilike '"+elem("wg-personne-nom").value+"' AND pe_prenom ilike '"+elem("wg-personne-prenom").value+"' AND pe_cp ilike '"+elem("wg-personne-cp").value+"' AND pe_ville ILIKE '"+elem("wg-personne-ville").label+"';"
     if (requete(query)>0) {
       erreurs += wg_error("Il semble que la personne existe déjà. Vous ne pourrez pas en créer une identique. Contactez Brice si nécessaire.");
       valide = false;
@@ -1164,7 +1165,7 @@ function wg_send_cotisation(send_query){
       valide = false;
     }
 	  if (elem('wg-societe-nouveau-checkbox').checked) {
-	    query = "SELECT count(*) FROM personne WHERE pe_nom ilike '"+elem("wg-societe-nom").value+"' AND pe_cp ilike '"+elem("wg-societe-cp").value+"' AND pe_ville ILIKE '"+elem("wg-societe-ville").label+"';";
+	    query = "SELECT count(*) FROM vue_personne WHERE pe_nom ilike '"+elem("wg-societe-nom").value+"' AND pe_cp ilike '"+elem("wg-societe-cp").value+"' AND pe_ville ILIKE '"+elem("wg-societe-ville").label+"';";
 	    if (requete(query)>0) {
 	      erreurs += wg_error("Il semble que la société existe déjà. Vous ne pourrez pas en créer une identique. Contactez Brice si nécessaire.");
 	      valide = false;
@@ -1211,7 +1212,7 @@ function wg_send_cotisation(send_query){
 
     if (elem("wg-conjoint-nom").value=='') elem("wg-conjoint-nom").value = elem("wg-personne-nom").value;
     if (elem('wg-conjoint-nouveau-checkbox').checked) {
-      query = "SELECT count(*) FROM personne WHERE pe_nom ilike '"+elem("wg-conjoint-nom").value+"' AND pe_prenom ilike '"+elem("wg-conjoint-prenom").value+"' AND pe_cp ilike '"+elem("wg-personne-cp").value+"' AND pe_ville ILIKE '"+elem("wg-personne-ville").label+"';"
+      query = "SELECT count(*) FROM vue_personne WHERE pe_nom ilike '"+elem("wg-conjoint-nom").value+"' AND pe_prenom ilike '"+elem("wg-conjoint-prenom").value+"' AND pe_cp ilike '"+elem("wg-personne-cp").value+"' AND pe_ville ILIKE '"+elem("wg-personne-ville").label+"';"
       if (requete(query)>0) {
         erreurs += wg_error("Il semble que le conjoint existe déjà. Vous ne pourrez pas en créer un identique. Contactez Brice si nécessaire.");
         valide = false;
@@ -1292,13 +1293,13 @@ function wg_send_cotisation(send_query){
     num_conjoint = current_conjoint();
     if (elem("wg-conjoint-nouveau-checkbox").checked) {
       num_conjoint = requete("SELECT nextval('seq_personne');");
-      query = "INSERT INTO personne (pe_numero, pe_nom, pe_prenom, np_numero, tp_numero, ep_numero, pe_morale) VALUES ("+num_conjoint+",'"+elem("wg-conjoint-nom").value+"','"+elem("wg-conjoint-prenom").value+"',"+elem("wg-conjoint-titre").value+",3,500000002,false);";
+      query = "INSERT INTO personne (pe_numero, pe_nom, pe_prenom, np_numero, tp_numero, pe_actif, pe_morale) VALUES ("+num_conjoint+",'"+elem("wg-conjoint-nom").value+"','"+elem("wg-conjoint-prenom").value+"',"+elem("wg-conjoint-titre").value+",3,true,false);";
     } else {
-      query = "UPDATE personne SET pe_nom='"+elem("wg-conjoint-nom").value+"', pe_prenom='"+elem("wg-conjoint-prenom").value+"', np_numero="+elem("wg-conjoint-titre").value+", ep_numero=500000002, pe_morale=true WHERE pe_numero="+num_conjoint;
+      query = "UPDATE personne SET pe_nom='"+elem("wg-conjoint-nom").value+"', pe_prenom='"+elem("wg-conjoint-prenom").value+"', np_numero="+elem("wg-conjoint-titre").value+", pe_actif=true, pe_morale=true WHERE pe_numero="+num_conjoint;
     }
 //    alert(query);
     pgsql_update(query);
-    menulist_fill("wg-conjoint-menulist","SELECT pe_description, pe_numero FROM personne WHERE pe_numero="+num_conjoint);
+    menulist_fill("wg-conjoint-menulist","SELECT pe_description, pe_numero FROM vue_personne WHERE pe_numero="+num_conjoint);
     num_conjoint = current_conjoint();
 
     if (elem("wg-conjoint-nouveau-checkbox").checked) {
@@ -1312,7 +1313,7 @@ function wg_send_cotisation(send_query){
       pgsql_update(query);
     }
 
-    menulist_fill("wg-conjoint-menulist","SELECT pe_description, pe_numero FROM personne WHERE pe_numero="+num_conjoint);
+    menulist_fill("wg-conjoint-menulist","SELECT pe_description, pe_numero FROM vue_personne WHERE pe_numero="+num_conjoint);
 
     elem("wg-conjoint-nouveau-checkbox").checked = false;
 
@@ -1493,13 +1494,13 @@ function wg_send_cotisation(send_query){
 
 		// nettoyage des champs
 		//	Personne
-		menulist_fill('wg-personne-menulist', 'SELECT pe_numero, pe_description FROM personne WHERE pe_numero IS NULL;');
+		menulist_fill('wg-personne-menulist', 'SELECT pe_numero, pe_description FROM vue_personne WHERE pe_numero IS NULL;');
 		wg_entity_load('personne');
 		//	Societe
-		menulist_fill('wg-societe-menulist', 'SELECT pe_numero, pe_description FROM personne WHERE pe_numero IS NULL;');
+		menulist_fill('wg-societe-menulist', 'SELECT pe_numero, pe_description FROM vue_personne WHERE pe_numero IS NULL;');
 		wg_entity_load('societe');
 		//	Associe
-		menulist_fill('wg-associe-menulist', 'SELECT pe_numero, pe_description FROM personne WHERE pe_numero IS NULL;');
+		menulist_fill('wg-associe-menulist', 'SELECT pe_numero, pe_description FROM vue_personne WHERE pe_numero IS NULL;');
 		wg_entity_load('associe');
 
     elem("wg-regsupp-checkbox").checked = false;

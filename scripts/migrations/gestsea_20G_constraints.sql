@@ -1397,6 +1397,7 @@ ALTER TABLE "table_periodeadherence" ALTER "created_at" SET DEFAULT CURRENT_TIME
 ALTER TABLE "table_periodeadherence" ALTER "updated_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_periodeadherence" ALTER "updated_by" SET DEFAULT CURRENT_USER;
 ALTER TABLE "table_periodeadherence" ALTER "lock_version" SET DEFAULT 0;
+ALTER TABLE "table_personne" ALTER "tp_numero" SET DEFAULT 3;
 ALTER TABLE "table_personne" ALTER "pe_regimefiscal" SET DEFAULT 'NON RENSEIGNE';
 ALTER TABLE "table_personne" ALTER "pe_actif" SET DEFAULT true;
 ALTER TABLE "table_personne" ALTER "deleted" SET DEFAULT false;

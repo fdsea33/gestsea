@@ -296,7 +296,7 @@
     <text> La vue associée renverra autant pour une personne qu'elle a d'adresses active</text>
     <column name="PE_Numero"       type="INTEGER"      notnull="true" pkey="true">Clef primaire</column>
     <column name="PE_ID"           type="INTEGER"      >Clef primaire dupliquée (NON OBLIGATOIRE)</column>
-    <column name="TP_Numero"       type="INTEGER"      notnull="true" fkey="TypePersonne(TP_Numero)" opt="odrour">Lien vers le type d'adherent (agriculteur, ancien, labo, annonceur, coop, etc.)</column>
+    <column name="TP_Numero"       type="INTEGER"      notnull="true" default="3" fkey="TypePersonne(TP_Numero)" opt="odrour">Lien vers le type d'adherent (agriculteur, ancien, labo, annonceur, coop, etc.)</column>
     <column name="NP_Numero"       type="INTEGER"      notnull="true" fkey="NaturePersonne(NP_Numero)" opt="odrour">Nature</column>
     <column name="PE_Titre"        type="VARCHAR(32)"  notnull="true">Titre de la personne (M., Mme, Melle, EARL, SA, SARL, etc.)</column>
     <column name="PE_Nom"          type="VARCHAR(48)"  notnull="true">Nom de la personne</column>

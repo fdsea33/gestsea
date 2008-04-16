@@ -60,7 +60,7 @@ function wg_onload(){
   var num_personne = opener.current_personne;
 	if (opener.current_mode=='update') {
 		elem('wg-target').hidden = true;
-		fill_list('wg-personne-menulist',"SELECT pe_description, pe_numero FROM personne WHERE pe_numero="+opener.current_target+";");
+		fill_list('wg-personne-menulist',"SELECT pe_description, pe_numero FROM vue_personne WHERE pe_numero="+opener.current_target+";");
 	}
   elem('wg-personne').value = requete('SELECT pe_libelle FROM personne WHERE pe_numero='+num_personne+';');
   fill_list('wg-typelien-menulist','SELECT tl_action12 AS tl_action, tl_numero, true AS tl_direct FROM typelien WHERE LENGTH(TRIM(TL_Action12))>0 AND TL_Numero>1000 UNION ALL SELECT tl_action21 AS tl_action, tl_numero, false AS tl_direct FROM typelien WHERE LENGTH(TRIM(TL_Action21))>0 AND TL_Numero>1000 ORDER BY 1;');
@@ -89,7 +89,7 @@ function wg_find_people(texte) {
 //	var texte = elem('wg-personne-menulist').value;
 //  	alert('>> '+texte);
 	if (texte.length>3) {
-    var queryend = "FROM personne WHERE ep_numero=500000002 AND pe_description ilike REPLACE('%"+texte+"%',' ','%');";
+    var queryend = "FROM vue_personne WHERE pe_actif AND pe_description ilike REPLACE('%"+texte+"%',' ','%');";
 //	alert(queryend);
     var total = requete('SELECT count(DISTINCT pe_numero) '+queryend);
     elem('wg-total').value = total;

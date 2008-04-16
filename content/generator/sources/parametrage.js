@@ -215,7 +215,7 @@ function CodeInParametrage(){
     //****************************
     // ETATPERSONNE
     //****************************
-
+/*
     var It_Etatpersonne,Maitre_Etatpersonne;
 
     It_Etatpersonne = new clInterfaceSimple("Etats de personne");
@@ -226,7 +226,7 @@ function CodeInParametrage(){
     It_Etatpersonne.AjouterComposantSimple("Libellé", "ep_libelle");
 
     param_alert("Etatpersonne...OK!");
-  
+  */
     //****************************
     // TYPESOCIETE
     //****************************
@@ -872,7 +872,7 @@ function CodeInParametrage(){
     AllIt.AjouterInterface(It_Droitprofil);
     AllIt.AjouterInterface(It_Employe);
     AllIt.AjouterInterface(It_Equipe);
-    AllIt.AjouterInterface(It_Etatpersonne);
+//    AllIt.AjouterInterface(It_Etatpersonne);
     AllIt.AjouterInterface(It_Groupetable);
     AllIt.AjouterInterface(It_Groupecanton);
     AllIt.AjouterInterface(It_Impression);

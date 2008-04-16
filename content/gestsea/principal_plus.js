@@ -251,7 +251,12 @@ function AjouterJA(compo) {
     alert("La date de naissance ne permet pas de dire que cette personne est un JA potentiel.")
   } else {
     if (confirm("Etes-vous sûr(e) de vouloir enregistrer une cotisation JA pour cette personne")) {
-      num = requete('SELECT fc_ajouterja('+cle+');');
+      var soc=prompt("Inidiquez le numéro de sa societe si connue","");
+      if (soc=="")
+        soc = "NULL";
+      else
+        if (soc*1<1000000) soc=soc*1+1000000;
+      num = requete('SELECT fc_ajouterja('+cle+','+soc+');');
       alert("Cotisation enregistrée");
     }
   }
