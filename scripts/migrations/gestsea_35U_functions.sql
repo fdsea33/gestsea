@@ -3186,8 +3186,8 @@ DECLARE
   num_facture_sacea facture.fa_numero%TYPE;
   num_facture_aava  facture.fa_numero%TYPE;
   detail TEXT;
-  annee TEXT;
-  num_soc TEXT;
+  annee INTEGER;
+  num_soc INTEGER;
   compte INTEGER;
 BEGIN
   SELECT EXTRACT(YEAR FROM CURRENT_DATE) INTO annee;
@@ -3198,7 +3198,7 @@ BEGIN
 
   -- Sauvegarde du statut de l'utilisateur
   SELECT EM_Service, EM_Numero FROM Employe WHERE em_login=CURRENT_USER INTO num_service, num_employe;
-  SELECT pe_numero::text FROM personne WHERE pe_numero=CASE WHEN num_personnesoc<1000000 THEN num_personnesoc+1000000 ELSE num_personnesoc END INTO num_soc;
+  SELECT pe_numero FROM personne WHERE pe_numero=CASE WHEN num_personnesoc<1000000 THEN num_personnesoc+1000000 ELSE num_personnesoc END INTO num_soc;
   IF num_soc IS NOT NULL THEN
     SELECT count(*) FROM estlie WHERE el_personne1=num_personne AND el_personne2=num_soc AND tl_numero=1003 INTO compte;
     IF compte<=0 THEN
@@ -3208,11 +3208,11 @@ BEGIN
 
   detail := '';
   detail := bml_put(detail,'saved', 'true');
-  detail := bml_put(detail,'cotisation.annee', annee);
+  detail := bml_put(detail,'cotisation.annee', annee::text);
   detail := bml_put(detail,'cotisation.montant', '0');
   detail := bml_put(detail,'cotisation.type', 'ja');
   detail := bml_put(detail,'cotisation.personne', num_personne);
-  detail := bml_put(detail,'cotisation.societe', COALESCE(num_soc,''));
+  detail := bml_put(detail,'cotisation.societe', COALESCE(num_soc::text,''));
   detail := bml_put(detail,'fdsea', 'false');
   detail := bml_put(detail,'fdsea.associe', 'false');
   detail := bml_put(detail,'fdsea.conjoint', 'false');
@@ -3246,8 +3246,7 @@ BEGIN
 --  END IF;
 
   UPDATE employe SET EM_Service=num_service WHERE EM_Numero=num_employe;
-  INSERT INTO cotisation (pe_numero,cs_societe, cs_detail, cs_annee, cs_done, cs_valid) VALUES (num_personne, num_soc, detail, annee, true, true);
-
+  INSERT INTO cotisation (cs_numero, pe_numero,cs_societe, cs_detail, cs_annee, cs_done, cs_valid) VALUES (nextval('table_cotisation_cs_numero_seq'), num_personne, num_soc, detail, annee, true, true);
   RETURN true;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;

@@ -494,7 +494,7 @@ vbox,hbox,panel,panels,tab,tabs,tabbox,tabpanel,tabpanels,groupbox,window,dialog
 	background-color: #DDDDFF;
 }
 */
-.labelize-uniline, .labelize-multiline {
+.labelize-uniline, .labelize-multiline, checkbox, checkbox[disabled="true"] {
   color : #005;
   text-align : left;
 }
@@ -503,6 +503,7 @@ label.labelize-uniline {
   min-width : 96px;
   text-align : right;
 }
+
 
 textbox[disabled=true],menulist[disabled=true],label[disabled=true],checkbox[disabled=true] {
   color: #FF0000

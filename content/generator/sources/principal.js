@@ -59,10 +59,8 @@ function CodeInPrincipal(centre){
     //    It_Personne.AjouterComposantSimple("N° Adhérent", "pe_numpersonne",null,null,LABEL);
     It_Personne.AjouterComposantSimple("Numéro","pe_id",null,null,LABEL);
     It_Personne.AjouterComposantSimple("Titre ou F.J.","np_libelle",new Array("np_numero","np_numero","naturepersonne"),null,LISTE_DEROULANTE);
-//    It_Personne.AjouterComposantSimple("Titre","pe_titre"); //A normaliser
     It_Personne.AjouterComposantSimple("Nom ou D.S.","pe_nom");
     It_Personne.AjouterComposantSimple("Prénom","pe_prenom");
-//    It_Personne.AjouterComposantSimple("Complément","pe_complement");
     It_Personne.AjouterComposantSimple("N°TVA intrac.","pe_numtvaic");
     It_Personne.AjouterComposantSimple("Né(e) le","pe_naissance");
     It_Personne.AjouterComposantSimple("La personne est active (et peut être contactée)","pe_actif",null,null,CHECKBOX);

@@ -859,6 +859,7 @@ CREATE TABLE "table_personne"
   "pe_nom" VARCHAR(48),
   "pe_regimefiscal" VARCHAR(32),
   "pe_actif" BOOLEAN,
+  "pe_morale" BOOLEAN,
   "deleted" BOOLEAN,
   "pe_prenom" VARCHAR(32),
   "pe_motdepasse" VARCHAR(32),

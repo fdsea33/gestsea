@@ -2180,17 +2180,17 @@ clCompoCheckBox.prototype.GenererCompoXUL =
 	hbox.setAttribute("align","center");
 	hbox.setAttribute("flex","1");
 	ParentXul.appendChild(hbox);
-
+/*
   var label = mydoc.createElement("label");
 	label.setAttribute("value",this.NomChamps);
   label.setAttribute("class","labelize-uniline");
 	hbox.appendChild(label);
-
+*/
 	checkbox = mydoc.createElement("checkbox");
 	checkbox.setAttribute("disabled","true");
 	checkbox.setAttribute("dir","reverse");
-//	checkbox.setAttribute("label",this.NomChamps);
-//  checkbox.setAttribute("class","labelize-uniline");
+	checkbox.setAttribute("label",this.NomChamps);
+  checkbox.setAttribute("class","labelize-uniline");
 	checkbox.setAttribute("value","false");
 	checkbox.setAttribute("oncommand","this.value=this.checked; GetVar("+ref+").OnChange();");
 	hbox.appendChild(checkbox);

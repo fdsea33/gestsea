@@ -303,7 +303,7 @@
     <column name="PE_RegimeFiscal" type="VARCHAR(32)"  notnull="true" default="'NON RENSEIGNE'">Regime fiscale (forfait, réel, non renseigné)</column>
 <!--    <column name="EP_Numero"       type="INTEGER"      notnull="true" fkey="EtatPersonne(EP_Numero)" opt="odrour">Etat de la fiche (actif, inactif)</column>-->
     <column name="PE_Actif"       type="BOOLEAN"      notnull="true" default="true">La personne est-elle active ?</column>
-<!--    <column name="PE_Morale"       type="BOOLEAN"      notnull="true" default="false">La personne est-elle une entreprise ou non</column>-->
+    <column name="PE_Morale"       type="BOOLEAN"      notnull="true" default="false">La personne est-elle une entreprise ou non</column>
     <column name="deleted"         type="BOOLEAN"      notnull="true" default="false">Personne "supprimée"</column>
     <column name="PE_Prenom"       type="VARCHAR(32)"  default="NULL">Prénom de la personne</column>
     <column name="PE_MotDePasse"   type="VARCHAR(32)"  default="NULL">Mot de passe de la personne</column>

@@ -1164,6 +1164,7 @@ function mcd_getType(table,champs)
         case 'pe_nom': type=TYPE_STRING;break;
         case 'pe_regimefiscal': type=TYPE_STRING;break;
         case 'pe_actif': type=TYPE_BOOL;break;
+        case 'pe_morale': type=TYPE_BOOL;break;
         case 'deleted': type=TYPE_BOOL;break;
         case 'pe_prenom': type=TYPE_STRING;break;
         case 'pe_motdepasse': type=TYPE_STRING;break;
@@ -2783,6 +2784,7 @@ function mcd_getLabel(table,champs)
         case 'pe_nom': label="";break;
         case 'pe_regimefiscal': label="";break;
         case 'pe_actif': label="";break;
+        case 'pe_morale': label="";break;
         case 'deleted': label="";break;
         case 'pe_prenom': label="";break;
         case 'pe_motdepasse': label="";break;
@@ -4399,6 +4401,7 @@ function mcd_obligatoire(table,champs)
         case 'pe_nom': obligatoire=true;break;
         case 'pe_regimefiscal': obligatoire=true;break;
         case 'pe_actif': obligatoire=true;break;
+        case 'pe_morale': obligatoire=true;break;
         case 'deleted': obligatoire=true;break;
         case 'pe_prenom': obligatoire=false;break;
         case 'pe_motdepasse': obligatoire=false;break;

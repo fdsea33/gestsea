@@ -76,12 +76,12 @@
 <tabpanels flex="1">
 <tabpanel flex="1">
 <hbox flex="1">
-<vbox id="Personnes_Adhésions_9" flex="1"/>
+<vbox id="Personnes_Adhésions_8" flex="1"/>
 </hbox>
 </tabpanel>
 <tabpanel flex="1">
 <hbox flex="1">
-<vbox id="Personnes_Observations_10" flex="1"/>
+<vbox id="Personnes_Observations_9" flex="1"/>
 </hbox>
 </tabpanel>
 </tabpanels>

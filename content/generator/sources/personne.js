@@ -39,6 +39,7 @@ function CodeInPersonne(){
     It_Personne.AjouterComposantSimple("Prénom","pe_prenom");
     It_Personne.AjouterComposantSimple("N°TVA intrac.","pe_numtvaic");
     It_Personne.AjouterComposantSimple("Né(e) le","pe_naissance");
+    It_Personne.AjouterComposantSimple("La personne est active (et peut être contactée)","pe_actif",null,null,CHECKBOX);
 //    It_Personne.AjouterComposantSimple("Type","tp_type",new Array("tp_numero","tp_numero","typepersonne"),null,LISTE_DEROULANTE);
 
     //***********************
