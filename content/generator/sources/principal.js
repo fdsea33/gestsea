@@ -17,8 +17,8 @@ function CodeInPrincipal(centre){
     AllIt.IncludeJs("chrome://gestsea/content/generator/libIO.js");
     //    AllIt.IncludeJs("chrome://gestsea/content/gestsea/xul.js");
     AllIt.IncludeJs("chrome://gestsea/content/gestsea/principal_plus.js");
-    AllIt.AjouterMenu("Bordereaux de réglement...","BordereauPrint","");
-    AllIt.AjouterMenu("Imprimer le dernier bordereau","LastBordereauPrint","");
+//    AllIt.AjouterMenu("Bordereaux de réglement...","BordereauPrint","");
+//    AllIt.AjouterMenu("Imprimer le dernier bordereau","LastBordereauPrint","");
 
     /****************************
      * AJOUTS DE BASE (Personne, Devis, Facture, Avoir,...)
@@ -712,7 +712,7 @@ function CodeInPrincipal(centre){
     /****************************
      * ROUTAGE
      ****************************/
-
+/*
     var It_Routage, Maitre_Routage;
 
     It_Routage = new clInterfaceSimple("Routage");
@@ -734,11 +734,11 @@ function CodeInPrincipal(centre){
 
 
     principal_alert("Routage...OK!");
-
+*/
     /****************************
      * RELANCE JOURNAL
      ****************************/
-
+/*
     var It_RelanceJournal, Maitre_RelanceJournal;
 
     It_RelanceJournal = new clInterfaceSimple("Relances");
@@ -763,7 +763,7 @@ function CodeInPrincipal(centre){
     Maitre_RelanceJournal.AjouterColonne("Portable","rl_portable");
 
     principal_alert("RelanceJournal...OK!");
-
+*/
     /****************************
      * Personne Update
      ****************************/
@@ -846,11 +846,11 @@ function CodeInPrincipal(centre){
     AllIt.AjouterInterface(It_Devis);
     AllIt.AjouterInterface(It_Facture);
     AllIt.AjouterInterface(It_Avoir);
-    AllIt.AjouterInterface(It_Cotisation);
     AllIt.AjouterInterface(It_Reglement);
     AllIt.AjouterInterface(It_ListeReglement);
-    AllIt.AjouterInterface(It_Routage);
-    AllIt.AjouterInterface(It_RelanceJournal);
+    AllIt.AjouterInterface(It_Cotisation);
+//    AllIt.AjouterInterface(It_Routage);
+//    AllIt.AjouterInterface(It_RelanceJournal);
     //    AllIt.AjouterInterface(It_Personneupdate);
 	//    AllIt.AjouterInterface(It_Cotisation);
 

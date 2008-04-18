@@ -37,11 +37,9 @@
       <menuitem label="Devis" oncommand="AllerAOnglet(1)"/>
       <menuitem label="Facture" oncommand="AllerAOnglet(2)"/>
       <menuitem label="Avoir" oncommand="AllerAOnglet(3)"/>
-      <menuitem label="Cotisations" oncommand="AllerAOnglet(4)"/>
-      <menuitem label="Réglement" oncommand="AllerAOnglet(5)"/>
-      <menuitem label="Bordereaux de réglements" oncommand="AllerAOnglet(6)"/>
-      <menuitem label="Routage" oncommand="AllerAOnglet(7)"/>
-      <menuitem label="Relances" oncommand="AllerAOnglet(8)"/>
+      <menuitem label="Réglement" oncommand="AllerAOnglet(4)"/>
+      <menuitem label="Bordereaux de réglements" oncommand="AllerAOnglet(5)"/>
+      <menuitem label="Cotisations" oncommand="AllerAOnglet(6)"/>
       </menupopup>
     </menu>
     <menu id="edition-menu" label="Edition">
@@ -53,16 +51,6 @@
     <menu id="theme-menu" label="Changer de thème">
       <menupopup id="theme-popup">
         <menuitem label="Choisir" oncommand="BrowserOpenExtensions('themes')"/>
-      </menupopup>
-    </menu>
-    <menu label="Autres">
-      <menupopup>
-        <menuitem label="Bordereaux de réglement..." oncommand="BordereauPrint()"/>
-      </menupopup>
-    </menu>
-    <menu label="Autres">
-      <menupopup>
-        <menuitem label="Imprimer le dernier bordereau" oncommand="LastBordereauPrint()"/>
       </menupopup>
     </menu>
   </menubar>
@@ -78,11 +66,9 @@
  <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Devis" label="Devis"/>
  <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Facture" label="Facture"/>
  <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Avoir" label="Avoir"/>
- <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Cotisations" label="Cotisations"/>
  <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Réglement" label="Réglement"/>
  <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Bordereaux_de_réglements" label="Bordereaux de réglements"/>
- <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Routage" label="Routage"/>
- <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Relances" label="Relances"/>
+ <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Cotisations" label="Cotisations"/>
 </tabs>
 </hbox>
 <tabpanels id="Tous_les_panels" flex="1">
@@ -255,7 +241,7 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Enregistrer une cotisation JA" oncommand="AjouterJA(TAB_GLOBAL_COMPO[390]);"/>
+    <button label="Enregistrer une cotisation JA" oncommand="AjouterJA(TAB_GLOBAL_COMPO[3]);"/>
   </arrowscrollbox>
 </hbox>
 </vbox>
@@ -294,9 +280,9 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Passer le devis en facture" oncommand="DevisVersFacture(TAB_GLOBAL_COMPO[488]);"/>
-    <button label="Imprimer le devis" oncommand="Imprimer(TAB_GLOBAL_COMPO[488],'devis');"/>
-    <button label="Recalculer le taux de réduction" oncommand="MajReductionDevis(TAB_GLOBAL_COMPO[488]);"/>
+    <button label="Passer le devis en facture" oncommand="DevisVersFacture(TAB_GLOBAL_COMPO[101]);"/>
+    <button label="Imprimer le devis" oncommand="Imprimer(TAB_GLOBAL_COMPO[101],'devis');"/>
+    <button label="Recalculer le taux de réduction" oncommand="MajReductionDevis(TAB_GLOBAL_COMPO[101]);"/>
   </arrowscrollbox>
   <hbox pack="end" align="center">
     <separator class="groove"/>
@@ -377,15 +363,15 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Passer en avoir" oncommand="FactureVersAvoir(TAB_GLOBAL_COMPO[508]);"/>
-    <button label="En perte" oncommand="FactureEnPerte(TAB_GLOBAL_COMPO[508]);"/>
-    <button label="Imprimer" oncommand="Imprimer(TAB_GLOBAL_COMPO[508],'facture');"/>
+    <button label="Passer en avoir" oncommand="FactureVersAvoir(TAB_GLOBAL_COMPO[121]);"/>
+    <button label="En perte" oncommand="FactureEnPerte(TAB_GLOBAL_COMPO[121]);"/>
+    <button label="Imprimer" oncommand="Imprimer(TAB_GLOBAL_COMPO[121],'facture');"/>
     <button label="Factures CM" oncommand="PrintLot(1,'facture');"/>
     <button label="Cartes CM" oncommand="PrintLot(1,'carte');"/>
-    <button label="Carte (Duplicata)" oncommand="PrintDuplicata(TAB_GLOBAL_COMPO[508]);"/>
-    <button label="Router un groupe..." oncommand="GroupeRoutage(TAB_GLOBAL_COMPO[508]);"/>
-    <button label="Supprimer les routages" oncommand="SupprimeRoutage(TAB_GLOBAL_COMPO[508]);"/>
-    <button label="Imprimer Pub" oncommand="Imprimer(TAB_GLOBAL_COMPO[508],'facture-publicite');"/>
+    <button label="Carte (Duplicata)" oncommand="PrintDuplicata(TAB_GLOBAL_COMPO[121]);"/>
+    <button label="Router un groupe..." oncommand="GroupeRoutage(TAB_GLOBAL_COMPO[121]);"/>
+    <button label="Supprimer les routages" oncommand="SupprimeRoutage(TAB_GLOBAL_COMPO[121]);"/>
+    <button label="Imprimer Pub" oncommand="Imprimer(TAB_GLOBAL_COMPO[121],'facture-publicite');"/>
   </arrowscrollbox>
   <hbox pack="end" align="center">
     <separator class="groove"/>
@@ -418,32 +404,12 @@
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
     <button label="Mettre à jour les adhésions" oncommand="MiseAJourAdhesion();"/>
-    <button label="Imprimer l'avoir" oncommand="Imprimer(TAB_GLOBAL_COMPO[549],'avoir');"/>
+    <button label="Imprimer l'avoir" oncommand="Imprimer(TAB_GLOBAL_COMPO[162],'avoir');"/>
   </arrowscrollbox>
   <hbox pack="end" align="center">
     <separator class="groove"/>
     <button class="back-button16" label="Précédent" oncommand="Retour_Avoir()"/>
   </hbox>
-</hbox>
-</vbox>
-</tabpanel>
-<tabpanel flex="1" id="OngletPanel_Cotisations" >
-<vbox flex="1">
-<hbox flex="1">
-<hbox flex="1">
-<vbox id="Cotisations_Liste_des_cotisations0" flex="1"/>
-<splitter collapse="before"> <grippy/> </splitter>
-<vbox flex="1" style="overflow:auto">
-<vbox flex="1" id="Cotisations_Liste_des_cotisations0_Slaves"/>
-<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
-    <button class="new-button16" disabled="true" id="Insert_Cotisations_Liste_des_cotisations0" label="Ajouter" oncommand="Insert_Cotisations_Liste_des_cotisations0()" />
-    <button class="edit-button16" disabled="true" id="Update_Cotisations_Liste_des_cotisations0" label="Modifier" oncommand="Update_Cotisations_Liste_des_cotisations0()" />
-    <button class="delete-button16" disabled="true" id="Delete_Cotisations_Liste_des_cotisations0" label="Supprimer" oncommand="Delete_Cotisations_Liste_des_cotisations0()" />
-    <button class="accept-button16" id="Validate_Cotisations_Liste_des_cotisations0" label="Valider" oncommand="Validate_Cotisations_Liste_des_cotisations0()"  disabled="true" />
-    <button class="cancel-button16" id="Annuler_Cotisations_Liste_des_cotisations0" label="Annuler" oncommand="Annuler_Cotisations_Liste_des_cotisations0()"  disabled="true" />
-</arrowscrollbox>
-</vbox>
-</hbox>
 </hbox>
 </vbox>
 </tabpanel>
@@ -536,37 +502,28 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Imprimer le bordereau" oncommand="Imprimer(TAB_GLOBAL_COMPO[594],'bordereau');"/>
+    <button label="Imprimer le bordereau" oncommand="Imprimer(TAB_GLOBAL_COMPO[207],'bordereau');"/>
   </arrowscrollbox>
 </hbox>
 </vbox>
 </tabpanel>
-<tabpanel flex="1" id="OngletPanel_Routage" >
+<tabpanel flex="1" id="OngletPanel_Cotisations" >
 <vbox flex="1">
 <hbox flex="1">
 <hbox flex="1">
-<vbox id="Routage_Liste_des_routages0" flex="1"/>
-</hbox>
-</hbox>
-<hbox class="fondstyle" pack="end">
-  <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Changer le numéro du journal..." oncommand="ChangerNumeroJournal();"/>
-  </arrowscrollbox>
-</hbox>
+<vbox id="Cotisations_Liste_des_cotisations0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Cotisations_Liste_des_cotisations0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Cotisations_Liste_des_cotisations0" label="Ajouter" oncommand="Insert_Cotisations_Liste_des_cotisations0()" />
+    <button class="edit-button16" disabled="true" id="Update_Cotisations_Liste_des_cotisations0" label="Modifier" oncommand="Update_Cotisations_Liste_des_cotisations0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Cotisations_Liste_des_cotisations0" label="Supprimer" oncommand="Delete_Cotisations_Liste_des_cotisations0()" />
+    <button class="accept-button16" id="Validate_Cotisations_Liste_des_cotisations0" label="Valider" oncommand="Validate_Cotisations_Liste_des_cotisations0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Cotisations_Liste_des_cotisations0" label="Annuler" oncommand="Annuler_Cotisations_Liste_des_cotisations0()"  disabled="true" />
+</arrowscrollbox>
 </vbox>
-</tabpanel>
-<tabpanel flex="1" id="OngletPanel_Relances" >
-<vbox flex="1">
-<hbox flex="1">
-<hbox flex="1">
-<vbox id="Relances_Liste_des_relances0" flex="1"/>
 </hbox>
-</hbox>
-<hbox class="fondstyle" pack="end">
-  <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Nombre de numéros passés" oncommand="ChangerNombrePasses();"/>
-    <button label="Nombre de numéros futurs" oncommand="ChangerNombreFuturs();"/>
-  </arrowscrollbox>
 </hbox>
 </vbox>
 </tabpanel>

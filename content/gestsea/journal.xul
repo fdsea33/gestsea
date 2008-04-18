@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://gestsea/skin/icons.css" type="text/css"?>
+<!-- CE FICHIER A ETE GENERE PAR GENERATOR_LIB -->
+
+<window windowtype="gestsea:journal" name="journal" sizemode="maximized" 
+	id="Page_journal"
+	title="GestSEA Journal"
+	orient="vertical"
+	onload="journal_Chargement();"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<!-- FICHIERS DE SCRIPTS NECESSAIRES -->
+
+<script src="chrome://gestsea/content/generator/pgsql.js"/>
+<script src="chrome://gestsea/content/generator/utils_xul.js"/>
+<script src="chrome://gestsea/content/generator/pointer.js"/>
+<script src="chrome://gestsea/content/generator/generator_sql.js"/>
+<script src="chrome://gestsea/content/generator/generator_xul.js"/>
+<script src="chrome://global/content/nsDragAndDrop.js"/>
+<script src="chrome://global/content/nsTransferable.js"/>
+<script src="chrome://global/content/globalOverlay.js"/>
+<script src="chrome://browser/content/browser.js"/>
+<script src="chrome://gestsea/content/gestsea/export.js"/>
+<script src="chrome://gestsea/content/generator/libIO.js"/>
+<script src="chrome://gestsea/content/gestsea/principal_plus.js"/>
+<script src="chrome://gestsea/content/generator/gestsea-mcd.js"/>
+<!-- AJOUTER chrome://agrisig/content/Onglets/Agrisig SI NECESSAIRE -->
+<script src="journal.js"/>
+<script src="journal_User.js"/>
+<toolbox>
+  <menubar id="menu-application">
+    <menu id="donnee-menu" label="Gestion des données">
+      <menupopup id="donnee-popup">
+      <menuitem label="Personnes" oncommand="AllerAOnglet(0)"/>
+      <menuitem label="Routage" oncommand="AllerAOnglet(1)"/>
+      <menuitem label="Relances" oncommand="AllerAOnglet(2)"/>
+      </menupopup>
+    </menu>
+    <menu id="edition-menu" label="Edition">
+      <menupopup id="edit-popup">
+        <menuitem label="Annuler"/>
+        <menuitem label="Refaire"/>
+      </menupopup>
+    </menu>
+    <menu id="theme-menu" label="Changer de thème">
+      <menupopup id="theme-popup">
+        <menuitem label="Choisir" oncommand="BrowserOpenExtensions('themes')"/>
+      </menupopup>
+    </menu>
+  </menubar>
+</toolbox>
+
+<!-- COMPOSANT OU SE DESSINERONT LES COMPOSANTS -->
+
+<vbox flex="1">
+<tabbox id="Main_Tabbox" flex="1">
+<hbox id="box_overflow" class="tabbrowser-strip chromeclass-toolbar">
+<tabs flex="1" class="tabbrowser-tabs" id="Tous_les_onglets">
+ <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Personnes" label="Personnes"/>
+ <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Routage" label="Routage"/>
+ <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Relances" label="Relances"/>
+</tabs>
+</hbox>
+<tabpanels id="Tous_les_panels" flex="1">
+<tabpanel flex="1" id="OngletPanel_Personnes" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Personnes_Liste_des_personnes0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox id="Personnes_Liste_des_personnes0_Slaves"/>
+<tabbox id="tabbox_Personnes_Liste_des_personnes0" flex="1">
+<tabs >
+<tab label="Cotisations"/>
+<tab label="Adresses"/>
+<tab label="Contact"/>
+<tab label="Attributs"/>
+<tab label="Routages"/>
+</tabs>
+<tabpanels flex="1">
+<tabpanel flex="1">
+<hbox flex="1">
+<vbox id="Personnes_Cotisations_8" flex="1"/>
+</hbox>
+</tabpanel>
+<tabpanel flex="1">
+<hbox flex="1">
+<vbox id="Personnes_Adresses_9" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Personnes_Adresses_9_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Personnes_Adresses_9" label="Ajouter" oncommand="Insert_Personnes_Adresses_9()" />
+    <button class="edit-button16" disabled="true" id="Update_Personnes_Adresses_9" label="Modifier" oncommand="Update_Personnes_Adresses_9()" />
+    <button class="delete-button16" disabled="true" id="Delete_Personnes_Adresses_9" label="Supprimer" oncommand="Delete_Personnes_Adresses_9()" />
+    <button class="accept-button16" id="Validate_Personnes_Adresses_9" label="Valider" oncommand="Validate_Personnes_Adresses_9()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Personnes_Adresses_9" label="Annuler" oncommand="Annuler_Personnes_Adresses_9()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</tabpanel>
+<tabpanel flex="1">
+<hbox flex="1">
+<vbox id="Personnes_Contact_17" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Personnes_Contact_17_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Personnes_Contact_17" label="Ajouter" oncommand="Insert_Personnes_Contact_17()" />
+    <button class="edit-button16" disabled="true" id="Update_Personnes_Contact_17" label="Modifier" oncommand="Update_Personnes_Contact_17()" />
+    <button class="delete-button16" disabled="true" id="Delete_Personnes_Contact_17" label="Supprimer" oncommand="Delete_Personnes_Contact_17()" />
+    <button class="accept-button16" id="Validate_Personnes_Contact_17" label="Valider" oncommand="Validate_Personnes_Contact_17()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Personnes_Contact_17" label="Annuler" oncommand="Annuler_Personnes_Contact_17()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</tabpanel>
+<tabpanel flex="1">
+<hbox flex="1">
+<vbox id="Personnes_Attributs_20" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Personnes_Attributs_20_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Personnes_Attributs_20" label="Ajouter" oncommand="Insert_Personnes_Attributs_20()" />
+    <button class="edit-button16" disabled="true" id="Update_Personnes_Attributs_20" label="Modifier" oncommand="Update_Personnes_Attributs_20()" />
+    <button class="delete-button16" disabled="true" id="Delete_Personnes_Attributs_20" label="Supprimer" oncommand="Delete_Personnes_Attributs_20()" />
+    <button class="accept-button16" id="Validate_Personnes_Attributs_20" label="Valider" oncommand="Validate_Personnes_Attributs_20()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Personnes_Attributs_20" label="Annuler" oncommand="Annuler_Personnes_Attributs_20()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</tabpanel>
+<tabpanel flex="1">
+<hbox flex="1">
+<vbox id="Personnes_Routages_24" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Personnes_Routages_24_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Personnes_Routages_24" label="Ajouter" oncommand="Insert_Personnes_Routages_24()" hidden='true'/>
+    <button class="edit-button16" disabled="true" id="Update_Personnes_Routages_24" label="Modifier" oncommand="Update_Personnes_Routages_24()" />
+    <button class="delete-button16" disabled="true" id="Delete_Personnes_Routages_24" label="Supprimer" oncommand="Delete_Personnes_Routages_24()" />
+    <button class="accept-button16" id="Validate_Personnes_Routages_24" label="Valider" oncommand="Validate_Personnes_Routages_24()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Personnes_Routages_24" label="Annuler" oncommand="Annuler_Personnes_Routages_24()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</tabpanel>
+</tabpanels>
+</tabbox>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Personnes_Liste_des_personnes0" label="Ajouter" oncommand="Insert_Personnes_Liste_des_personnes0()" />
+    <button class="edit-button16" disabled="true" id="Update_Personnes_Liste_des_personnes0" label="Modifier" oncommand="Update_Personnes_Liste_des_personnes0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Personnes_Liste_des_personnes0" label="Supprimer" oncommand="Delete_Personnes_Liste_des_personnes0()" />
+    <button class="accept-button16" id="Validate_Personnes_Liste_des_personnes0" label="Valider" oncommand="Validate_Personnes_Liste_des_personnes0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Personnes_Liste_des_personnes0" label="Annuler" oncommand="Annuler_Personnes_Liste_des_personnes0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Routage" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Routage_Liste_des_routages0" flex="1"/>
+</hbox>
+</hbox>
+<hbox class="fondstyle" pack="end">
+  <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
+    <button label="Changer le numéro du journal..." oncommand="ChangerNumeroJournal();"/>
+  </arrowscrollbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Relances" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Relances_Liste_des_relances0" flex="1"/>
+</hbox>
+</hbox>
+<hbox class="fondstyle" pack="end">
+  <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
+    <button label="Nombre de numéros passés" oncommand="ChangerNombrePasses();"/>
+    <button label="Nombre de numéros futurs" oncommand="ChangerNombreFuturs();"/>
+  </arrowscrollbox>
+</hbox>
+</vbox>
+</tabpanel>
+</tabpanels>
+</tabbox>
+</vbox>
+<statusbar id="statusbar">
+  <statusbarpanel id="status_espace" label="" width="5"/>
+  <statusbarpanel id="status_login" label=""/>
+  <statusbarpanel id="status_Info" label=""/>
+  <statusbarpanel id="status_TpsExec" flex="1" label=""/>
+  <statusbarpanel id="status_counter" flex="1" label=""/>
+</statusbar>
+</window>
