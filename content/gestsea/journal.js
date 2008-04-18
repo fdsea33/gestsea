@@ -70,7 +70,7 @@ function stProprieteCompo()
         this.Action_en_cours=null;
         this.NewCle=null;
 }
-var TAB_COMPO_PPTES = new Array(80);
+var TAB_COMPO_PPTES = new Array(93);
 /* on init le tableau */
 var id
 for(id=0;id<TAB_COMPO_PPTES.length;id++)
@@ -1182,6 +1182,23 @@ function OuvrirOnglet_Relances()
 
 
 
+
+/* *********************************************** 
+         FONCTIONS POUR L'ONGLET Relances des adhérents
+   ***********************************************/ 
+
+ /* FILTRES DE RELATION ENTRE ONGLETS => VARIABLES GLOBALES POUR ETRE ACCESSIBLES DEPUIS INTERFACE_USER.JS */
+
+function OuvrirOnglet_Relances_des_adhérents()
+{
+ var tabs = top.document.getElementById("Tous_les_onglets");
+ tabs.selectedItem = top.document.getElementById("Onglet_Relances_des_adhérents");
+}
+
+
+
+
+
 function journal_Chargement()
 {
 pgsql_init(true);
@@ -1959,6 +1976,61 @@ Compo_Relances_Liste_des_relances0.GenererXUL(top.document.getElementById("Relan
 
 	/* On l'ajoute au tableau global à l'indice 65*/
 top.TAB_GLOBAL_COMPO[65]=Compo_Relances_Liste_des_relances0;
+var Col_N0_N_Client_De_Relances_des_adhérents_Liste_des_relances_adhérents0=new clAttribut("pe_numero","vue_current_relance_adherent",null);
+
+var Col_N1_Titre_De_Relances_des_adhérents_Liste_des_relances_adhérents0=new clAttribut("pe_titre","vue_current_relance_adherent",null);
+
+var Col_N2_Nom_De_Relances_des_adhérents_Liste_des_relances_adhérents0=new clAttribut("pe_nom","vue_current_relance_adherent",null);
+
+var Col_N3_Prénom_De_Relances_des_adhérents_Liste_des_relances_adhérents0=new clAttribut("pe_prenom","vue_current_relance_adherent",null);
+
+var Col_N4_Ligne_2_De_Relances_des_adhérents_Liste_des_relances_adhérents0=new clAttribut("ad_ligne2","vue_current_relance_adherent",null);
+
+var Col_N5_Ligne_3_De_Relances_des_adhérents_Liste_des_relances_adhérents0=new clAttribut("ad_ligne3","vue_current_relance_adherent",null);
+
+var Col_N6_Ligne_4_De_Relances_des_adhérents_Liste_des_relances_adhérents0=new clAttribut("ad_ligne4","vue_current_relance_adherent",null);
+
+var Col_N7_Ligne_5_De_Relances_des_adhérents_Liste_des_relances_adhérents0=new clAttribut("ad_ligne5","vue_current_relance_adherent",null);
+
+var Col_N8_C_P__De_Relances_des_adhérents_Liste_des_relances_adhérents0=new clAttribut("cp_codepostal","vue_current_relance_adherent",null);
+
+var Col_N9_Ville_De_Relances_des_adhérents_Liste_des_relances_adhérents0=new clAttribut("vi_nom","vue_current_relance_adherent",null);
+
+var Col_N10_Téléphone_De_Relances_des_adhérents_Liste_des_relances_adhérents0=new clAttribut("rl_telephone","vue_current_relance_adherent",null);
+
+var Col_N11_Portable_De_Relances_des_adhérents_Liste_des_relances_adhérents0=new clAttribut("rl_portable","vue_current_relance_adherent",null);
+
+var Relances_des_adhérents_Liste_des_relances_adhérents0=new clEnsembleAttributs("vue_current_relance_adherent",
+	new Array(
+	new clLiaison(null,Col_N0_N_Client_De_Relances_des_adhérents_Liste_des_relances_adhérents0)
+	,new clLiaison(null,Col_N1_Titre_De_Relances_des_adhérents_Liste_des_relances_adhérents0)
+	,new clLiaison(null,Col_N2_Nom_De_Relances_des_adhérents_Liste_des_relances_adhérents0)
+	,new clLiaison(null,Col_N3_Prénom_De_Relances_des_adhérents_Liste_des_relances_adhérents0)
+	,new clLiaison(null,Col_N4_Ligne_2_De_Relances_des_adhérents_Liste_des_relances_adhérents0)
+	,new clLiaison(null,Col_N5_Ligne_3_De_Relances_des_adhérents_Liste_des_relances_adhérents0)
+	,new clLiaison(null,Col_N6_Ligne_4_De_Relances_des_adhérents_Liste_des_relances_adhérents0)
+	,new clLiaison(null,Col_N7_Ligne_5_De_Relances_des_adhérents_Liste_des_relances_adhérents0)
+	,new clLiaison(null,Col_N8_C_P__De_Relances_des_adhérents_Liste_des_relances_adhérents0)
+	,new clLiaison(null,Col_N9_Ville_De_Relances_des_adhérents_Liste_des_relances_adhérents0)
+	,new clLiaison(null,Col_N10_Téléphone_De_Relances_des_adhérents_Liste_des_relances_adhérents0)
+	,new clLiaison(null,Col_N11_Portable_De_Relances_des_adhérents_Liste_des_relances_adhérents0)
+	),
+	null);
+
+var Titre_Relances_des_adhérents_Liste_des_relances_adhérents0=new Array("N°Client","Titre","Nom","Prénom","Ligne 2","Ligne 3","Ligne 4","Ligne 5","C.P.","Ville","Téléphone","Portable");
+
+	/* Ce composant représente: des éléments de la table vue_current_relance_adherent sous le nom "Liste des relances adhérents" */
+var Compo_Relances_des_adhérents_Liste_des_relances_adhérents0=new clCompoListe(Relances_des_adhérents_Liste_des_relances_adhérents0,new Array(new clInterfaceFiltrageVide()),Titre_Relances_des_adhérents_Liste_des_relances_adhérents0,"Liste des relances adhérents",true,false);
+
+	/* Ce composant représente: vue_current_relance_adherent.undefined sous le nom "Liste des relances adhérents" */
+ if(ALeDroit(0,"vue_current_relance_adherent"))
+ {
+Compo_Relances_des_adhérents_Liste_des_relances_adhérents0.GenererXUL(top.document.getElementById("Relances_des_adhérents_Liste_des_relances_adhérents0"));
+
+ }
+
+	/* On l'ajoute au tableau global à l'indice 80*/
+top.TAB_GLOBAL_COMPO[80]=Compo_Relances_des_adhérents_Liste_des_relances_adhérents0;
  if(ALeDroit(5,"personne"))
  {
 /* On refresh les composants non dépendents de l'onget Personnes*/
@@ -2190,6 +2262,23 @@ Composant_0.Refresh();
  {
 top.document.getElementById("Onglet_Relances").hidden=true;
 if (top.document.getElementById("Onglet_Relances").selected)
+        top.document.getElementById("Tous_les_onglets").advanceSelectedTab(1);
+
+ }
+ if(ALeDroit(5,"vue_current_relance_adherent"))
+ {
+/* On refresh les composants non dépendents de l'onget Relances des adhérents*/
+var Composant_0 = TAB_GLOBAL_COMPO[80];
+if (Composant_0!=null){
+Composant_0.ActiverComposant(true);
+Composant_0.Refresh();
+}
+
+ }
+ else
+ {
+top.document.getElementById("Onglet_Relances_des_adhérents").hidden=true;
+if (top.document.getElementById("Onglet_Relances_des_adhérents").selected)
         top.document.getElementById("Tous_les_onglets").advanceSelectedTab(1);
 
  }

@@ -278,6 +278,39 @@ CREATE OR REPLACE VIEW vue_current_relance AS
 
 GRANT SELECT ON vue_current_relance TO PUBLIC;
 
+
+
+
+
+--===========================================================================--
+-- Permet de voir les adhérent FDSEA qui ne recoivent pas le journal
+
+CREATE OR REPLACE VIEW vue_current_relance_adherent AS 
+  SELECT DISTINCT ON (p.PE_Numero) p.pe_numero AS cle, p.pe_numero, p.pe_titre, p.pe_nom, p.pe_prenom, 
+ad_ligne2, ad_ligne3, ad_ligne4, ad_ligne5, cp_codepostal, vi_nom, 
+telephone.cn_coordonnee AS rl_telephone, portable.cn_coordonnee AS rl_portable
+  FROM table_cotisation join table_Personne p USING (PE_Numero)
+        left join table_personne s on (COALESCE(cs_societe,0)=s.pe_numero)
+             JOIN table_Adresse a on (a.pe_numero=p.pe_Numero) 
+             JOIN table_Codepostal USING (CP_Numero) 
+             JOIN table_Ville USING (VI_Numero)
+           LEFT JOIN (SELECT pe_numero, cn_coordonnee FROM table_contact WHERE cn_actif AND ck_numero=107) AS telephone ON (p.pe_numero=telephone.pe_numero)
+           LEFT JOIN (SELECT pe_numero, cn_coordonnee FROM table_contact WHERE cn_actif AND ck_numero=106) AS portable ON (p.pe_numero=portable.pe_numero)
+  WHERE cs_annee=EXTRACT(YEAR FROM CURRENT_DATE) AND BML_EXTRACT(CS_DETAIL, 'cotisation.type')!='ja'
+/*
+    AND p.PE_Numero NOT IN (SELECT pe_numero FROM table_lignefacture JOIN table_facture USING (fa_numero) WHERE pd_numero-500000000 IN (96,109,125,94,100) AND fa_date>=('01/01/'||EXTRACT(YEAR FROM CURRENT_DATE))::date)
+    AND s.PE_Numero NOT IN (SELECT pe_numero FROM table_lignefacture JOIN table_facture USING (fa_numero) WHERE pd_numero-500000000 IN (96,109,125,94,100) AND fa_date>=('01/01/'||EXTRACT(YEAR FROM CURRENT_DATE))::date)
+*/
+    AND p.pe_numero NOT IN (select rc_ncli FROM vue_current_routage)
+    AND s.pe_numero NOT IN (select rc_ncli FROM vue_current_routage)
+    AND ad_active;
+	
+GRANT SELECT ON vue_current_relance_adherent TO PUBLIC;
+
+
+
+
+
 --===========================================================================--
 -- Renvoie le numéro de la dernière période en cours pour une date donnée
 -- et une

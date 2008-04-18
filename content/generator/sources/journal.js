@@ -259,6 +259,31 @@ function CodeInJournal(centre){
     journal_alert("RelanceJournal...OK!");
 
 
+    /****************************
+     * RELANCE JOURNAL
+     ****************************/
+
+    var It_RelanceAdherentJournal, Maitre_RelanceAdherentJournal;
+
+    It_RelanceAdherentJournal = new clInterfaceSimple("Relances des adhérents");
+
+    Maitre_RelanceAdherentJournal = It_RelanceAdherentJournal.AjouterMaitre("Liste des relances adhérents","vue_current_relance_adherent");
+    Maitre_RelanceAdherentJournal.AjouterColonne("N°Client","pe_numero");
+    Maitre_RelanceAdherentJournal.AjouterColonne("Titre","pe_titre");
+    Maitre_RelanceAdherentJournal.AjouterColonne("Nom","pe_nom");
+    Maitre_RelanceAdherentJournal.AjouterColonne("Prénom","pe_prenom");
+    Maitre_RelanceAdherentJournal.AjouterColonne("Ligne 2","ad_ligne2");
+    Maitre_RelanceAdherentJournal.AjouterColonne("Ligne 3","ad_ligne3");
+    Maitre_RelanceAdherentJournal.AjouterColonne("Ligne 4","ad_ligne4");
+    Maitre_RelanceAdherentJournal.AjouterColonne("Ligne 5","ad_ligne5");
+    Maitre_RelanceAdherentJournal.AjouterColonne("C.P.","cp_codepostal");
+    Maitre_RelanceAdherentJournal.AjouterColonne("Ville","vi_nom");
+    Maitre_RelanceAdherentJournal.AjouterColonne("Téléphone","rl_telephone");
+    Maitre_RelanceAdherentJournal.AjouterColonne("Portable","rl_portable");
+
+    journal_alert("RelanceAdherentJournal...OK!");
+
+
     /****************************************/
     /*      EVALUATION DE CONSTRUCTION      */
     /****************************************/
@@ -271,6 +296,7 @@ function CodeInJournal(centre){
     AllIt.AjouterInterface(It_Personne);
     AllIt.AjouterInterface(It_Routage);
     AllIt.AjouterInterface(It_RelanceJournal);
+    AllIt.AjouterInterface(It_RelanceAdherentJournal);
 
     journal_alert("Génération terminée");
     AllIt.GenererInterface("journal",null,"GestSEA Journal",true);

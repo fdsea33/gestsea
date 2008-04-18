@@ -36,6 +36,7 @@
       <menuitem label="Personnes" oncommand="AllerAOnglet(0)"/>
       <menuitem label="Routage" oncommand="AllerAOnglet(1)"/>
       <menuitem label="Relances" oncommand="AllerAOnglet(2)"/>
+      <menuitem label="Relances des adhérents" oncommand="AllerAOnglet(3)"/>
       </menupopup>
     </menu>
     <menu id="edition-menu" label="Edition">
@@ -61,6 +62,7 @@
  <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Personnes" label="Personnes"/>
  <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Routage" label="Routage"/>
  <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Relances" label="Relances"/>
+ <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Relances_des_adhérents" label="Relances des adhérents"/>
 </tabs>
 </hbox>
 <tabpanels id="Tous_les_panels" flex="1">
@@ -190,6 +192,15 @@
     <button label="Nombre de numéros passés" oncommand="ChangerNombrePasses();"/>
     <button label="Nombre de numéros futurs" oncommand="ChangerNombreFuturs();"/>
   </arrowscrollbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Relances_des_adhérents" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Relances_des_adhérents_Liste_des_relances_adhérents0" flex="1"/>
+</hbox>
 </hbox>
 </vbox>
 </tabpanel>
