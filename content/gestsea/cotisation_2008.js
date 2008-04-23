@@ -1427,84 +1427,83 @@ function wg_send_cotisation(send_query){
 
   // Traitement de la cotisation
   if (send_query==true) {
-    if (!confirm('Voulez-vous valider la saisie de cette cotisation ?'))
-      return false;
-    var numeros = "Numéros à inscrire sur le bulletin d'adhésion :\n"
-    // Création du réglement et ajout au bulletin
+    if (confirm('Voulez-vous valider la saisie de cette cotisation ?')) {
+      var numeros = "Numéros à inscrire sur le bulletin d'adhésion :\n"
+      // Création du réglement et ajout au bulletin
   
-//    if (elem("wg-reglement-menulist").selectedIndex>0)
-//      num_reglement = elem("wg-reglement-menulist").selectedItem.value;
-    if (elem("wg-reglement-nouveau-checkbox").checked) {
-      bulletin += wg_bml_field("reglement.saved", "true");
-      num_reglement = requete("SELECT nextval('seq_reglement');");
-      num_regleur = (elem('wg-reglement-societe-checkbox').checked) ? current_societe() : current_personne() ;
-      if (null==pgsql_update("INSERT INTO reglement(rg_numero, pe_numero, rg_libellebanque, rg_numerocompte, rg_reference, rg_montant, rg_date, mr_numero, so_numero, em_numero) VALUES ("+num_reglement+","+num_regleur+",'"+elem("wg-reglement-banque").value+"','"+elem("wg-reglement-compte").value+"','"+elem("wg-reglement-cheque").value+"',"+elem("wg-reglement-montant").value+",'"+elem("wg-reglement-date").value+"',"+elem("wg-reglement-mode").value+",2,"+current_responsable()+");"))
-        return false;
-      else {
-        checkbox_check('wg-reglement-nouveau-checkbox',false);
-        var query="SELECT 'N°'||rg_numero||' : '||rg_montant||'€ payés le '||rg_date||' par '||pe_nom||' (N°'||pe_numero-1000000||')' AS rg_libelle, rg_numero from table_reglement join table_personne using (pe_numero) where rg_numero="+num_reglement+";";
-        menulist_fill("wg-reglement-menulist",query);
-        wg_reglement_load();
-      }
-      bulletin += wg_bml_field("reglement.numero", num_reglement);
-    } else {
   //    if (elem("wg-reglement-menulist").selectedIndex>0)
-      num_reglement = elem("wg-reglement-menulist").selectedItem.value;
-    }
-    numeros += wg_error("RG"+num_reglement);
+  //      num_reglement = elem("wg-reglement-menulist").selectedItem.value;
+      if (elem("wg-reglement-nouveau-checkbox").checked) {
+        bulletin += wg_bml_field("reglement.saved", "true");
+        num_reglement = requete("SELECT nextval('seq_reglement');");
+        num_regleur = (elem('wg-reglement-societe-checkbox').checked) ? current_societe() : current_personne() ;
+        if (null==pgsql_update("INSERT INTO reglement(rg_numero, pe_numero, rg_libellebanque, rg_numerocompte, rg_reference, rg_montant, rg_date, mr_numero, so_numero, em_numero) VALUES ("+num_reglement+","+num_regleur+",'"+elem("wg-reglement-banque").value+"','"+elem("wg-reglement-compte").value+"','"+elem("wg-reglement-cheque").value+"',"+elem("wg-reglement-montant").value+",'"+elem("wg-reglement-date").value+"',"+elem("wg-reglement-mode").value+",2,"+current_responsable()+");"))
+          return false;
+        else {
+          checkbox_check('wg-reglement-nouveau-checkbox',false);
+          var query="SELECT 'N°'||rg_numero||' : '||rg_montant||'€ payés le '||rg_date||' par '||pe_nom||' (N°'||pe_numero-1000000||')' AS rg_libelle, rg_numero from table_reglement join table_personne using (pe_numero) where rg_numero="+num_reglement+";";
+          menulist_fill("wg-reglement-menulist",query);
+          wg_reglement_load();
+        }
+        bulletin += wg_bml_field("reglement.numero", num_reglement);
+      } else {
+    //    if (elem("wg-reglement-menulist").selectedIndex>0)
+        num_reglement = elem("wg-reglement-menulist").selectedItem.value;
+      }
+      numeros += wg_error("RG"+num_reglement);
 
-    var num_cotisation = requete("SELECT nextval('table_cotisation_cs_numero_seq')");
-    var reference = num_cotisation;
-    query="INSERT INTO cotisation (cs_numero, pe_numero, cs_annee, cs_detail, cs_standard) VALUES ("+num_cotisation+","+num_personne+", "+annee+", '"+bulletin+"', true);";
-    pgsql_update(query);
-    numeros += wg_error("CX"+num_cotisation);
-
-    if (elem("wg-conjoint-checkbox").checked) {
-      num_cotisation = requete("SELECT nextval('table_cotisation_cs_numero_seq')");
-      numeros += wg_error("CX"+num_cotisation);
-      bulletin  = wg_bml_field("saved", "true");
-      bulletin += wg_bml_field("cotisation.normal", "false");
-      bulletin += wg_bml_field("cotisation.type", "conjoint");
-      bulletin += wg_bml_field("cotisation.annee", current_annee());
-      bulletin += wg_bml_field("cotisation.reference", reference);
-      query="INSERT INTO cotisation (cs_numero, pe_numero, cs_annee, cs_detail, cs_standard) VALUES ("+num_cotisation+","+current_conjoint()+", "+annee+", '"+bulletin+"', false);";
+      var num_cotisation = requete("SELECT nextval('table_cotisation_cs_numero_seq')");
+      var reference = num_cotisation;
+      query="INSERT INTO cotisation (cs_numero, pe_numero, cs_annee, cs_detail, cs_standard) VALUES ("+num_cotisation+","+num_personne+", "+annee+", '"+bulletin+"', true);";
       pgsql_update(query);
-    }
+      numeros += wg_error("CX"+num_cotisation);
+  
+      if (elem("wg-conjoint-checkbox").checked) {
+        num_cotisation = requete("SELECT nextval('table_cotisation_cs_numero_seq')");
+        numeros += wg_error("CX"+num_cotisation);
+        bulletin  = wg_bml_field("saved", "true");
+        bulletin += wg_bml_field("cotisation.normal", "false");
+        bulletin += wg_bml_field("cotisation.type", "conjoint");
+        bulletin += wg_bml_field("cotisation.annee", current_annee());
+        bulletin += wg_bml_field("cotisation.reference", reference);
+        query="INSERT INTO cotisation (cs_numero, pe_numero, cs_annee, cs_detail, cs_standard) VALUES ("+num_cotisation+","+current_conjoint()+", "+annee+", '"+bulletin+"', false);";
+        pgsql_update(query);
+      }
 
-    if (elem("wg-associe-checkbox").checked) {
-      var listbox = elem("wg-associe-listbox");
-      for (i=1;i<listbox.childNodes.length;i++){
-        if (listbox.childNodes[i].firstChild) {
-          if (listbox.childNodes[i].firstChild.checked && elem("wg-associe-checkbox").checked) {
-            num_cotisation = requete("SELECT nextval('table_cotisation_cs_numero_seq')");
-            numeros += wg_error("CX"+num_cotisation);
-            bulletin  = wg_bml_field("saved", "true");
-            bulletin += wg_bml_field("cotisation.normal", "false");
-            bulletin += wg_bml_field("cotisation.type", "associe");
-            bulletin += wg_bml_field("cotisation.annee", current_annee());
-            bulletin += wg_bml_field("cotisation.reference", reference);
-            query="INSERT INTO cotisation (cs_numero, pe_numero, cs_annee, cs_detail, cs_standard) VALUES ("+num_cotisation+","+listbox.childNodes[i].firstChild.getAttribute("numero")+", "+annee+", '"+bulletin+"', false);";
-            pgsql_update(query);
+      if (elem("wg-associe-checkbox").checked) {
+        var listbox = elem("wg-associe-listbox");
+        for (i=1;i<listbox.childNodes.length;i++){
+          if (listbox.childNodes[i].firstChild) {
+            if (listbox.childNodes[i].firstChild.checked && elem("wg-associe-checkbox").checked) {
+              num_cotisation = requete("SELECT nextval('table_cotisation_cs_numero_seq')");
+              numeros += wg_error("CX"+num_cotisation);
+              bulletin  = wg_bml_field("saved", "true");
+              bulletin += wg_bml_field("cotisation.normal", "false");
+              bulletin += wg_bml_field("cotisation.type", "associe");
+              bulletin += wg_bml_field("cotisation.annee", current_annee());
+              bulletin += wg_bml_field("cotisation.reference", reference);
+              query="INSERT INTO cotisation (cs_numero, pe_numero, cs_annee, cs_detail, cs_standard) VALUES ("+num_cotisation+","+listbox.childNodes[i].firstChild.getAttribute("numero")+", "+annee+", '"+bulletin+"', false);";
+              pgsql_update(query);
+            }
           }
         }
       }
+
+      alert(numeros);
+
+  		// nettoyage des champs
+  		//	Personne
+  		menulist_fill('wg-personne-menulist', 'SELECT pe_numero, pe_description FROM vue_personne WHERE pe_numero IS NULL;');
+  		wg_entity_load('personne');
+  		//	Societe
+  		menulist_fill('wg-societe-menulist', 'SELECT pe_numero, pe_description FROM vue_personne WHERE pe_numero IS NULL;');
+  		wg_entity_load('societe');
+  		//	Associe
+  		menulist_fill('wg-associe-menulist', 'SELECT pe_numero, pe_description FROM vue_personne WHERE pe_numero IS NULL;');
+  		wg_entity_load('associe');
+
+      elem("wg-regsupp-checkbox").checked = false;
     }
-
-    alert(numeros);
-
-		// nettoyage des champs
-		//	Personne
-		menulist_fill('wg-personne-menulist', 'SELECT pe_numero, pe_description FROM vue_personne WHERE pe_numero IS NULL;');
-		wg_entity_load('personne');
-		//	Societe
-		menulist_fill('wg-societe-menulist', 'SELECT pe_numero, pe_description FROM vue_personne WHERE pe_numero IS NULL;');
-		wg_entity_load('societe');
-		//	Associe
-		menulist_fill('wg-associe-menulist', 'SELECT pe_numero, pe_description FROM vue_personne WHERE pe_numero IS NULL;');
-		wg_entity_load('associe');
-
-    elem("wg-regsupp-checkbox").checked = false;
-
   }
   elem('wg-save-button').disabled = false;
   elem('wg-send-button').disabled = false;

@@ -382,7 +382,7 @@ CREATE OR REPLACE VIEW VUE_Cotisation_All AS
 --DROP VIEW VUe_Cotisation;
 
 CREATE OR REPLACE VIEW VUE_Cotisation AS
-SELECT cs_numero AS cle, cs_annee, pe_numero, cs_detail, CASE WHEN bml_extract(cs_detail,'sacea')='true' THEN 'A+' ELSE '' END AS cs_type, bml_extract(cs_detail,'fdsea.montant')||' €' as cs_fdsea, CASE WHEN bml_extract(cs_detail,'sacea.produit')='500000036' THEN '0-5 s.' WHEN bml_extract(cs_detail,'sacea.produit')='500000065' THEN '6-10 s.' WHEN bml_extract(cs_detail,'sacea.produit')='500000069' THEN '11+ s.' ELSE '' END as cs_sacea, COALESCE(bml_extract(cs_detail,'aava.quantite')::float::text||' ex.','') as cs_aava, bml_extract(cs_detail,'cotisation.montant')||' €' as cs_total
+SELECT cs_numero AS cle, cs_annee, pe_numero, cs_detail, CASE WHEN bml_extract(cs_detail,'sacea')='true' THEN 'A+' ELSE '' END AS cs_type, bml_extract(cs_detail,'fdsea.montant')||' €' as cs_fdsea, CASE WHEN bml_extract(cs_detail,'sacea.produit')='500000036' THEN '0-5 s.' WHEN bml_extract(cs_detail,'sacea.produit')='500000065' THEN '6-10 s.' WHEN bml_extract(cs_detail,'sacea.produit')='500000069' THEN '11+ s.' ELSE '' END as cs_sacea, COALESCE(bml_extract(cs_detail,'aava.quantite')::float::text||' ex.','') as cs_aava, COALESCE(bml_extract(cs_detail,'cotisation.montant'),bml_extract(cs_detail,'cotisation.total'),'-')||' €' as cs_total
   FROM vue_cotisation_all c;
 
 
