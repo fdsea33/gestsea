@@ -500,13 +500,13 @@ Init_ALeDroit();
 var query='SELECT current_user, current_date;';
 var result=pgsql_query(query);
 if (result.rowCount>0){var enum=result.enumerate();enum.first(); var user_name = enum.getVariant(0); window.title = user_name+' - '+window.title; stlog = top.document.getElementById('status_login'); if (stlog!=null) {stlog.label='Nom d\'utilisateur : '+user_name;} }
-var Col_N0_Lot_De_Evoplus_Liste_des_evoplus0=new clAttribut("lot","table_evoplus",null);
+var Col_N0_ID_De_Evoplus_Liste_des_evoplus0=new clAttribut("id","table_evoplus",null);
 
-var Col_N1_ID_De_Evoplus_Liste_des_evoplus0=new clAttribut("id","table_evoplus",null);
+var Col_N1_Lot_De_Evoplus_Liste_des_evoplus0=new clAttribut("lot","table_evoplus",null);
 
-var Col_N2_N__De_Evoplus_Liste_des_evoplus0=new clAttribut("pe_numero","table_evoplus",null);
+var Col_N2_N_____De_Evoplus_Liste_des_evoplus0=new clAttribut("pe_numero","table_evoplus",null);
 
-var Col_N3_Nom_De_Evoplus_Liste_des_evoplus0=new clAttribut("nom","table_evoplus",null);
+var Col_N3_Nom__________De_Evoplus_Liste_des_evoplus0=new clAttribut("nom","table_evoplus",null);
 
 var Evoplus_Source_1=new clAttribut("source","table_evoplus",null);
 
@@ -665,10 +665,10 @@ var Evoplus_Remarque_31=new clAttribut("remarque","table_evoplus",null);
 var Compo_Evoplus_Remarque_31=new clCompoTextBox(Evoplus_Remarque_31,null,"Remarque",false,true);
 var Evoplus_Liste_des_evoplus0=new clEnsembleAttributs("table_evoplus",
 	new Array(
-	new clLiaison(null,Col_N0_Lot_De_Evoplus_Liste_des_evoplus0)
-	,new clLiaison(null,Col_N1_ID_De_Evoplus_Liste_des_evoplus0)
-	,new clLiaison(null,Col_N2_N__De_Evoplus_Liste_des_evoplus0)
-	,new clLiaison(null,Col_N3_Nom_De_Evoplus_Liste_des_evoplus0)
+	new clLiaison(null,Col_N0_ID_De_Evoplus_Liste_des_evoplus0)
+	,new clLiaison(null,Col_N1_Lot_De_Evoplus_Liste_des_evoplus0)
+	,new clLiaison(null,Col_N2_N_____De_Evoplus_Liste_des_evoplus0)
+	,new clLiaison(null,Col_N3_Nom__________De_Evoplus_Liste_des_evoplus0)
 	),
 	new Array(
 	new clLiaison(null,Evoplus_Source_1)
@@ -704,7 +704,7 @@ var Evoplus_Liste_des_evoplus0=new clEnsembleAttributs("table_evoplus",
 	,new clLiaison(null,Evoplus_Remarque_31)
 	));
 
-var Titre_Evoplus_Liste_des_evoplus0=new Array("Lot","ID","N°","Nom");
+var Titre_Evoplus_Liste_des_evoplus0=new Array("ID","Lot","N°   ","Nom         ");
 
 	/* Ce composant représente: des éléments de la table table_evoplus sous le nom "Liste des evoplus" */
 var Compo_Evoplus_Liste_des_evoplus0=new clCompoListe(Evoplus_Liste_des_evoplus0,new Array(new clInterfaceFiltrageVide()),Titre_Evoplus_Liste_des_evoplus0,"Liste des evoplus",true,false);

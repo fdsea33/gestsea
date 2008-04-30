@@ -27,10 +27,10 @@ function CodeInEvoplus(){
 
     Maitre_Evoplus = It_Evoplus.AjouterMaitre("Liste des evoplus","table_evoplus");
 
-    Maitre_Evoplus.AjouterColonne("Lot","lot");
     Maitre_Evoplus.AjouterColonne("ID","id");
-    Maitre_Evoplus.AjouterColonne("N°","pe_numero");
-    Maitre_Evoplus.AjouterColonne("Nom","nom");
+    Maitre_Evoplus.AjouterColonne("Lot","lot");
+    Maitre_Evoplus.AjouterColonne("N°   ","pe_numero");
+    Maitre_Evoplus.AjouterColonne("Nom         ","nom");
 
     It_Evoplus.AjouterBouton("Imprimer le (dernier) lot","EvoPrint","'lot',"+ComposantDansCode(Maitre_Evoplus));
     It_Evoplus.AjouterBouton("Imprimer les remarques du lot","EvoPrint","'remarques',"+ComposantDansCode(Maitre_Evoplus));

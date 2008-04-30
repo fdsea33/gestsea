@@ -3316,7 +3316,7 @@ BEGIN
   -- Concatenation des documents
   SELECT '/tmp/evolot.pdf' INTO adresse;
   SELECT 'SELECT execution(''cd /tmp && touch '||adresse||E' && chmod 755 '||adresse||E' && gs -q -sPAPERSIZE=letter -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile='||adresse||' '||sommaire||concatenate(' '||SUBSTR(COALESCE(filename,''),8))||E''');'
-    FROM (SELECT filename FROM table_evoplus WHERE lot=num_lot ORDER BY id) x
+    FROM (SELECT filename FROM table_evoplus WHERE lot=num_lot and pe_numero not in (select pe_numero from table_cotisation where cs_annee=2008) and pe_numero not in (select cs_societe from table_cotisation where cs_annee=2008) ORDER BY id) x
     INTO query;
 --  RAISE NOTICE '> Query : %', query;
   IF query IS NOT NULL THEN
