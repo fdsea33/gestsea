@@ -796,6 +796,7 @@
   <table name="Avoir" abbrev="AV" label="Avoirs" distinct="true" from="JOIN ###_LigneAvoir USING (AV_Numero) JOIN ###_Produit USING (PD_Numero)" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
     <column name="AV_Numero"     type="INTEGER"     notnull="true" pkey="true"></column>
 <!--    <column name="FA_Numero"   type="INTEGER" default="NULL" fkey="Facture(FA_Numero)" opt="odrour"></column>-->
+    <column name="PE_Numero"     type="INTEGER"     notnull="true" fkey="Personne(PE_Numero)" opt="odrour"></column>
     <column name="FA_Numero"     type="INTEGER"     notnull="true" fkey="Facture(FA_Numero)" opt="odrour"></column>
     <column name="AV_NumFact"    type="INTEGER"     notnull="true"></column>
     <column name="AV_Date"       type="DATE"        notnull="true" default="CURRENT_DATE"></column>
@@ -818,7 +819,7 @@
 <!--    <column name="AW_Numero"       type="INTEGER"     notnull="true" fkey="AdresseVersion(AW_Numero)" opt="odrour">Lien vers l'adresse archivée</column>-->    <column name="PE_Numero"       type="INTEGER"     notnull="true" fkey="Personne(PE_Numero)" opt="odrour"></column>
     <column name="RO_DebutService" type="INTEGER"     notnull="true"></column>
     <column name="RO_FinService"   type="INTEGER"     notnull="true"></column>
-    <column name="RO_Quantite"     type="INTEGER"     notnull="true"></column>
+    <column name="RO_Quantite"     type="INTEGER"     notnull="true" default="1"></column>
     <column name="RO_Suspendu"     type="BOOLEAN"     notnull="true" default="false"></column>
     <column name="RO_DernierRoute" type="INTEGER"     default="NULL"></column>
     <column name="FA_Numero"       type="INTEGER"     default="NULL" fkey="Facture(FA_Numero)" opt="odrour"></column>

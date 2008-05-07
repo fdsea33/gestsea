@@ -214,7 +214,7 @@ CREATE OR REPLACE VIEW "ligneavoir" AS
     WHERE SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
 
 CREATE OR REPLACE VIEW "avoir" AS
-   SELECT DISTINCT table_avoir.av_numero, table_avoir.fa_numero, table_avoir.av_numfact, table_avoir.av_date, ROUND(table_avoir.av_montantht,2) AS av_montantht, ROUND(table_avoir.av_montantttc,2) AS av_montantttc, ROUND(table_avoir.av_reduction,2) AS av_reduction, table_avoir.created_at, table_avoir.created_by, table_avoir.updated_at, table_avoir.updated_by, table_avoir.lock_version, table_avoir.id 
+   SELECT DISTINCT table_avoir.av_numero, table_avoir.pe_numero, table_avoir.fa_numero, table_avoir.av_numfact, table_avoir.av_date, ROUND(table_avoir.av_montantht,2) AS av_montantht, ROUND(table_avoir.av_montantttc,2) AS av_montantttc, ROUND(table_avoir.av_reduction,2) AS av_reduction, table_avoir.created_at, table_avoir.created_by, table_avoir.updated_at, table_avoir.updated_by, table_avoir.lock_version, table_avoir.id 
      FROM "table_avoir" JOIN table_LigneAvoir USING (AV_Numero) JOIN table_Produit USING (PD_Numero) 
     WHERE SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
 
@@ -481,10 +481,10 @@ CREATE OR REPLACE RULE rule_attribut_delete AS
 
 CREATE OR REPLACE RULE rule_avoir_insert AS
   ON INSERT TO "avoir"
-  DO INSTEAD INSERT INTO "table_avoir"(av_numero, fa_numero, av_numfact, av_date, av_montantht, av_montantttc, av_reduction, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (new.av_numero, new.fa_numero, new.av_numfact, COALESCE(NEW.av_date,CURRENT_DATE), ROUND(new.av_montantht,2), ROUND(new.av_montantttc,2), ROUND(new.av_reduction,2), CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
+  DO INSTEAD INSERT INTO "table_avoir"(av_numero, pe_numero, fa_numero, av_numfact, av_date, av_montantht, av_montantttc, av_reduction, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (new.av_numero, new.pe_numero, new.fa_numero, new.av_numfact, COALESCE(NEW.av_date,CURRENT_DATE), ROUND(new.av_montantht,2), ROUND(new.av_montantttc,2), ROUND(new.av_reduction,2), CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
 CREATE OR REPLACE RULE rule_avoir_update AS
   ON UPDATE TO "avoir"
-  DO INSTEAD UPDATE "table_avoir" SET av_numero=new.av_numero, fa_numero=new.fa_numero, av_numfact=new.av_numfact, av_date=COALESCE(NEW.av_date,CURRENT_DATE), av_montantht=ROUND(new.av_montantht,2), av_montantttc=ROUND(new.av_montantttc,2), av_reduction=ROUND(new.av_reduction,2), created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.AV_Numero=AV_Numero;
+  DO INSTEAD UPDATE "table_avoir" SET av_numero=new.av_numero, pe_numero=new.pe_numero, fa_numero=new.fa_numero, av_numfact=new.av_numfact, av_date=COALESCE(NEW.av_date,CURRENT_DATE), av_montantht=ROUND(new.av_montantht,2), av_montantttc=ROUND(new.av_montantttc,2), av_reduction=ROUND(new.av_reduction,2), created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.AV_Numero=AV_Numero;
 CREATE OR REPLACE RULE rule_avoir_delete AS
   ON DELETE TO "avoir"
   DO INSTEAD DELETE FROM "table_avoir" WHERE old.AV_Numero=AV_Numero;
@@ -1051,10 +1051,10 @@ CREATE OR REPLACE RULE rule_responsabilite_delete AS
 
 CREATE OR REPLACE RULE rule_routage_insert AS
   ON INSERT TO "routage"
-  DO INSTEAD INSERT INTO "table_routage"(ro_numero, ad_numero, pe_numero, ro_debutservice, ro_finservice, ro_quantite, ro_suspendu, ro_dernierroute, fa_numero, created_at, created_by, updated_at, updated_by, lock_version) VALUES (COALESCE(NEW.ro_numero,nextval('seq_routage')), new.ad_numero, new.pe_numero, new.ro_debutservice, new.ro_finservice, new.ro_quantite, COALESCE(NEW.ro_suspendu,false), new.ro_dernierroute, new.fa_numero, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0);
+  DO INSTEAD INSERT INTO "table_routage"(ro_numero, ad_numero, pe_numero, ro_debutservice, ro_finservice, ro_quantite, ro_suspendu, ro_dernierroute, fa_numero, created_at, created_by, updated_at, updated_by, lock_version) VALUES (COALESCE(NEW.ro_numero,nextval('seq_routage')), new.ad_numero, new.pe_numero, new.ro_debutservice, new.ro_finservice, COALESCE(NEW.ro_quantite,1), COALESCE(NEW.ro_suspendu,false), new.ro_dernierroute, new.fa_numero, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0);
 CREATE OR REPLACE RULE rule_routage_update AS
   ON UPDATE TO "routage"
-  DO INSTEAD UPDATE "table_routage" SET ro_numero=COALESCE(NEW.ro_numero,nextval('seq_routage')), ad_numero=new.ad_numero, pe_numero=new.pe_numero, ro_debutservice=new.ro_debutservice, ro_finservice=new.ro_finservice, ro_quantite=new.ro_quantite, ro_suspendu=COALESCE(NEW.ro_suspendu,false), ro_dernierroute=new.ro_dernierroute, fa_numero=new.fa_numero, created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1 WHERE new.RO_Numero=RO_Numero;
+  DO INSTEAD UPDATE "table_routage" SET ro_numero=COALESCE(NEW.ro_numero,nextval('seq_routage')), ad_numero=new.ad_numero, pe_numero=new.pe_numero, ro_debutservice=new.ro_debutservice, ro_finservice=new.ro_finservice, ro_quantite=COALESCE(NEW.ro_quantite,1), ro_suspendu=COALESCE(NEW.ro_suspendu,false), ro_dernierroute=new.ro_dernierroute, fa_numero=new.fa_numero, created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1 WHERE new.RO_Numero=RO_Numero;
 CREATE OR REPLACE RULE rule_routage_delete AS
   ON DELETE TO "routage"
   DO INSTEAD DELETE FROM "table_routage" WHERE old.RO_Numero=RO_Numero;

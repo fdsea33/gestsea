@@ -145,6 +145,8 @@ ALTER TABLE "table_attribut"
 ALTER TABLE "table_attribut"
   DROP CONSTRAINT fk_table_attribut_cr_numero;
 ALTER TABLE "table_avoir"
+  DROP CONSTRAINT fk_table_avoir_pe_numero;
+ALTER TABLE "table_avoir"
   DROP CONSTRAINT fk_table_avoir_fa_numero;
 ALTER TABLE "table_categorie"
   DROP CONSTRAINT fk_table_categorie_ta_numero;
@@ -1295,6 +1297,7 @@ CREATE TABLE "table_ligneavoir"
 CREATE TABLE "table_avoir"
 (
   "av_numero" INTEGER,
+  "pe_numero" INTEGER,
   "fa_numero" INTEGER,
   "av_numfact" INTEGER,
   "av_date" DATE,

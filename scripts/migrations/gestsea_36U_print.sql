@@ -447,8 +447,7 @@ av_numero,                       -- 11
 cp_bureau,                       -- 12
 se_nom,                          -- 13
 false AS fa_ok                   -- 14
-FROM avoir LEFT JOIN facture    USING (fa_numero)
-           LEFT JOIN personne   USING (pe_numero)
+FROM avoir LEFT JOIN personne   USING (pe_numero)
            LEFT JOIN adresse    USING (pe_numero)
            LEFT JOIN codepostal USING (cp_numero)
            LEFT JOIN ville      USING (vi_numero),

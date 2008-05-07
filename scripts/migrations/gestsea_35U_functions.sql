@@ -1875,8 +1875,8 @@ BEGIN
 
 
   --- Base de la facture
-  insert into avoir (av_numero, fa_numero, av_date, av_reduction, av_numfact, av_montantht, av_montantttc)
-  select num_avoir, fa_numero, current_date, fa_reduction, num_numfact, fa_montantht, fa_montantttc
+  insert into avoir (av_numero, pe_numero, fa_numero, av_date, av_reduction, av_numfact, av_montantht, av_montantttc)
+  select num_avoir, pe_numero, fa_numero, current_date, fa_reduction, num_numfact, fa_montantht, fa_montantttc
     from facture
     where fa_numero = num_facture;
 
@@ -3237,8 +3237,8 @@ BEGIN
     INSERT INTO ligne (de_numero, pd_numero, l_quantite) VALUES (num_devis, 500000109, 1);
     num_devis_aava := num_devis;
     SELECT FC_DevisVersFacture(num_devis_aava) INTO num_facture_aava;  
-    INSERT INTO routage (pe_numero, ad_numero, ro_debutservice, ro_finservice, fa_numero) 
-      SELECT pe_numero, a.ad_numero, MAX(ro_finservice)+1, MAX(ro_finservice)+22, num_facture_aava FROM routage r left join adresse a USING (pe_numero) where pe_numero=num_personne group by 1,2 ORDER BY 3 DESC LIMIT 1;
+    INSERT INTO routage (pe_numero, ad_numero, ro_debutservice, ro_finservice, fa_numero, ro_quantite) 
+      SELECT pe_numero, a.ad_numero, MAX(ro_finservice)+1, MAX(ro_finservice)+22, num_facture_aava,1 FROM routage r left join adresse a USING (pe_numero) where pe_numero=num_personne group by 1,2 ORDER BY 3 DESC LIMIT 1;
 --      SELECT pe_numero, ad_numero, MAX(ro_finservice))+1, MAX(ro_finservice))+22 FROM routage left join adresse USING (pe_numero) WHERE pe_numero=num_personne;
   detail := bml_put(detail,'aava', 'true');
   detail := bml_put(detail,'aava.devis', num_devis_aava::text);

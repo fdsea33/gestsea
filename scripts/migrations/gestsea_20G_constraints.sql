@@ -34,6 +34,7 @@ CREATE INDEX idx_table_appel_pe_numero ON table_appel(pe_numero);
 CREATE INDEX idx_table_attribut_pe_numero ON table_attribut(pe_numero);
 CREATE INDEX idx_table_attribut_ta_numero ON table_attribut(ta_numero);
 CREATE INDEX idx_table_attribut_cr_numero ON table_attribut(cr_numero);
+CREATE INDEX idx_table_avoir_pe_numero ON table_avoir(pe_numero);
 CREATE INDEX idx_table_avoir_fa_numero ON table_avoir(fa_numero);
 CREATE INDEX idx_table_categorie_ta_numero ON table_categorie(ta_numero);
 CREATE INDEX idx_table_compteaux_cg_numero ON table_compteaux(cg_numero);
@@ -472,6 +473,11 @@ ALTER TABLE "table_attribut"
   FOREIGN KEY (cr_numero) REFERENCES table_Categorie(CR_Numero)
     ON DELETE RESTRICT 
     ON UPDATE CASCADE;
+ALTER TABLE "table_avoir"
+  ADD CONSTRAINT fk_table_avoir_pe_numero
+  FOREIGN KEY (pe_numero) REFERENCES table_Personne(PE_Numero)
+    ON DELETE RESTRICT 
+    ON UPDATE RESTRICT;
 ALTER TABLE "table_avoir"
   ADD CONSTRAINT fk_table_avoir_fa_numero
   FOREIGN KEY (fa_numero) REFERENCES table_Facture(FA_Numero)
@@ -1476,6 +1482,7 @@ ALTER TABLE "table_responsabilite" ALTER "updated_at" SET DEFAULT CURRENT_TIMEST
 ALTER TABLE "table_responsabilite" ALTER "updated_by" SET DEFAULT CURRENT_USER;
 ALTER TABLE "table_responsabilite" ALTER "lock_version" SET DEFAULT 0;
 ALTER TABLE "table_routage" ALTER "ro_numero" SET DEFAULT nextval('seq_routage');
+ALTER TABLE "table_routage" ALTER "ro_quantite" SET DEFAULT 1;
 ALTER TABLE "table_routage" ALTER "ro_suspendu" SET DEFAULT false;
 ALTER TABLE "table_routage" ALTER "ro_dernierroute" SET DEFAULT NULL;
 ALTER TABLE "table_routage" ALTER "fa_numero" SET DEFAULT NULL;
@@ -1656,6 +1663,7 @@ ALTER TABLE "table_attribut" ALTER "cr_numero" SET NOT NULL ;
 ALTER TABLE "table_attribut" ALTER "lock_version" SET NOT NULL ;
 ALTER TABLE "table_attribut" ALTER "id" SET NOT NULL ;
 ALTER TABLE "table_avoir" ALTER "av_numero" SET NOT NULL ;
+ALTER TABLE "table_avoir" ALTER "pe_numero" SET NOT NULL ;
 ALTER TABLE "table_avoir" ALTER "fa_numero" SET NOT NULL ;
 ALTER TABLE "table_avoir" ALTER "av_numfact" SET NOT NULL ;
 ALTER TABLE "table_avoir" ALTER "av_date" SET NOT NULL ;
