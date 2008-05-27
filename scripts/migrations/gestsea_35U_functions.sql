@@ -500,11 +500,14 @@ $$
 DECLARE
   op text;
   ok boolean;
+  compte integer;
 BEGIN
   IF TG_OP='DELETE' THEN
-    RAISE EXCEPTION 'Ca ne devrait jamais arriver de supprimer un contact. Prévenez votre informaticien.';
-    INSERT INTO contact(ck_numero,pe_numero, cw_coordonnee, version, operation) 
-      VALUES(OLD.ck_numero, OLD.pe_numero, OLD.cn_coordonnee, OLD.lock_version, TG_OP);
+    SELECT count(*) FROM contactversion WHERE pe_numero=OLD.pe_numero INTO compte;
+    IF compte>0 THEN
+      RAISE EXCEPTION 'Ca ne devrait jamais arriver de supprimer un contact. Prévenez votre informaticien.';
+    END IF;
+--    INSERT INTO contact(ck_numero,pe_numero, cw_coordonnee, version, operation) VALUES(OLD.ck_numero, OLD.pe_numero, OLD.cn_coordonnee, OLD.lock_version, TG_OP);
     RETURN OLD;
   ELSE
     ok := true;

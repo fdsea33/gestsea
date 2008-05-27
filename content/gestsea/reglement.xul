@@ -71,16 +71,16 @@
 <vbox flex="1" style="overflow:auto">
 <vbox id="Personnes_Liste_des_personnes0_Slaves"/>
 <hbox flex="1">
-<vbox id="Personnes_Adresses_9" flex="1"/>
+<vbox id="Personnes_Adresses_7" flex="1"/>
 <splitter collapse="before"> <grippy/> </splitter>
 <vbox flex="1" style="overflow:auto">
-<vbox flex="1" id="Personnes_Adresses_9_Slaves"/>
+<vbox flex="1" id="Personnes_Adresses_7_Slaves"/>
 <arrowscrollbox  pack="end" align="stretch" class="fondstyle">
-    <button class="new-button16" disabled="true" id="Insert_Personnes_Adresses_9" label="Ajouter" oncommand="Insert_Personnes_Adresses_9()" />
-    <button class="edit-button16" disabled="true" id="Update_Personnes_Adresses_9" label="Modifier" oncommand="Update_Personnes_Adresses_9()" />
-    <button class="delete-button16" disabled="true" id="Delete_Personnes_Adresses_9" label="Supprimer" oncommand="Delete_Personnes_Adresses_9()" />
-    <button class="accept-button16" id="Validate_Personnes_Adresses_9" label="Valider" oncommand="Validate_Personnes_Adresses_9()"  disabled="true" />
-    <button class="cancel-button16" id="Annuler_Personnes_Adresses_9" label="Annuler" oncommand="Annuler_Personnes_Adresses_9()"  disabled="true" />
+    <button class="new-button16" disabled="true" id="Insert_Personnes_Adresses_7" label="Ajouter" oncommand="Insert_Personnes_Adresses_7()" />
+    <button class="edit-button16" disabled="true" id="Update_Personnes_Adresses_7" label="Modifier" oncommand="Update_Personnes_Adresses_7()" />
+    <button class="delete-button16" disabled="true" id="Delete_Personnes_Adresses_7" label="Supprimer" oncommand="Delete_Personnes_Adresses_7()" />
+    <button class="accept-button16" id="Validate_Personnes_Adresses_7" label="Valider" oncommand="Validate_Personnes_Adresses_7()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Personnes_Adresses_7" label="Annuler" oncommand="Annuler_Personnes_Adresses_7()"  disabled="true" />
 </arrowscrollbox>
 </vbox>
 </hbox>

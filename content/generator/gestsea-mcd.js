@@ -239,6 +239,7 @@ function mcd_getType(table,champs)
     case 'avoir':
       switch(champs.toLowerCase()){
         case 'av_numero': type=TYPE_INT;break;
+        case 'pe_numero': type=TYPE_INT;break;
         case 'fa_numero': type=TYPE_INT;break;
         case 'av_numfact': type=TYPE_INT;break;
         case 'av_date': type=TYPE_DATE;break;
@@ -1859,6 +1860,7 @@ function mcd_getLabel(table,champs)
     case 'avoir':
       switch(champs.toLowerCase()){
         case 'av_numero': label="";break;
+        case 'pe_numero': label="";break;
         case 'fa_numero': label="";break;
         case 'av_numfact': label="";break;
         case 'av_date': label="";break;
@@ -3476,6 +3478,7 @@ function mcd_obligatoire(table,champs)
     case 'avoir':
       switch(champs.toLowerCase()){
         case 'av_numero': obligatoire=true;break;
+        case 'pe_numero': obligatoire=true;break;
         case 'fa_numero': obligatoire=true;break;
         case 'av_numfact': obligatoire=true;break;
         case 'av_date': obligatoire=true;break;

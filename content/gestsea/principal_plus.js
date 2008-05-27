@@ -367,7 +367,7 @@ function Recherche_Contact(CompoPerso)
   var NumCont=prompt("Entrez un numéro de téléphone, fax, portable ou un e-mail","");
   if (NumCont==null)
   return;
-  var Req="select distinct personne.pe_numero,pe_titre,pe_fullname, cp_codepostal AS pe_cp, vi_nom AS pe_ville, pe_telephone, pe_fax from vue_personne join adresse using (pe_numero) join codepostal using (cp_numero) join ville using (vi_numero) join contact using (pe_numero) where cn_coordonnee ilike('%"+NumCont+"%') and ad_active IS NOT FALSE order by pe_fullname";
+  var Req="select distinct vue_personne.pe_numero,pe_titre,pe_fullname, cp_codepostal AS pe_cp, vi_nom AS pe_ville, pe_telephone, pe_fax from vue_personne join adresse using (pe_numero) join codepostal using (cp_numero) join ville using (vi_numero) join contact using (pe_numero) where cn_coordonnee ilike('%"+NumCont+"%') and ad_active IS NOT FALSE order by pe_fullname";
   Open_Rechercher(Req,CompoPerso);
 }
 
