@@ -2526,6 +2526,7 @@ clTabInterfaceSimple.prototype.GenererInterface=
     //    StrXul+='\tsizemode="maximized"\n';
     if (!overlay)
     StrXul+='\tonload="'+MonNomFichier+'_Chargement();"\n';
+    StrXul+='\txmlns:html="http://www.w3.org/TR/REC-html40"\n';
     StrXul+='\txmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">\n';
 
     /* SCRIPT NECESSAIRES */

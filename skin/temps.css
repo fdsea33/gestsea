@@ -23,7 +23,7 @@
   margin-top: 5px;
   margin-bottom: 5px;
   color: black;
-//  font-weight :bold;
+/*  font-weight :bold;*/
 }
 
 button.mybutton:hover{
@@ -60,7 +60,7 @@ groupbox {
 caption {
   color: #4466FF;
   background-color: white;
-//  font-weight :bold;
+/*  font-weight :bold; */
   -moz-border-radius:0.4em;
 }
 
@@ -95,7 +95,7 @@ splitter:hover{
 }
 
 treecol {
-//  font-weight :bold;
+/*  font-weight :bold;*/
 }
 
 treecol:hover {

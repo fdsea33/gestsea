@@ -194,12 +194,6 @@ function elem(x) {
     return top.document.getElementById(x);
 }
 
-function vmail() {
-  var l = elem("mt");
-  l.setAttribute("href","http://www.rotex1690.org");
-  l.setAttribute("value","mailto:brice@tex.fr");
-}
-
 
 function na_appel_cancel(){
 	na_appel_clean();

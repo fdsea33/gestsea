@@ -20,9 +20,6 @@
       <button id="date-update" oncommand="na_date_update()" class="mybutton" label="Modifier la date"/>
       <button id="date-commit" oncommand="na_date_commit()" class="mybutton commit" label="Enregistrer" hidden="true"/>
       <button id="date-cancel" oncommand="na_date_cancel()" class="mybutton cancel" label="Annuler" hidden="true"/>
-      <button label="coco" oncommand="vmail();"/>
-      <label id="mt" class="text-link" href="http://localhost" value="*"/>
-      <label id="mt" class="text-link" href="mailto:brice@fdsea33.fr" value="mailto"/>
     </hbox>
     <box flex="1" orient="vertical">
 

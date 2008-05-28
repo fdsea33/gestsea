@@ -269,9 +269,9 @@ function EnvoyerPassword(compo) {
   current_personne = compo.getCleVal();
   var superuser = requete("SELECT case when usesuper then 1 else 0 end from pg_user where usename=current_user;");
   if (superuser==1) {
-    window.openDialog('principal_email.xul', "showmore", "centerscreen,close=no,modal,chrome,scrollbars,resizable=no");
+    window.openDialog('principal_mail.xul', "showmore", "centerscreen,close=no,modal,chrome,scrollbars,resizable=no");
   } else {
-    alert("Vous ne pocuvez pas effectuer cette opération.");
+    alert("Vous ne pouvez pas effectuer cette opération.");
   }
 }
 

@@ -54,6 +54,7 @@ function CodeInPrincipal(centre){
     //AllIt.AjouterCodeUserLoad('Filtre_PersonneA.setComposant(Compo_'+Maitre_Personne.getNom_()+');\n');
 
     It_Personne.AjouterBouton("Enregistrer une cotisation JA","AjouterJA",ComposantDansCode(Maitre_Personne));
+    It_Personne.AjouterBouton("Envoyer son mot de passe pour le site fdsea33.fr","EnvoyerPassword",ComposantDansCode(Maitre_Personne));
 
 
     //    It_Personne.AjouterComposantSimple("N° Adhérent", "pe_numpersonne",null,null,LABEL);
