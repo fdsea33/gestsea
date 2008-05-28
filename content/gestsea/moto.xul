@@ -9,6 +9,7 @@
 	title="GestSEA MOTO - Mesure Optimale des Temps d'Occupation"
 	orient="vertical"
 	onload="moto_Chargement();"
+	xmlns:html="http://www.w3.org/TR/REC-html40"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
 <!-- FICHIERS DE SCRIPTS NECESSAIRES -->

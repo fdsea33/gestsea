@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://gestsea/skin/icons.css" type="text/css"?>
+
+<dialog	id="gestsea:mail" title="GestSEA - Envoi d'un e-mail" buttons="accept" onload="wg_onload();" ondialogaccept="return true;" ondialogcancel="return true;" orient="vertical" sizemode="normal" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script src="principal_mail.js"/>
+  <label value="Cliquez sur le lien ci-dessous pour envoyer le mot de passe par e-mail à la personne concernée :"/>
+  <label id="mailto" class="text-link" href="mailto:brice@fdsea33.fr" value="-mailto-"/>
+<!--  <label id="mailtoa" class="text-link" href="mailto:adherents@fdsea33.fr" value="-adherents-"/>-->
+</dialog>

@@ -1,9 +1,9 @@
 function CleanValue(val)
 {
     if (val!=null && val!=undefined && val!='undefined')
-	return val;
+  return val;
     else
-	return ' ';
+  return ' ';
 }
 
 
@@ -17,57 +17,57 @@ function SaveToTSV(requete){
     //alert(query);
     var result = pgsql_query(query);
     if (result.rowCount>0){
-	var tab=requete.TabSelect;
-	var max=tab.length;
-	if (max>0){
-	    /* Enregistrement des titres des colonnes */
-	    for(i=0;i<max;i++){
-		if (i>0) fichier+=sep;
-		col = tab[i];
-		label=mcd_getLabel(ExtractTable(col),DePrefixerChamp(col));
-		if (label==""){
-		    var reg=new RegExp("(_)", "g");
-		    label=DePrefixerChamp(col).substring(3).replace(reg," ");
-		}
-		fichier+=label;
-	    }
-	    //	    alert(fichier);
-	    /* Enregistrement des lignes */
-	    var enumr=result.enumerate();
-	    enumr.beforeFirst();
-	    var encore=true;
-	    var value;
-	    while(encore){
-		encore = enumr.next();
-		value="";
-		//		if (enumr.getVariant(0)!=null && enumr.getVariant(0)!=undefined) 
-		value=CleanValue(enumr.getVariant(0));
-		fichier+="\n"+value;
-		for(i=1;i<max;i++) fichier+=sep+CleanValue(enumr.getVariant(i));
-	    }
-	    //alert("Fichier réalisé");
-	    SaveFile(requete.FromRoot+".csv",fichier);
-	} else alert("Il n'y a pas de colonnes à exporter.");
+  var tab=requete.TabSelect;
+  var max=tab.length;
+  if (max>0){
+      /* Enregistrement des titres des colonnes */
+      for(i=0;i<max;i++){
+    if (i>0) fichier+=sep;
+    col = tab[i];
+    label=mcd_getLabel(ExtractTable(col),DePrefixerChamp(col));
+    if (label==""){
+        var reg=new RegExp("(_)", "g");
+        label=DePrefixerChamp(col).substring(3).replace(reg," ");
+    }
+    fichier+=label;
+      }
+      //      alert(fichier);
+      /* Enregistrement des lignes */
+      var enumr=result.enumerate();
+      enumr.beforeFirst();
+      var encore=true;
+      var value;
+      while(encore){
+    encore = enumr.next();
+    value="";
+    //    if (enumr.getVariant(0)!=null && enumr.getVariant(0)!=undefined) 
+    value=CleanValue(enumr.getVariant(0));
+    fichier+="\n"+value;
+    for(i=1;i<max;i++) fichier+=sep+CleanValue(enumr.getVariant(i));
+      }
+      //alert("Fichier réalisé");
+      SaveFile(requete.FromRoot+".csv",fichier);
+  } else alert("Il n'y a pas de colonnes à exporter.");
     } else alert("Il n'y a rien à extraire.");
 }
 
 
 function export_SaveToFile(NomFichier,Donnees) {
-    try {	
-	netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+    try {  
+  netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
     } catch (e) {
-	alert("Permission pour la sauvegarde non accordée.");
+  alert("Permission pour la sauvegarde non accordée.");
     }
     
     
     
     var rep= Components.classes["@mozilla.org/file/local;1"]
- 		.createInstance(Components.interfaces.nsILocalFile);
+     .createInstance(Components.interfaces.nsILocalFile);
     //rep.initWithPath( CheminAbs );
     if (navigator.platform=='Win32')
-	rep.initWithPath( "C:/" );
+  rep.initWithPath( "C:/" );
     else
-	rep.initWithPath( "/home/" );
+  rep.initWithPath( "/home/" );
     
     /* dialogue pour sauver le fichier */
     var fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
@@ -78,24 +78,24 @@ function export_SaveToFile(NomFichier,Donnees) {
     
     var rv = fp.show();
     if (rv == nsIFilePicker.returnOK || rv == nsIFilePicker.returnReplace)
- 	{
-	    var file = fp.file;
-	    // work with returned nsILocalFile...
- 	}
+   {
+      var file = fp.file;
+      // work with returned nsILocalFile...
+   }
     else
-	return;
+  return;
     
     var path=file.path;
     
-    //	var file = Components.classes["@mozilla.org/file/local;1"]
-    //		.createInstance(Components.interfaces.nsILocalFile);
-    //	file.initWithPath( CheminAbs+NomFichier );
+    //  var file = Components.classes["@mozilla.org/file/local;1"]
+    //    .createInstance(Components.interfaces.nsILocalFile);
+    //  file.initWithPath( CheminAbs+NomFichier );
     if ( file.exists() == false ) {
-	//		alert( "Creation du fichier... " );
-	file.create( Components.interfaces.nsIFile.NORMAL_FILE_TYPE, permissions );
+  //    alert( "Creation du fichier... " );
+  file.create( Components.interfaces.nsIFile.NORMAL_FILE_TYPE, permissions );
     }
     var outputStream = Components.classes["@mozilla.org/network/file-output-stream;1"]
-	.createInstance( Components.interfaces.nsIFileOutputStream );
+  .createInstance( Components.interfaces.nsIFileOutputStream );
     /* Open flags 
        #define PR_RDONLY       0x01
        #define PR_WRONLY       0x02
