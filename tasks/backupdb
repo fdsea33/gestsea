@@ -1,0 +1,15 @@
+#!/bin/sh
+if [ $# != 1 ]; then
+    echo "Usage: backupdb db_name"
+    exit 1
+fi
+cd /tmp
+d=`date +%Y%m%d_%H%M`
+f=db_$1_$d.sql
+z=$f.tar.bz2
+pg_dump -COx --schema=public $1 > $f
+tar cvjf $z $f
+rm -f $f
+cp $z /home/groupes/maintenance/backup/
+sudo -u brice scp $z brice@91.121.24.96:Sauvegardes
+rm -f $z

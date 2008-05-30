@@ -114,14 +114,20 @@ $$ UPDATE Devis SET DE_MontantHT=ROUND(T.MontantHT,2), DE_MontantTTC=ROUND(T.Mon
 CREATE OR REPLACE FUNCTION FC_Personne_Reduction(IN num_personne INTEGER, IN computed_on DATE) RETURNS NUMERIC AS
 $$ 
 DECLARE
-  ret NUMERIC;
+  ret1 NUMERIC;
+  ret2 NUMERIC;
   annee INTEGER;
 BEGIN
 --  RAISE EXCEPTION 'Le calcul de réduction est en cours de développement.';
   SELECT EXTRACT(YEAR FROM computed_on) INTO annee;
-  SELECT COALESCE(MAX(ah_reduction),0.00) FROM vue_adhesion WHERE (cs_personne=num_personne OR cs_societe=num_personne) AND cs_annee=annee INTO ret;
+  SELECT COALESCE(MAX(ah_reduction),0.00) FROM vue_adhesion WHERE (cs_personne=num_personne OR cs_societe=num_personne) AND cs_annee=annee INTO ret1;
+  SELECT COALESCE(MAX(ah_reduction),0.00) FROM estlie JOIN vue_adhesion ON (cs_societe=el_personne1) WHERE el_personne2=num_personne AND tl_numero=1003 INTO ret2;
 --  SELECT COALESCE(MAX(ah_reduction),0.00) FROM lignefacture JOIN vue_cotisation ON (fa_numero=bml_extract(cs_detail,'sacea.facture')) JOIN adherence USING (pd_numero) WHERE pe_numero=num_personne AND EXTRACT(YEAR FROM computed_on)=cs_annee INTO ret;
-  RETURN ret;
+  IF ret1>ret2 THEN
+    RETURN ret1;
+  ELSE
+    RETURN ret2;
+  END IF;
 END;
 $$ LANGUAGE 'plpgsql';
 
@@ -1044,9 +1050,10 @@ DECLARE
   test boolean;
 BEGIN
   IF TG_OP='INSERT' OR TG_OP='UPDATE' THEN
-    SELECT *  FROM NaturePersonne WHERE NP_Numero=NEW.NP_Numero INTO np;
+    SELECT * FROM NaturePersonne WHERE NP_Numero=NEW.NP_Numero INTO np;
     NEW.PE_Titre := np.NP_Titre;
-    NEW.PE_ID := NEW.pe_numero-1000000;
+    NEW.PE_Morale := np.np_morale;
+    NEW.PE_ID  := NEW.pe_numero-1000000;
     NEW.PE_Nom := UPPER(TRIM(NEW.pe_nom));
     NEW.PE_Prenom := REPLACE(REPLACE(INITCAP(TRIM(NEW.pe_prenom)),' Et ',' et '),' & ',' et ');
     IF np.NP_AvecTitre THEN
@@ -1067,7 +1074,7 @@ BEGIN
       RETURN OLD;
     END IF;
 */
-    IF OLD.NP_Numero!=NEW.NP_Numero  AND CURRENT_USER!='brice' THEN
+    IF OLD.NP_Numero!=NEW.NP_Numero AND CURRENT_USER!='brice' THEN
       SELECT o.np_morale!=n.np_morale FROM NaturePersonne o, NaturePersonne n WHERE o.NP_Numero=OLD.NP_Numero AND n.NP_Numero=NEW.NP_Numero INTO test;
       IF test THEN
         RAISE EXCEPTION 'Vous ne pouvez pas modifier le titre ou la forme juridique de la fiche';

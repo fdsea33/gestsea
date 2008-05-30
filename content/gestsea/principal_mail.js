@@ -58,6 +58,12 @@ function elem(id){
 
 function wg_onload() {
   var num_personne = opener.current_personne;
+  var morale = requete("SELECT CASE WHEN np_morale THEN 1 ELSE 0 END FROM table_personne join table_naturepersonne USING (np_numero) WHERE pe_numero="+num_personne);
+  if (morale=='1') {
+    alert('Vous devez changer de fiche, les sociétés ne peuvent pas avoir de compte sur le site web.\n Allez voir dans les liens.');
+    return;
+  }
+
   var pmail = requete("SELECT cn_coordonnee FROM table_contact WHERE cn_actif AND ck_numero=104 and pe_numero="+num_personne);
   var pid   = requete("SELECT pe_id FROM table_personne WHERE pe_numero="+num_personne);
   var ppass = requete("SELECT pe_motdepasse FROM table_personne WHERE pe_numero="+num_personne);
