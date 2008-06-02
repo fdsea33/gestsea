@@ -79,11 +79,11 @@ CREATE OR REPLACE VIEW "contactversion" AS
      FROM "table_contactversion";
 
 CREATE OR REPLACE VIEW "typelien" AS
-   SELECT table_typelien.tl_numero, table_typelien.tl_libelle, table_typelien.tl_action12, table_typelien.tl_action21, table_typelien.tl_description, table_typelien.created_at, table_typelien.created_by, table_typelien.updated_at, table_typelien.updated_by, table_typelien.lock_version, table_typelien.id 
+   SELECT table_typelien.tl_numero, table_typelien.tl_code, table_typelien.tl_libelle, table_typelien.tl_action12, table_typelien.tl_action21, table_typelien.tl_description, table_typelien.created_at, table_typelien.created_by, table_typelien.updated_at, table_typelien.updated_by, table_typelien.lock_version, table_typelien.id 
      FROM "table_typelien";
 
 CREATE OR REPLACE VIEW "estlie" AS
-   SELECT table_estlie.el_numero, table_estlie.el_personne1, table_estlie.el_personne2, table_estlie.el_actif, table_estlie.tl_numero, table_estlie.el_debut, table_estlie.el_fin, table_estlie.created_at, table_estlie.created_by, table_estlie.updated_at, table_estlie.updated_by, table_estlie.lock_version, table_estlie.id, TRIM(COALESCE(p1.PE_Titre||' ','')||COALESCE(p1.PE_Nom,'')||COALESCE(' '||p1.PE_Prenom,'')||' / '||p1.pe_id) AS EL_Libelle1, TRIM(COALESCE(p2.PE_Titre||' ','')||COALESCE(p2.PE_Nom,'')||COALESCE(' '||p2.PE_Prenom,'')||' / '||p2.pe_id) AS EL_Libelle2, TL_Action12, TL_Action21 
+   SELECT table_estlie.el_numero, table_estlie.el_personne1, table_estlie.el_personne2, table_estlie.el_actif, table_estlie.tl_numero, table_estlie.tl_code, table_estlie.el_debut, table_estlie.el_fin, table_estlie.created_at, table_estlie.created_by, table_estlie.updated_at, table_estlie.updated_by, table_estlie.lock_version, table_estlie.id, TRIM(COALESCE(p1.PE_Titre||' ','')||COALESCE(p1.PE_Nom,'')||COALESCE(' '||p1.PE_Prenom,'')||' / '||p1.pe_id) AS EL_Libelle1, TRIM(COALESCE(p2.PE_Titre||' ','')||COALESCE(p2.PE_Nom,'')||COALESCE(' '||p2.PE_Prenom,'')||' / '||p2.pe_id) AS EL_Libelle2, TL_Action12, TL_Action21 
      FROM "table_estlie" JOIN table_Personne AS p1 ON (EL_Personne1=p1.PE_Numero) JOIN table_Personne AS p2 ON (EL_Personne2=p2.PE_Numero) JOIN table_TypeLien USING (TL_Numero) 
     WHERE EL_Actif;
 
@@ -661,10 +661,10 @@ CREATE OR REPLACE RULE rule_equipe_delete AS
 
 CREATE OR REPLACE RULE rule_estlie_insert AS
   ON INSERT TO "estlie"
-  DO INSTEAD INSERT INTO "table_estlie"(el_numero, el_personne1, el_personne2, el_actif, tl_numero, el_debut, el_fin, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (COALESCE(NEW.el_numero,nextval('seq_estlie')), new.el_personne1, new.el_personne2, COALESCE(NEW.el_actif,true), new.tl_numero, COALESCE(NEW.el_debut,CURRENT_TIMESTAMP), new.el_fin, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
+  DO INSTEAD INSERT INTO "table_estlie"(el_numero, el_personne1, el_personne2, el_actif, tl_numero, tl_code, el_debut, el_fin, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (COALESCE(NEW.el_numero,nextval('seq_estlie')), new.el_personne1, new.el_personne2, COALESCE(NEW.el_actif,true), new.tl_numero, new.tl_code, COALESCE(NEW.el_debut,CURRENT_TIMESTAMP), new.el_fin, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
 CREATE OR REPLACE RULE rule_estlie_update AS
   ON UPDATE TO "estlie"
-  DO INSTEAD UPDATE "table_estlie" SET el_numero=COALESCE(NEW.el_numero,nextval('seq_estlie')), el_personne1=new.el_personne1, el_personne2=new.el_personne2, el_actif=COALESCE(NEW.el_actif,true), tl_numero=new.tl_numero, el_debut=COALESCE(NEW.el_debut,CURRENT_TIMESTAMP), el_fin=new.el_fin, created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.EL_Numero=EL_Numero;
+  DO INSTEAD UPDATE "table_estlie" SET el_numero=COALESCE(NEW.el_numero,nextval('seq_estlie')), el_personne1=new.el_personne1, el_personne2=new.el_personne2, el_actif=COALESCE(NEW.el_actif,true), tl_numero=new.tl_numero, tl_code=new.tl_code, el_debut=COALESCE(NEW.el_debut,CURRENT_TIMESTAMP), el_fin=new.el_fin, created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.EL_Numero=EL_Numero;
 CREATE OR REPLACE RULE rule_estlie_delete AS
   ON DELETE TO "estlie"
   DO INSTEAD DELETE FROM "table_estlie" WHERE old.EL_Numero=EL_Numero;
@@ -1161,10 +1161,10 @@ CREATE OR REPLACE RULE rule_typejournal_delete AS
 
 CREATE OR REPLACE RULE rule_typelien_insert AS
   ON INSERT TO "typelien"
-  DO INSTEAD INSERT INTO "table_typelien"(tl_numero, tl_libelle, tl_action12, tl_action21, tl_description, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (COALESCE(NEW.tl_numero,nextval('seq_typelien')), new.tl_libelle, COALESCE(NEW.tl_action12,'[NoAction]'), COALESCE(NEW.tl_action21,'[NoReverseAction]'), new.tl_description, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
+  DO INSTEAD INSERT INTO "table_typelien"(tl_numero, tl_code, tl_libelle, tl_action12, tl_action21, tl_description, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (COALESCE(NEW.tl_numero,nextval('seq_typelien')), COALESCE(NEW.tl_code,('>'::text || fc_password(7))), new.tl_libelle, COALESCE(NEW.tl_action12,'[NoAction]'), COALESCE(NEW.tl_action21,'[NoReverseAction]'), new.tl_description, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
 CREATE OR REPLACE RULE rule_typelien_update AS
   ON UPDATE TO "typelien"
-  DO INSTEAD UPDATE "table_typelien" SET tl_numero=COALESCE(NEW.tl_numero,nextval('seq_typelien')), tl_libelle=new.tl_libelle, tl_action12=COALESCE(NEW.tl_action12,'[NoAction]'), tl_action21=COALESCE(NEW.tl_action21,'[NoReverseAction]'), tl_description=new.tl_description, created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.TL_Numero=TL_Numero;
+  DO INSTEAD UPDATE "table_typelien" SET tl_numero=COALESCE(NEW.tl_numero,nextval('seq_typelien')), tl_code=COALESCE(NEW.tl_code,('>'::text || fc_password(7))), tl_libelle=new.tl_libelle, tl_action12=COALESCE(NEW.tl_action12,'[NoAction]'), tl_action21=COALESCE(NEW.tl_action21,'[NoReverseAction]'), tl_description=new.tl_description, created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.TL_Numero=TL_Numero;
 CREATE OR REPLACE RULE rule_typelien_delete AS
   ON DELETE TO "typelien"
   DO INSTEAD DELETE FROM "table_typelien" WHERE old.TL_Numero=TL_Numero;

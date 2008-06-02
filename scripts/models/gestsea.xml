@@ -224,6 +224,7 @@
 
   <table name="TypeLien" abbrev="TL" label="Types de liens entre personnes">
     <column name="TL_Numero"      type="INTEGER"      notnull="true" pkey="true" default="nextval('seq_typelien')">Clé unique</column>
+    <column name="TL_Code"        type="VARCHAR(8)"   notnull="true" default="('>'::text || fc_password(7))" unique="true">Code unique</column>
     <column name="TL_Libelle"     type="VARCHAR(64)"  notnull="true" const="UNIQUE">Nom de la nature du lien</column>
     <column name="TL_Action12"    type="VARCHAR(128)" notnull="true" default="'[NoAction]'">Action de la nature du lien de 1 vers 2</column>
     <column name="TL_Action21"    type="VARCHAR(128)" notnull="true" default="'[NoReverseAction]'">Action de la nature du lien de 2 vers 1</column>
@@ -244,6 +245,7 @@
     <column name="EL_Personne2" type="INTEGER"     notnull="true" fkey="Personne(PE_Numero)" opt="odrour">Lien vers la personne 2</column>
     <column name="EL_Actif"     type="BOOLEAN"     notnull="true" default="true">Si ce lien est encore actif</column>
     <column name="TL_Numero"    type="INTEGER"     notnull="true" fkey="TypeLien(TL_Numero)" opt="odrouc">Lien vers nature du lien</column>
+    <column name="TL_Code"      type="VARCHAR(8)"  notnull="true" fkey="TypeLien(TL_Code)" opt="odcouc">Lien vers nature du lien</column>
     <column name="EL_Debut"     type="TIMESTAMP"   notnull="true" default="CURRENT_TIMESTAMP">Date de création du lien</column>
     <column name="EL_Fin"       type="TIMESTAMP"   default="NULL">Date de la rupture</column>
     <seq name="seq_estlie" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
@@ -1316,6 +1318,7 @@
 
 
   <table name="Cotisation" abbrev="CS" label="Cotisations">
+    <text>Cette table sert à enregistrer le détail des cotisations dans le but de faciliter la saisie et le passage en facture. Elle ne doit pas être prise en compte pour la gestion des réductions, et la vérification des adhésions !!!. Il faut vérifier cela par les factures et les liens du type '>GERE>'.</text>
 <!-- select="CASE WHEN bml_extract(cs_detail,'sacea')='true' THEN 'A+' ELSE '' END AS cs_type, bml_extract(cs_detail,'fdsea.montant')||' ¤' as cs_fdsea, CASE WHEN bml_extract(cs_detail,'sacea.produit')='500000036' THEN '0-5 s.' WHEN bml_extract(cs_detail,'sacea.produit')='500000065' THEN '6-10 s.' ELSE '11+ s.' END as cs_sacea, COALESCE(bml_extract(cs_detail,'aava.quantite')::float::text||' ex.','') as cs_aava, bml_extract(cs_detail,'cotisation.montant')||' ¤' as cs_total">-->
     <column name="CS_Numero"   type="SERIAL"      notnull="true" pkey="true"></column>
     <column name="PE_Numero"   type="INTEGER"     notnull="true" fkey="Personne(PE_Numero)" opt="odrouc"></column>

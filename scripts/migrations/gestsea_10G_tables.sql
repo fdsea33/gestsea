@@ -222,6 +222,8 @@ ALTER TABLE "table_estlie"
   DROP CONSTRAINT fk_table_estlie_el_personne2;
 ALTER TABLE "table_estlie"
   DROP CONSTRAINT fk_table_estlie_tl_numero;
+ALTER TABLE "table_estlie"
+  DROP CONSTRAINT fk_table_estlie_tl_code;
 ALTER TABLE "table_estresponsable"
   DROP CONSTRAINT fk_table_estresponsable_pe_numero;
 ALTER TABLE "table_estresponsable"
@@ -803,6 +805,7 @@ CREATE TABLE "table_contactversion"
 CREATE TABLE "table_typelien"
 (
   "tl_numero" INTEGER,
+  "tl_code" VARCHAR(8),
   "tl_libelle" VARCHAR(64) UNIQUE,
   "tl_action12" VARCHAR(128),
   "tl_action21" VARCHAR(128),
@@ -822,6 +825,7 @@ CREATE TABLE "table_estlie"
   "el_personne2" INTEGER,
   "el_actif" BOOLEAN,
   "tl_numero" INTEGER,
+  "tl_code" VARCHAR(8),
   "el_debut" TIMESTAMP,
   "el_fin" TIMESTAMP,
   "created_at" TIMESTAMP,

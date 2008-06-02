@@ -191,25 +191,6 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 
 
 --===========================================================================--
--- Calcul un mot de passe lisible sans (0OIl1)
-
-CREATE OR REPLACE FUNCTION FC_Password(IN size INTEGER) RETURNS text AS
-$$
-DECLARE 
-  pass text;
-  i integer;
-  chars CONSTANT char[64] = '{A,B,C,D,E,F,G,H,J,K,L,M,N,P,Q,R,S,T,U,V,W,X,Y,Z,a,b,c,d,e,f,g,h,i,j,k,m,n,o,p,q,r,s,t,u,v,w,x,y,z,2,3,4,5,6,7,8,9,2,3,4,5,6,7,8}';
-BEGIN
-  pass:='';
-  FOR i IN 1..size LOOP
-    pass:=pass||chars[(62*random()+1)::integer];
-  END LOOP;
-  RETURN pass;
-END;
-$$ LANGUAGE 'plpgsql' VOLATILE;
-
-
---===========================================================================--
 -- Fusionne le produit 2 au produit 1
 --DROP FUNCTION FC_FusionneProduit(integer,integer);
 

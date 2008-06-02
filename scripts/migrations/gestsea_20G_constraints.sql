@@ -73,6 +73,7 @@ CREATE INDEX idx_table_employe_em_acces ON table_employe(em_acces);
 CREATE INDEX idx_table_estlie_el_personne1 ON table_estlie(el_personne1);
 CREATE INDEX idx_table_estlie_el_personne2 ON table_estlie(el_personne2);
 CREATE INDEX idx_table_estlie_tl_numero ON table_estlie(tl_numero);
+CREATE INDEX idx_table_estlie_tl_code ON table_estlie(tl_code);
 CREATE INDEX idx_table_estresponsable_pe_numero ON table_estresponsable(pe_numero);
 CREATE INDEX idx_table_estresponsable_re_numero ON table_estresponsable(re_numero);
 CREATE INDEX idx_table_evoplus_pe_numero ON table_evoplus(pe_numero);
@@ -665,6 +666,11 @@ ALTER TABLE "table_estlie"
   ADD CONSTRAINT fk_table_estlie_tl_numero
   FOREIGN KEY (tl_numero) REFERENCES table_TypeLien(TL_Numero)
     ON DELETE RESTRICT 
+    ON UPDATE CASCADE;
+ALTER TABLE "table_estlie"
+  ADD CONSTRAINT fk_table_estlie_tl_code
+  FOREIGN KEY (tl_code) REFERENCES table_TypeLien(TL_Code)
+    ON DELETE CASCADE 
     ON UPDATE CASCADE;
 ALTER TABLE "table_estresponsable"
   ADD CONSTRAINT fk_table_estresponsable_pe_numero
@@ -1549,6 +1555,7 @@ ALTER TABLE "table_typejournal" ALTER "updated_at" SET DEFAULT CURRENT_TIMESTAMP
 ALTER TABLE "table_typejournal" ALTER "updated_by" SET DEFAULT CURRENT_USER;
 ALTER TABLE "table_typejournal" ALTER "lock_version" SET DEFAULT 0;
 ALTER TABLE "table_typelien" ALTER "tl_numero" SET DEFAULT nextval('seq_typelien');
+ALTER TABLE "table_typelien" ALTER "tl_code" SET DEFAULT ('>'::text || fc_password(7));
 ALTER TABLE "table_typelien" ALTER "tl_action12" SET DEFAULT '[NoAction]';
 ALTER TABLE "table_typelien" ALTER "tl_action21" SET DEFAULT '[NoReverseAction]';
 ALTER TABLE "table_typelien" ALTER "tl_description" SET DEFAULT NULL;
@@ -1798,6 +1805,7 @@ ALTER TABLE "table_estlie" ALTER "el_personne1" SET NOT NULL ;
 ALTER TABLE "table_estlie" ALTER "el_personne2" SET NOT NULL ;
 ALTER TABLE "table_estlie" ALTER "el_actif" SET NOT NULL ;
 ALTER TABLE "table_estlie" ALTER "tl_numero" SET NOT NULL ;
+ALTER TABLE "table_estlie" ALTER "tl_code" SET NOT NULL ;
 ALTER TABLE "table_estlie" ALTER "el_debut" SET NOT NULL ;
 ALTER TABLE "table_estlie" ALTER "lock_version" SET NOT NULL ;
 ALTER TABLE "table_estlie" ALTER "id" SET NOT NULL ;
@@ -2128,6 +2136,7 @@ ALTER TABLE "table_typejournal" ALTER "tj_numero" SET NOT NULL ;
 ALTER TABLE "table_typejournal" ALTER "lock_version" SET NOT NULL ;
 ALTER TABLE "table_typejournal" ALTER "id" SET NOT NULL ;
 ALTER TABLE "table_typelien" ALTER "tl_numero" SET NOT NULL ;
+ALTER TABLE "table_typelien" ALTER "tl_code" SET NOT NULL ;
 ALTER TABLE "table_typelien" ALTER "tl_libelle" SET NOT NULL ;
 ALTER TABLE "table_typelien" ALTER "tl_action12" SET NOT NULL ;
 ALTER TABLE "table_typelien" ALTER "tl_action21" SET NOT NULL ;

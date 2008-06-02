@@ -155,6 +155,27 @@ END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
 
+
+--===========================================================================--
+-- Calcul un mot de passe lisible sans (0OIl1)
+
+CREATE OR REPLACE FUNCTION FC_Password(IN size INTEGER) RETURNS text AS
+$$
+DECLARE 
+  pass text;
+  i integer;
+  chars CONSTANT char[64] = '{A,B,C,D,E,F,G,H,J,K,L,M,N,P,Q,R,S,T,U,V,W,X,Y,Z,a,b,c,d,e,f,g,h,i,j,k,m,n,o,p,q,r,s,t,u,v,w,x,y,z,2,3,4,5,6,7,8,9,2,3,4,5,6,7,8}';
+BEGIN
+  pass:='';
+  FOR i IN 1..size LOOP
+    pass:=pass||chars[(62*random()+1)::integer];
+  END LOOP;
+  RETURN pass;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+
+
 --===========================================================================--
 -- Calcule la premiere date utilisable d'un journal à partir d'un mois et
 -- d'une année
@@ -352,6 +373,15 @@ CREATE OR REPLACE VIEW VUE_Adhesion AS
 
 --DROP VIEW vue_adhesion;
 
+
+/*
+CREATE OR REPLACE VIEW vue_adhesion AS
+  SELECT *
+    FROM table_lignefacture JOIN table_facture USING(FA_Numero)
+                            JOIN table_adherence USING (pd_numero);
+*/
+
+
 CREATE OR REPLACE VIEW vue_adhesion AS
   SELECT cs_numero, cs_annee, pe_numero AS cs_personne, NULLIF(NULLIF(bml_extract(cs_detail,'cotisation.societe'),'null'),0) AS cs_societe, ah_reduction, ah_libelle 
     FROM table_lignefacture JOIN table_cotisation ON (fa_numero=bml_extract(cs_detail,'sacea.facture')) 
@@ -388,6 +418,6 @@ SELECT cs_numero AS cle, cs_annee, pe_numero, cs_detail, CASE WHEN bml_extract(c
 
 
 CREATE OR REPLACE VIEW vue_personne AS 
-  SELECT DISTINCT ON (pe_numero) table_personne.*, TRIM(COALESCE(PE_Titre||' ','')|| COALESCE(PE_Nom,'')|| COALESCE(' '||PE_Prenom,'')) AS PE_Libelle, COALESCE(PE_Nom||' ','')|| COALESCE(PE_Prenom,'')||COALESCE(' ('||NULLIF(TRIM(PE_Titre),'')||')','') AS PE_Fullname, to_char(PE_ID,'FM099999') AS PE_NumPersonne, Tel.CN_Coordonnee AS PE_telephone, Fax.CN_Coordonnee AS PE_Fax, CT_Nom, COALESCE(PE_Titre,'')||';'|| COALESCE(PE_Nom,'')||';'|| COALESCE(PE_Prenom,'')||';'||COALESCE(AD_Ligne2,'')||';'|| COALESCE(Ad_Ligne3,'')||';'|| COALESCE(Ad_Ligne4,'')||';'|| COALESCE(Ad_Ligne5,'')||';'|| CP_CodePostal||';'|| VI_Nom AS PE_Adresse, VI_Nom AS PE_Ville, CP_CodePostal AS PE_CP, CT_Nom AS PE_Canton, to_char(PE_ID,'FM099999')||' - '||TRIM(COALESCE(PE_Titre||' ','')|| COALESCE(PE_Nom,'')|| COALESCE(' '||PE_Prenom,''))||' ('||COALESCE(CP_CodePostal,'?')||' '||COALESCE(vi_nom,'???')||')' AS PE_Description
-    FROM table_personne LEFT JOIN table_Adresse AS a ON (a.PE_Numero=table_Personne.PE_Numero AND AD_Active IS NOT False) LEFT JOIN table_Codepostal USING (CP_Numero) LEFT JOIN table_Ville USING (VI_Numero) LEFT JOIN table_Canton USING (CT_Numero) LEFT JOIN table_Contact AS Tel ON (Tel.PE_Numero=table_Personne.PE_Numero AND Tel.CN_Actif IS NOT false AND Tel.CK_Numero=107) LEFT JOIN table_Contact AS Fax  ON (Fax.PE_Numero=table_Personne.PE_Numero AND Fax.CN_Actif IS NOT false AND Fax.CK_Numero=105);
+  SELECT DISTINCT ON (pe_numero) table_personne.*, TRIM(COALESCE(PE_Titre||' ','')|| COALESCE(PE_Nom,'')|| COALESCE(' '||PE_Prenom,'')) AS PE_Libelle, COALESCE(PE_Nom||' ','')|| COALESCE(PE_Prenom,'')||COALESCE(' ('||NULLIF(TRIM(PE_Titre),'')||')','') AS PE_Fullname, to_char(PE_ID,'FM099999') AS PE_NumPersonne, Tel.CN_Coordonnee AS PE_telephone, Fax.CN_Coordonnee AS PE_Fax, Port.CN_Coordonnee AS PE_Portable, CT_Nom, COALESCE(PE_Titre,'')||';'|| COALESCE(PE_Nom,'')||';'|| COALESCE(PE_Prenom,'')||';'||COALESCE(AD_Ligne2,'')||';'|| COALESCE(Ad_Ligne3,'')||';'|| COALESCE(Ad_Ligne4,'')||';'|| COALESCE(Ad_Ligne5,'')||';'|| CP_CodePostal||';'|| VI_Nom AS PE_Adresse, VI_Nom AS PE_Ville, CP_CodePostal AS PE_CP, CT_Nom AS PE_Canton, to_char(PE_ID,'FM099999')||' - '||TRIM(COALESCE(PE_Titre||' ','')|| COALESCE(PE_Nom,'')|| COALESCE(' '||PE_Prenom,''))||' ('||COALESCE(CP_CodePostal,'?')||' '||COALESCE(vi_nom,'???')||')' AS PE_Description
+    FROM table_personne LEFT JOIN table_Adresse AS a ON (a.PE_Numero=table_Personne.PE_Numero AND AD_Active IS NOT False) LEFT JOIN table_Codepostal USING (CP_Numero) LEFT JOIN table_Ville USING (VI_Numero) LEFT JOIN table_Canton USING (CT_Numero) LEFT JOIN table_Contact AS Tel ON (Tel.PE_Numero=table_Personne.PE_Numero AND Tel.CN_Actif IS NOT false AND Tel.CK_Numero=107) LEFT JOIN table_Contact AS Fax  ON (Fax.PE_Numero=table_Personne.PE_Numero AND Fax.CN_Actif IS NOT false AND Fax.CK_Numero=105) LEFT JOIN table_Contact AS Port  ON (Port.PE_Numero=table_Personne.PE_Numero AND Port.CN_Actif IS NOT false AND Port.CK_Numero=106);
 
