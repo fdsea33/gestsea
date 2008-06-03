@@ -96,6 +96,7 @@ CREATE INDEX idx_table_ligne_px_numero ON table_ligne(px_numero);
 CREATE INDEX idx_table_ligneavoir_pd_numero ON table_ligneavoir(pd_numero);
 CREATE INDEX idx_table_ligneavoir_av_numero ON table_ligneavoir(av_numero);
 CREATE INDEX idx_table_ligneavoir_px_numero ON table_ligneavoir(px_numero);
+CREATE INDEX idx_table_lignecotisation_cs_numero ON table_lignecotisation(cs_numero);
 CREATE INDEX idx_table_lignefacture_fa_numero ON table_lignefacture(fa_numero);
 CREATE INDEX idx_table_lignefacture_px_numero ON table_lignefacture(px_numero);
 CREATE INDEX idx_table_lignefacture_pd_numero ON table_lignefacture(pd_numero);
@@ -235,6 +236,8 @@ ALTER TABLE "table_ligne"
   ADD CONSTRAINT pk_table_ligne_l_numero PRIMARY KEY (l_numero);
 ALTER TABLE "table_ligneavoir"
   ADD CONSTRAINT pk_table_ligneavoir_la_numero PRIMARY KEY (la_numero);
+ALTER TABLE "table_lignecotisation"
+  ADD CONSTRAINT pk_table_lignecotisation_lc_numero PRIMARY KEY (lc_numero);
 ALTER TABLE "table_lignefacture"
   ADD CONSTRAINT pk_table_lignefacture_lf_numero PRIMARY KEY (lf_numero);
 ALTER TABLE "table_lignemodele"
@@ -778,6 +781,11 @@ ALTER TABLE "table_ligneavoir"
   FOREIGN KEY (px_numero) REFERENCES table_Prix(PX_Numero)
     ON DELETE RESTRICT 
     ON UPDATE RESTRICT;
+ALTER TABLE "table_lignecotisation"
+  ADD CONSTRAINT fk_table_lignecotisation_cs_numero
+  FOREIGN KEY (cs_numero) REFERENCES table_Cotisation(CS_Numero)
+    ON DELETE RESTRICT 
+    ON UPDATE CASCADE;
 ALTER TABLE "table_lignefacture"
   ADD CONSTRAINT fk_table_lignefacture_fa_numero
   FOREIGN KEY (fa_numero) REFERENCES table_Facture(FA_Numero)
@@ -1340,6 +1348,10 @@ ALTER TABLE "table_ligneavoir" ALTER "created_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_ligneavoir" ALTER "updated_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_ligneavoir" ALTER "updated_by" SET DEFAULT CURRENT_USER;
 ALTER TABLE "table_ligneavoir" ALTER "lock_version" SET DEFAULT 0;
+ALTER TABLE "table_lignecotisation" ALTER "created_at" SET DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE "table_lignecotisation" ALTER "updated_at" SET DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE "table_lignecotisation" ALTER "updated_by" SET DEFAULT CURRENT_USER;
+ALTER TABLE "table_lignecotisation" ALTER "lock_version" SET DEFAULT 0;
 ALTER TABLE "table_lignefacture" ALTER "lf_numero" SET DEFAULT nextval('seq_lignefacture');
 ALTER TABLE "table_lignefacture" ALTER "px_numero" SET DEFAULT NULL;
 ALTER TABLE "table_lignefacture" ALTER "pd_numero" SET DEFAULT NULL;
@@ -1921,6 +1933,10 @@ ALTER TABLE "table_ligneavoir" ALTER "px_numero" SET NOT NULL ;
 ALTER TABLE "table_ligneavoir" ALTER "la_quantite" SET NOT NULL ;
 ALTER TABLE "table_ligneavoir" ALTER "lock_version" SET NOT NULL ;
 ALTER TABLE "table_ligneavoir" ALTER "id" SET NOT NULL ;
+ALTER TABLE "table_lignecotisation" ALTER "lc_numero" SET NOT NULL ;
+ALTER TABLE "table_lignecotisation" ALTER "key" SET NOT NULL ;
+ALTER TABLE "table_lignecotisation" ALTER "lock_version" SET NOT NULL ;
+ALTER TABLE "table_lignecotisation" ALTER "id" SET NOT NULL ;
 ALTER TABLE "table_lignefacture" ALTER "lf_numero" SET NOT NULL ;
 ALTER TABLE "table_lignefacture" ALTER "fa_numero" SET NOT NULL ;
 ALTER TABLE "table_lignefacture" ALTER "lf_quantite" SET NOT NULL ;

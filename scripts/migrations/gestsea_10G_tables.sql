@@ -268,6 +268,8 @@ ALTER TABLE "table_ligneavoir"
   DROP CONSTRAINT fk_table_ligneavoir_av_numero;
 ALTER TABLE "table_ligneavoir"
   DROP CONSTRAINT fk_table_ligneavoir_px_numero;
+ALTER TABLE "table_lignecotisation"
+  DROP CONSTRAINT fk_table_lignecotisation_cs_numero;
 ALTER TABLE "table_lignefacture"
   DROP CONSTRAINT fk_table_lignefacture_fa_numero;
 ALTER TABLE "table_lignefacture"
@@ -410,6 +412,7 @@ DROP TABLE "table_lettrage" CASCADE;
 DROP TABLE "table_lieu" CASCADE;
 DROP TABLE "table_ligne" CASCADE;
 DROP TABLE "table_ligneavoir" CASCADE;
+DROP TABLE "table_lignecotisation" CASCADE;
 DROP TABLE "table_lignefacture" CASCADE;
 DROP TABLE "table_lignemodele" CASCADE;
 DROP TABLE "table_listereglement" CASCADE;
@@ -1747,6 +1750,20 @@ CREATE TABLE "table_cotisation"
   "id" SERIAL
 );
 
+CREATE TABLE "table_lignecotisation"
+(
+  "lc_numero" SERIAL,
+  "cs_numero" INTEGER,
+  "key" VARCHAR(255),
+  "value" TEXT,
+  "created_at" TIMESTAMP,
+  "created_by" VARCHAR(32),
+  "updated_at" TIMESTAMP,
+  "updated_by" VARCHAR(32),
+  "lock_version" INTEGER,
+  "id" SERIAL
+);
+
 CREATE TABLE "table_droitprofil"
 (
   "dp_numero" INTEGER,
@@ -2044,6 +2061,7 @@ REVOKE ALL ON "table_impressionlot" FROM PUBLIC;
 REVOKE ALL ON "table_impressiongroupe" FROM PUBLIC;
 REVOKE ALL ON "table_impressiondocument" FROM PUBLIC;
 REVOKE ALL ON "table_cotisation" FROM PUBLIC;
+REVOKE ALL ON "table_lignecotisation" FROM PUBLIC;
 REVOKE ALL ON "table_groupetable" FROM PUBLIC;
 REVOKE ALL ON "table_droit" FROM PUBLIC;
 REVOKE ALL ON "table_droitprofil" FROM PUBLIC;

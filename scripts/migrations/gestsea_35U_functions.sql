@@ -226,6 +226,30 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 
 
 --===========================================================================--
+-- Transforme le detail d'une cotisation en lignes
+
+CREATE OR REPLACE FUNCTION fc_create_cotisation_lines(IN cs_num INTEGER) RETURNS INTEGER AS
+$$
+DECLARE
+  c record;
+  ligne text;
+  num integer;
+BEGIN
+  SELECT * FROM table_cotisation WHERE cs_numero=cs_num INTO c;
+  DELETE FROM table_lignecotisation WHERE cs_numero=cs_num;
+  num := 1;
+  LOOP
+    ligne:=split_part(c.cs_detail,E'\n',num);
+    num:=num+1;
+    EXIT WHEN ligne='';
+    INSERT INTO table_lignecotisation(cs_numero,key,value) VALUES (c.cs_numero, LTRIM(split_part(ligne,':',1),'{'), RTRIM(split_part(ligne,':',2),'}'));
+  END LOOP;
+  RETURN num;
+END;
+$$ LANGUAGE 'plpgsql';
+
+
+--===========================================================================--
 -- Fusionne le produit 2 au produit 1
 --DROP FUNCTION FC_Sequence(integer,integer);
 

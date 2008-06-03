@@ -583,6 +583,7 @@ function mcd_getType(table,champs)
         case 'el_personne2': type=TYPE_INT;break;
         case 'el_actif': type=TYPE_BOOL;break;
         case 'tl_numero': type=TYPE_INT;break;
+        case 'tl_code': type=TYPE_STRING;break;
         case 'el_debut': type=TYPE_DATETIME;break;
         case 'el_fin': type=TYPE_DATETIME;break;
         case 'created_at': type=TYPE_DATETIME;break;
@@ -941,6 +942,22 @@ function mcd_getType(table,champs)
         case 'la_montantht': type=TYPE_FLOAT;break;
         case 'la_montantttc': type=TYPE_FLOAT;break;
         case 'la_notes': type=TYPE_STRING;break;
+        case 'created_at': type=TYPE_DATETIME;break;
+        case 'created_by': type=TYPE_STRING;break;
+        case 'updated_at': type=TYPE_DATETIME;break;
+        case 'updated_by': type=TYPE_STRING;break;
+        case 'lock_version': type=TYPE_INT;break;
+        case 'id': type=TYPE_UNKNOWN;break;
+        default: type=TYPE_UNDEFINED;
+      }
+      break;
+    case 'table_lignecotisation':
+    case 'lignecotisation':
+      switch(champs.toLowerCase()){
+        case 'lc_numero': type=TYPE_UNKNOWN;break;
+        case 'cs_numero': type=TYPE_INT;break;
+        case 'key': type=TYPE_STRING;break;
+        case 'value': type=TYPE_STRING;break;
         case 'created_at': type=TYPE_DATETIME;break;
         case 'created_by': type=TYPE_STRING;break;
         case 'updated_at': type=TYPE_DATETIME;break;
@@ -1539,6 +1556,7 @@ function mcd_getType(table,champs)
     case 'typelien':
       switch(champs.toLowerCase()){
         case 'tl_numero': type=TYPE_INT;break;
+        case 'tl_code': type=TYPE_STRING;break;
         case 'tl_libelle': type=TYPE_STRING;break;
         case 'tl_action12': type=TYPE_STRING;break;
         case 'tl_action21': type=TYPE_STRING;break;
@@ -2204,6 +2222,7 @@ function mcd_getLabel(table,champs)
         case 'el_personne2': label="";break;
         case 'el_actif': label="";break;
         case 'tl_numero': label="";break;
+        case 'tl_code': label="";break;
         case 'el_debut': label="";break;
         case 'el_fin': label="";break;
         case 'created_at': label="Date de creation";break;
@@ -2562,6 +2581,22 @@ function mcd_getLabel(table,champs)
         case 'la_montantht': label="";break;
         case 'la_montantttc': label="";break;
         case 'la_notes': label="";break;
+        case 'created_at': label="Date de creation";break;
+        case 'created_by': label="Login du createur";break;
+        case 'updated_at': label="Date de mise à jour";break;
+        case 'updated_by': label="Login du modificateur";break;
+        case 'lock_version': label="Numero de version";break;
+        case 'id': label="ID";break;
+        default: label="";
+      }
+      break;
+    case 'table_lignecotisation':
+    case 'lignecotisation':
+      switch(champs.toLowerCase()){
+        case 'lc_numero': label="";break;
+        case 'cs_numero': label="";break;
+        case 'key': label="";break;
+        case 'value': label="";break;
         case 'created_at': label="Date de creation";break;
         case 'created_by': label="Login du createur";break;
         case 'updated_at': label="Date de mise à jour";break;
@@ -3160,6 +3195,7 @@ function mcd_getLabel(table,champs)
     case 'typelien':
       switch(champs.toLowerCase()){
         case 'tl_numero': label="";break;
+        case 'tl_code': label="";break;
         case 'tl_libelle': label="";break;
         case 'tl_action12': label="";break;
         case 'tl_action21': label="";break;
@@ -3822,6 +3858,7 @@ function mcd_obligatoire(table,champs)
         case 'el_personne2': obligatoire=true;break;
         case 'el_actif': obligatoire=true;break;
         case 'tl_numero': obligatoire=true;break;
+        case 'tl_code': obligatoire=true;break;
         case 'el_debut': obligatoire=true;break;
         case 'el_fin': obligatoire=false;break;
         case 'created_at': obligatoire=false;break;
@@ -4180,6 +4217,22 @@ function mcd_obligatoire(table,champs)
         case 'la_montantht': obligatoire=false;break;
         case 'la_montantttc': obligatoire=false;break;
         case 'la_notes': obligatoire=false;break;
+        case 'created_at': obligatoire=false;break;
+        case 'created_by': obligatoire=false;break;
+        case 'updated_at': obligatoire=false;break;
+        case 'updated_by': obligatoire=false;break;
+        case 'lock_version': obligatoire=true;break;
+        case 'id': obligatoire=true;break;
+        default: obligatoire=false;
+      }
+      break;
+    case 'table_lignecotisation':
+    case 'lignecotisation':
+      switch(champs.toLowerCase()){
+        case 'lc_numero': obligatoire=true;break;
+        case 'cs_numero': obligatoire=false;break;
+        case 'key': obligatoire=true;break;
+        case 'value': obligatoire=false;break;
         case 'created_at': obligatoire=false;break;
         case 'created_by': obligatoire=false;break;
         case 'updated_at': obligatoire=false;break;
@@ -4778,6 +4831,7 @@ function mcd_obligatoire(table,champs)
     case 'typelien':
       switch(champs.toLowerCase()){
         case 'tl_numero': obligatoire=true;break;
+        case 'tl_code': obligatoire=true;break;
         case 'tl_libelle': obligatoire=true;break;
         case 'tl_action12': obligatoire=true;break;
         case 'tl_action21': obligatoire=true;break;
@@ -4984,6 +5038,8 @@ function mcd_getCle(table)
     case 'ligne': champs='L_Numero';break;
     case 'table_ligneavoir': 
     case 'ligneavoir': champs='LA_Numero';break;
+    case 'table_lignecotisation': 
+    case 'lignecotisation': champs='LC_Numero';break;
     case 'table_lignefacture': 
     case 'lignefacture': champs='LF_Numero';break;
     case 'table_lignemodele': 
@@ -5119,6 +5175,7 @@ function mcd_getSequence(t) {
     case 'table_lieu': case 'lieu': s='seq_lieu';break;
     case 'table_ligne': case 'ligne': s='seq_ligne';break;
     case 'table_ligneavoir': case 'ligneavoir': s='seq_ligneavoir';break;
+    case 'table_lignecotisation': case 'lignecotisation': s='*';break;
     case 'table_lignefacture': case 'lignefacture': s='seq_lignefacture';break;
     case 'table_lignemodele': case 'lignemodele': s='seq_lignemodele';break;
     case 'table_listereglement': case 'listereglement': s='seq_listereglement';break;

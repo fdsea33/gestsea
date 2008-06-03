@@ -1318,8 +1318,7 @@
 
 
   <table name="Cotisation" abbrev="CS" label="Cotisations">
-    <text>Cette table sert à enregistrer le détail des cotisations dans le but de faciliter la saisie et le passage en facture. Elle ne doit pas être prise en compte pour la gestion des réductions, et la vérification des adhésions !!!. Il faut vérifier cela par les factures et les liens du type '>GERE>'.</text>
-<!-- select="CASE WHEN bml_extract(cs_detail,'sacea')='true' THEN 'A+' ELSE '' END AS cs_type, bml_extract(cs_detail,'fdsea.montant')||' ¤' as cs_fdsea, CASE WHEN bml_extract(cs_detail,'sacea.produit')='500000036' THEN '0-5 s.' WHEN bml_extract(cs_detail,'sacea.produit')='500000065' THEN '6-10 s.' ELSE '11+ s.' END as cs_sacea, COALESCE(bml_extract(cs_detail,'aava.quantite')::float::text||' ex.','') as cs_aava, bml_extract(cs_detail,'cotisation.montant')||' ¤' as cs_total">-->
+    <text>Cette table sert à enregistrer les cotisations dans le but de faciliter la saisie et le passage en facture. Elle ne doit pas être prise en compte pour la gestion des réductions, et la vérification des adhésions !!!. Il faut vérifier cela par les factures et les liens du type '>GERE>'.</text>
     <column name="CS_Numero"   type="SERIAL"      notnull="true" pkey="true"></column>
     <column name="PE_Numero"   type="INTEGER"     notnull="true" fkey="Personne(PE_Numero)" opt="odrouc"></column>
     <column name="CS_Societe"  type="INTEGER"     fkey="Personne(PE_Numero)" opt="odrouc">Société de la personne</column>
@@ -1331,6 +1330,23 @@
     <column name="CS_Done"     type="BOOLEAN"     notnull="true" default="false">Si la cotisation a ete traitee</column>
     <column name="CS_Valid"    type="BOOLEAN"     notnull="true" default="false">Si la cotisation etait valide</column>
     <column name="CS_Report"   type="TEXT"        >Rapport sur le traitement de la cotisation</column>
+    <column name="CS_Nature"   type="VARCHAR(16)" notnull="true" index="true">Nature de la cotisation (standard...)</column>
+    <column name="CS_Montant"  type="NUMERIC(16,2)" notnull="true" default="0">Montant total de la cotisation</column>
+    <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
+    <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
+    <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>
+    <column name="updated_by"   label="Login du modificateur" type="VARCHAR(32)" default="CURRENT_USER">Login du modificateur</column>
+    <column name="lock_version" label="Numero de version"     type="INTEGER" notnull="true" default="0">Numero de version</column>
+    <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
+  </table>
+
+
+  <table name="LigneCotisation" abbrev="LC" label="Lignes de cotisations">
+    <text>Cette table sert à enregistrer le détail des cotisations</text>
+    <column name="LC_Numero"   type="SERIAL"       notnull="true" pkey="true"></column>
+    <column name="CS_Numero"   type="INTEGER"      fkey="Cotisation(CS_Numero)" opt="odrouc">Cotisation "mère"</column>
+    <column name="key"         type="VARCHAR(255)" notnull="true">Clé de la valeur </column>
+    <column name="value"       type="TEXT"         >Détail de la cotisation</column>
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>

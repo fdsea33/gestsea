@@ -335,6 +335,10 @@ CREATE OR REPLACE VIEW "cotisation" AS
    SELECT table_cotisation.cs_numero, table_cotisation.pe_numero, table_cotisation.cs_societe, table_cotisation.ig_numero, table_cotisation.cs_standard, table_cotisation.cs_annee, table_cotisation.cs_detail, table_cotisation.cs_duo, table_cotisation.cs_done, table_cotisation.cs_valid, table_cotisation.cs_report, table_cotisation.created_at, table_cotisation.created_by, table_cotisation.updated_at, table_cotisation.updated_by, table_cotisation.lock_version, table_cotisation.id 
      FROM "table_cotisation";
 
+CREATE OR REPLACE VIEW "lignecotisation" AS
+   SELECT table_lignecotisation.lc_numero, table_lignecotisation.cs_numero, table_lignecotisation.key, table_lignecotisation.value, table_lignecotisation.created_at, table_lignecotisation.created_by, table_lignecotisation.updated_at, table_lignecotisation.updated_by, table_lignecotisation.lock_version, table_lignecotisation.id 
+     FROM "table_lignecotisation";
+
 CREATE OR REPLACE VIEW "droitprofil" AS
    SELECT table_droitprofil.dp_numero, table_droitprofil.dp_libelle, table_droitprofil.dp_notes, table_droitprofil.created_at, table_droitprofil.created_by, table_droitprofil.updated_at, table_droitprofil.updated_by, table_droitprofil.lock_version, table_droitprofil.id 
      FROM "table_droitprofil";
@@ -839,6 +843,16 @@ CREATE OR REPLACE RULE rule_ligneavoir_delete AS
   ON DELETE TO "ligneavoir"
   DO INSTEAD DELETE FROM "table_ligneavoir" WHERE old.LA_Numero=LA_Numero;
 
+CREATE OR REPLACE RULE rule_lignecotisation_insert AS
+  ON INSERT TO "lignecotisation"
+  DO INSTEAD INSERT INTO "table_lignecotisation"(lc_numero, cs_numero, key, value, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (new.lc_numero, new.cs_numero, new.key, new.value, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
+CREATE OR REPLACE RULE rule_lignecotisation_update AS
+  ON UPDATE TO "lignecotisation"
+  DO INSTEAD UPDATE "table_lignecotisation" SET lc_numero=new.lc_numero, cs_numero=new.cs_numero, key=new.key, value=new.value, created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.LC_Numero=LC_Numero;
+CREATE OR REPLACE RULE rule_lignecotisation_delete AS
+  ON DELETE TO "lignecotisation"
+  DO INSTEAD DELETE FROM "table_lignecotisation" WHERE old.LC_Numero=LC_Numero;
+
 CREATE OR REPLACE RULE rule_lignefacture_insert AS
   ON INSERT TO "lignefacture"
   DO INSTEAD INSERT INTO "table_lignefacture"(lf_numero, fa_numero, px_numero, pd_numero, lf_quantite, lf_montantht, lf_montantttc, lf_notes, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (COALESCE(NEW.lf_numero,nextval('seq_lignefacture')), new.fa_numero, new.px_numero, new.pd_numero, ROUND(COALESCE(NEW.lf_quantite,0),2), ROUND(new.lf_montantht,2), ROUND(new.lf_montantttc,2), new.lf_notes, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
@@ -1326,6 +1340,7 @@ REVOKE ALL ON "impressionlot" FROM PUBLIC;
 REVOKE ALL ON "impressiongroupe" FROM PUBLIC;
 REVOKE ALL ON "impressiondocument" FROM PUBLIC;
 REVOKE ALL ON "cotisation" FROM PUBLIC;
+REVOKE ALL ON "lignecotisation" FROM PUBLIC;
 REVOKE ALL ON "groupetable" FROM PUBLIC;
 REVOKE ALL ON "droit" FROM PUBLIC;
 REVOKE ALL ON "droitprofil" FROM PUBLIC;
