@@ -1454,7 +1454,7 @@ function wg_send_cotisation(send_query){
 
       var num_cotisation = requete("SELECT nextval('table_cotisation_cs_numero_seq')");
       var reference = num_cotisation;
-      query="INSERT INTO cotisation (cs_numero, pe_numero, cs_annee, cs_detail, cs_standard) VALUES ("+num_cotisation+","+num_personne+", "+annee+", '"+bulletin+"', true);";
+      query="INSERT INTO cotisation (cs_numero, pe_numero, cs_annee, cs_detail, cs_standard, cs_nature) VALUES ("+num_cotisation+","+num_personne+", "+annee+", '"+bulletin+"', true, 'standard');";
       pgsql_update(query);
       numeros += wg_error("CX"+num_cotisation);
   
@@ -1466,7 +1466,7 @@ function wg_send_cotisation(send_query){
         bulletin += wg_bml_field("cotisation.type", "conjoint");
         bulletin += wg_bml_field("cotisation.annee", current_annee());
         bulletin += wg_bml_field("cotisation.reference", reference);
-        query="INSERT INTO cotisation (cs_numero, pe_numero, cs_annee, cs_detail, cs_standard) VALUES ("+num_cotisation+","+current_conjoint()+", "+annee+", '"+bulletin+"', false);";
+        query="INSERT INTO cotisation (cs_numero, pe_numero, cs_annee, cs_detail, cs_standard, cs_nature) VALUES ("+num_cotisation+","+current_conjoint()+", "+annee+", '"+bulletin+"', false, 'conjoint');";
         pgsql_update(query);
       }
 
@@ -1482,7 +1482,7 @@ function wg_send_cotisation(send_query){
               bulletin += wg_bml_field("cotisation.type", "associe");
               bulletin += wg_bml_field("cotisation.annee", current_annee());
               bulletin += wg_bml_field("cotisation.reference", reference);
-              query="INSERT INTO cotisation (cs_numero, pe_numero, cs_annee, cs_detail, cs_standard) VALUES ("+num_cotisation+","+listbox.childNodes[i].firstChild.getAttribute("numero")+", "+annee+", '"+bulletin+"', false);";
+              query="INSERT INTO cotisation (cs_numero, pe_numero, cs_annee, cs_detail, cs_standard, cs_nature) VALUES ("+num_cotisation+","+listbox.childNodes[i].firstChild.getAttribute("numero")+", "+annee+", '"+bulletin+"', false,'associe');";
               pgsql_update(query);
             }
           }

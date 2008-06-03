@@ -148,8 +148,10 @@ function CodeInParametrage(){
     It_Typelien = new clInterfaceSimple("Types de lien");
 
     Maitre_Typelien = It_Typelien.AjouterMaitre("Liste des types de lien entre personne","typelien");
+    Maitre_Typelien.AjouterColonne("Code","tl_code");
     Maitre_Typelien.AjouterColonne("Libellé","tl_libelle");
 
+    It_Typelien.AjouterComposantSimple("Code", "tl_code");
     It_Typelien.AjouterComposantSimple("Libellé", "tl_libelle");
     It_Typelien.AjouterComposantSimple("Action de P1 à P2", "tl_action12");
     It_Typelien.AjouterComposantSimple("Action de P2 à P1", "tl_action21");

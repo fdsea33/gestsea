@@ -3261,7 +3261,7 @@ BEGIN
 --  END IF;
 
   UPDATE employe SET EM_Service=num_service WHERE EM_Numero=num_employe;
-  INSERT INTO cotisation (cs_numero, pe_numero,cs_societe, cs_detail, cs_annee, cs_done, cs_valid) VALUES (nextval('table_cotisation_cs_numero_seq'), num_personne, num_soc, detail, annee, true, true);
+  INSERT INTO cotisation (cs_numero, pe_numero,cs_societe, cs_detail, cs_annee, cs_done, cs_valid, cs_nature) VALUES (nextval('table_cotisation_cs_numero_seq'), num_personne, num_soc, detail, annee, true, true, 'ja');
   RETURN true;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
@@ -3331,7 +3331,7 @@ BEGIN
   -- Concatenation des documents
   SELECT '/tmp/evolot.pdf' INTO adresse;
   SELECT 'SELECT execution(''cd /tmp && touch '||adresse||E' && chmod 755 '||adresse||E' && gs -q -sPAPERSIZE=letter -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile='||adresse||' '||sommaire||concatenate(' '||SUBSTR(COALESCE(filename,''),8))||E''');'
-    FROM (SELECT filename FROM table_evoplus WHERE lot=num_lot and pe_numero not in (select pe_numero from table_cotisation where cs_annee=2008) and pe_numero not in (select cs_societe from table_cotisation where cs_annee=2008) ORDER BY id) x
+    FROM (SELECT filename FROM table_evoplus WHERE lot=num_lot and pe_numero not in (select pe_numero from table_cotisation where cs_annee=2008) and pe_numero not in (select COALESCE(cs_societe,0) from table_cotisation where cs_annee=2008) ORDER BY id) x
     INTO query;
 --  RAISE NOTICE '> Query : %', query;
   IF query IS NOT NULL THEN

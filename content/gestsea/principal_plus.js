@@ -250,8 +250,8 @@ function AjouterJA(compo) {
   if (num=='KO') {
     alert("La date de naissance ne permet pas de dire que cette personne est un JA potentiel.")
   } else {
-    if (confirm("Etes-vous sûr(e) de vouloir enregistrer une cotisation JA pour cette personne")) {
-      var soc=prompt("Inidiquez le numéro de sa societe si connue","");
+    if (confirm("Êtes-vous sûr(e) de vouloir enregistrer une cotisation JA pour cette personne")) {
+      var soc=prompt("Indiquez le numéro de sa société si connue","");
       if (soc=="")
         soc = "NULL";
       else
