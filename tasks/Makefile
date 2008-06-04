@@ -1,7 +1,4 @@
-all: histo
-
-histo:
-	./historique.sh brice
+all: clean
 
 clean:
 	rm -fr *~

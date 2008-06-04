@@ -86,10 +86,11 @@ function SupprimeRoutage(compo)
 }
 
 function DevisVersFacture(compo){
-  //  alert("Fonction pas encore en place : devis n°"+compo.getCleVal()+".");
-  //  var NumDevis=compo.getCleVal();
-  if (confirm("Voulez-vous réellement passer ce devis en facture ?")) {
-    var num_facture = requete("SELECT FC_DevisVersFacture("+compo.getCleVal()+");");
+  var num_devis=compo.getCleVal();
+  var conf = requete("SELECT FC_Prevention_Facturation("+num_devis+");");
+/*"Voulez-vous réellement passer ce devis en facture ?"*/
+  if (confirm(conf)) {
+    var num_facture = requete("SELECT FC_DevisVersFacture("+num_devis+");");
     if (num_facture==null)
       alert("Le devis n'a pas pu être passé en facture.");
     else {

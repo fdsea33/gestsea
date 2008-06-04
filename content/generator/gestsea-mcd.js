@@ -440,6 +440,8 @@ function mcd_getType(table,champs)
         case 'cs_done': type=TYPE_BOOL;break;
         case 'cs_valid': type=TYPE_BOOL;break;
         case 'cs_report': type=TYPE_STRING;break;
+        case 'cs_nature': type=TYPE_STRING;break;
+        case 'cs_montant': type=TYPE_FLOAT;break;
         case 'created_at': type=TYPE_DATETIME;break;
         case 'created_by': type=TYPE_STRING;break;
         case 'updated_at': type=TYPE_DATETIME;break;
@@ -549,6 +551,10 @@ function mcd_getType(table,champs)
         case 'em_agent': type=TYPE_INT;break;
         case 'em_login': type=TYPE_STRING;break;
         case 'em_reglement': type=TYPE_BOOL;break;
+        case 'em_self_invoicing': type=TYPE_BOOL;break;
+        case 'em_service_invoicing': type=TYPE_BOOL;break;
+        case 'em_societe_invoicing': type=TYPE_BOOL;break;
+        case 'em_personne_editing': type=TYPE_BOOL;break;
         case 'em_acces': type=TYPE_INT;break;
         case 'em_password': type=TYPE_STRING;break;
         case 'em_super': type=TYPE_BOOL;break;
@@ -2079,6 +2085,8 @@ function mcd_getLabel(table,champs)
         case 'cs_done': label="";break;
         case 'cs_valid': label="";break;
         case 'cs_report': label="";break;
+        case 'cs_nature': label="";break;
+        case 'cs_montant': label="";break;
         case 'created_at': label="Date de creation";break;
         case 'created_by': label="Login du createur";break;
         case 'updated_at': label="Date de mise à jour";break;
@@ -2188,6 +2196,10 @@ function mcd_getLabel(table,champs)
         case 'em_agent': label="";break;
         case 'em_login': label="";break;
         case 'em_reglement': label="";break;
+        case 'em_self_invoicing': label="";break;
+        case 'em_service_invoicing': label="";break;
+        case 'em_societe_invoicing': label="";break;
+        case 'em_personne_editing': label="";break;
         case 'em_acces': label="";break;
         case 'em_password': label="";break;
         case 'em_super': label="";break;
@@ -3715,6 +3727,8 @@ function mcd_obligatoire(table,champs)
         case 'cs_done': obligatoire=true;break;
         case 'cs_valid': obligatoire=true;break;
         case 'cs_report': obligatoire=false;break;
+        case 'cs_nature': obligatoire=true;break;
+        case 'cs_montant': obligatoire=true;break;
         case 'created_at': obligatoire=false;break;
         case 'created_by': obligatoire=false;break;
         case 'updated_at': obligatoire=false;break;
@@ -3824,6 +3838,10 @@ function mcd_obligatoire(table,champs)
         case 'em_agent': obligatoire=true;break;
         case 'em_login': obligatoire=true;break;
         case 'em_reglement': obligatoire=true;break;
+        case 'em_self_invoicing': obligatoire=true;break;
+        case 'em_service_invoicing': obligatoire=true;break;
+        case 'em_societe_invoicing': obligatoire=true;break;
+        case 'em_personne_editing': obligatoire=true;break;
         case 'em_acces': obligatoire=true;break;
         case 'em_password': obligatoire=true;break;
         case 'em_super': obligatoire=true;break;

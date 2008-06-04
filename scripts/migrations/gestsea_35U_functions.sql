@@ -114,19 +114,34 @@ $$ UPDATE Devis SET DE_MontantHT=ROUND(T.MontantHT,2), DE_MontantTTC=ROUND(T.Mon
 CREATE OR REPLACE FUNCTION FC_Personne_Reduction(IN num_personne INTEGER, IN computed_on DATE) RETURNS NUMERIC AS
 $$ 
 DECLARE
-  ret1 NUMERIC;
-  ret2 NUMERIC;
+  compte INTEGER;
+  sacea TEXT;
   annee INTEGER;
 BEGIN
 --  RAISE EXCEPTION 'Le calcul de réduction est en cours de développement.';
+  sacea := 'null';
   SELECT EXTRACT(YEAR FROM computed_on) INTO annee;
-  SELECT COALESCE(MAX(ah_reduction),0.00) FROM vue_adhesion WHERE (cs_personne=num_personne OR cs_societe=num_personne) AND cs_annee=annee INTO ret1;
-  SELECT COALESCE(MAX(ah_reduction),0.00) FROM estlie JOIN vue_adhesion ON (cs_societe=el_personne1) WHERE el_personne2=num_personne AND tl_numero=1003 INTO ret2;
---  SELECT COALESCE(MAX(ah_reduction),0.00) FROM lignefacture JOIN vue_cotisation ON (fa_numero=bml_extract(cs_detail,'sacea.facture')) JOIN adherence USING (pd_numero) WHERE pe_numero=num_personne AND EXTRACT(YEAR FROM computed_on)=cs_annee INTO ret;
-  IF ret1>ret2 THEN
-    RETURN ret1;
+  SELECT count(*) FROM cotisation WHERE pe_numero=num_personne AND cs_annee=annee INTO compte;
+  IF compte>0 THEN
+    SELECT bml_extract(cs_detail,'sacea') FROM cotisation WHERE pe_numero=num_personne INTO sacea;
   ELSE
-    RETURN ret2;
+    SELECT count(*) FROM cotisation WHERE cs_societe=num_personne AND cs_annee=annee INTO compte;
+    IF compte>0 THEN
+      SELECT bml_extract(cs_detail,'sacea') FROM cotisation WHERE cs_societe=num_personne INTO sacea;
+    ELSE
+      SELECT el_personne1 FROM estlie JOIN cotisation ON (el_personne1=pe_numero) WHERE tl_code='>GERE>' AND el_personne2=num_personne INTO compte;
+      IF compte is not null THEN
+        SELECT bml_extract(cs_detail,'sacea') FROM table_cotisation WHERE pe_numero=compte INTO sacea;
+      END IF;
+    END IF;
+  END IF;
+
+  IF sacea='true' THEN
+    RETURN 25.00;
+  ELSIF sacea='null' THEN
+    RETURN 0.00;
+  ELSE
+    RETURN 15.00;
   END IF;
 END;
 $$ LANGUAGE 'plpgsql';
@@ -149,6 +164,29 @@ BEGIN
     cloture:=cloture||to_char(mois+1,'FM09')||'/'||annee;
   END IF;
   return cloture::date;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+
+
+--===========================================================================--
+-- Calcule une date de paiement en fonction de 4 paramètres
+--   Date de départ
+--   Nombre de jours à partir de la date de départ
+--   Fin de mois
+--   Nombre de jours supplémentaires
+
+CREATE OR REPLACE FUNCTION FC_Echeance(IN done_on DATE, IN days INTEGER, IN end_of_month BOOLEAN, IN supp INTEGER) RETURNS DATE AS
+$$
+DECLARE
+  paid_on DATE;
+BEGIN
+  SELECT done_on+(days||' days')::INTERVAL INTO paid_on;
+  IF end_of_month THEN
+    SELECT (TO_CHAR(paid_on+('1 month')::INTERVAL, 'YYYY-MM')||'-01')::DATE-('1 day')::INTERVAL INTO paid_on;
+  END IF;
+  SELECT paid_on+(supp||' days')::INTERVAL INTO paid_on;
+  RETURN paid_on;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
@@ -337,7 +375,7 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 --===========================================================================--
 -- Fonctions Sequence
 --DROP FUNCTION FC_NextVal(TEXT);
-
+/*
 CREATE OR REPLACE FUNCTION FC_NextVal2(IN nom TEXT, IN nb integer) RETURNS TEXT AS
 $$
 DECLARE
@@ -351,7 +389,7 @@ BEGIN
   RETURN ret;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
-
+*/
 
 
 /*****************************************************************************\
@@ -809,6 +847,15 @@ DECLARE
   mdp text;
 BEGIN
   mdp:='********';
+  IF TG_OP!='DELETE' THEN
+    IF NEW.EM_Societe_Invoicing THEN
+      NEW.EM_Service_Invoicing := true;
+    END IF;
+    IF NEW.EM_Service_Invoicing THEN
+      NEW.EM_Self_Invoicing := true;
+    END IF;
+  END IF;
+
   IF TG_OP='INSERT' THEN
     New.EM_Login:=lower(New.EM_Login);
     query:='CREATE USER '||New.EM_Login||' NOCREATEDB ';
@@ -854,6 +901,35 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 CREATE TRIGGER trigger_employe_validation
   BEFORE INSERT OR DELETE OR UPDATE ON table_employe 
   FOR EACH ROW EXECUTE PROCEDURE TG_employe_validation();
+
+
+-- EstLie
+--===========================================================================--
+-- Verifie si l'ecriture est modifiable ou non  et met à jour le numéro de compte
+-- DROP TRIGGER trigger_ecriture_validation ON table_ecriture;
+--DROP FUNCTION  TG_EstLie_validation();
+
+CREATE OR REPLACE FUNCTION TG_EstLie_validation() RETURNS TRIGGER AS
+$$
+DECLARE
+  num_ecriture integer;
+  num_piece    integer;
+  ok           boolean;
+BEGIN
+  IF NEW.tl_code IS NULL THEN
+    SELECT tl_code FROM typelien WHERE tl_numero=NEW.tl_numero INTO NEW.tl_code;
+  END IF;
+  IF NEW.tl_numero IS NULL THEN
+    SELECT tl_numero FROM typelien WHERE tl_code=NEW.tl_code INTO NEW.tl_numero;
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+CREATE TRIGGER trigger_estlie_validation
+  BEFORE INSERT OR UPDATE ON table_estlie
+  FOR EACH ROW EXECUTE PROCEDURE TG_estlie_validation();
+
 
 -- Ligne
 --===========================================================================--
@@ -1054,6 +1130,11 @@ DECLARE
   np record;
   test boolean;
 BEGIN
+  SELECT EM_Personne_Editing FROM employe WHERE em_numero=current_employe() INTO test;
+  IF TG_OP='UPDATE' AND NOT test THEN
+    RETURN OLD;
+  END IF;
+
   IF TG_OP='INSERT' OR TG_OP='UPDATE' THEN
     SELECT * FROM NaturePersonne WHERE NP_Numero=NEW.NP_Numero INTO np;
     NEW.PE_Titre := np.NP_Titre;
@@ -1433,6 +1514,49 @@ CREATE TRIGGER trigger_societe_validation
  * Fonctions Devis - Facture - Avoir                                         *
 \*****************************************************************************/
 
+
+--===========================================================================--
+-- "Préventionne" (Prévient en cas de problèmes)
+
+CREATE OR REPLACE FUNCTION FC_Prevention_Facturation(IN num_devis integer) RETURNS TEXT AS
+$$
+DECLARE
+  message TEXT;
+  d Devis%ROWTYPE;
+  r NUMERIC;
+  c INTEGER;
+  a INTEGER;
+BEGIN
+  message := '';
+  SELECT * FROM Devis WHERE DE_Numero=num_devis INTO d;
+  IF d.so_numero=1 THEN
+    SELECT FC_Personne_Reduction(d.PE_Numero,CURRENT_DATE) INTO r;
+    -- Adhésion à 10 €
+    IF r=0 THEN
+      SELECT EXTRACT(YEAR FROM CURRENT_DATE) INTO a;
+      SELECT count(*) FROM lignefacture JOIN facture USING (FA_Numero) WHERE pe_numero=d.pe_numero AND pd_numero=100051 AND fa_date BETWEEN a||'-01-01' AND a||'-12-31' INTO c;
+      IF c<=0 THEN
+        message := message||'La personne n''est pas adhérente et n''a pas payé de cotisation à 10€. Est-ce normal ?\n';
+      END IF;
+    END IF;
+    -- Frais de ports
+    SELECT count(*) FROM table_ligne JOIN table_produit USING (pd_numero) WHERE de_numero=d.de_numero AND (pd_libelle ilike 'port %' OR pd_libelle ilike '%poste%') INTO c;
+    IF c<=0 THEN
+      message := message||'Le devis ne contient aucun frais de poste. Est-ce normal ?\n';
+    END IF;
+    -- Réduction
+    IF r!=d.de_reduction THEN
+      message := message||'La réduction du devis qui était de '||d.de_reduction||'% est passé à ';
+      message := message||r||'%. Faut-il mettre à jour le taux de réduction ?\n';
+    END IF;
+    message := message||'\n';
+  END IF;
+  message := message||'Voulez-vous réellement passer ce devis en facture ?';
+  RETURN message;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+
 --===========================================================================--
 -- Procedure permettant de passer un devis en facture avec les écritures comptables qui vont bien  --
 -- là où il le faut.
@@ -1447,7 +1571,26 @@ DECLARE
   compte        integer;
   locked        boolean;
   montant       numeric;
+  estimate      devis%ROWTYPE;
+  employee      employe%ROWTYPE;
 BEGIN
+  SELECT * FROM Devis WHERE DE_Numero=num_devis INTO estimate;
+  SELECT * FROM Employe WHERE EM_Numero=current_employe() INTO employee;
+  IF NOT employee.EM_Societe_Invoicing THEN
+    IF employee.EM_Service_Invoicing THEN
+      SELECT em_service FROM Employe WHERE EM_Login=Estimate.created_by INTO compte;
+      IF compte!=Employee.EM_Service THEN
+        RAISE EXCEPTION 'Vous ne pouvez pas facturer un devis d''une personne d''un autre service.';
+      END IF; 
+    ELSE
+      IF NOT employee.EM_Self_Invoicing THEN
+        RAISE EXCEPTION 'Vous ne pouvez pas facturer de devis.';
+      ELSIF Estimate.created_by!=Employee.EM_Login THEN
+        RAISE EXCEPTION 'Vous ne pouvez pas facturer un devis que vous n''avez pas créé.';
+      END IF;
+    END IF;
+  END IF;
+
   SELECT count(*) FROM Devis WHERE DE_Numero=num_devis INTO compte;
   IF compte<=0 THEN
     RAISE EXCEPTION 'Ce numéro de devis ne correspond à aucun devis existant.';
@@ -2467,7 +2610,7 @@ BEGIN
 
   UPDATE employe SET EM_Service=num_service WHERE EM_Numero=num_employe;
   report := report||E'\n**************';
-  UPDATE table_cotisation SET cs_valid=true, cs_done=true, cs_report=report, cs_detail=bml_sort(detail), cs_societe=num_gerance WHERE cs_numero=num_cotisation;
+  UPDATE table_cotisation SET cs_valid=true, cs_done=true, cs_report=report, cs_detail=bml_sort(detail), cs_societe=num_gerance, cs_montant=COALESCE(total_fdsea,0)+COALESCE(total_sacea,0)+COALESCE(total_aava,0) WHERE cs_numero=num_cotisation;
   RETURN true;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;

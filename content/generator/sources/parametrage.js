@@ -355,6 +355,10 @@ function CodeInParametrage(){
     It_Employe.AjouterComposantSimple("Mot de passe", "em_password");
     It_Employe.AjouterComposantSimple("Administrateur (Peut créer d'autres utilisateurs)", "em_super",null,null,CHECKBOX);
     It_Employe.AjouterComposantSimple("Cet employé peut effectuer des remises de chèques","em_reglement",null,null,CHECKBOX);
+    It_Employe.AjouterComposantSimple("Cet employé peut facturer ses propres devis","em_self_invoicing",null,null,CHECKBOX);
+    It_Employe.AjouterComposantSimple("Cet employé peut facturer les devis de son service","em_service_invoicing",null,null,CHECKBOX);
+    It_Employe.AjouterComposantSimple("Cet employé peut facturer tous les devis de la société","em_societe_invoicing",null,null,CHECKBOX);
+    It_Employe.AjouterComposantSimple("Cet employé peut modifier les informations importantes d'une fiche (titre, nom, prénom...)","em_personne_editing",null,null,CHECKBOX);
     It_Employe.AjouterComposantSimple("Emploi", "em_emploi");
     EmployeAcces = It_Employe.AjouterComposantSimple("Accès comptabilité", "ac_nom", new Array("em_acces","ac_numero","acces"),null,LISTE_DEROULANTE);
     EmployeDroitprofil = It_Employe.AjouterComposantSimple("Profil de droits", "dp_libelle", new Array("dp_numero","dp_numero","droitprofil"),null,LISTE_DEROULANTE);

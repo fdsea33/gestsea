@@ -668,6 +668,11 @@ function CodeInPrincipal(centre){
     Maitre_Cotisation.AjouterColonne("N°P.","pe_numero");
     Maitre_Cotisation.AjouterColonne("OK","cs_done");
 
+    It_Cotisation.AjouterBouton("1. Facturer toutes les nouvelles cotisations","FacturerCotisations","");
+    It_Cotisation.AjouterBouton("2. Imprimer les factures","FacturerCotisations","");
+    It_Cotisation.AjouterBouton("3. Imprimer les cartes","FacturerCotisations","");
+
+    It_Cotisation.AjouterComposantSimple("Nature","cs_nature");
     It_Cotisation.AjouterComposantSimple("Description","cs_detail",null,null,null,null,null,true);
     It_Cotisation.AjouterComposantSimple("Société","pe_description",new Array("cs_societe","pe_numero","personne"),null,LISTE_DEROULANTE);
 

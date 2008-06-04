@@ -1,6 +1,7 @@
 -- Introduction
     /* Voici le MCD du projet . */
 -- Indexes
+CREATE INDEX idx_table_cotisation_cs_nature ON table_cotisation(cs_nature);
 CREATE INDEX idx_table_activite_em_numero ON table_activite(em_numero);
 CREATE INDEX idx_table_activite_zt_numero ON table_activite(zt_numero);
 CREATE INDEX idx_table_activite_zs_numero ON table_activite(zs_numero);
@@ -1172,6 +1173,7 @@ ALTER TABLE "table_cotisation" ALTER "cs_detail" SET DEFAULT '{saved:false}';
 ALTER TABLE "table_cotisation" ALTER "cs_duo" SET DEFAULT false;
 ALTER TABLE "table_cotisation" ALTER "cs_done" SET DEFAULT false;
 ALTER TABLE "table_cotisation" ALTER "cs_valid" SET DEFAULT false;
+ALTER TABLE "table_cotisation" ALTER "cs_montant" SET DEFAULT 0;
 ALTER TABLE "table_cotisation" ALTER "created_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_cotisation" ALTER "updated_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_cotisation" ALTER "updated_by" SET DEFAULT CURRENT_USER;
@@ -1216,6 +1218,10 @@ ALTER TABLE "table_ecriture" ALTER "updated_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_ecriture" ALTER "updated_by" SET DEFAULT CURRENT_USER;
 ALTER TABLE "table_ecriture" ALTER "lock_version" SET DEFAULT 0;
 ALTER TABLE "table_employe" ALTER "em_reglement" SET DEFAULT false;
+ALTER TABLE "table_employe" ALTER "em_self_invoicing" SET DEFAULT true;
+ALTER TABLE "table_employe" ALTER "em_service_invoicing" SET DEFAULT false;
+ALTER TABLE "table_employe" ALTER "em_societe_invoicing" SET DEFAULT false;
+ALTER TABLE "table_employe" ALTER "em_personne_editing" SET DEFAULT false;
 ALTER TABLE "table_employe" ALTER "em_super" SET DEFAULT false;
 ALTER TABLE "table_employe" ALTER "created_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_employe" ALTER "updated_at" SET DEFAULT CURRENT_TIMESTAMP;
@@ -1761,6 +1767,8 @@ ALTER TABLE "table_cotisation" ALTER "cs_detail" SET NOT NULL ;
 ALTER TABLE "table_cotisation" ALTER "cs_duo" SET NOT NULL ;
 ALTER TABLE "table_cotisation" ALTER "cs_done" SET NOT NULL ;
 ALTER TABLE "table_cotisation" ALTER "cs_valid" SET NOT NULL ;
+ALTER TABLE "table_cotisation" ALTER "cs_nature" SET NOT NULL ;
+ALTER TABLE "table_cotisation" ALTER "cs_montant" SET NOT NULL ;
 ALTER TABLE "table_cotisation" ALTER "lock_version" SET NOT NULL ;
 ALTER TABLE "table_cotisation" ALTER "id" SET NOT NULL ;
 ALTER TABLE "table_devis" ALTER "de_numero" SET NOT NULL ;
@@ -1803,6 +1811,10 @@ ALTER TABLE "table_employe" ALTER "em_service" SET NOT NULL ;
 ALTER TABLE "table_employe" ALTER "em_agent" SET NOT NULL ;
 ALTER TABLE "table_employe" ALTER "em_login" SET NOT NULL ;
 ALTER TABLE "table_employe" ALTER "em_reglement" SET NOT NULL ;
+ALTER TABLE "table_employe" ALTER "em_self_invoicing" SET NOT NULL ;
+ALTER TABLE "table_employe" ALTER "em_service_invoicing" SET NOT NULL ;
+ALTER TABLE "table_employe" ALTER "em_societe_invoicing" SET NOT NULL ;
+ALTER TABLE "table_employe" ALTER "em_personne_editing" SET NOT NULL ;
 ALTER TABLE "table_employe" ALTER "em_acces" SET NOT NULL ;
 ALTER TABLE "table_employe" ALTER "em_password" SET NOT NULL ;
 ALTER TABLE "table_employe" ALTER "em_super" SET NOT NULL ;

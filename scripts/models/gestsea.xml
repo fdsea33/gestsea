@@ -860,6 +860,10 @@
     <column name="EM_Agent"    type="INTEGER"     notnull="true" fkey="Agent(AG_Numero)" opt="odrour">Agent employé</column>
     <column name="EM_Login"    type="VARCHAR"     notnull="true">Login de l'employé</column>
     <column name="EM_Reglement" type="BOOLEAN"    notnull="true" default="false">Si l'employé gère l'encaissement de reglements</column>
+    <column name="EM_Self_Invoicing"     type="BOOLEAN"    notnull="true" default="true">Si l'employé peut facturer ses propres devis</column>
+    <column name="EM_Service_Invoicing"  type="BOOLEAN"    notnull="true" default="false">Si l'employé peut facturer les devis de son service</column>
+    <column name="EM_Societe_Invoicing"  type="BOOLEAN"    notnull="true" default="false">Si l'employé peut facturer tous les devis de la société</column>
+    <column name="EM_Personne_Editing"   type="BOOLEAN"    notnull="true" default="false">Si l'employé peut modifier les informations critiques des personnes (nature, nom, prénom, état...)</column>
     <column name="EM_Acces"    type="INTEGER"     notnull="true" fkey="Acces(AC_Numero)" opt="odrour">Niveau d'accès à la compta</column>
     <column name="EM_Password" type="VARCHAR(16)" notnull="true">Mot de passe pas enregistré (juste pour l'interface le mot de passe est supprimé par trigger avant)</column>
     <column name="EM_Super"    type="BOOLEAN"     notnull="true" default="false">Défini si l'utilisateur peut créer des employés</column>

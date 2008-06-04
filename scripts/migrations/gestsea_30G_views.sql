@@ -20,7 +20,7 @@ CREATE OR REPLACE VIEW "groupetable" AS
      FROM "table_groupetable";
 
 CREATE OR REPLACE VIEW "employe" AS
-   SELECT table_employe.em_numero, table_employe.dp_numero, table_employe.em_emploi, table_employe.em_service, table_employe.em_agent, table_employe.em_login, table_employe.em_reglement, table_employe.em_acces, table_employe.em_password, table_employe.em_super, table_employe.created_at, table_employe.created_by, table_employe.updated_at, table_employe.updated_by, table_employe.lock_version, table_employe.id, AG_Prenom||' '||AG_Nom||' (Service '||SE_Nom||')' AS EM_Libelle 
+   SELECT table_employe.em_numero, table_employe.dp_numero, table_employe.em_emploi, table_employe.em_service, table_employe.em_agent, table_employe.em_login, table_employe.em_reglement, table_employe.em_self_invoicing, table_employe.em_service_invoicing, table_employe.em_societe_invoicing, table_employe.em_personne_editing, table_employe.em_acces, table_employe.em_password, table_employe.em_super, table_employe.created_at, table_employe.created_by, table_employe.updated_at, table_employe.updated_by, table_employe.lock_version, table_employe.id, AG_Prenom||' '||AG_Nom||' (Service '||SE_Nom||')' AS EM_Libelle 
      FROM "table_employe" JOIN table_Agent ON (EM_Agent=AG_Numero) JOIN table_Service ON (EM_Service=SE_Numero)
     ORDER BY AG_Nom, AG_Prenom;
 
@@ -332,7 +332,7 @@ CREATE OR REPLACE VIEW "impressiondocument" AS
      FROM "table_impressiondocument";
 
 CREATE OR REPLACE VIEW "cotisation" AS
-   SELECT table_cotisation.cs_numero, table_cotisation.pe_numero, table_cotisation.cs_societe, table_cotisation.ig_numero, table_cotisation.cs_standard, table_cotisation.cs_annee, table_cotisation.cs_detail, table_cotisation.cs_duo, table_cotisation.cs_done, table_cotisation.cs_valid, table_cotisation.cs_report, table_cotisation.created_at, table_cotisation.created_by, table_cotisation.updated_at, table_cotisation.updated_by, table_cotisation.lock_version, table_cotisation.id 
+   SELECT table_cotisation.cs_numero, table_cotisation.pe_numero, table_cotisation.cs_societe, table_cotisation.ig_numero, table_cotisation.cs_standard, table_cotisation.cs_annee, table_cotisation.cs_detail, table_cotisation.cs_duo, table_cotisation.cs_done, table_cotisation.cs_valid, table_cotisation.cs_report, table_cotisation.cs_nature, ROUND(table_cotisation.cs_montant,2) AS cs_montant, table_cotisation.created_at, table_cotisation.created_by, table_cotisation.updated_at, table_cotisation.updated_by, table_cotisation.lock_version, table_cotisation.id 
      FROM "table_cotisation";
 
 CREATE OR REPLACE VIEW "lignecotisation" AS
@@ -595,10 +595,10 @@ CREATE OR REPLACE RULE rule_contactversion_delete AS
 
 CREATE OR REPLACE RULE rule_cotisation_insert AS
   ON INSERT TO "cotisation"
-  DO INSTEAD INSERT INTO "table_cotisation"(cs_numero, pe_numero, cs_societe, ig_numero, cs_standard, cs_annee, cs_detail, cs_duo, cs_done, cs_valid, cs_report, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (new.cs_numero, new.pe_numero, new.cs_societe, new.ig_numero, COALESCE(NEW.cs_standard,false), new.cs_annee, COALESCE(NEW.cs_detail,'{saved:false}'), COALESCE(NEW.cs_duo,false), COALESCE(NEW.cs_done,false), COALESCE(NEW.cs_valid,false), new.cs_report, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
+  DO INSTEAD INSERT INTO "table_cotisation"(cs_numero, pe_numero, cs_societe, ig_numero, cs_standard, cs_annee, cs_detail, cs_duo, cs_done, cs_valid, cs_report, cs_nature, cs_montant, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (new.cs_numero, new.pe_numero, new.cs_societe, new.ig_numero, COALESCE(NEW.cs_standard,false), new.cs_annee, COALESCE(NEW.cs_detail,'{saved:false}'), COALESCE(NEW.cs_duo,false), COALESCE(NEW.cs_done,false), COALESCE(NEW.cs_valid,false), new.cs_report, new.cs_nature, ROUND(COALESCE(NEW.cs_montant,0),2), CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
 CREATE OR REPLACE RULE rule_cotisation_update AS
   ON UPDATE TO "cotisation"
-  DO INSTEAD UPDATE "table_cotisation" SET cs_numero=new.cs_numero, pe_numero=new.pe_numero, cs_societe=new.cs_societe, ig_numero=new.ig_numero, cs_standard=COALESCE(NEW.cs_standard,false), cs_annee=new.cs_annee, cs_detail=COALESCE(NEW.cs_detail,'{saved:false}'), cs_duo=COALESCE(NEW.cs_duo,false), cs_done=COALESCE(NEW.cs_done,false), cs_valid=COALESCE(NEW.cs_valid,false), cs_report=new.cs_report, created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.CS_Numero=CS_Numero;
+  DO INSTEAD UPDATE "table_cotisation" SET cs_numero=new.cs_numero, pe_numero=new.pe_numero, cs_societe=new.cs_societe, ig_numero=new.ig_numero, cs_standard=COALESCE(NEW.cs_standard,false), cs_annee=new.cs_annee, cs_detail=COALESCE(NEW.cs_detail,'{saved:false}'), cs_duo=COALESCE(NEW.cs_duo,false), cs_done=COALESCE(NEW.cs_done,false), cs_valid=COALESCE(NEW.cs_valid,false), cs_report=new.cs_report, cs_nature=new.cs_nature, cs_montant=ROUND(COALESCE(NEW.cs_montant,0),2), created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.CS_Numero=CS_Numero;
 CREATE OR REPLACE RULE rule_cotisation_delete AS
   ON DELETE TO "cotisation"
   DO INSTEAD DELETE FROM "table_cotisation" WHERE old.CS_Numero=CS_Numero;
@@ -645,10 +645,10 @@ CREATE OR REPLACE RULE rule_ecriture_delete AS
 
 CREATE OR REPLACE RULE rule_employe_insert AS
   ON INSERT TO "employe"
-  DO INSTEAD INSERT INTO "table_employe"(em_numero, dp_numero, em_emploi, em_service, em_agent, em_login, em_reglement, em_acces, em_password, em_super, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (new.em_numero, new.dp_numero, new.em_emploi, new.em_service, new.em_agent, new.em_login, COALESCE(NEW.em_reglement,false), new.em_acces, new.em_password, COALESCE(NEW.em_super,false), CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
+  DO INSTEAD INSERT INTO "table_employe"(em_numero, dp_numero, em_emploi, em_service, em_agent, em_login, em_reglement, em_self_invoicing, em_service_invoicing, em_societe_invoicing, em_personne_editing, em_acces, em_password, em_super, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (new.em_numero, new.dp_numero, new.em_emploi, new.em_service, new.em_agent, new.em_login, COALESCE(NEW.em_reglement,false), COALESCE(NEW.em_self_invoicing,true), COALESCE(NEW.em_service_invoicing,false), COALESCE(NEW.em_societe_invoicing,false), COALESCE(NEW.em_personne_editing,false), new.em_acces, new.em_password, COALESCE(NEW.em_super,false), CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
 CREATE OR REPLACE RULE rule_employe_update AS
   ON UPDATE TO "employe"
-  DO INSTEAD UPDATE "table_employe" SET em_numero=new.em_numero, dp_numero=new.dp_numero, em_emploi=new.em_emploi, em_service=new.em_service, em_agent=new.em_agent, em_login=new.em_login, em_reglement=COALESCE(NEW.em_reglement,false), em_acces=new.em_acces, em_password=new.em_password, em_super=COALESCE(NEW.em_super,false), created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.EM_Numero=EM_Numero;
+  DO INSTEAD UPDATE "table_employe" SET em_numero=new.em_numero, dp_numero=new.dp_numero, em_emploi=new.em_emploi, em_service=new.em_service, em_agent=new.em_agent, em_login=new.em_login, em_reglement=COALESCE(NEW.em_reglement,false), em_self_invoicing=COALESCE(NEW.em_self_invoicing,true), em_service_invoicing=COALESCE(NEW.em_service_invoicing,false), em_societe_invoicing=COALESCE(NEW.em_societe_invoicing,false), em_personne_editing=COALESCE(NEW.em_personne_editing,false), em_acces=new.em_acces, em_password=new.em_password, em_super=COALESCE(NEW.em_super,false), created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.EM_Numero=EM_Numero;
 CREATE OR REPLACE RULE rule_employe_delete AS
   ON DELETE TO "employe"
   DO INSTEAD DELETE FROM "table_employe" WHERE old.EM_Numero=EM_Numero;
