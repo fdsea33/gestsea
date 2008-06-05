@@ -1549,7 +1549,7 @@ BEGIN
       END IF;
     END IF;
     -- Frais de ports
-    SELECT count(*) FROM table_ligne JOIN table_produit USING (pd_numero) WHERE de_numero=d.de_numero AND (pd_libelle ilike 'port %' OR pd_libelle ilike '%poste%') INTO c;
+    SELECT count(*) FROM ligne JOIN produit USING (pd_numero) WHERE de_numero=d.de_numero AND (pd_libelle ilike 'port %' OR pd_libelle ilike '%poste%') INTO c;
     IF c<=0 THEN
       message := message||'Le devis ne contient aucun frais de poste. Est-ce normal ?\n';
     END IF;

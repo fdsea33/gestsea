@@ -36,7 +36,7 @@ SELECT CASE WHEN c.cs_numero IN (SELECT cs_numero FROM VUE_Cerealiers) THEN 'X' 
 ORDER BY 1 DESC, p.pe_nom
 ;
 
-\t
-\a
 \f |
+\a
+\t
 

@@ -1,0 +1,6 @@
+#!/bin/sh
+d=/usr/local/bin/scripts
+rm -f /tmp/evoplus.eml
+psql gestsea -f ${d}/evoplus.eml.sql
+cat /tmp/evoplus.eml | sendmail -t
+rm -f /tmp/evoplus.eml
