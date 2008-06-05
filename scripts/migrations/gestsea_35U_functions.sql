@@ -845,6 +845,7 @@ $$
 DECLARE
   query text;
   mdp text;
+  compte INTEGER;
 BEGIN
   mdp:='********';
   IF TG_OP!='DELETE' THEN
@@ -856,23 +857,31 @@ BEGIN
     END IF;
   END IF;
 
+  IF TG_OP='INSERT' OR TG_OP='UPDATE' THEN
+    SELECT count(*) FROM pg_user WHERE usename=NEW.EM_Login INTO compte;
+  END IF;
+
   IF TG_OP='INSERT' THEN
     New.EM_Login:=lower(New.EM_Login);
-    query:='CREATE USER '||New.EM_Login||' NOCREATEDB ';
-    IF New.EM_Super THEN
-      query:=query||'CREATEUSER ';
-    ELSE
-      query:=query||'NOCREATEUSER ';
+    IF compte<=0 THEN
+      query:='CREATE USER '||New.EM_Login||' NOCREATEDB ';
+      IF New.EM_Super THEN
+        query:=query||'CREATEUSER ';
+      ELSE
+        query:=query||'NOCREATEUSER ';
+      END IF;
+      query:=query||'ENCRYPTED PASSWORD '''||New.EM_Password||''';';
+      EXECUTE query;
     END IF;
-    query:=query||'ENCRYPTED PASSWORD '''||New.EM_Password||''';';
-    EXECUTE query;
     New.EM_Password:=mdp;
     RETURN New;
   ELSIF TG_OP='UPDATE' THEN
     New.EM_Login:=lower(New.EM_Login);
     IF New.EM_Login!=lower(Old.EM_Login) THEN
-      query:='ALTER USER '||Old.EM_Login||' RENAME TO '||New.EM_Login||';';
-      EXECUTE query;
+      IF compte<=0 THEN
+        query:='ALTER USER '||Old.EM_Login||' RENAME TO '||New.EM_Login||';';
+        EXECUTE query;
+      END IF;
     END IF;
     IF New.EM_Password!=mdp THEN
       query:='ALTER USER '||New.EM_Login||' ENCRYPTED PASSWORD '''||New.EM_Password||''';';
@@ -2565,8 +2574,8 @@ BEGIN
   SELECT COALESCE(fa_montantttc,0) FROM table_facture WHERE fa_numero=num_facture_aava  INTO total_aava;
   detail := bml_put(detail,'fdsea.montant',total_fdsea);
   detail := bml_put(detail,'sacea.montant',total_sacea);
-  detail := bml_put(detail,'aava.montant',total_aava);
-  detail := bml_put(detail,'cotisation.montant',total_fdsea+total_sacea+total_aava);
+  detail := bml_put(detail,'aava.montant',COALESCE(total_aava,0));
+--  detail := bml_put(detail,'cotisation.montant',total_fdsea+total_sacea+total_aava);
 
   UPDATE employe SET EM_Service=SE_Numero FROM service WHERE employe.EM_Numero=num_employe AND SE_Societe=2;
 
@@ -3192,7 +3201,7 @@ BEGIN
         AND ID_Cle::integer=FA_Numero AND SO_Numero=s;
   END LOOP;
   -- Concatenation des documents
-  SELECT '/tmp/'||current_user||E'_lot_pi_'||to_char(CURRENT_TIMESTAMP,'YYYYMMDD_HH24MISS_US')||E'.pdf' INTO adresse;
+  SELECT '/tmp/'||current_user||E'_lot_pi_'||modele||'_'||to_char(debut,'YYYYMMDD')||'_'||to_char(fin,'YYYYMMDD')||to_char(CURRENT_TIMESTAMP,'YYYYMMDD_HH24MISS_US')||E'.pdf' INTO adresse;
   SELECT 'SELECT execution(''cd /tmp && touch '||adresse||E' && chmod 755 '||adresse||E' && gs -q -sPAPERSIZE=letter -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile='||adresse||concatenate(' '||SUBSTR(COALESCE(ID_Filename,''),8))||E''');'
     FROM (SELECT id_filename
     FROM table_impressiondocument 
