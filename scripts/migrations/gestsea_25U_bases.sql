@@ -381,7 +381,7 @@ CREATE OR REPLACE VIEW vue_adhesion AS
                             JOIN table_adherence USING (pd_numero);
 */
 
-/*
+
 CREATE OR REPLACE VIEW vue_adhesion AS
   SELECT cs_numero, cs_annee, pe_numero AS cs_personne, NULLIF(NULLIF(bml_extract(cs_detail,'cotisation.societe'),'null'),0) AS cs_societe, ah_reduction, ah_libelle 
     FROM table_lignefacture JOIN table_cotisation ON (fa_numero=bml_extract(cs_detail,'sacea.facture')) 
@@ -391,7 +391,7 @@ CREATE OR REPLACE VIEW vue_adhesion_all AS
   SELECT cs_numero, cs_annee, pe_numero, ah_reduction, ah_libelle FROM table_cotisation join table_adherence on (bml_extract(cs_detail,'fdsea.forfait.produit')=pd_numero)
   UNION ALL
   SELECT cs_numero, cs_annee, p.pe_numero, ah_reduction, ah_libelle FROM table_cotisation join table_adherence on (bml_extract(cs_detail,'fdsea.forfait.produit')=pd_numero) join table_personne p on (bml_extract(cs_detail,'cotisation.societe')=p.pe_numero);
-*/
+
 
 /*
 CREATE OR REPLACE VIEW vue_ad2 AS

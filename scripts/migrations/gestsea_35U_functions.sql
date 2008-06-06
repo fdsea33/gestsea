@@ -3452,7 +3452,7 @@ CREATE OR REPLACE VIEW vue_evoplus AS
 (CASE WHEN aava THEN 31.00 ELSE 0.00 END)::numeric(16,2) AS op2_aava, 
 (CASE WHEN NOT proposition THEN opt_ttc WHEN proposition AND aava THEN opt1 ELSE opt3 END)::numeric(16,2) AS op1_total, 
 (CASE WHEN aava THEN opt2 ELSE opt4 END)::numeric(16,2) AS op2_total,
-CASE WHEN proposition THEN 'P' ELSE 'A' END AS nature
+CASE WHEN pe_numero IN (SELECT pe_numero FROM vue_cotisation_all WHERE cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)) THEN 'DEJA ADH!' WHEN proposition THEN 'P' ELSE 'A' END AS nature
     FROM table_evoplus ev join personne USING (pe_numero);
 
 
@@ -3485,7 +3485,7 @@ BEGIN
   SELECT 'SELECT execution(''cd /tmp && touch '||adresse||E' && chmod 755 '||adresse||E' && gs -q -sPAPERSIZE=letter -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile='||adresse||' '||sommaire||concatenate(' '||SUBSTR(COALESCE(filename,''),8))||E''');'
     FROM (SELECT filename FROM table_evoplus WHERE lot=num_lot and pe_numero not in (select pe_numero from table_cotisation where cs_annee=2008) and pe_numero not in (select COALESCE(cs_societe,0) from table_cotisation where cs_annee=2008) ORDER BY id) x
     INTO query;
---  RAISE NOTICE '> Query : %', query;
+  RAISE NOTICE '> Query : %', query;
   IF query IS NOT NULL THEN
     EXECUTE query;
   ELSE

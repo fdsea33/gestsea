@@ -202,11 +202,11 @@ function MajReductionDevis(compo) {
 function PrintDuplicata(compo){
   var cle = compo.getCleVal();
   if (cle>0) {
-    var query = "SELECT count(*) FROM lignefacture left join avoir using (fa_numero) WHERE pd_numero=500000153 AND fa_numero="+cle+" AND av_numero IS NULL;";
+    var query = "SELECT count(*) FROM lignefacture left join avoir using (fa_numero) WHERE pd_numero-500000000 IN (153,144,56,57,58,59,60) AND fa_numero="+cle+" AND av_numero IS NULL;";
     var query2 = "SELECT CASE WHEN CURRENT_DATE>='01/01/2008' THEN 1 ELSE 0 END AS strict;";
     var query3 = "SELECT CASE WHEN CURRENT_USER='brice' THEN 1 ELSE 0 END AS admin;";
     if (requete(query)>=1 || requete(query2)==0 || requete(query3)==1) {
-      Imprimer(compo,'carte-duplicata')
+      Imprimer(compo,'carte')
     } else { alert("Cette facture n'autorise pas la création de duplicata"); }
   } else { alert("Il faut sélectionner une facture");}
 }
