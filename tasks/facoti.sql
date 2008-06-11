@@ -17,11 +17,13 @@ LANGUAGE 'plpgsql';
 -- Mise en application de la fonction
 SELECT fc_finish_cotisations((CURRENT_DATE-'6 days'::INTERVAL)::DATE, CURRENT_DATE);
 
+-- Creation de la vue des cerealiers ALVEA
 DROP VIEW VUE_Cerealiers;
 
 CREATE OR REPLACE VIEW VUE_Cerealiers AS
   SELECT c.pe_numero AS cs_personne, cs_societe, fa_numero, cs_numero FROM table_lignefacture join table_facture f using (fa_numero) JOIN table_cotisation c ON (f.pe_numero IN (c.pe_numero, c.cs_societe)) WHERE pd_numero=500000058 and extract(year from fa_date)=EXTRACT(YEAR FROM CURRENT_DATE);
 
+-- Extraction du fichier ALVEA
 \f ;
 \a
 \t

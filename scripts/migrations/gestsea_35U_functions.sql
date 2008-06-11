@@ -3201,7 +3201,7 @@ BEGIN
         AND ID_Cle::integer=FA_Numero AND SO_Numero=s;
   END LOOP;
   -- Concatenation des documents
-  SELECT '/tmp/'||current_user||E'_lot_pi_'||modele||'_'||to_char(debut,'YYYYMMDD')||'_'||to_char(fin,'YYYYMMDD')||to_char(CURRENT_TIMESTAMP,'YYYYMMDD_HH24MISS_US')||E'.pdf' INTO adresse;
+  SELECT '/tmp/'||current_user||E'_lot_pi_'||modele||'_'||to_char(debut,'YYYYMMDD')||'_'||to_char(fin,'YYYYMMDD')||'_'||to_char(CURRENT_TIMESTAMP,'YYYYMMDD_HH24MISS_US')||E'.pdf' INTO adresse;
   SELECT 'SELECT execution(''cd /tmp && touch '||adresse||E' && chmod 755 '||adresse||E' && gs -q -sPAPERSIZE=letter -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile='||adresse||concatenate(' '||SUBSTR(COALESCE(ID_Filename,''),8))||E''');'
     FROM (SELECT id_filename
     FROM table_impressiondocument 
@@ -3226,7 +3226,7 @@ BEGIN
   IF query IS NOT NULL THEN
     EXECUTE query;
   ELSE
-    RAISE NOTICE 'Pas d''impressions.';
+    RAISE EXCEPTION 'Pas de documents pour l''impression.';
   END IF;
   -- Restauration du service
   UPDATE table_employe SET EM_Service=num_service WHERE EM_Login=CURRENT_USER;
