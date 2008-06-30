@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-15"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://browser/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://gestsea/skin/temps.css" type="text/css"?>
+
+<window	id="gestsea-easynvoice" 
+        title="GestSEA Facturation facile & rapide" 
+        onload="wg_onload()" orient="vertical" sizemode="maximized" 
+        xmlns:html="http://www.w3.org/TR/REC-html40"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script src="../generator/utils_xul.js"/>
+  <script src="../generator/pgsql.js"/>
+  <script src="easynvoice.js"/>
+
+</window>
