@@ -1,3 +1,4 @@
+/* -*- Mode: Java; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2; coding: latin-1 -*- */
 function DeleteDataSource(object)
 {
   var sources=object.database.GetDataSources();

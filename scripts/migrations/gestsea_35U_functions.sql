@@ -3429,6 +3429,54 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 
 
 
+/* 
+ *
+ */
+CREATE OR REPLACE FUNCTION FC_Simple_Facture(IN num_personne INTEGER, IN num_prix INTEGER, IN reg_date DATE, IN reg_banque VARCHAR(32), IN reg_compte VARCHAR(32), IN reg_cheque VARCHAR(32), IN num_modereglement INTEGER) RETURNS TEXT AS
+$$
+DECLARE
+  num_numfact TEXT;
+  num_devis devis.de_numero%TYPE;
+  num_facture facture.fa_numero%TYPE;
+  reg_montant reglement.rg_montant%TYPE;
+  num_reglement reglement.rg_numero%TYPE;
+  test BOOLEAN;
+BEGIN
+  SELECT em_reglement FROM employe WHERE em_login=CURRENT_USER INTO test;
+  IF NOT test THEN
+    RAISE EXCEPTION 'Vous n''avez pas le droit de faire de facturation rapide.';
+  END IF;
+  SELECT em.self_invoicing FROM employe WHERE em_login=CURRENT_USER INTO test;
+  IF NOT test THEN
+    RAISE EXCEPTION 'Vous n''avez pas le droit de facturer.';
+  END IF;
+  SELECT nextval('seq_devis') INTO num_devis;
+  INSERT INTO devis(pe_numero, de_numero, de_libelle, em_numero) SELECT num_personne, num_devis, '[MAJCC] Abonnement du '||CURRENT_DATE, current_employe();
+  INSERT INTO ligne(de_numero, px_numero, l_quantite) VALUES (num_devis, num_prix, 1);
+  
+  SELECT de_montantttc, nextval('seq_reglement') FROM devis WHERE de_numero=num_devis INTO reg_montant, num_reglement;
+  
+  INSERT INTO reglement(pe_numero, rg_numero, rg_montant, rg_date, rg_libellebanque, rg_numerocompte, rg_reference, em_numero, mr_numero) SELECT num_personne, num_reglement, reg_montant, reg_date, reg_banque, reg_compte, reg_cheque, current_employe(), num_modereglement;
+
+  SELECT FC_DevisVersFacture(num_devis) INTO num_facture;
+
+  INSERT INTO facturereglement(rg_numero,fa_numero) VALUES (num_reglement, num_facture);  
+
+  SELECT num_numfact FROM facture WHERE fa_numero=num_facture;
+  RETURN num_numfact;
+END;
+$$ LANGUAGE 'plpgsql';
+
+
+
+
+
+
+
+
+
+
+
 
 
 

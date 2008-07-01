@@ -2,15 +2,64 @@
 
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://browser/skin/" type="text/css"?>
-<?xml-stylesheet href="chrome://gestsea/skin/temps.css" type="text/css"?>
 
 <window	id="gestsea-easynvoice" 
-        title="GestSEA Facturation facile & rapide" 
-        onload="wg_onload()" orient="vertical" sizemode="maximized" 
+        title="GestSEA Facturation facile et rapide" 
+        onload="wg_onload()" orient="vertical" sizemode="normal" 
         xmlns:html="http://www.w3.org/TR/REC-html40"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script src="../generator/utils_xul.js"/>
   <script src="../generator/pgsql.js"/>
+  <script src="libxul.js"/>
   <script src="easynvoice.js"/>
+  <vbox flex="1">
+    <groupbox>
+      <caption label="1. Adhérent"/>
+      <menulist editable="true" id="wg-personne-menulist" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" onchange="wg_personne_search(); this.doCommand();" oncommand="this.inputField.select(); wg_personne_load();" onfocus="this.inputField.select();">
+        <template>
+          <menupopup>
+            <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#pe_description" value="rdf:http://www.mozilla.org/SQL-rdf#pe_numero"/>
+          </menupopup>
+        </template>
+      </menulist>
+      <label id="wg-personne-adh" value="Adh" style="color: #999;"/>
+    </groupbox>
+
+    
+    <groupbox>
+      <caption label="2. Produit"/>
+      <hbox>
+        <radiogroup id="wg-produit-radiogroup" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" flex="1" orient="vertical" oncommand="wg_totalize();">
+          <template>
+            <radio uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#px_libelle" tarif="rdf:http://www.mozilla.org/SQL-rdf#px_tarifttc" value="rdf:http://www.mozilla.org/SQL-rdf#px_numero"/>
+          </template>
+        </radiogroup>
+        <label id="wg-produit-montant" style="text-align:center; vertical-align:center; border:1px solid white; color: white; background: #007; font-size: 24px; padding: 8px; width: 96px;"/>
+      </hbox>
+    </groupbox>
+
+
+    <groupbox>
+      <caption label="3. Réglement"/>
+      <hbox align="center">
+        <label value="Date"/>
+        <textbox id="wg-reglement-date"   size="10" maxlength="10" value="01/01/2008"/>
+        <label value="Banque"/>
+        <textbox id="wg-reglement-banque" size="32" maxlength="32"/>
+      </hbox>
+      <hbox align="center">
+        <label value="N°Compte"/>
+        <textbox id="wg-reglement-compte" size="12" maxlength="12"/>
+        <label value="N°Chèque"/>
+        <textbox id="wg-reglement-cheque" size="7"  maxlength="7"/>
+      </hbox>
+    </groupbox>
+
+    <groupbox flex="1">
+      <caption label="4. Facturation"/>
+      <button label="Enregistrer et facturer" flex="1" oncommand="wg_invoice();"/>
+    </groupbox>
+
+  </vbox>
 
 </window>
