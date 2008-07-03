@@ -72,7 +72,7 @@
           <button label="Ouvrir" oncommand="window.openDialog('chrome://gestsea/content/gestsea/temps.xul');"/>
         </row>
         <row>
-          <button label="Générer tous les modules"  oncommand="jauge('0%');CodeInComptabilite();jauge('20%');CodeInParametrage();jauge('50%');CodeInPrincipal('');jauge('80%');CodeInPersonne();jauge('85%');CodeInReglement();jauge('92%');CodeInMoto('');jauge('100%');"/>
+          <button label="Générer tous les modules"  oncommand="jauge('0%');CodeInComptabilite();jauge('20%');CodeInParametrage();jauge('50%');CodeInPrincipal('');jauge('80%');CodeInPersonne();jauge('85%');CodeInReglement();jauge('92%');CodeInMoto('');CodeInEvoplus('');CodeInJournal('');jauge('100%');"/>
           <progressmeter id="jauge" value="0%"/>
         </row>
       </rows>

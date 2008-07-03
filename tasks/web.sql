@@ -68,13 +68,15 @@ SELECT 'INSERT INTO jos_gm_membre(id_membre,id_groupe) VALUES (63,10)'
   FROM (SELECT DISTINCT pe_numero FROM table_lignefacture 
        JOIN table_adherence USING (pd_numero)
        JOIN table_facture USING (fa_numero)
-  WHERE fa_date BETWEEN ((EXTRACT(YEAR FROM CURRENT_DATE)-1)||'-06-01')::date AND (EXTRACT(YEAR FROM CURRENT_DATE)||'-05-31')::date AND ah_libelle LIKE '[MAJCC]%'
+  WHERE ah_libelle LIKE '[MAJCC]%'
+    AND fa_date+'6 months 15 days'::INTERVAL BETWEEN ((EXTRACT(YEAR FROM CURRENT_DATE)-1)||'-07-15')::date AND (EXTRACT(YEAR FROM CURRENT_DATE)||'-07-16')::date 
 UNION ALL
 SELECT DISTINCT el_personne1 FROM table_lignefacture 
        JOIN table_adherence USING (pd_numero)
        JOIN table_facture USING (fa_numero)
        JOIN table_estlie el ON (pe_numero=el_personne2)
-  WHERE fa_date BETWEEN ((EXTRACT(YEAR FROM CURRENT_DATE)-1)||'-06-01')::date AND (EXTRACT(YEAR FROM CURRENT_DATE)||'-05-31')::date AND ah_libelle LIKE '[MAJCC]%' AND el.tl_numero=1003
+  WHERE ah_libelle LIKE '[MAJCC]%' AND el.tl_numero=1003
+    AND fa_date+'6 months 15 days'::INTERVAL BETWEEN ((EXTRACT(YEAR FROM CURRENT_DATE)-1)||'-07-15')::date AND (EXTRACT(YEAR FROM CURRENT_DATE)||'-07-16')::date 
 ) AS x;
 
 -- Fichier des mots de passe

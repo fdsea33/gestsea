@@ -9,6 +9,7 @@
 	title="EVO+"
 	orient="vertical"
 	onload="evoplus_Chargement();"
+	xmlns:html="http://www.w3.org/TR/REC-html40"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
 <!-- FICHIERS DE SCRIPTS NECESSAIRES -->
@@ -21,6 +22,7 @@
 <script src="chrome://global/content/nsDragAndDrop.js"/>
 <script src="chrome://global/content/nsTransferable.js"/>
 <script src="chrome://global/content/globalOverlay.js"/>
+<script src="chrome://global/content/viewZoomOverlay.js"/>
 <script src="chrome://browser/content/browser.js"/>
 <script src="chrome://gestsea/content/gestsea/export.js"/>
 <script src="chrome://gestsea/content/generator/libIO.js"/>
@@ -36,15 +38,12 @@
       <menuitem label="Evoplus" oncommand="AllerAOnglet(0)"/>
       </menupopup>
     </menu>
-    <menu id="edition-menu" label="Edition">
+    <menu id="affichage-menu" label="Affichage">
       <menupopup id="edit-popup">
-        <menuitem label="Annuler"/>
-        <menuitem label="Refaire"/>
-      </menupopup>
-    </menu>
-    <menu id="theme-menu" label="Changer de thème">
-      <menupopup id="theme-popup">
-        <menuitem label="Choisir" oncommand="BrowserOpenExtensions('themes')"/>
+        <menuitem label="Thèmes..." oncommand="BrowserOpenExtensions('themes')" disabled="true"/>
+        <menuseparator/>
+        <menuitem label="Zoom +" oncommand="ZoomManager.prototype.getInstance().enlarge();" disabled="true"/>
+        <menuitem label="Zoom -" oncommand="ZoomManager.prototype.getInstance().reduce();" disabled="true"/>
       </menupopup>
     </menu>
   </menubar>
@@ -80,11 +79,11 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Imprimer le (dernier) lot" oncommand="EvoPrint('lot',TAB_GLOBAL_COMPO[3]);"/>
-    <button label="Imprimer les remarques du lot" oncommand="EvoPrint('remarques',TAB_GLOBAL_COMPO[3]);"/>
-    <button label="Imprimer le courrier" oncommand="EvoPrint('lettre',TAB_GLOBAL_COMPO[3]);"/>
-    <button label="Adhérent N ?" oncommand="TestCotisation(TAB_GLOBAL_COMPO[3]);"/>
-    <button label="Adhérent N-1 ?" oncommand="TestCotisation(TAB_GLOBAL_COMPO[3],-1);"/>
+    <button label="Imprimer le (dernier) lot" oncommand="EvoPrint('lot',TAB_GLOBAL_COMPO[706]);"/>
+    <button label="Imprimer les remarques du lot" oncommand="EvoPrint('remarques',TAB_GLOBAL_COMPO[706]);"/>
+    <button label="Imprimer le courrier" oncommand="EvoPrint('lettre',TAB_GLOBAL_COMPO[706]);"/>
+    <button label="Adhérent N ?" oncommand="TestCotisation(TAB_GLOBAL_COMPO[706]);"/>
+    <button label="Adhérent N-1 ?" oncommand="TestCotisation(TAB_GLOBAL_COMPO[706],-1);"/>
   </arrowscrollbox>
 </hbox>
 </vbox>

@@ -71,7 +71,11 @@ function wg_totalize() {
   elem('wg-produit-montant').value=p.selectedItem.getAttribute('tarif')+' ¤';
 }
 
-function wg_invoice() {
+function wg_invoice(delay) {
+  if (requete("SELECT count(*) FROM lignefacture join facture using (fa_numero) left join avoir using (fa_numero) WHERE av_numero is null and fa_date>=(CURRENT_DATE+'"+delay+"'::interval)::date AND pd_Numero IN ("+PRODS.join(',')+")")>0) {
+    alert('Une facture avec ce produit a déjà été enregistrée récemment (moins de '+delay+')');
+    return false;
+  }
   var query = "SELECT fc_simple_facture("+current_personne();// pe_numero
   query += ","+ elem('wg-produit-radiogroup').selectedItem.value; // px_numero
   query += ",'"+elem('wg-reglement-date').value+"'"; // rg_date
@@ -81,6 +85,7 @@ function wg_invoice() {
   query += ",106)"; // rg_mode
   var fact = requete(query);
   alert("Numéro à inscrire sur le bordereau : F"+fact);
+  return true;
 }
 
 

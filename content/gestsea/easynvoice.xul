@@ -57,7 +57,7 @@
 
     <groupbox flex="1">
       <caption label="4. Facturation"/>
-      <button label="Enregistrer et facturer" flex="1" oncommand="wg_invoice();"/>
+      <button label="Enregistrer et facturer" flex="1" oncommand="wg_invoice('7 months');"/>
     </groupbox>
 
   </vbox>

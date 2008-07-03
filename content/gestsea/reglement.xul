@@ -22,6 +22,7 @@
 <script src="chrome://global/content/nsDragAndDrop.js"/>
 <script src="chrome://global/content/nsTransferable.js"/>
 <script src="chrome://global/content/globalOverlay.js"/>
+<script src="chrome://global/content/viewZoomOverlay.js"/>
 <script src="chrome://browser/content/browser.js"/>
 <script src="chrome://gestsea/content/gestsea/export.js"/>
 <script src="chrome://gestsea/content/generator/libIO.js"/>
@@ -38,15 +39,12 @@
       <menuitem label="Réglement" oncommand="AllerAOnglet(1)"/>
       </menupopup>
     </menu>
-    <menu id="edition-menu" label="Edition">
+    <menu id="affichage-menu" label="Affichage">
       <menupopup id="edit-popup">
-        <menuitem label="Annuler"/>
-        <menuitem label="Refaire"/>
-      </menupopup>
-    </menu>
-    <menu id="theme-menu" label="Changer de thème">
-      <menupopup id="theme-popup">
-        <menuitem label="Choisir" oncommand="BrowserOpenExtensions('themes')"/>
+        <menuitem label="Thèmes..." oncommand="BrowserOpenExtensions('themes')" disabled="true"/>
+        <menuseparator/>
+        <menuitem label="Zoom +" oncommand="ZoomManager.prototype.getInstance().enlarge();" disabled="true"/>
+        <menuitem label="Zoom -" oncommand="ZoomManager.prototype.getInstance().reduce();" disabled="true"/>
       </menupopup>
     </menu>
   </menubar>

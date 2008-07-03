@@ -3440,19 +3440,20 @@ DECLARE
   num_facture facture.fa_numero%TYPE;
   reg_montant reglement.rg_montant%TYPE;
   num_reglement reglement.rg_numero%TYPE;
+  num_groupe impressiongroupe.ig_numero%TYPE;
   test BOOLEAN;
 BEGIN
   SELECT em_reglement FROM employe WHERE em_login=CURRENT_USER INTO test;
   IF NOT test THEN
     RAISE EXCEPTION 'Vous n''avez pas le droit de faire de facturation rapide.';
   END IF;
-  SELECT em.self_invoicing FROM employe WHERE em_login=CURRENT_USER INTO test;
+  SELECT em_self_invoicing FROM employe WHERE em_login=CURRENT_USER INTO test;
   IF NOT test THEN
     RAISE EXCEPTION 'Vous n''avez pas le droit de facturer.';
   END IF;
   SELECT nextval('seq_devis') INTO num_devis;
   INSERT INTO devis(pe_numero, de_numero, de_libelle, em_numero) SELECT num_personne, num_devis, '[MAJCC] Abonnement du '||CURRENT_DATE, current_employe();
-  INSERT INTO ligne(de_numero, px_numero, l_quantite) VALUES (num_devis, num_prix, 1);
+  INSERT INTO ligne(de_numero, px_numero) VALUES (num_devis, num_prix);
   
   SELECT de_montantttc, nextval('seq_reglement') FROM devis WHERE de_numero=num_devis INTO reg_montant, num_reglement;
   
@@ -3462,19 +3463,14 @@ BEGIN
 
   INSERT INTO facturereglement(rg_numero,fa_numero) VALUES (num_reglement, num_facture);  
 
-  SELECT num_numfact FROM facture WHERE fa_numero=num_facture;
+  SELECT nextval('seq_impressiongroupe') INTO num_groupe;
+  INSERT INTO impressiongroupe (ig_numero, il_numero, ig_date) VALUES (num_groupe,2,CURRENT_DATE);
+  INSERT INTO impressiondocument (id_numero, ig_numero,id_modele,id_cle) VALUES (nextval('table_impressiondocument_id_numero_seq'), num_groupe, 'facture', num_facture);
+
+  SELECT fa_numfact FROM facture WHERE fa_numero=num_facture INTO num_numfact;
   RETURN num_numfact;
 END;
 $$ LANGUAGE 'plpgsql';
-
-
-
-
-
-
-
-
-
 
 
 

@@ -2539,6 +2539,7 @@ clTabInterfaceSimple.prototype.GenererInterface=
     StrXul+='<script src="chrome://global/content/nsDragAndDrop.js"/>\n';
     StrXul+='<script src="chrome://global/content/nsTransferable.js"/>\n';
     StrXul+='<script src="chrome://global/content/globalOverlay.js"/>\n';
+    StrXul+='<script src="chrome://global/content/viewZoomOverlay.js"/>\n';
     StrXul+='<script src="chrome://browser/content/browser.js"/>\n';
     StrXul+=this.Includes;
     StrXul+='<script src="'+GEN_PATH+MCD_PREFIX+'mcd.js"/>\n';
@@ -2565,26 +2566,23 @@ clTabInterfaceSimple.prototype.GenererInterface=
     StrXul+='      </menupopup>\n';
     StrXul+='    </menu>\n';
 
-    StrXul+='    <menu id="edition-menu" label="Edition">\n';
+    StrXul+='    <menu id="affichage-menu" label="Affichage">\n';
     StrXul+='      <menupopup id="edit-popup">\n';
-    StrXul+='        <menuitem label="Annuler"/>\n';
-    StrXul+='        <menuitem label="Refaire"/>\n';
+    StrXul+='        <menuitem label="Thèmes..." oncommand="BrowserOpenExtensions(\'themes\')" disabled="true"/>\n';
+    StrXul+='        <menuseparator/>\n';
+    StrXul+='        <menuitem label="Zoom +" oncommand="ZoomManager.prototype.getInstance().enlarge();" disabled="true"/>\n';
+    StrXul+='        <menuitem label="Zoom -" oncommand="ZoomManager.prototype.getInstance().reduce();" disabled="true"/>\n';
     StrXul+='      </menupopup>\n';
     StrXul+='    </menu>\n';
 
-    StrXul+='    <menu id="theme-menu" label="Changer de thème">\n';
-    StrXul+='      <menupopup id="theme-popup">\n';
-    StrXul+='        <menuitem label="Choisir" oncommand="BrowserOpenExtensions(\'themes\')"/>\n';
-    StrXul+='      </menupopup>\n';
-    StrXul+='    </menu>\n';
-
-    for(i=0;i<this.MesMenus.length;i++)
-    {
-        StrXul+='    <menu label="Autres">\n';
-        StrXul+='      <menupopup>\n';
+    if (this.MesMenus.length>0) {
+      StrXul+='    <menu label="Outils">\n';
+      StrXul+='      <menupopup>\n';
+      for(i=0;i<this.MesMenus.length;i++) {
         StrXul+='        <menuitem label="'+this.MesMenus[i].Label+'" oncommand="'+this.MesMenus[i].Fonction+'('+this.MesMenus[i].Param+')"/>\n';
-        StrXul+='      </menupopup>\n';
-        StrXul+='    </menu>\n';
+      }
+      StrXul+='      </menupopup>\n';
+      StrXul+='    </menu>\n';
     }
 
     if (!overlay) StrXul+='  </menubar>\n';
