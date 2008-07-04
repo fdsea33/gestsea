@@ -624,8 +624,10 @@ function CodeInPrincipal(centre){
     ReglementFacturereglement = It_Reglement.AjouterComposantComplexe("Factures concernées", new Array("rg_numero","rg_numero","facturereglement"));
     ReglementFacturereglement.AjouterColonne("N° Fact.","fa_numfact",new Array("fa_numero","fa_numero","facture"));
     ReglementFacturereglement.AjouterColonne("Date","fa_date",new Array("fa_numero","fa_numero","facture"));
-    ReglementFacturereglement.AjouterColonne("Type","fr_type");
-    ReglementFacturereglement.AjouterColonne("Montant","fr_montant");
+    ReglementFacturereglement.AjouterColonne("F.Mnt.","fa_montantttc",new Array("fa_numero","fa_numero","facture"));
+//    ReglementFacturereglement.AjouterColonne("T.","fr_type");
+    ReglementFacturereglement.AjouterColonne("Mnt.","fr_montant");
+//    ReglementFacturereglement.AjouterColonne("R.Mnt.","rg_montant",new Array("rg_numero","rg_numero","reglement"));
     
     ReglementFacturereglement.AddMode(INSERTION);
     ReglementFacturereglement.AddMode(SUPPRESSION);
@@ -663,18 +665,18 @@ function CodeInPrincipal(centre){
     It_Cotisation = new clInterfaceSimple("Cotisations");
 
     Maitre_Cotisation = It_Cotisation.AjouterMaitre("Liste des cotisations","cotisation");
+    Maitre_Cotisation.AjouterColonne("A.","cs_annee");
     Maitre_Cotisation.AjouterColonne("N°","cs_numero");
-    Maitre_Cotisation.AjouterColonne("Année","cs_annee");
     Maitre_Cotisation.AjouterColonne("N°P.","pe_numero");
-    Maitre_Cotisation.AjouterColonne("OK","cs_done");
+    Maitre_Cotisation.AjouterColonne("N°S.","cs_societe");
+    Maitre_Cotisation.AjouterColonne("Done","cs_done");
 
-    It_Cotisation.AjouterBouton("1. Facturer toutes les nouvelles cotisations","FacturerCotisations","");
-    It_Cotisation.AjouterBouton("2. Imprimer les factures","FacturerCotisations","");
-    It_Cotisation.AjouterBouton("3. Imprimer les cartes","FacturerCotisations","");
-
+    It_Cotisation.AjouterComposantSimple("Personne","pe_description",new Array("pe_numero","pe_numero","vue_personne"),null,LISTE_DEROULANTE);
+    It_Cotisation.AjouterComposantSimple("Société","pe_description",new Array("cs_societe","pe_numero","vue_personne"),null,LISTE_DEROULANTE);
     It_Cotisation.AjouterComposantSimple("Nature","cs_nature");
-    It_Cotisation.AjouterComposantSimple("Description","cs_detail",null,null,null,null,null,true);
-    It_Cotisation.AjouterComposantSimple("Société","pe_description",new Array("cs_societe","pe_numero","personne"),null,LISTE_DEROULANTE);
+    It_Cotisation.AjouterComposantSimple("Année","cs_annee");
+    It_Cotisation.AjouterComposantSimple("Groupe d'impression","ig_numero");
+    It_Cotisation.AjouterComposantSimple("Détail","cs_detail",null,null,null,null,null,true);
 
     principal_alert("Cotisation...OK!");
 

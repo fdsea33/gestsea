@@ -1237,6 +1237,7 @@ function genererEsclaveXul(Composant,Esclaves)
                 CodeSlaves+='<vbox flex="1" id="'+Composant.ParentXul+'_Slaves"/>\n';
             else
                 CodeSlaves+='<vbox id="'+Composant.ParentXul+'_Slaves"/>\n';
+//            CodeSlaves+='<groupbox flex="1"><caption label="Détail"/>';
 
             if (TabStrOnglets.length!=0)
                 {
@@ -1275,6 +1276,7 @@ function genererEsclaveXul(Composant,Esclaves)
                         }
                 }
             CodeSlaves+=genererButtonInsertMajSupXul(Composant);
+//            CodeSlaves+='</groupbox>';
             CodeSlaves+='</vbox>\n';
 
         }
@@ -2536,6 +2538,7 @@ clTabInterfaceSimple.prototype.GenererInterface=
     StrXul+='<script src="'+GEN_PATH+'pointer.js"/>\n';
     StrXul+='<script src="'+GEN_PATH+'generator_sql.js"/>\n';
     StrXul+='<script src="'+GEN_PATH+'generator_xul.js"/>\n';
+    StrXul+='<script src="'+GEN_PATH+'libio.js"/>\n';
     StrXul+='<script src="chrome://global/content/nsDragAndDrop.js"/>\n';
     StrXul+='<script src="chrome://global/content/nsTransferable.js"/>\n';
     StrXul+='<script src="chrome://global/content/globalOverlay.js"/>\n';

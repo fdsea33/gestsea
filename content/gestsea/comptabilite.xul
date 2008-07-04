@@ -115,7 +115,7 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Cloturer le journal..." oncommand="CloturerJournal(TAB_GLOBAL_COMPO[18]);"/>
+    <button label="Cloturer le journal..." oncommand="CloturerJournal(TAB_GLOBAL_COMPO[887]);"/>
   </arrowscrollbox>
 </hbox>
 </vbox>

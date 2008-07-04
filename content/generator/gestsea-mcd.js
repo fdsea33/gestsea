@@ -4026,7 +4026,7 @@ function mcd_obligatoire(table,champs)
         case 'fa_numero': obligatoire=true;break;
         case 'fr_acompte': obligatoire=true;break;
         case 'fr_partiel': obligatoire=true;break;
-        case 'fr_montant': obligatoire=false;break;
+        case 'fr_montant': obligatoire=true;break;
         case 'created_at': obligatoire=false;break;
         case 'created_by': obligatoire=false;break;
         case 'updated_at': obligatoire=false;break;

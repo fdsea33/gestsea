@@ -9,7 +9,7 @@
   <script src="chrome://gestsea/content/generator/pointer.js"/>
   <script src="chrome://gestsea/content/generator/generator_sql.js"/>
   <script src="chrome://gestsea/content/generator/generator_xul.js"/>
-  <script src="chrome://gestsea/content/generator/libIO.js"/>
+  <script src="chrome://gestsea/content/generator/libio.js"/>
   <script src="chrome://gestsea/content/generator/generator_lib.js"/>
 <!--  <script src="chrome://gestsea/content/generator/sources/constructeur.js"/>-->
   <script src="chrome://gestsea/content/generator/sources/comptabilite.js"/>
@@ -20,7 +20,19 @@
   <script src="chrome://gestsea/content/generator/sources/moto.js"/>
   <script src="chrome://gestsea/content/generator/sources/evoplus.js"/>
   <script src="chrome://gestsea/content/generator/sources/journal.js"/>
-  <script>function jauge(x){document.getElementById('jauge').setAttribute('value',x);}; window.FactureEnCours='7159621111';</script>
+  <script src="chrome://gestsea/content/generator/sources/stat.js"/>
+  <script>
+alert('ok');
+var wgen=0; 
+var tgen=0;
+function j(){
+  if (tgen==wgen) tgen=0;
+  tgen++;
+  var p = Math.round(100*tgen/wgen);
+  document.getElementById('jauge').setAttribute('value',p+'%');
+}
+function jauge(x){document.getElementById('jauge').setAttribute('value',x);}
+</script>
   <groupbox>
     <caption label="Générations des modules"/>
     <grid>
@@ -38,41 +50,54 @@
         <row>
           <button label="Générer 'GestSEA Comptabilité'"  oncommand="CodeInComptabilite();"/>
           <button label="Ouvrir" oncommand="window.open('chrome://gestsea/content/gestsea/comptabilite.xul');"/>
+          <script>wgen+=1</script>
         </row>
         <row>
           <button label="Générer 'GestSEA Paramétrage'"  oncommand="CodeInParametrage();"/>
           <button label="Ouvrir" oncommand="window.open('chrome://gestsea/content/gestsea/parametrage.xul');"/>
+          <script>wgen+=1</script>
         </row>
         <row>
           <button label="Générer 'GestSEA Principal'"  oncommand="CodeInPrincipal('');"/>
           <button label="Ouvrir" oncommand="window.open('chrome://gestsea/content/gestsea/principal.xul');"/>
+          <script>wgen+=1</script>
         </row>
         <row>
           <button label="Générer 'GestSEA Personne'"  oncommand="CodeInPersonne();"/>
           <button label="Ouvrir" oncommand="window.open('chrome://gestsea/content/gestsea/personne.xul');"/>
+          <script>wgen+=1</script>
         </row>
         <row>
           <button label="Générer 'GestSEA Reglement'"  oncommand="CodeInReglement();"/>
           <button label="Ouvrir" oncommand="window.open('chrome://gestsea/content/gestsea/reglement.xul');"/>
+          <script>wgen+=1</script>
         </row>
         <row>
           <button label="Générer 'GestSEA MOTO'"  oncommand="CodeInMoto('');"/>
           <button label="Ouvrir" oncommand="window.open('chrome://gestsea/content/gestsea/moto.xul');"/>
+          <script>wgen+=1</script>
         </row>
         <row>
           <button label="Générer 'GestSEA EVO+'" oncommand="CodeInEvoplus('');"/>
           <button label="Ouvrir" oncommand="window.openDialog('chrome://gestsea/content/gestsea/evoplus.xul');"/>
+          <script>wgen+=1</script>
         </row>
         <row>
           <button label="Générer 'GestSEA Journal'" oncommand="CodeInJournal('');"/>
           <button label="Ouvrir" oncommand="window.openDialog('chrome://gestsea/content/gestsea/journal.xul');"/>
+          <script>wgen+=1</script>
+        </row>
+        <row>
+          <button label="Générer 'GestSEA Stat'" oncommand="CodeInStat('');"/>
+          <button label="Ouvrir" oncommand="window.openDialog('chrome://gestsea/content/gestsea/stat.xul');"/>
+          <script>wgen+=1; alert(wgen);</script>
         </row>
         <row>
           <button label="Générer 'GestSEA Temps'" disabled="true"/>
           <button label="Ouvrir" oncommand="window.openDialog('chrome://gestsea/content/gestsea/temps.xul');"/>
         </row>
         <row>
-          <button label="Générer tous les modules"  oncommand="jauge('0%');CodeInComptabilite();jauge('20%');CodeInParametrage();jauge('50%');CodeInPrincipal('');jauge('80%');CodeInPersonne();jauge('85%');CodeInReglement();jauge('92%');CodeInMoto('');CodeInEvoplus('');CodeInJournal('');jauge('100%');"/>
+          <button label="Générer tous les modules"  oncommand="j();CodeInComptabilite();j();CodeInParametrage();j();CodeInPrincipal('');j();CodeInPersonne();j();CodeInReglement();j();CodeInMoto('');j();CodeInEvoplus('');j();CodeInJournal('');j();CodeInStat('');j();"/>
           <progressmeter id="jauge" value="0%"/>
         </row>
       </rows>

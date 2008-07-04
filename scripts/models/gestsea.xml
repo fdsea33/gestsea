@@ -1147,7 +1147,7 @@
 <!--    <column name="SO_Numero"      type="INTEGER"     notnull="true" default="current_societe()" fkey="Societe(SO_Numero)" opt="odrour"></column>-->
     <column name="FR_Acompte"     type="BOOLEAN"     notnull="true" default="false">Si c'est un règlement pour acompte</column>
     <column name="FR_Partiel"     type="BOOLEAN"     notnull="true" default="false">Si c'est un règlement partiel</column>
-    <column name="FR_Montant"     type="NUMERIC"     default="NULL"></column>
+    <column name="FR_Montant"     type="NUMERIC"     notnull="true" default="0"></column>
     <seq name="seq_facturereglement" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>

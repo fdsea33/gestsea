@@ -715,10 +715,10 @@ CREATE OR REPLACE RULE rule_facture_delete AS
 
 CREATE OR REPLACE RULE rule_facturereglement_insert AS
   ON INSERT TO "facturereglement"
-  DO INSTEAD INSERT INTO "table_facturereglement"(fr_numero, rg_numero, fa_numero, fr_acompte, fr_partiel, fr_montant, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (COALESCE(NEW.fr_numero,nextval('seq_facturereglement')), new.rg_numero, new.fa_numero, COALESCE(NEW.fr_acompte,false), COALESCE(NEW.fr_partiel,false), ROUND(new.fr_montant,2), CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
+  DO INSTEAD INSERT INTO "table_facturereglement"(fr_numero, rg_numero, fa_numero, fr_acompte, fr_partiel, fr_montant, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (COALESCE(NEW.fr_numero,nextval('seq_facturereglement')), new.rg_numero, new.fa_numero, COALESCE(NEW.fr_acompte,false), COALESCE(NEW.fr_partiel,false), ROUND(COALESCE(NEW.fr_montant,0),2), CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
 CREATE OR REPLACE RULE rule_facturereglement_update AS
   ON UPDATE TO "facturereglement"
-  DO INSTEAD UPDATE "table_facturereglement" SET fr_numero=COALESCE(NEW.fr_numero,nextval('seq_facturereglement')), rg_numero=new.rg_numero, fa_numero=new.fa_numero, fr_acompte=COALESCE(NEW.fr_acompte,false), fr_partiel=COALESCE(NEW.fr_partiel,false), fr_montant=ROUND(new.fr_montant,2), created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.FR_Numero=FR_Numero;
+  DO INSTEAD UPDATE "table_facturereglement" SET fr_numero=COALESCE(NEW.fr_numero,nextval('seq_facturereglement')), rg_numero=new.rg_numero, fa_numero=new.fa_numero, fr_acompte=COALESCE(NEW.fr_acompte,false), fr_partiel=COALESCE(NEW.fr_partiel,false), fr_montant=ROUND(COALESCE(NEW.fr_montant,0),2), created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.FR_Numero=FR_Numero;
 CREATE OR REPLACE RULE rule_facturereglement_delete AS
   ON DELETE TO "facturereglement"
   DO INSTEAD DELETE FROM "table_facturereglement" WHERE old.FR_Numero=FR_Numero;

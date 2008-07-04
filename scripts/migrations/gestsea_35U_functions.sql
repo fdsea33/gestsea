@@ -172,9 +172,9 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 --===========================================================================--
 -- Calcule une date de paiement en fonction de 4 paramètres
 --   Date de départ
---   Nombre de jours à partir de la date de départ
+--   Nombre de jours à partir de la date de départ / Interval
 --   Fin de mois
---   Nombre de jours supplémentaires
+--   Nombre de jours supplémentaires / Interval
 
 CREATE OR REPLACE FUNCTION FC_Echeance(IN done_on DATE, IN days INTEGER, IN end_of_month BOOLEAN, IN supp INTEGER) RETURNS DATE AS
 $$
@@ -186,6 +186,20 @@ BEGIN
     SELECT (TO_CHAR(paid_on+('1 month')::INTERVAL, 'YYYY-MM')||'-01')::DATE-('1 day')::INTERVAL INTO paid_on;
   END IF;
   SELECT paid_on+(supp||' days')::INTERVAL INTO paid_on;
+  RETURN paid_on;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+CREATE OR REPLACE FUNCTION FC_Echeance(IN done_on DATE, IN days INTERVAL, IN end_of_month BOOLEAN, IN supp INTERVAL) RETURNS DATE AS
+$$
+DECLARE
+  paid_on DATE;
+BEGIN
+  SELECT done_on+days INTO paid_on;
+  IF end_of_month THEN
+    SELECT (TO_CHAR(paid_on+('1 month')::INTERVAL, 'YYYY-MM')||'-01')::DATE-('1 day')::INTERVAL INTO paid_on;
+  END IF;
+  SELECT paid_on+supp INTO paid_on;
   RETURN paid_on;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
@@ -940,6 +954,27 @@ CREATE TRIGGER trigger_estlie_validation
   FOR EACH ROW EXECUTE PROCEDURE TG_estlie_validation();
 
 
+-- FactureReglement
+--===========================================================================--
+-- Remplit le champ 'Montant' des liens entre facture et règlement
+-- DROP TRIGGER trigger_ecriture_validation ON table_ecriture;
+--DROP FUNCTION  TG_FactureReglement_validation();
+
+CREATE OR REPLACE FUNCTION TG_FactureReglement_validation() RETURNS TRIGGER AS
+$$
+BEGIN
+  IF NOT NEW.FR_Partiel THEN
+    SELECT RG_Montant FROM Reglement WHERE RG_Numero=NEW.RG_Numero INTO NEW.FR_Montant;
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+CREATE TRIGGER trigger_FactureReglement_validation
+  BEFORE INSERT OR UPDATE ON table_FactureReglement
+  FOR EACH ROW EXECUTE PROCEDURE TG_FactureReglement_validation();
+
+
 -- Ligne
 --===========================================================================--
 -- Calcule les montant TTC et HT de chaque ligne sans tenir compte de la réduction
@@ -1339,6 +1374,11 @@ DECLARE
   cheque boolean;
 BEGIN
   IF TG_OP='INSERT' OR TG_OP='UPDATE' THEN
+-- On empèche de modifier des chèques qui ne sont pas à soi
+    SELECT COALESCE(NEW.created_by,'*')=current_user OR usesuper FROM pg_user WHERE usename=current_user INTO cheque;
+    IF NOT cheque THEN
+      RAISE EXCEPTION 'Vous n''avez pas le droit de modifier un réglement que vous n''avez pas créé.\nContactez votre administrateur si nécessaire.';
+    END IF;
     NEW.RG_NumeroCompte := TRIM(NEW.RG_NumeroCompte);
     NEW.RG_Reference := TRIM(NEW.RG_Reference);
     SELECT current_agent()!=12 FROM ModeReglement WHERE MR_Numero=NEW.MR_Numero INTO cheque;
@@ -1362,6 +1402,7 @@ BEGIN
     IF (OLD.RG_Montant<>NEW.RG_Montant OR OLD.MR_Numero<>NEW.MR_Numero OR OLD.RG_Date<>NEW.RG_Date) AND OLD.RG_EnCompta THEN
       RAISE EXCEPTION 'Vous ne pouvez pas modifier tous les champs d''un reglèment qui a été validé. Les corrections s''effectueront par la comptabilité.';
     END IF;
+    UPDATE facturereglement SET fr_montant=NEW.rg_montant WHERE NOT fr_partiel and rg_numero=NEW.rg_numero;
   ELSIF TG_OP='DELETE' THEN
     IF OLD.RG_EnCompta THEN
       RAISE EXCEPTION 'Vous ne pouvez pas supprimer un réglèment qui a été validé. Les corrections s''effectueront par la comptabilité.';
@@ -1375,6 +1416,24 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 CREATE TRIGGER trigger_reglement_validation
   BEFORE INSERT OR UPDATE OR DELETE ON table_reglement
   FOR EACH ROW EXECUTE PROCEDURE TG_Reglement_validation();
+
+
+--===========================================================================--
+-- Verifie les règlements
+-- DROP TRIGGER trigger_reglement_treatments ON table_reglement;
+--DROP FUNCTION  TG_Reglement_treatments();
+
+CREATE OR REPLACE FUNCTION TG_Reglement_treatments() RETURNS TRIGGER AS
+$$
+BEGIN
+  UPDATE facturereglement SET fr_montant=NEW.rg_montant WHERE NOT fr_partiel and rg_numero=NEW.rg_numero;
+  RETURN NEW;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+CREATE TRIGGER trigger_reglement_treatments
+  AFTER UPDATE ON table_reglement
+  FOR EACH ROW EXECUTE PROCEDURE TG_Reglement_treatments();
 
 
 
@@ -3496,7 +3555,7 @@ CREATE OR REPLACE VIEW vue_evoplus AS
 (CASE WHEN aava THEN 31.00 ELSE 0.00 END)::numeric(16,2) AS op2_aava, 
 (CASE WHEN NOT proposition THEN opt_ttc WHEN proposition AND aava THEN opt1 ELSE opt3 END)::numeric(16,2) AS op1_total, 
 (CASE WHEN aava THEN opt2 ELSE opt4 END)::numeric(16,2) AS op2_total,
-CASE WHEN pe_numero IN (SELECT pe_numero FROM vue_cotisation_all WHERE cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)) THEN 'DEJA ADH!' WHEN proposition THEN 'P' ELSE 'A' END AS nature
+CASE WHEN pe_numero IN (SELECT pe_numero FROM vue_cotisation_all WHERE cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)) THEN 'DEJA ADH!' WHEN proposition THEN 'P' ELSE 'A' END||' / '||statut AS nature
     FROM table_evoplus ev join personne USING (pe_numero);
 
 
@@ -3527,7 +3586,7 @@ BEGIN
   -- Concatenation des documents
   SELECT '/tmp/evolot.pdf' INTO adresse;
   SELECT 'SELECT execution(''cd /tmp && touch '||adresse||E' && chmod 755 '||adresse||E' && gs -q -sPAPERSIZE=letter -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile='||adresse||' '||sommaire||concatenate(' '||SUBSTR(COALESCE(filename,''),8))||E''');'
-    FROM (SELECT filename FROM table_evoplus WHERE lot=num_lot and pe_numero not in (select pe_numero from table_cotisation where cs_annee=2008) and pe_numero not in (select COALESCE(cs_societe,0) from table_cotisation where cs_annee=2008) ORDER BY id) x
+    FROM (SELECT filename FROM table_evoplus WHERE lot=num_lot and statut not ilike '%DEJA ADH%' and pe_numero not in (select pe_numero from table_cotisation where cs_annee=2008) and pe_numero not in (select COALESCE(cs_societe,0) from table_cotisation where cs_annee=2008) ORDER BY id) x
     INTO query;
   RAISE NOTICE '> Query : %', query;
   IF query IS NOT NULL THEN

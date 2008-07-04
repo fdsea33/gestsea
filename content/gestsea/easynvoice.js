@@ -31,7 +31,7 @@ function wg_personne_load(){
     elem("wg-produit-radiogroup").selectedIndex = 1;
   }
 
-  elem('wg-reglement-date').value = requete("SELECT current_date-'2 day'::interval;");
+  elem('wg-reglement-date').value = requete("SELECT current_date-'4 day'::interval;");
   var reg = find_first("SELECT rg_libellebanque, rg_numerocompte, rg_reference FROM reglement WHERE pe_numero="+num_personne+" ORDER BY rg_date DESC")
   if (reg!=null) {
     elem('wg-reglement-banque').value = reg[0]; // rg_banque

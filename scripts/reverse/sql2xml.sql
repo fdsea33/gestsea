@@ -5,14 +5,27 @@ DECLARE
   xml TEXT;
   word TEXT;
   total INTEGER;
+  car VARCHAR(2);
   t record;
   c record;
   ct record;
   ku record;
+  table_prefix text;
 BEGIN
   xml:= '<?xml version="1.0" encoding="UTF-8"?>\n';
   SELECT current_database() INTO word;
   xml:=xml||'<analysis name="'||current_database()||'">\n';
+/*
+  table_prefix := '';
+  SELECT relname FROM pg_catalog.pg_class pc JOIN pg_catalog.pg_namespace pn ON (pc.relnamespace=pn.oid) WHERE nspname='public' AND relkind='r' INTO firstref;
+  
+  car := '--';
+  FOR t IN SELECT pc.oid AS pcrelid,* FROM pg_catalog.pg_class pc JOIN pg_catalog.pg_namespace pn ON (pc.relnamespace=pn.oid) WHERE nspname='public' AND relkind='r' ORDER BY relname LOOP
+    
+  END LOOP;
+*/
+
+
   -- Recuperation des tables du schema public
   FOR t IN SELECT pc.oid AS pcrelid,* FROM pg_catalog.pg_class pc JOIN pg_catalog.pg_namespace pn ON (pc.relnamespace=pn.oid) WHERE nspname='public' AND relkind='r' ORDER BY relname LOOP
     xml:=xml||'  <table name="'||t.relname||'" label="'||INITCAP(REPLACE(t.relname,'_',' '))||'">\n';
