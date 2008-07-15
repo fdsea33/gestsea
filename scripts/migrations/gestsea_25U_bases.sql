@@ -487,15 +487,31 @@ CREATE OR REPLACE VIEW vue_personne AS
 
 
 
+
 --===========================================================================--
 --
 
---CREATE OR REPLACE VIEW VUE_PRINT_Relance_entete AS
---SELECT pe_numero, debit, credit, debit-credit AS solde, 
+
+CREATE OR REPLACE VIEW vue_evoplus AS 
+  SELECT ev.*, pe_id, pe_libelle, CURRENT_DATE AS ev_date, COALESCE(ad1||' -- ','')||COALESCE(ad2||' -- ','')||COALESCE(ad3||' -- ','')||cp||' '||ville AS adline, 
+(CASE WHEN NOT proposition AND (opt_num=2 OR opt_num=4) THEN 0.00 ELSE sacea_ttc::numeric END)::numeric(16,2) AS op1_sacea, 
+0.00::numeric AS op2_sacea, 
+(CASE WHEN ((NOT proposition AND (opt_num=1 OR opt_num=2)) OR (proposition AND aava)) THEN 31.00 ELSE 0.00 END)::numeric(16,2) AS op1_aava, 
+(CASE WHEN aava THEN 31.00 ELSE 0.00 END)::numeric(16,2) AS op2_aava, 
+(CASE WHEN NOT proposition THEN opt_ttc WHEN proposition AND aava THEN opt1 ELSE opt3 END)::numeric(16,2) AS op1_total, 
+(CASE WHEN aava THEN opt2 ELSE opt4 END)::numeric(16,2) AS op2_total,
+CASE WHEN pe_numero IN (SELECT pe_numero FROM vue_cotisation_all WHERE cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)) THEN 'DEJA ADH!' WHEN proposition THEN 'P' ELSE 'A' END||' / '||statut AS nature
+    FROM table_evoplus ev join vue_personne USING (pe_numero);
 
 
---FROM ( SELECT fa_numero, sum(fr_montant) as fa_regle FROM table_facturereglement GROUP BY 1) fr JOIN table_facture fa USING (fa_numero) left join table_avoir using (fa_numero) WHERE abs(COALESCE(fa_regle,0)-fa_montantttc)>1 and fa_date>'1/03/2006' and not fa_perte and av_numero is null;
---FROM table_facture fa LEFT JOIN ( SELECT fa_numero, sum(fr_montant) as fa_regle FROM table_facturereglement GROUP BY 1) fr USING (fa_numero) left join table_avoir using (fa_numero) WHERE COALESCE(fa_regle,0)!=fa_montantttc and fa_date>'1/03/2007' and not fa_perte and av_numero is null;
+
+--===========================================================================--
+--
+--DROP VIEW VUE_facture_A_Regler;
+CREATE OR REPLACE VIEW VUE_facture_A_Regler AS 
+SELECT fa.fa_numero AS cle, fa.fa_numero, fa.fa_numfact, fa.pe_numero, fa.fa_date, fc_dateenlettre(fa.fa_date) AS fa_datel, CASE WHEN current_date>fc_delai(fa.fa_date,COALESCE(r3.cs_valeur,'30 days, eom, 2 months')) THEN 3 WHEN current_date>fc_delai(fa.fa_date,COALESCE(r2.cs_valeur, '30 days, eom, 1 month')) THEN 2 WHEN current_date>fc_delai(fa.fa_date,COALESCE(r1.cs_valeur,'30 days, eom')) THEN 1 ELSE 0 END AS fa_niveau, fa_montantttc, COALESCE(fa_regle,0.00) AS fa_regle, fa_montantttc-COALESCE(fa_regle,0.00) AS fa_reste , CASE WHEN fa_next_reflation_on>CURRENT_DATE THEN fa_next_reflation_on::TEXT ELSE '-' END AS fa_relance, fa_next_reflation_on, de_date, fa_penalty
+FROM table_facture fa JOIN table_devis USING (de_numero) LEFT JOIN ( SELECT fa_numero, sum(fr_montant) as fa_regle FROM table_facturereglement GROUP BY 1) fr USING (fa_numero) left join table_avoir using (fa_numero) LEFT JOIN table_constante r1 ON (r1.cs_nom='FIRST_REFLATION') LEFT JOIN table_constante r2 ON (r1.cs_nom='SECOND_REFLATION') LEFT JOIN table_constante r3 ON (r1.cs_nom='THIRD_REFLATION')
+WHERE abs(COALESCE(fa_regle,0)-fa_montantttc)>0 and fa_date>='1/1/2006' and not fa_perte and av_numero is null and fa.SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
 
 
 --DROP VIEW VUE_Reglement_A_Facturer;

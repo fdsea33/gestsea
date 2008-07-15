@@ -19,6 +19,7 @@
 <script src="chrome://gestsea/content/generator/pointer.js"/>
 <script src="chrome://gestsea/content/generator/generator_sql.js"/>
 <script src="chrome://gestsea/content/generator/generator_xul.js"/>
+<script src="chrome://gestsea/content/generator/libio.js"/>
 <script src="chrome://global/content/nsDragAndDrop.js"/>
 <script src="chrome://global/content/nsTransferable.js"/>
 <script src="chrome://global/content/globalOverlay.js"/>
@@ -240,8 +241,8 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Enregistrer une cotisation JA" oncommand="AjouterJA(TAB_GLOBAL_COMPO[1262]);"/>
-    <button label="Envoyer son mot de passe pour le site fdsea33.fr" oncommand="EnvoyerPassword(TAB_GLOBAL_COMPO[1262]);"/>
+    <button label="Enregistrer une cotisation JA" oncommand="AjouterJA(TAB_GLOBAL_COMPO[403]);"/>
+    <button label="Envoyer son mot de passe pour le site fdsea33.fr" oncommand="EnvoyerPassword(TAB_GLOBAL_COMPO[403]);"/>
   </arrowscrollbox>
 </hbox>
 </vbox>
@@ -255,16 +256,16 @@
 <vbox flex="1" style="overflow:auto">
 <vbox id="Devis_Liste_des_devis0_Slaves"/>
 <hbox flex="1">
-<vbox id="Devis_Lignes_du_devis_8" flex="1"/>
+<vbox id="Devis_Lignes_du_devis_7" flex="1"/>
 <splitter collapse="before"> <grippy/> </splitter>
 <vbox flex="1" style="overflow:auto">
-<vbox flex="1" id="Devis_Lignes_du_devis_8_Slaves"/>
+<vbox flex="1" id="Devis_Lignes_du_devis_7_Slaves"/>
 <arrowscrollbox  pack="end" align="stretch" class="fondstyle">
-    <button class="new-button16" disabled="true" id="Insert_Devis_Lignes_du_devis_8" label="Ajouter" oncommand="Insert_Devis_Lignes_du_devis_8()" />
-    <button class="edit-button16" disabled="true" id="Update_Devis_Lignes_du_devis_8" label="Modifier" oncommand="Update_Devis_Lignes_du_devis_8()" />
-    <button class="delete-button16" disabled="true" id="Delete_Devis_Lignes_du_devis_8" label="Supprimer" oncommand="Delete_Devis_Lignes_du_devis_8()" />
-    <button class="accept-button16" id="Validate_Devis_Lignes_du_devis_8" label="Valider" oncommand="Validate_Devis_Lignes_du_devis_8()"  disabled="true" />
-    <button class="cancel-button16" id="Annuler_Devis_Lignes_du_devis_8" label="Annuler" oncommand="Annuler_Devis_Lignes_du_devis_8()"  disabled="true" />
+    <button class="new-button16" disabled="true" id="Insert_Devis_Lignes_du_devis_7" label="Ajouter" oncommand="Insert_Devis_Lignes_du_devis_7()" />
+    <button class="edit-button16" disabled="true" id="Update_Devis_Lignes_du_devis_7" label="Modifier" oncommand="Update_Devis_Lignes_du_devis_7()" />
+    <button class="delete-button16" disabled="true" id="Delete_Devis_Lignes_du_devis_7" label="Supprimer" oncommand="Delete_Devis_Lignes_du_devis_7()" />
+    <button class="accept-button16" id="Validate_Devis_Lignes_du_devis_7" label="Valider" oncommand="Validate_Devis_Lignes_du_devis_7()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Devis_Lignes_du_devis_7" label="Annuler" oncommand="Annuler_Devis_Lignes_du_devis_7()"  disabled="true" />
 </arrowscrollbox>
 </vbox>
 </hbox>
@@ -280,9 +281,9 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Passer le devis en facture" oncommand="DevisVersFacture(TAB_GLOBAL_COMPO[1360]);"/>
-    <button label="Imprimer le devis" oncommand="Imprimer(TAB_GLOBAL_COMPO[1360],'devis');"/>
-    <button label="Recalculer le taux de réduction" oncommand="MajReductionDevis(TAB_GLOBAL_COMPO[1360]);"/>
+    <button label="Passer le devis en facture" oncommand="DevisVersFacture(TAB_GLOBAL_COMPO[501]);"/>
+    <button label="Imprimer le devis" oncommand="Imprimer(TAB_GLOBAL_COMPO[501],'devis');"/>
+    <button label="Recalculer le taux de réduction" oncommand="MajReductionDevis(TAB_GLOBAL_COMPO[501]);"/>
   </arrowscrollbox>
   <hbox pack="end" align="center">
     <separator class="groove"/>
@@ -363,15 +364,15 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Passer en avoir" oncommand="FactureVersAvoir(TAB_GLOBAL_COMPO[1380]);"/>
-    <button label="En perte" oncommand="FactureEnPerte(TAB_GLOBAL_COMPO[1380]);"/>
-    <button label="Imprimer" oncommand="Imprimer(TAB_GLOBAL_COMPO[1380],'facture');"/>
+    <button label="Passer en avoir" oncommand="FactureVersAvoir(TAB_GLOBAL_COMPO[520]);"/>
+    <button label="En perte" oncommand="FactureEnPerte(TAB_GLOBAL_COMPO[520]);"/>
+    <button label="Imprimer" oncommand="Imprimer(TAB_GLOBAL_COMPO[520],'facture');"/>
     <button label="Factures CM" oncommand="PrintLot(1,'facture');"/>
     <button label="Cartes CM" oncommand="PrintLot(1,'carte');"/>
-    <button label="Carte (Duplicata)" oncommand="PrintDuplicata(TAB_GLOBAL_COMPO[1380]);"/>
-    <button label="Router un groupe..." oncommand="GroupeRoutage(TAB_GLOBAL_COMPO[1380]);"/>
-    <button label="Supprimer les routages" oncommand="SupprimeRoutage(TAB_GLOBAL_COMPO[1380]);"/>
-    <button label="Imprimer Pub" oncommand="Imprimer(TAB_GLOBAL_COMPO[1380],'facture-publicite');"/>
+    <button label="Carte (Duplicata)" oncommand="PrintDuplicata(TAB_GLOBAL_COMPO[520]);"/>
+    <button label="Router un groupe..." oncommand="GroupeRoutage(TAB_GLOBAL_COMPO[520]);"/>
+    <button label="Supprimer les routages" oncommand="SupprimeRoutage(TAB_GLOBAL_COMPO[520]);"/>
+    <button label="Imprimer Pub" oncommand="Imprimer(TAB_GLOBAL_COMPO[520],'facture-publicite');"/>
   </arrowscrollbox>
   <hbox pack="end" align="center">
     <separator class="groove"/>
@@ -404,7 +405,7 @@
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
     <button label="Mettre à jour les adhésions" oncommand="MiseAJourAdhesion();"/>
-    <button label="Imprimer l'avoir" oncommand="Imprimer(TAB_GLOBAL_COMPO[1421],'avoir');"/>
+    <button label="Imprimer l'avoir" oncommand="Imprimer(TAB_GLOBAL_COMPO[561],'avoir');"/>
   </arrowscrollbox>
   <hbox pack="end" align="center">
     <separator class="groove"/>
@@ -502,7 +503,7 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Imprimer le bordereau" oncommand="Imprimer(TAB_GLOBAL_COMPO[1471],'bordereau');"/>
+    <button label="Imprimer le bordereau" oncommand="Imprimer(TAB_GLOBAL_COMPO[611],'bordereau');"/>
   </arrowscrollbox>
 </hbox>
 </vbox>

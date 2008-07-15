@@ -39,30 +39,30 @@ function ValideReglement(compo)
 
 function ChangerNumeroJournal()
 {
-  var num=requete("SELECT cs_valeur FROM constante WHERE cs_type=1;");
+  var num=requete("SELECT cs_valeur FROM constante WHERE cs_nom='CURRENT_NUMBER';");
   num=prompt("Veuillez indiquer le numéro du journal .\nN'oubliez pas de rafraichir la liste ensuite.",num);
   if (num!=null && num!=undefined) {
-    query="UPDATE constante SET cs_valeur="+num+" WHERE cs_type=1;";
+    query="UPDATE constante SET cs_valeur="+num+" WHERE cs_NOM='CURRENT_NUMBER';";
     pgsql_update(query);
   }
 }
 
 function ChangerNombrePasses()
 {
-  var num=requete("SELECT cs_valeur FROM constante WHERE cs_type=2;");
+  var num=requete("SELECT cs_valeur FROM constante WHERE cs_nom='PAST_NUMBER';");
   num=prompt("Veuillez indiquer le nombre de numéros passés après la fin de service pour lequel une relance est souhaitable.",num);
   if (num!=null && num!=undefined) {
-  query="UPDATE constante SET cs_valeur="+num+" WHERE cs_type=2;";
+  query="UPDATE constante SET cs_valeur="+num+" WHERE cs_nom='PAST_NUMBER';";
   pgsql_update(query);
   }
 }
 
 function ChangerNombreFuturs()
 {
-  var num=requete("SELECT cs_valeur FROM constante WHERE cs_type=3;");
+  var num=requete("SELECT cs_valeur FROM constante WHERE cs_nom='FUTURE_NUMBER';");
   num=prompt("Veuillez indiquer le nombre de numéros à paraitre avant la fin de service pour lequel une relance est souhaitable.",num);
   if (num!=null && num!=undefined) {
-  query="UPDATE constante SET cs_valeur="+num+" WHERE cs_type=3;";
+  query="UPDATE constante SET cs_valeur="+num+" WHERE cs_nom='FUTURE_NUMBER';";
   pgsql_update(query);
   }
 }
@@ -84,6 +84,14 @@ function SupprimeRoutage(compo)
 	  pgsql_update("DELETE FROM routage WHERE fa_numero="+FactureEnCours+";");
   }
 }
+
+function SupprimeDevis(compo){
+  var de=compo.getCleVal();
+  if (confirm("Etes-vous sûr(e) de vouloir supprimer ce devis ?")) {
+	  pgsql_update("DELETE FROM devis WHERE de_numero="+de+";");
+  }
+}
+
 
 function DevisVersFacture(compo){
   var num_devis=compo.getCleVal();
@@ -114,11 +122,29 @@ function FactureEnPerte(compo){
   var num_facture =compo.getCleVal();
   var enperte = requete('SELECT CASE WHEN fa_perte THEN 1 ELSE 0 END FROM facture WHERE fa_numero='+num_facture);
   var question = '?';
-  if (enperte==1) question = 'Voulez-vous vraiment faire revenir cette facture en profit ?';
-  else question = 'Voulez-vous vraiment faire passer cette facture en perte ?';
+  if (enperte==1) question = 'Voulez-vous vraiment faire "réactiver" cette facture ?';
+  else question = 'Voulez-vous vraiment faire passer cette facture en pertes et profits ?';
   if (confirm(question)) {
     pgsql_update("UPDATE facture SET fa_perte=NOT fa_perte WHERE fa_numero="+num_facture);
+    compo.Refresh();
   }
+}
+
+function FactureDelai(compo){
+  var num_facture =compo.getCleVal();
+  var enperte = requete('SELECT CASE WHEN fa_next_reflation_on>CURRENT_DATE THEN 1 ELSE 0 END FROM facture WHERE fa_numero='+num_facture);
+  var question = '?';
+  var new_value = "";
+  if (enperte==1) {question = 'Voulez-vous vraiment pouvoir relancer la facture dès maintenant ?'; new_value="'yesterday'";}
+  else {question = 'Voulez-vous vraiment repousser la relance plus tard ?\n Si la facture n\'est pas réglée dans 2 mois soit une relance de niveau 3 sortira à moins que la date de relance soit à nouveau décalée.'; new_value="CURRENT_DATE+'2 months'::INTERVAL";}
+  if (confirm(question)) {
+    pgsql_update("UPDATE facture SET fa_next_reflation_on = ("+new_value+")::DATE WHERE fa_numero="+num_facture);
+    compo.Refresh();
+  }
+}
+
+function ImprimerRelance() {
+  window.open(requete("SELECT fc_relance();"));
 }
 
 function ViderPersonneUpdate(){
@@ -137,26 +163,6 @@ function LastBordereauPrint(){
   var adresse=requete("SELECT "+modele+"(0)");
   window.setTimeout("window.open('"+adresse+"')",500);
 }
-
-function BordereauPrint(){
-  var debut, fin;
-  debut=requete("SELECT cs_valeur FROM constante WHERE cs_type=100;");
-  fin=requete("SELECT cs_valeur FROM constante WHERE cs_type=101;");
-  debut=prompt("Veuillez indiquer la date de début du bordereau ("+debut+")",fin);
-  if (debut!=null && debut!=undefined) {
-  var query="UPDATE constante SET cs_valeur='"+debut+"' WHERE cs_type=100;";
-  pgsql_update(query);
-  fin=prompt("Veuillez indiquer la date de fin du bordereau ("+fin+")",debut);
-  if (fin!=null && fin!=undefined) {
-    query="UPDATE constante SET cs_valeur='"+fin+"' WHERE cs_type=101;";
-    pgsql_update(query);
-    var modele= ChoisitModele('reglement');
-    var adresse=requete("SELECT "+modele+"(0)");
-    window.setTimeout("window.open('"+adresse+"')",500);
-  }
-  }
-}
-
 
 function Imprimer(compo,mot){
   if (compo.getCleVal()>=0){
@@ -196,7 +202,7 @@ function MajReductionDevis(compo) {
   pgsql_update(query);
   query = "UPDATE ligne SET updated_by=current_user WHERE de_numero="+cle+";";
   pgsql_update(query);
- 
+  compo.Refresh();
 }
 
 function PrintDuplicata(compo){
@@ -261,6 +267,7 @@ function AjouterJA(compo) {
       alert("Cotisation enregistrée");
     }
   }
+  compo.Refresh();
 }
 
 var current_personne = 25;

@@ -19,6 +19,7 @@
 <script src="chrome://gestsea/content/generator/pointer.js"/>
 <script src="chrome://gestsea/content/generator/generator_sql.js"/>
 <script src="chrome://gestsea/content/generator/generator_xul.js"/>
+<script src="chrome://gestsea/content/generator/libio.js"/>
 <script src="chrome://global/content/nsDragAndDrop.js"/>
 <script src="chrome://global/content/nsTransferable.js"/>
 <script src="chrome://global/content/globalOverlay.js"/>
@@ -39,34 +40,35 @@
       <menuitem label="Agents" oncommand="AllerAOnglet(2)"/>
       <menuitem label="Cantons" oncommand="AllerAOnglet(3)"/>
       <menuitem label="Codes postaux" oncommand="AllerAOnglet(4)"/>
-      <menuitem label="Profils de droits" oncommand="AllerAOnglet(5)"/>
-      <menuitem label="Employés" oncommand="AllerAOnglet(6)"/>
-      <menuitem label="Équipes" oncommand="AllerAOnglet(7)"/>
-      <menuitem label="Groupe de tables" oncommand="AllerAOnglet(8)"/>
-      <menuitem label="Groupes de cantons" oncommand="AllerAOnglet(9)"/>
-      <menuitem label="Modèles d'impressions" oncommand="AllerAOnglet(10)"/>
-      <menuitem label="Impressions" oncommand="AllerAOnglet(11)"/>
-      <menuitem label="Modèles" oncommand="AllerAOnglet(12)"/>
-      <menuitem label="Mode de réglements" oncommand="AllerAOnglet(13)"/>
-      <menuitem label="Modes de répartition" oncommand="AllerAOnglet(14)"/>
-      <menuitem label="Natures de personne" oncommand="AllerAOnglet(15)"/>
-      <menuitem label="Périodes" oncommand="AllerAOnglet(16)"/>
-      <menuitem label="Préfixes" oncommand="AllerAOnglet(17)"/>
-      <menuitem label="Produits" oncommand="AllerAOnglet(18)"/>
-      <menuitem label="Responsabilités" oncommand="AllerAOnglet(19)"/>
-      <menuitem label="Séquences" oncommand="AllerAOnglet(20)"/>
-      <menuitem label="Services" oncommand="AllerAOnglet(21)"/>
-      <menuitem label="Sociétés" oncommand="AllerAOnglet(22)"/>
-      <menuitem label="TVA" oncommand="AllerAOnglet(23)"/>
-      <menuitem label="Types d'adresses" oncommand="AllerAOnglet(24)"/>
-      <menuitem label="Types d'attribut" oncommand="AllerAOnglet(25)"/>
-      <menuitem label="Types de contacts" oncommand="AllerAOnglet(26)"/>
-      <menuitem label="Types de journaux" oncommand="AllerAOnglet(27)"/>
-      <menuitem label="Types de lien" oncommand="AllerAOnglet(28)"/>
-      <menuitem label="Types de personne" oncommand="AllerAOnglet(29)"/>
-      <menuitem label="Types de sociétés" oncommand="AllerAOnglet(30)"/>
-      <menuitem label="Types de tâches" oncommand="AllerAOnglet(31)"/>
-      <menuitem label="Villes" oncommand="AllerAOnglet(32)"/>
+      <menuitem label="Constantes" oncommand="AllerAOnglet(5)"/>
+      <menuitem label="Profils de droits" oncommand="AllerAOnglet(6)"/>
+      <menuitem label="Employés" oncommand="AllerAOnglet(7)"/>
+      <menuitem label="Équipes" oncommand="AllerAOnglet(8)"/>
+      <menuitem label="Groupe de tables" oncommand="AllerAOnglet(9)"/>
+      <menuitem label="Groupes de cantons" oncommand="AllerAOnglet(10)"/>
+      <menuitem label="Modèles d'impressions" oncommand="AllerAOnglet(11)"/>
+      <menuitem label="Impressions" oncommand="AllerAOnglet(12)"/>
+      <menuitem label="Modèles" oncommand="AllerAOnglet(13)"/>
+      <menuitem label="Mode de réglements" oncommand="AllerAOnglet(14)"/>
+      <menuitem label="Modes de répartition" oncommand="AllerAOnglet(15)"/>
+      <menuitem label="Natures de personne" oncommand="AllerAOnglet(16)"/>
+      <menuitem label="Périodes" oncommand="AllerAOnglet(17)"/>
+      <menuitem label="Préfixes" oncommand="AllerAOnglet(18)"/>
+      <menuitem label="Produits" oncommand="AllerAOnglet(19)"/>
+      <menuitem label="Responsabilités" oncommand="AllerAOnglet(20)"/>
+      <menuitem label="Séquences" oncommand="AllerAOnglet(21)"/>
+      <menuitem label="Services" oncommand="AllerAOnglet(22)"/>
+      <menuitem label="Sociétés" oncommand="AllerAOnglet(23)"/>
+      <menuitem label="TVA" oncommand="AllerAOnglet(24)"/>
+      <menuitem label="Types d'adresses" oncommand="AllerAOnglet(25)"/>
+      <menuitem label="Types d'attribut" oncommand="AllerAOnglet(26)"/>
+      <menuitem label="Types de contacts" oncommand="AllerAOnglet(27)"/>
+      <menuitem label="Types de journaux" oncommand="AllerAOnglet(28)"/>
+      <menuitem label="Types de lien" oncommand="AllerAOnglet(29)"/>
+      <menuitem label="Types de personne" oncommand="AllerAOnglet(30)"/>
+      <menuitem label="Types de sociétés" oncommand="AllerAOnglet(31)"/>
+      <menuitem label="Types de tâches" oncommand="AllerAOnglet(32)"/>
+      <menuitem label="Villes" oncommand="AllerAOnglet(33)"/>
       </menupopup>
     </menu>
     <menu id="affichage-menu" label="Affichage">
@@ -91,6 +93,7 @@
  <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Agents" label="Agents"/>
  <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Cantons" label="Cantons"/>
  <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Codes_postaux" label="Codes postaux"/>
+ <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Constantes" label="Constantes"/>
  <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Profils_de_droits" label="Profils de droits"/>
  <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Employés" label="Employés"/>
  <tab maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Équipes" label="Équipes"/>
@@ -252,6 +255,26 @@
     <button class="delete-button16" disabled="true" id="Delete_Codes_postaux_Liste_des_codes_postaux0" label="Supprimer" oncommand="Delete_Codes_postaux_Liste_des_codes_postaux0()" />
     <button class="accept-button16" id="Validate_Codes_postaux_Liste_des_codes_postaux0" label="Valider" oncommand="Validate_Codes_postaux_Liste_des_codes_postaux0()"  disabled="true" />
     <button class="cancel-button16" id="Annuler_Codes_postaux_Liste_des_codes_postaux0" label="Annuler" oncommand="Annuler_Codes_postaux_Liste_des_codes_postaux0()"  disabled="true" />
+</arrowscrollbox>
+</vbox>
+</hbox>
+</hbox>
+</vbox>
+</tabpanel>
+<tabpanel flex="1" id="OngletPanel_Constantes" >
+<vbox flex="1">
+<hbox flex="1">
+<hbox flex="1">
+<vbox id="Constantes_Liste_des_constantes0" flex="1"/>
+<splitter collapse="before"> <grippy/> </splitter>
+<vbox flex="1" style="overflow:auto">
+<vbox flex="1" id="Constantes_Liste_des_constantes0_Slaves"/>
+<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
+    <button class="new-button16" disabled="true" id="Insert_Constantes_Liste_des_constantes0" label="Ajouter" oncommand="Insert_Constantes_Liste_des_constantes0()" />
+    <button class="edit-button16" disabled="true" id="Update_Constantes_Liste_des_constantes0" label="Modifier" oncommand="Update_Constantes_Liste_des_constantes0()" />
+    <button class="delete-button16" disabled="true" id="Delete_Constantes_Liste_des_constantes0" label="Supprimer" oncommand="Delete_Constantes_Liste_des_constantes0()" />
+    <button class="accept-button16" id="Validate_Constantes_Liste_des_constantes0" label="Valider" oncommand="Validate_Constantes_Liste_des_constantes0()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Constantes_Liste_des_constantes0" label="Annuler" oncommand="Annuler_Constantes_Liste_des_constantes0()"  disabled="true" />
 </arrowscrollbox>
 </vbox>
 </hbox>
@@ -716,7 +739,7 @@
 <vbox flex="1" style="overflow:auto">
 <vbox id="Services_Liste_des_services0_Slaves"/>
 <hbox flex="1">
-<vbox id="Services_Employés_3" flex="1"/>
+<vbox id="Services_Employés_4" flex="1"/>
 </hbox>
 <arrowscrollbox  pack="end" align="stretch" class="fondstyle">
     <button class="new-button16" disabled="true" id="Insert_Services_Liste_des_services0" label="Ajouter" oncommand="Insert_Services_Liste_des_services0()" />

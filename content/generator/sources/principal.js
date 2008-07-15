@@ -416,8 +416,8 @@ function CodeInPrincipal(centre){
     DevisDate = It_Devis.AjouterComposantSimple("Date","de_date");
     It_Devis.AjouterComposantSimple("Libellé","de_libelle");
     //    It_Devis.AjouterComposantSimple("Suivi par","ag_libelle",new Array("ag_numero","ag_numero","agent"),null,LISTE_DEROULANTE);
-    It_Devis.AjouterComposantSimple("Suivi par","em_libelle",new Array("em_numero","em_numero","employe"),null,LISTE_DEROULANTE);
-    It_Devis.AjouterComposantSimple("Acompte à payer","de_acompte",null,null,CHECKBOX);
+    It_Devis.AjouterComposantSimple("Suivi par","em_libelle",new Array("em_numero","em_numero","vue_employe_devis"),null,LISTE_DEROULANTE);
+//    It_Devis.AjouterComposantSimple("Acompte à payer","de_acompte",null,null,CHECKBOX);
     It_Devis.AjouterComposantSimple("Devis sous forme de lettre","de_lettre",null,null,CHECKBOX);
     DevisCivilites = It_Devis.AjouterComposantSimple("Civilités","de_civilites");
     DevisIntroduction = It_Devis.AjouterComposantSimple("Introduction de la lettre","de_introduction",null,null,null,null,null,true);
@@ -531,7 +531,8 @@ function CodeInPrincipal(centre){
     FactureFacturereglementReglement = It_Facture.AjouterComposantSimple("Règlement","rg_libelle", new Array("rg_numero","rg_numero","reglement"),FactureFacturereglement,LISTE_DEROULANTE);
     It_Facture.AjouterComposantSimple("Ce règlement est un acompte","fr_acompte",null,FactureFacturereglement,CHECKBOX);
     It_Facture.AjouterComposantSimple("Une part du montant du règlement est utilisé","fr_partiel",null,FactureFacturereglement,CHECKBOX);
-    It_Facture.AjouterComposantSimple("Montant de la part","fr_montant",null,FactureFacturereglement);
+    FactureFacturereglementMontant = It_Facture.AjouterComposantSimple("Montant de la part","fr_montant",null,FactureFacturereglement);
+    FactureFacturereglement.OnModeInsert=ComposantDansCode(FactureFacturereglementMontant)+'.my_CompoXUL.value=0;\n';
 
 
     //***********************
@@ -636,7 +637,8 @@ function CodeInPrincipal(centre){
     It_Reglement.AjouterComposantSimple("Facture","fa_numfact",new Array("fa_numero","fa_numero","facture"),ReglementFacturereglement,LISTE_DEROULANTE);
     It_Reglement.AjouterComposantSimple("Acompte","fr_acompte",null,ReglementFacturereglement,CHECKBOX);
     It_Reglement.AjouterComposantSimple("La facture reçoit seulement une part du réglement","fr_partiel",null,ReglementFacturereglement,CHECKBOX);
-    It_Reglement.AjouterComposantSimple("Montant de la part","fr_montant",null,ReglementFacturereglement);
+    ReglementFacturereglementMontant = It_Reglement.AjouterComposantSimple("Montant de la part","fr_montant",null,ReglementFacturereglement);
+    ReglementFacturereglement.OnModeInsert=ComposantDansCode(ReglementFacturereglementMontant)+'.my_CompoXUL.value=0;\n';
 
 
     //*********************

@@ -6,9 +6,13 @@ CREATE OR REPLACE VIEW VUE_Historique AS
        pe_titre as "Titre", 
        pe_nom as "Nom", 
        INITCAP(pe_prenom) as "Prenom", 
-       CASE WHEN p.pe_numero IN (select pe_numero from vue_cotisation_all where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-2 AND BML_EXTRACT(cs_detail,'fdsea.forfait.produit')::integer IN (300006,500000052)) THEN 'X' ELSE '' END AS "Exploitant",
-       CASE WHEN p.pe_numero IN (select pe_numero from vue_cotisation_all where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-2 AND BML_EXTRACT(cs_detail,'fdsea.forfait.produit')::integer IN (500000124,500000053)) THEN 'X' ELSE '' END AS "Bailleur",
-       CASE WHEN p.pe_numero IN (select pe_numero from vue_cotisation_all where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-2 AND BML_EXTRACT(cs_detail,'fdsea.forfait.produit')::integer IN (500000054,500000124,500000150)) THEN 'X' ELSE '' END AS "Ancien",
+       CASE WHEN p.pe_numero IN (select pe_numero from table_cotisation where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-1 AND BML_EXTRACT(cs_detail,'fdsea.forfait.produit')::integer IN (300006,500000052)) THEN 'X' ELSE '' END AS "Exploitant",
+       CASE WHEN p.pe_numero IN (select pe_numero from table_cotisation where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-1 AND BML_EXTRACT(cs_detail,'fdsea.forfait.produit')::integer IN (500000124,500000053)) THEN 'X' ELSE '' END AS "Bailleur",
+       CASE WHEN p.pe_numero IN (select pe_numero from table_cotisation where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-1 AND BML_EXTRACT(cs_detail,'fdsea.forfait.produit')::integer IN (500000054,500000124,500000150)) THEN 'X' ELSE '' END AS "Ancien",
+       CASE WHEN p.pe_numero IN (select pe_numero from table_cotisation where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-1 AND cs_nature='ja') THEN 'X' ELSE '' END AS "J.A.",
+--       CASE WHEN p.pe_numero IN (select pe_numero from vue_cotisation_all where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-2 AND BML_EXTRACT(cs_detail,'fdsea.forfait.produit')::integer IN (300006,500000052)) THEN 'X' ELSE '' END AS "Exploitant",
+--       CASE WHEN p.pe_numero IN (select pe_numero from vue_cotisation_all where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-2 AND BML_EXTRACT(cs_detail,'fdsea.forfait.produit')::integer IN (500000124,500000053)) THEN 'X' ELSE '' END AS "Bailleur",
+--       CASE WHEN p.pe_numero IN (select pe_numero from vue_cotisation_all where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-2 AND BML_EXTRACT(cs_detail,'fdsea.forfait.produit')::integer IN (500000054,500000124,500000150)) THEN 'X' ELSE '' END AS "Ancien",
 
 --SELECT pe_numero FROM table_adhesion WHERE po_numero IN (SELECT po_numero from table_periode WHERE EXTRACT(YEAR FROM po_fin)=EXTRACT(YEAR FROM CURRENT_DATE)) AND ah_numero IN (500000016,500000025)) THEN 'X' ELSE '' END AS "Exploitant",
 

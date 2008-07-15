@@ -19,6 +19,7 @@
 <script src="chrome://gestsea/content/generator/pointer.js"/>
 <script src="chrome://gestsea/content/generator/generator_sql.js"/>
 <script src="chrome://gestsea/content/generator/generator_xul.js"/>
+<script src="chrome://gestsea/content/generator/libio.js"/>
 <script src="chrome://global/content/nsDragAndDrop.js"/>
 <script src="chrome://global/content/nsTransferable.js"/>
 <script src="chrome://global/content/globalOverlay.js"/>
@@ -115,7 +116,7 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Cloturer le journal..." oncommand="CloturerJournal(TAB_GLOBAL_COMPO[887]);"/>
+    <button label="Cloturer le journal..." oncommand="CloturerJournal(TAB_GLOBAL_COMPO[18]);"/>
   </arrowscrollbox>
 </hbox>
 </vbox>

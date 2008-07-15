@@ -303,12 +303,14 @@ function CodeInParametrage(){
     Maitre_Service = It_Service.AjouterMaitre("Liste des services","service"); 
     // Maitre_Service.AjouterColonne("Société","so_libelle",new Array("se_societe","so_numero","societe"));
     Maitre_Service.AjouterColonne("Nom","se_nom");
+    Maitre_Service.AjouterColonne("Nom","se_code");
     Maitre_Service.AjouterColonne("Responsable","ag_libelle",new Array("se_agent","ag_numero","agent"));
     Maitre_Service.AjouterColonne("Société", "so_libelle",new Array("se_societe","so_numero","societe"));
     
     // ServiceSociete = It_Service.AjouterComposantSimple("Société", "ts_libelle",new Array("ts_numero","ts_numero","typesociete"),null,LISTE_DEROULANTE);
     //It_Service.AjouterComposantSimple("Société", "so_libelle",new Array("se_societe","so_numero","societe"),null,LABEL);
     It_Service.AjouterComposantSimple("Nom", "se_nom");
+    It_Service.AjouterComposantSimple("Code", "se_code");
     ServiceAgent = It_Service.AjouterComposantSimple("Agent responsable", "ag_libelle", new Array("se_agent","ag_numero","agent"),null,LISTE_DEROULANTE);
 
     ServiceEmploye = It_Service.AjouterComposantComplexe("Employés", new Array("se_numero","em_service","employe"));
@@ -435,6 +437,26 @@ function CodeInParametrage(){
     It_Groupetable.AjouterComposantSimple("Tables", "gt_tables",null,null,null,null,null,true);    
 
     param_alert("Groupetable...OK!");
+    
+
+    //****************************
+    // CONSTANTE
+    //****************************
+    
+    var It_Constante,Maitre_Constante;
+
+    It_Constante = new clInterfaceSimple("Constantes");
+
+    Maitre_Constante = It_Constante.AjouterMaitre("Liste des constantes","constante"); 
+    Maitre_Constante.AjouterColonne("Description","cs_description");
+    Maitre_Constante.AjouterColonne("Valeur","cs_valeur");
+    Maitre_Constante.AjouterColonne("Nom","cs_nom");
+
+    It_Constante.AjouterComposantSimple("Description", "cs_description");
+    It_Constante.AjouterComposantSimple("Valeur", "cs_valeur");
+    It_Constante.AjouterComposantSimple("Nom", "cs_nom");
+
+    param_alert("Constante...OK!");
     
 
     //****************************
@@ -620,8 +642,9 @@ function CodeInParametrage(){
     It_Produit = new clInterfaceSimple("Produits");
 
     Maitre_Produit = It_Produit.AjouterMaitre("Liste des produits","produit");
-    Maitre_Produit.AjouterColonne("Etat","pd_etat");
-    Maitre_Produit.AjouterColonne("Libellé","pd_libelle");
+    Maitre_Produit.AjouterColonne("-","pd_etat");
+    Maitre_Produit.AjouterColonne("Libellé   ","pd_libelle");
+    Maitre_Produit.AjouterColonne("N°","pd_numero");
 
     It_Produit.AjouterComposantSimple("Libellé (en interne)","pd_libelle");
     It_Produit.AjouterComposantSimple("Titre (pour les impressions)","pd_titre");
@@ -875,6 +898,7 @@ function CodeInParametrage(){
     AllIt.AjouterInterface(It_Agent);
     AllIt.AjouterInterface(It_Canton);
     AllIt.AjouterInterface(It_Codepostal);
+    AllIt.AjouterInterface(It_Constante);
     AllIt.AjouterInterface(It_Droitprofil);
     AllIt.AjouterInterface(It_Employe);
     AllIt.AjouterInterface(It_Equipe);

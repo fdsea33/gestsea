@@ -15,9 +15,9 @@ SELECT stat_activite_annuelle(3,'Q');
 SELECT stat_activite_mensuelle(3,'M');
 SELECT stat_activite_mensuelle(3,'Q');
 
-SELECT stat_compta_mensuelle(1,2008);
-SELECT stat_compta_mensuelle(2,2008);
-SELECT stat_compta_mensuelle(3,2008);
+SELECT stat_compta_mensuelle(1,EXTRACT(YEAR FROM CURRENT_DATE)::integer);
+SELECT stat_compta_mensuelle(2,EXTRACT(YEAR FROM CURRENT_DATE)::integer);
+SELECT stat_compta_mensuelle(3,EXTRACT(YEAR FROM CURRENT_DATE)::integer);
 \o
 \timing
 

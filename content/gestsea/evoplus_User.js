@@ -10,127 +10,127 @@ function User_Insert_Evoplus_Liste_des_evoplus0(Compo_Maitre)
 
 Nbr d'esclaves = 31
 
-Id dans le tab: 1584;
+Id dans le tab: 724;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1585;
+Id dans le tab: 725;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1586;
+Id dans le tab: 726;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1587;
+Id dans le tab: 727;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1588;
+Id dans le tab: 728;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1589;
+Id dans le tab: 729;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1590;
+Id dans le tab: 730;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1591;
+Id dans le tab: 731;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1592;
+Id dans le tab: 732;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1593;
+Id dans le tab: 733;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1594;
+Id dans le tab: 734;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1595;
+Id dans le tab: 735;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1596;
+Id dans le tab: 736;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1597;
+Id dans le tab: 737;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1598;
+Id dans le tab: 738;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1599;
+Id dans le tab: 739;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1600;
+Id dans le tab: 740;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1601;
+Id dans le tab: 741;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1602;
+Id dans le tab: 742;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1603;
+Id dans le tab: 743;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1604;
+Id dans le tab: 744;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1605;
+Id dans le tab: 745;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1606;
+Id dans le tab: 746;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1607;
+Id dans le tab: 747;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1608;
+Id dans le tab: 748;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1609;
+Id dans le tab: 749;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1610;
+Id dans le tab: 750;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1611;
+Id dans le tab: 751;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1612;
+Id dans le tab: 752;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1613;
+Id dans le tab: 753;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 1614;
+Id dans le tab: 754;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
@@ -138,162 +138,162 @@ Nbr Jointure: PAS DE JOINTURE;
 */
 
  var Table="table_evoplus";
- var CleMaitre = TAB_COMPO_PPTES[1579].NewCle;
+ var CleMaitre = TAB_COMPO_PPTES[719].NewCle;
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var source=GetValAt(1584);
- if (!ValiderChampsObligatoire(Table,"source",TAB_GLOBAL_COMPO[1584],source,false))
+ var source=GetValAt(724);
+ if (!ValiderChampsObligatoire(Table,"source",TAB_GLOBAL_COMPO[724],source,false))
          return -1;
- if (!ValiderChampsType(Table,"source",TAB_GLOBAL_COMPO[1584],source))
+ if (!ValiderChampsType(Table,"source",TAB_GLOBAL_COMPO[724],source))
          return -1;
- var numero=GetValAt(1585);
- if (!ValiderChampsObligatoire(Table,"numero",TAB_GLOBAL_COMPO[1585],numero,false))
+ var numero=GetValAt(725);
+ if (!ValiderChampsObligatoire(Table,"numero",TAB_GLOBAL_COMPO[725],numero,false))
          return -1;
- if (!ValiderChampsType(Table,"numero",TAB_GLOBAL_COMPO[1585],numero))
+ if (!ValiderChampsType(Table,"numero",TAB_GLOBAL_COMPO[725],numero))
          return -1;
- var titre=GetValAt(1586);
- if (!ValiderChampsObligatoire(Table,"titre",TAB_GLOBAL_COMPO[1586],titre,false))
+ var titre=GetValAt(726);
+ if (!ValiderChampsObligatoire(Table,"titre",TAB_GLOBAL_COMPO[726],titre,false))
          return -1;
- if (!ValiderChampsType(Table,"titre",TAB_GLOBAL_COMPO[1586],titre))
+ if (!ValiderChampsType(Table,"titre",TAB_GLOBAL_COMPO[726],titre))
          return -1;
- var nom=GetValAt(1587);
- if (!ValiderChampsObligatoire(Table,"nom",TAB_GLOBAL_COMPO[1587],nom,false))
+ var nom=GetValAt(727);
+ if (!ValiderChampsObligatoire(Table,"nom",TAB_GLOBAL_COMPO[727],nom,false))
          return -1;
- if (!ValiderChampsType(Table,"nom",TAB_GLOBAL_COMPO[1587],nom))
+ if (!ValiderChampsType(Table,"nom",TAB_GLOBAL_COMPO[727],nom))
          return -1;
- var complement=GetValAt(1588);
- if (!ValiderChampsObligatoire(Table,"complement",TAB_GLOBAL_COMPO[1588],complement,false))
+ var complement=GetValAt(728);
+ if (!ValiderChampsObligatoire(Table,"complement",TAB_GLOBAL_COMPO[728],complement,false))
          return -1;
- if (!ValiderChampsType(Table,"complement",TAB_GLOBAL_COMPO[1588],complement))
+ if (!ValiderChampsType(Table,"complement",TAB_GLOBAL_COMPO[728],complement))
          return -1;
- var ad1=GetValAt(1589);
- if (!ValiderChampsObligatoire(Table,"ad1",TAB_GLOBAL_COMPO[1589],ad1,false))
+ var ad1=GetValAt(729);
+ if (!ValiderChampsObligatoire(Table,"ad1",TAB_GLOBAL_COMPO[729],ad1,false))
          return -1;
- if (!ValiderChampsType(Table,"ad1",TAB_GLOBAL_COMPO[1589],ad1))
+ if (!ValiderChampsType(Table,"ad1",TAB_GLOBAL_COMPO[729],ad1))
          return -1;
- var ad2=GetValAt(1590);
- if (!ValiderChampsObligatoire(Table,"ad2",TAB_GLOBAL_COMPO[1590],ad2,false))
+ var ad2=GetValAt(730);
+ if (!ValiderChampsObligatoire(Table,"ad2",TAB_GLOBAL_COMPO[730],ad2,false))
          return -1;
- if (!ValiderChampsType(Table,"ad2",TAB_GLOBAL_COMPO[1590],ad2))
+ if (!ValiderChampsType(Table,"ad2",TAB_GLOBAL_COMPO[730],ad2))
          return -1;
- var ad3=GetValAt(1591);
- if (!ValiderChampsObligatoire(Table,"ad3",TAB_GLOBAL_COMPO[1591],ad3,false))
+ var ad3=GetValAt(731);
+ if (!ValiderChampsObligatoire(Table,"ad3",TAB_GLOBAL_COMPO[731],ad3,false))
          return -1;
- if (!ValiderChampsType(Table,"ad3",TAB_GLOBAL_COMPO[1591],ad3))
+ if (!ValiderChampsType(Table,"ad3",TAB_GLOBAL_COMPO[731],ad3))
          return -1;
- var cp=GetValAt(1592);
- if (!ValiderChampsObligatoire(Table,"cp",TAB_GLOBAL_COMPO[1592],cp,false))
+ var cp=GetValAt(732);
+ if (!ValiderChampsObligatoire(Table,"cp",TAB_GLOBAL_COMPO[732],cp,false))
          return -1;
- if (!ValiderChampsType(Table,"cp",TAB_GLOBAL_COMPO[1592],cp))
+ if (!ValiderChampsType(Table,"cp",TAB_GLOBAL_COMPO[732],cp))
          return -1;
- var ville=GetValAt(1593);
- if (!ValiderChampsObligatoire(Table,"ville",TAB_GLOBAL_COMPO[1593],ville,false))
+ var ville=GetValAt(733);
+ if (!ValiderChampsObligatoire(Table,"ville",TAB_GLOBAL_COMPO[733],ville,false))
          return -1;
- if (!ValiderChampsType(Table,"ville",TAB_GLOBAL_COMPO[1593],ville))
+ if (!ValiderChampsType(Table,"ville",TAB_GLOBAL_COMPO[733],ville))
          return -1;
- var naissance=GetValAt(1594);
- if (!ValiderChampsObligatoire(Table,"naissance",TAB_GLOBAL_COMPO[1594],naissance,false))
+ var naissance=GetValAt(734);
+ if (!ValiderChampsObligatoire(Table,"naissance",TAB_GLOBAL_COMPO[734],naissance,false))
          return -1;
- if (!ValiderChampsType(Table,"naissance",TAB_GLOBAL_COMPO[1594],naissance))
+ if (!ValiderChampsType(Table,"naissance",TAB_GLOBAL_COMPO[734],naissance))
          return -1;
- var telephone=GetValAt(1595);
- if (!ValiderChampsObligatoire(Table,"telephone",TAB_GLOBAL_COMPO[1595],telephone,false))
+ var telephone=GetValAt(735);
+ if (!ValiderChampsObligatoire(Table,"telephone",TAB_GLOBAL_COMPO[735],telephone,false))
          return -1;
- if (!ValiderChampsType(Table,"telephone",TAB_GLOBAL_COMPO[1595],telephone))
+ if (!ValiderChampsType(Table,"telephone",TAB_GLOBAL_COMPO[735],telephone))
          return -1;
- var fax=GetValAt(1596);
- if (!ValiderChampsObligatoire(Table,"fax",TAB_GLOBAL_COMPO[1596],fax,false))
+ var fax=GetValAt(736);
+ if (!ValiderChampsObligatoire(Table,"fax",TAB_GLOBAL_COMPO[736],fax,false))
          return -1;
- if (!ValiderChampsType(Table,"fax",TAB_GLOBAL_COMPO[1596],fax))
+ if (!ValiderChampsType(Table,"fax",TAB_GLOBAL_COMPO[736],fax))
          return -1;
- var portable=GetValAt(1597);
- if (!ValiderChampsObligatoire(Table,"portable",TAB_GLOBAL_COMPO[1597],portable,false))
+ var portable=GetValAt(737);
+ if (!ValiderChampsObligatoire(Table,"portable",TAB_GLOBAL_COMPO[737],portable,false))
          return -1;
- if (!ValiderChampsType(Table,"portable",TAB_GLOBAL_COMPO[1597],portable))
+ if (!ValiderChampsType(Table,"portable",TAB_GLOBAL_COMPO[737],portable))
          return -1;
- var qualification=GetValAt(1598);
- if (!ValiderChampsObligatoire(Table,"qualification",TAB_GLOBAL_COMPO[1598],qualification,false))
+ var qualification=GetValAt(738);
+ if (!ValiderChampsObligatoire(Table,"qualification",TAB_GLOBAL_COMPO[738],qualification,false))
          return -1;
- if (!ValiderChampsType(Table,"qualification",TAB_GLOBAL_COMPO[1598],qualification))
+ if (!ValiderChampsType(Table,"qualification",TAB_GLOBAL_COMPO[738],qualification))
          return -1;
- var base_ht=GetValAt(1599);
- if (!ValiderChampsObligatoire(Table,"base_ht",TAB_GLOBAL_COMPO[1599],base_ht,false))
+ var base_ht=GetValAt(739);
+ if (!ValiderChampsObligatoire(Table,"base_ht",TAB_GLOBAL_COMPO[739],base_ht,false))
          return -1;
- if (!ValiderChampsType(Table,"base_ht",TAB_GLOBAL_COMPO[1599],base_ht))
+ if (!ValiderChampsType(Table,"base_ht",TAB_GLOBAL_COMPO[739],base_ht))
          return -1;
- var productions=GetValAt(1600);
- if (!ValiderChampsObligatoire(Table,"productions",TAB_GLOBAL_COMPO[1600],productions,false))
+ var productions=GetValAt(740);
+ if (!ValiderChampsObligatoire(Table,"productions",TAB_GLOBAL_COMPO[740],productions,false))
          return -1;
- if (!ValiderChampsType(Table,"productions",TAB_GLOBAL_COMPO[1600],productions))
+ if (!ValiderChampsType(Table,"productions",TAB_GLOBAL_COMPO[740],productions))
          return -1;
- var hectares_nb=GetValAt(1601);
- if (!ValiderChampsObligatoire(Table,"hectares_nb",TAB_GLOBAL_COMPO[1601],hectares_nb,false))
+ var hectares_nb=GetValAt(741);
+ if (!ValiderChampsObligatoire(Table,"hectares_nb",TAB_GLOBAL_COMPO[741],hectares_nb,false))
          return -1;
- if (!ValiderChampsType(Table,"hectares_nb",TAB_GLOBAL_COMPO[1601],hectares_nb))
+ if (!ValiderChampsType(Table,"hectares_nb",TAB_GLOBAL_COMPO[741],hectares_nb))
          return -1;
- var salaries_nb=GetValAt(1602);
- if (!ValiderChampsObligatoire(Table,"salaries_nb",TAB_GLOBAL_COMPO[1602],salaries_nb,false))
+ var salaries_nb=GetValAt(742);
+ if (!ValiderChampsObligatoire(Table,"salaries_nb",TAB_GLOBAL_COMPO[742],salaries_nb,false))
          return -1;
- if (!ValiderChampsType(Table,"salaries_nb",TAB_GLOBAL_COMPO[1602],salaries_nb))
+ if (!ValiderChampsType(Table,"salaries_nb",TAB_GLOBAL_COMPO[742],salaries_nb))
          return -1;
- var sacea_ttc=GetValAt(1603);
- if (!ValiderChampsObligatoire(Table,"sacea_ttc",TAB_GLOBAL_COMPO[1603],sacea_ttc,false))
+ var sacea_ttc=GetValAt(743);
+ if (!ValiderChampsObligatoire(Table,"sacea_ttc",TAB_GLOBAL_COMPO[743],sacea_ttc,false))
          return -1;
- if (!ValiderChampsType(Table,"sacea_ttc",TAB_GLOBAL_COMPO[1603],sacea_ttc))
+ if (!ValiderChampsType(Table,"sacea_ttc",TAB_GLOBAL_COMPO[743],sacea_ttc))
          return -1;
- var cm_nb=GetValAt(1604);
- if (!ValiderChampsObligatoire(Table,"cm_nb",TAB_GLOBAL_COMPO[1604],cm_nb,false))
+ var cm_nb=GetValAt(744);
+ if (!ValiderChampsObligatoire(Table,"cm_nb",TAB_GLOBAL_COMPO[744],cm_nb,false))
          return -1;
- if (!ValiderChampsType(Table,"cm_nb",TAB_GLOBAL_COMPO[1604],cm_nb))
+ if (!ValiderChampsType(Table,"cm_nb",TAB_GLOBAL_COMPO[744],cm_nb))
          return -1;
- var cm_ht=GetValAt(1605);
- if (!ValiderChampsObligatoire(Table,"cm_ht",TAB_GLOBAL_COMPO[1605],cm_ht,false))
+ var cm_ht=GetValAt(745);
+ if (!ValiderChampsObligatoire(Table,"cm_ht",TAB_GLOBAL_COMPO[745],cm_ht,false))
          return -1;
- if (!ValiderChampsType(Table,"cm_ht",TAB_GLOBAL_COMPO[1605],cm_ht))
+ if (!ValiderChampsType(Table,"cm_ht",TAB_GLOBAL_COMPO[745],cm_ht))
          return -1;
- var cm_noms=GetValAt(1606);
- if (!ValiderChampsObligatoire(Table,"cm_noms",TAB_GLOBAL_COMPO[1606],cm_noms,false))
+ var cm_noms=GetValAt(746);
+ if (!ValiderChampsObligatoire(Table,"cm_noms",TAB_GLOBAL_COMPO[746],cm_noms,false))
          return -1;
- if (!ValiderChampsType(Table,"cm_noms",TAB_GLOBAL_COMPO[1606],cm_noms))
+ if (!ValiderChampsType(Table,"cm_noms",TAB_GLOBAL_COMPO[746],cm_noms))
          return -1;
- var opt1=GetValAt(1607);
- if (!ValiderChampsObligatoire(Table,"opt1",TAB_GLOBAL_COMPO[1607],opt1,false))
+ var opt1=GetValAt(747);
+ if (!ValiderChampsObligatoire(Table,"opt1",TAB_GLOBAL_COMPO[747],opt1,false))
          return -1;
- if (!ValiderChampsType(Table,"opt1",TAB_GLOBAL_COMPO[1607],opt1))
+ if (!ValiderChampsType(Table,"opt1",TAB_GLOBAL_COMPO[747],opt1))
          return -1;
- var opt2=GetValAt(1608);
- if (!ValiderChampsObligatoire(Table,"opt2",TAB_GLOBAL_COMPO[1608],opt2,false))
+ var opt2=GetValAt(748);
+ if (!ValiderChampsObligatoire(Table,"opt2",TAB_GLOBAL_COMPO[748],opt2,false))
          return -1;
- if (!ValiderChampsType(Table,"opt2",TAB_GLOBAL_COMPO[1608],opt2))
+ if (!ValiderChampsType(Table,"opt2",TAB_GLOBAL_COMPO[748],opt2))
          return -1;
- var opt3=GetValAt(1609);
- if (!ValiderChampsObligatoire(Table,"opt3",TAB_GLOBAL_COMPO[1609],opt3,false))
+ var opt3=GetValAt(749);
+ if (!ValiderChampsObligatoire(Table,"opt3",TAB_GLOBAL_COMPO[749],opt3,false))
          return -1;
- if (!ValiderChampsType(Table,"opt3",TAB_GLOBAL_COMPO[1609],opt3))
+ if (!ValiderChampsType(Table,"opt3",TAB_GLOBAL_COMPO[749],opt3))
          return -1;
- var opt4=GetValAt(1610);
- if (!ValiderChampsObligatoire(Table,"opt4",TAB_GLOBAL_COMPO[1610],opt4,false))
+ var opt4=GetValAt(750);
+ if (!ValiderChampsObligatoire(Table,"opt4",TAB_GLOBAL_COMPO[750],opt4,false))
          return -1;
- if (!ValiderChampsType(Table,"opt4",TAB_GLOBAL_COMPO[1610],opt4))
+ if (!ValiderChampsType(Table,"opt4",TAB_GLOBAL_COMPO[750],opt4))
          return -1;
- var opt_num=GetValAt(1611);
- if (!ValiderChampsObligatoire(Table,"opt_num",TAB_GLOBAL_COMPO[1611],opt_num,false))
+ var opt_num=GetValAt(751);
+ if (!ValiderChampsObligatoire(Table,"opt_num",TAB_GLOBAL_COMPO[751],opt_num,false))
          return -1;
- if (!ValiderChampsType(Table,"opt_num",TAB_GLOBAL_COMPO[1611],opt_num))
+ if (!ValiderChampsType(Table,"opt_num",TAB_GLOBAL_COMPO[751],opt_num))
          return -1;
- var opt_ttc=GetValAt(1612);
- if (!ValiderChampsObligatoire(Table,"opt_ttc",TAB_GLOBAL_COMPO[1612],opt_ttc,false))
+ var opt_ttc=GetValAt(752);
+ if (!ValiderChampsObligatoire(Table,"opt_ttc",TAB_GLOBAL_COMPO[752],opt_ttc,false))
          return -1;
- if (!ValiderChampsType(Table,"opt_ttc",TAB_GLOBAL_COMPO[1612],opt_ttc))
+ if (!ValiderChampsType(Table,"opt_ttc",TAB_GLOBAL_COMPO[752],opt_ttc))
          return -1;
- var statut=GetValAt(1613);
- if (!ValiderChampsObligatoire(Table,"statut",TAB_GLOBAL_COMPO[1613],statut,false))
+ var statut=GetValAt(753);
+ if (!ValiderChampsObligatoire(Table,"statut",TAB_GLOBAL_COMPO[753],statut,false))
          return -1;
- if (!ValiderChampsType(Table,"statut",TAB_GLOBAL_COMPO[1613],statut))
+ if (!ValiderChampsType(Table,"statut",TAB_GLOBAL_COMPO[753],statut))
          return -1;
- var remarque=GetValAt(1614);
- if (!ValiderChampsObligatoire(Table,"remarque",TAB_GLOBAL_COMPO[1614],remarque,false))
+ var remarque=GetValAt(754);
+ if (!ValiderChampsObligatoire(Table,"remarque",TAB_GLOBAL_COMPO[754],remarque,false))
          return -1;
- if (!ValiderChampsType(Table,"remarque",TAB_GLOBAL_COMPO[1614],remarque))
+ if (!ValiderChampsType(Table,"remarque",TAB_GLOBAL_COMPO[754],remarque))
          return -1;
  var Req="insert into "+Table+" ";
 var TabInsertionEnPlus=new Array();
@@ -329,160 +329,160 @@ function User_Update_Evoplus_Liste_des_evoplus0(Compo_Maitre)
  var Table="table_evoplus";
  var CleMaitre = Compo_Maitre.getCleVal();
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var source=GetValAt(1584);
- if (!ValiderChampsObligatoire(Table,"source",TAB_GLOBAL_COMPO[1584],source,false))
+ var source=GetValAt(724);
+ if (!ValiderChampsObligatoire(Table,"source",TAB_GLOBAL_COMPO[724],source,false))
          return -1;
- if (!ValiderChampsType(Table,"source",TAB_GLOBAL_COMPO[1584],source))
+ if (!ValiderChampsType(Table,"source",TAB_GLOBAL_COMPO[724],source))
          return -1;
- var numero=GetValAt(1585);
- if (!ValiderChampsObligatoire(Table,"numero",TAB_GLOBAL_COMPO[1585],numero,false))
+ var numero=GetValAt(725);
+ if (!ValiderChampsObligatoire(Table,"numero",TAB_GLOBAL_COMPO[725],numero,false))
          return -1;
- if (!ValiderChampsType(Table,"numero",TAB_GLOBAL_COMPO[1585],numero))
+ if (!ValiderChampsType(Table,"numero",TAB_GLOBAL_COMPO[725],numero))
          return -1;
- var titre=GetValAt(1586);
- if (!ValiderChampsObligatoire(Table,"titre",TAB_GLOBAL_COMPO[1586],titre,false))
+ var titre=GetValAt(726);
+ if (!ValiderChampsObligatoire(Table,"titre",TAB_GLOBAL_COMPO[726],titre,false))
          return -1;
- if (!ValiderChampsType(Table,"titre",TAB_GLOBAL_COMPO[1586],titre))
+ if (!ValiderChampsType(Table,"titre",TAB_GLOBAL_COMPO[726],titre))
          return -1;
- var nom=GetValAt(1587);
- if (!ValiderChampsObligatoire(Table,"nom",TAB_GLOBAL_COMPO[1587],nom,false))
+ var nom=GetValAt(727);
+ if (!ValiderChampsObligatoire(Table,"nom",TAB_GLOBAL_COMPO[727],nom,false))
          return -1;
- if (!ValiderChampsType(Table,"nom",TAB_GLOBAL_COMPO[1587],nom))
+ if (!ValiderChampsType(Table,"nom",TAB_GLOBAL_COMPO[727],nom))
          return -1;
- var complement=GetValAt(1588);
- if (!ValiderChampsObligatoire(Table,"complement",TAB_GLOBAL_COMPO[1588],complement,false))
+ var complement=GetValAt(728);
+ if (!ValiderChampsObligatoire(Table,"complement",TAB_GLOBAL_COMPO[728],complement,false))
          return -1;
- if (!ValiderChampsType(Table,"complement",TAB_GLOBAL_COMPO[1588],complement))
+ if (!ValiderChampsType(Table,"complement",TAB_GLOBAL_COMPO[728],complement))
          return -1;
- var ad1=GetValAt(1589);
- if (!ValiderChampsObligatoire(Table,"ad1",TAB_GLOBAL_COMPO[1589],ad1,false))
+ var ad1=GetValAt(729);
+ if (!ValiderChampsObligatoire(Table,"ad1",TAB_GLOBAL_COMPO[729],ad1,false))
          return -1;
- if (!ValiderChampsType(Table,"ad1",TAB_GLOBAL_COMPO[1589],ad1))
+ if (!ValiderChampsType(Table,"ad1",TAB_GLOBAL_COMPO[729],ad1))
          return -1;
- var ad2=GetValAt(1590);
- if (!ValiderChampsObligatoire(Table,"ad2",TAB_GLOBAL_COMPO[1590],ad2,false))
+ var ad2=GetValAt(730);
+ if (!ValiderChampsObligatoire(Table,"ad2",TAB_GLOBAL_COMPO[730],ad2,false))
          return -1;
- if (!ValiderChampsType(Table,"ad2",TAB_GLOBAL_COMPO[1590],ad2))
+ if (!ValiderChampsType(Table,"ad2",TAB_GLOBAL_COMPO[730],ad2))
          return -1;
- var ad3=GetValAt(1591);
- if (!ValiderChampsObligatoire(Table,"ad3",TAB_GLOBAL_COMPO[1591],ad3,false))
+ var ad3=GetValAt(731);
+ if (!ValiderChampsObligatoire(Table,"ad3",TAB_GLOBAL_COMPO[731],ad3,false))
          return -1;
- if (!ValiderChampsType(Table,"ad3",TAB_GLOBAL_COMPO[1591],ad3))
+ if (!ValiderChampsType(Table,"ad3",TAB_GLOBAL_COMPO[731],ad3))
          return -1;
- var cp=GetValAt(1592);
- if (!ValiderChampsObligatoire(Table,"cp",TAB_GLOBAL_COMPO[1592],cp,false))
+ var cp=GetValAt(732);
+ if (!ValiderChampsObligatoire(Table,"cp",TAB_GLOBAL_COMPO[732],cp,false))
          return -1;
- if (!ValiderChampsType(Table,"cp",TAB_GLOBAL_COMPO[1592],cp))
+ if (!ValiderChampsType(Table,"cp",TAB_GLOBAL_COMPO[732],cp))
          return -1;
- var ville=GetValAt(1593);
- if (!ValiderChampsObligatoire(Table,"ville",TAB_GLOBAL_COMPO[1593],ville,false))
+ var ville=GetValAt(733);
+ if (!ValiderChampsObligatoire(Table,"ville",TAB_GLOBAL_COMPO[733],ville,false))
          return -1;
- if (!ValiderChampsType(Table,"ville",TAB_GLOBAL_COMPO[1593],ville))
+ if (!ValiderChampsType(Table,"ville",TAB_GLOBAL_COMPO[733],ville))
          return -1;
- var naissance=GetValAt(1594);
- if (!ValiderChampsObligatoire(Table,"naissance",TAB_GLOBAL_COMPO[1594],naissance,false))
+ var naissance=GetValAt(734);
+ if (!ValiderChampsObligatoire(Table,"naissance",TAB_GLOBAL_COMPO[734],naissance,false))
          return -1;
- if (!ValiderChampsType(Table,"naissance",TAB_GLOBAL_COMPO[1594],naissance))
+ if (!ValiderChampsType(Table,"naissance",TAB_GLOBAL_COMPO[734],naissance))
          return -1;
- var telephone=GetValAt(1595);
- if (!ValiderChampsObligatoire(Table,"telephone",TAB_GLOBAL_COMPO[1595],telephone,false))
+ var telephone=GetValAt(735);
+ if (!ValiderChampsObligatoire(Table,"telephone",TAB_GLOBAL_COMPO[735],telephone,false))
          return -1;
- if (!ValiderChampsType(Table,"telephone",TAB_GLOBAL_COMPO[1595],telephone))
+ if (!ValiderChampsType(Table,"telephone",TAB_GLOBAL_COMPO[735],telephone))
          return -1;
- var fax=GetValAt(1596);
- if (!ValiderChampsObligatoire(Table,"fax",TAB_GLOBAL_COMPO[1596],fax,false))
+ var fax=GetValAt(736);
+ if (!ValiderChampsObligatoire(Table,"fax",TAB_GLOBAL_COMPO[736],fax,false))
          return -1;
- if (!ValiderChampsType(Table,"fax",TAB_GLOBAL_COMPO[1596],fax))
+ if (!ValiderChampsType(Table,"fax",TAB_GLOBAL_COMPO[736],fax))
          return -1;
- var portable=GetValAt(1597);
- if (!ValiderChampsObligatoire(Table,"portable",TAB_GLOBAL_COMPO[1597],portable,false))
+ var portable=GetValAt(737);
+ if (!ValiderChampsObligatoire(Table,"portable",TAB_GLOBAL_COMPO[737],portable,false))
          return -1;
- if (!ValiderChampsType(Table,"portable",TAB_GLOBAL_COMPO[1597],portable))
+ if (!ValiderChampsType(Table,"portable",TAB_GLOBAL_COMPO[737],portable))
          return -1;
- var qualification=GetValAt(1598);
- if (!ValiderChampsObligatoire(Table,"qualification",TAB_GLOBAL_COMPO[1598],qualification,false))
+ var qualification=GetValAt(738);
+ if (!ValiderChampsObligatoire(Table,"qualification",TAB_GLOBAL_COMPO[738],qualification,false))
          return -1;
- if (!ValiderChampsType(Table,"qualification",TAB_GLOBAL_COMPO[1598],qualification))
+ if (!ValiderChampsType(Table,"qualification",TAB_GLOBAL_COMPO[738],qualification))
          return -1;
- var base_ht=GetValAt(1599);
- if (!ValiderChampsObligatoire(Table,"base_ht",TAB_GLOBAL_COMPO[1599],base_ht,false))
+ var base_ht=GetValAt(739);
+ if (!ValiderChampsObligatoire(Table,"base_ht",TAB_GLOBAL_COMPO[739],base_ht,false))
          return -1;
- if (!ValiderChampsType(Table,"base_ht",TAB_GLOBAL_COMPO[1599],base_ht))
+ if (!ValiderChampsType(Table,"base_ht",TAB_GLOBAL_COMPO[739],base_ht))
          return -1;
- var productions=GetValAt(1600);
- if (!ValiderChampsObligatoire(Table,"productions",TAB_GLOBAL_COMPO[1600],productions,false))
+ var productions=GetValAt(740);
+ if (!ValiderChampsObligatoire(Table,"productions",TAB_GLOBAL_COMPO[740],productions,false))
          return -1;
- if (!ValiderChampsType(Table,"productions",TAB_GLOBAL_COMPO[1600],productions))
+ if (!ValiderChampsType(Table,"productions",TAB_GLOBAL_COMPO[740],productions))
          return -1;
- var hectares_nb=GetValAt(1601);
- if (!ValiderChampsObligatoire(Table,"hectares_nb",TAB_GLOBAL_COMPO[1601],hectares_nb,false))
+ var hectares_nb=GetValAt(741);
+ if (!ValiderChampsObligatoire(Table,"hectares_nb",TAB_GLOBAL_COMPO[741],hectares_nb,false))
          return -1;
- if (!ValiderChampsType(Table,"hectares_nb",TAB_GLOBAL_COMPO[1601],hectares_nb))
+ if (!ValiderChampsType(Table,"hectares_nb",TAB_GLOBAL_COMPO[741],hectares_nb))
          return -1;
- var salaries_nb=GetValAt(1602);
- if (!ValiderChampsObligatoire(Table,"salaries_nb",TAB_GLOBAL_COMPO[1602],salaries_nb,false))
+ var salaries_nb=GetValAt(742);
+ if (!ValiderChampsObligatoire(Table,"salaries_nb",TAB_GLOBAL_COMPO[742],salaries_nb,false))
          return -1;
- if (!ValiderChampsType(Table,"salaries_nb",TAB_GLOBAL_COMPO[1602],salaries_nb))
+ if (!ValiderChampsType(Table,"salaries_nb",TAB_GLOBAL_COMPO[742],salaries_nb))
          return -1;
- var sacea_ttc=GetValAt(1603);
- if (!ValiderChampsObligatoire(Table,"sacea_ttc",TAB_GLOBAL_COMPO[1603],sacea_ttc,false))
+ var sacea_ttc=GetValAt(743);
+ if (!ValiderChampsObligatoire(Table,"sacea_ttc",TAB_GLOBAL_COMPO[743],sacea_ttc,false))
          return -1;
- if (!ValiderChampsType(Table,"sacea_ttc",TAB_GLOBAL_COMPO[1603],sacea_ttc))
+ if (!ValiderChampsType(Table,"sacea_ttc",TAB_GLOBAL_COMPO[743],sacea_ttc))
          return -1;
- var cm_nb=GetValAt(1604);
- if (!ValiderChampsObligatoire(Table,"cm_nb",TAB_GLOBAL_COMPO[1604],cm_nb,false))
+ var cm_nb=GetValAt(744);
+ if (!ValiderChampsObligatoire(Table,"cm_nb",TAB_GLOBAL_COMPO[744],cm_nb,false))
          return -1;
- if (!ValiderChampsType(Table,"cm_nb",TAB_GLOBAL_COMPO[1604],cm_nb))
+ if (!ValiderChampsType(Table,"cm_nb",TAB_GLOBAL_COMPO[744],cm_nb))
          return -1;
- var cm_ht=GetValAt(1605);
- if (!ValiderChampsObligatoire(Table,"cm_ht",TAB_GLOBAL_COMPO[1605],cm_ht,false))
+ var cm_ht=GetValAt(745);
+ if (!ValiderChampsObligatoire(Table,"cm_ht",TAB_GLOBAL_COMPO[745],cm_ht,false))
          return -1;
- if (!ValiderChampsType(Table,"cm_ht",TAB_GLOBAL_COMPO[1605],cm_ht))
+ if (!ValiderChampsType(Table,"cm_ht",TAB_GLOBAL_COMPO[745],cm_ht))
          return -1;
- var cm_noms=GetValAt(1606);
- if (!ValiderChampsObligatoire(Table,"cm_noms",TAB_GLOBAL_COMPO[1606],cm_noms,false))
+ var cm_noms=GetValAt(746);
+ if (!ValiderChampsObligatoire(Table,"cm_noms",TAB_GLOBAL_COMPO[746],cm_noms,false))
          return -1;
- if (!ValiderChampsType(Table,"cm_noms",TAB_GLOBAL_COMPO[1606],cm_noms))
+ if (!ValiderChampsType(Table,"cm_noms",TAB_GLOBAL_COMPO[746],cm_noms))
          return -1;
- var opt1=GetValAt(1607);
- if (!ValiderChampsObligatoire(Table,"opt1",TAB_GLOBAL_COMPO[1607],opt1,false))
+ var opt1=GetValAt(747);
+ if (!ValiderChampsObligatoire(Table,"opt1",TAB_GLOBAL_COMPO[747],opt1,false))
          return -1;
- if (!ValiderChampsType(Table,"opt1",TAB_GLOBAL_COMPO[1607],opt1))
+ if (!ValiderChampsType(Table,"opt1",TAB_GLOBAL_COMPO[747],opt1))
          return -1;
- var opt2=GetValAt(1608);
- if (!ValiderChampsObligatoire(Table,"opt2",TAB_GLOBAL_COMPO[1608],opt2,false))
+ var opt2=GetValAt(748);
+ if (!ValiderChampsObligatoire(Table,"opt2",TAB_GLOBAL_COMPO[748],opt2,false))
          return -1;
- if (!ValiderChampsType(Table,"opt2",TAB_GLOBAL_COMPO[1608],opt2))
+ if (!ValiderChampsType(Table,"opt2",TAB_GLOBAL_COMPO[748],opt2))
          return -1;
- var opt3=GetValAt(1609);
- if (!ValiderChampsObligatoire(Table,"opt3",TAB_GLOBAL_COMPO[1609],opt3,false))
+ var opt3=GetValAt(749);
+ if (!ValiderChampsObligatoire(Table,"opt3",TAB_GLOBAL_COMPO[749],opt3,false))
          return -1;
- if (!ValiderChampsType(Table,"opt3",TAB_GLOBAL_COMPO[1609],opt3))
+ if (!ValiderChampsType(Table,"opt3",TAB_GLOBAL_COMPO[749],opt3))
          return -1;
- var opt4=GetValAt(1610);
- if (!ValiderChampsObligatoire(Table,"opt4",TAB_GLOBAL_COMPO[1610],opt4,false))
+ var opt4=GetValAt(750);
+ if (!ValiderChampsObligatoire(Table,"opt4",TAB_GLOBAL_COMPO[750],opt4,false))
          return -1;
- if (!ValiderChampsType(Table,"opt4",TAB_GLOBAL_COMPO[1610],opt4))
+ if (!ValiderChampsType(Table,"opt4",TAB_GLOBAL_COMPO[750],opt4))
          return -1;
- var opt_num=GetValAt(1611);
- if (!ValiderChampsObligatoire(Table,"opt_num",TAB_GLOBAL_COMPO[1611],opt_num,false))
+ var opt_num=GetValAt(751);
+ if (!ValiderChampsObligatoire(Table,"opt_num",TAB_GLOBAL_COMPO[751],opt_num,false))
          return -1;
- if (!ValiderChampsType(Table,"opt_num",TAB_GLOBAL_COMPO[1611],opt_num))
+ if (!ValiderChampsType(Table,"opt_num",TAB_GLOBAL_COMPO[751],opt_num))
          return -1;
- var opt_ttc=GetValAt(1612);
- if (!ValiderChampsObligatoire(Table,"opt_ttc",TAB_GLOBAL_COMPO[1612],opt_ttc,false))
+ var opt_ttc=GetValAt(752);
+ if (!ValiderChampsObligatoire(Table,"opt_ttc",TAB_GLOBAL_COMPO[752],opt_ttc,false))
          return -1;
- if (!ValiderChampsType(Table,"opt_ttc",TAB_GLOBAL_COMPO[1612],opt_ttc))
+ if (!ValiderChampsType(Table,"opt_ttc",TAB_GLOBAL_COMPO[752],opt_ttc))
          return -1;
- var statut=GetValAt(1613);
- if (!ValiderChampsObligatoire(Table,"statut",TAB_GLOBAL_COMPO[1613],statut,false))
+ var statut=GetValAt(753);
+ if (!ValiderChampsObligatoire(Table,"statut",TAB_GLOBAL_COMPO[753],statut,false))
          return -1;
- if (!ValiderChampsType(Table,"statut",TAB_GLOBAL_COMPO[1613],statut))
+ if (!ValiderChampsType(Table,"statut",TAB_GLOBAL_COMPO[753],statut))
          return -1;
- var remarque=GetValAt(1614);
- if (!ValiderChampsObligatoire(Table,"remarque",TAB_GLOBAL_COMPO[1614],remarque,false))
+ var remarque=GetValAt(754);
+ if (!ValiderChampsObligatoire(Table,"remarque",TAB_GLOBAL_COMPO[754],remarque,false))
          return -1;
- if (!ValiderChampsType(Table,"remarque",TAB_GLOBAL_COMPO[1614],remarque))
+ if (!ValiderChampsType(Table,"remarque",TAB_GLOBAL_COMPO[754],remarque))
          return -1;
  var Req="update "+Table+" set ";
  Req+="source="+(source=="" ? "null" : "'"+ValiderChaine(source)+"'" )+",numero="+(numero=="" ? "null" : "'"+ValiderChaine(numero)+"'" )+",titre="+(titre=="" ? "null" : "'"+ValiderChaine(titre)+"'" )+",nom="+(nom=="" ? "null" : "'"+ValiderChaine(nom)+"'" )+",complement="+(complement=="" ? "null" : "'"+ValiderChaine(complement)+"'" )+",ad1="+(ad1=="" ? "null" : "'"+ValiderChaine(ad1)+"'" )+",ad2="+(ad2=="" ? "null" : "'"+ValiderChaine(ad2)+"'" )+",ad3="+(ad3=="" ? "null" : "'"+ValiderChaine(ad3)+"'" )+",cp="+(cp=="" ? "null" : "'"+ValiderChaine(cp)+"'" )+",ville="+(ville=="" ? "null" : "'"+ValiderChaine(ville)+"'" )+",naissance="+(naissance=="" ? "null" : "'"+ValiderChaine(naissance)+"'" )+",telephone="+(telephone=="" ? "null" : "'"+ValiderChaine(telephone)+"'" )+",fax="+(fax=="" ? "null" : "'"+ValiderChaine(fax)+"'" )+",portable="+(portable=="" ? "null" : "'"+ValiderChaine(portable)+"'" )+",qualification="+(qualification=="" ? "null" : "'"+ValiderChaine(qualification)+"'" )+",base_ht="+(base_ht=="" ? "null" : "'"+ValiderChaine(base_ht)+"'" )+",productions="+(productions=="" ? "null" : "'"+ValiderChaine(productions)+"'" )+",hectares_nb="+(hectares_nb=="" ? "null" : "'"+ValiderChaine(hectares_nb)+"'" )+",salaries_nb="+(salaries_nb=="" ? "null" : "'"+ValiderChaine(salaries_nb)+"'" )+",sacea_ttc="+(sacea_ttc=="" ? "null" : "'"+ValiderChaine(sacea_ttc)+"'" )+",cm_nb="+(cm_nb=="" ? "null" : "'"+ValiderChaine(cm_nb)+"'" )+",cm_ht="+(cm_ht=="" ? "null" : "'"+ValiderChaine(cm_ht)+"'" )+",cm_noms="+(cm_noms=="" ? "null" : "'"+ValiderChaine(cm_noms)+"'" )+",opt1="+(opt1=="" ? "null" : "'"+ValiderChaine(opt1)+"'" )+",opt2="+(opt2=="" ? "null" : "'"+ValiderChaine(opt2)+"'" )+",opt3="+(opt3=="" ? "null" : "'"+ValiderChaine(opt3)+"'" )+",opt4="+(opt4=="" ? "null" : "'"+ValiderChaine(opt4)+"'" )+",opt_num="+(opt_num=="" ? "null" : "'"+ValiderChaine(opt_num)+"'" )+",opt_ttc="+(opt_ttc=="" ? "null" : "'"+ValiderChaine(opt_ttc)+"'" )+",statut="+(statut=="" ? "null" : "'"+ValiderChaine(statut)+"'" )+",remarque="+(remarque=="" ? "null" : "'"+ValiderChaine(remarque)+"'" )+"";

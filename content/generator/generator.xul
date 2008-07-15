@@ -22,7 +22,6 @@
   <script src="chrome://gestsea/content/generator/sources/journal.js"/>
   <script src="chrome://gestsea/content/generator/sources/stat.js"/>
   <script>
-alert('ok');
 var wgen=0; 
 var tgen=0;
 function j(){
@@ -90,14 +89,14 @@ function jauge(x){document.getElementById('jauge').setAttribute('value',x);}
         <row>
           <button label="Générer 'GestSEA Stat'" oncommand="CodeInStat('');"/>
           <button label="Ouvrir" oncommand="window.openDialog('chrome://gestsea/content/gestsea/stat.xul');"/>
-          <script>wgen+=1; alert(wgen);</script>
+          <script>wgen+=1;</script>
         </row>
         <row>
           <button label="Générer 'GestSEA Temps'" disabled="true"/>
           <button label="Ouvrir" oncommand="window.openDialog('chrome://gestsea/content/gestsea/temps.xul');"/>
         </row>
         <row>
-          <button label="Générer tous les modules"  oncommand="j();CodeInComptabilite();j();CodeInParametrage();j();CodeInPrincipal('');j();CodeInPersonne();j();CodeInReglement();j();CodeInMoto('');j();CodeInEvoplus('');j();CodeInJournal('');j();CodeInStat('');j();"/>
+          <button label="Générer tous les modules"  oncommand="CodeInComptabilite();j();CodeInParametrage();j();CodeInPrincipal('');j();CodeInPersonne();j();CodeInReglement();j();CodeInMoto('');j();CodeInEvoplus('');j();CodeInJournal('');j();CodeInStat('');j();"/>
           <progressmeter id="jauge" value="0%"/>
         </row>
       </rows>

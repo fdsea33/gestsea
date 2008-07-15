@@ -3,10 +3,13 @@
 <analysis name="GestSEA" table="table_" view="" rails="gopa" database="gestsea">
   <text>Voici le MCD du projet <it text="GestSEA"/>.</text>
 
-  <table name="Constante" abbrev="CS" label="Constantes personnelles">
-    <column name="CS_Numero" type="INTEGER" notnull="true" pkey="true" default="nextval('seq_constante')"></column>
-    <column name="CS_Type"   type="INTEGER" notnull="true">Identifiant du type de constante</column>
-    <column name="CS_Valeur" type="VARCHAR" notnull="true"></column>
+  <table name="Constante" abbrev="CS" label="Constantes/Paramètres généraux" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+    <column name="CS_Numero" type="INTEGER"     notnull="true" pkey="true" default="nextval('seq_constante')"></column>
+<!--    <column name="CS_Type"   type="INTEGER"     notnull="true">Identifiant du type de constante</column>-->
+    <column name="CS_Valeur" type="VARCHAR"     notnull="true"></column>
+    <column name="CS_Nom"    type="VARCHAR(32)" notnull="true" default="MD5(RANDOM())">Identifiant</column>
+    <column name="CS_Description" type="TEXT"   >Description</column>
+    <column name="SO_Numero" type="INTEGER"     notnull="true" default="current_societe()" fkey="Societe(SO_Numero)" opt="odrour"></column>
     <seq name="seq_constante" start="1000"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
@@ -750,7 +753,7 @@
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
   
-  <table name="Facture" abbrev="FA" label="Factures" select="CASE WHEN fa_perte THEN 'En perte' ELSE '-' END AS fa_etat" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+  <table name="Facture" abbrev="FA" label="Factures" select="CASE WHEN fa_perte THEN 'En perte' ELSE 'normal' END AS fa_etat" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
     <column name="FA_Numero"     type="INTEGER"     notnull="true" pkey="true"></column>
     <column name="DE_Numero"     type="INTEGER"     notnull="true" fkey="Devis(DE_Numero)" opt="odrour">Devis qui a donné naissance à la facture</column>
     <column name="PE_Numero"     type="INTEGER"     notnull="true" fkey="Personne(PE_Numero)" opt="odrour"></column>
@@ -758,6 +761,8 @@
     <column name="FA_NumFact"    type="INTEGER"     notnull="true">Numero de facture officiel</column>
     <column name="FA_Date"       type="DATE"        notnull="true" default="CURRENT_DATE"></column>
     <column name="FA_Perte"      type="BOOLEAN"     notnull="true" default="false">Si la facture est passée en perte.</column>
+    <column name="FA_Next_Reflation_On" type="DATE" notnull="true" default="'0001-01-01'">A partir de quand on peut relancer la facture</column>
+    <column name="FA_Penalty"    type="INTEGER"     fkey="Facture(FA_Numero)" opt="odrouc">Facture de pénalité, s'il y en a une.</column>
     <column name="FA_Reduction"  type="NUMERIC"     notnull="true" default="0">Réduction appliqué sur le devis </column>
     <column name="FA_MontantHT"  type="NUMERIC(16,2)"     notnull="true" default="0">Montant Hors Taxe réduction comprise</column>
     <column name="FA_MontantTTC" type="NUMERIC(16,2)"     notnull="true" default="0">Montant Toutes Taxes Comprises réduction comprise</column>
@@ -839,6 +844,7 @@
     <text>Un service est une partie d'une entreprise. Exemple : le service informatique, le service juridique...et j'en passe et des meilleurs</text>
     <column name="SE_Numero"   type="INTEGER"     notnull="true" pkey="true"></column>
     <column name="SE_Nom"      type="VARCHAR"     notnull="true">Nom du service</column>
+    <column name="SE_Code"     type="VARCHAR(4)"  notnull="true">Code du service sur 4 lettres</column>
     <column name="SE_Societe"  type="INTEGER"     notnull="true" fkey="Societe(SO_Numero)" opt="odrour">Societe à laquelle appartient le service</column>
     <column name="SE_Agent"    type="INTEGER"     default="NULL" fkey="Agent(AG_Numero)" opt="odrour">Agent responsable du service</column>
     <seq name="seq_service" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>

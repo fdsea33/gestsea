@@ -361,8 +361,10 @@ function mcd_getType(table,champs)
     case 'constante':
       switch(champs.toLowerCase()){
         case 'cs_numero': type=TYPE_INT;break;
-        case 'cs_type': type=TYPE_INT;break;
         case 'cs_valeur': type=TYPE_STRING;break;
+        case 'cs_nom': type=TYPE_STRING;break;
+        case 'cs_description': type=TYPE_STRING;break;
+        case 'so_numero': type=TYPE_INT;break;
         case 'created_at': type=TYPE_DATETIME;break;
         case 'created_by': type=TYPE_STRING;break;
         case 'updated_at': type=TYPE_DATETIME;break;
@@ -715,6 +717,8 @@ function mcd_getType(table,champs)
         case 'fa_numfact': type=TYPE_INT;break;
         case 'fa_date': type=TYPE_DATE;break;
         case 'fa_perte': type=TYPE_BOOL;break;
+        case 'fa_next_reflation_on': type=TYPE_DATE;break;
+        case 'fa_penalty': type=TYPE_INT;break;
         case 'fa_reduction': type=TYPE_FLOAT;break;
         case 'fa_montantht': type=TYPE_FLOAT;break;
         case 'fa_montantttc': type=TYPE_FLOAT;break;
@@ -1435,6 +1439,7 @@ function mcd_getType(table,champs)
       switch(champs.toLowerCase()){
         case 'se_numero': type=TYPE_INT;break;
         case 'se_nom': type=TYPE_STRING;break;
+        case 'se_code': type=TYPE_STRING;break;
         case 'se_societe': type=TYPE_INT;break;
         case 'se_agent': type=TYPE_INT;break;
         case 'created_at': type=TYPE_DATETIME;break;
@@ -2006,8 +2011,10 @@ function mcd_getLabel(table,champs)
     case 'constante':
       switch(champs.toLowerCase()){
         case 'cs_numero': label="";break;
-        case 'cs_type': label="";break;
         case 'cs_valeur': label="";break;
+        case 'cs_nom': label="";break;
+        case 'cs_description': label="";break;
+        case 'so_numero': label="";break;
         case 'created_at': label="Date de creation";break;
         case 'created_by': label="Login du createur";break;
         case 'updated_at': label="Date de mise à jour";break;
@@ -2360,6 +2367,8 @@ function mcd_getLabel(table,champs)
         case 'fa_numfact': label="";break;
         case 'fa_date': label="";break;
         case 'fa_perte': label="";break;
+        case 'fa_next_reflation_on': label="";break;
+        case 'fa_penalty': label="";break;
         case 'fa_reduction': label="";break;
         case 'fa_montantht': label="";break;
         case 'fa_montantttc': label="";break;
@@ -3080,6 +3089,7 @@ function mcd_getLabel(table,champs)
       switch(champs.toLowerCase()){
         case 'se_numero': label="";break;
         case 'se_nom': label="";break;
+        case 'se_code': label="";break;
         case 'se_societe': label="";break;
         case 'se_agent': label="";break;
         case 'created_at': label="Date de creation";break;
@@ -3648,8 +3658,10 @@ function mcd_obligatoire(table,champs)
     case 'constante':
       switch(champs.toLowerCase()){
         case 'cs_numero': obligatoire=true;break;
-        case 'cs_type': obligatoire=true;break;
         case 'cs_valeur': obligatoire=true;break;
+        case 'cs_nom': obligatoire=true;break;
+        case 'cs_description': obligatoire=false;break;
+        case 'so_numero': obligatoire=true;break;
         case 'created_at': obligatoire=false;break;
         case 'created_by': obligatoire=false;break;
         case 'updated_at': obligatoire=false;break;
@@ -4002,6 +4014,8 @@ function mcd_obligatoire(table,champs)
         case 'fa_numfact': obligatoire=true;break;
         case 'fa_date': obligatoire=true;break;
         case 'fa_perte': obligatoire=true;break;
+        case 'fa_next_reflation_on': obligatoire=true;break;
+        case 'fa_penalty': obligatoire=false;break;
         case 'fa_reduction': obligatoire=true;break;
         case 'fa_montantht': obligatoire=true;break;
         case 'fa_montantttc': obligatoire=true;break;
@@ -4722,6 +4736,7 @@ function mcd_obligatoire(table,champs)
       switch(champs.toLowerCase()){
         case 'se_numero': obligatoire=true;break;
         case 'se_nom': obligatoire=true;break;
+        case 'se_code': obligatoire=true;break;
         case 'se_societe': obligatoire=true;break;
         case 'se_agent': obligatoire=false;break;
         case 'created_at': obligatoire=false;break;

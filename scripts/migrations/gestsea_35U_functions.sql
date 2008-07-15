@@ -349,11 +349,19 @@ DECLARE
   p RECORD;
   f RECORD;
 BEGIN
+  -- Génération des factures de pénalité pour les factures R2
+  UPDATE table_facture SET fa_penalty=FC_Facture_Une_Ligne(pe_numero,COALESCE(pp::INTEGER,0),ROUND(COALESCE(dp::FLOAT*fa_solde,0))) 
+    FROM VUE_PRINT_Relance_Factures 
+      LEFT JOIN table_constante dp ON (dp.cs_nom='DELAY_PENALTY') 
+      LEFT JOIN table_constante pp ON (pp.cs_nom='PENALTY_PRODUCT')
+    WHERE f.de_date>='2008-07-10' AND f.fa_penalty IS NULL AND fa_niveau>1;
+
+  -- Impression du document
   SELECT '/tmp/'||current_user||E'_relance_'||to_char(CURRENT_TIMESTAMP,'YYYYMMDD_HH24MISS_US')||E'.pdf' INTO adresse;
   query := E'SELECT execution(''cd /tmp && touch '||adresse||E' && chmod 755 '||adresse||E' && gs -q -sPAPERSIZE=letter -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile='||adresse;
-  FOR p IN SELECT * FROM VUE_PRINT_Relance_Entete LOOP
+  FOR p IN SELECT * FROM VUE_PRINT_Relance_Entete ORDER BY pe_numero LOOP
     SELECT query||' '||SUBSTR(COALESCE(FC_Imprime2('relance',p.pe_numero),''),8) INTO query;
-    FOR f IN SELECT * FROM VUE_PRINT_Relance_Factures WHERE pe_numero=p.pe_numero LOOP
+    FOR f IN SELECT * FROM VUE_PRINT_Relance_Factures WHERE pe_numero=p.pe_numero ORDER BY fa_numero LOOP
       SELECT query||' '||SUBSTR(COALESCE(FC_Imprime2('facture',f.fa_numero),''),8) INTO query;
     END LOOP;
   END LOOP;
@@ -3531,6 +3539,31 @@ $$ LANGUAGE 'plpgsql';
 
 
 
+CREATE OR REPLACE FUNCTION FC_Facture_Une_Ligne(IN num_personne INTEGER, IN num_produit INTEGER, IN quantity NUMERIC) RETURNS TEXT AS
+$$
+DECLARE
+  num_numfact facture.fa_numfact%TYPE;
+  num_devis devis.de_numero%TYPE;
+  num_facture facture.fa_numero%TYPE;
+  test BOOLEAN;
+BEGIN
+  SELECT em_self_invoicing FROM employe WHERE em_login=CURRENT_USER INTO test;
+  IF NOT test THEN
+    RAISE EXCEPTION 'Vous n''avez pas le droit de facturer.';
+  END IF;
+  SELECT nextval('seq_devis') INTO num_devis;
+  INSERT INTO devis(pe_numero, de_numero, de_libelle, em_numero) SELECT num_personne, num_devis, pd_libelle, current_employe() FROM produit WHERE pd_numero=num_produit;
+  INSERT INTO ligne(de_numero, pd_numero, l_quantite) VALUES (num_devis, num_produit, quantity);
+  
+  SELECT FC_DevisVersFacture(num_devis) INTO num_facture;
+
+  SELECT fa_numfact FROM facture WHERE fa_numero=num_facture INTO num_numfact;
+  RETURN num_numfact;
+END;
+$$ LANGUAGE 'plpgsql';
+
+
+
 
 
 CREATE OR REPLACE FUNCTION to_num(IN s TEXT) RETURNS TEXT AS
@@ -3543,18 +3576,6 @@ BEGIN
 END;
 $$ LANGUAGE 'plpgsql';
 
-
-
-CREATE OR REPLACE VIEW vue_evoplus AS 
-  SELECT ev.*, pe_id, pe_libelle, CURRENT_DATE AS ev_date, COALESCE(ad1||' -- ','')||COALESCE(ad2||' -- ','')||COALESCE(ad3||' -- ','')||cp||' '||ville AS adline, 
-(CASE WHEN NOT proposition AND (opt_num=2 OR opt_num=4) THEN 0.00 ELSE sacea_ttc::numeric END)::numeric(16,2) AS op1_sacea, 
-0.00::numeric AS op2_sacea, 
-(CASE WHEN ((NOT proposition AND (opt_num=1 OR opt_num=2)) OR (proposition AND aava)) THEN 31.00 ELSE 0.00 END)::numeric(16,2) AS op1_aava, 
-(CASE WHEN aava THEN 31.00 ELSE 0.00 END)::numeric(16,2) AS op2_aava, 
-(CASE WHEN NOT proposition THEN opt_ttc WHEN proposition AND aava THEN opt1 ELSE opt3 END)::numeric(16,2) AS op1_total, 
-(CASE WHEN aava THEN opt2 ELSE opt4 END)::numeric(16,2) AS op2_total,
-CASE WHEN pe_numero IN (SELECT pe_numero FROM vue_cotisation_all WHERE cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)) THEN 'DEJA ADH!' WHEN proposition THEN 'P' ELSE 'A' END||' / '||statut AS nature
-    FROM table_evoplus ev join personne USING (pe_numero);
 
 
 CREATE OR REPLACE FUNCTION FC_evoplus_print(IN default_lot INTEGER) RETURNS TEXT AS

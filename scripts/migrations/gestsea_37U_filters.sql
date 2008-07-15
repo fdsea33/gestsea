@@ -2,6 +2,12 @@
 CREATE OR REPLACE VIEW VUE_Employe_Reglement AS
   SELECT employe.*, em_numero AS cle FROM employe join service on (em_service=se_numero) WHERE em_reglement AND se_societe IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
 
+
+CREATE OR REPLACE VIEW VUE_Employe_Devis AS
+  SELECT employe.*, em_numero AS cle from employe JOIN service ON (em_service=se_numero) WHERE se_societe IN (SELECT SE_Societe FROM VUE_CURRENT_Societe); 
+--SELECT tous.*, tous.em_numero AS cle FROM table_employe moi JOIN table_service ON (em_login=current_user and moi.em_service=se_numero) LEFT JOIN table_employe tous ON (tous.em_service=se_numero);
+
+
 CREATE OR REPLACE VIEW VUE_Adresse AS
 --  SELECT pe_numero-1000000||'. '||COALESCE(ad_libelle,'???') AS ad_full, adresse.*, ad_numero AS cle FROM adresse ORDER BY 1;
   SELECT ad_numero AS cle, ad_numero, pe_numero, pe_id||'. '||TRIM(COALESCE(PE_Titre||' ','')||PE_Nom||COALESCE(' '||PE_Prenom,''))||', '||COALESCE(Ad_Ligne2||', ','')||COALESCE(Ad_Ligne3||', ','')||COALESCE(Ad_Ligne4||', ','')||COALESCE(Ad_Ligne5||', ','')||CP_CodePostal||' '||VI_Nom AS AD_Libelle

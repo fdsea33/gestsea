@@ -19,6 +19,7 @@
 <script src="chrome://gestsea/content/generator/pointer.js"/>
 <script src="chrome://gestsea/content/generator/generator_sql.js"/>
 <script src="chrome://gestsea/content/generator/generator_xul.js"/>
+<script src="chrome://gestsea/content/generator/libio.js"/>
 <script src="chrome://global/content/nsDragAndDrop.js"/>
 <script src="chrome://global/content/nsTransferable.js"/>
 <script src="chrome://global/content/globalOverlay.js"/>

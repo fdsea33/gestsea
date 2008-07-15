@@ -4,8 +4,8 @@
 
 CREATE OR REPLACE VIEW credits AS
   SELECT CASE WHEN pd_reduction THEN lf_montantht*(100-fa_reduction)/100 ELSE lf_montantht END AS total, pd_numero as product, lf_quantite AS quantity, cg_numero as account, fa_date AS day, table_facture.so_numero as society
-    FROM table_lignefacture LEFT JOIN table_facture USING (fa_numero)
-                            LEFT JOIN table_produit USING(pd_numero)
+    FROM table_lignefacture JOIN table_facture USING (fa_numero)
+                            JOIN table_produit USING(pd_numero)
                             LEFT JOIN table_compteproduit USING (pd_numero)
                             LEFT JOIN table_comptegen USING (cg_numero)
     WHERE ci_actif AND NOT fa_perte
@@ -14,9 +14,9 @@ CREATE OR REPLACE VIEW credits AS
 
 CREATE OR REPLACE VIEW debits AS
   SELECT CASE WHEN pd_reduction THEN -la_montantht*(100-av_reduction)/100 ELSE -la_montantht END AS total, pd_numero as product, -la_quantite AS quantity, cg_numero as account, av_date AS day, table_facture.so_numero as society
-    FROM table_ligneavoir LEFT JOIN table_avoir USING (av_numero)
-                          LEFT JOIN table_produit USING(pd_numero)
-                          LEFT JOIN table_facture USING (fa_numero)
+    FROM table_ligneavoir JOIN table_avoir USING (av_numero)
+                          JOIN table_produit USING(pd_numero)
+                          JOIN table_facture USING (fa_numero)
                           LEFT JOIN table_compteproduit USING (pd_numero)
                   			  LEFT JOIN table_comptegen USING (cg_numero)
     WHERE ci_actif AND NOT fa_perte
@@ -72,6 +72,8 @@ BEGIN
   nb_lines := nb_lines + 1;
   proc[nb_lines]:='SELECT ''Nombre d''''exploitants''::text AS "Variable"';
   nb_lines := nb_lines + 1;
+  proc[nb_lines]:='SELECT ''Nombre d''''exploitants associés''::text AS "Variable"';
+  nb_lines := nb_lines + 1;
   proc[nb_lines]:='SELECT ''Nombre d''''anciens exploitants (sans bailleurs)''::text AS "Variable"';
   nb_lines := nb_lines + 1;
   proc[nb_lines]:='SELECT ''Nombre d''''anciens exploitants conjoint''::text AS "Variable"';
@@ -87,6 +89,7 @@ BEGIN
   proc[nb_lines]:='SELECT ''Nombre d''''adhérents''::text AS "Variable"';
   nb_lines := nb_lines + 1;
   proc[nb_lines]:='SELECT ''Nombre d''''adhérents distincts cumulés''::text AS "Variable"';
+/*
   nb_lines := nb_lines + 1;
   proc[nb_lines]:='SELECT ''Nombre d''''adhérents fidèles''::text AS "Variable"';
   nb_lines := nb_lines + 1;
@@ -95,6 +98,8 @@ BEGIN
   proc[nb_lines]:='SELECT ''Nombre d''''adhérents nouveaux''::text AS "Variable"';
   nb_lines := nb_lines + 1;
   proc[nb_lines]:='SELECT ''Nombre d''''adhérents disparus''::text AS "Variable"';
+*/
+/*
   nb_lines := nb_lines + 1;
   proc[nb_lines]:='SELECT ''Nombre d''''adhérents nouveaux ANCIENS EXPLOITANTS''::text AS "Variable"';
   nb_lines := nb_lines + 1;
@@ -109,11 +114,13 @@ BEGIN
   proc[nb_lines]:='SELECT ''Nombre d''''adhérents ANCIENS nouveaux''::text AS "Variable"';
   nb_lines := nb_lines + 1;
   proc[nb_lines]:='SELECT ''Nombre d''''adhérents ANCIENS disparus''::text AS "Variable"';
+*/
   FOR x IN 1..nb_lines LOOP
     corp[x] := ' FROM ';
   END LOOP;
   first_year := true;
-  FOR p IN SELECT * FROM periode ORDER BY po_debut LOOP
+--  FOR p IN SELECT * FROM periode ORDER BY po_debut LOOP
+  FOR p IN 1997..EXTRACT(YEAR FROM CURRENT_DATE) LOOP
     IF first_year THEN
       first_year := false;
     ELSE
@@ -124,95 +131,101 @@ BEGIN
     nb_lines := 0;
     -- Coopérateurs
     nb_lines := nb_lines + 1;
-    proc[nb_lines]:=proc[nb_lines]||', c'||p.po_numero||'.nb AS "'||EXTRACT(YEAR FROM p.po_debut)||'"';
-    corp[nb_lines]:=corp[nb_lines]||' (SELECT count(distinct pe_numero) AS nb FROM table_adhesion where ah_numero in (500000019) AND po_numero='||p.po_numero||') AS c'||p.po_numero;
+    proc[nb_lines]:=proc[nb_lines]||', c'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (SELECT count(distinct pe_numero) AS nb FROM table_cotisation where bml_extract(cs_detail,''fdsea.forfait.produit'') IN (''300006'') AND cs_annee='||p||') AS c'||p;
     -- Exploitants
     nb_lines := nb_lines + 1;
-    proc[nb_lines]:=proc[nb_lines]||', e'||p.po_numero||'.nb AS "'||EXTRACT(YEAR FROM p.po_debut)||'"';
-    corp[nb_lines]:=corp[nb_lines]||' (SELECT count(distinct pe_numero) AS nb FROM table_adhesion where ah_numero in (500000016,500000025) AND po_numero='||p.po_numero||') AS e'||p.po_numero;
+    proc[nb_lines]:=proc[nb_lines]||', e'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (SELECT count(distinct pe_numero) AS nb FROM table_cotisation where bml_extract(cs_detail,''fdsea.forfait.produit'') IN (''500000052'') AND cs_annee='||p||') AS e'||p;
+    -- Exploitants associés
+    nb_lines := nb_lines + 1;
+    proc[nb_lines]:=proc[nb_lines]||', e'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (SELECT count(distinct pe_numero) AS nb FROM table_cotisation where bml_extract(cs_detail,''fdsea.forfait.produit'') IN (''500000162'') AND cs_annee='||p||') AS e'||p;
     -- Anciens
     nb_lines := nb_lines + 1;
-    proc[nb_lines]:=proc[nb_lines]||', a'||p.po_numero||'.nb AS "'||EXTRACT(YEAR FROM p.po_debut)||'"';
-    corp[nb_lines]:=corp[nb_lines]||' (SELECT count(distinct pe_numero) AS nb FROM table_adhesion where ah_numero-500000000 in (17,27) AND po_numero='||p.po_numero||') AS a'||p.po_numero;
+    proc[nb_lines]:=proc[nb_lines]||', a'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (SELECT count(distinct pe_numero) AS nb FROM table_cotisation where bml_extract(cs_detail,''fdsea.forfait.produit'') IN (''500000054'') AND cs_annee='||p||') AS a'||p;
     -- Conjoints anciens
     nb_lines := nb_lines + 1;
-    proc[nb_lines]:=proc[nb_lines]||', b'||p.po_numero||'.nb AS "'||EXTRACT(YEAR FROM p.po_debut)||'"';
-    corp[nb_lines]:=corp[nb_lines]||' (SELECT count(distinct pe_numero) AS nb FROM table_adhesion where ah_numero-500000000 in (32) AND po_numero='||p.po_numero||') AS b'||p.po_numero;
+    proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (SELECT count(distinct pe_numero) AS nb FROM table_cotisation where bml_extract(cs_detail,''fdsea.forfait.produit'') IN (''500000150'') AND cs_annee='||p||') AS b'||p;
     -- Anciens et bailleurs
     nb_lines := nb_lines + 1;
-    proc[nb_lines]:=proc[nb_lines]||', b'||p.po_numero||'.nb AS "'||EXTRACT(YEAR FROM p.po_debut)||'"';
-    corp[nb_lines]:=corp[nb_lines]||' (SELECT count(distinct pe_numero) AS nb FROM table_adhesion where ah_numero-500000000 in (29) AND po_numero='||p.po_numero||') AS b'||p.po_numero;
+    proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (SELECT count(distinct pe_numero) AS nb FROM table_cotisation where bml_extract(cs_detail,''fdsea.forfait.produit'') IN (''500000124'') AND cs_annee='||p||') AS b'||p;
     -- Anciens (tous)
     nb_lines := nb_lines + 1;
-    proc[nb_lines]:=proc[nb_lines]||', b'||p.po_numero||'.nb AS "'||EXTRACT(YEAR FROM p.po_debut)||'"';
-    corp[nb_lines]:=corp[nb_lines]||' (SELECT count(distinct pe_numero) AS nb FROM table_adhesion where ah_numero-500000000 in (17,27,29,32) AND po_numero='||p.po_numero||') AS b'||p.po_numero;
+    proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (SELECT count(distinct pe_numero) AS nb FROM table_cotisation where bml_extract(cs_detail,''fdsea.forfait.produit'') IN (''500000124'',''500000150'',''500000054'') AND cs_annee='||p||') AS b'||p;
     -- Bailleurs
     nb_lines := nb_lines + 1;
-    proc[nb_lines]:=proc[nb_lines]||', b'||p.po_numero||'.nb AS "'||EXTRACT(YEAR FROM p.po_debut)||'"';
-    corp[nb_lines]:=corp[nb_lines]||' (SELECT count(distinct pe_numero) AS nb FROM table_adhesion where ah_numero-500000000 in (18,26) AND po_numero='||p.po_numero||') AS b'||p.po_numero;
+    proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (SELECT count(distinct pe_numero) AS nb FROM table_cotisation where bml_extract(cs_detail,''fdsea.forfait.produit'') IN (''500000053'') AND cs_annee='||p||') AS b'||p;
     -- Bailleurs (tous)
     nb_lines := nb_lines + 1;
-    proc[nb_lines]:=proc[nb_lines]||', b'||p.po_numero||'.nb AS "'||EXTRACT(YEAR FROM p.po_debut)||'"';
-    corp[nb_lines]:=corp[nb_lines]||' (SELECT count(distinct pe_numero) AS nb FROM table_adhesion where ah_numero-500000000 in (18,26,29) AND po_numero='||p.po_numero||') AS b'||p.po_numero;
+    proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (SELECT count(distinct pe_numero) AS nb FROM table_cotisation where bml_extract(cs_detail,''fdsea.forfait.produit'') IN (''500000124'',''500000053'') AND cs_annee='||p||') AS b'||p;
     -- Nb Adhérents
     nb_lines := nb_lines + 1;
-    proc[nb_lines]:=proc[nb_lines]||', b'||p.po_numero||'.nb AS "'||EXTRACT(YEAR FROM p.po_debut)||'"';
-    corp[nb_lines]:=corp[nb_lines]||' (select count(distinct pe_numero) AS nb FROM table_adhesion where ah_numero-500000000 in (17,18,19,16,25,26,27,29,32) AND po_numero='||p.po_numero||') AS b'||p.po_numero;
+    proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (select count(distinct pe_numero) AS nb FROM table_cotisation where bml_extract(cs_detail,''fdsea.forfait.produit'') IN (''300006'',''500000052'',''500000054'',''500000150'',''500000053'',''500000124'',''500000162'') AND cs_annee='||p||') AS b'||p;
     -- Cumul
     nb_lines := nb_lines + 1;
-    proc[nb_lines]:=proc[nb_lines]||', b'||p.po_numero||'.nb AS "'||EXTRACT(YEAR FROM p.po_debut)||'"';
-    corp[nb_lines]:=corp[nb_lines]||' (select count(distinct pe_numero) AS nb FROM table_adhesion join table_periode using (po_numero) where po_fin<='''||p.po_fin||''' and ah_numero-500000000 in (17,18,19,16,25,26,27,29,32)) AS b'||p.po_numero;
+    proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (select count(distinct pe_numero) AS nb FROM table_cotisation where bml_extract(cs_detail,''fdsea.forfait.produit'') IN (''300006'',''500000052'',''500000054'',''500000150'',''500000053'',''500000124'',''500000162'') AND cs_annee<='||p||') AS b'||p;
+/*
     -- Fidèles
     nb_lines := nb_lines + 1;
-    proc[nb_lines]:=proc[nb_lines]||', b'||p.po_numero||'.nb AS "'||EXTRACT(YEAR FROM p.po_debut)||'"';
-    corp[nb_lines]:=corp[nb_lines]||' (select count(distinct pe_numero) AS nb FROM table_adhesion where pe_numero in (SELECT pe_numero FROM table_adhesion join table_periode using (po_numero) where po_fin<='''||p.po_fin||''' and po_debut>='''||p.po_debut-'4 year'::interval||''' and ah_numero-500000000 in (17,18,19,16,25,26,27,29,32) group by pe_numero having count(distinct as_numero)>=5)) AS b'||p.po_numero;
+    proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (select count(distinct pe_numero) AS nb FROM table_personne where pe_numero IN (SELECT pe_numero FROM table_cotisation where bml_extract(cs_detail,''fdsea.forfait.produit'') IN (''300006'',''500000052'',''500000054'',''500000150'',''500000053'',''500000124'') AND cs_annee='||p||')
+adhesion where pe_numero in (SELECT pe_numero FROM table_adhesion join table_periode using (po_numero) where po_fin<='''||p.po_fin||''' and po_debut>='''||p.po_debut-'4 year'::interval||''' and ah_numero-500000000 in (17,18,19,16,25,26,27,29,32) group by pe_numero having count(distinct as_numero)>=5)) AS b'||p;
     -- Reste
     nb_lines := nb_lines + 1;
-    proc[nb_lines]:=proc[nb_lines]||', b'||p.po_numero||'.nb AS "'||EXTRACT(YEAR FROM p.po_debut)||'"';
-    corp[nb_lines]:=corp[nb_lines]||' (select count(distinct pe_numero) AS nb FROM table_adhesion where pe_numero in (SELECT pe_numero FROM table_adhesion join table_periode using (po_numero) where po_fin<'''||p.po_debut||''' and po_debut>='''||p.po_debut-'1 year'::interval||''' and ah_numero-500000000 in (17,18,19,16,25,26,27,29,32)) and pe_numero in (SELECT pe_numero FROM table_adhesion where po_numero='||p.po_numero||' and ah_numero-500000000 in (17,18,19,16,25,26,27,29,32))) AS b'||p.po_numero;
+    proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (select count(distinct pe_numero) AS nb FROM table_adhesion where pe_numero in (SELECT pe_numero FROM table_adhesion join table_periode using (po_numero) where po_fin<'''||p.po_debut||''' and po_debut>='''||p.po_debut-'1 year'::interval||''' and ah_numero-500000000 in (17,18,19,16,25,26,27,29,32)) and pe_numero in (SELECT pe_numero FROM table_adhesion where po_numero='||p.po_numero||' and ah_numero-500000000 in (17,18,19,16,25,26,27,29,32))) AS b'||p;
     -- Nouveaux
     nb_lines := nb_lines + 1;
-    proc[nb_lines]:=proc[nb_lines]||', b'||p.po_numero||'.nb AS "'||EXTRACT(YEAR FROM p.po_debut)||'"';
-    corp[nb_lines]:=corp[nb_lines]||' (select count(distinct pe_numero) AS nb FROM table_adhesion where pe_numero not in (SELECT pe_numero FROM table_adhesion join table_periode using (po_numero) where po_fin<'''||p.po_debut||''' and po_debut>='''||p.po_debut-'1 year'::interval||''' and ah_numero-500000000 in (17,18,19,16,25,26,27,29,32)) and pe_numero in (SELECT pe_numero FROM table_adhesion where po_numero='||p.po_numero||' and ah_numero-500000000 in (17,18,19,16,25,26,27,29,32))) AS b'||p.po_numero;
+    proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (select count(distinct pe_numero) AS nb FROM table_adhesion where pe_numero not in (SELECT pe_numero FROM table_adhesion join table_periode using (po_numero) where po_fin<'''||p.po_debut||''' and po_debut>='''||p.po_debut-'1 year'::interval||''' and ah_numero-500000000 in (17,18,19,16,25,26,27,29,32)) and pe_numero in (SELECT pe_numero FROM table_adhesion where po_numero='||p.po_numero||' and ah_numero-500000000 in (17,18,19,16,25,26,27,29,32))) AS b'||p;
     -- Disparus
     nb_lines := nb_lines + 1;
-    proc[nb_lines]:=proc[nb_lines]||', b'||p.po_numero||'.nb AS "'||EXTRACT(YEAR FROM p.po_debut)||'"';
-    corp[nb_lines]:=corp[nb_lines]||' (select count(distinct pe_numero) AS nb FROM table_adhesion where pe_numero in (SELECT pe_numero FROM table_adhesion join table_periode using (po_numero) where po_fin<'''||p.po_debut||''' and po_debut>='''||p.po_debut-'1 year'::interval||''' and ah_numero-500000000 in (17,18,19,16,25,26,27,29,32)) and pe_numero not in (SELECT pe_numero FROM table_adhesion where po_numero='||p.po_numero||' and ah_numero-500000000 in (17,18,19,16,25,26,27,29,32))) AS b'||p.po_numero;
+    proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (select count(distinct pe_numero) AS nb FROM table_adhesion where pe_numero in (SELECT pe_numero FROM table_adhesion join table_periode using (po_numero) where po_fin<'''||p.po_debut||''' and po_debut>='''||p.po_debut-'1 year'::interval||''' and ah_numero-500000000 in (17,18,19,16,25,26,27,29,32)) and pe_numero not in (SELECT pe_numero FROM table_adhesion where po_numero='||p.po_numero||' and ah_numero-500000000 in (17,18,19,16,25,26,27,29,32))) AS b'||p;
     -- Nouveaux Anciens exploitants
     nb_lines := nb_lines + 1;
-    proc[nb_lines]:=proc[nb_lines]||', b'||p.po_numero||'.nb AS "'||EXTRACT(YEAR FROM p.po_debut)||'"';
-    corp[nb_lines]:=corp[nb_lines]||' (select count(distinct pe_numero) AS nb FROM table_adhesion where pe_numero in (SELECT pe_numero FROM table_adhesion join table_periode using (po_numero) where po_fin<'''||p.po_debut||''' and po_debut>='''||p.po_debut-'1 year'::interval||''' and ah_numero-500000000 in (19,25)) and pe_numero in (SELECT pe_numero FROM table_adhesion where po_numero='||p.po_numero||' and ah_numero-500000000 in (27,29,32))) AS b'||p.po_numero;
-
-
+    proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (select count(distinct pe_numero) AS nb FROM table_adhesion where pe_numero in (SELECT pe_numero FROM table_adhesion join table_periode using (po_numero) where po_fin<'''||p.po_debut||''' and po_debut>='''||p.po_debut-'1 year'::interval||''' and ah_numero-500000000 in (19,25)) and pe_numero in (SELECT pe_numero FROM table_adhesion where po_numero='||p.po_numero||' and ah_numero-500000000 in (27,29,32))) AS b'||p;
+*/
+/*
 -- Exploitants
     -- Reste
     nb_lines := nb_lines + 1;
-    proc[nb_lines]:=proc[nb_lines]||', b'||p.po_numero||'.nb AS "'||EXTRACT(YEAR FROM p.po_debut)||'"';
-    corp[nb_lines]:=corp[nb_lines]||' (select count(distinct pe_numero) AS nb FROM table_adhesion where pe_numero in (SELECT pe_numero FROM table_adhesion join table_periode using (po_numero) where po_fin<'''||p.po_debut||''' and po_debut>='''||p.po_debut-'1 year'::interval||''' and ah_numero-500000000 in (16,25)) and pe_numero in (SELECT pe_numero FROM table_adhesion where po_numero='||p.po_numero||' and ah_numero-500000000 in (16,25))) AS b'||p.po_numero;
+    proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (select count(distinct pe_numero) AS nb FROM table_adhesion where pe_numero in (SELECT pe_numero FROM table_adhesion join table_periode using (po_numero) where po_fin<'''||p.po_debut||''' and po_debut>='''||p.po_debut-'1 year'::interval||''' and ah_numero-500000000 in (16,25)) and pe_numero in (SELECT pe_numero FROM table_adhesion where po_numero='||p.po_numero||' and ah_numero-500000000 in (16,25))) AS b'||p;
     -- Nouveaux
     nb_lines := nb_lines + 1;
-    proc[nb_lines]:=proc[nb_lines]||', b'||p.po_numero||'.nb AS "'||EXTRACT(YEAR FROM p.po_debut)||'"';
-    corp[nb_lines]:=corp[nb_lines]||' (select count(distinct pe_numero) AS nb FROM table_adhesion where pe_numero not in (SELECT pe_numero FROM table_adhesion join table_periode using (po_numero) where po_fin<'''||p.po_debut||''' and po_debut>='''||p.po_debut-'1 year'::interval||''' and ah_numero-500000000 in (16,25)) and pe_numero in (SELECT pe_numero FROM table_adhesion where po_numero='||p.po_numero||' and ah_numero-500000000 in (16,25))) AS b'||p.po_numero;
+    proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (select count(distinct pe_numero) AS nb FROM table_adhesion where pe_numero not in (SELECT pe_numero FROM table_adhesion join table_periode using (po_numero) where po_fin<'''||p.po_debut||''' and po_debut>='''||p.po_debut-'1 year'::interval||''' and ah_numero-500000000 in (16,25)) and pe_numero in (SELECT pe_numero FROM table_adhesion where po_numero='||p.po_numero||' and ah_numero-500000000 in (16,25))) AS b'||p;
     -- Disparus
     nb_lines := nb_lines + 1;
-    proc[nb_lines]:=proc[nb_lines]||', b'||p.po_numero||'.nb AS "'||EXTRACT(YEAR FROM p.po_debut)||'"';
-    corp[nb_lines]:=corp[nb_lines]||' (select count(distinct pe_numero) AS nb FROM table_adhesion where pe_numero in (SELECT pe_numero FROM table_adhesion join table_periode using (po_numero) where po_fin<'''||p.po_debut||''' and po_debut>='''||p.po_debut-'1 year'::interval||''' and ah_numero-500000000 in (16,25)) and pe_numero not in (SELECT pe_numero FROM table_adhesion where po_numero='||p.po_numero||' and ah_numero-500000000 in (16,25))) AS b'||p.po_numero;
+    proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (select count(distinct pe_numero) AS nb FROM table_adhesion where pe_numero in (SELECT pe_numero FROM table_adhesion join table_periode using (po_numero) where po_fin<'''||p.po_debut||''' and po_debut>='''||p.po_debut-'1 year'::interval||''' and ah_numero-500000000 in (16,25)) and pe_numero not in (SELECT pe_numero FROM table_adhesion where po_numero='||p.po_numero||' and ah_numero-500000000 in (16,25))) AS b'||p;
 
 
 -- Anciens
     -- Reste
     nb_lines := nb_lines + 1;
-    proc[nb_lines]:=proc[nb_lines]||', b'||p.po_numero||'.nb AS "'||EXTRACT(YEAR FROM p.po_debut)||'"';
-    corp[nb_lines]:=corp[nb_lines]||' (select count(distinct pe_numero) AS nb FROM table_adhesion where pe_numero in (SELECT pe_numero FROM table_adhesion join table_periode using (po_numero) where po_fin<'''||p.po_debut||''' and po_debut>='''||p.po_debut-'1 year'::interval||''' and ah_numero-500000000 in (17,27,29,32)) and pe_numero in (SELECT pe_numero FROM table_adhesion where po_numero='||p.po_numero||' and ah_numero-500000000 in (17,27,29,32))) AS b'||p.po_numero;
+    proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (select count(distinct pe_numero) AS nb FROM table_adhesion where pe_numero in (SELECT pe_numero FROM table_adhesion join table_periode using (po_numero) where po_fin<'''||p.po_debut||''' and po_debut>='''||p.po_debut-'1 year'::interval||''' and ah_numero-500000000 in (17,27,29,32)) and pe_numero in (SELECT pe_numero FROM table_adhesion where po_numero='||p.po_numero||' and ah_numero-500000000 in (17,27,29,32))) AS b'||p;
     -- Nouveaux
     nb_lines := nb_lines + 1;
-    proc[nb_lines]:=proc[nb_lines]||', b'||p.po_numero||'.nb AS "'||EXTRACT(YEAR FROM p.po_debut)||'"';
-    corp[nb_lines]:=corp[nb_lines]||' (select count(distinct pe_numero) AS nb FROM table_adhesion where pe_numero not in (SELECT pe_numero FROM table_adhesion join table_periode using (po_numero) where po_fin<'''||p.po_debut||''' and po_debut>='''||p.po_debut-'1 year'::interval||''' and ah_numero-500000000 in (17,27,29,32)) and pe_numero in (SELECT pe_numero FROM table_adhesion where po_numero='||p.po_numero||' and ah_numero-500000000 in (17,27,29,32))) AS b'||p.po_numero;
+    proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (select count(distinct pe_numero) AS nb FROM table_adhesion where pe_numero not in (SELECT pe_numero FROM table_adhesion join table_periode using (po_numero) where po_fin<'''||p.po_debut||''' and po_debut>='''||p.po_debut-'1 year'::interval||''' and ah_numero-500000000 in (17,27,29,32)) and pe_numero in (SELECT pe_numero FROM table_adhesion where po_numero='||p.po_numero||' and ah_numero-500000000 in (17,27,29,32))) AS b'||p;
     -- Disparus
     nb_lines := nb_lines + 1;
-    proc[nb_lines]:=proc[nb_lines]||', b'||p.po_numero||'.nb AS "'||EXTRACT(YEAR FROM p.po_debut)||'"';
-    corp[nb_lines]:=corp[nb_lines]||' (select count(distinct pe_numero) AS nb FROM table_adhesion where pe_numero in (SELECT pe_numero FROM table_adhesion join table_periode using (po_numero) where po_fin<'''||p.po_debut||''' and po_debut>='''||p.po_debut-'1 year'::interval||''' and ah_numero-500000000 in (17,27,29,32)) and pe_numero not in (SELECT pe_numero FROM table_adhesion where po_numero='||p.po_numero||' and ah_numero-500000000 in (17,27,29,32))) AS b'||p.po_numero;
-
+    proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (select count(distinct pe_numero) AS nb FROM table_adhesion where pe_numero in (SELECT pe_numero FROM table_adhesion join table_periode using (po_numero) where po_fin<'''||p.po_debut||''' and po_debut>='''||p.po_debut-'1 year'::interval||''' and ah_numero-500000000 in (17,27,29,32)) and pe_numero not in (SELECT pe_numero FROM table_adhesion where po_numero='||p.po_numero||' and ah_numero-500000000 in (17,27,29,32))) AS b'||p;
+*/
 
 
   END LOOP;

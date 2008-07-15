@@ -690,9 +690,7 @@ GRANT SELECT ON VUE_PRINT_Carte TO PUBLIC;
 
 --DROP VIEW VUE_PRINT_Relance_factures;
 CREATE OR REPLACE VIEW VUE_PRINT_Relance_factures AS 
-SELECT fa.fa_numero AS cle, fa.fa_numero, fa.fa_numfact, fa.pe_numero, fa.fa_date, fc_dateenlettre(fa.fa_date) AS fa_datel, CASE WHEN current_date>fc_delai(fa.fa_date,COALESCE(r3.cs_valeur,'30 days, eom, 2 months')) THEN 3 WHEN current_date>fc_delai(fa.fa_date,COALESCE(r2.cs_valeur, '30 days, eom, 1 month')) THEN 2 WHEN current_date>fc_delai(fa.fa_date,COALESCE(r1.cs_valeur,'30 days, eom')) THEN 1 ELSE 0 END AS fa_niveau, fa_montantttc, COALESCE(fa_regle,0.00) AS fa_regle, fa_montantttc-COALESCE(fa_regle,0.00) AS fa_reste , CASE WHEN fa_next_reflation_on>CURRENT_DATE THEN fa_next_reflation_on::TEXT ELSE '-' END AS fa_relance, fa_next_reflation_on
-FROM table_facture fa LEFT JOIN ( SELECT fa_numero, sum(fr_montant) as fa_regle FROM table_facturereglement GROUP BY 1) fr USING (fa_numero) left join table_avoir using (fa_numero) LEFT JOIN table_constante r1 ON (r1.cs_nom='FIRST_REFLATION') LEFT JOIN table_constante r2 ON (r1.cs_nom='SECOND_REFLATION') LEFT JOIN table_constante r3 ON (r1.cs_nom='THIRD_REFLATION')
-WHERE abs(COALESCE(fa_regle,0)-fa_montantttc)>0 and fa_date>='1/1/2006' and not fa_perte and av_numero is null and fa.SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
+SELECT * FROM VUE_facture_A_Regler WHERE de_date>='2008-07-10';
 
 
 --DROP VIEW VUE_PRINT_Relance_Solde;

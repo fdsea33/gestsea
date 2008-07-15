@@ -14,6 +14,7 @@
 
   <groupbox flex="1">
     <caption label="Cliquez sur le lien"/>
-    <label id="mailtoa" class="text-link" href="mailto:adherents@fdsea33.fr" value="Envoyer un e-mail à tous les adhérents"/>
+    <label id="adhfdsea" class="text-link" href="mailto:adherents@fdsea33.fr" value="Envoyer un e-mail à tous les adhérents"/>
+    <label id="abonconseil" class="text-link" href="mailto:abonnes_conseil@fdsea33.fr" value="Envoyer un e-mail à tous les abonnées conseil SACEA"/>
   </groupbox>
 </window>

@@ -159,6 +159,15 @@ function elem(x) {
     return top.document.getElementById(x);
 }
 
+
+function mail_load_list(id,query) {
+  var l = elem(id);
+  var r = requete(query);
+  l.setAttribute("href",r);
+  l.setAttribute("value",l.value+" !");
+  return l;
+}
+
 function mail_onload() {
   // Connexion
   pgsql_init(true);
@@ -167,12 +176,11 @@ function mail_onload() {
   }
   var superuser = requete("SELECT case when se_societe=2 then 1 else 0 end from employe join service on (em_service=se_numero)  where em_login=current_user;");
   if (superuser==1) {
-    var l = elem("mailtoa");
-    var mailto = requete("select 'mailto:adherents@fdsea33.fr?subject=[FDSEA33] '||concatenate('&bcc='||mail) from (SELECT distinct cn_coordonnee AS mail FROM contact WHERE cn_actif AND ck_numero=104 AND pe_numero NOT IN (SELECT pe_numero FROM attribut WHERE cr_numero=219) AND pe_numero IN (SELECT pe_numero FROM cotisation WHERE cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)+(CASE WHEN EXTRACT(MONTH FROM CURRENT_DATE)<=2 THEN -1 ELSE 0 END))) AS x;");
-    l.setAttribute("href",mailto);
-    l.setAttribute("value",l.value+" !");
+    mail_load_list('adhfdsea',"select 'mailto:adherents@fdsea33.fr?subject=[FDSEA33] '||concatenate('&bcc='||mail) from (SELECT distinct cn_coordonnee AS mail FROM contact WHERE cn_actif AND ck_numero=104 AND pe_numero NOT IN (SELECT pe_numero FROM attribut WHERE cr_numero=219) AND pe_numero IN (SELECT pe_numero FROM cotisation WHERE cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)+(CASE WHEN EXTRACT(MONTH FROM CURRENT_DATE)<=2 THEN -1 ELSE 0 END))) AS x;");
+    mail_load_list('abonconseil',"select 'mailto:abonnes_conseil@fdsea33.fr?subject=[SACEA] '||concatenate('&bcc='||mail) from (SELECT distinct cn_coordonnee AS mail FROM contact WHERE cn_actif AND ck_numero=104 AND pe_numero IN (SELECT pe_numero FROM cotisation WHERE BML_Extract(cs_detail,'sacea')='true' AND cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)+(CASE WHEN EXTRACT(MONTH FROM CURRENT_DATE)<=2 THEN -1 ELSE 0 END))) AS x;");
   } else {
     alert("Vous ne pouvez pas effectuer cette opération.");
+    window.close();
   }
 
 }
