@@ -223,6 +223,69 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 
 
 --===========================================================================--
+-- Calcule une date de paiement en fonction de 4 paramètres
+--   Date de départ
+--   Nombre de jours à partir de la date de départ / Interval
+--   Fin de mois
+--   Nombre de jours supplémentaires / Interval
+/*
+CREATE OR REPLACE FUNCTION FC_Delai(IN done_on DATE, IN days INTEGER, IN end_of_month BOOLEAN, IN supp INTEGER) RETURNS DATE AS
+$$
+DECLARE
+  paid_on DATE;
+BEGIN
+  SELECT done_on+(days||' days')::INTERVAL INTO paid_on;
+  IF end_of_month THEN
+    SELECT (TO_CHAR(paid_on+('1 month')::INTERVAL, 'YYYY-MM')||'-01')::DATE-('1 day')::INTERVAL INTO paid_on;
+  END IF;
+  SELECT paid_on+(supp||' days')::INTERVAL INTO paid_on;
+  RETURN paid_on;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+CREATE OR REPLACE FUNCTION FC_Delai(IN done_on DATE, IN days INTERVAL, IN end_of_month BOOLEAN, IN supp INTERVAL) RETURNS DATE AS
+$$
+DECLARE
+  paid_on DATE;
+BEGIN
+  SELECT done_on+days INTO paid_on;
+  IF end_of_month THEN
+    SELECT (TO_CHAR(paid_on+('1 month')::INTERVAL, 'YYYY-MM')||'-01')::DATE-('1 day')::INTERVAL INTO paid_on;
+  END IF;
+  SELECT paid_on+supp INTO paid_on;
+  RETURN paid_on;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+*/
+CREATE OR REPLACE FUNCTION FC_Delai(IN done_on DATE, IN delay VARCHAR) RETURNS DATE AS
+$$
+DECLARE
+  paid_on DATE;
+  i INTEGER;
+  d VARCHAR;
+BEGIN
+  i := 1;
+  paid_on := done_on;
+  LOOP 
+    SELECT LOWER(TRIM(SPLIT_PART(delay,',',i))) INTO d;
+    EXIT WHEN d ILIKE '';
+    IF d IN ('eom','end of month','fdm','fin de mois') THEN
+      SELECT (TO_CHAR(paid_on+('1 month')::INTERVAL, 'YYYY-MM')||'-01')::DATE-('1 day')::INTERVAL INTO paid_on;
+    ELSIF d ~ '^(\\d+\\s+(sec|second|min|minute|hour|day|week|month|year|decade|century|millennium)(s)?(\\sago)?(\\s+|$))+$' THEN
+      SELECT paid_on+d::INTERVAL INTO paid_on;
+    ELSE
+      RAISE EXCEPTION 'L''expression ''%'' est invalide (délai : ''%'').', d, delay;
+    END IF;
+    i := i + 1;
+  END LOOP;
+  RETURN paid_on;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+
+
+
+--===========================================================================--
 -- Permet de réaliser un cast de boolean -> text
 CREATE OR REPLACE FUNCTION FC_text(boolean) RETURNS text AS
 $$ SELECT CASE WHEN $1 THEN 'true' ELSE 'false' END $$ LANGUAGE SQL IMMUTABLE;
@@ -260,7 +323,7 @@ CREATE OR REPLACE VIEW vue_current_routage AS
                                       JOIN table_Adresse USING (AD_Numero) 
                                       JOIN table_Codepostal USING (CP_Numero) 
                                       JOIN table_Ville USING (VI_Numero)
-  WHERE RO_DebutService::integer<=CS_Valeur::integer AND CS_Valeur::integer<=RO_FinService::integer AND CS_Type=1
+  WHERE CS_Valeur::integer BETWEEN RO_DebutService AND RO_FinService AND CS_Nom='CURRENT_NUMBER'
   ORDER BY RC_CPOS, RC_BURD, RC_NOMP;
 	
 GRANT SELECT ON vue_current_routage TO PUBLIC;
@@ -289,7 +352,7 @@ CREATE OR REPLACE VIEW vue_current_relance AS
            LEFT JOIN (SELECT pe_numero, cn_coordonnee FROM table_contact WHERE cn_actif AND ck_numero=107) AS telephone ON (table_Personne.pe_numero=telephone.pe_numero)
            LEFT JOIN (SELECT pe_numero, cn_coordonnee FROM table_contact WHERE cn_actif AND ck_numero=106) AS portable ON (table_Personne.pe_numero=portable.pe_numero)
     WHERE NOT RO_Suspendu
-      AND passe.cs_type=2 AND futur.cs_type=3 AND present.cs_type=1 
+      AND passe.cs_nom='PAST_NUMBER' AND futur.cs_nom='FUTURE_NUMBER' AND present.cs_nom='CURRENT_NUMBER' 
       AND present.cs_valeur::integer+futur.cs_valeur::integer>=ro_finservice AND ro_finservice>=present.cs_valeur::integer-passe.cs_valeur::integer 
       AND NOT ro_numero IN (SELECT ro_numero FROM (SELECT r.ro_numero, count(s) as total from table_routage as r left join table_routage as s using (pe_numero) where s.ro_finservice>r.ro_finservice group by r.ro_numero) as suivants WHERE total>=1)
       AND AD_Active
@@ -421,4 +484,35 @@ CREATE OR REPLACE VIEW vue_personne AS
   SELECT DISTINCT ON (pe_numero) table_personne.*, TRIM(COALESCE(PE_Titre||' ','')|| COALESCE(PE_Nom,'')|| COALESCE(' '||PE_Prenom,'')) AS PE_Libelle, COALESCE(PE_Nom||' ','')|| COALESCE(PE_Prenom,'')||COALESCE(' ('||NULLIF(TRIM(PE_Titre),'')||')','') AS PE_Fullname, to_char(PE_ID,'FM099999') AS PE_NumPersonne, Tel.CN_Coordonnee AS PE_telephone, Fax.CN_Coordonnee AS PE_Fax, Port.CN_Coordonnee AS PE_Portable, CT_Nom, COALESCE(PE_Titre,'')||';'|| COALESCE(PE_Nom,'')||';'|| COALESCE(PE_Prenom,'')||';'||COALESCE(AD_Ligne2,'')||';'|| COALESCE(Ad_Ligne3,'')||';'|| COALESCE(Ad_Ligne4,'')||';'|| COALESCE(Ad_Ligne5,'')||';'|| CP_CodePostal||';'|| VI_Nom AS PE_Adresse, VI_Nom AS PE_Ville, CP_CodePostal AS PE_CP, CT_Nom AS PE_Canton, to_char(PE_ID,'FM099999')||' - '||TRIM(COALESCE(PE_Titre||' ','')|| COALESCE(PE_Nom,'')|| COALESCE(' '||PE_Prenom,''))||' ('||COALESCE(CP_CodePostal,'?')||' '||COALESCE(vi_nom,'???')||')' AS PE_Description
  ,table_personne.pe_numero AS cle
     FROM table_personne LEFT JOIN table_Adresse AS a ON (a.PE_Numero=table_Personne.PE_Numero AND AD_Active IS NOT False) LEFT JOIN table_Codepostal USING (CP_Numero) LEFT JOIN table_Ville USING (VI_Numero) LEFT JOIN table_Canton USING (CT_Numero) LEFT JOIN table_Contact AS Tel ON (Tel.PE_Numero=table_Personne.PE_Numero AND Tel.CN_Actif IS NOT false AND Tel.CK_Numero=107) LEFT JOIN table_Contact AS Fax  ON (Fax.PE_Numero=table_Personne.PE_Numero AND Fax.CN_Actif IS NOT false AND Fax.CK_Numero=105) LEFT JOIN table_Contact AS Port  ON (Port.PE_Numero=table_Personne.PE_Numero AND Port.CN_Actif IS NOT false AND Port.CK_Numero=106);
+
+
+
+--===========================================================================--
+--
+
+--CREATE OR REPLACE VIEW VUE_PRINT_Relance_entete AS
+--SELECT pe_numero, debit, credit, debit-credit AS solde, 
+
+
+--FROM ( SELECT fa_numero, sum(fr_montant) as fa_regle FROM table_facturereglement GROUP BY 1) fr JOIN table_facture fa USING (fa_numero) left join table_avoir using (fa_numero) WHERE abs(COALESCE(fa_regle,0)-fa_montantttc)>1 and fa_date>'1/03/2006' and not fa_perte and av_numero is null;
+--FROM table_facture fa LEFT JOIN ( SELECT fa_numero, sum(fr_montant) as fa_regle FROM table_facturereglement GROUP BY 1) fr USING (fa_numero) left join table_avoir using (fa_numero) WHERE COALESCE(fa_regle,0)!=fa_montantttc and fa_date>'1/03/2007' and not fa_perte and av_numero is null;
+
+
+--DROP VIEW VUE_Reglement_A_Facturer;
+CREATE OR REPLACE VIEW VUE_Reglement_A_Facturer AS 
+SELECT rg.rg_numero AS cle, rg.*, COALESCE(rg_facture,0.00) AS rg_facture, rg_montant-COALESCE(rg_facture,0) as rg_reste
+FROM table_reglement rg LEFT JOIN ( SELECT rg_numero, sum(fr_montant) as rg_facture FROM table_facturereglement GROUP BY 1) fr USING (rg_numero) 
+WHERE abs(rg_montant-COALESCE(rg_facture,0))>0 and SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
+
+
+
+--DROP VIEW VUE_Devis_A_Facturer;
+CREATE OR REPLACE VIEW VUE_Devis_A_Facturer AS 
+SELECT de_numero AS cle, de.*
+FROM table_devis de 
+WHERE NOT de_locked and SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
+
+
+
+
 

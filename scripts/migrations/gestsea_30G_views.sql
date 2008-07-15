@@ -12,7 +12,7 @@ CREATE OR REPLACE VIEW "droit" AS
      FROM "table_droit";
 
 CREATE OR REPLACE VIEW "service" AS
-   SELECT table_service.se_numero, table_service.se_nom, table_service.se_societe, table_service.se_agent, table_service.created_at, table_service.created_by, table_service.updated_at, table_service.updated_by, table_service.lock_version, table_service.id 
+   SELECT table_service.se_numero, table_service.se_nom, table_service.se_code, table_service.se_societe, table_service.se_agent, table_service.created_at, table_service.created_by, table_service.updated_at, table_service.updated_by, table_service.lock_version, table_service.id 
      FROM "table_service";
 
 CREATE OR REPLACE VIEW "groupetable" AS
@@ -25,8 +25,9 @@ CREATE OR REPLACE VIEW "employe" AS
     ORDER BY AG_Nom, AG_Prenom;
 
 CREATE OR REPLACE VIEW "constante" AS
-   SELECT table_constante.cs_numero, table_constante.cs_type, table_constante.cs_valeur, table_constante.created_at, table_constante.created_by, table_constante.updated_at, table_constante.updated_by, table_constante.lock_version, table_constante.id 
-     FROM "table_constante";
+   SELECT table_constante.cs_numero, table_constante.cs_valeur, table_constante.cs_nom, table_constante.cs_description, table_constante.so_numero, table_constante.created_at, table_constante.created_by, table_constante.updated_at, table_constante.updated_by, table_constante.lock_version, table_constante.id 
+     FROM "table_constante" 
+    WHERE SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
 
 CREATE OR REPLACE VIEW "typeadresse" AS
    SELECT table_typeadresse.ak_numero, table_typeadresse.ak_nom, table_typeadresse.created_at, table_typeadresse.created_by, table_typeadresse.updated_at, table_typeadresse.updated_by, table_typeadresse.lock_version, table_typeadresse.id 
@@ -204,7 +205,7 @@ CREATE OR REPLACE VIEW "lignefacture" AS
     WHERE SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
 
 CREATE OR REPLACE VIEW "facture" AS
-   SELECT table_facture.fa_numero, table_facture.de_numero, table_facture.pe_numero, table_facture.ag_numero, table_facture.fa_numfact, table_facture.fa_date, table_facture.fa_perte, ROUND(table_facture.fa_reduction,2) AS fa_reduction, ROUND(table_facture.fa_montantht,2) AS fa_montantht, ROUND(table_facture.fa_montantttc,2) AS fa_montantttc, ROUND(table_facture.fa_accompte,2) AS fa_accompte, table_facture.fa_annotation, table_facture.fa_libelle, table_facture.so_numero, table_facture.created_at, table_facture.created_by, table_facture.updated_at, table_facture.updated_by, table_facture.lock_version, table_facture.id, CASE WHEN fa_perte THEN 'En perte' ELSE '-' END AS fa_etat 
+   SELECT table_facture.fa_numero, table_facture.de_numero, table_facture.pe_numero, table_facture.ag_numero, table_facture.fa_numfact, table_facture.fa_date, table_facture.fa_perte, table_facture.fa_next_reflation_on, table_facture.fa_penalty, ROUND(table_facture.fa_reduction,2) AS fa_reduction, ROUND(table_facture.fa_montantht,2) AS fa_montantht, ROUND(table_facture.fa_montantttc,2) AS fa_montantttc, ROUND(table_facture.fa_accompte,2) AS fa_accompte, table_facture.fa_annotation, table_facture.fa_libelle, table_facture.so_numero, table_facture.created_at, table_facture.created_by, table_facture.updated_at, table_facture.updated_by, table_facture.lock_version, table_facture.id, CASE WHEN fa_perte THEN 'En perte' ELSE 'normal' END AS fa_etat 
      FROM "table_facture" 
     WHERE SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
 
@@ -555,10 +556,10 @@ CREATE OR REPLACE RULE rule_compteproduit_delete AS
 
 CREATE OR REPLACE RULE rule_constante_insert AS
   ON INSERT TO "constante"
-  DO INSTEAD INSERT INTO "table_constante"(cs_numero, cs_type, cs_valeur, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (COALESCE(NEW.cs_numero,nextval('seq_constante')), new.cs_type, new.cs_valeur, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
+  DO INSTEAD INSERT INTO "table_constante"(cs_numero, cs_valeur, cs_nom, cs_description, so_numero, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (COALESCE(NEW.cs_numero,nextval('seq_constante')), new.cs_valeur, COALESCE(NEW.cs_nom,MD5(RANDOM())), new.cs_description, COALESCE(NEW.so_numero,current_societe()), CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
 CREATE OR REPLACE RULE rule_constante_update AS
   ON UPDATE TO "constante"
-  DO INSTEAD UPDATE "table_constante" SET cs_numero=COALESCE(NEW.cs_numero,nextval('seq_constante')), cs_type=new.cs_type, cs_valeur=new.cs_valeur, created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.CS_Numero=CS_Numero;
+  DO INSTEAD UPDATE "table_constante" SET cs_numero=COALESCE(NEW.cs_numero,nextval('seq_constante')), cs_valeur=new.cs_valeur, cs_nom=COALESCE(NEW.cs_nom,MD5(RANDOM())), cs_description=new.cs_description, so_numero=COALESCE(NEW.so_numero,current_societe()), created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.CS_Numero=CS_Numero;
 CREATE OR REPLACE RULE rule_constante_delete AS
   ON DELETE TO "constante"
   DO INSTEAD DELETE FROM "table_constante" WHERE old.CS_Numero=CS_Numero;
@@ -705,10 +706,10 @@ CREATE OR REPLACE RULE rule_exercice_delete AS
 
 CREATE OR REPLACE RULE rule_facture_insert AS
   ON INSERT TO "facture"
-  DO INSTEAD INSERT INTO "table_facture"(fa_numero, de_numero, pe_numero, ag_numero, fa_numfact, fa_date, fa_perte, fa_reduction, fa_montantht, fa_montantttc, fa_accompte, fa_annotation, fa_libelle, so_numero, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (new.fa_numero, new.de_numero, new.pe_numero, new.ag_numero, new.fa_numfact, COALESCE(NEW.fa_date,CURRENT_DATE), COALESCE(NEW.fa_perte,false), ROUND(COALESCE(NEW.fa_reduction,0),2), ROUND(COALESCE(NEW.fa_montantht,0),2), ROUND(COALESCE(NEW.fa_montantttc,0),2), ROUND(new.fa_accompte,2), new.fa_annotation, new.fa_libelle, COALESCE(NEW.so_numero,current_societe()), CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
+  DO INSTEAD INSERT INTO "table_facture"(fa_numero, de_numero, pe_numero, ag_numero, fa_numfact, fa_date, fa_perte, fa_next_reflation_on, fa_penalty, fa_reduction, fa_montantht, fa_montantttc, fa_accompte, fa_annotation, fa_libelle, so_numero, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (new.fa_numero, new.de_numero, new.pe_numero, new.ag_numero, new.fa_numfact, COALESCE(NEW.fa_date,CURRENT_DATE), COALESCE(NEW.fa_perte,false), COALESCE(NEW.fa_next_reflation_on,'0001-01-01'), new.fa_penalty, ROUND(COALESCE(NEW.fa_reduction,0),2), ROUND(COALESCE(NEW.fa_montantht,0),2), ROUND(COALESCE(NEW.fa_montantttc,0),2), ROUND(new.fa_accompte,2), new.fa_annotation, new.fa_libelle, COALESCE(NEW.so_numero,current_societe()), CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
 CREATE OR REPLACE RULE rule_facture_update AS
   ON UPDATE TO "facture"
-  DO INSTEAD UPDATE "table_facture" SET fa_numero=new.fa_numero, de_numero=new.de_numero, pe_numero=new.pe_numero, ag_numero=new.ag_numero, fa_numfact=new.fa_numfact, fa_date=COALESCE(NEW.fa_date,CURRENT_DATE), fa_perte=COALESCE(NEW.fa_perte,false), fa_reduction=ROUND(COALESCE(NEW.fa_reduction,0),2), fa_montantht=ROUND(COALESCE(NEW.fa_montantht,0),2), fa_montantttc=ROUND(COALESCE(NEW.fa_montantttc,0),2), fa_accompte=ROUND(new.fa_accompte,2), fa_annotation=new.fa_annotation, fa_libelle=new.fa_libelle, so_numero=COALESCE(NEW.so_numero,current_societe()), created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.FA_Numero=FA_Numero;
+  DO INSTEAD UPDATE "table_facture" SET fa_numero=new.fa_numero, de_numero=new.de_numero, pe_numero=new.pe_numero, ag_numero=new.ag_numero, fa_numfact=new.fa_numfact, fa_date=COALESCE(NEW.fa_date,CURRENT_DATE), fa_perte=COALESCE(NEW.fa_perte,false), fa_next_reflation_on=COALESCE(NEW.fa_next_reflation_on,'0001-01-01'), fa_penalty=new.fa_penalty, fa_reduction=ROUND(COALESCE(NEW.fa_reduction,0),2), fa_montantht=ROUND(COALESCE(NEW.fa_montantht,0),2), fa_montantttc=ROUND(COALESCE(NEW.fa_montantttc,0),2), fa_accompte=ROUND(new.fa_accompte,2), fa_annotation=new.fa_annotation, fa_libelle=new.fa_libelle, so_numero=COALESCE(NEW.so_numero,current_societe()), created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.FA_Numero=FA_Numero;
 CREATE OR REPLACE RULE rule_facture_delete AS
   ON DELETE TO "facture"
   DO INSTEAD DELETE FROM "table_facture" WHERE old.FA_Numero=FA_Numero;
@@ -1095,10 +1096,10 @@ CREATE OR REPLACE RULE rule_sequencecache_delete AS
 
 CREATE OR REPLACE RULE rule_service_insert AS
   ON INSERT TO "service"
-  DO INSTEAD INSERT INTO "table_service"(se_numero, se_nom, se_societe, se_agent, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (new.se_numero, new.se_nom, new.se_societe, new.se_agent, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
+  DO INSTEAD INSERT INTO "table_service"(se_numero, se_nom, se_code, se_societe, se_agent, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (new.se_numero, new.se_nom, new.se_code, new.se_societe, new.se_agent, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
 CREATE OR REPLACE RULE rule_service_update AS
   ON UPDATE TO "service"
-  DO INSTEAD UPDATE "table_service" SET se_numero=new.se_numero, se_nom=new.se_nom, se_societe=new.se_societe, se_agent=new.se_agent, created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.SE_Numero=SE_Numero;
+  DO INSTEAD UPDATE "table_service" SET se_numero=new.se_numero, se_nom=new.se_nom, se_code=new.se_code, se_societe=new.se_societe, se_agent=new.se_agent, created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.SE_Numero=SE_Numero;
 CREATE OR REPLACE RULE rule_service_delete AS
   ON DELETE TO "service"
   DO INSTEAD DELETE FROM "table_service" WHERE old.SE_Numero=SE_Numero;

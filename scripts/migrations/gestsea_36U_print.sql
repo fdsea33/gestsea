@@ -140,11 +140,11 @@ CREATE OR REPLACE VIEW VUE_AAVA_Destinataire AS
 --DROP VIEW VUE_PRINT_Facture_Entete;
 CREATE OR REPLACE VIEW VUE_PRINT_Facture_Entete AS
 SELECT 
-to_char(PE_Numero-1000000,'FM0999999') AS pe_numpersonne, -- 0
+to_char(table_facture.PE_Numero-1000000,'FM0999999') AS pe_numpersonne, -- 0
 pe_titre,                        -- 1
 pe_nom,                          -- 2
 pe_prenom,                       -- 3
-ad_Ligne2,                       -- 4
+ad_Ligne2,                       -- 16
 ad_Ligne3,                       -- 4
 ad_Ligne4,                       -- 5
 ad_Ligne5,                       -- 6
@@ -155,14 +155,19 @@ FC_DateEnLettre(fa_date) AS fa_date, -- 10
 fa_numero,                       -- 11
 cp_bureau,                       -- 12
 se_nom,                          -- 13
-fa_ok,                            -- 14
-fa_regle                         -- 15
+fa_ok,                           -- 14
+fa_regle,                        -- 15
+FC_DateEnLettre(fc_delai(fa_date,COALESCE(dl.cs_valeur,'90 days'))) AS fa_reglement, -- 17
+DE_Numero,                       -- 18
+FC_DateEnLettre(DE_Date) AS DE_Date --19
 FROM table_facture JOIN table_personne    USING (pe_numero)
                    JOIN table_adresse     USING (pe_numero)
                    JOIN table_codepostal  USING (cp_numero)
                    JOIN table_ville       USING (vi_numero)
-                   JOIN vue_facture_regle USING (fa_numero),
+                   JOIN vue_facture_regle USING (fa_numero)
+                   JOIN table_devis       USING (de_numero),
      employe JOIN service ON (EM_Service=SE_Numero)
+      LEFT JOIN table_constante dl ON (dl.cs_nom='PAYMENT_ON')
 WHERE AD_Active AND EM_Login=CURRENT_USER AND table_facture.so_numero=current_societe();
 
 
@@ -586,7 +591,7 @@ FROM avoir;
 
 --===========================================================================--
 --DROP VIEW VUE_PRINT_Bordereau_entete;
-
+/*
 CREATE OR REPLACE VIEW VUE_PRINT_Bordereau_Entete AS
 SELECT 
 a.cs_valeur AS BR_debut, 
@@ -598,11 +603,11 @@ FROM reglement left join personne using(pe_numero), constante as a, constante as
 WHERE a.cs_valeur::date<=reglement.updated_at AND reglement.updated_at<=(b.cs_valeur||' 23:59')::timestamp AND a.cs_type=100 AND b.cs_type=101
   AND SUBSTRING(rg_mode FOR 2)|| SUBSTRING(rg_mode FROM LENGTH(rg_mode)-1) like 'ChCA'
 GROUP BY a.cs_valeur, b.cs_valeur;
-
+*/
 
 --===========================================================================--
 --DROP VIEW VUE_PRINT_Bordereau_Lignes;
-
+/*
 CREATE OR REPLACE VIEW VUE_PRINT_Bordereau_Lignes AS
 SELECT 
 SUBSTRING(rg_mode FOR 2)|| SUBSTRING(rg_mode FROM LENGTH(rg_mode)-1) AS RG_ModeReglement,                                    -- 0
@@ -618,7 +623,7 @@ WHERE a.cs_valeur::date<=reglement.updated_at AND reglement.updated_at<=(b.cs_va
   AND SUBSTRING(rg_mode FOR 2)|| SUBSTRING(rg_mode FROM LENGTH(rg_mode)-1) like 'ChCA'
 ORDER BY rg_date, pe_libelle;
 
-
+*/
 
 --===========================================================================--
 --DROP VIEW VUE_PRINT_ListeReglement_entete;
@@ -675,3 +680,35 @@ FROM table_facture JOIN table_cotisation c ON (bml_extract(cs_detail,'fdsea.fact
   LEFT JOIN table_personne societe ON (bml_extract(cs_detail,'cotisation.societe')=societe.pe_numero);
 
 GRANT SELECT ON VUE_PRINT_Carte TO PUBLIC;
+
+
+/*****************************************************************************\
+ * Relance des factures impayées                                             *
+\*****************************************************************************/
+
+--===========================================================================--
+
+--DROP VIEW VUE_PRINT_Relance_factures;
+CREATE OR REPLACE VIEW VUE_PRINT_Relance_factures AS 
+SELECT fa.fa_numero AS cle, fa.fa_numero, fa.fa_numfact, fa.pe_numero, fa.fa_date, fc_dateenlettre(fa.fa_date) AS fa_datel, CASE WHEN current_date>fc_delai(fa.fa_date,COALESCE(r3.cs_valeur,'30 days, eom, 2 months')) THEN 3 WHEN current_date>fc_delai(fa.fa_date,COALESCE(r2.cs_valeur, '30 days, eom, 1 month')) THEN 2 WHEN current_date>fc_delai(fa.fa_date,COALESCE(r1.cs_valeur,'30 days, eom')) THEN 1 ELSE 0 END AS fa_niveau, fa_montantttc, COALESCE(fa_regle,0.00) AS fa_regle, fa_montantttc-COALESCE(fa_regle,0.00) AS fa_reste , CASE WHEN fa_next_reflation_on>CURRENT_DATE THEN fa_next_reflation_on::TEXT ELSE '-' END AS fa_relance, fa_next_reflation_on
+FROM table_facture fa LEFT JOIN ( SELECT fa_numero, sum(fr_montant) as fa_regle FROM table_facturereglement GROUP BY 1) fr USING (fa_numero) left join table_avoir using (fa_numero) LEFT JOIN table_constante r1 ON (r1.cs_nom='FIRST_REFLATION') LEFT JOIN table_constante r2 ON (r1.cs_nom='SECOND_REFLATION') LEFT JOIN table_constante r3 ON (r1.cs_nom='THIRD_REFLATION')
+WHERE abs(COALESCE(fa_regle,0)-fa_montantttc)>0 and fa_date>='1/1/2006' and not fa_perte and av_numero is null and fa.SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
+
+
+--DROP VIEW VUE_PRINT_Relance_Solde;
+CREATE OR REPLACE VIEW VUE_PRINT_Relance_Solde AS 
+SELECT x.*, debit-credit AS solde, round(((debit-credit)*p.cs_valeur::float)::numeric,2) AS penalty, (CASE WHEN debit<COALESCE(l.cs_valeur,'300')::float THEN 1 ELSE 3 END) AS nb_regl
+  FROM (SELECT pe_numero, count(fa_numero) AS nombre, sum(fa_montantttc) AS debit, sum(fa_regle) AS credit, max(fa_niveau) AS fa_niveau FROM vue_print_relance_factures WHERE fa_next_reflation_on<=CURRENT_DATE GROUP BY 1) AS x 
+    LEFT JOIN table_constante l ON (l.cs_nom='DOWNPAYMENT_LIMIT') 
+    LEFT JOIN table_constante m ON (m.cs_nom='MINIMUM_FOR_REFLATION')
+    LEFT JOIN table_constante p ON (p.cs_nom='DELAY_PENALTY')
+  WHERE (debit-credit)>COALESCE(m.cs_valeur,'1')::float
+;
+
+
+--DROP VIEW VUE_PRINT_Relance_Entete;
+CREATE OR REPLACE VIEW VUE_PRINT_Relance_Entete AS 
+SELECT pe_numero, pe_numpersonne, fa_niveau AS ry_niveau, nombre AS ry_nombre, debit as ry_debit, credit as ry_credit, solde as ry_solde, nb_regl as ry_nb_regl, pe_libelle, ad_ligne2, ad_ligne3, ad_ligne4, ad_ligne5, cp_codepostal, vi_nom, fc_dateenlettre(current_date) AS made_on, fc_dateenlettre((current_date+'8 days'::interval)::date) AS RY_Huitaine, penalty AS RY_Penalty 
+FROM vue_print_relance_solde join personne using (pe_numero) left join adresse using (pe_numero) left join codepostal using (cp_numero) left join ville using (vi_numero)
+WHERE fa_niveau>0;
+

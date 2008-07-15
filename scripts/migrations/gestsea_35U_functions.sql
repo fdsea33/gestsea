@@ -74,38 +74,7 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 CREATE OR REPLACE FUNCTION FC_Devis_Totalize(IN num_devis INTEGER) RETURNS VOID AS
 $$ UPDATE Devis SET DE_MontantHT=ROUND(T.MontantHT,2), DE_MontantTTC=ROUND(T.MontantTTC,2) FROM (SELECT sum(l_montantht*(CASE WHEN pd_reduction THEN 1-de_reduction/100 ELSE 1 END)) AS MontantHT, sum(l_montantttc*(CASE WHEN pd_reduction THEN 1-de_reduction/100 ELSE 1 END)) AS MontantTTC FROM ligne join devis using (de_numero) join produit using (pd_numero) WHERE ligne.de_numero=$1) AS T WHERE devis.de_numero=$1; $$ LANGUAGE SQL;
 
-/*
 
-(SELECT sum(S.MontantHT) AS TotalHT, sum(S.MontantTTC) AS TotalTTC 
-            FROM
-      (SELECT sum(l_montantht*((100-de_reduction)/100)) AS MontantHT, sum(l_montantttc*((100-de_reduction)/100)) AS MontantTTC
-          FROM ligne join produit using (pd_numero)
-          WHERE de_numero = numdevis AND pd_reduction
-        UNION
-        SELECT sum(l_montantht) AS MontantHT, sum(l_montantttc) AS MontantTTC
-          FROM ligne join produit using (pd_numero)
-          WHERE de_numero = numdevis AND NOT PD_Reduction
-       ) AS S ) AS T
-    where devis.DE_NUMERO  = numdevis;
-
-
-  UPDATE Devis SET DE_MontantHT=T.TotalHT, DE_MontantTTC=T.TotalTTC 
-    FROM (SELECT sum(S.MontantHT) AS TotalHT, sum(S.MontantTTC) AS TotalTTC 
-            FROM
-      (SELECT sum(l_montantht*((100-de_reduction)/100)) AS MontantHT, 
-  sum(l_montantttc*((100-de_reduction)/100)) AS MontantTTC
-          FROM devis left join ligne using (de_numero)
-                     left join produit using (pd_numero)
-          WHERE devis.de_numero = numdevis AND pd_reduction
-        union
-        SELECT sum(l_montantht) AS MontantHT, sum(l_montantttc) AS MontantTTC
-          FROM devis left join ligne using (de_numero)
-                     left join produit using (pd_numero)
-          WHERE devis.de_numero = numdevis AND NOT PD_Reduction
-       ) AS S ) AS T
-    where devis.DE_NUMERO  = numdevis;
-  RETURN true;
-*/
 
 --===========================================================================--
 -- Procedure permettant de calculer le taux de réduction d'une personne à une date d
@@ -123,15 +92,15 @@ BEGIN
   SELECT EXTRACT(YEAR FROM computed_on) INTO annee;
   SELECT count(*) FROM cotisation WHERE pe_numero=num_personne AND cs_annee=annee INTO compte;
   IF compte>0 THEN
-    SELECT bml_extract(cs_detail,'sacea') FROM cotisation WHERE pe_numero=num_personne INTO sacea;
+    SELECT bml_extract(cs_detail,'sacea') FROM cotisation WHERE pe_numero=num_personne AND cs_annee=annee INTO sacea;
   ELSE
     SELECT count(*) FROM cotisation WHERE cs_societe=num_personne AND cs_annee=annee INTO compte;
     IF compte>0 THEN
-      SELECT bml_extract(cs_detail,'sacea') FROM cotisation WHERE cs_societe=num_personne INTO sacea;
+      SELECT bml_extract(cs_detail,'sacea') FROM cotisation WHERE cs_societe=num_personne AND cs_annee=annee INTO sacea;
     ELSE
-      SELECT el_personne1 FROM estlie JOIN cotisation ON (el_personne1=pe_numero) WHERE tl_code='>GERE>' AND el_personne2=num_personne INTO compte;
+      SELECT el_personne1 FROM estlie JOIN cotisation ON (el_personne1=pe_numero) WHERE tl_code='>GERE>' AND el_personne2=num_personne AND cs_annee=annee INTO compte;
       IF compte is not null THEN
-        SELECT bml_extract(cs_detail,'sacea') FROM table_cotisation WHERE pe_numero=compte INTO sacea;
+        SELECT bml_extract(cs_detail,'sacea') FROM table_cotisation WHERE pe_numero=compte AND cs_annee=annee INTO sacea;
       END IF;
     END IF;
   END IF;
@@ -164,43 +133,6 @@ BEGIN
     cloture:=cloture||to_char(mois+1,'FM09')||'/'||annee;
   END IF;
   return cloture::date;
-END;
-$$ LANGUAGE 'plpgsql' VOLATILE;
-
-
-
---===========================================================================--
--- Calcule une date de paiement en fonction de 4 paramètres
---   Date de départ
---   Nombre de jours à partir de la date de départ / Interval
---   Fin de mois
---   Nombre de jours supplémentaires / Interval
-
-CREATE OR REPLACE FUNCTION FC_Echeance(IN done_on DATE, IN days INTEGER, IN end_of_month BOOLEAN, IN supp INTEGER) RETURNS DATE AS
-$$
-DECLARE
-  paid_on DATE;
-BEGIN
-  SELECT done_on+(days||' days')::INTERVAL INTO paid_on;
-  IF end_of_month THEN
-    SELECT (TO_CHAR(paid_on+('1 month')::INTERVAL, 'YYYY-MM')||'-01')::DATE-('1 day')::INTERVAL INTO paid_on;
-  END IF;
-  SELECT paid_on+(supp||' days')::INTERVAL INTO paid_on;
-  RETURN paid_on;
-END;
-$$ LANGUAGE 'plpgsql' VOLATILE;
-
-CREATE OR REPLACE FUNCTION FC_Echeance(IN done_on DATE, IN days INTERVAL, IN end_of_month BOOLEAN, IN supp INTERVAL) RETURNS DATE AS
-$$
-DECLARE
-  paid_on DATE;
-BEGIN
-  SELECT done_on+days INTO paid_on;
-  IF end_of_month THEN
-    SELECT (TO_CHAR(paid_on+('1 month')::INTERVAL, 'YYYY-MM')||'-01')::DATE-('1 day')::INTERVAL INTO paid_on;
-  END IF;
-  SELECT paid_on+supp INTO paid_on;
-  RETURN paid_on;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
@@ -405,6 +337,70 @@ END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 */
 
+--===========================================================================--
+-- Procedure permettant de générer le fichier de relance et générer les pénalités si nécessaire
+--DROP FUNCTION FC_Relance();
+
+CREATE OR REPLACE FUNCTION FC_Relance() RETURNS VARCHAR AS
+$$ 
+DECLARE
+  adresse TEXT;
+  query TEXT;
+  p RECORD;
+  f RECORD;
+BEGIN
+  SELECT '/tmp/'||current_user||E'_relance_'||to_char(CURRENT_TIMESTAMP,'YYYYMMDD_HH24MISS_US')||E'.pdf' INTO adresse;
+  query := E'SELECT execution(''cd /tmp && touch '||adresse||E' && chmod 755 '||adresse||E' && gs -q -sPAPERSIZE=letter -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile='||adresse;
+  FOR p IN SELECT * FROM VUE_PRINT_Relance_Entete LOOP
+    SELECT query||' '||SUBSTR(COALESCE(FC_Imprime2('relance',p.pe_numero),''),8) INTO query;
+    FOR f IN SELECT * FROM VUE_PRINT_Relance_Factures WHERE pe_numero=p.pe_numero LOOP
+      SELECT query||' '||SUBSTR(COALESCE(FC_Imprime2('facture',f.fa_numero),''),8) INTO query;
+    END LOOP;
+  END LOOP;
+  query := query||E''');';
+  IF query IS NOT NULL THEN
+    EXECUTE query;
+  ELSE
+    RAISE NOTICE 'Pas d''impressions.';
+  END IF;
+  RETURN 'file://'||adresse;
+END;
+$$ LANGUAGE 'plpgsql';
+
+/*
+
+  SELECT EM_Service FROM Table_Employe WHERE EM_Login=CURRENT_USER INTO num_service;
+  -- Impressions des documents séparément
+  FOR s IN 1..3 LOOP
+    -- Passage dans la societe s
+    UPDATE table_employe 
+      SET EM_Service=se_numero 
+      FROM table_service 
+      WHERE se_societe=s AND em_login=current_user;
+    -- Impression de tous les documents de la societe
+    UPDATE table_impressiondocument 
+      SET ID_Filename=FC_Imprime2(ID_Modele, ID_Cle::integer)
+      FROM table_facture
+      WHERE num_groupe=table_impressiondocument.ig_numero 
+        AND FA_MontantTTC>0 AND ID_Cle::integer=FA_Numero AND SO_Numero=s;
+  END LOOP;
+  -- Concatenation des documents
+  SELECT '/tmp/'||current_user||E'_lot_pi_'||to_char(CURRENT_TIMESTAMP,'YYYYMMDD_HH24MISS_US')||E'.pdf' INTO adresse;
+  SELECT 'SELECT execution(''cd /tmp && touch '||adresse||E' && chmod 755 '||adresse||E' && gs -q -sPAPERSIZE=letter -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile='||adresse||concatenate(' '||SUBSTR(COALESCE(ID_Filename,''),8))||E''');'
+    FROM (SELECT id_filename
+    FROM table_impressiondocument JOIN table_facture ON (ID_Cle=FA_Numero)
+    WHERE num_groupe=table_impressiondocument.ig_numero AND FA_MontantTTC>0
+       ORDER BY fa_numero) x
+    INTO query;
+--  RAISE NOTICE '> Query : %', query;
+  IF query IS NOT NULL THEN
+    EXECUTE query;
+  ELSE
+    RAISE NOTICE 'Pas d''impressions.';
+  END IF;
+
+
+*/
 
 /*****************************************************************************\
  * Fonctions Triggers                                                        *
@@ -663,6 +659,8 @@ BEGIN
       IF NEW.DE_Reduction=OLD.DE_Reduction THEN
         SELECT FC_Personne_Reduction(NEW.PE_Numero, CURRENT_DATE) INTO NEW.DE_Reduction;
       END IF;
+      -- Un acompte doit être versé si le montant du devis excède les 300 euros
+      SELECT (NEW.DE_MontantTTC>=300)::BOOLEAN INTO NEW.DE_Acompte;
     ELSE
       SELECT FC_Personne_Reduction(NEW.PE_Numero, CURRENT_DATE) INTO NEW.DE_Reduction;
     END IF;

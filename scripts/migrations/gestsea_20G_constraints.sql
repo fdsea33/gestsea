@@ -44,6 +44,7 @@ CREATE INDEX idx_table_comptegen_ac_numero ON table_comptegen(ac_numero);
 CREATE INDEX idx_table_comptegen_so_numero ON table_comptegen(so_numero);
 CREATE INDEX idx_table_compteproduit_pd_numero ON table_compteproduit(pd_numero);
 CREATE INDEX idx_table_compteproduit_cg_numero ON table_compteproduit(cg_numero);
+CREATE INDEX idx_table_constante_so_numero ON table_constante(so_numero);
 CREATE INDEX idx_table_contact_ck_numero ON table_contact(ck_numero);
 CREATE INDEX idx_table_contact_pe_numero ON table_contact(pe_numero);
 CREATE INDEX idx_table_contactversion_ck_numero ON table_contactversion(ck_numero);
@@ -82,6 +83,7 @@ CREATE INDEX idx_table_exercice_so_numero ON table_exercice(so_numero);
 CREATE INDEX idx_table_facture_de_numero ON table_facture(de_numero);
 CREATE INDEX idx_table_facture_pe_numero ON table_facture(pe_numero);
 CREATE INDEX idx_table_facture_ag_numero ON table_facture(ag_numero);
+CREATE INDEX idx_table_facture_fa_penalty ON table_facture(fa_penalty);
 CREATE INDEX idx_table_facture_so_numero ON table_facture(so_numero);
 CREATE INDEX idx_table_facturereglement_rg_numero ON table_facturereglement(rg_numero);
 CREATE INDEX idx_table_facturereglement_fa_numero ON table_facturereglement(fa_numero);
@@ -523,6 +525,11 @@ ALTER TABLE "table_compteproduit"
   FOREIGN KEY (cg_numero) REFERENCES table_CompteGen(CG_Numero)
     ON DELETE RESTRICT 
     ON UPDATE RESTRICT;
+ALTER TABLE "table_constante"
+  ADD CONSTRAINT fk_table_constante_so_numero
+  FOREIGN KEY (so_numero) REFERENCES table_Societe(SO_Numero)
+    ON DELETE RESTRICT 
+    ON UPDATE RESTRICT;
 ALTER TABLE "table_contact"
   ADD CONSTRAINT fk_table_contact_ck_numero
   FOREIGN KEY (ck_numero) REFERENCES table_ContactType(CK_Numero)
@@ -707,6 +714,11 @@ ALTER TABLE "table_facture"
   FOREIGN KEY (ag_numero) REFERENCES table_Agent(AG_Numero)
     ON DELETE RESTRICT 
     ON UPDATE RESTRICT;
+ALTER TABLE "table_facture"
+  ADD CONSTRAINT fk_table_facture_fa_penalty
+  FOREIGN KEY (fa_penalty) REFERENCES table_Facture(FA_Numero)
+    ON DELETE RESTRICT 
+    ON UPDATE CASCADE;
 ALTER TABLE "table_facture"
   ADD CONSTRAINT fk_table_facture_so_numero
   FOREIGN KEY (so_numero) REFERENCES table_Societe(SO_Numero)
@@ -1146,6 +1158,8 @@ ALTER TABLE "table_compteproduit" ALTER "updated_at" SET DEFAULT CURRENT_TIMESTA
 ALTER TABLE "table_compteproduit" ALTER "updated_by" SET DEFAULT CURRENT_USER;
 ALTER TABLE "table_compteproduit" ALTER "lock_version" SET DEFAULT 0;
 ALTER TABLE "table_constante" ALTER "cs_numero" SET DEFAULT nextval('seq_constante');
+ALTER TABLE "table_constante" ALTER "cs_nom" SET DEFAULT MD5(RANDOM());
+ALTER TABLE "table_constante" ALTER "so_numero" SET DEFAULT current_societe();
 ALTER TABLE "table_constante" ALTER "created_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_constante" ALTER "updated_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_constante" ALTER "updated_by" SET DEFAULT CURRENT_USER;
@@ -1259,6 +1273,7 @@ ALTER TABLE "table_exercice" ALTER "updated_by" SET DEFAULT CURRENT_USER;
 ALTER TABLE "table_exercice" ALTER "lock_version" SET DEFAULT 0;
 ALTER TABLE "table_facture" ALTER "fa_date" SET DEFAULT CURRENT_DATE;
 ALTER TABLE "table_facture" ALTER "fa_perte" SET DEFAULT false;
+ALTER TABLE "table_facture" ALTER "fa_next_reflation_on" SET DEFAULT '0001-01-01';
 ALTER TABLE "table_facture" ALTER "fa_reduction" SET DEFAULT 0;
 ALTER TABLE "table_facture" ALTER "fa_montantht" SET DEFAULT 0;
 ALTER TABLE "table_facture" ALTER "fa_montantttc" SET DEFAULT 0;
@@ -1731,8 +1746,9 @@ ALTER TABLE "table_compteproduit" ALTER "cg_numero" SET NOT NULL ;
 ALTER TABLE "table_compteproduit" ALTER "lock_version" SET NOT NULL ;
 ALTER TABLE "table_compteproduit" ALTER "id" SET NOT NULL ;
 ALTER TABLE "table_constante" ALTER "cs_numero" SET NOT NULL ;
-ALTER TABLE "table_constante" ALTER "cs_type" SET NOT NULL ;
 ALTER TABLE "table_constante" ALTER "cs_valeur" SET NOT NULL ;
+ALTER TABLE "table_constante" ALTER "cs_nom" SET NOT NULL ;
+ALTER TABLE "table_constante" ALTER "so_numero" SET NOT NULL ;
 ALTER TABLE "table_constante" ALTER "lock_version" SET NOT NULL ;
 ALTER TABLE "table_constante" ALTER "id" SET NOT NULL ;
 ALTER TABLE "table_contact" ALTER "cn_numero" SET NOT NULL ;
@@ -1860,6 +1876,7 @@ ALTER TABLE "table_facture" ALTER "ag_numero" SET NOT NULL ;
 ALTER TABLE "table_facture" ALTER "fa_numfact" SET NOT NULL ;
 ALTER TABLE "table_facture" ALTER "fa_date" SET NOT NULL ;
 ALTER TABLE "table_facture" ALTER "fa_perte" SET NOT NULL ;
+ALTER TABLE "table_facture" ALTER "fa_next_reflation_on" SET NOT NULL ;
 ALTER TABLE "table_facture" ALTER "fa_reduction" SET NOT NULL ;
 ALTER TABLE "table_facture" ALTER "fa_montantht" SET NOT NULL ;
 ALTER TABLE "table_facture" ALTER "fa_montantttc" SET NOT NULL ;
@@ -2125,6 +2142,7 @@ ALTER TABLE "table_sequencecache" ALTER "lock_version" SET NOT NULL ;
 ALTER TABLE "table_sequencecache" ALTER "id" SET NOT NULL ;
 ALTER TABLE "table_service" ALTER "se_numero" SET NOT NULL ;
 ALTER TABLE "table_service" ALTER "se_nom" SET NOT NULL ;
+ALTER TABLE "table_service" ALTER "se_code" SET NOT NULL ;
 ALTER TABLE "table_service" ALTER "se_societe" SET NOT NULL ;
 ALTER TABLE "table_service" ALTER "lock_version" SET NOT NULL ;
 ALTER TABLE "table_service" ALTER "id" SET NOT NULL ;

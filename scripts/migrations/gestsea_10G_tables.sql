@@ -162,6 +162,8 @@ ALTER TABLE "table_compteproduit"
   DROP CONSTRAINT fk_table_compteproduit_pd_numero;
 ALTER TABLE "table_compteproduit"
   DROP CONSTRAINT fk_table_compteproduit_cg_numero;
+ALTER TABLE "table_constante"
+  DROP CONSTRAINT fk_table_constante_so_numero;
 ALTER TABLE "table_contact"
   DROP CONSTRAINT fk_table_contact_ck_numero;
 ALTER TABLE "table_contact"
@@ -238,6 +240,8 @@ ALTER TABLE "table_facture"
   DROP CONSTRAINT fk_table_facture_pe_numero;
 ALTER TABLE "table_facture"
   DROP CONSTRAINT fk_table_facture_ag_numero;
+ALTER TABLE "table_facture"
+  DROP CONSTRAINT fk_table_facture_fa_penalty;
 ALTER TABLE "table_facture"
   DROP CONSTRAINT fk_table_facture_so_numero;
 ALTER TABLE "table_facturereglement"
@@ -570,6 +574,7 @@ CREATE TABLE "table_service"
 (
   "se_numero" INTEGER,
   "se_nom" VARCHAR,
+  "se_code" VARCHAR(4),
   "se_societe" INTEGER,
   "se_agent" INTEGER,
   "created_at" TIMESTAMP,
@@ -620,8 +625,10 @@ CREATE TABLE "table_employe"
 CREATE TABLE "table_constante"
 (
   "cs_numero" INTEGER,
-  "cs_type" INTEGER,
   "cs_valeur" VARCHAR,
+  "cs_nom" VARCHAR(32),
+  "cs_description" TEXT,
+  "so_numero" INTEGER,
   "created_at" TIMESTAMP,
   "created_by" VARCHAR(32),
   "updated_at" TIMESTAMP,
@@ -1272,6 +1279,8 @@ CREATE TABLE "table_facture"
   "fa_numfact" INTEGER,
   "fa_date" DATE,
   "fa_perte" BOOLEAN,
+  "fa_next_reflation_on" DATE,
+  "fa_penalty" INTEGER,
   "fa_reduction" NUMERIC,
   "fa_montantht" NUMERIC(16,2),
   "fa_montantttc" NUMERIC(16,2),
