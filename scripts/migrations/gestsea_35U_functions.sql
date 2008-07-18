@@ -350,7 +350,7 @@ DECLARE
   f RECORD;
 BEGIN
   -- Génération des factures de pénalité pour les factures R2
-  UPDATE table_facture SET fa_penalty=FC_Facture_Une_Ligne(pe_numero,COALESCE(pp::INTEGER,0),ROUND(COALESCE(dp::FLOAT*fa_solde,0))) 
+  UPDATE table_facture SET fa_penalty=FC_Facture_Une_Ligne(pe_numero,COALESCE(pp::INTEGER,0),ROUND(COALESCE(dp::FLOAT*fa_solde,0)), 'Relative à la facture N°'||fa_numfact||' du '||FC_DateEnLettre(fa_date)) 
     FROM VUE_PRINT_Relance_Factures 
       LEFT JOIN table_constante dp ON (dp.cs_nom='DELAY_PENALTY') 
       LEFT JOIN table_constante pp ON (pp.cs_nom='PENALTY_PRODUCT')
@@ -3539,7 +3539,7 @@ $$ LANGUAGE 'plpgsql';
 
 
 
-CREATE OR REPLACE FUNCTION FC_Facture_Une_Ligne(IN num_personne INTEGER, IN num_produit INTEGER, IN quantity NUMERIC) RETURNS TEXT AS
+CREATE OR REPLACE FUNCTION FC_Facture_Une_Ligne(IN num_personne INTEGER, IN num_produit INTEGER, IN quantity NUMERIC, IN notes VARCHAR) RETURNS TEXT AS
 $$
 DECLARE
   num_numfact facture.fa_numfact%TYPE;
@@ -3553,7 +3553,7 @@ BEGIN
   END IF;
   SELECT nextval('seq_devis') INTO num_devis;
   INSERT INTO devis(pe_numero, de_numero, de_libelle, em_numero) SELECT num_personne, num_devis, pd_libelle, current_employe() FROM produit WHERE pd_numero=num_produit;
-  INSERT INTO ligne(de_numero, pd_numero, l_quantite) VALUES (num_devis, num_produit, quantity);
+  INSERT INTO ligne(de_numero, pd_numero, l_quantite, l_notes) VALUES (num_devis, num_produit, quantity, notes);
   
   SELECT FC_DevisVersFacture(num_devis) INTO num_facture;
 
