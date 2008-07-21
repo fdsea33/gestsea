@@ -165,7 +165,7 @@ FROM table_facture JOIN table_personne    USING (pe_numero)
                    JOIN table_codepostal  USING (cp_numero)
                    JOIN table_ville       USING (vi_numero)
                    JOIN vue_facture_regle USING (fa_numero)
-                   JOIN table_devis       USING (de_numero),
+                   LEFT JOIN table_devis       USING (de_numero),
      employe JOIN service ON (EM_Service=SE_Numero)
       LEFT JOIN table_constante dl ON (dl.cs_nom='PAYMENT_ON')
 WHERE AD_Active AND EM_Login=CURRENT_USER AND table_facture.so_numero=current_societe();

@@ -668,7 +668,7 @@ BEGIN
         SELECT FC_Personne_Reduction(NEW.PE_Numero, CURRENT_DATE) INTO NEW.DE_Reduction;
       END IF;
       -- Un acompte doit être versé si le montant du devis excède les 300 euros
-      SELECT (NEW.DE_MontantTTC>=300)::BOOLEAN INTO NEW.DE_Acompte;
+      SELECT CASE WHEN NEW.DE_MontantTTC>=300 THEN true ELSE false END INTO NEW.DE_Acompte;
     ELSE
       SELECT FC_Personne_Reduction(NEW.PE_Numero, CURRENT_DATE) INTO NEW.DE_Reduction;
     END IF;
@@ -1603,14 +1603,17 @@ DECLARE
 BEGIN
   message := '';
   SELECT * FROM Devis WHERE DE_Numero=num_devis INTO d;
+  SELECT EXTRACT(YEAR FROM CURRENT_DATE) INTO a;
   IF d.so_numero=1 THEN
     SELECT FC_Personne_Reduction(d.PE_Numero,CURRENT_DATE) INTO r;
     -- Adhésion à 10 €
     IF r=0 THEN
-      SELECT EXTRACT(YEAR FROM CURRENT_DATE) INTO a;
       SELECT count(*) FROM lignefacture JOIN facture USING (FA_Numero) WHERE pe_numero=d.pe_numero AND pd_numero=100051 AND fa_date BETWEEN a||'-01-01' AND a||'-12-31' INTO c;
       IF c<=0 THEN
-        message := message||'La personne n''est pas adhérente et n''a pas payé de cotisation à 10€. Est-ce normal ?\n';
+        SELECT count(*) FROM ligne WHERE de_numero=d.de_numero AND pd_numero=100051 INTO c;
+        IF c<=0 THEN
+          message := message||'La personne n''est pas adhérente et n''a pas payé de cotisation à 10€. Est-ce normal ?\n';
+        END IF;
       END IF;
     END IF;
     -- Frais de ports

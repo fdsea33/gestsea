@@ -37,6 +37,7 @@ function CodeInEvoplus(){
     It_Evoplus.AjouterBouton("Imprimer le courrier","EvoPrint","'lettre',"+ComposantDansCode(Maitre_Evoplus));
     It_Evoplus.AjouterBouton("Adhérent N ?","TestCotisation",ComposantDansCode(Maitre_Evoplus));
     It_Evoplus.AjouterBouton("Adhérent N-1 ?","TestCotisation",ComposantDansCode(Maitre_Evoplus)+",-1");
+    It_Evoplus.AjouterBouton("Statistiques","StatEVO","");
 
     It_Evoplus.AjouterComposantSimple("Source","source");          // source                            - a
     It_Evoplus.AjouterComposantSimple("N°Fiche","numero");          // numero

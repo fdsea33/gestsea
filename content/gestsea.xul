@@ -35,6 +35,21 @@ top.document.getElementById('gestsea-lanceur').setAttribute('screenY',(screen.av
         </row>
         <separator class="groove"/>
         <row align="center">
+          <button label="GestSEA EVO+" oncommand="window.openDialog('chrome://gestsea/content/gestsea/evoplus.xul');"/>
+          <description>Les retours EVO+</description>
+        </row>
+        <separator class="groove"/>
+        <row align="center">
+          <button label="GestSEA Stat" oncommand="window.openDialog('chrome://gestsea/content/gestsea/stat.xul');"/>
+          <description>Les factures mal payées, les réglements mal facturés, et les devis non traités</description>
+        </row>
+        <separator class="groove"/>
+        <row align="center">
+          <button label="GestSEA Mail" oncommand="window.openDialog('chrome://gestsea/content/gestsea/mail.xul');"/>
+          <description>Pour les mailings</description>
+        </row>
+        <separator class="groove"/>
+        <row align="center">
           <button label="GestSEA Cotisation" oncommand="window.openDialog('chrome://gestsea/content/gestsea/cotisation.xul');"/>
           <description>Fenêtre de saisie des coupons-réponses (seulement en mode administrateur).</description>
         </row>
