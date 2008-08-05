@@ -284,19 +284,24 @@ function EnvoyerPassword(compo) {
 }
 
 function StatEVO() {
+  var annee = requete("SELECT EXTRACT(YEAR FROM CURRENT_DATE);");
   var msg = 'Statistiques EVO+\n\n';
   /* Nombre de fiches/lots */
   msg += 'Nombre de lots : '+requete("SELECT COUNT(DISTINCT lot) FROM evoplus;")+'\n';
   msg += 'Nombre de fiches : '+requete("SELECT COUNT(DISTINCT pe_numero) FROM evoplus;")+'\n';
-  msg += 'Nombre de propositions : '+requete("SELECT COUNT(DISTINCT pe_numero) FROM evoplus WHERE proposition;")+'\n';
-  msg += 'Nombre de propositions encaissées : '+requete("SELECT COUNT(DISTINCT e.pe_numero) FROM evoplus e JOIN cotisation c ON (e.pe_numero=c.pe_numero OR e.pe_numero=COALESCE(c.cs_societe,0)) WHERE proposition AND c.created_at>e.created_at;")+'\n';
+  msg += 'Nombre de propositions : '+requete("SELECT COUNT(DISTINCT pe_numero) FROM evoplus WHERE proposition AND pe_numero NOT IN (SELECT pe_numero FROM evoplus WHERE NOT proposition);")+'\n';
+  msg += 'Nombre de propositions encaissées : '+requete("SELECT COUNT(DISTINCT e.pe_numero) FROM evoplus e JOIN cotisation c ON ((e.pe_numero=c.pe_numero OR e.pe_numero=COALESCE(c.cs_societe,0)) AND cs_annee="+annee+") WHERE proposition AND c.created_at>e.created_at;")+'\n';
   msg += 'Nombre d\'adhésions : '+requete("SELECT COUNT(DISTINCT id) FROM evoplus WHERE NOT proposition;")+'\n';
-  msg += 'Nombre d\'adhésions encaissées : '+requete("SELECT COUNT(DISTINCT e.pe_numero) FROM evoplus e JOIN cotisation c ON (e.pe_numero=c.pe_numero OR e.pe_numero=COALESCE(c.cs_societe,0)) WHERE NOT proposition AND c.created_at>e.created_at;")+'\n';
+  msg += 'Nombre d\'adhésions encaissées : '+requete("SELECT COUNT(DISTINCT e.pe_numero) FROM evoplus e JOIN cotisation c ON ((e.pe_numero=c.pe_numero OR e.pe_numero=COALESCE(c.cs_societe,0)) AND cs_annee="+annee+") WHERE NOT proposition AND c.created_at>e.created_at;")+'\n';
   msg += '\n';
-  msg += 'Total adhésions encaissées : '+requete("SELECT SUM(fa_montantttc) FROM evoplus e JOIN cotisation c ON (e.pe_numero=c.pe_numero OR e.pe_numero=COALESCE(c.cs_societe,0)) JOIN impressiondocument USING (IG_numero) JOIN table_facture ON (ID_Cle=FA_Numero) WHERE c.created_at>e.created_at;")+' euros\n';
-  msg += ' - Dont SACEA : '+requete("SELECT SUM(fa_montantttc) FROM evoplus e JOIN cotisation c ON (e.pe_numero=c.pe_numero OR e.pe_numero=COALESCE(c.cs_societe,0)) JOIN impressiondocument USING (IG_numero) JOIN table_facture ON (ID_Cle=FA_Numero) WHERE c.created_at>e.created_at and so_numero=1;")+' euros\n';
-  msg += ' - Dont FDSEA : '+requete("SELECT SUM(fa_montantttc) FROM evoplus e JOIN cotisation c ON (e.pe_numero=c.pe_numero OR e.pe_numero=COALESCE(c.cs_societe,0)) JOIN impressiondocument USING (IG_numero) JOIN table_facture ON (ID_Cle=FA_Numero) WHERE c.created_at>e.created_at and so_numero=2;")+' euros\n';
-  msg += ' - Dont AAVA : '+requete("SELECT SUM(fa_montantttc) FROM evoplus e JOIN cotisation c ON (e.pe_numero=c.pe_numero OR e.pe_numero=COALESCE(c.cs_societe,0)) JOIN impressiondocument USING (IG_numero) JOIN table_facture ON (ID_Cle=FA_Numero) WHERE c.created_at>e.created_at and so_numero=3;")+' euros\n';
+  msg += 'Nombre de cotisations EVO+ : '+requete("SELECT COUNT(DISTINCT e.pe_numero) FROM evoplus e JOIN cotisation c ON ((e.pe_numero=c.pe_numero OR e.pe_numero=COALESCE(c.cs_societe,0)) AND cs_annee="+annee+") WHERE c.created_at>e.created_at;")+'\n';
+  msg += 'Nombre d\'adhésions récoltées avant EVO+ : '+requete("SELECT COUNT(DISTINCT e.pe_numero) FROM evoplus e JOIN cotisation c ON ((e.pe_numero=c.pe_numero OR e.pe_numero=COALESCE(c.cs_societe,0)) AND cs_annee="+annee+") WHERE c.created_at<e.created_at;")+'\n';
+  msg += 'Nombre de fiches infructueuses : '+requete("SELECT COUNT(DISTINCT e.pe_numero) FROM evoplus e LEFT JOIN cotisation c ON (((e.pe_numero=c.pe_numero OR e.pe_numero=COALESCE(c.cs_societe,0)) AND cs_annee="+annee+") AND cs_annee="+annee+") WHERE cs_numero IS NULL ;")+'\n';
+  msg += '\n';
+  msg += 'Total adhésions encaissées : '+requete("SELECT SUM(fa_montantttc) FROM evoplus e JOIN cotisation c ON ((e.pe_numero=c.pe_numero OR e.pe_numero=COALESCE(c.cs_societe,0)) AND cs_annee="+annee+") JOIN impressiondocument USING (IG_numero) JOIN table_facture ON (ID_Cle=FA_Numero) WHERE c.created_at>e.created_at AND id_modele='facture';")+' euros\n';
+  msg += ' - Dont SACEA : '+requete("SELECT SUM(fa_montantttc) FROM evoplus e JOIN cotisation c ON ((e.pe_numero=c.pe_numero OR e.pe_numero=COALESCE(c.cs_societe,0)) AND cs_annee="+annee+") JOIN impressiondocument USING (IG_numero) JOIN table_facture ON (ID_Cle=FA_Numero) WHERE c.created_at>e.created_at and so_numero=1 AND id_modele='facture';")+' euros\n';
+  msg += ' - Dont FDSEA : '+requete("SELECT SUM(fa_montantttc) FROM evoplus e JOIN cotisation c ON ((e.pe_numero=c.pe_numero OR e.pe_numero=COALESCE(c.cs_societe,0)) AND cs_annee="+annee+") JOIN impressiondocument USING (IG_numero) JOIN table_facture ON (ID_Cle=FA_Numero) WHERE c.created_at>e.created_at and so_numero=2 AND id_modele='facture';")+' euros\n';
+  msg += ' - Dont AAVA : '+requete("SELECT SUM(fa_montantttc) FROM evoplus e JOIN cotisation c ON ((e.pe_numero=c.pe_numero OR e.pe_numero=COALESCE(c.cs_societe,0)) AND cs_annee="+annee+") JOIN impressiondocument USING (IG_numero) JOIN table_facture ON (ID_Cle=FA_Numero) WHERE c.created_at>e.created_at and so_numero=3 AND id_modele='facture';")+' euros\n';
   alert(msg);
 }
 
