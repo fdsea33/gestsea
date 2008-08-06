@@ -123,6 +123,7 @@ function mcd_getType(table,champs)
         case 'cp_numero': type=TYPE_INT;break;
         case 'vi_numero': type=TYPE_INT;break;
         case 'pe_numero': type=TYPE_INT;break;
+        case 'ad_default': type=TYPE_BOOL;break;
         case 'ad_active': type=TYPE_BOOL;break;
         case 'ad_ligne2': type=TYPE_STRING;break;
         case 'ad_ligne3': type=TYPE_STRING;break;
@@ -468,6 +469,7 @@ function mcd_getType(table,champs)
         case 'de_locked': type=TYPE_BOOL;break;
         case 'de_acompte': type=TYPE_BOOL;break;
         case 'de_lettre': type=TYPE_BOOL;break;
+        case 'ad_numero': type=TYPE_INT;break;
         case 'de_civilites': type=TYPE_STRING;break;
         case 'de_introduction': type=TYPE_STRING;break;
         case 'created_at': type=TYPE_DATETIME;break;
@@ -723,6 +725,7 @@ function mcd_getType(table,champs)
         case 'fa_montantht': type=TYPE_FLOAT;break;
         case 'fa_montantttc': type=TYPE_FLOAT;break;
         case 'fa_accompte': type=TYPE_FLOAT;break;
+        case 'ad_numero': type=TYPE_INT;break;
         case 'fa_annotation': type=TYPE_STRING;break;
         case 'fa_libelle': type=TYPE_STRING;break;
         case 'so_numero': type=TYPE_INT;break;
@@ -1773,6 +1776,7 @@ function mcd_getLabel(table,champs)
         case 'cp_numero': label="";break;
         case 'vi_numero': label="";break;
         case 'pe_numero': label="";break;
+        case 'ad_default': label="";break;
         case 'ad_active': label="";break;
         case 'ad_ligne2': label="";break;
         case 'ad_ligne3': label="";break;
@@ -2118,6 +2122,7 @@ function mcd_getLabel(table,champs)
         case 'de_locked': label="";break;
         case 'de_acompte': label="";break;
         case 'de_lettre': label="";break;
+        case 'ad_numero': label="";break;
         case 'de_civilites': label="";break;
         case 'de_introduction': label="";break;
         case 'created_at': label="Date de creation";break;
@@ -2373,6 +2378,7 @@ function mcd_getLabel(table,champs)
         case 'fa_montantht': label="";break;
         case 'fa_montantttc': label="";break;
         case 'fa_accompte': label="";break;
+        case 'ad_numero': label="";break;
         case 'fa_annotation': label="";break;
         case 'fa_libelle': label="";break;
         case 'so_numero': label="";break;
@@ -3420,6 +3426,7 @@ function mcd_obligatoire(table,champs)
         case 'cp_numero': obligatoire=true;break;
         case 'vi_numero': obligatoire=true;break;
         case 'pe_numero': obligatoire=true;break;
+        case 'ad_default': obligatoire=true;break;
         case 'ad_active': obligatoire=true;break;
         case 'ad_ligne2': obligatoire=false;break;
         case 'ad_ligne3': obligatoire=false;break;
@@ -3765,6 +3772,7 @@ function mcd_obligatoire(table,champs)
         case 'de_locked': obligatoire=false;break;
         case 'de_acompte': obligatoire=true;break;
         case 'de_lettre': obligatoire=true;break;
+        case 'ad_numero': obligatoire=false;break;
         case 'de_civilites': obligatoire=false;break;
         case 'de_introduction': obligatoire=false;break;
         case 'created_at': obligatoire=false;break;
@@ -4020,6 +4028,7 @@ function mcd_obligatoire(table,champs)
         case 'fa_montantht': obligatoire=true;break;
         case 'fa_montantttc': obligatoire=true;break;
         case 'fa_accompte': obligatoire=false;break;
+        case 'ad_numero': obligatoire=false;break;
         case 'fa_annotation': obligatoire=false;break;
         case 'fa_libelle': obligatoire=false;break;
         case 'so_numero': obligatoire=true;break;

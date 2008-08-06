@@ -29,6 +29,7 @@
     <groupbox>
       <caption label="2. Produit"/>
       <hbox>
+        <textbox id="wg-produit-quantity" value="1" onchange="wg_totalize()"/>
         <radiogroup id="wg-produit-radiogroup" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" flex="1" orient="vertical" oncommand="wg_totalize();">
           <template>
             <radio uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#px_libelle" tarif="rdf:http://www.mozilla.org/SQL-rdf#px_tarifttc" value="rdf:http://www.mozilla.org/SQL-rdf#px_numero"/>
@@ -41,6 +42,7 @@
 
     <groupbox>
       <caption label="3. Réglement"/>
+      <checkbox id="wg-reglement-use" checked="true"/>
       <hbox align="center">
         <label value="Date"/>
         <textbox id="wg-reglement-date"   size="10" maxlength="10" value="01/01/2008"/>

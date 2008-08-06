@@ -81,6 +81,7 @@ function SupprimeRoutage(compo)
 {
   FactureEnCours=compo.getCleVal();
   if (confirm("Etes-vous sûr(e) de vouloir supprimer tous les routages associés à cette facture ?")) {
+    compo.Refresh();
 	  pgsql_update("DELETE FROM routage WHERE fa_numero="+FactureEnCours+";");
   }
 }
@@ -88,6 +89,7 @@ function SupprimeRoutage(compo)
 function SupprimeDevis(compo){
   var de=compo.getCleVal();
   if (confirm("Etes-vous sûr(e) de vouloir supprimer ce devis ?")) {
+    compo.Refresh();
 	  pgsql_update("DELETE FROM devis WHERE de_numero="+de+";");
   }
 }
@@ -102,6 +104,7 @@ function DevisVersFacture(compo){
     if (num_facture==null)
       alert("Le devis n'a pas pu être passé en facture.");
     else {
+      compo.Refresh();
       alert("Facture créée avec succès :\nN°"+requete("SELECT FA_NumFact FROM Facture WHERE FA_Numero="+num_facture));
     } 
   }
@@ -114,6 +117,7 @@ function FactureVersAvoir(compo){
   if (NumFact==null)
     alert("La facture n'a pas pu être passé en avoir.");
   else
+    compo.Refresh();
     alert("Avoir créé avec succès :\nN° "+NumFact);
   }
 }

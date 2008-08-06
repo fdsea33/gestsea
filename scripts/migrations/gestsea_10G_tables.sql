@@ -186,6 +186,8 @@ ALTER TABLE "table_devis"
   DROP CONSTRAINT fk_table_devis_so_numero;
 ALTER TABLE "table_devis"
   DROP CONSTRAINT fk_table_devis_em_numero;
+ALTER TABLE "table_devis"
+  DROP CONSTRAINT fk_table_devis_ad_numero;
 ALTER TABLE "table_droit"
   DROP CONSTRAINT fk_table_droit_dp_numero;
 ALTER TABLE "table_droit"
@@ -242,6 +244,8 @@ ALTER TABLE "table_facture"
   DROP CONSTRAINT fk_table_facture_ag_numero;
 ALTER TABLE "table_facture"
   DROP CONSTRAINT fk_table_facture_fa_penalty;
+ALTER TABLE "table_facture"
+  DROP CONSTRAINT fk_table_facture_ad_numero;
 ALTER TABLE "table_facture"
   DROP CONSTRAINT fk_table_facture_so_numero;
 ALTER TABLE "table_facturereglement"
@@ -656,6 +660,7 @@ CREATE TABLE "table_adresse"
   "cp_numero" INTEGER,
   "vi_numero" INTEGER,
   "pe_numero" INTEGER,
+  "ad_default" BOOLEAN,
   "ad_active" BOOLEAN,
   "ad_ligne2" VARCHAR(38),
   "ad_ligne3" VARCHAR(38),
@@ -1242,6 +1247,7 @@ CREATE TABLE "table_devis"
   "de_locked" BOOLEAN,
   "de_acompte" BOOLEAN,
   "de_lettre" BOOLEAN,
+  "ad_numero" INTEGER,
   "de_civilites" VARCHAR,
   "de_introduction" VARCHAR,
   "created_at" TIMESTAMP,
@@ -1285,6 +1291,7 @@ CREATE TABLE "table_facture"
   "fa_montantht" NUMERIC(16,2),
   "fa_montantttc" NUMERIC(16,2),
   "fa_accompte" NUMERIC(16,2),
+  "ad_numero" INTEGER,
   "fa_annotation" TEXT,
   "fa_libelle" TEXT,
   "so_numero" INTEGER,

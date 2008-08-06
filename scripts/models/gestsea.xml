@@ -34,12 +34,13 @@
 
 
 
-  <table name="Adresse" abbrev="AD" label="Adresses" select="COALESCE(Ad_Ligne2||', ','')||COALESCE(Ad_Ligne3||', ','')||COALESCE(Ad_Ligne4||', ','')||COALESCE(Ad_Ligne5||', ','')||CP_CodePostal||' '||VI_Nom AS AD_Libelle, COALESCE(Ad_Ligne2,'')||';'||COALESCE(Ad_Ligne3,'')||';'||COALESCE(Ad_Ligne4,'')||';'||COALESCE(Ad_Ligne5,'')||';'||CP_CodePostal||';'||VI_Nom AS AD_CSV, AK_Nom AS AD_Type" from="JOIN ###_TypeAdresse USING (AK_Numero) JOIN ###_CodePostal AS CP USING (CP_Numero) JOIN ###_Ville AS VI USING (VI_Numero)" where="AD_Active">
+  <table name="Adresse" abbrev="AD" label="Adresses" select="(pe_numero-1000000)||'. '||COALESCE(Ad_Ligne2||', ','')||COALESCE(Ad_Ligne3||', ','')||COALESCE(Ad_Ligne4||', ','')||COALESCE(Ad_Ligne5||', ','')||CP_CodePostal||' '||VI_Nom AS AD_Libelle, COALESCE(Ad_Ligne2,'')||';'||COALESCE(Ad_Ligne3,'')||';'||COALESCE(Ad_Ligne4,'')||';'||COALESCE(Ad_Ligne5,'')||';'||CP_CodePostal||';'||VI_Nom AS AD_CSV, CASE WHEN AD_Default THEN 'Def.' ELSE '' END AS AD_Def" from="JOIN ###_CodePostal AS CP USING (CP_Numero) JOIN ###_Ville AS VI USING (VI_Numero)" where="AD_Active">
     <column name="AD_Numero"     type="INTEGER"      notnull="true" pkey="true">Clef primaire</column>
     <column name="AK_Numero"     type="INTEGER"      notnull="true" fkey="TypeAdresse(AK_Numero)" opt="odrour">Lien vers le type d'adresse</column>
     <column name="CP_Numero"     type="INTEGER"      notnull="true" fkey="CodePostal(CP_Numero)" opt="odrour">Lien vers le code postal</column>
     <column name="VI_Numero"     type="INTEGER"      notnull="true" fkey="Ville(VI_Numero)"      opt="odrour">Lien vers la ville</column>
     <column name="PE_Numero"     type="INTEGER"      notnull="true" fkey="Personne(PE_Numero)"   opt="odrour"></column>
+    <column name="AD_Default"    type="BOOLEAN"      notnull="true" default="false">Adresse par défaut</column>
     <column name="AD_Active"     type="BOOLEAN"      notnull="true" default="true"></column>
     <column name="AD_Ligne2"     type="VARCHAR(38)"  default="NULL">Ligne 2 de l'adresse : N°App ou Boite - Etage - Couloir - Escalier ou Service - Identité du Destinataire</column>
     <column name="AD_Ligne3"      type="VARCHAR(38)"  default="NULL">Ligne 3 de l'adresse : Entrée - Tour - Immeuble - Batiment - Residence - ZI...</column>
@@ -724,6 +725,7 @@
     <column name="DE_Locked"       type="BOOLEAN"     default="false">Devis verrouillé</column>
     <column name="DE_Acompte"      type="BOOLEAN"     notnull="true" default="false">Acompte à payer</column>
     <column name="DE_Lettre"       type="BOOLEAN"     notnull="true" default="false">Devis sous forme de lettre</column>
+    <column name="AD_Numero"       type="INTEGER"     default="NULL" fkey="Adresse(AD_Numero)" opt="odrouc">Adresse de facturation</column>
     <column name="DE_Civilites"    type="VARCHAR"     default="NULL">Civilités (Ex : 'Chère Madame')</column>
     <column name="DE_Introduction" type="VARCHAR"     default="NULL">Paragraphe d'introduction du courrier</column>
     <seq name="seq_devis" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
@@ -767,6 +769,7 @@
     <column name="FA_MontantHT"  type="NUMERIC(16,2)"     notnull="true" default="0">Montant Hors Taxe réduction comprise</column>
     <column name="FA_MontantTTC" type="NUMERIC(16,2)"     notnull="true" default="0">Montant Toutes Taxes Comprises réduction comprise</column>
     <column name="FA_Accompte"   type="NUMERIC(16,2)"     default="NULL"></column>
+    <column name="AD_Numero"     type="INTEGER"     default="NULL" fkey="Adresse(AD_Numero)" opt="odrouc">Adresse de facturation</column>
     <column name="FA_Annotation" type="TEXT" default="NULL"></column>
     <column name="FA_Libelle"    type="TEXT" default="NULL"></column>
 <!--    <column name="RG_Numero"     type="INTEGER"     default="NULL" fkey="Reglement(RG_Numero)" opt="odsnouc"></column>-->

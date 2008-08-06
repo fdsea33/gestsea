@@ -140,7 +140,7 @@ CREATE OR REPLACE VIEW VUE_AAVA_Destinataire AS
 --DROP VIEW VUE_PRINT_Facture_Entete;
 CREATE OR REPLACE VIEW VUE_PRINT_Facture_Entete AS
 SELECT 
-to_char(table_facture.PE_Numero-1000000,'FM0999999') AS pe_numpersonne, -- 0
+to_char(f.PE_Numero-1000000,'FM0999999') AS pe_numpersonne, -- 0
 pe_titre,                        -- 1
 pe_nom,                          -- 2
 pe_prenom,                       -- 3
@@ -160,15 +160,15 @@ fa_regle,                        -- 15
 FC_DateEnLettre(fc_delai(fa_date,COALESCE(dl.cs_valeur,'90 days'))) AS fa_reglement, -- 17
 DE_Numero,                       -- 18
 FC_DateEnLettre(DE_Date) AS DE_Date --19
-FROM table_facture JOIN table_personne    USING (pe_numero)
-                   JOIN table_adresse     USING (pe_numero)
-                   JOIN table_codepostal  USING (cp_numero)
-                   JOIN table_ville       USING (vi_numero)
-                   JOIN vue_facture_regle USING (fa_numero)
+FROM table_facture f LEFT JOIN table_personne AS p USING (pe_numero)
+                   LEFT JOIN table_adresse AS a ON ((f.ad_numero IS NULL AND p.pe_numero=a.pe_numero AND ad_active AND ad_default) OR (f.ad_numero IS NOT NULL and f.ad_numero=a.ad_numero))
+                   LEFT JOIN table_codepostal  USING (cp_numero)
+                   LEFT JOIN table_ville       USING (vi_numero)
+                   LEFT JOIN vue_facture_regle x USING (fa_numero)
                    LEFT JOIN table_devis       USING (de_numero),
      employe JOIN service ON (EM_Service=SE_Numero)
       LEFT JOIN table_constante dl ON (dl.cs_nom='PAYMENT_ON')
-WHERE AD_Active AND EM_Login=CURRENT_USER AND table_facture.so_numero=current_societe();
+WHERE EM_Login=CURRENT_USER AND f.SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
 
 
 --===========================================================================--
@@ -337,14 +337,28 @@ AG_Libelle     AS DE_Agent,
 SE_Numero,
 FC_DateEnLettre((DE_Date+'1 month'::interval)::date)
                AS DE_DateValidite
-    FROM Devis LEFT JOIN Personne USING (PE_Numero) 
-               LEFT JOIN Adresse USING (PE_Numero) 
-               LEFT JOIN Ville USING (VI_Numero) 
-               LEFT JOIN CodePostal USING (CP_Numero)
-               LEFT JOIN Employe USING (EM_Numero)
-               LEFT JOIN Agent ON (EM_Agent=AG_Numero)
+    FROM table_devis d LEFT JOIN Personne p USING (PE_Numero) 
+               LEFT JOIN table_Adresse a ON ((d.ad_numero IS NULL AND p.pe_numero=a.pe_numero AND ad_active AND ad_default) OR (d.ad_numero IS NOT NULL and d.ad_numero=a.ad_numero)) -- USING (PE_Numero) 
+               LEFT JOIN table_Ville USING (VI_Numero) 
+               LEFT JOIN table_CodePostal USING (CP_Numero)
+               LEFT JOIN table_Employe USING (EM_Numero)
+               LEFT JOIN Agent ag ON (EM_Agent=ag.AG_Numero)
                LEFT JOIN Service ON (EM_Service=SE_Numero)
-    WHERE AD_Active;
+    WHERE d.SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)
+;
+--    WHERE AD_Active;
+
+/*
+FROM table_facture f LEFT JOIN table_personne p   USING (pe_numero)
+                   LEFT JOIN table_adresse a    ON ((f.ad_numero IS NULL AND p.pe_numero=a.pe_numero AND ad_active) OR (f.ad_numero IS NOT NULL and f.ad_numero=a.ad_numero))
+                   LEFT JOIN table_codepostal  USING (cp_numero)
+                   LEFT JOIN table_ville       USING (vi_numero)
+                   LEFT JOIN vue_facture_regle USING (fa_numero)
+                   LEFT JOIN table_devis       USING (de_numero),
+     employe JOIN service ON (EM_Service=SE_Numero)
+      LEFT JOIN table_constante dl ON (dl.cs_nom='PAYMENT_ON')
+WHERE EM_Login=CURRENT_USER AND table_facture.so_numero=current_societe();
+*/
 
 
 --===========================================================================--

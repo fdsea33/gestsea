@@ -466,6 +466,41 @@ CREATE TRIGGER trigger_Activite_validation
 
 -- Adresse
 --===========================================================================--
+-- Vérifie certaines caractéristiques d'une adresse
+-- DROP TRIGGER trigger_adresse_validation ON table_adresse;
+--DROP FUNCTION TG_adresse_validation();
+
+CREATE OR REPLACE FUNCTION TG_adresse_validation() RETURNS trigger AS
+$$
+DECLARE
+  compte INTEGER;
+BEGIN
+  IF NEW.AK_Numero IS NULL THEN
+    SELECT AK_Numero FROM TypeAdresse ORDER BY 1 INTO NEW.AK_Numero;
+  END IF;
+  SELECT count(*) FROM Adresse WHERE pe_numero=NEW.pe_numero AND AD_Default INTO compte;
+  IF compte<=0 THEN
+    NEW.AD_Default := true;
+  END IF;
+  IF NEW.AD_Default AND compte>=1 THEN
+    IF TG_OP='INSERT' THEN
+      UPDATE Adresse SET AD_Default=false WHERE pe_numero=NEW.PE_Numero;
+    ELSE
+      UPDATE Adresse SET AD_Default=false WHERE pe_numero=NEW.PE_Numero AND AD_Numero!=OLD.AD_Numero;
+    END IF;
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+
+CREATE TRIGGER trigger_adresse_validation
+  BEFORE INSERT OR UPDATE ON table_adresse
+  FOR EACH ROW EXECUTE PROCEDURE TG_adresse_validation();
+
+
+
+--===========================================================================--
 -- DROP TRIGGER trigger_Adresse_treatments ON table_Adresse;
 --DROP FUNCTION TG_Adresse_treatments();
 
@@ -958,6 +993,32 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 CREATE TRIGGER trigger_estlie_validation
   BEFORE INSERT OR UPDATE ON table_estlie
   FOR EACH ROW EXECUTE PROCEDURE TG_estlie_validation();
+
+
+-- Facture
+--===========================================================================--
+-- Remplit le champ 'Montant' des liens entre facture et règlement
+-- DROP TRIGGER trigger_ecriture_validation ON table_ecriture;
+--DROP FUNCTION  TG_facture_validation();
+
+CREATE OR REPLACE FUNCTION TG_facture_validation() RETURNS TRIGGER AS
+$$
+DECLARE
+  superuser BOOLEAN;
+BEGIN
+  SELECT usesuper FROM pg_user WHERE usename=CURRENT_USER INTO superuser;
+  IF NOT superuser THEN
+    NEW.AD_Numero := OLD.AD_Numero;
+    NEW.PE_Numero := OLD.PE_Numero;
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+CREATE TRIGGER trigger_facture_validation
+  BEFORE UPDATE ON table_facture
+  FOR EACH ROW EXECUTE PROCEDURE TG_facture_validation();
+
 
 
 -- FactureReglement
@@ -1690,8 +1751,8 @@ BEGIN
   SELECT nextval('seq_facture') into num_facture;
   SELECT fc_nextval(sq_numero) FROM societe where so_numero = num_societe INTO num_numfact;
 -- Creation de la facture
-  insert into facture (fa_numero, pe_numero, fa_date, fa_reduction, fa_libelle, fa_numfact, fa_montantht, fa_montantttc, de_numero, ag_numero)
-    select num_facture, pe_numero, current_date, de_reduction, de_libelle, num_numfact, de_montantht, de_montantttc, de_numero, em_agent
+  insert into facture (fa_numero, pe_numero, fa_date, fa_reduction, fa_libelle, fa_numfact, fa_montantht, fa_montantttc, de_numero, ag_numero, ad_numero)
+    select num_facture, pe_numero, current_date, de_reduction, de_libelle, num_numfact, de_montantht, de_montantttc, de_numero, em_agent, ad_numero
       from devis join employe using (em_numero) where de_numero = num_devis;
 -- Création des lignes de la facture
   insert into lignefacture (fa_numero, pd_numero, lf_montantht, lf_montantttc, lf_quantite, px_numero, lf_notes)  
@@ -3500,7 +3561,7 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 /* 
  *
  */
-CREATE OR REPLACE FUNCTION FC_Simple_Facture(IN num_personne INTEGER, IN num_prix INTEGER, IN reg_date DATE, IN reg_banque VARCHAR(32), IN reg_compte VARCHAR(32), IN reg_cheque VARCHAR(32), IN num_modereglement INTEGER) RETURNS TEXT AS
+CREATE OR REPLACE FUNCTION FC_Simple_Facture(IN num_personne INTEGER, IN num_prix INTEGER, IN_quantity INTEGER, IN reg_date DATE, IN reg_banque VARCHAR(32), IN reg_compte VARCHAR(32), IN reg_cheque VARCHAR(32), IN num_modereglement INTEGER) RETURNS TEXT AS
 $$
 DECLARE
   num_numfact TEXT;
@@ -3521,15 +3582,17 @@ BEGIN
   END IF;
   SELECT nextval('seq_devis') INTO num_devis;
   INSERT INTO devis(pe_numero, de_numero, de_libelle, em_numero) SELECT num_personne, num_devis, '[MAJCC] Abonnement du '||CURRENT_DATE, current_employe();
-  INSERT INTO ligne(de_numero, px_numero) VALUES (num_devis, num_prix);
+  INSERT INTO ligne(de_numero, px_numero, l_quantite) SELECT num_devis, num_prix, COALESCE(quantity,1);
   
   SELECT de_montantttc, nextval('seq_reglement') FROM devis WHERE de_numero=num_devis INTO reg_montant, num_reglement;
   
-  INSERT INTO reglement(pe_numero, rg_numero, rg_montant, rg_date, rg_libellebanque, rg_numerocompte, rg_reference, em_numero, mr_numero) SELECT num_personne, num_reglement, reg_montant, reg_date, reg_banque, reg_compte, reg_cheque, current_employe(), num_modereglement;
 
   SELECT FC_DevisVersFacture(num_devis) INTO num_facture;
 
-  INSERT INTO facturereglement(rg_numero,fa_numero) VALUES (num_reglement, num_facture);  
+  IF reg_mode IS NOT NULL THEN
+    INSERT INTO reglement(pe_numero, rg_numero, rg_montant, rg_date, rg_libellebanque, rg_numerocompte, rg_reference, em_numero, mr_numero) SELECT num_personne, num_reglement, reg_montant, reg_date, reg_banque, reg_compte, reg_cheque, current_employe(), num_modereglement;
+    INSERT INTO facturereglement(rg_numero,fa_numero) VALUES (num_reglement, num_facture);  
+  END IF;
 
   SELECT nextval('seq_impressiongroupe') INTO num_groupe;
   INSERT INTO impressiongroupe (ig_numero, il_numero, ig_date) VALUES (num_groupe,2,CURRENT_DATE);

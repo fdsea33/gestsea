@@ -64,7 +64,9 @@ function CodeInPrincipal(centre){
     It_Personne.AjouterComposantSimple("Prénom","pe_prenom");
     It_Personne.AjouterComposantSimple("N°TVA intrac.","pe_numtvaic");
     It_Personne.AjouterComposantSimple("Né(e) le","pe_naissance");
-    It_Personne.AjouterComposantSimple("La personne est active (et peut être contactée)","pe_actif",null,null,CHECKBOX);
+    PersonneActif = It_Personne.AjouterComposantSimple("La personne est active (et peut être contactée)","pe_actif",null,null,CHECKBOX);
+
+    Maitre_Personne.OnModeInsert = ComposantDansCode(PersonneActif)+'.my_CompoXUL.checked=true;\n';
 
 //    It_Personne.AjouterComposantSimple("Etat","ep_libelle",new Array("ep_numero","ep_numero","etatpersonne"),null,LISTE_DEROULANTE);
 //    It_Personne.AjouterComposantSimple("Entité morale","pe_morale",null,null,CHECKBOX);
@@ -116,8 +118,7 @@ function CodeInPrincipal(centre){
     // ADRESSE
     PersonneAdresse = It_Personne.AjouterComposantComplexe("Adresses", new Array("pe_numero","pe_numero","adresse"));
 
-//    PersonneAdresse.AjouterColonne("Uti.","ad_encours");
-    PersonneAdresse.AjouterColonne("Type","ad_type");
+    PersonneAdresse.AjouterColonne("Déf.","ad_def");
 //    PersonneAdresse.AjouterColonne("Apt ou Destinataire","ad_ligne2");
 //    PersonneAdresse.AjouterColonne("Bat, Res, ZI...","ad_ligne3");
 //    PersonneAdresse.AjouterColonne("N° et Voie","ad_ligne4");
@@ -130,7 +131,7 @@ function CodeInPrincipal(centre){
     PersonneAdresse.AddMode(SUPPRESSION);
     PersonneAdresse.AddMode(MODIFICATION);
 
-    It_Personne.AjouterComposantSimple("Type","ak_nom",new Array("ak_numero","ak_numero","typeadresse"),PersonneAdresse,LISTE_DEROULANTE);
+//    It_Personne.AjouterComposantSimple("Type","ak_nom",new Array("ak_numero","ak_numero","typeadresse"),PersonneAdresse,LISTE_DEROULANTE);
     It_Personne.AjouterComposantSimple("Apt ou Dest.","ad_ligne2",null,PersonneAdresse);
     It_Personne.AjouterComposantSimple("Bat, étage...","ad_ligne3",null,PersonneAdresse);
     It_Personne.AjouterComposantSimple("N° et Voie","ad_ligne4",null,PersonneAdresse);
@@ -141,6 +142,7 @@ function CodeInPrincipal(centre){
 //    PersonneAdresseType       = It_Personne.AjouterComposantSimple("Type","ad_type",null,PersonneAdresse,LISTE_DEROULANTE_STATIC,null,new Array("DEFAUT","COURRIER","PERSONNELLE","PROFESSIONNELLE"));
     PersonneAdresseCodepostal = It_Personne.AjouterComposantSimple("Code postal", "cp_codepostal", new Array("cp_numero","cp_numero","codepostal"),PersonneAdresse,LISTE_DEROULANTE); 
     PersonneAdresseVille      = It_Personne.AjouterComposantSimple("Ville", "vi_nom", new Array("vi_numero","vi_numero","ville"),PersonneAdresse,LISTE_DEROULANTE);
+    It_Personne.AjouterComposantSimple("Adresse par défaut","ad_default",null,PersonneAdresse,CHECKBOX);
     
     // event user 
 /*
@@ -416,6 +418,7 @@ function CodeInPrincipal(centre){
     DevisDate = It_Devis.AjouterComposantSimple("Date","de_date");
     It_Devis.AjouterComposantSimple("Libellé","de_libelle");
     //    It_Devis.AjouterComposantSimple("Suivi par","ag_libelle",new Array("ag_numero","ag_numero","agent"),null,LISTE_DEROULANTE);
+    It_Devis.AjouterComposantSimple("Adresse de facturation (facultatif)","ad_libelle",new Array("ad_numero","ad_numero","adresse"),null,LISTE_DEROULANTE);
     It_Devis.AjouterComposantSimple("Suivi par","em_libelle",new Array("em_numero","em_numero","vue_employe_devis"),null,LISTE_DEROULANTE);
 //    It_Devis.AjouterComposantSimple("Acompte à payer","de_acompte",null,null,CHECKBOX);
     It_Devis.AjouterComposantSimple("Devis sous forme de lettre","de_lettre",null,null,CHECKBOX);
@@ -498,7 +501,9 @@ function CodeInPrincipal(centre){
     It_Facture.AjouterComposantSimple("Montant HT","fa_montantht",null,null,LABEL);
     It_Facture.AjouterComposantSimple("Montant TTC","fa_montantttc",null,null,LABEL);
     It_Facture.AjouterComposantSimple("N°Devis d'origine","de_numero",null,null,LABEL);
-    It_Facture.AjouterComposantSimple("Annotation","fa_annotation");
+    It_Facture.AjouterComposantSimple("Adresse de fact.","ad_libelle",new Array("ad_numero","ad_numero","adresse"),null,LISTE_DEROULANTE);
+//    It_Facture.AjouterComposantSimple("Annotation","fa_annotation");
+    It_Facture.AjouterComposantSimple("NIF","fa_numero",null,null,LABEL);
     
     //***********************
     // LIGNEFACTURE
@@ -519,9 +524,10 @@ function CodeInPrincipal(centre){
     FactureFacturereglement = It_Facture.AjouterComposantComplexe("Règlements",new Array("fa_numero","fa_numero","facturereglement"));
     FactureFacturereglement.AjouterColonne("N°","rg_numero");
     FactureFacturereglement.AjouterColonne("Date","rg_date",new Array("rg_numero","rg_numero","reglement"));
-    FactureFacturereglement.AjouterColonne("Montant","rg_montant",new Array("rg_numero","rg_numero","reglement"));
-    FactureFacturereglement.AjouterColonne("Mode","rg_mode",new Array("rg_numero","rg_numero","reglement"));
-    FactureFacturereglement.AjouterColonne("Etat","rg_etat",new Array("rg_numero","rg_numero","reglement"));
+    FactureFacturereglement.AjouterColonne("Part","fr_montant");
+    FactureFacturereglement.AjouterColonne("R.Mnt.","rg_montant",new Array("rg_numero","rg_numero","reglement"));
+//    FactureFacturereglement.AjouterColonne("Mode","rg_mode",new Array("rg_numero","rg_numero","reglement"));
+//    FactureFacturereglement.AjouterColonne("Etat","rg_etat",new Array("rg_numero","rg_numero","reglement"));
     //    It_Facture.AjouterBouton("Valider le réglement","ValideReglement",ComposantDansCode(FactureFacturereglement));
    
     FactureFacturereglement.AddMode(INSERTION);

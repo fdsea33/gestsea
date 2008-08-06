@@ -67,22 +67,27 @@ function wg_onload() {
 function wg_totalize() {
   p = elem("wg-produit-radiogroup");
   if (p.selectedIndex<0)
-    p.selectedIndex=0;    
-  elem('wg-produit-montant').value=p.selectedItem.getAttribute('tarif')+' ¤';
+    p.selectedIndex=0;
+  t = p.selectedItem.getAttribute('tarif')*1*(elem("wg-produit-quantity")+0*50)
+  elem('wg-produit-montant').value=t+' ¤';
 }
 
 function wg_invoice(delay) {
-  if (requete("SELECT count(*) FROM lignefacture join facture using (fa_numero) left join avoir using (fa_numero) WHERE av_numero is null and fa_date>=(CURRENT_DATE+'"+delay+"'::interval)::date AND pd_Numero IN ("+PRODS.join(',')+")")>0) {
+  if (requete("SELECT count(*) FROM lignefacture join facture using (fa_numero) left join avoir using (fa_numero) WHERE av_numero is null and fa_date>=(CURRENT_DATE-'"+delay+"'::interval)::date AND pd_Numero IN ("+PRODS.join(',')+")")>0) {
     alert('Une facture avec ce produit a déjà été enregistrée récemment (moins de '+delay+')');
     return false;
   }
   var query = "SELECT fc_simple_facture("+current_personne();// pe_numero
   query += ","+ elem('wg-produit-radiogroup').selectedItem.value; // px_numero
+  query += ","+ elem('wg-produit-quantity').value; // l_quantite
   query += ",'"+elem('wg-reglement-date').value+"'"; // rg_date
   query += ",'"+elem('wg-reglement-banque').value+"'"; // rg_banque
   query += ",'"+elem('wg-reglement-compte').value+"'"; // rg_compte
   query += ",'"+elem('wg-reglement-cheque').value+"'"; // rg_cheque
-  query += ",106)"; // rg_mode
+  query += ",";
+  if (elem("wg-reglement-use").checked) query += "106"; // rg_mode
+  else query += "NULL"; // rg_mode
+  query += ")"
   var fact = requete(query);
   alert("Numéro à inscrire sur le bordereau : F"+fact);
   return true;

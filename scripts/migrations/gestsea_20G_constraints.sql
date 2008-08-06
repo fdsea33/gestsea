@@ -56,6 +56,7 @@ CREATE INDEX idx_table_cotisation_ig_numero ON table_cotisation(ig_numero);
 CREATE INDEX idx_table_devis_pe_numero ON table_devis(pe_numero);
 CREATE INDEX idx_table_devis_so_numero ON table_devis(so_numero);
 CREATE INDEX idx_table_devis_em_numero ON table_devis(em_numero);
+CREATE INDEX idx_table_devis_ad_numero ON table_devis(ad_numero);
 CREATE INDEX idx_table_droit_dp_numero ON table_droit(dp_numero);
 CREATE INDEX idx_table_droit_gt_numero ON table_droit(gt_numero);
 CREATE INDEX idx_table_ecriture_pi_numero ON table_ecriture(pi_numero);
@@ -84,6 +85,7 @@ CREATE INDEX idx_table_facture_de_numero ON table_facture(de_numero);
 CREATE INDEX idx_table_facture_pe_numero ON table_facture(pe_numero);
 CREATE INDEX idx_table_facture_ag_numero ON table_facture(ag_numero);
 CREATE INDEX idx_table_facture_fa_penalty ON table_facture(fa_penalty);
+CREATE INDEX idx_table_facture_ad_numero ON table_facture(ad_numero);
 CREATE INDEX idx_table_facture_so_numero ON table_facture(so_numero);
 CREATE INDEX idx_table_facturereglement_rg_numero ON table_facturereglement(rg_numero);
 CREATE INDEX idx_table_facturereglement_fa_numero ON table_facturereglement(fa_numero);
@@ -583,6 +585,11 @@ ALTER TABLE "table_devis"
 ALTER TABLE "table_devis"
   ADD CONSTRAINT fk_table_devis_em_numero
   FOREIGN KEY (em_numero) REFERENCES table_Employe(EM_Numero);
+ALTER TABLE "table_devis"
+  ADD CONSTRAINT fk_table_devis_ad_numero
+  FOREIGN KEY (ad_numero) REFERENCES table_Adresse(AD_Numero)
+    ON DELETE RESTRICT 
+    ON UPDATE CASCADE;
 ALTER TABLE "table_droit"
   ADD CONSTRAINT fk_table_droit_dp_numero
   FOREIGN KEY (dp_numero) REFERENCES table_DroitProfil(DP_Numero)
@@ -717,6 +724,11 @@ ALTER TABLE "table_facture"
 ALTER TABLE "table_facture"
   ADD CONSTRAINT fk_table_facture_fa_penalty
   FOREIGN KEY (fa_penalty) REFERENCES table_Facture(FA_Numero)
+    ON DELETE RESTRICT 
+    ON UPDATE CASCADE;
+ALTER TABLE "table_facture"
+  ADD CONSTRAINT fk_table_facture_ad_numero
+  FOREIGN KEY (ad_numero) REFERENCES table_Adresse(AD_Numero)
     ON DELETE RESTRICT 
     ON UPDATE CASCADE;
 ALTER TABLE "table_facture"
@@ -1068,6 +1080,7 @@ ALTER TABLE "table_adhesion" ALTER "created_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_adhesion" ALTER "updated_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_adhesion" ALTER "updated_by" SET DEFAULT CURRENT_USER;
 ALTER TABLE "table_adhesion" ALTER "lock_version" SET DEFAULT 0;
+ALTER TABLE "table_adresse" ALTER "ad_default" SET DEFAULT false;
 ALTER TABLE "table_adresse" ALTER "ad_active" SET DEFAULT true;
 ALTER TABLE "table_adresse" ALTER "ad_ligne2" SET DEFAULT NULL;
 ALTER TABLE "table_adresse" ALTER "ad_ligne3" SET DEFAULT NULL;
@@ -1197,6 +1210,7 @@ ALTER TABLE "table_devis" ALTER "de_libelle" SET DEFAULT NULL;
 ALTER TABLE "table_devis" ALTER "de_locked" SET DEFAULT false;
 ALTER TABLE "table_devis" ALTER "de_acompte" SET DEFAULT false;
 ALTER TABLE "table_devis" ALTER "de_lettre" SET DEFAULT false;
+ALTER TABLE "table_devis" ALTER "ad_numero" SET DEFAULT NULL;
 ALTER TABLE "table_devis" ALTER "de_civilites" SET DEFAULT NULL;
 ALTER TABLE "table_devis" ALTER "de_introduction" SET DEFAULT NULL;
 ALTER TABLE "table_devis" ALTER "created_at" SET DEFAULT CURRENT_TIMESTAMP;
@@ -1278,6 +1292,7 @@ ALTER TABLE "table_facture" ALTER "fa_reduction" SET DEFAULT 0;
 ALTER TABLE "table_facture" ALTER "fa_montantht" SET DEFAULT 0;
 ALTER TABLE "table_facture" ALTER "fa_montantttc" SET DEFAULT 0;
 ALTER TABLE "table_facture" ALTER "fa_accompte" SET DEFAULT NULL;
+ALTER TABLE "table_facture" ALTER "ad_numero" SET DEFAULT NULL;
 ALTER TABLE "table_facture" ALTER "fa_annotation" SET DEFAULT NULL;
 ALTER TABLE "table_facture" ALTER "fa_libelle" SET DEFAULT NULL;
 ALTER TABLE "table_facture" ALTER "so_numero" SET DEFAULT current_societe();
@@ -1665,6 +1680,7 @@ ALTER TABLE "table_adresse" ALTER "ak_numero" SET NOT NULL ;
 ALTER TABLE "table_adresse" ALTER "cp_numero" SET NOT NULL ;
 ALTER TABLE "table_adresse" ALTER "vi_numero" SET NOT NULL ;
 ALTER TABLE "table_adresse" ALTER "pe_numero" SET NOT NULL ;
+ALTER TABLE "table_adresse" ALTER "ad_default" SET NOT NULL ;
 ALTER TABLE "table_adresse" ALTER "ad_active" SET NOT NULL ;
 ALTER TABLE "table_adresse" ALTER "lock_version" SET NOT NULL ;
 ALTER TABLE "table_adresse" ALTER "id" SET NOT NULL ;
