@@ -42,7 +42,7 @@
 
     <groupbox>
       <caption label="3. Réglement"/>
-      <checkbox id="wg-reglement-use" checked="true"/>
+      <checkbox id="wg-reglement-use" checked="true" label="Prendre en compte le règlement"/>
       <hbox align="center">
         <label value="Date"/>
         <textbox id="wg-reglement-date"   size="10" maxlength="10" value="01/01/2008"/>

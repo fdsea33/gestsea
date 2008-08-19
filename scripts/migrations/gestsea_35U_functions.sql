@@ -100,7 +100,7 @@ BEGIN
     ELSE
       SELECT el_personne1 FROM estlie JOIN cotisation ON (el_personne1=pe_numero) WHERE tl_code='>GERE>' AND el_personne2=num_personne AND cs_annee=annee INTO compte;
       IF compte is not null THEN
-        SELECT bml_extract(cs_detail,'sacea') FROM table_cotisation WHERE pe_numero=compte AND cs_annee=annee INTO sacea;
+        SELECT bml_extract(cs_detail,'sacea') FROM cotisation WHERE pe_numero=compte AND cs_annee=annee INTO sacea;
       END IF;
     END IF;
   END IF;
@@ -1442,7 +1442,7 @@ DECLARE
 BEGIN
   IF TG_OP='INSERT' OR TG_OP='UPDATE' THEN
 -- On empèche de modifier des chèques qui ne sont pas à soi
-    SELECT COALESCE(NEW.created_by,'*')=current_user OR usesuper FROM pg_user WHERE usename=current_user INTO cheque;
+    SELECT (COALESCE(NEW.created_by,'*')=current_user)::BOOLEAN OR usesuper FROM pg_user WHERE usename=current_user INTO cheque;
     IF NOT cheque THEN
       RAISE EXCEPTION 'Vous n''avez pas le droit de modifier un réglement que vous n''avez pas créé.\nContactez votre administrateur si nécessaire.';
     END IF;
@@ -3561,7 +3561,7 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 /* 
  *
  */
-CREATE OR REPLACE FUNCTION FC_Simple_Facture(IN num_personne INTEGER, IN num_prix INTEGER, IN_quantity INTEGER, IN reg_date DATE, IN reg_banque VARCHAR(32), IN reg_compte VARCHAR(32), IN reg_cheque VARCHAR(32), IN num_modereglement INTEGER) RETURNS TEXT AS
+CREATE OR REPLACE FUNCTION FC_Simple_Facture(IN num_personne INTEGER, IN num_prix INTEGER, IN quantity INTEGER, IN reg_date DATE, IN reg_banque VARCHAR(32), IN reg_compte VARCHAR(32), IN reg_cheque VARCHAR(32), IN num_modereglement INTEGER) RETURNS TEXT AS
 $$
 DECLARE
   num_numfact TEXT;
@@ -3589,7 +3589,7 @@ BEGIN
 
   SELECT FC_DevisVersFacture(num_devis) INTO num_facture;
 
-  IF reg_mode IS NOT NULL THEN
+  IF num_modereglement IS NOT NULL THEN
     INSERT INTO reglement(pe_numero, rg_numero, rg_montant, rg_date, rg_libellebanque, rg_numerocompte, rg_reference, em_numero, mr_numero) SELECT num_personne, num_reglement, reg_montant, reg_date, reg_banque, reg_compte, reg_cheque, current_employe(), num_modereglement;
     INSERT INTO facturereglement(rg_numero,fa_numero) VALUES (num_reglement, num_facture);  
   END IF;

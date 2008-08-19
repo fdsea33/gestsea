@@ -68,14 +68,15 @@ function wg_totalize() {
   p = elem("wg-produit-radiogroup");
   if (p.selectedIndex<0)
     p.selectedIndex=0;
-  t = p.selectedItem.getAttribute('tarif')*1*(elem("wg-produit-quantity")+0*50)
-  elem('wg-produit-montant').value=t+' ¤';
+/*  t = p.selectedItem.getAttribute('tarif')*1*(elem("wg-produit-quantity")+0*50)*/
+  t = p.selectedItem.getAttribute('tarif')*1*(elem("wg-produit-quantity").value+0*50)
+  elem('wg-produit-montant').value = t+' ¤';
 }
 
 function wg_invoice(delay) {
-  if (requete("SELECT count(*) FROM lignefacture join facture using (fa_numero) left join avoir using (fa_numero) WHERE av_numero is null and fa_date>=(CURRENT_DATE-'"+delay+"'::interval)::date AND pd_Numero IN ("+PRODS.join(',')+")")>0) {
-    alert('Une facture avec ce produit a déjà été enregistrée récemment (moins de '+delay+')');
-    return false;
+  if (requete("SELECT count(*) FROM lignefacture join facture using (fa_numero) left join avoir using (fa_numero) WHERE av_numero is null and facture.pe_numero="+current_personne()+" and fa_date>=(CURRENT_DATE-'"+delay+"'::interval)::date AND pd_Numero IN ("+PRODS.join(',')+")")>0) {
+    if (!confirm('Une facture avec ce produit a déjà été enregistrée récemment (moins de '+delay+'). Etes-vous sûr(e) de vouloir continuer ?'))
+      return false;
   }
   var query = "SELECT fc_simple_facture("+current_personne();// pe_numero
   query += ","+ elem('wg-produit-radiogroup').selectedItem.value; // px_numero
