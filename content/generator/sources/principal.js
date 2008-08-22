@@ -66,7 +66,8 @@ function CodeInPrincipal(centre){
     It_Personne.AjouterComposantSimple("Né(e) le","pe_naissance");
     PersonneActif = It_Personne.AjouterComposantSimple("La personne est active (et peut être contactée)","pe_actif",null,null,CHECKBOX);
 
-    Maitre_Personne.OnModeInsert = ComposantDansCode(PersonneActif)+'.my_CompoXUL.checked=true;\n';
+    Maitre_Personne.OnModeInsert  = ComposantDansCode(PersonneActif)+'.my_CompoXUL.checked=true;\n';
+    Maitre_Personne.OnModeInsert += ComposantDansCode(PersonneActif)+'.my_CompoXUL.value=true;\n';
 
 //    It_Personne.AjouterComposantSimple("Etat","ep_libelle",new Array("ep_numero","ep_numero","etatpersonne"),null,LISTE_DEROULANTE);
 //    It_Personne.AjouterComposantSimple("Entité morale","pe_morale",null,null,CHECKBOX);
@@ -213,6 +214,7 @@ function CodeInPrincipal(centre){
 /*    PersonneEstjoignable.AjouterColonne("Status","ej_etat");*/
     PersonneEstjoignable.AjouterColonne("Type","ck_nom",new Array("ck_numero","ck_numero","contacttype"));
     PersonneEstjoignable.AjouterColonne("Coordonnée","cn_coordonnee");
+    PersonneEstjoignable.AjouterColonne("O.","cn_original");
     
     //Filtrage OK
     //    PersonneEstjoignable.getTheme().AddFiltre('Filtre_PersonneEstjoignable=new clInterfaceFiltragePermanantCustom("ej_actif=true")');
@@ -230,6 +232,7 @@ function CodeInPrincipal(centre){
 
     It_Personne.AjouterComposantSimple("Type","ck_nom",new Array("ck_numero","ck_numero","contacttype"),PersonneEstjoignable,LISTE_DEROULANTE);
     It_Personne.AjouterComposantSimple("Coordonnée","cn_coordonnee",null,PersonneEstjoignable);
+    It_Personne.AjouterComposantSimple("Coordonnée strictement personnelle","cn_personal",null,PersonneEstjoignable,CHECKBOX);
 /*    
     PersonneEstjoignable.OnModeInsert= ComposantDansCode(PersonneEstjoignableActif)+'.my_CompoXUL.value=true;\n';
     PersonneEstjoignable.OnModeInsert+=ComposantDansCode(PersonneEstjoignableActif)+'.my_CompoXUL.checked=true;\n';

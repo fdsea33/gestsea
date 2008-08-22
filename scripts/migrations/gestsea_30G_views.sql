@@ -70,11 +70,6 @@ CREATE OR REPLACE VIEW "contacttype" AS
    SELECT table_contacttype.ck_numero, table_contacttype.ck_code, table_contacttype.ck_nom, table_contacttype.ck_number, table_contacttype.ck_email, table_contacttype.ck_url, table_contacttype.created_at, table_contacttype.created_by, table_contacttype.updated_at, table_contacttype.updated_by, table_contacttype.lock_version, table_contacttype.id 
      FROM "table_contacttype";
 
-CREATE OR REPLACE VIEW "contact" AS
-   SELECT table_contact.cn_numero, table_contact.cn_coordonnee, table_contact.cn_actif, table_contact.ck_numero, table_contact.pe_numero, table_contact.created_at, table_contact.created_by, table_contact.updated_at, table_contact.updated_by, table_contact.lock_version, table_contact.id 
-     FROM "table_contact" 
-    WHERE CN_Actif;
-
 CREATE OR REPLACE VIEW "contactversion" AS
    SELECT table_contactversion.cw_numero, table_contactversion.cw_coordonnee, table_contactversion.ck_numero, table_contactversion.pe_numero, table_contactversion.cn_numero, table_contactversion.version, table_contactversion.operation, table_contactversion.created_at, table_contactversion.created_by, table_contactversion.updated_at, table_contactversion.updated_by, table_contactversion.lock_version, table_contactversion.id 
      FROM "table_contactversion";
@@ -566,10 +561,10 @@ CREATE OR REPLACE RULE rule_constante_delete AS
 
 CREATE OR REPLACE RULE rule_contact_insert AS
   ON INSERT TO "contact"
-  DO INSTEAD INSERT INTO "table_contact"(cn_numero, cn_coordonnee, cn_actif, ck_numero, pe_numero, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (new.cn_numero, new.cn_coordonnee, COALESCE(NEW.cn_actif,true), new.ck_numero, new.pe_numero, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
+  DO INSTEAD INSERT INTO "table_contact"(cn_numero, cn_coordonnee, cn_actif, cn_copying, cn_personal, ck_numero, pe_numero, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (COALESCE(NEW.cn_numero,nextval('seq_contact')), new.cn_coordonnee, COALESCE(NEW.cn_actif,true), COALESCE(NEW.cn_copying,false), COALESCE(NEW.cn_personal,false), new.ck_numero, new.pe_numero, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
 CREATE OR REPLACE RULE rule_contact_update AS
   ON UPDATE TO "contact"
-  DO INSTEAD UPDATE "table_contact" SET cn_numero=new.cn_numero, cn_coordonnee=new.cn_coordonnee, cn_actif=COALESCE(NEW.cn_actif,true), ck_numero=new.ck_numero, pe_numero=new.pe_numero, created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.CN_Numero=CN_Numero;
+  DO INSTEAD UPDATE "table_contact" SET cn_numero=COALESCE(NEW.cn_numero,nextval('seq_contact')), cn_coordonnee=new.cn_coordonnee, cn_actif=COALESCE(NEW.cn_actif,true), cn_copying=COALESCE(NEW.cn_copying,false), cn_personal=COALESCE(NEW.cn_personal,false), ck_numero=new.ck_numero, pe_numero=new.pe_numero, created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.CN_Numero=CN_Numero;
 CREATE OR REPLACE RULE rule_contact_delete AS
   ON DELETE TO "contact"
   DO INSTEAD DELETE FROM "table_contact" WHERE old.CN_Numero=CN_Numero;

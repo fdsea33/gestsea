@@ -794,6 +794,8 @@ CREATE TABLE "table_contact"
   "cn_numero" INTEGER,
   "cn_coordonnee" VARCHAR(255),
   "cn_actif" BOOLEAN,
+  "cn_copying" BOOLEAN,
+  "cn_personal" BOOLEAN,
   "ck_numero" INTEGER,
   "pe_numero" INTEGER,
   "created_at" TIMESTAMP,

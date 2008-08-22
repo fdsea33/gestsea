@@ -1,5 +1,6 @@
 \i migrations/gestsea_21U_clean.sql
 \i migrations/gestsea_25U_bases.sql
+\i migrations/gestsea_29U_noviews.sql
 \i migrations/gestsea_30G_views.sql
 \i migrations/gestsea_34U_print.sql
 \i migrations/gestsea_35U_functions.sql

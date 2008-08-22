@@ -381,6 +381,8 @@ function mcd_getType(table,champs)
         case 'cn_numero': type=TYPE_INT;break;
         case 'cn_coordonnee': type=TYPE_STRING;break;
         case 'cn_actif': type=TYPE_BOOL;break;
+        case 'cn_copying': type=TYPE_BOOL;break;
+        case 'cn_personal': type=TYPE_BOOL;break;
         case 'ck_numero': type=TYPE_INT;break;
         case 'pe_numero': type=TYPE_INT;break;
         case 'created_at': type=TYPE_DATETIME;break;
@@ -2034,6 +2036,8 @@ function mcd_getLabel(table,champs)
         case 'cn_numero': label="";break;
         case 'cn_coordonnee': label="";break;
         case 'cn_actif': label="";break;
+        case 'cn_copying': label="";break;
+        case 'cn_personal': label="";break;
         case 'ck_numero': label="";break;
         case 'pe_numero': label="";break;
         case 'created_at': label="Date de creation";break;
@@ -3684,6 +3688,8 @@ function mcd_obligatoire(table,champs)
         case 'cn_numero': obligatoire=true;break;
         case 'cn_coordonnee': obligatoire=true;break;
         case 'cn_actif': obligatoire=true;break;
+        case 'cn_copying': obligatoire=true;break;
+        case 'cn_personal': obligatoire=true;break;
         case 'ck_numero': obligatoire=true;break;
         case 'pe_numero': obligatoire=true;break;
         case 'created_at': obligatoire=false;break;

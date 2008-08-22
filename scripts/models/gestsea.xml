@@ -176,10 +176,12 @@
   </table>
 
 
-  <table name="Contact" abbrev="CN" label="Contacts" where="CN_Actif">
-    <column name="CN_Numero"     type="INTEGER"      notnull="true" pkey="true">Clef primaire</column>
+  <table name="Contact" abbrev="CN" label="Contacts" where="CN_Actif" view="false">
+    <column name="CN_Numero"     type="INTEGER"      notnull="true" default="nextval('seq_contact')" pkey="true">Clef primaire</column>
     <column name="CN_Coordonnee" type="VARCHAR(255)" notnull="true">Coordonnée du type ...</column>
     <column name="CN_Actif"      type="BOOLEAN"      notnull="true" default="true">Si la coordonnée est active</column>
+    <column name="CN_Copying"    type="BOOLEAN"      notnull="true" default="false">Si la coordonnée est en train d'être copiée</column>
+    <column name="CN_Personal"   type="BOOLEAN"      notnull="true" default="false">Si la coordonnée est personnelle</column>
     <column name="CK_Numero"     type="INTEGER"      notnull="true" fkey="ContactType(CK_Numero)" opt="odrour">Type de contact</column>
     <column name="PE_Numero"     type="INTEGER"      notnull="true" fkey="Personne(PE_Numero)" opt="odrour">Personne concernée</column>
     <seq name="seq_contact" start="1000000"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>

@@ -540,8 +540,12 @@ CREATE OR REPLACE FUNCTION TG_Contact_validation() RETURNS trigger AS
 $$
 DECLARE
   ctype record;
+  r record;
   good boolean;
 BEGIN
+  IF TG_OP='UPDATE' THEN
+    NEW.pe_numero := OLD.pe_numero;
+  END IF;
   SELECT * FROM contacttype WHERE ck_numero=NEW.ck_numero INTO ctype;
   good := false;
   NEW.cn_coordonnee = LOWER(REPLACE(TRIM(NEW.cn_coordonnee),' ',''));
@@ -581,7 +585,7 @@ BEGIN
       END IF;
     END IF;
   END IF;
-  RETURN New;
+  RETURN NEW;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
@@ -604,6 +608,52 @@ DECLARE
   ok boolean;
   compte integer;
 BEGIN
+/*
+  IF TG_OP='INSERT' THEN
+    IF NEW.el_numero IS NULL THEN
+      SELECT np_morale FROM personne join naturepersonne using (np_numero) WHERE pe_numero=NEW.pe_numero INTO ok;
+      IF ok THEN
+        -- Ajout des contact chez les gérants
+        SELECT FC_Update_Contacts(el_numero) FROM estlie WHERE el_personne2=NEW.pe_numero AND tl_code='>GERE>';
+        INSERT INTO contact (cn_coordonnee,ck_numero,pe_numero, el_numero) 
+        SELECT NEW.cn_coordonnee, NEW.ck_numero, el_personne1, el_numero
+          FROM estlie
+          WHERE el_personne2=NEW.pe_numero AND tl_code='>GERE>';
+
+      ELSE
+        -- Ajout des contact dans les sociétés
+        SELECT FC_Update_Contacts(el_numero) FROM estlie WHERE el_personne1=NEW.pe_numero AND tl_code='>GERE>';
+
+        INSERT INTO contact (cn_coordonnee,ck_numero,pe_numero, el_numero)
+        SELECT NEW.cn_coordonnee, NEW.ck_numero, el_personne2, el_numero
+          FROM estlie
+          WHERE el_personne1=NEW.pe_numero AND tl_code='>GERE>';
+      END IF;
+    END IF;
+  END IF;
+    INSERT INTO contact (cn_coordonnee,ck_numero,pe_numero) 
+    SELECT NEW.cn_coordonnee, NEW.ck_numero, p.pe_numero 
+      FROM personne p LEFT JOIN estlie el ON (p.pe_numero=CASE WHEN el_personne1=NEW.pe_numero THEN el_personne2 ELSE el_personne1 END AND NEW.pe_numero IN (el_personne1,el_personne2,0) AND tl_code='>GERE>')
+      WHERE pe_numero NOT IN (SELECT pe_numero FROM contact WHERE cn_coordonnee=NEW.cn_coordonnee);
+
+
+
+      WHERE pe_numero IN (SELECT CASE WHEN el_personne1=NEW.pe_numero THEN el_personne2 ELSE el_personne1 END AS pe_numero FROM estlie WHERE NEW.pe_numero IN (el_personne1, el_personne2) AND tl_code='>GERE>') 
+        AND pe_numero NOT IN (SELECT pe_numero FROM contact )
+
+
+    FOR r IN SELECT CASE WHEN el_personne1=NEW.pe_numero THEN el_personne2 ELSE el_personne1 END AS pe_numero FROM estlie WHERE NEW.pe_numero IN (el_personne1, el_personne2) AND tl_code='>GERE>' LOOP
+    END LOOP
+  END IF;
+
+  IF TG_OP='UPDATE' THEN
+    IF NEW.cn_copying THEN
+      NEW.cn_copying := false
+    ELSE
+      UPDATE contact SET cn_coordonnee=NEW.cn_coordonnee, ck_numero=NEW.ck_numero, cn_actif=NEW.cn_actif, cn_copying=true WHERE cn_coordonnee=OLD.cn_coordonnee AND cn_coordonnee!=NEW.cn_coordonnee AND id!=OLD.id;
+    END IF;
+  END IF;
+*/
   IF TG_OP='DELETE' THEN
     SELECT count(*) FROM contactversion WHERE pe_numero=OLD.pe_numero INTO compte;
     IF compte>0 THEN
@@ -994,11 +1044,27 @@ CREATE TRIGGER trigger_estlie_validation
   BEFORE INSERT OR UPDATE ON table_estlie
   FOR EACH ROW EXECUTE PROCEDURE TG_estlie_validation();
 
+--===========================================================================--
+-- DROP TRIGGER trigger_estlie_treatments ON table_estlie;
+--DROP FUNCTION  TG_estlie_treatments();
+/*
+CREATE OR REPLACE FUNCTION TG_estlie_treatments() RETURNS TRIGGER AS
+$$
+BEGIN
+  FC_update_contacts(NEW.el_numero)
+  RETURN NEW;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+CREATE TRIGGER trigger_estlie_treatments
+  AFTER INSERT OR UPDATE ON table_estlie
+  FOR EACH ROW EXECUTE PROCEDURE TG_estlie_treatments();
+*/
 
 -- Facture
 --===========================================================================--
 -- Remplit le champ 'Montant' des liens entre facture et règlement
--- DROP TRIGGER trigger_ecriture_validation ON table_ecriture;
+-- DROP TRIGGER trigger_facture_validation ON table_facture;
 --DROP FUNCTION  TG_facture_validation();
 
 CREATE OR REPLACE FUNCTION TG_facture_validation() RETURNS TRIGGER AS

@@ -83,13 +83,13 @@ COMMIT;
       <xsl:text>
 -- Creation des vues sur tables et des règles qui vont avec
 </xsl:text>
-      <xsl:apply-templates select="analysis/table" mode="create-view">
+      <xsl:apply-templates select="analysis/table[not(@view='false')]" mode="create-view">
         <xsl:sort select="@ordre+(@ordre=0)*99999"/>
       </xsl:apply-templates>
-      <xsl:apply-templates select="analysis/table" mode="create-view-rules">
+      <xsl:apply-templates select="analysis/table[not(@rules='false')]" mode="create-view-rules">
         <xsl:sort select="@name"/>
       </xsl:apply-templates>
-      <xsl:apply-templates select="analysis/table/rule[@sur='vue']" mode="create-rule">
+      <xsl:apply-templates select="analysis/table[not(@rules='false')]/rule[@sur='vue']" mode="create-rule">
         <xsl:sort select="@name"/>
       </xsl:apply-templates>
     </xsl:if>
