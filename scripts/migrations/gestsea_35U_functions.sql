@@ -2588,8 +2588,9 @@ BEGIN
   SELECT pe_numero FROM table_personne WHERE bml_extract(detail, 'cotisation.societe')=pe_numero::text INTO num_gerance;
 
   IF bml_extract(detail,'cotisation.type')='conjoint' THEN
-    SELECT cs_detail FROM cotisation WHERE cs_numero=bml_extract(detail, 'cotisation.reference') INTO detail2;
 --    SELECT cs_detail FROM cotisation WHERE bml_extract(cs_detail, 'fdsea.conjoint.numero')=cotis.pe_numero INTO detail2;
+/*
+    SELECT cs_detail FROM cotisation WHERE cs_numero=bml_extract(detail, 'cotisation.reference') INTO detail2;
     detail := bml_put(detail, 'cotisation.societe', bml_extract(detail2, 'cotisation.societe'));
     detail := bml_put(detail, 'fdsea.forfait.produit', bml_extract(detail2, 'fdsea.conjoint.produit'));
     detail := bml_put(detail, 'fdsea.forfait.montant', bml_extract(detail2, 'fdsea.conjoint.montant'));
@@ -2597,7 +2598,9 @@ BEGIN
     detail := bml_put(detail, 'reglement.numero', bml_extract(detail2, 'reglement.numero'));
     detail := bml_put(detail, 'aava', 'false');
     detail := bml_put(detail, 'sacea', 'false');
+*/
   ELSIF bml_extract(detail,'cotisation.type')='associe' THEN
+/*
     SELECT cs_detail FROM cotisation WHERE cs_numero=bml_extract(detail, 'cotisation.reference') INTO detail2;
     IF detail2 IS NULL THEN
       RAISE EXCEPTION 'Erreur pas de cotisation';
@@ -2609,6 +2612,7 @@ BEGIN
     detail := bml_put(detail, 'reglement.numero', bml_extract(detail2, 'reglement.numero'));
     detail := bml_put(detail, 'aava', 'false');
     detail := bml_put(detail, 'sacea', 'false');
+*/
 --    RAISE EXCEPTION 'Erreur pas de cotisation  sdfqsdlmfjsdklfj';
   ELSIF bml_extract(detail,'cotisation.type')='ja' THEN
     RAISE EXCEPTION 'Ohohohohoho pas de JA maintenant !';

@@ -1467,7 +1467,24 @@ function wg_send_cotisation(send_query){
         bulletin += wg_bml_field("cotisation.type", "conjoint");
         bulletin += wg_bml_field("cotisation.annee", current_annee());
         bulletin += wg_bml_field("cotisation.reference", reference);
-        query="INSERT INTO cotisation (cs_numero, pe_numero, cs_annee, cs_detail, cs_standard, cs_nature) VALUES ("+num_cotisation+","+current_conjoint()+", "+annee+", '"+bulletin+"', false, 'conjoint');";
+/*
+    detail := bml_put(detail, 'cotisation.societe', bml_extract(detail2, 'cotisation.societe'));
+    detail := bml_put(detail, 'fdsea.forfait.produit', bml_extract(detail2, 'fdsea.conjoint.produit'));
+    detail := bml_put(detail, 'fdsea.forfait.montant', bml_extract(detail2, 'fdsea.conjoint.montant'));
+    detail := bml_put(detail, 'fdsea.hectare','false');
+    detail := bml_put(detail, 'reglement.numero', bml_extract(detail2, 'reglement.numero'));
+    detail := bml_put(detail, 'aava', 'false');
+    detail := bml_put(detail, 'sacea', 'false');
+*/
+        bulletin += wg_bml_field("cotisation.societe", current_societe());
+        bulletin += wg_bml_field("fdsea.forfait.produit", elem("wg-conjoint-radiogroup").value);    
+        bulletin += wg_bml_field("fdsea.forfait.montant", elem("wg-conjoint-total").value);    
+        bulletin += wg_bml_field("fdsea.hectare", "false");
+        bulletin += wg_bml_field("reglement.numero", num_reglement);
+        bulletin += wg_bml_field("aava", "false");
+        bulletin += wg_bml_field("sacea", "false");
+
+        query="INSERT INTO cotisation (cs_numero, pe_numero, cs_annee, cs_detail, cs_standard, cs_nature, cs_societe) VALUES ("+num_cotisation+","+current_conjoint()+", "+annee+", '"+bulletin+"', false, 'conjoint',"+current_societe()+");";
         pgsql_update(query);
       }
 
@@ -1483,6 +1500,23 @@ function wg_send_cotisation(send_query){
               bulletin += wg_bml_field("cotisation.type", "associe");
               bulletin += wg_bml_field("cotisation.annee", current_annee());
               bulletin += wg_bml_field("cotisation.reference", reference);
+/*
+    detail := bml_put(detail, 'cotisation.societe', bml_extract(detail2, 'cotisation.societe'));
+    detail := bml_put(detail, 'fdsea.forfait.produit', bml_extract(detail2, 'fdsea.associe.produit'));
+    detail := bml_put(detail, 'fdsea.forfait.montant', bml_extract(detail2, 'fdsea.associe.montant')::numeric/bml_extract(detail2, 'fdsea.associe.nombre')::numeric);
+    detail := bml_put(detail, 'fdsea.hectare','false');
+    detail := bml_put(detail, 'reglement.numero', bml_extract(detail2, 'reglement.numero'));
+    detail := bml_put(detail, 'aava', 'false');
+    detail := bml_put(detail, 'sacea', 'false');
+*/
+              bulletin += wg_bml_field("cotisation.societe", current_societe());
+              bulletin += wg_bml_field("fdsea.forfait.produit", elem("wg-associe-radiogroup").value);    
+              bulletin += wg_bml_field("fdsea.forfait.montant", elem("wg-associe-total").value);    
+              bulletin += wg_bml_field("fdsea.hectare", "false");
+              bulletin += wg_bml_field("reglement.numero", num_reglement);
+              bulletin += wg_bml_field("aava", "false");
+              bulletin += wg_bml_field("sacea", "false");
+
               query="INSERT INTO cotisation (cs_numero, pe_numero, cs_annee, cs_detail, cs_standard, cs_nature, cs_societe) VALUES ("+num_cotisation+","+listbox.childNodes[i].firstChild.getAttribute("numero")+", "+annee+", '"+bulletin+"', false,'associe',"+current_societe()+");";
               pgsql_update(query);
             }
