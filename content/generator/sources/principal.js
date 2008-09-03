@@ -91,6 +91,7 @@ function CodeInPrincipal(centre){
     PersonneCotisation.AjouterColonne("SACEA","cs_sacea");
     PersonneCotisation.AjouterColonne("AAVA","cs_aava");
     PersonneCotisation.AjouterColonne("Total","cs_total");
+    PersonneCotisation.AjouterColonne("Enregistrée le","created_at");
 
     //***********************
     // ADHESION
