@@ -11,6 +11,7 @@ if [ `ls -1 | wc -l` -eq 1 ]; then
   xls2csv -q3 -b[SHEET-CUT] evo.xls > evo.csv
   ${reps}/evo.py
   psql gestsea $1 -f ${reps}/evo.sql
+  psql gestsea $1 -f ${reps}/evo_reglements.sql
   if [ -e /tmp/evo_clean.csv ]; then
     cp /tmp/evoplus_reglements.csv ${repd}/Impressions/evoreglements-${day}.csv
     cp /tmp/evolot.pdf ${repd}/Impressions/evolot-${day}.pdf
