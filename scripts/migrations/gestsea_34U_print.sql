@@ -159,7 +159,8 @@ fa_ok,                           -- 14
 fa_regle,                        -- 15
 FC_DateEnLettre(fc_delai(fa_date,COALESCE(dl.cs_valeur,'90 days'))) AS fa_reglement, -- 17
 DE_Numero,                       -- 18
-FC_DateEnLettre(DE_Date) AS DE_Date --19
+FC_DateEnLettre(DE_Date) AS DE_Date, --19
+ag_initiales                     -- 20
 FROM table_facture f LEFT JOIN table_personne AS p USING (pe_numero)
                    LEFT JOIN table_adresse AS a ON ((f.ad_numero IS NULL AND p.pe_numero=a.pe_numero AND ad_active AND ad_default) OR (f.ad_numero IS NOT NULL and f.ad_numero=a.ad_numero))
                    LEFT JOIN table_codepostal  USING (cp_numero)

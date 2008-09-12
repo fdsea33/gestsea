@@ -105,6 +105,7 @@ function CodeInParametrage(){
     It_Typeattribut.AjouterComposantSimple("Libellé", "ta_nom");
     TypeattributCategorie = It_Typeattribut.AjouterComposantComplexe("Catégories",new Array("ta_numero","ta_numero","categorie"));
     TypeattributCategorie.AjouterColonne("Libellé","cr_libelle");
+    TypeattributCategorie.AjouterColonne("N°","cr_numero");
 
     TypeattributCategorie.AddMode(INSERTION);
     TypeattributCategorie.AddMode(SUPPRESSION);

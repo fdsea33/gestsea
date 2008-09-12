@@ -33,7 +33,7 @@ function clInterfaceFiltrage()
     this.my_NomChamps="";
     this.my_Jointure=null;
     this.my_ComposantSQLConstructeur=new Array();
-
+    
     this.my_Id=GenererNewId();
     /* pour la désactivation du filtre  */
     this.my_CompoXul=null;
@@ -3038,6 +3038,9 @@ clCompoListe.prototype.GenererCompoXUL =
 	    treecols.appendChild(treecol);
 	}
 
+  var reg = new RegExp("^hidden_", "i");
+  var hidden = false;
+  var treecol_label = '';
 	for(i=0;i<this.TabNomsCols.length;i++)
 	{
 	    /* pour les séparateur de colonnes */
@@ -3047,25 +3050,33 @@ clCompoListe.prototype.GenererCompoXUL =
 		splitter.setAttribute("class","tree-splitter");
 		treecols.appendChild(splitter);
 	    }
-
+      hidden=false;
+      treecol_label = this.TabNomsCols[i];
+      if (reg.test(treecol_label)) {
+        treecol_label = treecol_label.replace(reg, "");
+        hidden=true;
+      }
 	    /* génération du code xul des colonnes */
 
 	    treecol = mydoc.createElement("treecol");
-	    treecol.setAttribute("label",this.TabNomsCols[i]);
-	    treecol.setAttribute("flex",this.TabNomsCols[i].length);
+
+	    treecol.setAttribute("label",treecol_label);
+	    treecol.setAttribute("flex",treecol_label.length);
+      if (hidden) treecol.setAttribute("hidden","true");
+
 // La construction dynamique empeche l'utilisation de persist
 //	    treecol.setAttribute("persist","hidden width");
 	    treecol.setAttribute("id",LiaisonAtt[i].getAttribut().getNomAttributBD());
 
 	    /* pour avoir une taille correcte */
-	    var TailleCol=this.TabNomsCols[i].length*TAILLE_LETTRE+TAILLE_IMAGE;
+	    var TailleCol=treecol_label.length*TAILLE_LETTRE+TAILLE_IMAGE;
 	    //treecol.setAttribute("style","min-width:"+TailleCol+"px");
 
 	    //	    treecol.setAttribute("class","sortDirectionIndicator");
 	    //treecol.setAttribute("onmousedown","alert('ok')");
 
 	    label = mydoc.createElement("label");
-	    label.setAttribute("value",this.TabNomsCols[i]);
+	    label.setAttribute("value",treecol_label);
 	    label.setAttribute("flex","1");
 	    label.setAttribute("align","left");
 	    treecol.appendChild(label);

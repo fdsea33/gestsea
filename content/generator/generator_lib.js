@@ -400,7 +400,7 @@ clInterfaceSimple_CompoComplexe.prototype.getEsclaves=
 }
 
 clInterfaceSimple_CompoComplexe.prototype.AjouterColonne=
-    function(Label,Champ,TabLiaison){
+    function(Label,Champ,TabLiaison,Hidden){
 
         var NomCol='Col_N'+this.Colonnes.length+'_'+Label+'_De_'+this.MonNom;
         var Table=null;

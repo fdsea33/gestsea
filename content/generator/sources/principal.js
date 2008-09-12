@@ -551,7 +551,9 @@ function CodeInPrincipal(centre){
     FactureRoutage.AjouterColonne("Début","ro_debutservice");
     FactureRoutage.AjouterColonne("Fin","ro_finservice");
     FactureRoutage.AjouterColonne("Qté.","ro_quantite");
+    FactureRoutage.AjouterColonne("hidden_N°P","pe_numero");
     FactureRoutage.AjouterColonne("Personne","pe_libelle",new Array("pe_numero","pe_numero","personne"));
+    FactureRoutage.AjouterColonne("hidden_Adresse","ad_csv",new Array("ad_numero","ad_numero","adresse"));
 
     FactureRoutage.AddMode(INSERTION);
     FactureRoutage.AddMode(SUPPRESSION);

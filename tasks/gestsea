@@ -24,45 +24,45 @@ if [ $# = 0 ]; then
     /usr/local/bin/webbrowser-sql/firefox -chrome chrome://gestsea/content/
 elif [ $# = 1 ]; then
     if [ $1 = "-h" ]; then
-	helpmessage
-	exit 1
+        helpmessage
+        exit 1
     fi
     if [ $1 = "-help" ]; then
-	helpmessage
-	exit 1
+        helpmessage
+        exit 1
     fi
     if [ $1 = "--help" ]; then
-	helpmessage
-	exit 1
+        helpmessage
+        exit 1
     fi
     if [ $1 = "--stop" ]; then
-	pkill firefox
-	exit 1
+        pkill firefox
+        exit 1
     fi
     if [ $1 = "--restart" ]; then
-	pkill firefox
-	/usr/local/bin/webbrowser-sql/firefox -chrome chrome://gestsea/content/gestsea.xul
-	exit 1
+        pkill firefox
+        /usr/local/bin/webbrowser-sql/firefox -chrome chrome://gestsea/content/gestsea.xul
+        exit 1
     fi
     if [ -e /usr/local/bin/gestsea/content/gestsea/$1.xul ]; then
-	/usr/local/bin/webbrowser-sql/firefox -chrome chrome://gestsea/content/gestsea/$1.xul
+        /usr/local/bin/webbrowser-sql/firefox -chrome chrome://gestsea/content/gestsea/$1.xul
     else
-	echo "ERREUR : Le module $1 est introuvable."
-	helpmessage
-	exit 1
+        echo "ERREUR : Le module $1 n'existe pas."
+        helpmessage
+        exit 1
     fi
 elif [ $# = 2 ]; then
     if [ $1 = "-evo" ]; then
-	/usr/local/bin/scripts/evoplus/gevo.sh $2
+        /usr/local/bin/scripts/evoplus/gevo.sh $2
     fi
     if [ $1 = "-jc" ]; then
-	if [ -e /usr/local/bin/gestsea/content/gestsea/$2.xul ]; then
-	    /usr/local/bin/webbrowser-sql/firefox -jsconsole -chrome chrome://gestsea/content/gestsea/$2.xul
-	else
-	    echo "ERREUR : Le module $1 est introuvable."
-	    helpmessage
-	    exit 1
-	fi
+        if [ -e /usr/local/bin/gestsea/content/gestsea/$2.xul ]; then
+            /usr/local/bin/webbrowser-sql/firefox -jsconsole -chrome chrome://gestsea/content/gestsea/$2.xul
+        else
+            echo "ERREUR : Le module $1 n'existe pas."
+            helpmessage
+            exit 1
+        fi
     fi
 else
     echo "Unvalid command"
