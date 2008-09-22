@@ -2910,7 +2910,7 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 -- Procedure permettant d'enregistrer facilement des coupons-réponses standard
 --DROP FUNCTION FC_LatexClean(text);
 
-CREATE OR REPLACE FUNCTION FC_LatexClean(latexte text) RETURNS text AS
+CREATE OR REPLACE FUNCTION FC_LatexClean(IN latexte text) RETURNS text AS
 $$
 DECLARE
   latex text;
