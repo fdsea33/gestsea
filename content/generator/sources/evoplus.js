@@ -39,6 +39,7 @@ function CodeInEvoplus(){
     It_Evoplus.AjouterBouton("Adhérent N-1 ?","TestCotisation",ComposantDansCode(Maitre_Evoplus)+",-1");
     It_Evoplus.AjouterBouton("Statistiques","StatEVO","");
 
+    It_Evoplus.AjouterComposantSimple("N°Pers","pe_description", new Array('pe_numero','pe_numero','personne'), null, LISTE_DEROULANTE);          // numero
     It_Evoplus.AjouterComposantSimple("Source","source");          // source                            - a
     It_Evoplus.AjouterComposantSimple("N°Fiche","numero");          // numero
     It_Evoplus.AjouterComposantSimple("Titre","titre");           // titre

@@ -8,7 +8,12 @@ function User_Insert_Evoplus_Liste_des_evoplus0(Compo_Maitre)
 /*
 ***** INFOS ******
 
-Nbr d'esclaves = 31
+Nbr d'esclaves = 32
+
+Id dans le tab: 729;
+simple
+Nbr Jointure: 1;
+    Joint n° 0 = personne,pe_numero,pe_numero
 
 Id dans le tab: 730;
 simple
@@ -138,8 +143,13 @@ Nbr Jointure: PAS DE JOINTURE;
 */
 
  var Table="table_evoplus";
- var CleMaitre = TAB_COMPO_PPTES[725].NewCle;
+ var CleMaitre = TAB_COMPO_PPTES[724].NewCle;
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
+ var pe_numero=GetValAt(729);
+ if (pe_numero=="-1")
+    pe_numero="null";
+ if (!ValiderChampsObligatoire(Table,"pe_numero",TAB_GLOBAL_COMPO[729],pe_numero,true))
+         return -1;
  var source=GetValAt(730);
  if (!ValiderChampsObligatoire(Table,"source",TAB_GLOBAL_COMPO[730],source,false))
          return -1;
@@ -297,8 +307,8 @@ Nbr Jointure: PAS DE JOINTURE;
          return -1;
  var Req="insert into "+Table+" ";
 var TabInsertionEnPlus=new Array();
- Req+="("+NomCleMaitre+",source,numero,titre,nom,complement,ad1,ad2,ad3,cp,ville,naissance,telephone,fax,portable,qualification,base_ht,productions,hectares_nb,salaries_nb,sacea_ttc,cm_nb,cm_ht,cm_noms,opt1,opt2,opt3,opt4,opt_num,opt_ttc,statut,remarque"+(TabInsertionEnPlus.length!=0?","+TabInsertionEnPlus[0]:"")+")";
- Req+=" values ("+CleMaitre+","+(source=="" ? "null" : "'"+ValiderChaine(source)+"'" )+","+(numero=="" ? "null" : "'"+ValiderChaine(numero)+"'" )+","+(titre=="" ? "null" : "'"+ValiderChaine(titre)+"'" )+","+(nom=="" ? "null" : "'"+ValiderChaine(nom)+"'" )+","+(complement=="" ? "null" : "'"+ValiderChaine(complement)+"'" )+","+(ad1=="" ? "null" : "'"+ValiderChaine(ad1)+"'" )+","+(ad2=="" ? "null" : "'"+ValiderChaine(ad2)+"'" )+","+(ad3=="" ? "null" : "'"+ValiderChaine(ad3)+"'" )+","+(cp=="" ? "null" : "'"+ValiderChaine(cp)+"'" )+","+(ville=="" ? "null" : "'"+ValiderChaine(ville)+"'" )+","+(naissance=="" ? "null" : "'"+ValiderChaine(naissance)+"'" )+","+(telephone=="" ? "null" : "'"+ValiderChaine(telephone)+"'" )+","+(fax=="" ? "null" : "'"+ValiderChaine(fax)+"'" )+","+(portable=="" ? "null" : "'"+ValiderChaine(portable)+"'" )+","+(qualification=="" ? "null" : "'"+ValiderChaine(qualification)+"'" )+","+(base_ht=="" ? "null" : "'"+ValiderChaine(base_ht)+"'" )+","+(productions=="" ? "null" : "'"+ValiderChaine(productions)+"'" )+","+(hectares_nb=="" ? "null" : "'"+ValiderChaine(hectares_nb)+"'" )+","+(salaries_nb=="" ? "null" : "'"+ValiderChaine(salaries_nb)+"'" )+","+(sacea_ttc=="" ? "null" : "'"+ValiderChaine(sacea_ttc)+"'" )+","+(cm_nb=="" ? "null" : "'"+ValiderChaine(cm_nb)+"'" )+","+(cm_ht=="" ? "null" : "'"+ValiderChaine(cm_ht)+"'" )+","+(cm_noms=="" ? "null" : "'"+ValiderChaine(cm_noms)+"'" )+","+(opt1=="" ? "null" : "'"+ValiderChaine(opt1)+"'" )+","+(opt2=="" ? "null" : "'"+ValiderChaine(opt2)+"'" )+","+(opt3=="" ? "null" : "'"+ValiderChaine(opt3)+"'" )+","+(opt4=="" ? "null" : "'"+ValiderChaine(opt4)+"'" )+","+(opt_num=="" ? "null" : "'"+ValiderChaine(opt_num)+"'" )+","+(opt_ttc=="" ? "null" : "'"+ValiderChaine(opt_ttc)+"'" )+","+(statut=="" ? "null" : "'"+ValiderChaine(statut)+"'" )+","+(remarque=="" ? "null" : "'"+ValiderChaine(remarque)+"'" )+""+(TabInsertionEnPlus.length!=0?","+TabInsertionEnPlus[1]:"")+")";
+ Req+="("+NomCleMaitre+",pe_numero,source,numero,titre,nom,complement,ad1,ad2,ad3,cp,ville,naissance,telephone,fax,portable,qualification,base_ht,productions,hectares_nb,salaries_nb,sacea_ttc,cm_nb,cm_ht,cm_noms,opt1,opt2,opt3,opt4,opt_num,opt_ttc,statut,remarque"+(TabInsertionEnPlus.length!=0?","+TabInsertionEnPlus[0]:"")+")";
+ Req+=" values ("+CleMaitre+","+pe_numero+","+(source=="" ? "null" : "'"+ValiderChaine(source)+"'" )+","+(numero=="" ? "null" : "'"+ValiderChaine(numero)+"'" )+","+(titre=="" ? "null" : "'"+ValiderChaine(titre)+"'" )+","+(nom=="" ? "null" : "'"+ValiderChaine(nom)+"'" )+","+(complement=="" ? "null" : "'"+ValiderChaine(complement)+"'" )+","+(ad1=="" ? "null" : "'"+ValiderChaine(ad1)+"'" )+","+(ad2=="" ? "null" : "'"+ValiderChaine(ad2)+"'" )+","+(ad3=="" ? "null" : "'"+ValiderChaine(ad3)+"'" )+","+(cp=="" ? "null" : "'"+ValiderChaine(cp)+"'" )+","+(ville=="" ? "null" : "'"+ValiderChaine(ville)+"'" )+","+(naissance=="" ? "null" : "'"+ValiderChaine(naissance)+"'" )+","+(telephone=="" ? "null" : "'"+ValiderChaine(telephone)+"'" )+","+(fax=="" ? "null" : "'"+ValiderChaine(fax)+"'" )+","+(portable=="" ? "null" : "'"+ValiderChaine(portable)+"'" )+","+(qualification=="" ? "null" : "'"+ValiderChaine(qualification)+"'" )+","+(base_ht=="" ? "null" : "'"+ValiderChaine(base_ht)+"'" )+","+(productions=="" ? "null" : "'"+ValiderChaine(productions)+"'" )+","+(hectares_nb=="" ? "null" : "'"+ValiderChaine(hectares_nb)+"'" )+","+(salaries_nb=="" ? "null" : "'"+ValiderChaine(salaries_nb)+"'" )+","+(sacea_ttc=="" ? "null" : "'"+ValiderChaine(sacea_ttc)+"'" )+","+(cm_nb=="" ? "null" : "'"+ValiderChaine(cm_nb)+"'" )+","+(cm_ht=="" ? "null" : "'"+ValiderChaine(cm_ht)+"'" )+","+(cm_noms=="" ? "null" : "'"+ValiderChaine(cm_noms)+"'" )+","+(opt1=="" ? "null" : "'"+ValiderChaine(opt1)+"'" )+","+(opt2=="" ? "null" : "'"+ValiderChaine(opt2)+"'" )+","+(opt3=="" ? "null" : "'"+ValiderChaine(opt3)+"'" )+","+(opt4=="" ? "null" : "'"+ValiderChaine(opt4)+"'" )+","+(opt_num=="" ? "null" : "'"+ValiderChaine(opt_num)+"'" )+","+(opt_ttc=="" ? "null" : "'"+ValiderChaine(opt_ttc)+"'" )+","+(statut=="" ? "null" : "'"+ValiderChaine(statut)+"'" )+","+(remarque=="" ? "null" : "'"+ValiderChaine(remarque)+"'" )+""+(TabInsertionEnPlus.length!=0?","+TabInsertionEnPlus[1]:"")+")";
 
  if (pgsql_update(Req)==0)
         alert("Echec lors de l'insertion");
@@ -329,6 +339,11 @@ function User_Update_Evoplus_Liste_des_evoplus0(Compo_Maitre)
  var Table="table_evoplus";
  var CleMaitre = Compo_Maitre.getCleVal();
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
+ var pe_numero=GetValAt(729);
+ if (pe_numero=="-1")
+    pe_numero="null";
+ if (!ValiderChampsObligatoire(Table,"pe_numero",TAB_GLOBAL_COMPO[729],pe_numero,true))
+         return -1;
  var source=GetValAt(730);
  if (!ValiderChampsObligatoire(Table,"source",TAB_GLOBAL_COMPO[730],source,false))
          return -1;
@@ -485,7 +500,7 @@ function User_Update_Evoplus_Liste_des_evoplus0(Compo_Maitre)
  if (!ValiderChampsType(Table,"remarque",TAB_GLOBAL_COMPO[760],remarque))
          return -1;
  var Req="update "+Table+" set ";
- Req+="source="+(source=="" ? "null" : "'"+ValiderChaine(source)+"'" )+",numero="+(numero=="" ? "null" : "'"+ValiderChaine(numero)+"'" )+",titre="+(titre=="" ? "null" : "'"+ValiderChaine(titre)+"'" )+",nom="+(nom=="" ? "null" : "'"+ValiderChaine(nom)+"'" )+",complement="+(complement=="" ? "null" : "'"+ValiderChaine(complement)+"'" )+",ad1="+(ad1=="" ? "null" : "'"+ValiderChaine(ad1)+"'" )+",ad2="+(ad2=="" ? "null" : "'"+ValiderChaine(ad2)+"'" )+",ad3="+(ad3=="" ? "null" : "'"+ValiderChaine(ad3)+"'" )+",cp="+(cp=="" ? "null" : "'"+ValiderChaine(cp)+"'" )+",ville="+(ville=="" ? "null" : "'"+ValiderChaine(ville)+"'" )+",naissance="+(naissance=="" ? "null" : "'"+ValiderChaine(naissance)+"'" )+",telephone="+(telephone=="" ? "null" : "'"+ValiderChaine(telephone)+"'" )+",fax="+(fax=="" ? "null" : "'"+ValiderChaine(fax)+"'" )+",portable="+(portable=="" ? "null" : "'"+ValiderChaine(portable)+"'" )+",qualification="+(qualification=="" ? "null" : "'"+ValiderChaine(qualification)+"'" )+",base_ht="+(base_ht=="" ? "null" : "'"+ValiderChaine(base_ht)+"'" )+",productions="+(productions=="" ? "null" : "'"+ValiderChaine(productions)+"'" )+",hectares_nb="+(hectares_nb=="" ? "null" : "'"+ValiderChaine(hectares_nb)+"'" )+",salaries_nb="+(salaries_nb=="" ? "null" : "'"+ValiderChaine(salaries_nb)+"'" )+",sacea_ttc="+(sacea_ttc=="" ? "null" : "'"+ValiderChaine(sacea_ttc)+"'" )+",cm_nb="+(cm_nb=="" ? "null" : "'"+ValiderChaine(cm_nb)+"'" )+",cm_ht="+(cm_ht=="" ? "null" : "'"+ValiderChaine(cm_ht)+"'" )+",cm_noms="+(cm_noms=="" ? "null" : "'"+ValiderChaine(cm_noms)+"'" )+",opt1="+(opt1=="" ? "null" : "'"+ValiderChaine(opt1)+"'" )+",opt2="+(opt2=="" ? "null" : "'"+ValiderChaine(opt2)+"'" )+",opt3="+(opt3=="" ? "null" : "'"+ValiderChaine(opt3)+"'" )+",opt4="+(opt4=="" ? "null" : "'"+ValiderChaine(opt4)+"'" )+",opt_num="+(opt_num=="" ? "null" : "'"+ValiderChaine(opt_num)+"'" )+",opt_ttc="+(opt_ttc=="" ? "null" : "'"+ValiderChaine(opt_ttc)+"'" )+",statut="+(statut=="" ? "null" : "'"+ValiderChaine(statut)+"'" )+",remarque="+(remarque=="" ? "null" : "'"+ValiderChaine(remarque)+"'" )+"";
+ Req+="pe_numero="+pe_numero+",source="+(source=="" ? "null" : "'"+ValiderChaine(source)+"'" )+",numero="+(numero=="" ? "null" : "'"+ValiderChaine(numero)+"'" )+",titre="+(titre=="" ? "null" : "'"+ValiderChaine(titre)+"'" )+",nom="+(nom=="" ? "null" : "'"+ValiderChaine(nom)+"'" )+",complement="+(complement=="" ? "null" : "'"+ValiderChaine(complement)+"'" )+",ad1="+(ad1=="" ? "null" : "'"+ValiderChaine(ad1)+"'" )+",ad2="+(ad2=="" ? "null" : "'"+ValiderChaine(ad2)+"'" )+",ad3="+(ad3=="" ? "null" : "'"+ValiderChaine(ad3)+"'" )+",cp="+(cp=="" ? "null" : "'"+ValiderChaine(cp)+"'" )+",ville="+(ville=="" ? "null" : "'"+ValiderChaine(ville)+"'" )+",naissance="+(naissance=="" ? "null" : "'"+ValiderChaine(naissance)+"'" )+",telephone="+(telephone=="" ? "null" : "'"+ValiderChaine(telephone)+"'" )+",fax="+(fax=="" ? "null" : "'"+ValiderChaine(fax)+"'" )+",portable="+(portable=="" ? "null" : "'"+ValiderChaine(portable)+"'" )+",qualification="+(qualification=="" ? "null" : "'"+ValiderChaine(qualification)+"'" )+",base_ht="+(base_ht=="" ? "null" : "'"+ValiderChaine(base_ht)+"'" )+",productions="+(productions=="" ? "null" : "'"+ValiderChaine(productions)+"'" )+",hectares_nb="+(hectares_nb=="" ? "null" : "'"+ValiderChaine(hectares_nb)+"'" )+",salaries_nb="+(salaries_nb=="" ? "null" : "'"+ValiderChaine(salaries_nb)+"'" )+",sacea_ttc="+(sacea_ttc=="" ? "null" : "'"+ValiderChaine(sacea_ttc)+"'" )+",cm_nb="+(cm_nb=="" ? "null" : "'"+ValiderChaine(cm_nb)+"'" )+",cm_ht="+(cm_ht=="" ? "null" : "'"+ValiderChaine(cm_ht)+"'" )+",cm_noms="+(cm_noms=="" ? "null" : "'"+ValiderChaine(cm_noms)+"'" )+",opt1="+(opt1=="" ? "null" : "'"+ValiderChaine(opt1)+"'" )+",opt2="+(opt2=="" ? "null" : "'"+ValiderChaine(opt2)+"'" )+",opt3="+(opt3=="" ? "null" : "'"+ValiderChaine(opt3)+"'" )+",opt4="+(opt4=="" ? "null" : "'"+ValiderChaine(opt4)+"'" )+",opt_num="+(opt_num=="" ? "null" : "'"+ValiderChaine(opt_num)+"'" )+",opt_ttc="+(opt_ttc=="" ? "null" : "'"+ValiderChaine(opt_ttc)+"'" )+",statut="+(statut=="" ? "null" : "'"+ValiderChaine(statut)+"'" )+",remarque="+(remarque=="" ? "null" : "'"+ValiderChaine(remarque)+"'" )+"";
  Req+=" where "+NomCleMaitre+"="+CleMaitre;
 
  if (pgsql_update(Req)==0)

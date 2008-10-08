@@ -531,10 +531,10 @@ function CodeInParametrage(){
     Maitre_Codepostal = It_Codepostal.AjouterMaitre("Liste des codes postaux","codepostal");
     Maitre_Codepostal.AjouterColonne("N°","cp_numero");
     Maitre_Codepostal.AjouterColonne("Code","cp_codepostal");
-    Maitre_Codepostal.AjouterColonne("Bureau","cp_bureau");
+/*    Maitre_Codepostal.AjouterColonne("Bureau","cp_bureau");*/
  
     It_Codepostal.AjouterComposantSimple("Code postal", "cp_codepostal");
-    It_Codepostal.AjouterComposantSimple("Bureau distributeur", "cp_bureau");
+/*    It_Codepostal.AjouterComposantSimple("Bureau distributeur", "cp_bureau");*/
 
     CodepostalVilleREF = It_Codepostal.AjouterComposantComplexeIndependant("Villes disponibles","ville");
     CodepostalVilleREF.AjouterColonne("N°","vi_numero");

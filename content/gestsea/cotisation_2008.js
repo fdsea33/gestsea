@@ -153,10 +153,12 @@ var PROD_COT_EXPLOITANT      = 500000052;
 var PROD_COT_BAILLEUR        = 500000053;
 var PROD_COT_ANCIEN          = 500000054;
 var PROD_COT_BAILLEUR_ANCIEN = 500000124;
-var PROD_COT_CONJOINT_ANCIEN = 500000;
-var PROD_COT_ASSOCIE         = 500000;
+var PROD_COT_CONJOINT_ANCIEN = 500000150;
+var PROD_COT_ASSOCIE         = 500000162;
+var PROD_COT_GROUPSPE        = 500000172; /* GROUPEMENT SPÉCIALISÉ */
 
 var PROD_COT   = new Array(PROD_COT_EXPLOITANT, PROD_COT_BAILLEUR, PROD_COT_ANCIEN, PROD_COT_BAILLEUR_ANCIEN, 0);
+/*PROD_COT_GROUPSPE, 0);*/
 var PROD_HECT  = new Array(500000055, 500000056, 500000057, 500000058, 500000059, 500000060, 500000144, 0);
 var PROD_CONJ  = new Array(500000150, 0);
 var PROD_ASSO  = new Array(500000162, 0);
@@ -171,9 +173,9 @@ elem("wg-status-text").label = 'Constantes';
 var num_service;
 var num_employe;
 
-function jeTravaillePour(abbrev)
+function jeTravaillePour(abrev)
 {
-  var query="UPDATE employe SET em_service=se_numero FROM service JOIN societe ON (se_societe=so_numero) where so_abbrev='"+abbrev+"' and em_login=CURRENT_USER;";
+  var query="UPDATE employe SET em_service=se_numero FROM service JOIN societe ON (se_societe=so_numero) where so_abbrev='"+abrev+"' and em_login=CURRENT_USER;";
   pgsql_update(query);
 }
 
@@ -184,28 +186,23 @@ function current_value(id) {
 }
 
 /* Retourne le numéro de la personne en cours */
-function current_personne(){
-  return current_value("wg-personne-menulist");
-}
+function current_personne(){return current_value("wg-personne-menulist");}
 
 /* Retourne le numéro de la societe en cours */
-function current_societe(){
-  if (elem("wg-societe-checkbox").checked)
-    return current_value("wg-societe-menulist");
+function current_societe(){ 
+  if (elem("wg-societe-checkbox").checked) return current_value("wg-societe-menulist");
   else return null;
 }
 
 /* Retourne le numéro de la conjoint en cours */
 function current_conjoint(){
-  if (elem("wg-conjoint-checkbox").checked)
-    return current_value("wg-conjoint-menulist");
+  if (elem("wg-conjoint-checkbox").checked) return current_value("wg-conjoint-menulist");
   else return null;
 }
 
 /* Retourne le numéro de la conjoint en cours */
 function current_associe(){
-  if (elem("wg-associe-checkbox").checked)
-    return current_value("wg-associe-menulist");
+  if (elem("wg-associe-checkbox").checked) return current_value("wg-associe-menulist");
   else return null;
 }
 
@@ -309,6 +306,8 @@ function wg_build_associates(count) {
 
 function wg_cotisation_select() {
   var cotisation=elem("wg-cotisation-radiogroup").value;
+  elem("wg-hectare-groupbox").hidden  = false;
+  elem("wg-hectare-checkbox").checked = true;
   if (cotisation == PROD_COT_BAILLEUR) {
 /*
     elem("wg-hectare-groupbox").hidden  = true;
@@ -334,6 +333,11 @@ function wg_cotisation_select() {
 */
     elem("wg-conjoint-groupbox").hidden  = true;
     elem("wg-conjoint-checkbox").checked = false;
+  } else if (cotisation == PROD_COT_GROUPSPE) {
+    elem("wg-conjoint-groupbox").hidden  = true;
+    elem("wg-conjoint-checkbox").checked = false;
+    elem("wg-hectare-groupbox").hidden   = true;
+    elem("wg-hectare-checkbox").checked  = false;
   }
 }
 

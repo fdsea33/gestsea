@@ -80,11 +80,11 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Imprimer le (dernier) lot" oncommand="EvoPrint('lot',TAB_GLOBAL_COMPO[725]);"/>
-    <button label="Imprimer les remarques du lot" oncommand="EvoPrint('remarques',TAB_GLOBAL_COMPO[725]);"/>
-    <button label="Imprimer le courrier" oncommand="EvoPrint('lettre',TAB_GLOBAL_COMPO[725]);"/>
-    <button label="Adhérent N ?" oncommand="TestCotisation(TAB_GLOBAL_COMPO[725]);"/>
-    <button label="Adhérent N-1 ?" oncommand="TestCotisation(TAB_GLOBAL_COMPO[725],-1);"/>
+    <button label="Imprimer le (dernier) lot" oncommand="EvoPrint('lot',TAB_GLOBAL_COMPO[724]);"/>
+    <button label="Imprimer les remarques du lot" oncommand="EvoPrint('remarques',TAB_GLOBAL_COMPO[724]);"/>
+    <button label="Imprimer le courrier" oncommand="EvoPrint('lettre',TAB_GLOBAL_COMPO[724]);"/>
+    <button label="Adhérent N ?" oncommand="TestCotisation(TAB_GLOBAL_COMPO[724]);"/>
+    <button label="Adhérent N-1 ?" oncommand="TestCotisation(TAB_GLOBAL_COMPO[724],-1);"/>
     <button label="Statistiques" oncommand="StatEVO();"/>
   </arrowscrollbox>
 </hbox>

@@ -245,9 +245,9 @@
 <vbox flex="1" style="overflow:auto">
 <vbox id="Codes_postaux_Liste_des_codes_postaux0_Slaves"/>
 <hbox flex="1">
-<vbox id="ListeDessus_Codes_postaux_Villes_liées_au_code_postal_4" flex="1"/>
+<vbox id="ListeDessus_Codes_postaux_Villes_liées_au_code_postal_3" flex="1"/>
 <splitter><grippy/></splitter>
-<vbox id="Codes_postaux_Villes_liées_au_code_postal_4" flex="1"/>
+<vbox id="Codes_postaux_Villes_liées_au_code_postal_3" flex="1"/>
 </hbox>
 <arrowscrollbox  pack="end" align="stretch" class="fondstyle">
     <button class="new-button16" disabled="true" id="Insert_Codes_postaux_Liste_des_codes_postaux0" label="Ajouter" oncommand="Insert_Codes_postaux_Liste_des_codes_postaux0()" />

@@ -279,7 +279,8 @@ var current_personne = 25;
 
 function EnvoyerPassword(compo) {
   current_personne = compo.getCleVal();
-  var superuser = requete("SELECT case when usesuper then 1 else 0 end from pg_user where usename=current_user;");
+  /* C'est pas joli mais ça suffit dans l'immédiat */
+  var superuser = requete("SELECT case when usesuper then 1 when usename IN ('nt_synd','fb_synd') else 0 end from pg_user where usename=current_user;");
   if (superuser==1) {
     window.openDialog('principal_mail.xul', "showmore", "centerscreen,close=no,modal,chrome,scrollbars,resizable=no");
   } else {

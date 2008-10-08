@@ -3620,7 +3620,93 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 
 
 
+CREATE OR REPLACE FUNCTION FC_Ajouter_GS(IN num_personne INTEGER, IN num_reglement INTEGER, IN num_fac_fdsea INTEGER) RETURNS BOOLEAN AS
+$$
+DECLARE
+  num_service service.se_numero%TYPE;
+  num_employe employe.em_numero%TYPE;
+  num_devis       devis.de_numero%TYPE;
+  num_devis_fdsea devis.de_numero%TYPE;
+  num_devis_sacea devis.de_numero%TYPE;
+  num_facture_fdsea facture.fa_numero%TYPE;
+  num_facture_sacea facture.fa_numero%TYPE;
+  num_groupe impressiongroupe.ig_numero%TYPE;
+  detail TEXT;
+  annee INTEGER;
+  num_soc INTEGER;
+  compte INTEGER;
+  montant NUMERIC;
+BEGIN
+  SELECT EXTRACT(YEAR FROM CURRENT_DATE) INTO annee;
+  SELECT count(*) FROM personne where pe_numero=num_personne INTO compte;
+  IF compte<=0 THEN
+    RAISE EXCEPTION 'La cotisation GS ne peut pas être enregistrée car la fiche % n''existe pas',num_personne-1000000;
+  END IF;
+  SELECT count(*) FROM cotisation where cs_annee=annee AND pe_numero=num_personne AND cs_nature='gs' INTO compte;
+  IF compte>0 THEN
+    RAISE EXCEPTION 'Une cotisation GS est déjà enregistrée pour la fiche % et l''année %',num_personne-1000000,annee;
+  END IF;
+  SELECT count(*) FROM table_reglement where rg_numero=num_reglement AND so_numero=2 INTO compte;
+  IF compte<=0 THEN
+    RAISE EXCEPTION 'La cotisation GS ne peut pas être enregistrée car le règlement % n''existe pas', num_reglement;
+  END IF;
+  IF num_fac_fdsea IS NOT NULL THEN
+    SELECT count(*) FROM table_facture where fa_numero=num_fac_fdsea AND so_numero=2 INTO compte;
+    IF compte<=0 THEN
+      RAISE EXCEPTION 'La cotisation GS ne peut pas être enregistrée car la facture % n''existe pas', num_fac_fdsea;
+    END IF;
+  END IF;
 
+  -- Impression
+  SELECT nextval('seq_impressiongroupe') INTO num_groupe;
+  INSERT INTO table_impressiongroupe (ig_numero, il_numero, ig_date) VALUES (num_groupe,1,CURRENT_DATE);
+
+  -- Sauvegarde du statut de l'utilisateur
+  SELECT EM_Service, EM_Numero FROM Employe WHERE em_login=CURRENT_USER INTO num_service, num_employe;
+
+  detail := '';
+  detail := bml_put(detail,'saved', 'true');
+  detail := bml_put(detail,'reglement.numero', num_reglement::text);
+  -- FDSEA
+  num_facture_fdsea := num_fac_fdsea;
+  UPDATE employe SET EM_Service=SE_Numero FROM service WHERE employe.EM_Numero=num_employe AND SE_Societe=2;
+  IF num_facture_fdsea IS NULL THEN
+    SELECT nextval('seq_devis') INTO num_devis;
+    INSERT INTO devis(de_numero, pe_numero, de_libelle, em_numero) SELECT num_devis, num_personne, '[GS] Cotisation du '||CURRENT_DATE, num_employe;
+    INSERT INTO ligne(de_numero, pd_numero) VALUES (num_devis, 500000172);
+    num_devis_fdsea := num_devis;
+    SELECT FC_DevisVersFacture(num_devis_fdsea) INTO num_facture_fdsea;
+    INSERT INTO table_facturereglement(rg_numero, fa_numero) VALUES (num_reglement, num_facture_fdsea);
+  END IF;
+  INSERT INTO table_impressiondocument (ig_numero,id_modele,id_cle) VALUES (num_groupe, 'facture', num_facture_fdsea);
+  INSERT INTO table_impressiondocument (ig_numero,id_modele,id_cle) VALUES (num_groupe, 'carte', num_facture_fdsea); 
+  SELECT fa_montantttc FROM table_facture WHERE fa_numero=num_facture_fdsea INTO montant;
+  detail := bml_put(detail,'fdsea', 'true');
+  detail := bml_put(detail,'fdsea.devis', num_devis_fdsea::text);
+  detail := bml_put(detail,'fdsea.facture', num_facture_fdsea::text);
+  detail := bml_put(detail,'fdsea.montant', montant::text);
+  detail := bml_put(detail,'fdsea.associe', 'false');
+  detail := bml_put(detail,'fdsea.conjoint', 'false');
+  detail := bml_put(detail,'fdsea.hectare', 'false');
+
+  -- SACEA
+  detail := bml_put(detail,'sacea', 'false'); -- 15 % quand même
+/*
+  UPDATE employe SET EM_Service=SE_Numero FROM service WHERE employe.EM_Numero=num_employe AND SE_Societe=1;
+  SELECT nextval('seq_devis') INTO num_devis;
+  INSERT INTO devis(de_numero, pe_numero, de_libelle, em_numero) SELECT num_devis, num_personne, '[GS] Abonnement conseil du '||CURRENT_DATE, current_employe();
+  INSERT INTO ligne (de_numero, pd_numperero) VALUES (num_devis, 500000123);
+  num_devis_sacea := num_devis;
+  SELECT FC_DevisVersFacture(num_devis_sacea) INTO num_facture_sacea;
+  detail := bml_put(detail,'sacea.devis', num_devis_sacea::text);
+  detail := bml_put(detail,'sacea.facture', num_facture_sacea::text);
+*/
+  -- COTISATION
+  UPDATE employe SET EM_Service=num_service WHERE EM_Numero=num_employe;
+  INSERT INTO cotisation (cs_numero, pe_numero,cs_societe, cs_detail, cs_annee, cs_done, cs_valid, cs_nature, cs_montant, ig_numero) VALUES (nextval('table_cotisation_cs_numero_seq'), num_personne, NULL, detail, annee, true, true, 'gs', montant, num_groupe);
+  RETURN true;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
 
 
 

@@ -92,6 +92,7 @@ function CodeInPrincipal(centre){
     PersonneCotisation.AjouterColonne("AAVA","cs_aava");
     PersonneCotisation.AjouterColonne("Total","cs_total");
     PersonneCotisation.AjouterColonne("Enregistrée le","created_at");
+    PersonneCotisation.AjouterColonne("hidden_NCI","cle");
 
     //***********************
     // ADHESION
@@ -341,6 +342,8 @@ function CodeInPrincipal(centre){
     PersonneFacture.AjouterColonne("HT","fa_montantht");
     PersonneFacture.AjouterColonne("TTC","fa_montantttc");
     PersonneFacture.AjouterColonne("Etat","fa_etat");
+    PersonneFacture.AjouterColonne("hidden_NFI","fa_numero");
+    PersonneFacture.AjouterColonne("hidden_NDI","de_numero");
 
     //***********************
     // REGLEMENT
