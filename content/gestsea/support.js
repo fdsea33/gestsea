@@ -1,8 +1,10 @@
 /* -*- Mode: Java; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2; coding: latin-1 -*- */
-// NÃ©cessite les fichiers suivants :
+// Nécessite les fichiers suivants :
 // - pgsql.js
 
-function find_first(query){
+/* Return the first line of the result of the SQL query
+ */
+function find_first(query) {
   var result=pgsql_query(query);
   if (result.rowCount<=0)
     return null;
@@ -16,8 +18,9 @@ function find_first(query){
   }
 }
 
-function requete(query)
-{
+/* Return the first column of the line of the result of the SQL query
+ */
+function requete(query) {
   result=pgsql_query(query);
   if (result.rowCount<=0)
     return null;
@@ -28,8 +31,13 @@ function requete(query)
   }
 }
 
-function find_all(query)
-{
+function find_value(query) {
+  return requete(query);
+}
+
+/* Return all the lines of the result of the SQL query
+ */
+function find_all(query) {
   result=pgsql_query(query);
   if (result.rowCount<=0)
     return null;
@@ -37,10 +45,10 @@ function find_all(query)
     var enumr=result.enumerate();
     enumr.first();
     var a = new Array();
-    for (i=0;i<result.rowCount;i++){
+    for (i=0;i<result.rowCount;i++) {
       a.push(new Array())
-      for (j=0;j<result.columnCount;j++)
-        a[i].push(enumr.getVariant(j));
+        for (j=0;j<result.columnCount;j++)
+          a[i].push(enumr.getVariant(j));
       enumr.next();
     }
     return a;
@@ -70,20 +78,18 @@ function DeleteDataSource(object) {
 }
 
 
-
-/* Retourne l'Ã©lÃ©ment dans le document
+/* Retourne l'élément dans le document
  */
-function elem(id){
+function elem(id) {
   var e = top.document.getElementById(id);
-  if (e==null) 
-    alert('L\'Ã©lÃ©ment "'+id+'" est introuvable dans le document.');
+  if (e==null) alert('L\'élément "'+id+'" est introuvable dans le document.');
   return e;
 }
 
 /* Remplit une grille correctement
  * Renvoie le composant grid
  */
-function grid_fill(id,query){
+function grid_fill(id, query) {
   var result = pgsql_query(query);
   var ds = result.QueryInterface(Components.interfaces.nsIRDFDataSource);
   var grid = elem(id);
@@ -92,13 +98,14 @@ function grid_fill(id,query){
   grid.builder.rebuild();
   return grid;
 }
+/*
 function fill_grid(id,q) {return grid_fill(id,q);}
+*/
 
-
-/* Remplit une liste correctement en conservant la ligne sÃ©lectionnÃ©e
+/* Remplit une liste correctement en conservant la ligne sélectionnée
  * Renvoie le composant liste
  */
-function listbox_fill(id, query){
+function listbox_fill(id, query) {
   var result = pgsql_query(query);
   var list = elem(id);
   var idx = list.selectedIndex;
@@ -106,9 +113,10 @@ function listbox_fill(id, query){
   var ds = result.QueryInterface(Components.interfaces.nsIRDFDataSource);
   list.database.AddDataSource(ds);
   list.builder.rebuild();
-  if (result.rowCount>0){
-    if (idx<0) list.selectedIndex=0;
-    else{
+  if (result.rowCount>0) {
+    if (idx<0) 
+      list.selectedIndex=0;
+    else {
       if (idx>=result.rowCount) list.selectedIndex=result.rowCount-1;
       else list.selectedIndex=idx;
     }
@@ -116,10 +124,11 @@ function listbox_fill(id, query){
   list.setAttribute("lines",result.rowCount);
   return list;
 }
+/*
 function fill_list(id,q) {return listbox_fill(id,q);}
+*/
 
-
-/* Remplit une liste dÃ©roulante correctement
+/* Remplit une liste déroulante correctement
  * Renvoie le composant liste
  */
 function menulist_fill(id, query, selectedValue){
@@ -128,7 +137,7 @@ function menulist_fill(id, query, selectedValue){
   var result   = pgsql_query(query);
 
   DeleteDataSource(menulist);
-  if (result.rowCount>0){
+  if (result.rowCount>0) {
     var ds = result.QueryInterface(Components.interfaces.nsIRDFDataSource);
     menulist.database.AddDataSource(ds);
   }
@@ -150,7 +159,7 @@ function menulist_value(id) {
 }
 
 
-/* Coche la case avec l'Ã©xÃ©cution de la command liÃ©e 
+/* Coche la case avec l'éxécution de la command liée 
  * Renvoie le composant checkbox 
  */
 function checkbox_check(id, value, cond) {
@@ -164,8 +173,8 @@ function checkbox_check(id, value, cond) {
   return c;
 }
 
-/* Coche la case avec l'Ã©xÃ©cution de la command liÃ©e 
- * Renvoie le composant checkbox 
+/* Coche la case avec l'éxécution de la command liée 
+ * Renvoie le composant radiogroup
  */
 function radiogroup_select(id, value, cond) {
   var c = elem(id);
@@ -179,37 +188,38 @@ function radiogroup_select(id, value, cond) {
 }
 
 
-/* Remplit une liste correctement en concervant la ligne sÃ©lectionnÃ©e */
-function tree_fill(id,query){
-    var result = pgsql_query(query);
-    var ds = result.QueryInterface(Components.interfaces.nsIRDFDataSource);
-    var tree = elem(id);
-    var idx = tree.currentIndex;
+/* Remplit une liste correctement en concervant la ligne sélectionnée */
+function tree_fill(id, query) {
+  var result = pgsql_query(query);
+  var ds = result.QueryInterface(Components.interfaces.nsIRDFDataSource);
+  var tree = elem(id);
+  var idx = tree.currentIndex;
 
-    DeleteDataSource(tree);
-    tree.database.AddDataSource(ds);
-    tree.builder.rebuild();
+  DeleteDataSource(tree);
+  tree.database.AddDataSource(ds);
+  tree.builder.rebuild();
 
-    if (idx<0)
-    	tree.view.selection.select(0);
-    else {
-    	if (idx>=tree.view.rowCount)
-	      tree.view.selection.select(tree.view.rowCount-1);
-    	else
-  	    tree.view.selection.select(idx);
-    }
-    return tree;
+  if (idx<0)
+    tree.view.selection.select(0);
+  else {
+    if (idx>=tree.view.rowCount)
+      tree.view.selection.select(tree.view.rowCount-1);
+    else
+      tree.view.selection.select(idx);
+  }
+  return tree;
 }
 
 
-/* Fonction utilisÃ©e pour vÃ©rifier la prÃ©sence d'enregistrements spÃ©cifiques
+/* Fonction utilisée pour vérifier la présence d'enregistrements spécifiques
  */
-function pas_de_resultat(query){
+function pas_de_resultat(query) {
   var result=pgsql_query(query);
   if (result.rowCount>0)
     return false;
   else
 	  return true;
 }
-function a_un_resultat(q) {return !pas_de_resultat(q);}
+function a_un_resultat(query) {return !pas_de_resultat(query);}
+function has_results(query) {return !pas_de_resultat(query);}
 
