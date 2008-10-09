@@ -10,7 +10,7 @@
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script src="../generator/utils_xul.js"/>
   <script src="../generator/pgsql.js"/>
-  <script src="libxul.js"/>
+  <script src="support.js"/>
   <script src="easynvoice.js"/>
   <vbox flex="1">
     <groupbox>

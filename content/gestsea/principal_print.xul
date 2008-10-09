@@ -4,7 +4,7 @@
 
 <window id="gestsea-print" title="Utilitaire d'impression GestSEA" onload="print_onload();" orient="vertical" sizemode="normal" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script src="print.js"/>
-  <script src="libxul.js"/>
+  <script src="support.js"/>
   <script src="../generator/utils_xul.js"/>
   <vbox>
     <stack flex="1" >
