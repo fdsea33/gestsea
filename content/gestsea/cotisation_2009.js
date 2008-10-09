@@ -1,153 +1,5 @@
-/* -*- Mode: Java; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2; coding: latin-1 -*- */
-function DeleteDataSource(object)
-{
-  var sources=object.database.GetDataSources();
-  var ds;
-  while (sources.hasMoreElements()){
-    ds=sources.getNext();
-    object.database.RemoveDataSource(ds);
-  }
-}
-
-
-function find_first(query){
-  var result=pgsql_query(query);
-  if (result.rowCount<=0)
-    return null;
-  else {
-    var enumr=result.enumerate();
-    enumr.first();
-    var a = new Array();
-    for (var i=0;i<result.columnCount;i++)
-      a.push(enumr.getVariant(i));
-    return a;
-  }
-}
-
-function requete(query)
-{
-  result=pgsql_query(query);
-  if (result.rowCount<=0)
-    return null;
-  else {
-    var enumr=result.enumerate();
-    enumr.first();
-    return enumr.getVariant(0);
-  }
-}
-
-function find_all(query)
-{
-  result=pgsql_query(query);
-  if (result.rowCount<=0)
-    return null;
-  else {
-    var enumr=result.enumerate();
-    enumr.first();
-    var a = new Array();
-    for (i=0;i<result.rowCount;i++){
-      a.push(new Array())
-      for (j=0;j<result.columnCount;j++)
-        a[i].push(enumr.getVariant(j));
-      enumr.next();
-    }
-    return a;
-  }
-}
-
-/* ***              D O M             *** */
-
-function elem(id){
-  var e = top.document.getElementById(id);
-  if (e==null) 
-    alert('L\'élément "'+id+'" est introuvable dans le document.');
-  return e;
-}
-
-function relem(tid,rep){
-  var reg = new RegExp("#", "ig");
-  return elem(tid.replace(reg, rep));
-}
-
-/* Remplit une grille correctement */
-/* Renvoie le composant grid */
-function grid_fill(object,query){
-  var result = pgsql_query(query);
-  var ds = result.QueryInterface(Components.interfaces.nsIRDFDataSource);
-  var grid = elem(object);
-  DeleteDataSource(grid);
-  grid.database.AddDataSource(ds);
-  grid.builder.rebuild();
-  return grid;
-}
-
-
-/* Remplit une liste correctement en concervant la ligne sélectionnée */
-/* Renvoie le composant liste */
-function listbox_fill(id, query){
-  var result = pgsql_query(query);
-  var list = elem(id);
-  var idx = list.selectedIndex;
-
-  DeleteDataSource(list);
-  var ds = result.QueryInterface(Components.interfaces.nsIRDFDataSource);
-  list.database.AddDataSource(ds);
-  list.builder.rebuild();
-  if (result.rowCount>0){
-    if (idx<0) list.selectedIndex=0;
-    else{
-      if (idx>=result.rowCount) list.selectedIndex=result.rowCount-1;
-      else list.selectedIndex=idx;
-    }
-  }
-  list.setAttribute("lines",result.rowCount);
-  return list;
-}
-
-
-
-function menulist_fill(id, query, selectedValue){
-  var menulist = elem(id);
-  var idx      = menulist.selectedIndex;
-  var result   = pgsql_query(query);
-
-  DeleteDataSource(menulist);
-  if (result.rowCount>0){
-    var ds = result.QueryInterface(Components.interfaces.nsIRDFDataSource);
-    menulist.database.AddDataSource(ds);
-  }
-  menulist.builder.rebuild();
-  menulist.selectedIndex=0;
-  menulist.setAttribute("lines",result.rowCount);
-  if (selectedValue!=null) {
-    menulist.value = selectedValue;
-  }
-  return menulist;
-}
-
-function checkbox_check(id, value, cond) {
-  var c = elem(id);
-  var valid = true;
-  if (cond==true || cond==false) valid = cond;
-  if (valid && c.checked!=value) {
-    c.checked = value;
-    c.doCommand();
-  }
-  return c;
-}
-
-
-
+/* -*- Mode: Java; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2; coding: utf-8 -*- */
 elem("wg-status-text").label = 'Library';
-
-
-/*
-********************************************************************************
-********************************************************************************
-********************************************************************************
-********************************************************************************
-********************************************************************************
-*/
 
 var PROD_COT_EXPLOITANT      = 500000052;
 var PROD_COT_BAILLEUR        = 500000053;
@@ -169,49 +21,40 @@ var CONTACTTYPES = new Array(107,105,106,104,108);
 
 elem("wg-status-text").label = 'Constantes';
 
-
 var num_service;
 var num_employe;
 
-function jeTravaillePour(abrev)
-{
+function je_travaille_pour(abrev) {
   var query="UPDATE employe SET em_service=se_numero FROM service JOIN societe ON (se_societe=so_numero) where so_abbrev='"+abrev+"' and em_login=CURRENT_USER;";
   pgsql_update(query);
 }
 
-function current_value(id) {
-  var menulist = elem(id);
-  if (menulist.selectedIndex>-1) return menulist.selectedItem.value;
-  else return null;
-}
-
 /* Retourne le numéro de la personne en cours */
-function current_personne(){return current_value("wg-personne-menulist");}
+function current_personne() {
+  return menulist_value("wg-personne-menulist");
+}
 
 /* Retourne le numéro de la societe en cours */
-function current_societe(){ 
-  if (elem("wg-societe-checkbox").checked) return current_value("wg-societe-menulist");
-  else return null;
+function current_societe() { 
+  return menulist_value("wg-societe-menulist", elem("wg-societe-checkbox").checked);
 }
 
 /* Retourne le numéro de la conjoint en cours */
-function current_conjoint(){
-  if (elem("wg-conjoint-checkbox").checked) return current_value("wg-conjoint-menulist");
-  else return null;
+function current_conjoint() {
+  return menulist_value("wg-conjoint-menulist", elem("wg-conjoint-checkbox").checked);
 }
 
 /* Retourne le numéro de la conjoint en cours */
-function current_associe(){
-  if (elem("wg-associe-checkbox").checked) return current_value("wg-associe-menulist");
-  else return null;
+function current_associe() {
+  return menulist_value("wg-associe-menulist", elem("wg-associe-checkbox").checked);
 }
 
 /* Retourne le numéro du responsable en cours */
-function current_responsable(){
-  return current_value("wg-cotisation-responsable-menulist");
+function current_responsable() {
+  return menulist_value("wg-cotisation-responsable-menulist");
 }
 
-function current_year(variation){
+function current_year(variation=0) {
 	if (isNaN(variation))	variation = 0;
   return requete("SELECT EXTRACT(YEAR FROM CURRENT_DATE)::integer+("+variation+");");
 }
@@ -247,7 +90,7 @@ function wg_onload() {
   // Formes juridiques
   menulist_fill("wg-societe-titre", "SELECT np_libelle, np_numero FROM naturepersonne WHERE np_morale ORDER BY 1 ;");
   
-  jeTravaillePour('FDS');
+  je_travaille_pour('FDS');
   // Mode de reglements
   menulist_fill('wg-reglement-mode', "SELECT mr_libelle, mr_numero FROM modereglement WHERE mr_actif ORDER BY 1;");
   
@@ -266,11 +109,11 @@ function wg_onload() {
 
 
   // AAVA
-  jeTravaillePour('AAV');
+  je_travaille_pour('AAV');
   grid_fill("wg-journal-radiogroup", "SELECT px_tarifttc::float||'€ - '||pd_titre AS px_libelle, px_tarifttc, pd_numero FROM produit LEFT JOIN prix using (pd_numero) WHERE px_Actif AND pd_numero IN ("+PROD_AAVA.join(',')+") ORDER BY px_tarifttc;").selectedIndex = 0;
   
   // SACEA
-  jeTravaillePour('SAC');
+  je_travaille_pour('SAC');
   grid_fill('wg-conseil-radiogroup', "SELECT px_tarifttc::float||'€ - '||pd_titre AS px_libelle, px_tarifttc, pd_numero FROM produit LEFT JOIN prix using (pd_numero) WHERE px_Actif AND pd_numero IN ("+PROD_SACEA.join(',')+") ORDER BY px_tarifttc;").selectedIndex = 0;
 
   // Retablissement
@@ -467,7 +310,7 @@ function wg_cotisation_load(personne, annee) {
     }
 
     if (cotisation == PROD_COT_EXPLOITANT) { }
-    if (cotisation == PROD_COT_BAILLEUR_ANCIEN || cotisation == PROD_COT_ANCIEN) {  }
+    if (cotisation == PROD_COT_BAILLEUR_ANCIEN || cotisation == PROD_COT_ANCIEN) {  }
   }
 
   // SACEA
@@ -570,12 +413,12 @@ function wg_associe_check() {
 /*
   if (elem('wg-associe-checkbox').checked) {
     if (!elem('wg-societe-checkbox').checked) {
-      alert('Une société doit être déclarée pour pouvoir enregistrer les associés qui la gèrent.')
+      alert('Une société doit Ãªtre déclarée pour pouvoir enregistrer les associés qui la gÃ¨rent.')
       elem('wg-associe-checkbox').checked = false;
       return false;
     }
     if (!elem('wg-societe-nouveau-checkbox').checked && elem('wg-societe-menulist').selectedIndex<0) {
-      alert('La société doit être renseignée pour pouvoir enregistrer les associés qui la gèrent.')
+      alert('La société doit Ãªtre renseignée pour pouvoir enregistrer les associés qui la gÃ¨rent.')
       elem('wg-associe-checkbox').checked = false;
       return false;
     }
@@ -660,7 +503,7 @@ function wg_associe_remove() {
     return false;
   }
   if (confirm('Vous voulez vraiment enlever le lien ?')) {
-    if (confirm("Vraiment vraiment ? C'est quand même très bizarre...")) {
+    if (confirm("Vraiment vraiment ? C'est quand mÃªme trÃ¨s bizarre...")) {
       num_lien = elem('wg-associe-listbox').selectedItem.firstChild.getAttribute("lien");
       query = "DELETE FROM estlie WHERE el_numero="+num_lien;
       pgsql_update(query);
@@ -721,7 +564,7 @@ function wg_routage_load_history(complement) {
     case "personne": personne = current_personne(); break;
     case "societe": personne = current_societe(); break;
     case "associe": personne = current_associe(); break;
-    default: alert("RO34 : Gros problème interne. Prévenir Brice!"); return null; break;
+    default: alert("RO34 : Gros problÃ¨me interne. Prévenir Brice!"); return null; break;
   }
   menulist_fill(prefix+'routage-menulist',"SELECT ro_libelle, ro_numero FROM routage WHERE pe_numero="+personne+" ORDER BY 1 DESC");
   wg_routage_load_current(complement);
@@ -961,7 +804,7 @@ function wg_entity_save(complement, validate) {
       valide = false;
     }
     if (morale && elem(prefix+"prenom").value.length>0) {
-      erreurs += wg_error("Il ne faut pas saisir de prenom pour la société. Dans le cas où celui-ci est renseigné, il faut le déplacer soit dans le nom soit dans le destinataire de l'adresse");
+      erreurs += wg_error("Il ne faut pas saisir de prenom pour la société. Dans le cas oÃ¹ celui-ci est renseigné, il faut le déplacer soit dans le nom soit dans le destinataire de l'adresse");
       valide = false;
     }
     if (!morale && elem(prefix+"prenom").value.length<2) {
@@ -984,7 +827,7 @@ function wg_entity_save(complement, validate) {
 	    query = "SELECT count(*) FROM vue_personne WHERE pe_nom ilike '"+elem(prefix+"nom").value+"' AND pe_prenom ilike '"+elem(prefix+"prenom").value+"' AND pe_cp ilike '"+elem(prefix+"cp").value+"' AND pe_ville ILIKE '"+elem(prefix+"ville").label+"';";
 //	    query = "SELECT count(*) FROM vue_personne WHERE pe_nom ilike '"+elem(prefix+"nom").value+"' AND pe_prenom ilike '"+elem(prefix+"prenom").value+"' AND pe_cp ilike '"+elem(prefix+"cp").value+"' AND pe_ville ILIKE '"+elem(prefix+"ville").label+"';";
 	    if (requete(query)>0) {
-	      erreurs += wg_error("Il semble y avoir déjà une fiche. Vous ne pourrez pas en créer une identique. Contactez Brice si nécessaire.\n(Requête : "+query+")");
+	      erreurs += wg_error("Il semble y avoir déjà une fiche. Vous ne pourrez pas en créer une identique. Contactez Brice si nécessaire.\n(RequÃªte : "+query+")");
 	      valide = false;
 	    }
 	  }
@@ -1110,7 +953,7 @@ function wg_send_cotisation(send_query){
   if (send_query && !elem("wg-personne-nouveau-checkbox").checked && !(num_personne<=0 || num_personne==null)) {
     num_cotisation = requete("SELECT cs_numero FROM cotisation WHERE cs_annee="+annee+" AND pe_numero="+num_personne+";");
     if (num_cotisation!=null) {
-      if (confirm("Une cotisation a déjà été enregistrée pour la personne (CX"+num_cotisation+"). Voulez-vous arrêter la validation de la cotisation ?")) {
+      if (confirm("Une cotisation a déjà été enregistrée pour la personne (CX"+num_cotisation+"). Voulez-vous arrÃªter la validation de la cotisation ?")) {
         erreurs += wg_error("Cotisation annulée. (Une cotisation a déjà été enregistrée pour la personne (CX"+num_cotisation+"))");
         valide = false;
       }
@@ -1154,7 +997,7 @@ function wg_send_cotisation(send_query){
       valide = false;
     }
     if (elem("wg-societe-prenom").value.length>0) {
-      erreurs += wg_error("Il ne faut pas saisir de prenom pour la société. Dans le cas où celui-ci est renseigné, il faut le déplacer soit dans le nom soit dans le destinataire de l'adresse");
+      erreurs += wg_error("Il ne faut pas saisir de prenom pour la société. Dans le cas oÃ¹ celui-ci est renseigné, il faut le déplacer soit dans le nom soit dans le destinataire de l'adresse");
       valide = false;
     }
     if (elem("wg-societe-titre").selectedIndex<0) {
@@ -1199,7 +1042,7 @@ function wg_send_cotisation(send_query){
     if (send_query && !elem("wg-conjoint-nouveau-checkbox").checked && !(num_conjoint<=0 || num_conjoint==null)) {
       var num_cotisation = requete("SELECT cs_numero FROM cotisation WHERE cs_annee="+annee+" AND pe_numero="+num_conjoint+";");
       if (num_cotisation!=null) {
-        if (confirm("Une cotisation a déjà été enregistrée pour le conjoint (CX"+num_cotisation+"). Voulez-vous arrêter la validation de la cotisation ?")) {
+        if (confirm("Une cotisation a déjà été enregistrée pour le conjoint (CX"+num_cotisation+"). Voulez-vous arrÃªter la validation de la cotisation ?")) {
           erreurs += wg_error("Une cotisation a déjà été enregistrée pour le conjoint (CX"+num_cotisation+")");
           valide = false;
         }
@@ -1255,11 +1098,11 @@ function wg_send_cotisation(send_query){
 	      valide = false;
 	    }
 	    if (elem("wg-reglement-compte").value.length!=12) {
-	      erreurs += wg_error("Il faut renseigner le N°Compte du réglement sur 12 caractères");
+	      erreurs += wg_error("Il faut renseigner le N°Compte du réglement sur 12 caractÃ¨res");
 	      valide = false;
 	    }
 	    if (elem("wg-reglement-cheque").value.length!=7) {
-	      erreurs += wg_error("Il faut renseigner le N°Cheque du réglement sur 7 caractères");
+	      erreurs += wg_error("Il faut renseigner le N°Cheque du réglement sur 7 caractÃ¨res");
 	      valide = false;
 	    }
 	  } else {
