@@ -10,18 +10,6 @@ CREATE OR REPLACE VIEW VUE_Historique AS
        CASE WHEN p.pe_numero IN (select pe_numero from table_cotisation where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-1 AND BML_EXTRACT(cs_detail,'fdsea.forfait.produit')::integer IN (500000124,500000053)) THEN 'X' ELSE '' END AS "Bailleur",
        CASE WHEN p.pe_numero IN (select pe_numero from table_cotisation where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-1 AND BML_EXTRACT(cs_detail,'fdsea.forfait.produit')::integer IN (500000054,500000124,500000150)) THEN 'X' ELSE '' END AS "Ancien",
        CASE WHEN p.pe_numero IN (select pe_numero from table_cotisation where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-1 AND cs_nature='ja') THEN 'X' ELSE '' END AS "J.A.",
---       CASE WHEN p.pe_numero IN (select pe_numero from vue_cotisation_all where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-2 AND BML_EXTRACT(cs_detail,'fdsea.forfait.produit')::integer IN (300006,500000052)) THEN 'X' ELSE '' END AS "Exploitant",
---       CASE WHEN p.pe_numero IN (select pe_numero from vue_cotisation_all where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-2 AND BML_EXTRACT(cs_detail,'fdsea.forfait.produit')::integer IN (500000124,500000053)) THEN 'X' ELSE '' END AS "Bailleur",
---       CASE WHEN p.pe_numero IN (select pe_numero from vue_cotisation_all where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-2 AND BML_EXTRACT(cs_detail,'fdsea.forfait.produit')::integer IN (500000054,500000124,500000150)) THEN 'X' ELSE '' END AS "Ancien",
-
---SELECT pe_numero FROM table_adhesion WHERE po_numero IN (SELECT po_numero from table_periode WHERE EXTRACT(YEAR FROM po_fin)=EXTRACT(YEAR FROM CURRENT_DATE)) AND ah_numero IN (500000016,500000025)) THEN 'X' ELSE '' END AS "Exploitant",
-
-
---       CASE WHEN p.pe_numero IN (SELECT pe_numero FROM table_adhesion WHERE po_numero IN (SELECT po_numero from table_periode WHERE EXTRACT(YEAR FROM po_fin)=EXTRACT(YEAR FROM CURRENT_DATE)) AND ah_numero IN (500000016,500000025)) THEN 'X' ELSE '' END AS "Exploitant",
---       CASE WHEN p.pe_numero IN (SELECT pe_numero FROM table_adhesion WHERE po_numero IN (SELECT po_numero from table_periode WHERE EXTRACT(YEAR FROM po_fin)=EXTRACT(YEAR FROM CURRENT_DATE)) AND ah_numero IN (500000018,500000029,500000026)) THEN 'X' ELSE '' END AS "Bailleur",
---       CASE WHEN p.pe_numero IN (SELECT pe_numero FROM table_adhesion WHERE po_numero IN (SELECT po_numero from table_periode WHERE EXTRACT(YEAR FROM po_fin)=EXTRACT(YEAR FROM CURRENT_DATE)) AND ah_numero IN (500000017,500000027,500000029,500000032)) THEN 'X' ELSE '' END AS "Ancien",
---       CASE WHEN p.pe_numero in (select pe_numero from table_adhesion join table_periode using (po_numero) where po_debut>='01/01/2000' and ah_numero in (500000017,500000018,500000019,500000016,500000025,500000026,500000027,500000029,500000032)) THEN 'X' ELSE '' END as "Depuis 2000" ,
---            WHEN p.pe_numero not in (select pe_numero from table_adhesion where ah_numero in (500000017,500000018,500000019,500000016,500000025,500000026,500000027,500000029)) THEN 'N''a jamais adhéré (a partir de 1997)' 
        CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=1997) THEN 'X' else '' END as "1997",
        CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=1998) THEN 'X' else '' END as "1998",
        CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=1999) THEN 'X' else '' END as "1999",
@@ -34,21 +22,6 @@ CREATE OR REPLACE VIEW VUE_Historique AS
        CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=2006) THEN 'X' else '' END as "2006",
        CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=2007) THEN 'X' else '' END as "2007",
        CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=2008) THEN 'X' else '' END as "2008",
---       CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=2008 and ah_numero-500000000 in (17,18,19,16,25,26,27,29,32)) THEN 'X' else '' END as "2008" ,
-/*
-       CASE WHEN p.pe_numero in (select pe_numero from table_adhesion where po_numero=500000002 and ah_numero in (500000017,500000018,500000019,500000016,500000025,500000026,500000027,500000029)) THEN 'X' ELSE '' END as "1997" ,
-       CASE WHEN p.pe_numero in (select pe_numero from table_adhesion where po_numero=500000003 and ah_numero in (500000017,500000018,500000019,500000016,500000025,500000026,500000027,500000029)) THEN 'X' else '' END as "1998" ,
-       CASE WHEN p.pe_numero in (select pe_numero from table_adhesion where po_numero=500000004 and ah_numero in (500000017,500000018,500000019,500000016,500000025,500000026,500000027,500000029)) THEN 'X' else '' END as "1999" ,
-       CASE WHEN p.pe_numero in (select pe_numero from table_adhesion where po_numero=500000005 and ah_numero in (500000017,500000018,500000019,500000016,500000025,500000026,500000027,500000029)) THEN 'X' else '' END as "2000" ,
-       CASE WHEN p.pe_numero in (select pe_numero from table_adhesion where po_numero=500000006 and ah_numero in (500000017,500000018,500000019,500000016,500000025,500000026,500000027,500000029)) THEN 'X' else '' END as "2001" ,
-       CASE WHEN p.pe_numero in (select pe_numero from table_adhesion where po_numero=500000007 and ah_numero in (500000017,500000018,500000019,500000016,500000025,500000026,500000027,500000029)) THEN 'X' else '' END as "2002" ,
-       CASE WHEN p.pe_numero in (select pe_numero from table_adhesion where po_numero=500000008 and ah_numero in (500000017,500000018,500000019,500000016,500000025,500000026,500000027,500000029)) THEN 'X' else '' END as "2003" ,
-       CASE WHEN p.pe_numero in (select pe_numero from table_adhesion where po_numero=500000000 and ah_numero in (500000017,500000018,500000019,500000016,500000025,500000026,500000027,500000029)) THEN 'X' else '' END as "2004" ,
-       CASE WHEN p.pe_numero in (select pe_numero from table_adhesion where po_numero=500000001 and ah_numero in (500000017,500000018,500000019,500000016,500000025,500000026,500000027,500000029)) THEN 'X' else '' END as "2005" ,
-       CASE WHEN p.pe_numero in (select pe_numero from table_adhesion where po_numero=500000009 and ah_numero in (500000017,500000018,500000019,500000016,500000025,500000026,500000027,500000029,500000032)) THEN 'X' else '' END as "2006" ,
-       CASE WHEN p.pe_numero in (select pe_numero from table_adhesion where po_numero=500000011 and ah_numero in (500000017,500000018,500000019,500000016,500000025,500000026,500000027,500000029,500000032)) THEN 'X' else '' END as "2007" ,
-       CASE WHEN p.pe_numero in (select pe_numero from table_adhesion where po_numero=500000011 and ah_numero in (500000017,500000018,500000019,500000016,500000025,500000026,500000027,500000029,500000032)) THEN 'X' else '' END as "2008" ,
-*/
        '="'||tel.cn_coordonnee||'"' as "Téléphone",
        '="'||fax.cn_coordonnee||'"' as "Fax",
        '="'||port.cn_coordonnee||'"' as "Portable",
@@ -164,11 +137,11 @@ SELECT * FROM vue_historique;
 \o
 
 \o historique_3A.csv
-SELECT * FROM vue_historique WHERE pe_numero IN (SELECT pe_numero FROM table_adhesion join table_periode using (po_numero) WHERE po_debut BETWEEN '01/01/'||EXTRACT(YEAR FROM CURRENT_DATE)-2 AND '01/01/'||EXTRACT(YEAR FROM CURRENT_DATE));
+SELECT * FROM vue_historique WHERE pe_numero IN (SELECT pe_numero FROM table_cotisation WHERE cs_annee BETWEEN EXTRACT(YEAR FROM CURRENT_DATE)-2 AND EXTRACT(YEAR FROM CURRENT_DATE));
 \o
 
 \o historique_2A.csv
-SELECT * FROM vue_historique WHERE pe_numero IN (SELECT pe_numero FROM table_adhesion join table_periode using (po_numero) WHERE po_debut BETWEEN '01/01/'||EXTRACT(YEAR FROM CURRENT_DATE)-1 AND '01/01/'||EXTRACT(YEAR FROM CURRENT_DATE));
+SELECT * FROM vue_historique WHERE pe_numero IN (SELECT pe_numero FROM table_cotisation WHERE cs_annee BETWEEN EXTRACT(YEAR FROM CURRENT_DATE)-1 AND EXTRACT(YEAR FROM CURRENT_DATE));
 \o
 
 \o historique_avec_personnes_seulement.csv

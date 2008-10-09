@@ -2587,41 +2587,8 @@ BEGIN
   detail := cotis.cs_detail;
   SELECT pe_numero FROM table_personne WHERE bml_extract(detail, 'cotisation.societe')=pe_numero::text INTO num_gerance;
 
-  IF bml_extract(detail,'cotisation.type')='conjoint' THEN
---    SELECT cs_detail FROM cotisation WHERE bml_extract(cs_detail, 'fdsea.conjoint.numero')=cotis.pe_numero INTO detail2;
-/*
-    SELECT cs_detail FROM cotisation WHERE cs_numero=bml_extract(detail, 'cotisation.reference') INTO detail2;
-    detail := bml_put(detail, 'cotisation.societe', bml_extract(detail2, 'cotisation.societe'));
-    detail := bml_put(detail, 'fdsea.forfait.produit', bml_extract(detail2, 'fdsea.conjoint.produit'));
-    detail := bml_put(detail, 'fdsea.forfait.montant', bml_extract(detail2, 'fdsea.conjoint.montant'));
-    detail := bml_put(detail, 'fdsea.hectare','false');
-    detail := bml_put(detail, 'reglement.numero', bml_extract(detail2, 'reglement.numero'));
-    detail := bml_put(detail, 'aava', 'false');
-    detail := bml_put(detail, 'sacea', 'false');
-*/
-  ELSIF bml_extract(detail,'cotisation.type')='associe' THEN
-/*
-    SELECT cs_detail FROM cotisation WHERE cs_numero=bml_extract(detail, 'cotisation.reference') INTO detail2;
-    IF detail2 IS NULL THEN
-      RAISE EXCEPTION 'Erreur pas de cotisation';
-    END IF;
-    detail := bml_put(detail, 'cotisation.societe', bml_extract(detail2, 'cotisation.societe'));
-    detail := bml_put(detail, 'fdsea.forfait.produit', bml_extract(detail2, 'fdsea.associe.produit'));
-    detail := bml_put(detail, 'fdsea.forfait.montant', bml_extract(detail2, 'fdsea.associe.montant')::numeric/bml_extract(detail2, 'fdsea.associe.nombre')::numeric);
-    detail := bml_put(detail, 'fdsea.hectare','false');
-    detail := bml_put(detail, 'reglement.numero', bml_extract(detail2, 'reglement.numero'));
-    detail := bml_put(detail, 'aava', 'false');
-    detail := bml_put(detail, 'sacea', 'false');
-*/
---    RAISE EXCEPTION 'Erreur pas de cotisation  sdfqsdlmfjsdklfj';
-  ELSIF bml_extract(detail,'cotisation.type')='ja' THEN
+  IF bml_extract(detail,'cotisation.type')='ja' THEN
     RAISE EXCEPTION 'Ohohohohoho pas de JA maintenant !';
-/*
-    SELECT fc_ajouterja(cotis.pe_numero,true);
-    detail := bml_put(detail, 'fdsea', 'false');
-    detail := bml_put(detail, 'aava', 'false');
-    detail := bml_put(detail, 'sacea', 'false');
-*/
     UPDATE table_cotisation SET cs_done=true, cs_societe=num_gerance, cs_valid = true, cs_report='*** JA ***' WHERE cs_numero=num_cotisation;
     RETURN true;
   ELSIF bml_extract(detail,'cotisation.type') NOT IN ('standard', 'conjoint', 'associe') THEN
@@ -2818,7 +2785,7 @@ BEGIN
 
   UPDATE employe SET EM_Service=num_service WHERE EM_Numero=num_employe;
   report := report||E'\n**************';
-  UPDATE table_cotisation SET cs_valid=true, cs_done=true, cs_report=report, cs_detail=bml_sort(detail), cs_societe=num_gerance, cs_montant=COALESCE(total_fdsea,0)+COALESCE(total_sacea,0)+COALESCE(total_aava,0) WHERE cs_numero=num_cotisation;
+  UPDATE table_cotisation SET cs_valid=true, cs_done=true, cs_report=report, cs_detail=bml_sort(detail), cs_societe=num_gerance, cs_montant=COALESCE(total_fdsea,0)+COALESCE(total_sacea,0)+COALESCE(total_aava,0), cs_reduction=CASE WHEN bml_extract(detail,'sacea')='true' THEN 25.00 ELSE 15.00 END  WHERE cs_numero=num_cotisation;
   RETURN true;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
@@ -3039,7 +3006,7 @@ BEGIN
           cond:=REPLACE(cond,'<'||i-1||E'>',kw_record||numvar[pparam]||E'.p'||i);
         END LOOP;
       END IF;
-      fonction:=fonction||E'  IF ('||cond||E')::boolean THEN\n';
+      fonction:=fonction||E'  IF ('||TRIM(cond)||E')::boolean THEN\n';
       plast          := plast+1;
       last[plast]    := 1;
     ELSIF ligne LIKE E'\\%%ELSE' THEN
@@ -3292,7 +3259,7 @@ BEGIN
   FOR i IN SELECT 'pi_'||im_numero-mini AS fcn, im_modele, im_numero FROM table_impression WHERE IM_Defaut LOOP
     PERFORM FC_CreerFonctionPrint(i.im_modele, i.fcn, repertoire, true);
     UPDATE table_impression SET im_fonction=i.fcn WHERE im_numero=i.im_numero;
-    RAISE NOTICE 'Fonction %',i.fcn;
+--    RAISE NOTICE 'Fonction %',i.fcn;
     total:=total+1;
   END LOOP;
   RETURN total;

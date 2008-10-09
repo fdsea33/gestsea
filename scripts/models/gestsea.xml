@@ -1346,7 +1346,8 @@
     <column name="CS_Valid"    type="BOOLEAN"     notnull="true" default="false">Si la cotisation etait valide</column>
     <column name="CS_Report"   type="TEXT"        >Rapport sur le traitement de la cotisation</column>
     <column name="CS_Nature"   type="VARCHAR(16)" notnull="true" index="true">Nature de la cotisation (standard...)</column>
-    <column name="CS_Montant"  type="NUMERIC(16,2)" notnull="true" default="0">Montant total de la cotisation</column>
+    <column name="CS_Montant"   type="NUMERIC(16,2)"  notnull="true" default="0">Montant total de la cotisation</column>
+    <column name="CS_Reduction" type="NUMERIC(16,2)" notnull="true" default="0.00">Réduction accordée par la cotisation</column>
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>
     <column name="updated_at"   label="Date de mise à jour"   type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de mise à jour dans la base</column>

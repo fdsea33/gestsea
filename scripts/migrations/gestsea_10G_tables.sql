@@ -1766,6 +1766,7 @@ CREATE TABLE "table_cotisation"
   "cs_report" TEXT,
   "cs_nature" VARCHAR(16),
   "cs_montant" NUMERIC(16,2),
+  "cs_reduction" NUMERIC(16,2),
   "created_at" TIMESTAMP,
   "created_by" VARCHAR(32),
   "updated_at" TIMESTAMP,
