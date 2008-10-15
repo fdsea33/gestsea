@@ -698,6 +698,7 @@
     <column name="L_Numero"      type="INTEGER"     notnull="true" pkey="true" default="nextval('seq_ligne')"></column>
     <column name="PD_Numero"     type="INTEGER"     notnull="true" fkey="Produit(PD_Numero)"   opt="odrour"></column>
     <column name="DE_Numero"     type="INTEGER"     notnull="true" fkey="Devis(DE_Numero)"     opt="odcouc"></column>
+    <column name="PE_Numero"     type="INTEGER"     fkey="Personne(PE_Numero)"  opt="odcouc"></column>
     <column name="L_Quantite"    type="NUMERIC(16,4)" default="1"></column>
     <column name="L_MontantHT"   type="NUMERIC(16,2)"></column>
     <column name="L_MontantTTC"  type="NUMERIC(16,2)"></column>
@@ -745,6 +746,7 @@
     <column name="PX_Numero"   type="INTEGER"     default="NULL"     fkey="Prix(PX_Numero)"    opt="odrour"></column>
     <column name="PD_Numero"   type="INTEGER"     default="NULL"     fkey="Produit(PD_Numero)" opt="odrour"></column>
     <column name="LF_Quantite" type="NUMERIC"     notnull="true" default="0"></column>
+    <column name="PE_Numero"     type="INTEGER"     fkey="Personne(PE_Numero)"  opt="odcouc"></column>
     <column name="LF_MontantHT"  type="NUMERIC(16,2)"></column>
     <column name="LF_MontantTTC" type="NUMERIC(16,2)"></column>
     <column name="LF_Notes" type="VARCHAR"></column>
@@ -792,6 +794,7 @@
     <column name="AV_Numero"     type="INTEGER"     notnull="true" fkey="Avoir(AV_Numero)" opt="odrour"></column>
     <column name="PX_Numero"     type="INTEGER"     notnull="true" fkey="Prix(PX_Numero)" opt="odrour"></column>
     <column name="LA_Quantite"   type="NUMERIC"     notnull="true" default="0"></column>
+    <column name="PE_Numero"     type="INTEGER"     fkey="Personne(PE_Numero)"  opt="odcouc"></column>
     <column name="LA_MontantHT"  type="NUMERIC(16,2)"     default="NULL"></column>
     <column name="LA_MontantTTC" type="NUMERIC(16,2)"     default="NULL"></column>
     <column name="LA_Notes"      type="TEXT"     default="NULL"></column>

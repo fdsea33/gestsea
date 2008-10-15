@@ -933,6 +933,7 @@ function mcd_getType(table,champs)
         case 'l_numero': type=TYPE_INT;break;
         case 'pd_numero': type=TYPE_INT;break;
         case 'de_numero': type=TYPE_INT;break;
+        case 'pe_numero': type=TYPE_INT;break;
         case 'l_quantite': type=TYPE_FLOAT;break;
         case 'l_montantht': type=TYPE_FLOAT;break;
         case 'l_montantttc': type=TYPE_FLOAT;break;
@@ -955,6 +956,7 @@ function mcd_getType(table,champs)
         case 'av_numero': type=TYPE_INT;break;
         case 'px_numero': type=TYPE_INT;break;
         case 'la_quantite': type=TYPE_FLOAT;break;
+        case 'pe_numero': type=TYPE_INT;break;
         case 'la_montantht': type=TYPE_FLOAT;break;
         case 'la_montantttc': type=TYPE_FLOAT;break;
         case 'la_notes': type=TYPE_STRING;break;
@@ -991,6 +993,7 @@ function mcd_getType(table,champs)
         case 'px_numero': type=TYPE_INT;break;
         case 'pd_numero': type=TYPE_INT;break;
         case 'lf_quantite': type=TYPE_FLOAT;break;
+        case 'pe_numero': type=TYPE_INT;break;
         case 'lf_montantht': type=TYPE_FLOAT;break;
         case 'lf_montantttc': type=TYPE_FLOAT;break;
         case 'lf_notes': type=TYPE_STRING;break;
@@ -2589,6 +2592,7 @@ function mcd_getLabel(table,champs)
         case 'l_numero': label="";break;
         case 'pd_numero': label="";break;
         case 'de_numero': label="";break;
+        case 'pe_numero': label="";break;
         case 'l_quantite': label="";break;
         case 'l_montantht': label="";break;
         case 'l_montantttc': label="";break;
@@ -2611,6 +2615,7 @@ function mcd_getLabel(table,champs)
         case 'av_numero': label="";break;
         case 'px_numero': label="";break;
         case 'la_quantite': label="";break;
+        case 'pe_numero': label="";break;
         case 'la_montantht': label="";break;
         case 'la_montantttc': label="";break;
         case 'la_notes': label="";break;
@@ -2647,6 +2652,7 @@ function mcd_getLabel(table,champs)
         case 'px_numero': label="";break;
         case 'pd_numero': label="";break;
         case 'lf_quantite': label="";break;
+        case 'pe_numero': label="";break;
         case 'lf_montantht': label="";break;
         case 'lf_montantttc': label="";break;
         case 'lf_notes': label="";break;
@@ -4242,6 +4248,7 @@ function mcd_obligatoire(table,champs)
         case 'l_numero': obligatoire=true;break;
         case 'pd_numero': obligatoire=true;break;
         case 'de_numero': obligatoire=true;break;
+        case 'pe_numero': obligatoire=false;break;
         case 'l_quantite': obligatoire=false;break;
         case 'l_montantht': obligatoire=false;break;
         case 'l_montantttc': obligatoire=false;break;
@@ -4264,6 +4271,7 @@ function mcd_obligatoire(table,champs)
         case 'av_numero': obligatoire=true;break;
         case 'px_numero': obligatoire=true;break;
         case 'la_quantite': obligatoire=true;break;
+        case 'pe_numero': obligatoire=false;break;
         case 'la_montantht': obligatoire=false;break;
         case 'la_montantttc': obligatoire=false;break;
         case 'la_notes': obligatoire=false;break;
@@ -4300,6 +4308,7 @@ function mcd_obligatoire(table,champs)
         case 'px_numero': obligatoire=false;break;
         case 'pd_numero': obligatoire=false;break;
         case 'lf_quantite': obligatoire=true;break;
+        case 'pe_numero': obligatoire=false;break;
         case 'lf_montantht': obligatoire=false;break;
         case 'lf_montantttc': obligatoire=false;break;
         case 'lf_notes': obligatoire=false;break;

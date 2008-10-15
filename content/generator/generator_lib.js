@@ -465,43 +465,43 @@ clInterfaceSimple_CompoComplexe.prototype.GenererJSInit=
 
         var Nom=this.MonNom;
 
-         /* on doit d'abord créér les colonnes */
-         var col,slave,i;
-         var NomCol,NomJoint,NomSlave,NomJointSlave;
-         var TabNomCol,TabNomJoint,TabNomSlave,TabNomJointSlave;
-         var Code="";
+	/* on doit d'abord créér les colonnes */
+	var col,slave,i;
+	var NomCol,NomJoint,NomSlave,NomJointSlave;
+	var TabNomCol,TabNomJoint,TabNomSlave,TabNomJointSlave;
+	var Code="";
 
-         TabNomCol=new Array();
-         TabNomJoint=new Array();
+	TabNomCol=new Array();
+	TabNomJoint=new Array();
 
-         TabNomSlave=new Array();
-         TabNomJointSlave=new Array();
+	TabNomSlave=new Array();
+	TabNomJointSlave=new Array();
 
 
-         for(i=0;i<this.Colonnes.length;i++)
-         {
-             col=this.Colonnes[i];
-             //NomCol='Col_'+i+'_de_'+Nom;
-             Code+=col.GenererJS();
+	for(i=0;i<this.Colonnes.length;i++)
+	{
+	    col=this.Colonnes[i];
+	    //NomCol='Col_'+i+'_de_'+Nom;
+	    Code+=col.GenererJS();
             NomCol=col.getNom();
-             /* jointure éventuelle */
-             if (col.Liaison!=null)
-                 {
-                     //NomJoint='Joint_De_Col_'+i+'_De_'+Nom;
-                     Code+=col.Liaison.GenererJS(this.Table,true);
+	    /* jointure éventuelle */
+	    if (col.Liaison!=null)
+		{
+		    //NomJoint='Joint_De_Col_'+i+'_De_'+Nom;
+		    Code+=col.Liaison.GenererJS(this.Table,true);
                     NomJoint=col.Liaison.getNom();
-                 }
-             else
-                 NomJoint='null';
+		}
+	    else
+		NomJoint='null';
 
-             TabNomCol.push(NomCol);
-             TabNomJoint.push(NomJoint);
-         }
+	    TabNomCol.push(NomCol);
+	    TabNomJoint.push(NomJoint);
+	}
 
-         /* Esclaves */
+	/* Esclaves */
         for(i=0;i<this.Esclaves.length;i++)
         {
-             slave=this.Esclaves[i];
+	    slave=this.Esclaves[i];
             //NomSlave='Slave_'+i+'_de_'+Nom;
             Code+=slave.Compo.GenererJS();
             NomSlave=slave.Compo.getNom();
@@ -519,19 +519,19 @@ clInterfaceSimple_CompoComplexe.prototype.GenererJSInit=
             TabNomJointSlave.push(NomJointSlave);
         }                
 
-         /* On génère le code pour nous */
+	/* On génère le code pour nous */
 
-         Code+='var '+Nom+'=new clEnsembleAttributs("'+this.Table+'",\n\tnew Array(\n\t';
+	Code+='var '+Nom+'=new clEnsembleAttributs("'+this.Table+'",\n\tnew Array(\n\t';
 
-         for(i=0;i<this.Colonnes.length;i++)
-         {
-             if(i!=0)
-                 Code+=",";
-             Code+="new clLiaison("+TabNomJoint[i]+","+TabNomCol[i]+")\n\t";
-         }
-         Code+="),\n\t";
+	for(i=0;i<this.Colonnes.length;i++)
+	{
+	    if(i!=0)
+		Code+=",";
+	    Code+="new clLiaison("+TabNomJoint[i]+","+TabNomCol[i]+")\n\t";
+	}
+	Code+="),\n\t";
 
-         /* esclave */
+	/* esclave */
         if (TabNomSlave.length==0)
         {
             Code+="null";
@@ -548,9 +548,9 @@ clInterfaceSimple_CompoComplexe.prototype.GenererJSInit=
             Code+=")";
         }
 
-         Code+=");\n"
+	Code+=");\n"
 
-         return Code;
+	return Code;
     }
 
 /* classes externes */
@@ -1173,20 +1173,20 @@ function genererButtonInsertMajSupXul(Composant)
     //Code+='<hbox flex="1"/>\n';
 
     Code+='<arrowscrollbox  pack="end" align="stretch" class="fondstyle">\n';
-//    Code+='<toolbar pack="end" align="stretch" class="fondstyle">\n';
+    //    Code+='<toolbar pack="end" align="stretch" class="fondstyle">\n';
 
     /*
-    Code+='    <button class="icon_Ajouter" disabled="true" id="Insert_'+ParentXul+'" label="Ajouter" oncommand="Insert_'+ParentXul+'()" '+(!Composant.MonComposantVisuel.Can(INSERTION) ? "hidden='true'" : "")+'/>\n';
-    Code+='    <button class="icon_Supprimer" disabled="true" id="Delete_'+ParentXul+'" label="Supprimer" oncommand="Delete_'+ParentXul+'()" '+(!Composant.MonComposantVisuel.Can(SUPPRESSION) ? "hidden='true'" : "")+'/>\n';
-    Code+='    <button class="icon_Modifier" disabled="true" id="Update_'+ParentXul+'" label="Modifier" oncommand="Update_'+ParentXul+'()" '+(!Composant.MonComposantVisuel.Can(MODIFICATION) ? "hidden='true'" : "")+'/>\n';
+      Code+='    <button class="icon_Ajouter" disabled="true" id="Insert_'+ParentXul+'" label="Ajouter" oncommand="Insert_'+ParentXul+'()" '+(!Composant.MonComposantVisuel.Can(INSERTION) ? "hidden='true'" : "")+'/>\n';
+      Code+='    <button class="icon_Supprimer" disabled="true" id="Delete_'+ParentXul+'" label="Supprimer" oncommand="Delete_'+ParentXul+'()" '+(!Composant.MonComposantVisuel.Can(SUPPRESSION) ? "hidden='true'" : "")+'/>\n';
+      Code+='    <button class="icon_Modifier" disabled="true" id="Update_'+ParentXul+'" label="Modifier" oncommand="Update_'+ParentXul+'()" '+(!Composant.MonComposantVisuel.Can(MODIFICATION) ? "hidden='true'" : "")+'/>\n';
     */
     Code+='    <button class="new-button16" disabled="true" id="Insert_'+ParentXul+'" label="Ajouter" oncommand="Insert_'+ParentXul+'()" '+(!Composant.MonComposantVisuel.Can(INSERTION) ? "hidden='true'" : "")+'/>\n';
     Code+='    <button class="edit-button16" disabled="true" id="Update_'+ParentXul+'" label="Modifier" oncommand="Update_'+ParentXul+'()" '+(!Composant.MonComposantVisuel.Can(MODIFICATION) ? "hidden='true'" : "")+'/>\n';
     Code+='    <button class="delete-button16" disabled="true" id="Delete_'+ParentXul+'" label="Supprimer" oncommand="Delete_'+ParentXul+'()" '+(!Composant.MonComposantVisuel.Can(SUPPRESSION) ? "hidden='true'" : "")+'/>\n';
     /*
-    Code+='    <button class="icon_Ajouter" disabled="true" id="Insert_'+ParentXul+'" oncommand="Insert_'+ParentXul+'()" '+(!Composant.MonComposantVisuel.Can(INSERTION) ? "hidden='true'" : "")+'/>\n';
-    Code+='    <button class="icon_Supprimer" disabled="true" id="Delete_'+ParentXul+'" oncommand="Delete_'+ParentXul+'()" '+(!Composant.MonComposantVisuel.Can(SUPPRESSION) ? "hidden='true'" : "")+'/>\n';
-    Code+='    <button class="icon_Modifier" disabled="true" id="Update_'+ParentXul+'" oncommand="Update_'+ParentXul+'()" '+(!Composant.MonComposantVisuel.Can(MODIFICATION) ? "hidden='true'" : "")+'/>\n';
+      Code+='    <button class="icon_Ajouter" disabled="true" id="Insert_'+ParentXul+'" oncommand="Insert_'+ParentXul+'()" '+(!Composant.MonComposantVisuel.Can(INSERTION) ? "hidden='true'" : "")+'/>\n';
+      Code+='    <button class="icon_Supprimer" disabled="true" id="Delete_'+ParentXul+'" oncommand="Delete_'+ParentXul+'()" '+(!Composant.MonComposantVisuel.Can(SUPPRESSION) ? "hidden='true'" : "")+'/>\n';
+      Code+='    <button class="icon_Modifier" disabled="true" id="Update_'+ParentXul+'" oncommand="Update_'+ParentXul+'()" '+(!Composant.MonComposantVisuel.Can(MODIFICATION) ? "hidden='true'" : "")+'/>\n';
     */
 
     if (Composant.MonComposantVisuel.Can(INSERTION) || Composant.MonComposantVisuel.Can(MODIFICATION) || Composant.MonComposantVisuel.Can(SUPPRESSION))
@@ -1195,7 +1195,7 @@ function genererButtonInsertMajSupXul(Composant)
             Code+='    <button class="cancel-button16" id="Annuler_'+ParentXul+'" label="Annuler" oncommand="Annuler_'+ParentXul+'()"  disabled="true" />\n';
             Composant.my_HasInsertMajSup=true;
         }
-//    Code+='</toolbar>\n';
+    //    Code+='</toolbar>\n';
     Code+='</arrowscrollbox>\n';
     //}
     return Code;
@@ -1237,7 +1237,7 @@ function genererEsclaveXul(Composant,Esclaves)
                 CodeSlaves+='<vbox flex="1" id="'+Composant.ParentXul+'_Slaves"/>\n';
             else
                 CodeSlaves+='<vbox id="'+Composant.ParentXul+'_Slaves"/>\n';
-//            CodeSlaves+='<groupbox flex="1"><caption label="Détail"/>';
+	    //            CodeSlaves+='<groupbox flex="1"><caption label="Détail"/>';
 
             if (TabStrOnglets.length!=0)
                 {
@@ -1251,19 +1251,19 @@ function genererEsclaveXul(Composant,Esclaves)
                             /* pour plusieurs composants complexe en esclave on fait des onglets */
                             CodeSlaves+='<tabbox id="tabbox_'+Composant.ParentXul+'" flex="1">\n';
                             var max_onglets=NBONGLET;
-//                            if (TabStrOnglets.length>=max_onglets) 
-//                            CodeSlaves+='<hbox style="overflow:auto;">\n';
+			    //                            if (TabStrOnglets.length>=max_onglets) 
+			    //                            CodeSlaves+='<hbox style="overflow:auto;">\n';
                             CodeSlaves+='<tabs ';
                             //if (TabStrOnglets.length>=max_onglets) 
-//                            CodeSlaves+=' style="display: inline;"';
+			    //                            CodeSlaves+=' style="display: inline;"';
                             CodeSlaves+='>\n';
                             for(i=0;i<TabStrOnglets.length;i++) {
-                                 CodeSlaves+='<tab label="'+TabStrOnglets[i].Compo.Label+'"/>\n';
+				CodeSlaves+='<tab label="'+TabStrOnglets[i].Compo.Label+'"/>\n';
                             }
                             CodeSlaves+='</tabs>\n';
-//                            if (TabStrOnglets.length>=max_onglets) 
-//                            CodeSlaves+='</hbox>\n';
-//                            if (TabStrOnglets.length>=max_onglets) CodeSlaves+='<splitter/>"\n';
+			    //                            if (TabStrOnglets.length>=max_onglets) 
+			    //                            CodeSlaves+='</hbox>\n';
+			    //                            if (TabStrOnglets.length>=max_onglets) CodeSlaves+='<splitter/>"\n';
                             CodeSlaves+='<tabpanels flex="1">\n';
                             for(i=0;i<TabStrOnglets.length;i++)
                                 {
@@ -1276,7 +1276,7 @@ function genererEsclaveXul(Composant,Esclaves)
                         }
                 }
             CodeSlaves+=genererButtonInsertMajSupXul(Composant);
-//            CodeSlaves+='</groupbox>';
+	    //            CodeSlaves+='</groupbox>';
             CodeSlaves+='</vbox>\n';
 
         }
@@ -1411,7 +1411,7 @@ clInterfaceSimple.prototype.AjouterComposantSimple=function(Label,Champ,TabLiais
 
     if (TabLiaison!=null)
     {
-         Table=TabLiaison[TabLiaison.length-1];
+	Table=TabLiaison[TabLiaison.length-1];
     }
 
     /* table par defaut */
@@ -1618,8 +1618,8 @@ clInterfaceSimple.prototype.GenererInterfaceXulPanel=function()
         if (this.MesBoutons.length>0){
             StrXul+='  <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">\n';
             for(i=0;i<this.MesBoutons.length;i++)
-//            StrXul+='    <button class="action-button16" label="'+this.MesBoutons[i].Label+'" oncommand="'+this.MesBoutons[i].Fonction+'('+this.MesBoutons[i].Param+');"/>\n';
-            StrXul+='    <button label="'+this.MesBoutons[i].Label+'" oncommand="'+this.MesBoutons[i].Fonction+'('+this.MesBoutons[i].Param+');"/>\n';
+		//            StrXul+='    <button class="action-button16" label="'+this.MesBoutons[i].Label+'" oncommand="'+this.MesBoutons[i].Fonction+'('+this.MesBoutons[i].Param+');"/>\n';
+		StrXul+='    <button label="'+this.MesBoutons[i].Label+'" oncommand="'+this.MesBoutons[i].Fonction+'('+this.MesBoutons[i].Param+');"/>\n';
             StrXul+='  </arrowscrollbox>\n';
         }
         if (this.Dependant)
@@ -1627,7 +1627,7 @@ clInterfaceSimple.prototype.GenererInterfaceXulPanel=function()
             StrXul+='  <hbox pack="end" align="center">\n';
             //??? StrXul+='<button label="Defiltrer"/>\n';
             StrXul+='    <separator class="groove"/>\n';
-//            StrXul+='    <button class="back-button16" label="Retour à l\'onglet précédent" oncommand="Retour_'+NomOnglet+'()"/>\n';
+	    //            StrXul+='    <button class="back-button16" label="Retour à l\'onglet précédent" oncommand="Retour_'+NomOnglet+'()"/>\n';
             StrXul+='    <button class="back-button16" label="Précédent" oncommand="Retour_'+NomOnglet+'()"/>\n';
             StrXul+='  </hbox>\n';
         }
@@ -1658,7 +1658,7 @@ clInterfaceSimple.prototype.GenererInterfaceGenererFctEntete=
     {
         StrJs+=' var '+this.Mes_NomsFiltresDependants[i]+';\n';
     }
-//	alert('1');
+    //    alert('1');
 
     var NomOnglet=MettreUnderScore(this.Nom);
 
@@ -1733,13 +1733,13 @@ clInterfaceSimple.prototype.GenererInterfaceGenererFctEntete=
     StrJs+='}\n';
     StrJs+='\n';
 
-//	alert('2');
+    //    alert('2');
 
     /* Pour le code des boutons ajout/suppr/maj */
 
     for(i=0;i<this.TableauDeComposant.length;i++)
     {
-//	alert('a');
+	//    alert('a');
 
         /* que sur les maitre (les esclaves sont généré par les maitres) */
         /* this.TableauDeComposant[i].getMaitre()==null && */
@@ -1808,11 +1808,11 @@ clInterfaceSimple.prototype.GenererInterfaceGenererFctEntete=
                                 StrChampsVal+=',"+TAB_COMPO_PPTES['+Compo.getMaitre().getIdDansTabGlobalCompo()+'].NewCle+"';
                             }
                     }
-	//alert('**');
+		//alert('**');
 
                 for(j=0;j<Compo_slaves.length;j++)
                     {
-// 	alert('++');
+			//     alert('++');
                         var Compo_slave=Compo_slaves[j];
 
                         /* si on a un composant simple */
@@ -1825,7 +1825,7 @@ clInterfaceSimple.prototype.GenererInterfaceGenererFctEntete=
                                     {
                                         NomDansCode=Compo_slave.Liaison.TabJointure[0].CleDebut;
                                         StrJsDebut+=Composant2VarValDansCode(Compo_slave.Compo,NomDansCode);
-//	alert('+++');
+					//    alert('+++');
 
                                         /* si on a plus d'une jointure */
                                         if(Compo_slave.Liaison.TabJointure.length>1)
@@ -1838,7 +1838,7 @@ clInterfaceSimple.prototype.GenererInterfaceGenererFctEntete=
                                     }
                                 else
                                     {
-	//alert('++++');
+					//alert('++++');
                                         NomDansCode=Compo_slave.Compo.Champ;
                                         StrJsDebut+=Composant2VarValDansCode(Compo_slave.Compo,NomDansCode);
                                         StrJsDebut+=' if (!ValiderChampsObligatoire(Table,"'+NomDansCode+'",'+ComposantDansCode(Compo_slave.Compo)+','+NomDansCode+',false))\n';
@@ -1852,30 +1852,30 @@ clInterfaceSimple.prototype.GenererInterfaceGenererFctEntete=
                                         
                                         //                                        alert(mcd_getType(Compo.Table,NomDansCode));
                                         
-//	alert('++++-'+Compo.Table+'#'+NomDansCode+'='+mcd_getType(Compo.Table, NomDansCode));
+					//    alert('++++-'+Compo.Table+'#'+NomDansCode+'='+mcd_getType(Compo.Table, NomDansCode));
                                         if (mcd_getType(Compo.Table, NomDansCode)==TYPE_BOOL) {
-//	alert('++++++-'+Compo.Table+'#'+NomDansCode);
+					    //    alert('++++++-'+Compo.Table+'#'+NomDansCode);
                                             StrChampsVal+=',"+('+NomDansCode+'=="true" ? "true" : "false")+"';//"\'"+ValiderChaine('+NomDansCode+')+"\'" )+"';
-	                                    } else {
-	//alert('++++--');
+                                        } else {
+					    //alert('++++--');
                                         
-	                                        if (NomDansCode=='couleur')
-    	                                        StrChampsVal+=',"+('+NomDansCode+'==null ? "null" : "\'"+ValiderChaine('+NomDansCode+')+"\'" )+"';
-        	                                else
-            	                                StrChampsVal+=',"+('+NomDansCode+'=="" ? "null" : "\'"+ValiderChaine('+NomDansCode+')+"\'" )+"';
-                	                        //StrChampsVal+=',\'"+ValiderChaine('+NomDansCode+')+"\'';
+                                            if (NomDansCode=='couleur')
+                                                StrChampsVal+=',"+('+NomDansCode+'==null ? "null" : "\'"+ValiderChaine('+NomDansCode+')+"\'" )+"';
+                                            else
+                                                StrChampsVal+=',"+('+NomDansCode+'=="" ? "null" : "\'"+ValiderChaine('+NomDansCode+')+"\'" )+"';
+                                            //StrChampsVal+=',\'"+ValiderChaine('+NomDansCode+')+"\'';
 
                                         }
 
                                     }
 
                                 StrChampsNom+=","+NomDansCode;
-//	alert('***');
+				//    alert('***');
                             }
                         else
                             /* on a un composant complexe */
                             {
-	//alert('****');
+				//alert('****');
 
                                 if (Compo_slave.Compo.Can(INSERTION))
                                     {
@@ -1953,7 +1953,7 @@ clInterfaceSimple.prototype.GenererInterfaceGenererFctEntete=
                 StrJsDebut+='return CleMaitre;\n';
                 StrJsDebut+='\n}\n';
 
-//	alert('b');
+		//    alert('b');
 
                 /* -------- FONCTION UTILISATEUR DELETE ---------------- */
                 StrJsDebut+="/*************************************************\n";
@@ -1988,7 +1988,7 @@ clInterfaceSimple.prototype.GenererInterfaceGenererFctEntete=
                     }
 
                 StrJsDebut+=' if (pgsql_update(Req)==0)\n';
-//                StrJsDebut+='        alert("Echec lors de la suppression");\n';
+		//                StrJsDebut+='        alert("Echec lors de la suppression");\n';
                 StrJsDebut+=(Compo.AfterDelete!=null ? Compo.AfterDelete+'\n':'');
                 StrJsDebut+='return CleMaitre;\n';
                 StrJsDebut+='\n}\n';
@@ -2056,18 +2056,18 @@ clInterfaceSimple.prototype.GenererInterfaceGenererFctEntete=
                                                 StrChampsNomVal+=NomDansCode+'="+('+NomDansCode+'==null ? "null" : "\'"+ValiderChaine('+NomDansCode+')+"\'" )+"';
                                             else
                                                 StrChampsNomVal+=NomDansCode+'="+('+NomDansCode+'=="" ? "null" : "\'"+ValiderChaine('+NomDansCode+')+"\'" )+"';
-                                        //StrChampsVal+=',\'"+ValiderChaine('+NomDansCode+')+"\'';
+					    //StrChampsVal+=',\'"+ValiderChaine('+NomDansCode+')+"\'';
 
                                         }
 
 
                                         /*
-                                        if (NomDansCode=='couleur')
-                                            StrChampsNomVal+=NomDansCode+'="+('+NomDansCode+'==null ? "null" : "\'"+ValiderChaine('+NomDansCode+')+"\'" )+"';
-                                        else
-                                            StrChampsNomVal+=NomDansCode+'="+('+NomDansCode+'=="" ? "null" : "\'"+ValiderChaine('+NomDansCode+')+"\'" )+"';
-                                        //StrChampsNomVal+=NomDansCode+'=\'"+ValiderChaine('+NomDansCode+')+"\'';
-                                        */
+					  if (NomDansCode=='couleur')
+					  StrChampsNomVal+=NomDansCode+'="+('+NomDansCode+'==null ? "null" : "\'"+ValiderChaine('+NomDansCode+')+"\'" )+"';
+					  else
+					  StrChampsNomVal+=NomDansCode+'="+('+NomDansCode+'=="" ? "null" : "\'"+ValiderChaine('+NomDansCode+')+"\'" )+"';
+					  //StrChampsNomVal+=NomDansCode+'=\'"+ValiderChaine('+NomDansCode+')+"\'';
+					  */
                                     }
                             }
                         else
@@ -2474,12 +2474,12 @@ clTabInterfaceSimple.prototype.AjouterInterface=
     this.mes_interfaces.push(It);
 }
 
- /*
-  * @param Nom du fichier
-  * @param Si on construit nu overlay à la place d'une fenetre
-  * @param Le titre de la fenetre
-  * @param Sauvegarde automatique
-  */
+/*
+ * @param Nom du fichier
+ * @param Si on construit nu overlay à la place d'une fenetre
+ * @param Le titre de la fenetre
+ * @param Sauvegarde automatique
+ */
 
 clTabInterfaceSimple.prototype.GenererInterface=
     function(MonNomFichier,overlay,TitreFenetre,AutoSave)
@@ -2579,13 +2579,13 @@ clTabInterfaceSimple.prototype.GenererInterface=
     StrXul+='    </menu>\n';
 
     if (this.MesMenus.length>0) {
-      StrXul+='    <menu label="Outils">\n';
-      StrXul+='      <menupopup>\n';
-      for(i=0;i<this.MesMenus.length;i++) {
-        StrXul+='        <menuitem label="'+this.MesMenus[i].Label+'" oncommand="'+this.MesMenus[i].Fonction+'('+this.MesMenus[i].Param+')"/>\n';
-      }
-      StrXul+='      </menupopup>\n';
-      StrXul+='    </menu>\n';
+	StrXul+='    <menu label="Outils">\n';
+	StrXul+='      <menupopup>\n';
+	for(i=0;i<this.MesMenus.length;i++) {
+	    StrXul+='        <menuitem label="'+this.MesMenus[i].Label+'" oncommand="'+this.MesMenus[i].Fonction+'('+this.MesMenus[i].Param+')"/>\n';
+	}
+	StrXul+='      </menupopup>\n';
+	StrXul+='    </menu>\n';
     }
 
     if (!overlay) StrXul+='  </menubar>\n';
@@ -2599,7 +2599,7 @@ clTabInterfaceSimple.prototype.GenererInterface=
     StrXul+='>\n';
     //StrXul+='<tabs id="'+NOM_CONTENEUR_ONGLETS+'" onselect="'+MonNomFichier+'_Changement_Panel(selectedItem)">\n';
     StrXul+='<tabs flex="1" class="tabbrowser-tabs" id="'+NOM_CONTENEUR_ONGLETS+'"';
-//    if (!overlay && this.mes_interfaces.length>NBONGLET) StrXul+=' height="36" ';    
+    //    if (!overlay && this.mes_interfaces.length>NBONGLET) StrXul+=' height="36" ';    
     StrXul+='>\n'; // height="36"
 
     /* entete des onglets */
@@ -2616,7 +2616,7 @@ clTabInterfaceSimple.prototype.GenererInterface=
     StrXul+='<tabpanels id="Tous_les_panels" flex="1">\n';
     for(i=0;i<this.mes_interfaces.length;i++)
     {
-      StrXul+=this.mes_interfaces[i].GenererInterfaceXulPanel();
+	StrXul+=this.mes_interfaces[i].GenererInterfaceXulPanel();
     }
     StrXul+='</tabpanels>\n';
     StrXul+='</tabbox>\n';
@@ -2784,27 +2784,23 @@ clTabInterfaceSimple.prototype.GenererInterface=
     // Recuperation du login et affichage
     StrJs+="var query='SELECT current_user, current_date;';\n";
     StrJs+="var result=pgsql_query(query);\n";
-//    StrXul+='\tid="Page_'+MonNomFichier+'"\n';
-
+    //    StrXul+='\tid="Page_'+MonNomFichier+'"\n';
     StrJs+="if (result.rowCount>0){var enum=result.enumerate();enum.first(); var user_name = enum.getVariant(0); window.title = user_name+' - '+window.title; stlog = top.document.getElementById('status_login'); if (stlog!=null) {stlog.label='Nom d\\'utilisateur : '+user_name;} }\n";
 
 
-    for(i=0;i<this.mes_interfaces.length;i++)
-    {
+    for(i=0;i<this.mes_interfaces.length;i++) {
         StrJs+=this.mes_interfaces[i].GenererInterfaceJs();
     }
 
-    for(i=0;i<this.mes_interfaces.length;i++)
-    {
+    for(i=0;i<this.mes_interfaces.length;i++) {
         StrJs+=this.mes_interfaces[i].GenererInterfaceJsFin();
     }
 
     /* on charge les onglets */
     /* on active les insertion/maj des maitres */
     var MaitreInterface;
-    for(i=0;i<this.mes_interfaces.length;i++)
-    {
-        StrJs+=this.mes_interfaces[i].GenererInterfaceOnLoad();
+    for(i=0;i<this.mes_interfaces.length;i++) {
+	StrJs+=this.mes_interfaces[i].GenererInterfaceOnLoad();
         MaitreInterface=this.mes_interfaces[i].Maitre;
         var FirstParentXul = MaitreInterface.getTheme().getParentXul();
         //        StrJs+='top.document.getElementById("Validate_'+FirstParentXul+'").disabled=true;\n';
@@ -2812,43 +2808,39 @@ clTabInterfaceSimple.prototype.GenererInterface=
         //        StrJs+='top.document.getElementById("Insert_'+FirstParentXul+'").disabled=false;\n';
         //        StrJs+='top.document.getElementById("Delete_'+FirstParentXul+'").disabled=false;\n';
         //        StrJs+='top.document.getElementById("Update_'+FirstParentXul+'").disabled=false;\n';
-        if (MaitreInterface.getTheme().HasInsertMajSup())
-            {
-                StrJs+='var nb_button=0\n';
-                StrJs+=MaitreInterface.genererSiDroit(DT_INSERT,'nb_button++;\ntop.document.getElementById("Insert_'+FirstParentXul+'").disabled=false;\n','top.document.getElementById("Insert_'+FirstParentXul+'").hidden=true;\n');
-                StrJs+=MaitreInterface.genererSiDroit(DT_DELETE,'nb_button++;\ntop.document.getElementById("Delete_'+FirstParentXul+'").disabled=false;\n','top.document.getElementById("Delete_'+FirstParentXul+'").hidden=true;\n');
-                StrJs+=MaitreInterface.genererSiDroit(DT_UPDATE,'nb_button++;\ntop.document.getElementById("Update_'+FirstParentXul+'").disabled=false;\n','top.document.getElementById("Update_'+FirstParentXul+'").hidden=true;\n');
-                StrJs+='if (nb_button==0)\n';
-                StrJs+='{\n';
-                StrJs+='        top.document.getElementById("Validate_'+FirstParentXul+'").hidden=true;\n';
-                StrJs+='        top.document.getElementById("Annuler_'+FirstParentXul+'").hidden=true;\n';
-                StrJs+='}\n';
-            }
+        if (MaitreInterface.getTheme().HasInsertMajSup()) {
+	    StrJs+='var nb_button=0\n';
+	    StrJs+=MaitreInterface.genererSiDroit(DT_INSERT,'nb_button++;\ntop.document.getElementById("Insert_'+FirstParentXul+'").disabled=false;\n','top.document.getElementById("Insert_'+FirstParentXul+'").hidden=true;\n');
+	    StrJs+=MaitreInterface.genererSiDroit(DT_DELETE,'nb_button++;\ntop.document.getElementById("Delete_'+FirstParentXul+'").disabled=false;\n','top.document.getElementById("Delete_'+FirstParentXul+'").hidden=true;\n');
+	    StrJs+=MaitreInterface.genererSiDroit(DT_UPDATE,'nb_button++;\ntop.document.getElementById("Update_'+FirstParentXul+'").disabled=false;\n','top.document.getElementById("Update_'+FirstParentXul+'").hidden=true;\n');
+	    StrJs+='if (nb_button==0)\n';
+	    StrJs+='{\n';
+	    StrJs+='        top.document.getElementById("Validate_'+FirstParentXul+'").hidden=true;\n';
+	    StrJs+='        top.document.getElementById("Annuler_'+FirstParentXul+'").hidden=true;\n';
+	    StrJs+='}\n';
+	}
 
         /* pour les bouton esclaves */
         var slaves=MaitreInterface.getEsclaves();
         var j;
-        for(j=0;j<slaves.length;j++)
-            {
-                var slaveCompo=slaves[j].Compo;
-                var slaveParentXul = slaveCompo.getTheme().getParentXul();
-                /* on active les sous maitres */
-                if (slaveCompo.getTheme().HasInsertMajSup())
-                    {
-                        if (slaveCompo.getTheme().HasInsertMajSup())
-                            {
-                                StrJs+='var nb_button=0\n';
-                                StrJs+=slaveCompo.genererSiDroit(DT_INSERT,'nb_button++;\n','top.document.getElementById("Insert_'+slaveParentXul+'").hidden=true;\n');
-                                StrJs+=slaveCompo.genererSiDroit(DT_DELETE,'nb_button++;\n','top.document.getElementById("Delete_'+slaveParentXul+'").hidden=true;\n');
-                                StrJs+=slaveCompo.genererSiDroit(DT_UPDATE,'nb_button++;\n','top.document.getElementById("Update_'+slaveParentXul+'").hidden=true;\n');
-                                StrJs+='if (nb_button==0)\n';
-                                StrJs+='{\n';
-                                StrJs+='        top.document.getElementById("Validate_'+slaveParentXul+'").hidden=true;\n';
-                                StrJs+='        top.document.getElementById("Annuler_'+slaveParentXul+'").hidden=true;\n';
-                                StrJs+='}\n';
-                            }
-                    }
-            }
+        for(j=0;j<slaves.length;j++) {
+	    var slaveCompo=slaves[j].Compo;
+	    var slaveParentXul = slaveCompo.getTheme().getParentXul();
+	    /* on active les sous maitres */
+	    if (slaveCompo.getTheme().HasInsertMajSup()) {
+		if (slaveCompo.getTheme().HasInsertMajSup()) {
+		    StrJs+='var nb_button=0\n';
+		    StrJs+=slaveCompo.genererSiDroit(DT_INSERT,'nb_button++;\n','top.document.getElementById("Insert_'+slaveParentXul+'").hidden=true;\n');
+		    StrJs+=slaveCompo.genererSiDroit(DT_DELETE,'nb_button++;\n','top.document.getElementById("Delete_'+slaveParentXul+'").hidden=true;\n');
+		    StrJs+=slaveCompo.genererSiDroit(DT_UPDATE,'nb_button++;\n','top.document.getElementById("Update_'+slaveParentXul+'").hidden=true;\n');
+		    StrJs+='if (nb_button==0)\n';
+		    StrJs+='{\n';
+		    StrJs+='        top.document.getElementById("Validate_'+slaveParentXul+'").hidden=true;\n';
+		    StrJs+='        top.document.getElementById("Annuler_'+slaveParentXul+'").hidden=true;\n';
+		    StrJs+='}\n';
+		}
+	    }
+	}
 
 
 
@@ -3149,24 +3141,24 @@ clTabInterfaceSimple.prototype.GenererInterface=
     // top.document.getElementById("res").value+="/*********MAITRE XUL****************/"+StrXul;
     //top.document.getElementById("res").value+="/*********MAITRE JS ****************/"+StrJs;
     top.document.getElementById("res").value+="--------------------------------";
-		
+        
     var filePath = SaveFile(MonNomFichier+'.xul',StrXul);
     top.document.getElementById("res").value+="*";
     SaveFile(MonNomFichier+'.js',StrJs, filePath, true);
     top.document.getElementById("res").value+="*";
     SaveFile(MonNomFichier+'_User.js',StrJsUser, filePath, true);
     top.document.getElementById("res").value+="*\n";
-		/*
-    if (AutoSave){
+    /*
+      if (AutoSave){
       SaveFileDirectly(MonNomFichier+'.xul',StrXul);
       SaveFileDirectly(MonNomFichier+'.js',StrJs);
       SaveFileDirectly(MonNomFichier+'_User.js',StrJsUser);      
-    }else{
+      }else{
       SaveFile(MonNomFichier+'.xul',StrXul);
       SaveFile(MonNomFichier+'.js',StrJs);
       SaveFile(MonNomFichier+'_User.js',StrJsUser);
-    }
-		*/
+      }
+    */
 }
 
 //alert("GIL chargé");

@@ -202,11 +202,26 @@ function PrintLot(lot,itype){
 
 function MajReductionDevis(compo) {
   var cle = compo.getCleVal();
-  var query = "UPDATE devis SET updated_by=current_user WHERE de_numero="+cle+";";
+  var query = "UPDATE devis SET de_reduction=FC_Personne_Reduction(pe_numero, CURRENT_DATE) WHERE de_numero="+cle+";";
   pgsql_update(query);
   query = "UPDATE ligne SET updated_by=current_user WHERE de_numero="+cle+";";
   pgsql_update(query);
   compo.Refresh();
+}
+
+function SaisirReductionDevis(button, compo) {
+  var ok = requete("SELECT CASE WHEN usesuper THEN '1' ELSE '0' END FROM pg_user");
+  if (ok=='1') {
+    taux = prompt("Veuillez saisir le nouveau taux de réduction","15");
+    var cle = compo.getCleVal();
+    var query = "UPDATE devis SET de_reduction="+taux+" WHERE de_numero="+cle+";";
+    pgsql_update(query);
+    query = "UPDATE ligne SET updated_by=current_user WHERE de_numero="+cle+";";
+    pgsql_update(query);
+    compo.Refresh();
+  } else {
+    button.hidden = true;
+  }
 }
 
 function PrintDuplicata(compo){

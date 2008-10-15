@@ -269,6 +269,8 @@ ALTER TABLE "table_ligne"
 ALTER TABLE "table_ligne"
   DROP CONSTRAINT fk_table_ligne_de_numero;
 ALTER TABLE "table_ligne"
+  DROP CONSTRAINT fk_table_ligne_pe_numero;
+ALTER TABLE "table_ligne"
   DROP CONSTRAINT fk_table_ligne_px_numero;
 ALTER TABLE "table_ligneavoir"
   DROP CONSTRAINT fk_table_ligneavoir_pd_numero;
@@ -276,6 +278,8 @@ ALTER TABLE "table_ligneavoir"
   DROP CONSTRAINT fk_table_ligneavoir_av_numero;
 ALTER TABLE "table_ligneavoir"
   DROP CONSTRAINT fk_table_ligneavoir_px_numero;
+ALTER TABLE "table_ligneavoir"
+  DROP CONSTRAINT fk_table_ligneavoir_pe_numero;
 ALTER TABLE "table_lignecotisation"
   DROP CONSTRAINT fk_table_lignecotisation_cs_numero;
 ALTER TABLE "table_lignefacture"
@@ -284,6 +288,8 @@ ALTER TABLE "table_lignefacture"
   DROP CONSTRAINT fk_table_lignefacture_px_numero;
 ALTER TABLE "table_lignefacture"
   DROP CONSTRAINT fk_table_lignefacture_pd_numero;
+ALTER TABLE "table_lignefacture"
+  DROP CONSTRAINT fk_table_lignefacture_pe_numero;
 ALTER TABLE "table_lignemodele"
   DROP CONSTRAINT fk_table_lignemodele_pd_numero;
 ALTER TABLE "table_lignemodele"
@@ -1222,6 +1228,7 @@ CREATE TABLE "table_ligne"
   "l_numero" INTEGER,
   "pd_numero" INTEGER,
   "de_numero" INTEGER,
+  "pe_numero" INTEGER,
   "l_quantite" NUMERIC(16,4),
   "l_montantht" NUMERIC(16,2),
   "l_montantttc" NUMERIC(16,2),
@@ -1267,6 +1274,7 @@ CREATE TABLE "table_lignefacture"
   "px_numero" INTEGER,
   "pd_numero" INTEGER,
   "lf_quantite" NUMERIC,
+  "pe_numero" INTEGER,
   "lf_montantht" NUMERIC(16,2),
   "lf_montantttc" NUMERIC(16,2),
   "lf_notes" VARCHAR,
@@ -1312,6 +1320,7 @@ CREATE TABLE "table_ligneavoir"
   "av_numero" INTEGER,
   "px_numero" INTEGER,
   "la_quantite" NUMERIC,
+  "pe_numero" INTEGER,
   "la_montantht" NUMERIC(16,2),
   "la_montantttc" NUMERIC(16,2),
   "la_notes" TEXT,

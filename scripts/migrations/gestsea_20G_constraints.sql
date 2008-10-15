@@ -97,14 +97,17 @@ CREATE INDEX idx_table_journal_tj_numero ON table_journal(tj_numero);
 CREATE INDEX idx_table_journal_cg_numero ON table_journal(cg_numero);
 CREATE INDEX idx_table_ligne_pd_numero ON table_ligne(pd_numero);
 CREATE INDEX idx_table_ligne_de_numero ON table_ligne(de_numero);
+CREATE INDEX idx_table_ligne_pe_numero ON table_ligne(pe_numero);
 CREATE INDEX idx_table_ligne_px_numero ON table_ligne(px_numero);
 CREATE INDEX idx_table_ligneavoir_pd_numero ON table_ligneavoir(pd_numero);
 CREATE INDEX idx_table_ligneavoir_av_numero ON table_ligneavoir(av_numero);
 CREATE INDEX idx_table_ligneavoir_px_numero ON table_ligneavoir(px_numero);
+CREATE INDEX idx_table_ligneavoir_pe_numero ON table_ligneavoir(pe_numero);
 CREATE INDEX idx_table_lignecotisation_cs_numero ON table_lignecotisation(cs_numero);
 CREATE INDEX idx_table_lignefacture_fa_numero ON table_lignefacture(fa_numero);
 CREATE INDEX idx_table_lignefacture_px_numero ON table_lignefacture(px_numero);
 CREATE INDEX idx_table_lignefacture_pd_numero ON table_lignefacture(pd_numero);
+CREATE INDEX idx_table_lignefacture_pe_numero ON table_lignefacture(pe_numero);
 CREATE INDEX idx_table_lignemodele_pd_numero ON table_lignemodele(pd_numero);
 CREATE INDEX idx_table_lignemodele_mo_numero ON table_lignemodele(mo_numero);
 CREATE INDEX idx_table_listereglement_em_numero ON table_listereglement(em_numero);
@@ -787,6 +790,11 @@ ALTER TABLE "table_ligne"
     ON DELETE CASCADE 
     ON UPDATE CASCADE;
 ALTER TABLE "table_ligne"
+  ADD CONSTRAINT fk_table_ligne_pe_numero
+  FOREIGN KEY (pe_numero) REFERENCES table_Personne(PE_Numero)
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE;
+ALTER TABLE "table_ligne"
   ADD CONSTRAINT fk_table_ligne_px_numero
   FOREIGN KEY (px_numero) REFERENCES table_Prix(PX_Numero)
     ON DELETE RESTRICT 
@@ -806,6 +814,11 @@ ALTER TABLE "table_ligneavoir"
   FOREIGN KEY (px_numero) REFERENCES table_Prix(PX_Numero)
     ON DELETE RESTRICT 
     ON UPDATE RESTRICT;
+ALTER TABLE "table_ligneavoir"
+  ADD CONSTRAINT fk_table_ligneavoir_pe_numero
+  FOREIGN KEY (pe_numero) REFERENCES table_Personne(PE_Numero)
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE;
 ALTER TABLE "table_lignecotisation"
   ADD CONSTRAINT fk_table_lignecotisation_cs_numero
   FOREIGN KEY (cs_numero) REFERENCES table_Cotisation(CS_Numero)
@@ -826,6 +839,11 @@ ALTER TABLE "table_lignefacture"
   FOREIGN KEY (pd_numero) REFERENCES table_Produit(PD_Numero)
     ON DELETE RESTRICT 
     ON UPDATE RESTRICT;
+ALTER TABLE "table_lignefacture"
+  ADD CONSTRAINT fk_table_lignefacture_pe_numero
+  FOREIGN KEY (pe_numero) REFERENCES table_Personne(PE_Numero)
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE;
 ALTER TABLE "table_lignemodele"
   ADD CONSTRAINT fk_table_lignemodele_pd_numero
   FOREIGN KEY (pd_numero) REFERENCES table_Produit(PD_Numero)

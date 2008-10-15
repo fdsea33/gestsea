@@ -820,6 +820,7 @@ function CodeInParametrage(){
 
     Maitre_Impression.AjouterColonne("N°","im_numero");
     Maitre_Impression.AjouterColonne("Libellé","im_libelle");
+    Maitre_Impression.AjouterColonne("hidden_NII","im_numero");
 
     It_Impression.AjouterComposantSimple("Libellé","im_libelle");
     It_Impression.AjouterComposantSimple("Nom logique","im_nom");
@@ -843,6 +844,7 @@ function CodeInParametrage(){
 
     Maitre_Tableimpression.AjouterColonne("Libellé","im_libelle");
     Maitre_Tableimpression.AjouterColonne("Société","so_libelle",new Array("im_societe","so_numero","societe"));
+    Maitre_Tableimpression.AjouterColonne("hidden_NII","im_numero");
 
     It_Tableimpression.AjouterBouton("Mettre à jour les fonctions d'impression","ImpressionsUpdate","");
 

@@ -14,3 +14,6 @@ CREATE OR REPLACE VIEW VUE_Adresse AS
     FROM table_Adresse JOIN table_CodePostal AS CP USING (CP_Numero) JOIN table_Ville AS VI USING (VI_Numero) JOIN table_Personne USING (PE_Numero)
     WHERE AD_Active AND pe_actif
     ORDER BY pe_numero;
+
+CREATE OR REPLACE VIEW VUE_Allowed_Personne AS 
+  SELECT personne.*, pe_numero AS cle FROM personne WHERE pe_actif AND pe_numero NOT IN (SELECT el_personne1 FROM estlie WHERE tl_numero=1006);

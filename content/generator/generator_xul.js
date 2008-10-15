@@ -742,7 +742,7 @@ clInterfaceFiltrageRelationOnglet.prototype.OnClose =
 	    if (!suppr)
 		{
 		    /* on refresh le composant */
-		    //			var TabCle=this.my_ComposantSQL.getAllCleVal();
+		    //      var TabCle=this.my_ComposantSQL.getAllCleVal();
 		    var ReqNewCle=new clReqSQL();
 		    /* pour le select */
 		    ReqNewCle.Cloner(this.ComposantConstructeur.my_ReqInterne,SELECT);
@@ -750,12 +750,12 @@ clInterfaceFiltrageRelationOnglet.prototype.OnClose =
 
 		    /* pour le where */
 		    ReqNewCle.Cloner(this.my_ComposantSQL.my_ReqRefresh.getUnion(),WHERE);
-		    // 			var i;
-		    // 			for (i=0;i<TabCle.length;i++)
-		    // 			{
-		    // 				ReqNewCle.AddWhere(this.ComposantConstructeur.getCle()+" = "+TabCle[i],"OR");
-		    // 			}
-		    // 			ReqNewCle.setUnion(this.ComposantConstructeur.my_ReqRefresh.getUnion());
+		    //       var i;
+		    //       for (i=0;i<TabCle.length;i++)
+		    //       {
+		    //         ReqNewCle.AddWhere(this.ComposantConstructeur.getCle()+" = "+TabCle[i],"OR");
+		    //       }
+		    //       ReqNewCle.setUnion(this.ComposantConstructeur.my_ReqRefresh.getUnion());
 
 		    this.ComposantConstructeur.Union(ReqNewCle);
 		}
@@ -906,7 +906,7 @@ clInterfaceFiltrageArbreDefaut.prototype.setComposant =
 
 	    /* on doit faire une jointure au sens large dans le sens descendant */
 	    joint.ClonerLarge(Jointure);
-	    
+      
 	    joint.ReConstruire(joint.getFirstCle());
 
 
@@ -951,7 +951,7 @@ clInterfaceFiltrageArbreDefaut.prototype.OnClick =
 		    else
 			cond=cond+this.my_Champs+" is NULL";
 		}
-			
+      
 	    this.my_Filtre.setCondition(cond);
 
 	    this.Activer(true);
@@ -1404,7 +1404,7 @@ function clComposantSQL(Affichable,TabInterfaceFiltrage,NomChamps) {
 
     this.AEteGenererXul=false;
     this.DebugInfo=null;
-    //	this.ComposantInactif=true;
+    //  this.ComposantInactif=true;
 
     /* pour optimiser l'affichage on limites les requetes */
     this.my_OffSet=0;
@@ -1740,7 +1740,7 @@ clComposantSQL.prototype.RefreshEsclaves =
 
 	joint=slave.getJointure();
 	ReqMaitre=new clReqSQL();
-	//	    ReqMaitre.Fusionner(att.getReqSQL());
+	//      ReqMaitre.Fusionner(att.getReqSQL());
 	if (joint!=null)
 	{
 	    joint.ReConstruire(this.my_EnsCleMaitre[i].Valeur);
@@ -2024,7 +2024,7 @@ clCompolabel.prototype.GenererCompoXUL =
 	hbox = mydoc.createElement("hbox");
 	hbox.setAttribute("align","center");
 	hbox.setAttribute("flex","1");
-//	hbox.setAttribute("equalsize","always");
+	//  hbox.setAttribute("equalsize","always");
 	//hbox.setAttribute("style","padding:10px; border:2px solid yellow");
 	ParentXul.appendChild(hbox);
 
@@ -2080,14 +2080,14 @@ clCompoTextBox.prototype.GenererCompoXUL =
 	else hbox = mydoc.createElement("hbox");
 	if (!this.MultiLine) hbox.setAttribute("align","center");
 	hbox.setAttribute("flex","1");
-//	if (!this.MultiLine) hbox.setAttribute("equalsize","always");
+	//  if (!this.MultiLine) hbox.setAttribute("equalsize","always");
 	//hbox.setAttribute("style","padding:10px; border:2px solid yellow");
 	ParentXul.appendChild(hbox);
 
 	label = mydoc.createElement("label");
         if (this.MultiLine) this.NomChamps = this.NomChamps+' :';
-  if (this.MultiLine) label.setAttribute("class","labelize-multiline");
-  else label.setAttribute("class","labelize-uniline");
+	if (this.MultiLine) label.setAttribute("class","labelize-multiline");
+	else label.setAttribute("class","labelize-uniline");
 	label.setAttribute("value",this.NomChamps);
 	//label.setAttribute("control","");
 	hbox.appendChild(label);
@@ -2176,21 +2176,21 @@ clCompoCheckBox.prototype.GenererCompoXUL =
 	var mydoc=top.document;
 	var ref=AddVar(this);
 
-  var hbox = mydoc.createElement("hbox");
+	var hbox = mydoc.createElement("hbox");
 	hbox.setAttribute("align","center");
 	hbox.setAttribute("flex","1");
 	ParentXul.appendChild(hbox);
-/*
-  var label = mydoc.createElement("label");
-	label.setAttribute("value",this.NomChamps);
-  label.setAttribute("class","labelize-uniline");
-	hbox.appendChild(label);
-*/
+	/*
+	  var label = mydoc.createElement("label");
+	  label.setAttribute("value",this.NomChamps);
+	  label.setAttribute("class","labelize-uniline");
+	  hbox.appendChild(label);
+	*/
 	checkbox = mydoc.createElement("checkbox");
 	checkbox.setAttribute("disabled","true");
 	checkbox.setAttribute("dir","reverse");
 	checkbox.setAttribute("label",this.NomChamps);
-  checkbox.setAttribute("class","labelize-uniline");
+	checkbox.setAttribute("class","labelize-uniline");
 	checkbox.setAttribute("value","false");
 	checkbox.setAttribute("oncommand","this.value=this.checked; GetVar("+ref+").OnChange();");
 	hbox.appendChild(checkbox);
@@ -2265,7 +2265,7 @@ clCompoColor.prototype.GenererCompoXUL =
 	hbox = mydoc.createElement("hbox");
 	hbox.setAttribute("align","center");
 	hbox.setAttribute("flex","1");
-//	hbox.setAttribute("equalsize","always");
+	//  hbox.setAttribute("equalsize","always");
 	ParentXul.appendChild(hbox);
 
 	label = mydoc.createElement("label");
@@ -2365,7 +2365,7 @@ clCompoListeDeroulanteStatic.prototype.GenererCompoXUL =
 	hbox = mydoc.createElement("hbox");
 	hbox.setAttribute("align","center");
 	hbox.setAttribute("flex","1");
-//	hbox.setAttribute("equalsize","always");
+	//  hbox.setAttribute("equalsize","always");
 	ParentXul.appendChild(hbox);
 
 
@@ -2572,17 +2572,17 @@ clCompoMulti.prototype.RefreshFiltre =
 
 // clCompoMulti.prototype.GenererFiltreXUL =
 //     function(ParentXul){
-// 	var i;
+//   var i;
 
-// 	for (i=0;i<this.my_TabInterfaceFiltrage.length;i++)
-// 	{
-// 	    this.my_TabInterfaceFiltrage[i].GenererXUL(ParentXul,this);
-// 	}
+//   for (i=0;i<this.my_TabInterfaceFiltrage.length;i++)
+//   {
+//       this.my_TabInterfaceFiltrage[i].GenererXUL(ParentXul,this);
+//   }
 
-// 	for (i=0;i<this.my_TabSousFiltres.length;i++)
-// 	{
-// 	    this.my_TabSousFiltres[i].GenererXUL(ParentXul,this);
-// 	}
+//   for (i=0;i<this.my_TabSousFiltres.length;i++)
+//   {
+//       this.my_TabSousFiltres[i].GenererXUL(ParentXul,this);
+//   }
 //     }
 
 
@@ -2631,8 +2631,8 @@ function clCompoListe(EnsAttribut,TabInterfaceFiltrage,TabNomsCols,NomChamps,Sin
     /* le contenu est toujours égal à ce que */
     this.my_ReqContenu=this.my_ReqRefresh;
 
-    //	this.OnChangeUser=null;
-    //	this.OnChangeUserParams=null;
+    //  this.OnChangeUser=null;
+    //  this.OnChangeUserParams=null;
 
 }
 
@@ -2674,26 +2674,26 @@ clCompoListe.prototype.getAllCleVal =
 
 // clCompoListe.prototype.RefreshFiltre =
 //     function(){
-// 	var i,val;
-// 	var tree=this.my_CompoXUL;
+//   var i,val;
+//   var tree=this.my_CompoXUL;
 
-// 	if (tree.view!=null && tree.currentIndex!=-1)
-// 	{
-// 	    val= tree.view.getCellValue(tree.currentIndex, tree.treeBoxObject.columns.getColumnAt(0));
+//   if (tree.view!=null && tree.currentIndex!=-1)
+//   {
+//       val= tree.view.getCellValue(tree.currentIndex, tree.treeBoxObject.columns.getColumnAt(0));
 
-// 	    for(i=0;i<this.my_TabInterfaceFiltrage.length;i++)
-// 		{
-// 		    this.my_TabInterfaceFiltrage[i].setValeur(val);
-// 		}
-// 	}
-// 	else
-// 	{
-// 	    val=null;
-// 	    for(i=0;i<this.my_TabInterfaceFiltrage.length;i++)
-// 	    {
-// 		this.my_TabInterfaceFiltrage[i].setValeur(val);
-// 	    }
-// 	}
+//       for(i=0;i<this.my_TabInterfaceFiltrage.length;i++)
+//     {
+//         this.my_TabInterfaceFiltrage[i].setValeur(val);
+//     }
+//   }
+//   else
+//   {
+//       val=null;
+//       for(i=0;i<this.my_TabInterfaceFiltrage.length;i++)
+//       {
+//     this.my_TabInterfaceFiltrage[i].setValeur(val);
+//       }
+//   }
 
 //     }
 
@@ -2828,14 +2828,14 @@ clCompoListe.prototype.GenererXUL =
 	groupbox.setAttribute("flex","1");
 	ParentXul.appendChild(groupbox);
 
-/*
-	if (this.NomChamps!=null)
-	{
-	    caption = mydoc.createElement("caption");
-	    caption.setAttribute("label",this.NomChamps);
-	    groupbox.appendChild(caption);
-	}
-*/
+	/*
+	  if (this.NomChamps!=null)
+	  {
+	  caption = mydoc.createElement("caption");
+	  caption.setAttribute("label",this.NomChamps);
+	  groupbox.appendChild(caption);
+	  }
+	*/
 	vbox = mydoc.createElement("vbox");
 	vbox.setAttribute("flex","1");
 	//vbox.setAttribute("style","padding:10px; border:2px solid black");
@@ -2953,13 +2953,13 @@ clCompoListe.prototype.AfterRefreshByMaitre =
 	    //if (this.my_LastSelectedCle==-1 || !this.SelectItem(this.my_LastSelectedCle))
 	    tree.view.selection.select(0);
 	}
-	//	else
-	//	tree.view.selection.select(-1);
+	//  else
+	//  tree.view.selection.select(-1);
 	else
 	{
 	    this.OnSelect();
-	    //	    this.RefreshFiltre();
-	    //	    this.RefreshEsclaves();
+	    //      this.RefreshFiltre();
+	    //      this.RefreshEsclaves();
 	}
     }
 
@@ -3038,41 +3038,41 @@ clCompoListe.prototype.GenererCompoXUL =
 	    treecols.appendChild(treecol);
 	}
 
-  var reg = new RegExp("^hidden_", "i");
-  var hidden = false;
-  var treecol_label = '';
+	var reg = new RegExp("^hidden_", "i");
+	var hidden = false;
+	var treecol_label = '';
 	for(i=0;i<this.TabNomsCols.length;i++)
 	{
 	    /* pour les séparateur de colonnes */
 	    if (i!=0)
-	    {
-		splitter = mydoc.createElement("splitter");
-		splitter.setAttribute("class","tree-splitter");
-		treecols.appendChild(splitter);
+		{
+		    splitter = mydoc.createElement("splitter");
+		    splitter.setAttribute("class","tree-splitter");
+		    treecols.appendChild(splitter);
+		}
+	    hidden=false;
+	    treecol_label = this.TabNomsCols[i];
+	    if (reg.test(treecol_label)) {
+		treecol_label = treecol_label.replace(reg, "");
+		hidden=true;
 	    }
-      hidden=false;
-      treecol_label = this.TabNomsCols[i];
-      if (reg.test(treecol_label)) {
-        treecol_label = treecol_label.replace(reg, "");
-        hidden=true;
-      }
 	    /* génération du code xul des colonnes */
 
 	    treecol = mydoc.createElement("treecol");
 
 	    treecol.setAttribute("label",treecol_label);
 	    treecol.setAttribute("flex",treecol_label.length);
-      if (hidden) treecol.setAttribute("hidden","true");
+	    if (hidden) treecol.setAttribute("hidden","true");
 
-// La construction dynamique empeche l'utilisation de persist
-//	    treecol.setAttribute("persist","hidden width");
+	    // La construction dynamique empeche l'utilisation de persist
+	    //      treecol.setAttribute("persist","hidden width");
 	    treecol.setAttribute("id",LiaisonAtt[i].getAttribut().getNomAttributBD());
 
 	    /* pour avoir une taille correcte */
 	    var TailleCol=treecol_label.length*TAILLE_LETTRE+TAILLE_IMAGE;
 	    //treecol.setAttribute("style","min-width:"+TailleCol+"px");
 
-	    //	    treecol.setAttribute("class","sortDirectionIndicator");
+	    //      treecol.setAttribute("class","sortDirectionIndicator");
 	    //treecol.setAttribute("onmousedown","alert('ok')");
 
 	    label = mydoc.createElement("label");
@@ -3081,7 +3081,7 @@ clCompoListe.prototype.GenererCompoXUL =
 	    label.setAttribute("align","left");
 	    treecol.appendChild(label);
 
-	    //	    treecol.setAttribute("label",this.TabNomsCols[i]);
+	    //      treecol.setAttribute("label",this.TabNomsCols[i]);
 	    treecol.setAttribute("sort","rdf:http://www.mozilla.org/SQL-rdf#"+LiaisonAtt[i].getAttribut().getNomAttributBD());
 
 	    this.my_TabSousFiltres[i].GenererXUL(treecol);
@@ -3092,11 +3092,11 @@ clCompoListe.prototype.GenererCompoXUL =
 
 	    /* on trie sur la première colonne */
 	    if (i==0)
-	    {
-		//treecol.setAttribute("primary","true");
-		treecol.setAttribute("sortDirection","ascending");
-		treecol.setAttribute("sortActive","true");
-	    }
+		{
+		    //treecol.setAttribute("primary","true");
+		    treecol.setAttribute("sortDirection","ascending");
+		    treecol.setAttribute("sortActive","true");
+		}
 	}
 
 	template = mydoc.createElement("template");
@@ -3159,17 +3159,17 @@ clCompoListe.prototype.GenererCompoXUL =
 
 
 
-	// 	/* CAR ON UTILISE PLUS DONT-BUILT-CONTENT ON DOIT FORCER LE BUILD AVEC UNE REQUETE NON VIDE */
+	//   /* CAR ON UTILISE PLUS DONT-BUILT-CONTENT ON DOIT FORCER LE BUILD AVEC UNE REQUETE NON VIDE */
 
-	// 	var query=this.my_ReqRefresh.GenererReq();
-	// 	var result=pgsql_query(query);
-	// 	if (result.rowCount==0)
-	// 	{
-	// 	    alert("Attention risques de bugs car table vide !");
-	// 	}
-	// 	var ds=result.QueryInterface(Components.interfaces.nsIRDFDataSource);
-	// 	this.my_CompoXUL.database.AddDataSource(ds);
-	// 	this.my_CompoXUL.builder.rebuild();
+	//   var query=this.my_ReqRefresh.GenererReq();
+	//   var result=pgsql_query(query);
+	//   if (result.rowCount==0)
+	//   {
+	//       alert("Attention risques de bugs car table vide !");
+	//   }
+	//   var ds=result.QueryInterface(Components.interfaces.nsIRDFDataSource);
+	//   this.my_CompoXUL.database.AddDataSource(ds);
+	//   this.my_CompoXUL.builder.rebuild();
 	this.AddCompoAddOn(new clAddon_Refresh());
 	if (ACTIVE_EXTRACT)
 	this.AddCompoAddOn(new clAddon_Extract());
@@ -3183,17 +3183,17 @@ clCompoListe.prototype.GenererCompoXUL =
 
 // clCompoListe.prototype.GenererFiltreXUL =
 //     function(ParentXul){
-// 	var i;
+//   var i;
 
-// 	for (i=0;i<this.my_TabInterfaceFiltrage.length;i++)
-// 	{
-// 	    this.my_TabInterfaceFiltrage[i].GenererXUL(ParentXul,this);
-// 	}
-// 	/* sinon on les génère dessous*/
-// 	//for (i=0;i<this.my_TabSousFiltres.length;i++)
-// 	//{
-// 	//
-// 	//}
+//   for (i=0;i<this.my_TabInterfaceFiltrage.length;i++)
+//   {
+//       this.my_TabInterfaceFiltrage[i].GenererXUL(ParentXul,this);
+//   }
+//   /* sinon on les génère dessous*/
+//   //for (i=0;i<this.my_TabSousFiltres.length;i++)
+//   //{
+//   //
+//   //}
 //     }
 
 
@@ -3233,7 +3233,7 @@ function clCompoListeDeroulanteMulti(EnsAttribut,TabInterfaceFiltrage,TabNomsCol
     this.my_FiltreInterne.setChamps(PremiereColonne);
 
     //this.OnChangeUser=null;
-    //	this.OnChangeUserParams=null;
+    //  this.OnChangeUserParams=null;
     /*
       this.my_IFiltreParDefaut=IFiltreParDefaut;
 
@@ -3622,12 +3622,12 @@ function CompoListeDeroulante_GenererCompoXUL(ListeDeroulante,ParentXul)
     hboxOr = mydoc.createElement("hbox");
     hboxOr.setAttribute("align","center");
     hboxOr.setAttribute("flex","1");
-//    hboxOr.setAttribute("equalsize","always");
+    //    hboxOr.setAttribute("equalsize","always");
     ParentXul.appendChild(hboxOr);
 
-    //	button = mydoc.createElement("button");
-    //	button.setAttribute("hidden","true");
-    //	hboxOr.appendChild(button);
+    //  button = mydoc.createElement("button");
+    //  button.setAttribute("hidden","true");
+    //  hboxOr.appendChild(button);
 
     label = mydoc.createElement("label");
     label.setAttribute("class","labelize-uniline");
@@ -3667,7 +3667,7 @@ function CompoListeDeroulante_GenererCompoXUL(ListeDeroulante,ParentXul)
 
     /* ENTETE DES COLONNES */
     hbox = mydoc.createElement("hbox");
-//    hbox.setAttribute("equalsize","always");
+    //    hbox.setAttribute("equalsize","always");
     hbox.setAttribute("class","menulistheader");
     menupopup.appendChild(hbox);
 
@@ -3708,7 +3708,7 @@ function CompoListeDeroulante_GenererCompoXUL(ListeDeroulante,ParentXul)
     else
 	menuitem.setAttribute("label","rdf:http://www.mozilla.org/SQL-rdf#"+ListeDeroulante.my_Affichable.getNomAttributBD());
 
-//    menuitem.setAttribute("equalsize","always");
+    //    menuitem.setAttribute("equalsize","always");
     menuitem.setAttribute("value","rdf:http://www.mozilla.org/SQL-rdf#"+ListeDeroulante.ClePrimaire);
     template.appendChild(menuitem);
 

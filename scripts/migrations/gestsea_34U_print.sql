@@ -189,16 +189,17 @@ TV_TauxTVA     AS LK_TauxTVA,
 (NOT(LF_Notes IS NULL OR LF_Notes=''))::boolean 
                AS LK_NonVide, -- 5
 LF_Notes       AS LK_Notes,                                 -- 6
-
+PE_Description AS LK_Pour,
 CASE WHEN PD_SansQuantite THEN ROUND((lf_montantht)::NUMERIC, 2) ELSE round((lf_montantht/lf_quantite)::NUMERIC, 2) END 
                AS LK_Montant,                                    -- 2
 round((lf_montantht)::NUMERIC, 2) AS LK_Total,        -- 3
 tv_code AS LK_TVA,                                    -- 4
 fa_numero                                             -- 7
-FROM facture LEFT JOIN ligneFacture USING (fa_numero)
+FROM facture LEFT JOIN ligneFacture lf USING (fa_numero)
        LEFT JOIN produit      USING (pd_numero)
        LEFT JOIN table_prix         USING (px_numero)
        LEFT JOIN tva          USING (tv_numero)
+       LEFT JOIN personne pe ON (pe.pe_numero=lf.pe_numero)
   WHERE lf_montantht != 0;
 
 
@@ -379,6 +380,7 @@ TV_TauxTVA     AS L_TauxTVA,
 CASE WHEN L_Notes IS NULL OR L_Notes='' THEN false ELSE true END 
                AS L_NonVide, 
 L_Notes        AS L_Notes, 
+PE_Description AS L_Pour,
 pd_titre       AS PD_Libelle, -- todel
 CASE WHEN PD_SansQuantite THEN L_montantht ELSE ROUND(px_tarifht,2) END 
                AS PX_Tarifht, -- todel
@@ -386,7 +388,8 @@ tv_code        AS TV_Code,    -- todel
 DE_Numero 
     FROM ligne JOIN produit USING (PD_Numero) 
                JOIN Table_Prix USING (PX_Numero) 
-               JOIN TVA USING (TV_Numero);
+               JOIN TVA USING (TV_Numero)
+               LEFT JOIN personne USING (pe_numero);
 
 
 --===========================================================================--
@@ -694,7 +697,18 @@ FROM table_facture JOIN table_cotisation c ON (bml_extract(cs_detail,'fdsea.fact
   LEFT JOIN table_personne conjoint ON (bml_extract(cs_detail,'fdsea.conjoint.numero')=conjoint.pe_numero)
   LEFT JOIN table_personne societe ON (bml_extract(cs_detail,'cotisation.societe')=societe.pe_numero);
 
-GRANT SELECT ON VUE_PRINT_Carte TO PUBLIC;
+--===========================================================================--
+--DROP VIEW VUE_PRINT_Carte_Salarie;
+CREATE OR REPLACE VIEW VUE_PRINT_Carte_Salarie AS
+SELECT 
+TRIM(COALESCE(salarie.PE_Titre||' ','')||salarie.PE_Nom||COALESCE(' '||salarie.PE_Prenom,'')) AS CK_Fullname,
+TRIM(SPLIT_PART(np_nom,'(',1)) AS ck_titre,
+to_char(salarie.pe_numero-1000000,'FM099999') AS ck_numpersonne,                  -- 2
+substr(TRIM(COALESCE(salarie.PE_Titre||' ','')||salarie.PE_Nom||COALESCE(' '||salarie.PE_Prenom,'')),1,26) AS ck_Libelle,--3
+pe_numero
+FROM table_personne salarie JOIN table_naturepersonne USING (np_numero);
+
+--GRANT SELECT ON VUE_PRINT_Carte TO PUBLIC;
 
 
 /*****************************************************************************\

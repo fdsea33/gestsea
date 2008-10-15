@@ -749,9 +749,11 @@ BEGIN
   END IF;
   IF NOT NEW.de_locked THEN
     IF TG_OP='UPDATE' THEN
+/*
       IF NEW.DE_Reduction=OLD.DE_Reduction THEN
         SELECT FC_Personne_Reduction(NEW.PE_Numero, CURRENT_DATE) INTO NEW.DE_Reduction;
       END IF;
+*/
       -- Un acompte doit être versé si le montant du devis excède les 300 euros
       SELECT CASE WHEN NEW.DE_MontantTTC>=300 THEN true ELSE false END INTO NEW.DE_Acompte;
     ELSE
@@ -1821,8 +1823,8 @@ BEGIN
     select num_facture, pe_numero, current_date, de_reduction, de_libelle, num_numfact, de_montantht, de_montantttc, de_numero, em_agent, ad_numero
       from devis join employe using (em_numero) where de_numero = num_devis;
 -- Création des lignes de la facture
-  insert into lignefacture (fa_numero, pd_numero, lf_montantht, lf_montantttc, lf_quantite, px_numero, lf_notes)  
-    select num_facture, pd_numero, l_montantht, l_montantttc, l_quantite, px_numero, l_notes 
+  insert into lignefacture (fa_numero, pd_numero, lf_montantht, lf_montantttc, lf_quantite, px_numero, lf_notes, pe_numero)  
+    select num_facture, pd_numero, l_montantht, l_montantttc, l_quantite, px_numero, l_notes, pe_numero
       from ligne where de_numero = num_devis;
 
 -- Mise à jour des adhésions
@@ -2243,8 +2245,8 @@ BEGIN
     where fa_numero = num_facture;
 
   --- Lignes de la facture
-  insert into ligneavoir (av_numero, pd_numero, la_numero, la_montantht, la_montantttc, la_quantite, px_numero)
-  select num_avoir, pd_numero, nextval('seq_lignefacture'), lf_montantht, lf_montantttc, lf_quantite, px_numero
+  insert into ligneavoir (av_numero, pd_numero, la_numero, la_montantht, la_montantttc, la_quantite, px_numero, pe_numero)
+  select num_avoir, pd_numero, nextval('seq_lignefacture'), lf_montantht, lf_montantttc, lf_quantite, px_numero, pe_numero
     from lignefacture
     where fa_numero = num_facture;
 
@@ -2875,16 +2877,16 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 
 --===========================================================================--
 -- Procedure permettant d'enregistrer facilement des coupons-réponses standard
---DROP FUNCTION FC_LatexClean(text);
+--DROP FUNCTION FC_LC(text);
 
-CREATE OR REPLACE FUNCTION FC_LatexClean(IN latexte text) RETURNS text AS
+CREATE OR REPLACE FUNCTION FC_LC(IN latexte text) RETURNS text AS
 $$
 DECLARE
   latex text;
 BEGIN
   latex := COALESCE(latexte,'');
   IF LENGTH(latex)>0 THEN
-    latex := REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(latex,'$',E'\\$'),'%',E'\\%'),'[','$[$'),']','$]$'),'&',E'\\&');
+    latex := REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(latex,'€',E'\\EUR'),'$',E'\\$'),'%',E'\\%'),'[','$[$'),']','$]$'),'&',E'\\&');
   END IF;
   RETURN latex;
 END;
@@ -2978,7 +2980,7 @@ BEGIN
           param:=SUBSTRING(param FROM POSITION('DISTINCT' IN param)+8);
           q_as:=q_as||E'DISTINCT ';
         END IF;
-        q_as:=q_as||'FC_LatexClean(('||TRIM(param)||')::text) AS p'||nparam;
+        q_as:=q_as||'FC_LC(('||TRIM(param)||')::text) AS p'||nparam;
 --        q_as:=q_as||E'REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(COALESCE(('||param||E')::text,''''),''$'',''\\\\$''),''%'',''\\\\%''),''['',''\$[\$''),'']'',''\$]\$''),''&'',''\\\\&'') AS p'||nparam;
       END LOOP;
       query:='SELECT '||q_as||E' '||q_suite;

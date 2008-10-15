@@ -413,7 +413,8 @@ function CodeInPrincipal(centre){
     Maitre_Devis.AjouterColonne("% R.","de_reduction");
     //    Maitre_Devis.AjouterColonne("Libellé","de_libelle");
     //    Maitre_Devis.AjouterColonne("Client","pe_libelle",new Array("pe_numero","pe_numero","personne"));
-    Maitre_Devis.AjouterColonne("Montant TTC","de_montantttc");
+    Maitre_Devis.AjouterColonne("hidden_HT","de_montantht");
+    Maitre_Devis.AjouterColonne("TTC","de_montantttc");
  
     //    PersonneEstjoignable.getTheme().AddFiltre('Filtre_PersonneEstjoignable=new clInterfaceFiltragePermanantCustom("ej_actif=true")');
     // AllIt.AjouterCodeUserLoad('Filtre_PersonneEstjoignable.setComposant(Compo_'+PersonneEstjoignable.getNom_()+');\n');
@@ -421,6 +422,7 @@ function CodeInPrincipal(centre){
     It_Devis.AjouterBouton("Passer le devis en facture","DevisVersFacture",ComposantDansCode(Maitre_Devis));
     It_Devis.AjouterBouton("Imprimer le devis","Imprimer",ComposantDansCode(Maitre_Devis)+",'devis'");
     It_Devis.AjouterBouton("Recalculer le taux de réduction","MajReductionDevis",ComposantDansCode(Maitre_Devis));
+    It_Devis.AjouterBouton("Saisir le taux de réduction","SaisirReductionDevis","this,"+ComposantDansCode(Maitre_Devis));
 
     DevisDate = It_Devis.AjouterComposantSimple("Date","de_date");
     It_Devis.AjouterComposantSimple("Libellé","de_libelle");
@@ -443,6 +445,7 @@ function CodeInPrincipal(centre){
     DevisLigne.AjouterColonne("Qté.","l_quantite");
     DevisLigne.AjouterColonne("Montant HT","l_montantht");
     DevisLigne.AjouterColonne("Montant TTC","l_montantttc");
+    DevisLigne.AjouterColonne("hidden_Pour","pe_description",new Array("pe_numero","pe_numero","personne"));
 
     DevisLigne.AddMode(INSERTION);
     DevisLigne.AddMode(SUPPRESSION);
@@ -466,6 +469,7 @@ function CodeInPrincipal(centre){
     DevisLigne.OnModeInsert=ComposantDansCode(DevisLigneQuantite)+'.my_CompoXUL.value=1;\n';
 
     It_Devis.AjouterComposantSimple("Notes","l_notes",null,DevisLigne,null,null,null,true);
+    It_Devis.AjouterComposantSimple("Produit acheté pour la personne (facultatif)","pe_description",new Array("pe_numero","pe_numero","vue_allowed_personne"),DevisLigne,LISTE_DEROULANTE);
 
 
     principal_alert("Devis...OK!");
@@ -481,13 +485,14 @@ function CodeInPrincipal(centre){
 
 
     Maitre_Facture = It_Facture.AjouterMaitre("Liste des factures","facture");
+    Maitre_Facture.AjouterColonne("hidden_NFI","fa_numero");
     Maitre_Facture.AjouterColonne("N° Fact.","fa_numfact");
 //    Maitre_Facture.AjouterColonne("N° Devis","de_numero");
     Maitre_Facture.AjouterColonne("Date","fa_date");
     //Maitre_Facture.AjouterColonne("Client","pe_libelle",new Array("pe_numero","pe_numero","personne"));
     Maitre_Facture.AjouterColonne("Agent","ag_initiales",new Array("ag_numero","ag_numero","agent"));
     Maitre_Facture.AjouterColonne("TTC","fa_montantttc");
-    Maitre_Facture.AjouterColonne("Etat","fa_etat");
+    Maitre_Facture.AjouterColonne("hidden_Etat","fa_etat");
 
     It_Facture.AjouterBouton("Passer en avoir","FactureVersAvoir",ComposantDansCode(Maitre_Facture));
     It_Facture.AjouterBouton("En perte","FactureEnPerte",ComposantDansCode(Maitre_Facture));
@@ -519,6 +524,7 @@ function CodeInPrincipal(centre){
     FactureLigne.AjouterColonne("Qté.","lf_quantite");
     FactureLigne.AjouterColonne("Montant HT","lf_montantht");
     FactureLigne.AjouterColonne("Montant TTC","lf_montantttc");
+    FactureLigne.AjouterColonne("hidden_Pour","pe_description", new Array("pe_numero","pe_numero","personne"));
 
     //***********************
     // AVOIRS
