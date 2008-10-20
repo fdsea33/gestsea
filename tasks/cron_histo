@@ -1,5 +1,5 @@
 #!/bin/bash
-dir=/home/groupes/toutlemonde/Informatique/Extractions/FDSEA/Historique
+dir=/home/groupes/syndical/DOSSIERS_FDSEA33/Historique
 last=Dernier_historique
 d=/usr/local/bin/scripts
 cd /tmp

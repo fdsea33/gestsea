@@ -9,6 +9,6 @@ z=$f.tar.bz2
 pg_dump -COx $1 -U brice > $f
 tar cvjf $z $f
 rm -f $f
-cp $z /home/groupes/maintenance/backup/
+cp $z /home/groupes/informatique/backup/
 scp $z 91.121.24.96:sauvegardes
 rm -f $z

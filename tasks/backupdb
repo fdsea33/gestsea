@@ -10,6 +10,6 @@ z=$f.tar.bz2
 pg_dump -COx --schema=public $1 > $f
 tar cvjf $z $f
 rm -f $f
-cp $z /home/groupes/maintenance/backup/
+cp $z /home/groupes/informatique/backup/
 sudo -u brice scp $z brice@91.121.24.96:Sauvegardes
 rm -f $z

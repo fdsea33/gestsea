@@ -1,7 +1,7 @@
 #!/bin/sh
 day=`date +%Y%m%d-%H%M`
 reps=/usr/local/bin/scripts/evoplus
-repd=/home/groupes/toutlemonde/Phoning_EVO+
+repd=/home/groupes/syndical/Phoning_EVO+
 cd ${repd}/Livraisons
 echo "*** Enregistrement des fichiers EVO+ ***"
 if [ `ls -1 | wc -l` -eq 1 ]; then
@@ -26,10 +26,10 @@ if [ `ls -1 | wc -l` -eq 1 ]; then
   fi
 elif [ `ls -1 | wc -l` -gt 1 ]; then
   echo "ATTENTION : Trop de fichiers à traiter"
-  echo "CONSEIL : Il faut mettre un et un seul fichier Excel Evoplus dans le dossier toutlemonde/Phoning_EVO+/Livraisons"
+  echo "CONSEIL : Il faut mettre un et un seul fichier Excel Evoplus dans le dossier syndical/Phoning_EVO+/Livraisons"
 else
   echo "ATTENTION : Pas de fichiers à traiter"
-  echo "CONSEIL : Il faut mettre un et un seul fichier Excel Evoplus dans le dossier toutlemonde/Phoning_EVO+/Livraisons"
+  echo "CONSEIL : Il faut mettre un et un seul fichier Excel Evoplus dans le dossier syndical/Phoning_EVO+/Livraisons"
 fi
 
 echo ""
