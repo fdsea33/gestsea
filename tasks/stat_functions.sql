@@ -1,6 +1,6 @@
 \qecho *** Chargement des procédures de calcul
 
-
+-- Products
 
 CREATE OR REPLACE VIEW credits AS
   SELECT CASE WHEN pd_reduction THEN lf_montantht*(100-fa_reduction)/100 ELSE lf_montantht END AS total, pd_numero as product, lf_quantite AS quantity, cg_numero as account, fa_date AS day, table_facture.so_numero as society
@@ -10,7 +10,6 @@ CREATE OR REPLACE VIEW credits AS
                             LEFT JOIN table_comptegen USING (cg_numero)
     WHERE ci_actif AND NOT fa_perte
     ORDER BY 3;
-
 
 CREATE OR REPLACE VIEW debits AS
   SELECT CASE WHEN pd_reduction THEN -la_montantht*(100-av_reduction)/100 ELSE -la_montantht END AS total, pd_numero as product, -la_quantite AS quantity, cg_numero as account, av_date AS day, table_facture.so_numero as society
@@ -22,8 +21,34 @@ CREATE OR REPLACE VIEW debits AS
     WHERE ci_actif AND NOT fa_perte
     ORDER BY 3;
 
-
 CREATE OR REPLACE VIEW products AS SELECT * FROM credits UNION ALL SELECT * FROM debits ORDER BY 3;
+
+-- Taxes
+
+CREATE OR REPLACE VIEW taxes_credits AS
+  SELECT CASE WHEN pd_reduction THEN (lf_montantttc-lf_montantht)*(100-fa_reduction)/100 ELSE (lf_montantttc-lf_montantht) END AS total, px.pd_numero as product, lf_quantite AS quantity, cg_numero as account, fa_date AS day, table_facture.so_numero as society
+    FROM table_lignefacture JOIN table_facture USING (fa_numero)
+                            JOIN table_produit USING(pd_numero)
+                            JOIN table_prix px USING (px_numero)
+                            LEFT JOIN table_tva USING (tv_numero)
+                            LEFT JOIN table_comptegen USING (cg_numero)
+    WHERE NOT fa_perte
+    ORDER BY 3;
+
+CREATE OR REPLACE VIEW taxes_debits AS
+  SELECT CASE WHEN pd_reduction THEN -(la_montantttc-la_montantht)*(100-av_reduction)/100 ELSE -(la_montantttc-la_montantht) END AS total, px.pd_numero as product, -la_quantite AS quantity, cg_numero as account, av_date AS day, table_facture.so_numero as society
+    FROM table_ligneavoir   JOIN table_avoir USING (av_numero)
+                            JOIN table_produit USING (pd_numero)
+                            JOIN table_facture USING (fa_numero)
+                            JOIN table_prix px USING (px_numero)
+                            LEFT JOIN table_tva USING (tv_numero)
+                            LEFT JOIN table_comptegen USING (cg_numero)
+    WHERE NOT fa_perte
+    ORDER BY 3;
+
+CREATE OR REPLACE VIEW taxes AS SELECT * FROM taxes_credits UNION ALL SELECT * FROM taxes_debits ORDER BY 3;
+
+CREATE OR REPLACE VIEW sales AS SELECT * FROM products UNION ALL SELECT * FROM taxes ORDER BY 3;
 
 /*
 CREATE OR REPLACE VIEW products AS
@@ -370,49 +395,42 @@ DECLARE
   month integer;
   compte integer;
   table_name text;
+  query text;
   proc text;
   corp text;
+  taxe text;
 BEGIN
   msup:=0;
   sup :=0;
-  corp:='';
   table_name = 'stat_compta_mensuelle_'||num_societe||'_'||year;
   SELECT count(*) from pg_tables where tablename=table_name INTO compte;
   IF compte>0 THEN
-    proc:='DROP TABLE '||table_name||';';
-    EXECUTE proc;
+    query:='DROP TABLE '||table_name||';';
+    EXECUTE query;
   END IF;
-  proc:='CREATE TEMPORARY TABLE '||table_name||' AS ';
-  proc:=proc||'SELECT ';
-  proc:=proc||' cg_numero AS "Int.",';
-  proc:=proc||' initcap(cg_libelle) AS "Compte",';
-  proc:=proc||' rtrim(cg_numcompte,''0'') AS "N.Cpt.",\n';
+  query:='CREATE TEMPORARY TABLE '||table_name||' AS ';
+  proc:='SELECT cg_numero AS "Int.", INITCAP(cg_libelle) AS "Compte", RTRIM(cg_numcompte,''0'') AS "N.Cpt.",\n';
+  corp:='';
   FOR month IN 1..12 LOOP
-/*
-    proc:=proc||'REPLACE(round(monthd'||month||'.total,2),''.'','','') AS "D '||month||'/'||substr(year,3)||'",\n';
-    proc:=proc||'REPLACE(round(monthc'||month||'.total,2),''.'','','') AS "C '||month||'/'||substr(year,3)||'",\n';
-*/
-    proc:=proc||'REPLACE(round(month'||month||'.total,2),''.'','','') AS "'||month||'/'||year||'",\n';
+    proc:=proc||'REPLACE(ROUND(z'||month||'.total,2),''.'','','') AS "'||month||' - '||year||'",\n';
     IF month=12 THEN
       sup:=1;
       msup:=-12;
     END IF;
-/*
-    corp:=corp||'  LEFT JOIN (SELECT sum(total) as total, account, society FROM debits where ''01/'||month||'/'||year||'''<=day AND day<''01/'||month+1+msup||'/'||year+sup||''' GROUP BY 2,3) AS monthd'||month||' ON (monthd'||month||'.account=cg_numero AND monthd'||month||'.society='||num_societe||')\n';
-    corp:=corp||'  LEFT JOIN (SELECT sum(total) as total, account, society FROM credits where ''01/'||month||'/'||year||'''<=day AND day<''01/'||month+1+msup||'/'||year+sup||''' GROUP BY 2,3) AS monthc'||month||' ON (monthc'||month||'.account=cg_numero AND monthc'||month||'.society='||num_societe||')\n';
-*/
-    corp:=corp||'  LEFT JOIN (SELECT sum(total) as total, account, society FROM products where ''01/'||month||'/'||year||'''<=day AND day<''01/'||month+1+msup||'/'||year+sup||''' GROUP BY 2,3) AS month'||month||' ON (month'||month||'.account=cg_numero AND month'||month||'.society='||num_societe||')\n';
+    corp:=corp||'LEFT JOIN (SELECT SUM(total) AS total, account, society FROM @@TABLE@@ WHERE ''01/'||month||'/'||year||'''<=day AND day<''01/'||month+1+msup||'/'||year+sup||''' GROUP BY 2,3) AS z'||month||' ON (z'||month||'.account=cg_numero AND z'||month||'.society='||num_societe||')\n';
   END LOOP;
+  corp:=corp||'LEFT JOIN (SELECT SUM(total) AS total, account, society FROM @@TABLE@@ WHERE ''1/1/'||year||'''<=day AND day<=''31/12/'||year||''' GROUP BY 2,3) AS year ON (year.account=cg_numero AND year.society='||num_societe||')\n';
 
-  corp:=corp||'  LEFT JOIN (SELECT sum(total) as total, account, society FROM products where ''01/01/'||year||'''<=day AND day<=''31/12/'||year||''' GROUP BY 2,3) AS year ON (year.account=cg_numero AND year.society='||num_societe||')\n';
-
-  proc:=proc||' REPLACE(year.total,''.'','','') AS "Total"\n  FROM table_comptegen \n'||corp;
-  proc:=proc||' WHERE (cg_numcompte::varchar like ''7%'' OR cg_numcompte::varchar like ''635%'' OR cg_numcompte::varchar like ''626%'')'; 
+  proc:=proc||'REPLACE(ROUND(year.total,2),''.'','','') AS "Total"\nFROM table_comptegen\n'||corp;
+  proc:=proc||'WHERE (cg_numcompte::varchar like ''445%'' OR cg_numcompte::varchar like ''7%'' OR cg_numcompte::varchar like ''635%'' OR cg_numcompte::varchar like ''626%'')'; 
   proc:=proc||' AND so_numero='||num_societe;
-  proc:=proc||' ORDER BY 3';
 
---  RAISE NOTICE '>>>> %',proc;
-  EXECUTE proc;
+--  query:=query||REPLACE(proc,'@@TABLE@@','products')||E'\nUNION ALL\n'||REPLACE(proc,'@@TABLE@@','taxes');
+  query:=query||REPLACE(proc,'@@TABLE@@','sales');
+  query:=query||' ORDER BY 3;';
+
+--  RAISE NOTICE '>>>> %',query;
+  EXECUTE query;
   RETURN 0;
 
 END;
