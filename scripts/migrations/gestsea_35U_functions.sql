@@ -1737,7 +1737,7 @@ BEGIN
     SELECT FC_Personne_Reduction(d.PE_Numero,CURRENT_DATE) INTO r;
     -- Adhésion à 10 €
     IF r=0 THEN
-      SELECT count(*) FROM lignefacture JOIN facture USING (FA_Numero) WHERE pe_numero=d.pe_numero AND pd_numero=100051 AND fa_date BETWEEN a||'-01-01' AND a||'-12-31' INTO c;
+      SELECT count(*) FROM lignefacture JOIN facture f USING (FA_Numero) WHERE f.pe_numero=d.pe_numero AND pd_numero=100051 AND fa_date BETWEEN a||'-01-01' AND a||'-12-31' INTO c;
       IF c<=0 THEN
         SELECT count(*) FROM ligne WHERE de_numero=d.de_numero AND pd_numero=100051 INTO c;
         IF c<=0 THEN

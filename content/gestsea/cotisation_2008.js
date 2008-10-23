@@ -439,7 +439,7 @@ function wg_cotisation_load(personne, annee) {
 
 
   // FDSEA
-  var facture = requete("SELECT fa_numero FROM table_lignefacture JOIN table_facture USING (fa_numero) WHERE so_numero=2 AND PE_Numero="+personne+" AND EXTRACT(YEAR FROM FA_Date)="+annee+" AND PD_Numero IN ("+PROD_COT.join(',')+");");
+  var facture = requete("SELECT fa_numero FROM table_lignefacture JOIN table_facture f USING (fa_numero) WHERE so_numero=2 AND f.PE_Numero="+personne+" AND EXTRACT(YEAR FROM FA_Date)="+annee+" AND PD_Numero IN ("+PROD_COT.join(',')+");");
   if (facture!=null) {
 
     var reg = requete("SELECT rg_numero FROM table_facturereglement WHERE fa_numero="+facture+";");
@@ -471,7 +471,7 @@ function wg_cotisation_load(personne, annee) {
   }
 
   // SACEA
-  facture = requete("SELECT fa_numero FROM table_lignefacture JOIN table_facture USING (fa_numero) WHERE so_numero=1 AND PE_Numero="+personne+" AND EXTRACT(YEAR FROM FA_Date)="+annee+" AND PD_Numero IN ("+PROD_SACEA.join(',')+");");
+  facture = requete("SELECT fa_numero FROM table_lignefacture JOIN table_facture f USING (fa_numero) WHERE so_numero=1 AND f.PE_Numero="+personne+" AND EXTRACT(YEAR FROM FA_Date)="+annee+" AND PD_Numero IN ("+PROD_SACEA.join(',')+");");
   if (facture!=null) {
     var produit = requete("SELECT pd_numero FROM table_lignefacture WHERE fa_numero="+facture+" AND pd_numero IN ("+PROD_SACEA.join(',')+");");
     if (produit!=null) {
@@ -481,7 +481,7 @@ function wg_cotisation_load(personne, annee) {
   }
 
   // AAVA
-  facture = requete("SELECT fa_numero FROM table_lignefacture JOIN table_facture USING (fa_numero) WHERE so_numero=1 AND PE_Numero="+personne+" AND EXTRACT(YEAR FROM FA_Date)="+annee+" AND PD_Numero IN ("+PROD_AAVA.join(',')+");");
+  facture = requete("SELECT fa_numero FROM table_lignefacture JOIN table_facture f USING (fa_numero) WHERE so_numero=1 AND f.PE_Numero="+personne+" AND EXTRACT(YEAR FROM FA_Date)="+annee+" AND PD_Numero IN ("+PROD_AAVA.join(',')+");");
   if (facture!=null) {
     var produit = requete("SELECT pd_numero FROM table_lignefacture WHERE fa_numero="+facture+" AND pd_numero IN ("+PROD_AAVA.join(',')+");");
     if (produit!=null) {

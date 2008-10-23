@@ -102,7 +102,8 @@ CREATE OR REPLACE VIEW "estresponsable" AS
 
 CREATE OR REPLACE VIEW "responsabilite" AS
    SELECT table_responsabilite.re_numero, table_responsabilite.re_code, table_responsabilite.re_nom, table_responsabilite.re_famille, table_responsabilite.created_at, table_responsabilite.created_by, table_responsabilite.updated_at, table_responsabilite.updated_by, table_responsabilite.lock_version, table_responsabilite.id 
-     FROM "table_responsabilite";
+     FROM "table_responsabilite"
+    ORDER BY RE_Nom;
 
 CREATE OR REPLACE VIEW "attribut" AS
    SELECT table_attribut.at_numero, table_attribut.pe_numero, table_attribut.ta_numero, table_attribut.cr_numero, table_attribut.at_valeur, table_attribut.created_at, table_attribut.created_by, table_attribut.updated_at, table_attribut.updated_by, table_attribut.lock_version, table_attribut.id 

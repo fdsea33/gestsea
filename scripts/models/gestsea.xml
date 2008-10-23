@@ -358,7 +358,7 @@
     <column name="PEAC_Numero"       type="INTEGER"     notnull="true" pkey="true"></column>
     <column name="PE_Numero"         type="INTEGER"     notnull="true" fkey="Personne(PE_Numero)" opt="odcouc"></column>
     <column name="RE_Numero"         type="INTEGER"     notnull="true" fkey="Responsabilite(RE_Numero)" opt="odcouc"></column>
-    <column name="PEAC_PeriodeDebut" type="DATE"        notnull="true"></column>
+    <column name="PEAC_PeriodeDebut" type="DATE"        default="NULL"></column>
     <column name="PEAC_PeriodeFin"   type="DATE"        default="NULL"></column>
     <column name="PEAC_Titre"        type="VARCHAR(32)" default="NULL"></column>
     <column name="PEAC_Fini"         type="BOOLEAN"     notnull="true" default="false">Si le mandat est en cours</column>
@@ -372,7 +372,7 @@
   </table>
 
 
-  <table name="Responsabilite" abbrev="RE" label="Responsabilités">
+  <table name="Responsabilite" abbrev="RE" label="Responsabilités" order="RE_Nom">
     <column name="RE_Numero"   type="INTEGER"     notnull="true" pkey="true">Clef primaire</column>
     <column name="RE_Code"     type="VARCHAR(32)" notnull="true" const="UNIQUE">Code de la responsabilité</column>
     <column name="RE_Nom"      type="VARCHAR(32)" notnull="true">Responsabilité</column>

@@ -3929,7 +3929,7 @@ function mcd_obligatoire(table,champs)
         case 'peac_numero': obligatoire=true;break;
         case 'pe_numero': obligatoire=true;break;
         case 're_numero': obligatoire=true;break;
-        case 'peac_periodedebut': obligatoire=true;break;
+        case 'peac_periodedebut': obligatoire=false;break;
         case 'peac_periodefin': obligatoire=false;break;
         case 'peac_titre': obligatoire=false;break;
         case 'peac_fini': obligatoire=true;break;

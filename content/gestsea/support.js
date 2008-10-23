@@ -222,3 +222,68 @@ function pas_de_resultat(query) {
 function a_un_resultat(query) {return !pas_de_resultat(query);}
 function has_results(query) {return !pas_de_resultat(query);}
 
+
+
+/*
+                         T I M E   S U P P O R T
+  */
+
+function isTime(h) {
+  var regTimeTest  = new RegExp("^[012]?\\d{1}[:\\.][012345]{1}\\d{1}$", "ig");
+  var regTimeSplit = new RegExp("[:\\.]", "i");
+  if (regTimeTest.test(h)) {
+  	var res = h.split(regTimeSplit);
+  	if (((1.*res[0]+5)*2) < 60)
+	    return true;
+  }
+  return false;
+}
+
+function toMinutes(h){
+  var regTimeTest  = new RegExp("^[012]?\\d{1}[:\\.][012345]{1}\\d{1}$", "ig");
+  var regTimeSplit = new RegExp("[:\\.]", "i");
+  if (regTimeTest.test(h)) {
+	  var res = h.split(regTimeSplit);
+    return 60*res[0]+1*res[1];
+  }
+  return 0;
+}
+
+
+function cleanTime(h){
+  var regTimeSplit = new RegExp("[:\\.]", "i");
+  var res = h.split(regTimeSplit);
+  return res[0]+":"+res[1];
+}
+
+
+function toTime(m) {
+  var hour, minu;
+  hour = Math.floor(m/60);
+  minu = 1*m-60*hour;
+  if (min<10) min = "0"+minu;
+  return hour+'.'+minu;
+}
+
+function BoolToString(b) {
+	if (b) return "true";
+	else return "false";
+}
+
+function StringToBool(s) {
+	if (s=="t" || s=="true" || s=="1") return true;
+	else return false;
+}
+
+
+function verifyTime(object) {
+  var id = object.getAttribute("id");
+  var textbox = top.document.getElementById(id);
+  if (!isTime(textbox.value) && textbox.value!="") {
+    alert("Attention le champ de "+textbox.getAttribute("label")+" n'est pas renseigné correctement.");
+    return false;
+  }
+  return true;
+}
+
+
