@@ -1,19 +1,23 @@
 /* -*- Mode: Java; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2; coding: latin-1 -*- */
-// Nécessite les fichiers suivants :
-// - pgsql.js
+/* Nécessite les fichiers suivants :
+ *  - pgsql.js
+ */
+
+window.alert('test 0--');
 
 /* Return the first line of the result of the SQL query
  */
 function find_first(query) {
   var result=pgsql_query(query);
-  if (result.rowCount<=0)
+  if (result.rowCount<=0) {
     return null;
-  else {
+  } else {
     var enumr=result.enumerate();
     enumr.first();
-    var a = new Array();
-    for (var i=0;i<result.columnCount;i++)
+    var a = [];
+    for (var i=0;i<result.columnCount;i++) {
       a.push(enumr.getVariant(i));
+    }
     return a;
   }
 }
@@ -22,10 +26,10 @@ function find_first(query) {
  */
 function requete(query) {
   result=pgsql_query(query);
-  if (result.rowCount<=0)
+  if (result.rowCount<=0) {
     return null;
-  else {
-    var enumr=result.enumerate();
+  } else {
+    var enumr = result.enumerate();
     enumr.first();
     return enumr.getVariant(0);
   }
@@ -44,11 +48,11 @@ function find_all(query) {
   else {
     var enumr=result.enumerate();
     enumr.first();
-    var a = new Array();
+    var a = [];
     for (i=0;i<result.rowCount;i++) {
-      a.push(new Array())
-        for (j=0;j<result.columnCount;j++)
-          a[i].push(enumr.getVariant(j));
+      a.push([]);
+      for (j=0;j<result.columnCount;j++)
+        a[i].push(enumr.getVariant(j));
       enumr.next();
     }
     return a;
@@ -73,7 +77,7 @@ function DeleteDataSource(object) {
  */
 function elem(id) {
   var e = top.document.getElementById(id);
-  if (e==null) alert('L\'élément "'+id+'" est introuvable dans le document.');
+  if (e===null) window.alert('L\'élément "'+id+'" est introuvable dans le document.');
   return e;
 }
 function element(id) { return elem(id); } /* Alias */
@@ -96,7 +100,7 @@ function grid_fill(id, query) {
   return grid;
 }
 /*
-function fill_grid(id,q) {return grid_fill(id,q);}
+  function fill_grid(id,q) {return grid_fill(id,q);}
 */
 
 /* Remplit une liste correctement en conservant la ligne sélectionnée
@@ -122,7 +126,7 @@ function listbox_fill(id, query) {
   return list;
 }
 /*
-function fill_list(id,q) {return listbox_fill(id,q);}
+  function fill_list(id,q) {return listbox_fill(id,q);}
 */
 
 /* Remplit une liste déroulante correctement
@@ -141,7 +145,7 @@ function menulist_fill(id, query, selectedValue){
   menulist.builder.rebuild();
   menulist.selectedIndex=0;
   menulist.setAttribute("lines",result.rowCount);
-  if (selectedValue!=null) {
+  if (selectedValue!==null) {
     menulist.value = selectedValue;
   }
   return menulist;
@@ -225,38 +229,38 @@ function has_results(query) {return !pas_de_resultat(query);}
 
 
 /*
-                         T I M E   S U P P O R T
-  */
-
+  T I M E   S U P P O R T
+*/
+/*
 function isTime(h) {
   var regTimeTest  = new RegExp("^[012]?\\d{1}[:\\.][012345]{1}\\d{1}$", "ig");
   var regTimeSplit = new RegExp("[:\\.]", "i");
   if (regTimeTest.test(h)) {
-  	var res = h.split(regTimeSplit);
-  	if (((1.*res[0]+5)*2) < 60)
-	    return true;
+    var res = h.split(regTimeSplit);
+    if (((1.*res[0]+5)*2) < 60)
+      return true;
   }
   return false;
 }
-
+  
 function toMinutes(h){
   var regTimeTest  = new RegExp("^[012]?\\d{1}[:\\.][012345]{1}\\d{1}$", "ig");
   var regTimeSplit = new RegExp("[:\\.]", "i");
   if (regTimeTest.test(h)) {
-	  var res = h.split(regTimeSplit);
+    var res = h.split(regTimeSplit);
     return 60*res[0]+1*res[1];
   }
   return 0;
 }
-
-
+    
+    
 function cleanTime(h){
   var regTimeSplit = new RegExp("[:\\.]", "i");
   var res = h.split(regTimeSplit);
   return res[0]+":"+res[1];
 }
-
-
+      
+      
 function toTime(m) {
   var hour, minu;
   hour = Math.floor(m/60);
@@ -269,21 +273,21 @@ function BoolToString(b) {
 	if (b) return "true";
 	else return "false";
 }
-
+  
 function StringToBool(s) {
-	if (s=="t" || s=="true" || s=="1") return true;
-	else return false;
+  if (s=="t" || s=="true" || s=="1") return true;
+  else return false;
 }
-
-
+    
+    
 function verifyTime(object) {
   var id = object.getAttribute("id");
   var textbox = top.document.getElementById(id);
   if (!isTime(textbox.value) && textbox.value!="") {
-    alert("Attention le champ de "+textbox.getAttribute("label")+" n'est pas renseigné correctement.");
+    window.alert("Attention le champ de "+textbox.getAttribute("label")+" n'est pas renseigné correctement.");
     return false;
   }
   return true;
 }
-
-
+*/
+window.alert('test');

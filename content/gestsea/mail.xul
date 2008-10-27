@@ -8,9 +8,9 @@
         onload="mail_onload()" orient="vertical" sizemode="normal" 
         xmlns:html="http://www.w3.org/TR/REC-html40"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <script src="../generator/utils_xul.js"/>
+  <script src="../generator/support.js"/>
   <script src="../generator/pgsql.js"/>
-  <script src="support.js"/>
+  <script src="../generator/utils_xul.js"/>
   <script src="mail.js"/>
   <groupbox flex="1">
     <caption label="Cliquez sur le lien"/>
