@@ -114,6 +114,32 @@ BEGIN
   proc[nb_lines]:='SELECT ''Nombre d''''adhérents''::text AS "Variable"';
   nb_lines := nb_lines + 1;
   proc[nb_lines]:='SELECT ''Nombre d''''adhérents distincts cumulés''::text AS "Variable"';
+  nb_lines := nb_lines + 1;
+  proc[nb_lines]:='SELECT ''Montant des cotisations de coopérateurs''::text AS "Variable"';
+  nb_lines := nb_lines + 1;
+  proc[nb_lines]:='SELECT ''Montant des cotisations d''''exploitants''::text AS "Variable"';
+  nb_lines := nb_lines + 1;
+  proc[nb_lines]:='SELECT ''Montant des cotisations d''''exploitants associés''::text AS "Variable"';
+  nb_lines := nb_lines + 1;
+  proc[nb_lines]:='SELECT ''Montant des cotisations d''''anciens exploitants (sans bailleurs)''::text AS "Variable"';
+  nb_lines := nb_lines + 1;
+  proc[nb_lines]:='SELECT ''Montant des cotisations d''''anciens exploitants conjoint''::text AS "Variable"';
+  nb_lines := nb_lines + 1;
+  proc[nb_lines]:='SELECT ''Montant des cotisations d''''anciens exploitants et bailleurs''::text AS "Variable"';
+  nb_lines := nb_lines + 1;
+  proc[nb_lines]:='SELECT ''Montant des cotisations d''''anciens exploitants (tous confondus)''::text AS "Variable"';
+  nb_lines := nb_lines + 1;
+  proc[nb_lines]:='SELECT ''Montant des cotisations de bailleurs (sans anciens)''::text AS "Variable"';
+  nb_lines := nb_lines + 1;
+  proc[nb_lines]:='SELECT ''Montant des cotisations de bailleurs (tous confondus)''::text AS "Variable"';
+  nb_lines := nb_lines + 1;
+  proc[nb_lines]:='SELECT ''Montant des cotisations d''''adhérents''::text AS "Variable"';
+  nb_lines := nb_lines + 1;
+  proc[nb_lines]:='SELECT ''Montant des cotisations hectares''::text AS "Variable"';
+  nb_lines := nb_lines + 1;
+  proc[nb_lines]:='SELECT ''Nombre d''''abonnements conseil SACEA''::text AS "Variable"';
+  nb_lines := nb_lines + 1;
+  proc[nb_lines]:='SELECT ''Montant des abonnements conseil SACEA''::text AS "Variable"';
 /*
   nb_lines := nb_lines + 1;
   proc[nb_lines]:='SELECT ''Nombre d''''adhérents fidèles''::text AS "Variable"';
@@ -198,6 +224,74 @@ BEGIN
     nb_lines := nb_lines + 1;
     proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
     corp[nb_lines]:=corp[nb_lines]||' (select count(distinct pe_numero) AS nb FROM table_cotisation where bml_extract(cs_detail,''fdsea.forfait.produit'') IN (''300006'',''500000052'',''500000054'',''500000150'',''500000053'',''500000124'',''500000162'') AND cs_annee<='||p||') AS b'||p;
+
+
+-- MONTANTS
+    -- Coopérateurs
+    nb_lines := nb_lines + 1;
+    proc[nb_lines]:=proc[nb_lines]||', c'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (SELECT sum(cs_montant) AS nb FROM table_cotisation where bml_extract(cs_detail,''fdsea.forfait.produit'') IN (''300006'') AND cs_annee='||p||') AS c'||p;
+    -- Exploitants
+    nb_lines := nb_lines + 1;
+    proc[nb_lines]:=proc[nb_lines]||', e'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (SELECT sum(cs_montant) AS nb FROM table_cotisation where bml_extract(cs_detail,''fdsea.forfait.produit'') IN (''500000052'') AND cs_annee='||p||') AS e'||p;
+    -- Exploitants associés
+    nb_lines := nb_lines + 1;
+    proc[nb_lines]:=proc[nb_lines]||', e'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (SELECT sum(cs_montant) AS nb FROM table_cotisation where bml_extract(cs_detail,''fdsea.forfait.produit'') IN (''500000162'') AND cs_annee='||p||') AS e'||p;
+    -- Anciens
+    nb_lines := nb_lines + 1;
+    proc[nb_lines]:=proc[nb_lines]||', a'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (SELECT sum(cs_montant) AS nb FROM table_cotisation where bml_extract(cs_detail,''fdsea.forfait.produit'') IN (''500000054'') AND cs_annee='||p||') AS a'||p;
+    -- Conjoints anciens
+    nb_lines := nb_lines + 1;
+    proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (SELECT sum(cs_montant) AS nb FROM table_cotisation where bml_extract(cs_detail,''fdsea.forfait.produit'') IN (''500000150'') AND cs_annee='||p||') AS b'||p;
+    -- Anciens et bailleurs
+    nb_lines := nb_lines + 1;
+    proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (SELECT sum(cs_montant) AS nb FROM table_cotisation where bml_extract(cs_detail,''fdsea.forfait.produit'') IN (''500000124'') AND cs_annee='||p||') AS b'||p;
+    -- Anciens (tous)
+    nb_lines := nb_lines + 1;
+    proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (SELECT sum(cs_montant) AS nb FROM table_cotisation where bml_extract(cs_detail,''fdsea.forfait.produit'') IN (''500000124'',''500000150'',''500000054'') AND cs_annee='||p||') AS b'||p;
+    -- Bailleurs
+    nb_lines := nb_lines + 1;
+    proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (SELECT sum(cs_montant) AS nb FROM table_cotisation where bml_extract(cs_detail,''fdsea.forfait.produit'') IN (''500000053'') AND cs_annee='||p||') AS b'||p;
+    -- Bailleurs (tous)
+    nb_lines := nb_lines + 1;
+    proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (SELECT sum(cs_montant) AS nb FROM table_cotisation where bml_extract(cs_detail,''fdsea.forfait.produit'') IN (''500000124'',''500000053'') AND cs_annee='||p||') AS b'||p;
+    -- Nb Adhérents
+    nb_lines := nb_lines + 1;
+    proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (select sum(cs_montant) AS nb FROM table_cotisation where bml_extract(cs_detail,''fdsea.forfait.produit'') IN (''300006'',''500000052'',''500000054'',''500000150'',''500000053'',''500000124'',''500000162'') AND cs_annee='||p||') AS b'||p;
+    -- Cotisation Hectares
+    nb_lines := nb_lines + 1;
+    proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (select sum(lf_montantttc) AS nb FROM table_lignefacture join table_facture using (fa_numero) where pd_numero IN (500000060,500000059,500000057,500000058,500000055,500000056) AND extract(YEAR FROM fa_date)='||p||' and fa_numero NOT IN (SELECT fa_numero FROM table_avoir)) AS b'||p;
+    -- Abon Conseil Nb
+    nb_lines := nb_lines + 1;
+    proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (select sum(lf_quantite) AS nb FROM table_lignefacture join table_facture using (fa_numero) where pd_numero IN (500000036,500000069,500000065) AND  extract(YEAR FROM fa_date)='||p||' and fa_numero NOT IN (SELECT fa_numero FROM table_avoir)) AS b'||p;
+    -- Abon Conseil
+    nb_lines := nb_lines + 1;
+    proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
+    corp[nb_lines]:=corp[nb_lines]||' (select sum(lf_montantttc) AS nb FROM table_lignefacture join table_facture using (fa_numero) where pd_numero IN (500000036,500000069,500000065) AND extract(YEAR FROM fa_date)='||p||' and fa_numero NOT IN (SELECT fa_numero FROM table_avoir)) AS b'||p;
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
     -- Fidèles
     nb_lines := nb_lines + 1;

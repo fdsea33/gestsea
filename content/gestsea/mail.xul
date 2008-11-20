@@ -3,9 +3,7 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://browser/skin/" type="text/css"?>
 
-<window	id="gestsea-mail" 
-        title="GestSEA Mail" 
-        onload="mail_onload()" orient="vertical" sizemode="normal" 
+<window	id="gestsea-mail" title="GestSEA Mail" onload="mail_onload()" orient="vertical" sizemode="normal" 
         xmlns:html="http://www.w3.org/TR/REC-html40"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script src="../generator/support.js"/>
@@ -16,7 +14,7 @@
     <caption label="Cliquez sur le lien"/>
     <label id="adhfdsea" class="text-link" href="mailto:adherents@fdsea33.fr" value="Envoyer un e-mail à tous les adhérents"/>
     <label id="adhfdseari" class="text-link" href="mailto:rapidinfos@fdsea33.fr" value="Envoyer un e-mail à tous les adhérents qui veulent recevoir le Rapid'Infos (dont SACEA, AAVA, JA, FRSEA, FDSEA24)"/>
-    <label id="abonconseil" class="text-link" href="mailto:abonnes_conseil@fdsea33.fr" value="Envoyer un e-mail à tous les abonnées conseil SACEA"/>
-    <label id="abonmajcc" class="text-link" href="mailto:abonnes_majcc@fdsea33.fr" value="Envoyer un e-mail à tous les abonnées Mise A Jour à la Convention Collective"/>
+    <label id="abonconseil" class="text-link" href="mailto:abonnes_conseil@fdsea33.fr" value="Envoyer un e-mail à tous les abonnés conseil SACEA"/>
+    <label id="abonmajcc" class="text-link" href="mailto:abonnes_majcc@fdsea33.fr" value="Envoyer un e-mail à tous les abonnés Mise A Jour à la Convention Collective"/>
   </groupbox>
 </window>
