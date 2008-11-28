@@ -1,0 +1,2726 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<analysis name="tiny">
+  <table name="account_account" label="Account Account">
+    <column name="reconcile" label="Reconcile" type="BOOL"/>
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="currency_id" label="Currency Id" type="INT4" notnull="true" fkey="res_currency(id)" opt="ouaodn"/>
+    <column name="sign" label="Sign" type="INT4" notnull="true"/>
+    <column name="company_id" label="Company Id" type="INT4" fkey="res_company(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_account_id_seq'::regclass)" pkey="true"/>
+    <column name="note" label="Note" type="TEXT"/>
+    <column name="type" label="Type" type="VARCHAR(16)" notnull="true"/>
+    <column name="shortcut" label="Shortcut" type="VARCHAR(12)"/>
+    <column name="name" label="Name" type="VARCHAR(128)" notnull="true"/>
+    <column name="code" label="Code" type="VARCHAR(64)"/>
+    <column name="close_method" label="Close Method" type="VARCHAR(16)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="account_account_rel" label="Account Account Rel">
+    <column name="parent_id" label="Parent Id" type="INT4" notnull="true" fkey="account_account(id)" opt="ouaodc"/>
+    <column name="child_id" label="Child Id" type="INT4" notnull="true" fkey="account_account(id)" opt="ouaodc"/>
+  </table>
+
+  <table name="account_account_tax_default_rel" label="Account Account Tax Default Rel">
+    <column name="tax_id" label="Tax Id" type="INT4" notnull="true" fkey="account_tax(id)" opt="ouaodc"/>
+    <column name="account_id" label="Account Id" type="INT4" notnull="true" fkey="account_account(id)" opt="ouaodc"/>
+  </table>
+
+  <table name="account_account_type" label="Account Account Type">
+    <column name="partner_account" label="Partner Account" type="BOOL"/>
+    <column name="sequence" label="Sequence" type="INT4"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_account_type_id_seq'::regclass)" pkey="true"/>
+    <column name="code_to" label="Code To" type="VARCHAR(10)"/>
+    <column name="close_method" label="Close Method" type="VARCHAR(16)" notnull="true"/>
+    <column name="code_from" label="Code From" type="VARCHAR(10)"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="code" label="Code" type="VARCHAR(32)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="account_analytic_account" label="Account Analytic Account">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="to_invoice" label="To Invoice" type="INT4" fkey="hr_timesheet_invoice_factor(id)" opt="ouaodn"/>
+    <column name="pricelist_id" label="Pricelist Id" type="INT4" fkey="product_pricelist(id)" opt="ouaodn"/>
+    <column name="parent_id" label="Parent Id" type="INT4" fkey="account_analytic_account(id)" opt="ouaodn"/>
+    <column name="contact_id" label="Contact Id" type="INT4" fkey="res_partner_address(id)" opt="ouaodn"/>
+    <column name="partner_id" label="Partner Id" type="INT4" fkey="res_partner(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_analytic_account_id_seq'::regclass)" pkey="true"/>
+    <column name="description" label="Description" type="TEXT"/>
+    <column name="amount_max" label="Amount Max" type="FLOAT8"/>
+    <column name="quantity_max" label="Quantity Max" type="FLOAT8"/>
+    <column name="state" label="State" type="VARCHAR(16)" notnull="true"/>
+    <column name="type" label="Type" type="VARCHAR(16)"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="code" label="Code" type="VARCHAR(8)"/>
+    <column name="date_start" label="Date Start" type="DATE"/>
+    <column name="date" label="Date" type="DATE"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="account_analytic_journal" label="Account Analytic Journal">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_analytic_journal_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="type" label="Type" type="VARCHAR(16)" notnull="true"/>
+    <column name="code" label="Code" type="VARCHAR(8)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="account_analytic_line" label="Account Analytic Line">
+    <column name="invoice_id" label="Invoice Id" type="INT4" fkey="account_invoice(id)" opt="ouaodn"/>
+    <column name="to_invoice" label="To Invoice" type="INT4" fkey="hr_timesheet_invoice_factor(id)" opt="ouaodn"/>
+    <column name="product_id" label="Product Id" type="INT4" fkey="product_product(id)" opt="ouaodn"/>
+    <column name="move_id" label="Move Id" type="INT4" fkey="account_move_line(id)" opt="ouaodc"/>
+    <column name="account_id" label="Account Id" type="INT4" notnull="true" fkey="account_analytic_account(id)" opt="ouaodc"/>
+    <column name="journal_id" label="Journal Id" type="INT4" notnull="true" fkey="account_analytic_journal(id)" opt="ouaodc"/>
+    <column name="product_uom_id" label="Product Uom Id" type="INT4" fkey="product_uom(id)" opt="ouaodn"/>
+    <column name="general_account_id" label="General Account Id" type="INT4" notnull="true" fkey="account_account(id)" opt="ouaodc"/>
+    <column name="user_id" label="User Id" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_analytic_line_id_seq'::regclass)" pkey="true"/>
+    <column name="unit_amount" label="Unit Amount" type="FLOAT8"/>
+    <column name="amount" label="Amount" type="FLOAT8" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(128)" notnull="true"/>
+    <column name="code" label="Code" type="VARCHAR(8)"/>
+    <column name="date" label="Date" type="DATE" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="account_bank" label="Account Bank">
+    <column name="partner_id" label="Partner Id" type="INT4" fkey="res_partner(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_bank_id_seq'::regclass)" pkey="true"/>
+    <column name="note" label="Note" type="TEXT"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="code" label="Code" type="VARCHAR(6)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="account_bank_account" label="Account Bank Account">
+    <column name="account_id" label="Account Id" type="INT4" notnull="true" fkey="account_account(id)" opt="ouaodn"/>
+    <column name="currency_id" label="Currency Id" type="INT4" notnull="true" fkey="res_currency(id)" opt="ouaodn"/>
+    <column name="bank_id" label="Bank Id" type="INT4" fkey="account_bank(id)" opt="ouaodn"/>
+    <column name="journal_id" label="Journal Id" type="INT4" notnull="true" fkey="account_journal(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_bank_account_id_seq'::regclass)" pkey="true"/>
+    <column name="swift" label="Swift" type="VARCHAR(24)"/>
+    <column name="iban" label="Iban" type="VARCHAR(24)"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="code" label="Code" type="VARCHAR(6)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="account_bank_statement" label="Account Bank Statement">
+    <column name="period_id" label="Period Id" type="INT4" notnull="true" fkey="account_period(id)" opt="ouaodn"/>
+    <column name="journal_id" label="Journal Id" type="INT4" notnull="true" fkey="account_journal(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_bank_statement_id_seq'::regclass)" pkey="true"/>
+    <column name="state" label="State" type="VARCHAR(16)" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="date" label="Date" type="DATE" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+    <column name="balance_end_real" label="Balance End Real" type="NUMERIC(1048578)"/>
+    <column name="balance_start" label="Balance Start" type="NUMERIC(1048578)"/>
+  </table>
+
+  <table name="account_bank_statement_line" label="Account Bank Statement Line">
+    <column name="account_id" label="Account Id" type="INT4" notnull="true" fkey="account_account(id)" opt="ouaodn"/>
+    <column name="partner_id" label="Partner Id" type="INT4" fkey="res_partner(id)" opt="ouaodn"/>
+    <column name="statement_id" label="Statement Id" type="INT4" fkey="account_bank_statement(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_bank_statement_line_id_seq'::regclass)" pkey="true"/>
+    <column name="amount" label="Amount" type="FLOAT8"/>
+    <column name="type" label="Type" type="VARCHAR(16)" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="date" label="Date" type="DATE"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="account_budget_post" label="Account Budget Post">
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_budget_post_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(256)" notnull="true"/>
+    <column name="code" label="Code" type="VARCHAR(64)" notnull="true"/>
+    <column name="sens" label="Sens" type="VARCHAR(16)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="account_budget_post_dotation" label="Account Budget Post Dotation">
+    <column name="period_id" label="Period Id" type="INT4" fkey="account_period(id)" opt="ouaodn"/>
+    <column name="post_id" label="Post Id" type="INT4" fkey="account_budget_post(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_budget_post_dotation_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+    <column name="quantity" label="Quantity" type="NUMERIC(1048578)"/>
+    <column name="amount" label="Amount" type="NUMERIC(1048578)"/>
+  </table>
+
+  <table name="account_budget_rel" label="Account Budget Rel">
+    <column name="account_id" label="Account Id" type="INT4" notnull="true" fkey="account_account(id)" opt="ouaodc"/>
+    <column name="budget_id" label="Budget Id" type="INT4" notnull="true" fkey="account_budget_post(id)" opt="ouaodc"/>
+  </table>
+
+  <table name="account_fiscalyear" label="Account Fiscalyear">
+    <column name="company_id" label="Company Id" type="INT4" fkey="res_company(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_fiscalyear_id_seq'::regclass)" pkey="true"/>
+    <column name="state" label="State" type="VARCHAR(16)"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="code" label="Code" type="VARCHAR(6)" notnull="true"/>
+    <column name="date_start" label="Date Start" type="DATE" notnull="true"/>
+    <column name="date_stop" label="Date Stop" type="DATE" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="account_invoice" label="Account Invoice">
+    <column name="address_contact_id" label="Address Contact Id" type="INT4" fkey="res_partner_address(id)" opt="ouaodn"/>
+    <column name="move_id" label="Move Id" type="INT4" fkey="account_move(id)" opt="ouaodn"/>
+    <column name="period_id" label="Period Id" type="INT4" fkey="account_period(id)" opt="ouaodn"/>
+    <column name="account_id" label="Account Id" type="INT4" notnull="true" fkey="account_account(id)" opt="ouaodn"/>
+    <column name="project_id" label="Project Id" type="INT4" fkey="account_analytic_account(id)" opt="ouaodn"/>
+    <column name="journal_id" label="Journal Id" type="INT4" notnull="true" fkey="account_journal(id)" opt="ouaodn"/>
+    <column name="partner_id" label="Partner Id" type="INT4" fkey="res_partner(id)" opt="ouaodn"/>
+    <column name="address_invoice_id" label="Address Invoice Id" type="INT4" fkey="res_partner_address(id)" opt="ouaodn"/>
+    <column name="currency_id" label="Currency Id" type="INT4" notnull="true" fkey="res_currency(id)" opt="ouaodn"/>
+    <column name="payment_term" label="Payment Term" type="INT4" fkey="account_payment_term(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_invoice_id_seq'::regclass)" pkey="true"/>
+    <column name="comment" label="Comment" type="TEXT"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="partner_ref" label="Partner Ref" type="VARCHAR(64)"/>
+    <column name="type" label="Type" type="VARCHAR(16)"/>
+    <column name="state" label="State" type="VARCHAR(16)"/>
+    <column name="number" label="Number" type="VARCHAR(32)"/>
+    <column name="partner_contact" label="Partner Contact" type="VARCHAR(64)"/>
+    <column name="reference" label="Reference" type="VARCHAR(64)"/>
+    <column name="origin" label="Origin" type="VARCHAR(64)"/>
+    <column name="date_invoice" label="Date Invoice" type="DATE" notnull="true"/>
+    <column name="date_due" label="Date Due" type="DATE"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="account_invoice_line" label="Account Invoice Line">
+    <column name="account_id" label="Account Id" type="INT4" notnull="true" fkey="account_account(id)" opt="ouaodn"/>
+    <column name="product_id" label="Product Id" type="INT4" fkey="product_product(id)" opt="ouaodn"/>
+    <column name="invoice_id" label="Invoice Id" type="INT4" fkey="account_invoice(id)" opt="ouaodc"/>
+    <column name="uos_id" label="Uos Id" type="INT4" fkey="product_uom(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_invoice_line_id_seq'::regclass)" pkey="true"/>
+    <column name="note" label="Note" type="TEXT"/>
+    <column name="quantity" label="Quantity" type="FLOAT8" notnull="true"/>
+    <column name="price_unit" label="Price Unit" type="FLOAT8" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(256)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+    <column name="discount" label="Discount" type="NUMERIC(1048578)"/>
+  </table>
+
+  <table name="account_invoice_line_tax" label="Account Invoice Line Tax">
+    <column name="tax_id" label="Tax Id" type="INT4" notnull="true" fkey="account_tax(id)" opt="ouaodc"/>
+    <column name="invoice_line_id" label="Invoice Line Id" type="INT4" notnull="true" fkey="account_invoice_line(id)" opt="ouaodc"/>
+  </table>
+
+  <table name="account_invoice_tax" label="Account Invoice Tax">
+    <column name="manual" label="Manual" type="BOOL"/>
+    <column name="account_id" label="Account Id" type="INT4" notnull="true" fkey="account_account(id)" opt="ouaodn"/>
+    <column name="tax_code_id" label="Tax Code Id" type="INT4" fkey="account_tax_code(id)" opt="ouaodn"/>
+    <column name="base_code_id" label="Base Code Id" type="INT4" fkey="account_tax_code(id)" opt="ouaodn"/>
+    <column name="invoice_id" label="Invoice Id" type="INT4" fkey="account_invoice(id)" opt="ouaodc"/>
+    <column name="sequence" label="Sequence" type="INT4"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_invoice_tax_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+    <column name="base" label="Base" type="NUMERIC(1048578)"/>
+    <column name="amount" label="Amount" type="NUMERIC(1048578)"/>
+    <column name="base_amount" label="Base Amount" type="NUMERIC(1048578)"/>
+    <column name="tax_amount" label="Tax Amount" type="NUMERIC(1048578)"/>
+  </table>
+
+  <table name="account_journal" label="Account Journal">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="centralisation" label="Centralisation" type="BOOL"/>
+    <column name="update_posted" label="Update Posted" type="BOOL"/>
+    <column name="default_credit_account_id" label="Default Credit Account Id" type="INT4" fkey="account_account(id)" opt="ouaodn"/>
+    <column name="sequence_id" label="Sequence Id" type="INT4" fkey="ir_sequence(id)" opt="ouaodn"/>
+    <column name="view_id" label="View Id" type="INT4" notnull="true" fkey="account_journal_view(id)" opt="ouaodn"/>
+    <column name="user_id" label="User Id" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="default_debit_account_id" label="Default Debit Account Id" type="INT4" fkey="account_account(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_journal_id_seq'::regclass)" pkey="true"/>
+    <column name="type" label="Type" type="VARCHAR(16)" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="code" label="Code" type="VARCHAR(9)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="account_journal_column" label="Account Journal Column">
+    <column name="readonly" label="Readonly" type="BOOL"/>
+    <column name="required" label="Required" type="BOOL"/>
+    <column name="view_id" label="View Id" type="INT4" fkey="account_journal_view(id)" opt="ouaodn"/>
+    <column name="sequence" label="Sequence" type="INT4"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_journal_column_id_seq'::regclass)" pkey="true"/>
+    <column name="field" label="Field" type="VARCHAR(32)" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="account_journal_group_rel" label="Account Journal Group Rel">
+    <column name="group_id" label="Group Id" type="INT4" notnull="true" fkey="res_groups(id)" opt="ouaodc"/>
+    <column name="journal_id" label="Journal Id" type="INT4" notnull="true" fkey="account_journal(id)" opt="ouaodc"/>
+  </table>
+
+  <table name="account_journal_period" label="Account Journal Period">
+    <column name="active" label="Active" type="BOOL" notnull="true"/>
+    <column name="period_id" label="Period Id" type="INT4" notnull="true" fkey="account_period(id)" opt="ouaodc"/>
+    <column name="journal_id" label="Journal Id" type="INT4" notnull="true" fkey="account_journal(id)" opt="ouaodc"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_journal_period_id_seq'::regclass)" pkey="true"/>
+    <column name="state" label="State" type="VARCHAR(16)" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="account_journal_type_rel" label="Account Journal Type Rel">
+    <column name="type_id" label="Type Id" type="INT4" notnull="true" fkey="account_account_type(id)" opt="ouaodc"/>
+    <column name="journal_id" label="Journal Id" type="INT4" notnull="true" fkey="account_journal(id)" opt="ouaodc"/>
+  </table>
+
+  <table name="account_journal_view" label="Account Journal View">
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_journal_view_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="account_model" label="Account Model">
+    <column name="journal_id" label="Journal Id" type="INT4" notnull="true" fkey="account_journal(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_model_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="ref" label="Ref" type="VARCHAR(64)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="account_model_line" label="Account Model Line">
+    <column name="currency_id" label="Currency Id" type="INT4" fkey="res_currency(id)" opt="ouaodn"/>
+    <column name="account_id" label="Account Id" type="INT4" notnull="true" fkey="account_account(id)" opt="ouaodc"/>
+    <column name="partner_id" label="Partner Id" type="INT4" fkey="res_partner(id)" opt="ouaodn"/>
+    <column name="sequence" label="Sequence" type="INT4" notnull="true"/>
+    <column name="model_id" label="Model Id" type="INT4" notnull="true" fkey="account_model(id)" opt="ouaodc"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_model_line_id_seq'::regclass)" pkey="true"/>
+    <column name="amount_currency" label="Amount Currency" type="FLOAT8"/>
+    <column name="ref" label="Ref" type="VARCHAR(16)"/>
+    <column name="date" label="Date" type="VARCHAR(16)" notnull="true"/>
+    <column name="date_maturity" label="Date Maturity" type="VARCHAR(16)"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+    <column name="quantity" label="Quantity" type="NUMERIC(1048578)"/>
+    <column name="debit" label="Debit" type="NUMERIC(1048578)"/>
+    <column name="credit" label="Credit" type="NUMERIC(1048578)"/>
+  </table>
+
+  <table name="account_move" label="Account Move">
+    <column name="period_id" label="Period Id" type="INT4" notnull="true" fkey="account_period(id)" opt="ouaodn"/>
+    <column name="journal_id" label="Journal Id" type="INT4" notnull="true" fkey="account_journal(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_move_id_seq'::regclass)" pkey="true"/>
+    <column name="ref" label="Ref" type="VARCHAR(64)"/>
+    <column name="state" label="State" type="VARCHAR(16)" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="account_move_line" label="Account Move Line">
+    <column name="blocked" label="Blocked" type="BOOL"/>
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="reconcile_id" label="Reconcile Id" type="INT4" fkey="account_move_reconcile(id)" opt="ouaodn"/>
+    <column name="move_id" label="Move Id" type="INT4" notnull="true" fkey="account_move(id)" opt="ouaodc"/>
+    <column name="period_id" label="Period Id" type="INT4" notnull="true" fkey="account_period(id)" opt="ouaodn"/>
+    <column name="account_id" label="Account Id" type="INT4" notnull="true" fkey="account_account(id)" opt="ouaodc"/>
+    <column name="tax_code_id" label="Tax Code Id" type="INT4" fkey="account_tax_code(id)" opt="ouaodn"/>
+    <column name="journal_id" label="Journal Id" type="INT4" notnull="true" fkey="account_journal(id)" opt="ouaodn"/>
+    <column name="partner_id" label="Partner Id" type="INT4" fkey="res_partner(id)" opt="ouaodn"/>
+    <column name="currency_id" label="Currency Id" type="INT4" fkey="res_currency(id)" opt="ouaodn"/>
+    <column name="statement_id" label="Statement Id" type="INT4" fkey="account_bank_statement(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_move_line_id_seq'::regclass)" pkey="true"/>
+    <column name="amount_currency" label="Amount Currency" type="FLOAT8"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="ref" label="Ref" type="VARCHAR(32)"/>
+    <column name="state" label="State" type="VARCHAR(16)"/>
+    <column name="centralisation" label="Centralisation" type="VARCHAR(16)"/>
+    <column name="date" label="Date" type="DATE" notnull="true"/>
+    <column name="date_created" label="Date Created" type="DATE"/>
+    <column name="date_maturity" label="Date Maturity" type="DATE"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+    <column name="quantity" label="Quantity" type="NUMERIC(1048578)"/>
+    <column name="credit" label="Credit" type="NUMERIC(1048578)"/>
+    <column name="tax_amount" label="Tax Amount" type="NUMERIC(1048578)"/>
+    <column name="debit" label="Debit" type="NUMERIC(1048578)"/>
+  </table>
+
+  <table name="account_move_reconcile" label="Account Move Reconcile">
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_move_reconcile_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="type" label="Type" type="VARCHAR(16)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="account_payment_term" label="Account Payment Term">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_payment_term_id_seq'::regclass)" pkey="true"/>
+    <column name="note" label="Note" type="TEXT"/>
+    <column name="name" label="Name" type="VARCHAR(32)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="account_payment_term_line" label="Account Payment Term Line">
+    <column name="days" label="Days" type="INT4" notnull="true"/>
+    <column name="sequence" label="Sequence" type="INT4" notnull="true"/>
+    <column name="payment_id" label="Payment Id" type="INT4" notnull="true" fkey="account_payment_term(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_payment_term_line_id_seq'::regclass)" pkey="true"/>
+    <column name="value_amount" label="Value Amount" type="FLOAT8"/>
+    <column name="condition" label="Condition" type="VARCHAR(16)" notnull="true"/>
+    <column name="value" label="Value" type="VARCHAR(16)" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(32)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="account_period" label="Account Period">
+    <column name="fiscalyear_id" label="Fiscalyear Id" type="INT4" notnull="true" fkey="account_fiscalyear(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_period_id_seq'::regclass)" pkey="true"/>
+    <column name="state" label="State" type="VARCHAR(16)"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="code" label="Code" type="VARCHAR(12)"/>
+    <column name="date_start" label="Date Start" type="DATE" notnull="true"/>
+    <column name="date_stop" label="Date Stop" type="DATE" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="account_subscription" label="Account Subscription">
+    <column name="period_total" label="Period Total" type="INT4" notnull="true"/>
+    <column name="period_nbr" label="Period Nbr" type="INT4" notnull="true"/>
+    <column name="model_id" label="Model Id" type="INT4" notnull="true" fkey="account_model(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_subscription_id_seq'::regclass)" pkey="true"/>
+    <column name="ref" label="Ref" type="VARCHAR(16)"/>
+    <column name="period_type" label="Period Type" type="VARCHAR(16)" notnull="true"/>
+    <column name="state" label="State" type="VARCHAR(16)" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="date_start" label="Date Start" type="DATE" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="account_subscription_line" label="Account Subscription Line">
+    <column name="move_id" label="Move Id" type="INT4" fkey="account_move(id)" opt="ouaodn"/>
+    <column name="subscription_id" label="Subscription Id" type="INT4" notnull="true" fkey="account_subscription(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_subscription_line_id_seq'::regclass)" pkey="true"/>
+    <column name="date" label="Date" type="DATE" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="account_tax" label="Account Tax">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="child_depend" label="Child Depend" type="BOOL"/>
+    <column name="account_collected_id" label="Account Collected Id" type="INT4" fkey="account_account(id)" opt="ouaodn"/>
+    <column name="account_paid_id" label="Account Paid Id" type="INT4" fkey="account_account(id)" opt="ouaodn"/>
+    <column name="ref_base_code_id" label="Ref Base Code Id" type="INT4" fkey="account_tax_code(id)" opt="ouaodn"/>
+    <column name="base_code_id" label="Base Code Id" type="INT4" fkey="account_tax_code(id)" opt="ouaodn"/>
+    <column name="parent_id" label="Parent Id" type="INT4" fkey="account_tax(id)" opt="ouaodn"/>
+    <column name="tax_code_id" label="Tax Code Id" type="INT4" fkey="account_tax_code(id)" opt="ouaodn"/>
+    <column name="company_id" label="Company Id" type="INT4" fkey="res_company(id)" opt="ouaodn"/>
+    <column name="sequence" label="Sequence" type="INT4" notnull="true"/>
+    <column name="ref_tax_code_id" label="Ref Tax Code Id" type="INT4" fkey="account_tax_code(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_tax_id_seq'::regclass)" pkey="true"/>
+    <column name="python_compute" label="Python Compute" type="TEXT"/>
+    <column name="python_applicable" label="Python Applicable" type="TEXT"/>
+    <column name="tax_sign" label="Tax Sign" type="FLOAT8"/>
+    <column name="ref_base_sign" label="Ref Base Sign" type="FLOAT8"/>
+    <column name="ref_tax_sign" label="Ref Tax Sign" type="FLOAT8"/>
+    <column name="base_sign" label="Base Sign" type="FLOAT8"/>
+    <column name="tax_group" label="Tax Group" type="VARCHAR(16)"/>
+    <column name="type" label="Type" type="VARCHAR(16)" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="applicable_type" label="Applicable Type" type="VARCHAR(16)" notnull="true"/>
+    <column name="domain" label="Domain" type="VARCHAR(32)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+    <column name="amount" label="Amount" type="NUMERIC(917508)" notnull="true"/>
+  </table>
+
+  <table name="account_tax_code" label="Account Tax Code">
+    <column name="parent_id" label="Parent Id" type="INT4" fkey="account_tax_code(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_tax_code_id_seq'::regclass)" pkey="true"/>
+    <column name="info" label="Info" type="TEXT"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="code" label="Code" type="VARCHAR(16)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="account_transfer" label="Account Transfer">
+    <column name="account_src_id" label="Account Src Id" type="INT4" notnull="true" fkey="account_account(id)" opt="ouaodn"/>
+    <column name="partner_id" label="Partner Id" type="INT4" fkey="res_partner(id)" opt="ouaodn"/>
+    <column name="project_id" label="Project Id" type="INT4" fkey="account_analytic_account(id)" opt="ouaodn"/>
+    <column name="move_id" label="Move Id" type="INT4" fkey="account_move(id)" opt="ouaodn"/>
+    <column name="period_id" label="Period Id" type="INT4" notnull="true" fkey="account_period(id)" opt="ouaodn"/>
+    <column name="account_dest_id" label="Account Dest Id" type="INT4" notnull="true" fkey="account_account(id)" opt="ouaodn"/>
+    <column name="adjust_account_id" label="Adjust Account Id" type="INT4" fkey="account_account(id)" opt="ouaodn"/>
+    <column name="journal_id" label="Journal Id" type="INT4" notnull="true" fkey="account_journal(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_transfer_id_seq'::regclass)" pkey="true"/>
+    <column name="adjust_amount" label="Adjust Amount" type="FLOAT8"/>
+    <column name="state" label="State" type="VARCHAR(16)"/>
+    <column name="type" label="Type" type="VARCHAR(16)" notnull="true"/>
+    <column name="reference" label="Reference" type="VARCHAR(64)"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="date" label="Date" type="DATE" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+    <column name="change" label="Change" type="NUMERIC(1048578)"/>
+    <column name="amount" label="Amount" type="NUMERIC(1048578)" notnull="true"/>
+  </table>
+
+  <table name="account_transfer_invoice" label="Account Transfer Invoice">
+    <column name="invoice_id" label="Invoice Id" type="INT4" notnull="true" fkey="account_invoice(id)" opt="ouaodc"/>
+    <column name="transfer_id" label="Transfer Id" type="INT4" notnull="true" fkey="account_transfer(id)" opt="ouaodc"/>
+  </table>
+
+  <table name="crm_case" label="Crm Case">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="categ_id" label="Categ Id" type="INT4" fkey="crm_case_categ(id)" opt="ouaodn"/>
+    <column name="section_id" label="Section Id" type="INT4" notnull="true" fkey="crm_case_section(id)" opt="ouaodn"/>
+    <column name="user_id" label="User Id" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="partner_id" label="Partner Id" type="INT4" fkey="res_partner(id)" opt="ouaodn"/>
+    <column name="som" label="Som" type="INT4" fkey="res_partner_som(id)" opt="ouaodn"/>
+    <column name="partner_address_id" label="Partner Address Id" type="INT4" fkey="res_partner_address(id)" opt="ouaodn"/>
+    <column name="canal_id" label="Canal Id" type="INT4" fkey="res_partner_canal(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('crm_case_id_seq'::regclass)" pkey="true"/>
+    <column name="email_last" label="Email Last" type="TEXT"/>
+    <column name="description" label="Description" type="TEXT"/>
+    <column name="planned_cost" label="Planned Cost" type="FLOAT8"/>
+    <column name="planned_revenue" label="Planned Revenue" type="FLOAT8"/>
+    <column name="probability" label="Probability" type="FLOAT8"/>
+    <column name="email_from" label="Email From" type="VARCHAR(128)"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="ref2" label="Ref2" type="VARCHAR(128)"/>
+    <column name="ref" label="Ref" type="VARCHAR(128)"/>
+    <column name="email_cc" label="Email Cc" type="VARCHAR(252)"/>
+    <column name="state" label="State" type="VARCHAR(16)"/>
+    <column name="priority" label="Priority" type="VARCHAR(16)"/>
+    <column name="date_deadline" label="Date Deadline" type="DATE"/>
+    <column name="date" label="Date" type="TIMESTAMP"/>
+    <column name="date_action_last" label="Date Action Last" type="TIMESTAMP"/>
+    <column name="date_action_next" label="Date Action Next" type="TIMESTAMP"/>
+    <column name="date_closed" label="Date Closed" type="TIMESTAMP"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="crm_case_categ" label="Crm Case Categ">
+    <column name="section_id" label="Section Id" type="INT4" fkey="crm_case_section(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('crm_case_categ_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="crm_case_history" label="Crm Case History">
+    <column name="case_id" label="Case Id" type="INT4" notnull="true" fkey="crm_case(id)" opt="ouaodc"/>
+    <column name="som" label="Som" type="INT4" fkey="res_partner_som(id)" opt="ouaodn"/>
+    <column name="canal_id" label="Canal Id" type="INT4" fkey="res_partner_canal(id)" opt="ouaodn"/>
+    <column name="user_id" label="User Id" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('crm_case_history_id_seq'::regclass)" pkey="true"/>
+    <column name="description" label="Description" type="TEXT"/>
+    <column name="name" label="Name" type="VARCHAR(64)"/>
+    <column name="date" label="Date" type="DATE"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="crm_case_rule" label="Crm Case Rule">
+    <column name="act_mail_to_user" label="Act Mail To User" type="BOOL"/>
+    <column name="act_mail_to_watchers" label="Act Mail To Watchers" type="BOOL"/>
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="act_mail_to_partner" label="Act Mail To Partner" type="BOOL"/>
+    <column name="act_remind_user" label="Act Remind User" type="BOOL"/>
+    <column name="act_remind_partner" label="Act Remind Partner" type="BOOL"/>
+    <column name="trg_partner_categ_id" label="Trg Partner Categ Id" type="INT4" fkey="res_partner_category(id)" opt="ouaodn"/>
+    <column name="trg_partner_id" label="Trg Partner Id" type="INT4" fkey="res_partner(id)" opt="ouaodn"/>
+    <column name="act_user_id" label="Act User Id" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="trg_user_id" label="Trg User Id" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="trg_date_range" label="Trg Date Range" type="INT4"/>
+    <column name="act_section_id" label="Act Section Id" type="INT4" fkey="crm_case_section(id)" opt="ouaodn"/>
+    <column name="sequence" label="Sequence" type="INT4"/>
+    <column name="trg_section_id" label="Trg Section Id" type="INT4" fkey="crm_case_section(id)" opt="ouaodn"/>
+    <column name="trg_categ_id" label="Trg Categ Id" type="INT4" fkey="crm_case_categ(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('crm_case_rule_id_seq'::regclass)" pkey="true"/>
+    <column name="act_mail_body" label="Act Mail Body" type="TEXT"/>
+    <column name="trg_state_from" label="Trg State From" type="VARCHAR(16)"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="trg_priority_to" label="Trg Priority To" type="VARCHAR(16)"/>
+    <column name="act_state" label="Act State" type="VARCHAR(16)"/>
+    <column name="act_mail_to_email" label="Act Mail To Email" type="VARCHAR(128)"/>
+    <column name="trg_state_to" label="Trg State To" type="VARCHAR(16)"/>
+    <column name="act_priority" label="Act Priority" type="VARCHAR(16)"/>
+    <column name="act_email_cc" label="Act Email Cc" type="VARCHAR(250)"/>
+    <column name="act_method" label="Act Method" type="VARCHAR(64)"/>
+    <column name="trg_date_type" label="Trg Date Type" type="VARCHAR(16)"/>
+    <column name="trg_priority_from" label="Trg Priority From" type="VARCHAR(16)"/>
+    <column name="trg_date_range_type" label="Trg Date Range Type" type="VARCHAR(16)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="crm_case_section" label="Crm Case Section">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="parent_id" label="Parent Id" type="INT4" fkey="crm_case_section(id)" opt="ouaodn"/>
+    <column name="sequence" label="Sequence" type="INT4"/>
+    <column name="user_id" label="User Id" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('crm_case_section_id_seq'::regclass)" pkey="true"/>
+    <column name="reply_to" label="Reply To" type="VARCHAR(64)"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="code" label="Code" type="VARCHAR(8)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="crm_segmentation" label="Crm Segmentation">
+    <column name="exclusif" label="Exclusif" type="BOOL"/>
+    <column name="som_interval" label="Som Interval" type="INT4"/>
+    <column name="partner_id" label="Partner Id" type="INT4"/>
+    <column name="categ_id" label="Categ Id" type="INT4" notnull="true" fkey="res_partner_category(id)" opt="ouaodn"/>
+    <column name="som_interval_max" label="Som Interval Max" type="INT4"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('crm_segmentation_id_seq'::regclass)" pkey="true"/>
+    <column name="description" label="Description" type="TEXT"/>
+    <column name="som_interval_decrease" label="Som Interval Decrease" type="FLOAT8"/>
+    <column name="som_interval_default" label="Som Interval Default" type="FLOAT8"/>
+    <column name="state" label="State" type="VARCHAR(16)"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="crm_segmentation_line" label="Crm Segmentation Line">
+    <column name="segmentation_id" label="Segmentation Id" type="INT4" fkey="crm_segmentation(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('crm_segmentation_line_id_seq'::regclass)" pkey="true"/>
+    <column name="expr_value" label="Expr Value" type="FLOAT8" notnull="true"/>
+    <column name="expr_operator" label="Expr Operator" type="VARCHAR(16)" notnull="true"/>
+    <column name="operator" label="Operator" type="VARCHAR(16)" notnull="true"/>
+    <column name="expr_name" label="Expr Name" type="VARCHAR(16)" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="hr_action_reason" label="Hr Action Reason">
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('hr_action_reason_id_seq'::regclass)" pkey="true"/>
+    <column name="action_type" label="Action Type" type="VARCHAR(16)"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="hr_analytic_timesheet" label="Hr Analytic Timesheet">
+    <column name="line_id" label="Line Id" type="INT4" fkey="account_analytic_line(id)" opt="ouaodc"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('hr_analytic_timesheet_id_seq'::regclass)" pkey="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="hr_attendance" label="Hr Attendance">
+    <column name="action_desc" label="Action Desc" type="INT4" fkey="hr_action_reason(id)" opt="ouaodn"/>
+    <column name="employee_id" label="Employee Id" type="INT4" notnull="true" fkey="hr_employee(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('hr_attendance_id_seq'::regclass)" pkey="true"/>
+    <column name="action" label="Action" type="VARCHAR(16)"/>
+    <column name="name" label="Name" type="TIMESTAMP"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="hr_employee" label="Hr Employee">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="journal_id" label="Journal Id" type="INT4" fkey="account_analytic_journal(id)" opt="ouaodn"/>
+    <column name="product_id" label="Product Id" type="INT4" fkey="product_product(id)" opt="ouaodn"/>
+    <column name="holiday_max" label="Holiday Max" type="INT4"/>
+    <column name="category_id" label="Category Id" type="INT4" fkey="hr_employee_category(id)" opt="ouaodn"/>
+    <column name="parent_id" label="Parent Id" type="INT4" fkey="hr_employee(id)" opt="ouaodn"/>
+    <column name="company_id" label="Company Id" type="INT4" fkey="res_company(id)" opt="ouaodn"/>
+    <column name="user_id" label="User Id" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="address_id" label="Address Id" type="INT4" fkey="res_partner_address(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('hr_employee_id_seq'::regclass)" pkey="true"/>
+    <column name="notes" label="Notes" type="TEXT"/>
+    <column name="regime" label="Regime" type="FLOAT8"/>
+    <column name="bank_account" label="Bank Account" type="VARCHAR(16)"/>
+    <column name="state" label="State" type="VARCHAR(16)"/>
+    <column name="name" label="Name" type="VARCHAR(128)" notnull="true"/>
+    <column name="started" label="Started" type="DATE"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="hr_employee_category" label="Hr Employee Category">
+    <column name="parent_id" label="Parent Id" type="INT4" fkey="hr_employee_category(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('hr_employee_category_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="hr_holidays" label="Hr Holidays">
+    <column name="holiday_status" label="Holiday Status" type="INT4" fkey="hr_holidays_status(id)" opt="ouaodn"/>
+    <column name="employee_id" label="Employee Id" type="INT4" fkey="hr_employee(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('hr_holidays_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="date_to" label="Date To" type="TIMESTAMP"/>
+    <column name="date_from" label="Date From" type="TIMESTAMP" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="hr_holidays_status" label="Hr Holidays Status">
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('hr_holidays_status_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="hr_timesheet" label="Hr Timesheet">
+    <column name="tgroup_id" label="Tgroup Id" type="INT4" fkey="hr_timesheet_group(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('hr_timesheet_id_seq'::regclass)" pkey="true"/>
+    <column name="hour_to" label="Hour To" type="VARCHAR(8)"/>
+    <column name="hour_from" label="Hour From" type="VARCHAR(8)"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="dayofweek" label="Dayofweek" type="VARCHAR(16)"/>
+    <column name="date_from" label="Date From" type="DATE"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="hr_timesheet_employee_rel" label="Hr Timesheet Employee Rel">
+    <column name="tgroup_id" label="Tgroup Id" type="INT4" notnull="true" fkey="hr_timesheet_group(id)" opt="ouaodc"/>
+    <column name="emp_id" label="Emp Id" type="INT4" notnull="true" fkey="hr_employee(id)" opt="ouaodc"/>
+  </table>
+
+  <table name="hr_timesheet_group" label="Hr Timesheet Group">
+    <column name="manager" label="Manager" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('hr_timesheet_group_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="hr_timesheet_invoice_factor" label="Hr Timesheet Invoice Factor">
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('hr_timesheet_invoice_factor_id_seq'::regclass)" pkey="true"/>
+    <column name="factor" label="Factor" type="FLOAT8" notnull="true"/>
+    <column name="customer_name" label="Customer Name" type="VARCHAR(128)"/>
+    <column name="name" label="Name" type="VARCHAR(128)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="inherit" label="Inherit">
+    <column name="inst_id" label="Inst Id" type="INT4" notnull="true"/>
+    <column name="obj_id" label="Obj Id" type="INT4" notnull="true"/>
+    <column name="inst_type" label="Inst Type" type="VARCHAR(128)" notnull="true"/>
+    <column name="obj_type" label="Obj Type" type="VARCHAR(128)" notnull="true"/>
+  </table>
+
+  <table name="ir_act_execute" label="Ir Act Execute">
+    <column name="write_uid" label="Write Uid" type="INT4"/>
+    <column name="create_uid" label="Create Uid" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_actions_id_seq'::regclass)"/>
+    <column name="func_arg" label="Func Arg" type="VARCHAR(64)"/>
+    <column name="func_name" label="Func Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="usage" label="Usage" type="VARCHAR(32)"/>
+    <column name="type" label="Type" type="VARCHAR(64)" notnull="true" default="'window'::character varying"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true" default="''::character varying"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="ir_act_group" label="Ir Act Group">
+    <column name="write_uid" label="Write Uid" type="INT4"/>
+    <column name="create_uid" label="Create Uid" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_actions_id_seq'::regclass)"/>
+    <column name="exec_type" label="Exec Type" type="VARCHAR(64)" notnull="true" default="'serial'::character varying"/>
+    <column name="usage" label="Usage" type="VARCHAR(32)"/>
+    <column name="type" label="Type" type="VARCHAR(64)" notnull="true" default="'window'::character varying"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true" default="''::character varying"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="ir_act_group_link" label="Ir Act Group Link">
+    <column name="gid" label="Gid" type="INT4" notnull="true"/>
+    <column name="aid" label="Aid" type="INT4" notnull="true"/>
+  </table>
+
+  <table name="ir_act_report_custom" label="Ir Act Report Custom">
+    <column name="write_uid" label="Write Uid" type="INT4"/>
+    <column name="create_uid" label="Create Uid" type="INT4"/>
+    <column name="report_id" label="Report Id" type="INT4" notnull="true"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_actions_id_seq'::regclass)"/>
+    <column name="model" label="Model" type="VARCHAR(64)" notnull="true"/>
+    <column name="usage" label="Usage" type="VARCHAR(32)"/>
+    <column name="type" label="Type" type="VARCHAR(64)" notnull="true" default="'window'::character varying"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true" default="''::character varying"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="ir_act_report_xml" label="Ir Act Report Xml">
+    <column name="auto" label="Auto" type="BOOL" notnull="true" default="true"/>
+    <column name="write_uid" label="Write Uid" type="INT4"/>
+    <column name="create_uid" label="Create Uid" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_actions_id_seq'::regclass)"/>
+    <column name="report_xml" label="Report Xml" type="VARCHAR(256)"/>
+    <column name="report_rml" label="Report Rml" type="VARCHAR(256)"/>
+    <column name="report_xsl" label="Report Xsl" type="VARCHAR(256)"/>
+    <column name="report_name" label="Report Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="model" label="Model" type="VARCHAR(64)" notnull="true"/>
+    <column name="usage" label="Usage" type="VARCHAR(32)"/>
+    <column name="type" label="Type" type="VARCHAR(64)" notnull="true" default="'window'::character varying"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true" default="''::character varying"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="ir_act_window" label="Ir Act Window">
+    <column name="write_uid" label="Write Uid" type="INT4"/>
+    <column name="create_uid" label="Create Uid" type="INT4"/>
+    <column name="view_id" label="View Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_actions_id_seq'::regclass)" pkey="true"/>
+    <column name="context" label="Context" type="VARCHAR(250)"/>
+    <column name="view_mode" label="View Mode" type="VARCHAR(16)"/>
+    <column name="domain" label="Domain" type="VARCHAR(250)"/>
+    <column name="view_type" label="View Type" type="VARCHAR(16)"/>
+    <column name="res_model" label="Res Model" type="VARCHAR(64)"/>
+    <column name="usage" label="Usage" type="VARCHAR(32)"/>
+    <column name="type" label="Type" type="VARCHAR(64)" notnull="true" default="'window'::character varying"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true" default="''::character varying"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="ir_act_wizard" label="Ir Act Wizard">
+    <column name="multi" label="Multi" type="BOOL"/>
+    <column name="write_uid" label="Write Uid" type="INT4"/>
+    <column name="create_uid" label="Create Uid" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_actions_id_seq'::regclass)"/>
+    <column name="wiz_name" label="Wiz Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="usage" label="Usage" type="VARCHAR(32)"/>
+    <column name="type" label="Type" type="VARCHAR(64)" notnull="true" default="'window'::character varying"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true" default="''::character varying"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="ir_actions" label="Ir Actions">
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="ouaodn"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_actions_id_seq'::regclass)" pkey="true"/>
+    <column name="usage" label="Usage" type="VARCHAR(32)"/>
+    <column name="type" label="Type" type="VARCHAR(64)" notnull="true" default="'window'::character varying"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true" default="''::character varying"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="ir_attachment" label="Ir Attachment">
+    <column name="datas" label="Datas" type="BYTEA"/>
+    <column name="res_id" label="Res Id" type="INT4" notnull="true"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_attachment_id_seq'::regclass)" pkey="true"/>
+    <column name="description" label="Description" type="TEXT"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="datas_fname" label="Datas Fname" type="VARCHAR(64)"/>
+    <column name="link" label="Link" type="VARCHAR(256)"/>
+    <column name="res_model" label="Res Model" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="ir_cron" label="Ir Cron">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="doall" label="Doall" type="BOOL"/>
+    <column name="interval_number" label="Interval Number" type="INT4"/>
+    <column name="priority" label="Priority" type="INT4"/>
+    <column name="numbercall" label="Numbercall" type="INT4"/>
+    <column name="user_id" label="User Id" type="INT4" notnull="true" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_cron_id_seq'::regclass)" pkey="true"/>
+    <column name="args" label="Args" type="TEXT"/>
+    <column name="model" label="Model" type="VARCHAR(64)"/>
+    <column name="interval_type" label="Interval Type" type="VARCHAR(16)"/>
+    <column name="name" label="Name" type="VARCHAR(60)" notnull="true"/>
+    <column name="function" label="Function" type="VARCHAR(64)"/>
+    <column name="nextcall" label="Nextcall" type="TIMESTAMP" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="ir_default" label="Ir Default">
+    <column name="ref_id" label="Ref Id" type="INT4"/>
+    <column name="uid" label="Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_default_id_seq'::regclass)" pkey="true"/>
+    <column name="page" label="Page" type="VARCHAR(64)"/>
+    <column name="field_name" label="Field Name" type="VARCHAR(64)"/>
+    <column name="field_tbl" label="Field Tbl" type="VARCHAR(64)"/>
+    <column name="value" label="Value" type="VARCHAR(64)"/>
+    <column name="ref_table" label="Ref Table" type="VARCHAR(64)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="ir_exports" label="Ir Exports">
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_exports_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(128)"/>
+    <column name="resource" label="Resource" type="VARCHAR(128)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="ir_exports_line" label="Ir Exports Line">
+    <column name="export_id" label="Export Id" type="INT4" fkey="ir_exports(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_exports_line_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="ir_model" label="Ir Model">
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_model_id_seq'::regclass)" pkey="true"/>
+    <column name="info" label="Info" type="TEXT"/>
+    <column name="name" label="Name" type="VARCHAR(64)"/>
+    <column name="model" label="Model" type="VARCHAR(64)" notnull="true" default="''::character varying"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="ir_model_access" label="Ir Model Access">
+    <column name="perm_create" label="Perm Create" type="BOOL"/>
+    <column name="perm_write" label="Perm Write" type="BOOL"/>
+    <column name="perm_read" label="Perm Read" type="BOOL"/>
+    <column name="group_id" label="Group Id" type="INT4" fkey="res_groups(id)" opt="ouaodn"/>
+    <column name="model_id" label="Model Id" type="INT4" notnull="true" fkey="ir_model(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_model_access_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="ir_model_data" label="Ir Model Data">
+    <column name="noupdate" label="Noupdate" type="BOOL"/>
+    <column name="res_id" label="Res Id" type="INT4"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_model_data_id_seq'::regclass)" pkey="true"/>
+    <column name="model" label="Model" type="VARCHAR(64)" notnull="true"/>
+    <column name="module" label="Module" type="VARCHAR(64)" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="date_update" label="Date Update" type="TIMESTAMP"/>
+    <column name="date_init" label="Date Init" type="TIMESTAMP"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="ir_model_fields" label="Ir Model Fields">
+    <column name="relate" label="Relate" type="BOOL" default="false"/>
+    <column name="view_load" label="View Load" type="BOOL"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="model_id" label="Model Id" type="INT4" notnull="true" fkey="ir_model(id)" opt="ouaoda"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_model_fields_id_seq'::regclass)" pkey="true"/>
+    <column name="group_name" label="Group Name" type="VARCHAR(128)"/>
+    <column name="ttype" label="Ttype" type="VARCHAR(64)"/>
+    <column name="field_description" label="Field Description" type="VARCHAR(256)"/>
+    <column name="relation" label="Relation" type="VARCHAR(64)"/>
+    <column name="name" label="Name" type="VARCHAR(64)" default="''::character varying"/>
+    <column name="model" label="Model" type="VARCHAR(64)" notnull="true" default="''::character varying"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="ir_model_fields_group_rel" label="Ir Model Fields Group Rel">
+    <column name="group_id" label="Group Id" type="INT4" notnull="true" fkey="res_groups(id)" opt="ouaodc"/>
+    <column name="field_id" label="Field Id" type="INT4" notnull="true" fkey="ir_model_fields(id)" opt="ouaodc"/>
+  </table>
+
+  <table name="ir_module_category" label="Ir Module Category">
+    <column name="parent_id" label="Parent Id" type="INT4" fkey="ir_module_category(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_module_category_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(128)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="ir_module_module" label="Ir Module Module">
+    <column name="demo" label="Demo" type="BOOL" default="false"/>
+    <column name="category_id" label="Category Id" type="INT4" fkey="ir_module_category(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_module_module_id_seq'::regclass)" pkey="true"/>
+    <column name="description" label="Description" type="TEXT"/>
+    <column name="shortdesc" label="Shortdesc" type="VARCHAR(256)"/>
+    <column name="latest_version" label="Latest Version" type="VARCHAR(64)"/>
+    <column name="state" label="State" type="VARCHAR(16)"/>
+    <column name="url" label="Url" type="VARCHAR(128)"/>
+    <column name="author" label="Author" type="VARCHAR(128)"/>
+    <column name="name" label="Name" type="VARCHAR(128)" notnull="true"/>
+    <column name="website" label="Website" type="VARCHAR(256)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="ir_module_module_dependency" label="Ir Module Module Dependency">
+    <column name="module_id" label="Module Id" type="INT4" fkey="ir_module_module(id)" opt="ouaodc"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_module_module_dependency_id_seq'::regclass)" pkey="true"/>
+    <column name="version_pattern" label="Version Pattern" type="VARCHAR(128)"/>
+    <column name="name" label="Name" type="VARCHAR(128)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="ir_module_repository" label="Ir Module Repository">
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_module_repository_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(128)"/>
+    <column name="url" label="Url" type="VARCHAR(256)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="ir_property" label="Ir Property">
+    <column name="company_id" label="Company Id" type="INT4" fkey="res_company(id)" opt="ouaodn"/>
+    <column name="fields_id" label="Fields Id" type="INT4" notnull="true" fkey="ir_model_fields(id)" opt="ouaodc"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_property_id_seq'::regclass)" pkey="true"/>
+    <column name="value" label="Value" type="VARCHAR(128)"/>
+    <column name="name" label="Name" type="VARCHAR(128)"/>
+    <column name="res_id" label="Res Id" type="VARCHAR(128)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="ir_report_custom" label="Ir Report Custom">
+    <column name="repeat_header" label="Repeat Header" type="BOOL"/>
+    <column name="field_parent" label="Field Parent" type="INT4" fkey="ir_model_fields(id)" opt="ouaodn"/>
+    <column name="model_id" label="Model Id" type="INT4" notnull="true" fkey="ir_model(id)" opt="ouaodn"/>
+    <column name="menu_id" label="Menu Id" type="INT4" fkey="ir_ui_menu(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_report_custom_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="type" label="Type" type="VARCHAR(16)" notnull="true"/>
+    <column name="print_orientation" label="Print Orientation" type="VARCHAR(16)" notnull="true"/>
+    <column name="sortby" label="Sortby" type="VARCHAR(64)"/>
+    <column name="frequency" label="Frequency" type="VARCHAR(16)"/>
+    <column name="state" label="State" type="VARCHAR(16)"/>
+    <column name="footer" label="Footer" type="VARCHAR(64)" notnull="true"/>
+    <column name="title" label="Title" type="VARCHAR(64)" notnull="true"/>
+    <column name="print_format" label="Print Format" type="VARCHAR(16)" notnull="true"/>
+    <column name="limitt" label="Limitt" type="VARCHAR(9)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="ir_report_custom_fields" label="Ir Report Custom Fields">
+    <column name="groupby" label="Groupby" type="BOOL"/>
+    <column name="cumulate" label="Cumulate" type="BOOL"/>
+    <column name="fc0_operande" label="Fc0 Operande" type="INT4" fkey="ir_model_fields(id)" opt="ouaodn"/>
+    <column name="report_id" label="Report Id" type="INT4" fkey="ir_report_custom(id)" opt="ouaodn"/>
+    <column name="field_child2" label="Field Child2" type="INT4" fkey="ir_model_fields(id)" opt="ouaodn"/>
+    <column name="field_child3" label="Field Child3" type="INT4" fkey="ir_model_fields(id)" opt="ouaodn"/>
+    <column name="field_child0" label="Field Child0" type="INT4" notnull="true" fkey="ir_model_fields(id)" opt="ouaodn"/>
+    <column name="field_child1" label="Field Child1" type="INT4" fkey="ir_model_fields(id)" opt="ouaodn"/>
+    <column name="fc1_operande" label="Fc1 Operande" type="INT4" fkey="ir_model_fields(id)" opt="ouaodn"/>
+    <column name="fc3_operande" label="Fc3 Operande" type="INT4" fkey="ir_model_fields(id)" opt="ouaodn"/>
+    <column name="sequence" label="Sequence" type="INT4" notnull="true"/>
+    <column name="width" label="Width" type="INT4"/>
+    <column name="fc2_operande" label="Fc2 Operande" type="INT4" fkey="ir_model_fields(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_report_custom_fields_id_seq'::regclass)" pkey="true"/>
+    <column name="fc3_condition" label="Fc3 Condition" type="VARCHAR(64)"/>
+    <column name="bgcolor" label="Bgcolor" type="VARCHAR(64)"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="fc3_op" label="Fc3 Op" type="VARCHAR(16)"/>
+    <column name="fc1_condition" label="Fc1 Condition" type="VARCHAR(64)"/>
+    <column name="fontcolor" label="Fontcolor" type="VARCHAR(64)"/>
+    <column name="fc0_op" label="Fc0 Op" type="VARCHAR(16)"/>
+    <column name="fc0_condition" label="Fc0 Condition" type="VARCHAR(64)"/>
+    <column name="fc2_condition" label="Fc2 Condition" type="VARCHAR(64)"/>
+    <column name="alignment" label="Alignment" type="VARCHAR(16)" notnull="true"/>
+    <column name="fc1_op" label="Fc1 Op" type="VARCHAR(16)"/>
+    <column name="operation" label="Operation" type="VARCHAR(16)"/>
+    <column name="fc2_op" label="Fc2 Op" type="VARCHAR(16)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="ir_sequence" label="Ir Sequence">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="number_increment" label="Number Increment" type="INT4" notnull="true"/>
+    <column name="padding" label="Padding" type="INT4" notnull="true"/>
+    <column name="number_next" label="Number Next" type="INT4" notnull="true"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_sequence_id_seq'::regclass)" pkey="true"/>
+    <column name="suffix" label="Suffix" type="VARCHAR(64)"/>
+    <column name="prefix" label="Prefix" type="VARCHAR(64)"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="code" label="Code" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="ir_sequence_type" label="Ir Sequence Type">
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_sequence_type_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="code" label="Code" type="VARCHAR(32)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="ir_translation" label="Ir Translation">
+    <column name="res_id" label="Res Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_translation_id_seq'::regclass)" pkey="true"/>
+    <column name="value" label="Value" type="TEXT"/>
+    <column name="src" label="Src" type="TEXT"/>
+    <column name="type" label="Type" type="VARCHAR(16)"/>
+    <column name="name" label="Name" type="VARCHAR(128)" notnull="true"/>
+    <column name="lang" label="Lang" type="VARCHAR(5)"/>
+  </table>
+
+  <table name="ir_ui_menu" label="Ir Ui Menu">
+    <column name="sequence" label="Sequence" type="INT4"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="parent_id" label="Parent Id" type="INT4" fkey="ir_ui_menu(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="ouaodn"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_ui_menu_id_seq'::regclass)" pkey="true"/>
+    <column name="icon" label="Icon" type="VARCHAR(64)" default="''::character varying"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true" default="''::character varying"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="ir_ui_menu_group_rel" label="Ir Ui Menu Group Rel">
+    <column name="gid" label="Gid" type="INT4" notnull="true" fkey="res_groups(id)" opt="ouaodc"/>
+    <column name="menu_id" label="Menu Id" type="INT4" notnull="true" fkey="ir_ui_menu(id)" opt="ouaodc"/>
+  </table>
+
+  <table name="ir_ui_view" label="Ir Ui View">
+    <column name="inherit_id" label="Inherit Id" type="INT4" fkey="ir_ui_view(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="priority" label="Priority" type="INT4" notnull="true" default="5"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="ouaodn"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_ui_view_id_seq'::regclass)" pkey="true"/>
+    <column name="arch" label="Arch" type="TEXT" notnull="true"/>
+    <column name="field_parent" label="Field Parent" type="VARCHAR(64)"/>
+    <column name="type" label="Type" type="VARCHAR(64)" notnull="true" default="'form'::character varying"/>
+    <column name="model" label="Model" type="VARCHAR(64)" notnull="true" default="''::character varying"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true" default="''::character varying"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="ir_ui_view_sc" label="Ir Ui View Sc">
+    <column name="sequence" label="Sequence" type="INT4"/>
+    <column name="res_id" label="Res Id" type="INT4" notnull="true"/>
+    <column name="user_id" label="User Id" type="INT4" notnull="true" fkey="res_users(id)" opt="ouaodc"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_ui_view_sc_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="resource" label="Resource" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="ir_values" label="Ir Values">
+    <column name="object" label="Object" type="BOOL"/>
+    <column name="user_id" label="User Id" type="INT4" fkey="res_users(id)" opt="ouaodc"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="res_id" label="Res Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="ouaodn"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_values_id_seq'::regclass)" pkey="true"/>
+    <column name="meta" label="Meta" type="TEXT"/>
+    <column name="value" label="Value" type="TEXT"/>
+    <column name="key2" label="Key2" type="VARCHAR(256)"/>
+    <column name="model" label="Model" type="VARCHAR(128)"/>
+    <column name="key" label="Key" type="VARCHAR(128)"/>
+    <column name="name" label="Name" type="VARCHAR(128)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="mrp_bom" label="Mrp Bom">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="product_id" label="Product Id" type="INT4" notnull="true" fkey="product_product(id)" opt="ouaodn"/>
+    <column name="bom_id" label="Bom Id" type="INT4" fkey="mrp_bom(id)" opt="ouaodc"/>
+    <column name="routing_id" label="Routing Id" type="INT4" fkey="mrp_routing(id)" opt="ouaodn"/>
+    <column name="sequence" label="Sequence" type="INT4"/>
+    <column name="product_uom" label="Product Uom" type="INT4" notnull="true" fkey="product_uom(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('mrp_bom_id_seq'::regclass)" pkey="true"/>
+    <column name="product_qty" label="Product Qty" type="FLOAT8" notnull="true"/>
+    <column name="product_efficiency" label="Product Efficiency" type="FLOAT8" notnull="true"/>
+    <column name="product_rounding" label="Product Rounding" type="FLOAT8"/>
+    <column name="type" label="Type" type="VARCHAR(16)" notnull="true"/>
+    <column name="position" label="Position" type="VARCHAR(64)"/>
+    <column name="revision_type" label="Revision Type" type="VARCHAR(16)"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="code" label="Code" type="VARCHAR(16)"/>
+    <column name="date_start" label="Date Start" type="DATE"/>
+    <column name="date_stop" label="Date Stop" type="DATE"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="mrp_bom_property_rel" label="Mrp Bom Property Rel">
+    <column name="property_id" label="Property Id" type="INT4" notnull="true" fkey="mrp_property(id)" opt="ouaodc"/>
+    <column name="bom_id" label="Bom Id" type="INT4" notnull="true" fkey="mrp_bom(id)" opt="ouaodc"/>
+  </table>
+
+  <table name="mrp_bom_revision" label="Mrp Bom Revision">
+    <column name="author_id" label="Author Id" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="bom_id" label="Bom Id" type="INT4" fkey="mrp_bom(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('mrp_bom_revision_id_seq'::regclass)" pkey="true"/>
+    <column name="description" label="Description" type="TEXT"/>
+    <column name="last_indice" label="Last Indice" type="VARCHAR(64)"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="indice" label="Indice" type="VARCHAR(16)"/>
+    <column name="date" label="Date" type="DATE"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="mrp_procurement" label="Mrp Procurement">
+    <column name="close_move" label="Close Move" type="BOOL" notnull="true"/>
+    <column name="move_id" label="Move Id" type="INT4" fkey="stock_move(id)" opt="ouaodc"/>
+    <column name="location_id" label="Location Id" type="INT4" notnull="true" fkey="stock_location(id)" opt="ouaodn"/>
+    <column name="purchase_line_id" label="Purchase Line Id" type="INT4" fkey="purchase_order_line(id)" opt="ouaodn"/>
+    <column name="product_uom" label="Product Uom" type="INT4" notnull="true" fkey="product_uom(id)" opt="ouaodn"/>
+    <column name="product_id" label="Product Id" type="INT4" notnull="true" fkey="product_product(id)" opt="ouaodn"/>
+    <column name="purchase_id" label="Purchase Id" type="INT4" fkey="purchase_order(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('mrp_procurement_id_seq'::regclass)" pkey="true"/>
+    <column name="product_qty" label="Product Qty" type="FLOAT8" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="message" label="Message" type="VARCHAR(64)"/>
+    <column name="procure_method" label="Procure Method" type="VARCHAR(16)"/>
+    <column name="state" label="State" type="VARCHAR(16)"/>
+    <column name="priority" label="Priority" type="VARCHAR(16)" notnull="true"/>
+    <column name="origin" label="Origin" type="VARCHAR(64)"/>
+    <column name="date_close" label="Date Close" type="DATE"/>
+    <column name="date_planned" label="Date Planned" type="DATE" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="mrp_procurement_property_rel" label="Mrp Procurement Property Rel">
+    <column name="property_id" label="Property Id" type="INT4" notnull="true" fkey="mrp_property(id)" opt="ouaodc"/>
+    <column name="procurement_id" label="Procurement Id" type="INT4" notnull="true" fkey="mrp_procurement(id)" opt="ouaodc"/>
+  </table>
+
+  <table name="mrp_production" label="Mrp Production">
+    <column name="product_id" label="Product Id" type="INT4" notnull="true" fkey="product_product(id)" opt="ouaodn"/>
+    <column name="picking_id" label="Picking Id" type="INT4" fkey="stock_picking(id)" opt="ouaodn"/>
+    <column name="move_prod_id" label="Move Prod Id" type="INT4" fkey="stock_move(id)" opt="ouaodn"/>
+    <column name="bom_id" label="Bom Id" type="INT4" fkey="mrp_bom(id)" opt="ouaodn"/>
+    <column name="location_dest_id" label="Location Dest Id" type="INT4" notnull="true" fkey="stock_location(id)" opt="ouaodn"/>
+    <column name="product_uom" label="Product Uom" type="INT4" fkey="product_uom(id)" opt="ouaodn"/>
+    <column name="location_src_id" label="Location Src Id" type="INT4" notnull="true" fkey="stock_location(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('mrp_production_id_seq'::regclass)" pkey="true"/>
+    <column name="product_qty" label="Product Qty" type="FLOAT8" notnull="true"/>
+    <column name="state" label="State" type="VARCHAR(16)"/>
+    <column name="priority" label="Priority" type="VARCHAR(16)"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="origin" label="Origin" type="VARCHAR(64)"/>
+    <column name="date_planned" label="Date Planned" type="DATE" notnull="true"/>
+    <column name="date_finnished" label="Date Finnished" type="TIMESTAMP"/>
+    <column name="date_start" label="Date Start" type="TIMESTAMP"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="mrp_production_move_ids" label="Mrp Production Move Ids">
+    <column name="move_id" label="Move Id" type="INT4" notnull="true" fkey="stock_move(id)" opt="ouaodc"/>
+    <column name="production_id" label="Production Id" type="INT4" notnull="true" fkey="mrp_production(id)" opt="ouaodc"/>
+  </table>
+
+  <table name="mrp_production_product_line" label="Mrp Production Product Line">
+    <column name="product_id" label="Product Id" type="INT4" notnull="true" fkey="product_product(id)" opt="ouaodn"/>
+    <column name="product_uom" label="Product Uom" type="INT4" notnull="true" fkey="product_uom(id)" opt="ouaodn"/>
+    <column name="production_id" label="Production Id" type="INT4" fkey="mrp_production(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('mrp_production_product_line_id_seq'::regclass)" pkey="true"/>
+    <column name="product_qty" label="Product Qty" type="FLOAT8" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="mrp_production_workcenter_line" label="Mrp Production Workcenter Line">
+    <column name="workcenter_id" label="Workcenter Id" type="INT4" notnull="true" fkey="mrp_workcenter(id)" opt="ouaodn"/>
+    <column name="production_id" label="Production Id" type="INT4" fkey="mrp_production(id)" opt="ouaodn"/>
+    <column name="sequence" label="Sequence" type="INT4" notnull="true"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('mrp_production_workcenter_line_id_seq'::regclass)" pkey="true"/>
+    <column name="cycle" label="Cycle" type="FLOAT8"/>
+    <column name="hour" label="Hour" type="FLOAT8"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="mrp_property" label="Mrp Property">
+    <column name="group_id" label="Group Id" type="INT4" notnull="true" fkey="mrp_property_group(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('mrp_property_id_seq'::regclass)" pkey="true"/>
+    <column name="description" label="Description" type="TEXT"/>
+    <column name="composition" label="Composition" type="VARCHAR(16)" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="mrp_property_group" label="Mrp Property Group">
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('mrp_property_group_id_seq'::regclass)" pkey="true"/>
+    <column name="description" label="Description" type="TEXT"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="mrp_routing" label="Mrp Routing">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="location_id" label="Location Id" type="INT4" fkey="stock_location(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('mrp_routing_id_seq'::regclass)" pkey="true"/>
+    <column name="note" label="Note" type="TEXT"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="code" label="Code" type="VARCHAR(8)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="mrp_routing_workcenter" label="Mrp Routing Workcenter">
+    <column name="workcenter_id" label="Workcenter Id" type="INT4" notnull="true" fkey="mrp_workcenter(id)" opt="ouaodn"/>
+    <column name="routing_id" label="Routing Id" type="INT4" fkey="mrp_routing(id)" opt="ouaodn"/>
+    <column name="sequence" label="Sequence" type="INT4"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('mrp_routing_workcenter_id_seq'::regclass)" pkey="true"/>
+    <column name="note" label="Note" type="TEXT"/>
+    <column name="hour_nbr" label="Hour Nbr" type="FLOAT8" notnull="true"/>
+    <column name="cycle_nbr" label="Cycle Nbr" type="FLOAT8" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="mrp_workcenter" label="Mrp Workcenter">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="costs_general_account_id" label="Costs General Account Id" type="INT4" fkey="account_account(id)" opt="ouaodn"/>
+    <column name="costs_cycle_account_id" label="Costs Cycle Account Id" type="INT4" fkey="account_analytic_account(id)" opt="ouaodn"/>
+    <column name="costs_hour_account_id" label="Costs Hour Account Id" type="INT4" fkey="account_analytic_account(id)" opt="ouaodn"/>
+    <column name="timesheet_id" label="Timesheet Id" type="INT4" fkey="hr_timesheet_group(id)" opt="ouaodn"/>
+    <column name="costs_journal_id" label="Costs Journal Id" type="INT4" fkey="account_analytic_journal(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('mrp_workcenter_id_seq'::regclass)" pkey="true"/>
+    <column name="note" label="Note" type="TEXT"/>
+    <column name="time_cycle" label="Time Cycle" type="FLOAT8"/>
+    <column name="costs_cycle" label="Costs Cycle" type="FLOAT8"/>
+    <column name="costs_hour" label="Costs Hour" type="FLOAT8"/>
+    <column name="time_stop" label="Time Stop" type="FLOAT8"/>
+    <column name="time_start" label="Time Start" type="FLOAT8"/>
+    <column name="time_efficiency" label="Time Efficiency" type="FLOAT8"/>
+    <column name="capacity_per_cycle" label="Capacity Per Cycle" type="FLOAT8"/>
+    <column name="type" label="Type" type="VARCHAR(16)" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="code" label="Code" type="VARCHAR(8)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="perm" label="Perm">
+    <column name="level" label="Level" type="INT2" notnull="true" default="4"/>
+    <column name="gid" label="Gid" type="INT4"/>
+    <column name="uid" label="Uid" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('perm_id_seq'::regclass)" pkey="true"/>
+  </table>
+
+  <table name="pricelist_partnerinfo" label="Pricelist Partnerinfo">
+    <column name="suppinfo_id" label="Suppinfo Id" type="INT4" notnull="true" fkey="product_supplierinfo(id)" opt="ouaodc"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('pricelist_partnerinfo_id_seq'::regclass)" pkey="true"/>
+    <column name="price" label="Price" type="FLOAT8" notnull="true"/>
+    <column name="min_quantity" label="Min Quantity" type="FLOAT8" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="product_category" label="Product Category">
+    <column name="sequence" label="Sequence" type="INT4"/>
+    <column name="parent_id" label="Parent Id" type="INT4" fkey="product_category(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('product_category_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="product_packaging" label="Product Packaging">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="ul" label="Ul" type="INT4" notnull="true" fkey="product_ul(id)" opt="ouaodn"/>
+    <column name="ul_qty" label="Ul Qty" type="INT4"/>
+    <column name="product_id" label="Product Id" type="INT4" fkey="product_product(id)" opt="ouaodn"/>
+    <column name="rows" label="Rows" type="INT4" notnull="true"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('product_packaging_id_seq'::regclass)" pkey="true"/>
+    <column name="weight_ul" label="Weight Ul" type="FLOAT8"/>
+    <column name="qty" label="Qty" type="FLOAT8"/>
+    <column name="weight" label="Weight" type="FLOAT8"/>
+    <column name="name" label="Name" type="VARCHAR(64)"/>
+    <column name="code" label="Code" type="VARCHAR(14)"/>
+    <column name="ean" label="Ean" type="VARCHAR(14)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="product_price_type" label="Product Price Type">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="currency_id" label="Currency Id" type="INT4" notnull="true" fkey="res_currency(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('product_price_type_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(32)" notnull="true"/>
+    <column name="field" label="Field" type="VARCHAR(16)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="product_pricelist" label="Product Pricelist">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="currency_id" label="Currency Id" type="INT4" notnull="true" fkey="res_currency(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('product_pricelist_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="type" label="Type" type="VARCHAR(16)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="product_pricelist_item" label="Product Pricelist Item">
+    <column name="product_id" label="Product Id" type="INT4" fkey="product_product(id)" opt="ouaodn"/>
+    <column name="categ_id" label="Categ Id" type="INT4" fkey="product_category(id)" opt="ouaodn"/>
+    <column name="min_quantity" label="Min Quantity" type="INT4" notnull="true"/>
+    <column name="price_version_id" label="Price Version Id" type="INT4" notnull="true" fkey="product_pricelist_version(id)" opt="ouaodn"/>
+    <column name="base" label="Base" type="INT4" notnull="true"/>
+    <column name="product_tmpl_id" label="Product Tmpl Id" type="INT4" fkey="product_template(id)" opt="ouaodn"/>
+    <column name="sequence" label="Sequence" type="INT4" notnull="true"/>
+    <column name="base_pricelist_id" label="Base Pricelist Id" type="INT4" fkey="product_pricelist(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('product_pricelist_item_id_seq'::regclass)" pkey="true"/>
+    <column name="price_surcharge" label="Price Surcharge" type="FLOAT8"/>
+    <column name="price_discount" label="Price Discount" type="FLOAT8"/>
+    <column name="price_max_margin" label="Price Max Margin" type="FLOAT8"/>
+    <column name="price_min_margin" label="Price Min Margin" type="FLOAT8"/>
+    <column name="price_round" label="Price Round" type="FLOAT8"/>
+    <column name="name" label="Name" type="VARCHAR(64)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="product_pricelist_type" label="Product Pricelist Type">
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('product_pricelist_type_id_seq'::regclass)" pkey="true"/>
+    <column name="key" label="Key" type="VARCHAR(64)" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="product_pricelist_version" label="Product Pricelist Version">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="pricelist_id" label="Pricelist Id" type="INT4" notnull="true" fkey="product_pricelist(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('product_pricelist_version_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="date_start" label="Date Start" type="DATE"/>
+    <column name="date_end" label="Date End" type="DATE"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="product_product" label="Product Product">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="product_tmpl_id" label="Product Tmpl Id" type="INT4" notnull="true" fkey="product_template(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('product_product_id_seq'::regclass)" pkey="true"/>
+    <column name="price_margin" label="Price Margin" type="FLOAT8"/>
+    <column name="price_extra" label="Price Extra" type="FLOAT8"/>
+    <column name="variants" label="Variants" type="VARCHAR(64)"/>
+    <column name="default_code" label="Default Code" type="VARCHAR(64)"/>
+    <column name="ean13" label="Ean13" type="VARCHAR(13)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="product_supplierinfo" label="Product Supplierinfo">
+    <column name="name" label="Name" type="INT4" notnull="true" fkey="res_partner(id)" opt="ouaodc"/>
+    <column name="delay" label="Delay" type="INT4" notnull="true"/>
+    <column name="qty" label="Qty" type="INT4" notnull="true"/>
+    <column name="sequence" label="Sequence" type="INT4"/>
+    <column name="product_id" label="Product Id" type="INT4" notnull="true" fkey="product_template(id)" opt="ouaodc"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('product_supplierinfo_id_seq'::regclass)" pkey="true"/>
+    <column name="product_name" label="Product Name" type="VARCHAR(128)"/>
+    <column name="product_code" label="Product Code" type="VARCHAR(64)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="product_taxes_rel" label="Product Taxes Rel">
+    <column name="tax_id" label="Tax Id" type="INT4" notnull="true" fkey="account_tax(id)" opt="ouaodc"/>
+    <column name="prod_id" label="Prod Id" type="INT4" notnull="true" fkey="product_template(id)" opt="ouaodc"/>
+  </table>
+
+  <table name="product_template" label="Product Template">
+    <column name="purchase_ok" label="Purchase Ok" type="BOOL"/>
+    <column name="rental" label="Rental" type="BOOL"/>
+    <column name="tracking" label="Tracking" type="BOOL"/>
+    <column name="sale_ok" label="Sale Ok" type="BOOL"/>
+    <column name="uom_po_id" label="Uom Po Id" type="INT4" notnull="true" fkey="product_uom(id)" opt="ouaodn"/>
+    <column name="product_manager" label="Product Manager" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="categ_id" label="Categ Id" type="INT4" notnull="true" fkey="product_category(id)" opt="ouaodn"/>
+    <column name="uom_id" label="Uom Id" type="INT4" notnull="true" fkey="product_uom(id)" opt="ouaodn"/>
+    <column name="uos_id" label="Uos Id" type="INT4" fkey="product_uom(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('product_template_id_seq'::regclass)" pkey="true"/>
+    <column name="description_sale" label="Description Sale" type="TEXT"/>
+    <column name="description" label="Description" type="TEXT"/>
+    <column name="description_purchase" label="Description Purchase" type="TEXT"/>
+    <column name="produce_delay" label="Produce Delay" type="FLOAT8"/>
+    <column name="sale_delay" label="Sale Delay" type="FLOAT8"/>
+    <column name="volume" label="Volume" type="FLOAT8"/>
+    <column name="uos_coeff" label="Uos Coeff" type="FLOAT8"/>
+    <column name="standard_price" label="Standard Price" type="FLOAT8" notnull="true"/>
+    <column name="weight" label="Weight" type="FLOAT8"/>
+    <column name="list_price" label="List Price" type="FLOAT8"/>
+    <column name="warranty" label="Warranty" type="FLOAT8"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="cost_method" label="Cost Method" type="VARCHAR(16)" notnull="true"/>
+    <column name="procure_method" label="Procure Method" type="VARCHAR(16)" notnull="true"/>
+    <column name="intrastat" label="Intrastat" type="VARCHAR(16)"/>
+    <column name="type" label="Type" type="VARCHAR(16)" notnull="true"/>
+    <column name="state" label="State" type="VARCHAR(16)"/>
+    <column name="mes_type" label="Mes Type" type="VARCHAR(16)" notnull="true"/>
+    <column name="supply_method" label="Supply Method" type="VARCHAR(16)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="product_ul" label="Product Ul">
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('product_ul_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)"/>
+    <column name="type" label="Type" type="VARCHAR(16)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="product_uom" label="Product Uom">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="category_id" label="Category Id" type="INT4" notnull="true" fkey="product_uom_categ(id)" opt="ouaodc"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('product_uom_id_seq'::regclass)" pkey="true"/>
+    <column name="factor" label="Factor" type="FLOAT8" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+    <column name="rounding" label="Rounding" type="NUMERIC(1048579)" notnull="true"/>
+  </table>
+
+  <table name="product_uom_categ" label="Product Uom Categ">
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('product_uom_categ_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="project_account_tax_rel" label="Project Account Tax Rel">
+    <column name="tax_id" label="Tax Id" type="INT4" notnull="true" fkey="account_tax(id)" opt="ouaodc"/>
+    <column name="project_id" label="Project Id" type="INT4" notnull="true" fkey="project_project(id)" opt="ouaodc"/>
+  </table>
+
+  <table name="project_project" label="Project Project">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="warn_customer" label="Warn Customer" type="BOOL"/>
+    <column name="warn_manager" label="Warn Manager" type="BOOL"/>
+    <column name="category_id" label="Category Id" type="INT4" fkey="account_analytic_account(id)" opt="ouaodn"/>
+    <column name="pricelist_id" label="Pricelist Id" type="INT4" fkey="product_pricelist(id)" opt="ouaodn"/>
+    <column name="timesheet_id" label="Timesheet Id" type="INT4" fkey="hr_timesheet_group(id)" opt="ouaodn"/>
+    <column name="parent_id" label="Parent Id" type="INT4" fkey="project_project(id)" opt="ouaodn"/>
+    <column name="priority" label="Priority" type="INT4"/>
+    <column name="partner_id" label="Partner Id" type="INT4" fkey="res_partner(id)" opt="ouaodn"/>
+    <column name="manager" label="Manager" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="contact_id" label="Contact Id" type="INT4" fkey="res_partner_address(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('project_project_id_seq'::regclass)" pkey="true"/>
+    <column name="warn_header" label="Warn Header" type="TEXT"/>
+    <column name="notes" label="Notes" type="TEXT"/>
+    <column name="warn_footer" label="Warn Footer" type="TEXT"/>
+    <column name="tariff" label="Tariff" type="FLOAT8"/>
+    <column name="mode" label="Mode" type="VARCHAR(16)"/>
+    <column name="name" label="Name" type="VARCHAR(128)" notnull="true"/>
+    <column name="state" label="State" type="VARCHAR(16)"/>
+    <column name="date_start" label="Date Start" type="DATE"/>
+    <column name="date_end" label="Date End" type="DATE"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="project_task" label="Project Task">
+    <column name="billable" label="Billable" type="BOOL"/>
+    <column name="start_sequence" label="Start Sequence" type="BOOL"/>
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="invoice_id" label="Invoice Id" type="INT4" fkey="account_invoice(id)" opt="ouaodn"/>
+    <column name="procurement_id" label="Procurement Id" type="INT4" fkey="mrp_procurement(id)" opt="ouaodn"/>
+    <column name="type" label="Type" type="INT4" fkey="project_task_type(id)" opt="ouaodn"/>
+    <column name="project_id" label="Project Id" type="INT4" fkey="project_project(id)" opt="ouaodc"/>
+    <column name="progress" label="Progress" type="INT4"/>
+    <column name="user_id" label="User Id" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="partner_id" label="Partner Id" type="INT4" fkey="res_partner(id)" opt="ouaodn"/>
+    <column name="sequence" label="Sequence" type="INT4"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('project_task_id_seq'::regclass)" pkey="true"/>
+    <column name="cust_desc" label="Cust Desc" type="TEXT"/>
+    <column name="notes" label="Notes" type="TEXT"/>
+    <column name="description" label="Description" type="TEXT"/>
+    <column name="planned_hours" label="Planned Hours" type="FLOAT8"/>
+    <column name="name" label="Name" type="VARCHAR(128)" notnull="true"/>
+    <column name="state" label="State" type="VARCHAR(16)"/>
+    <column name="priority" label="Priority" type="VARCHAR(16)"/>
+    <column name="date_close" label="Date Close" type="TIMESTAMP"/>
+    <column name="date_deadline" label="Date Deadline" type="TIMESTAMP"/>
+    <column name="date_start" label="Date Start" type="TIMESTAMP"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="project_task_type" label="Project Task Type">
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('project_task_type_id_seq'::regclass)" pkey="true"/>
+    <column name="description" label="Description" type="TEXT"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="project_task_work" label="Project Task Work">
+    <column name="task_id" label="Task Id" type="INT4" fkey="project_task(id)" opt="ouaodc"/>
+    <column name="user_id" label="User Id" type="INT4" notnull="true" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('project_task_work_id_seq'::regclass)" pkey="true"/>
+    <column name="hours" label="Hours" type="FLOAT8"/>
+    <column name="name" label="Name" type="VARCHAR(128)"/>
+    <column name="date" label="Date" type="TIMESTAMP"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="project_user_rel" label="Project User Rel">
+    <column name="uid" label="Uid" type="INT4" notnull="true" fkey="res_users(id)" opt="ouaodc"/>
+    <column name="project_id" label="Project Id" type="INT4" notnull="true" fkey="project_project(id)" opt="ouaodc"/>
+  </table>
+
+  <table name="purchase_order" label="Purchase Order">
+    <column name="shipped" label="Shipped" type="BOOL"/>
+    <column name="invoiced" label="Invoiced" type="BOOL"/>
+    <column name="picking_id" label="Picking Id" type="INT4" fkey="stock_picking(id)" opt="ouaodn"/>
+    <column name="validator" label="Validator" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="invoice_id" label="Invoice Id" type="INT4" fkey="account_invoice(id)" opt="ouaodn"/>
+    <column name="warehouse_id" label="Warehouse Id" type="INT4" fkey="stock_warehouse(id)" opt="ouaodn"/>
+    <column name="project_id" label="Project Id" type="INT4" fkey="account_analytic_account(id)" opt="ouaodn"/>
+    <column name="pricelist_id" label="Pricelist Id" type="INT4" notnull="true" fkey="product_pricelist(id)" opt="ouaodn"/>
+    <column name="location_id" label="Location Id" type="INT4" notnull="true" fkey="stock_location(id)" opt="ouaodn"/>
+    <column name="dest_address_id" label="Dest Address Id" type="INT4" fkey="res_partner_address(id)" opt="ouaodn"/>
+    <column name="partner_id" label="Partner Id" type="INT4" notnull="true" fkey="res_partner(id)" opt="ouaodn"/>
+    <column name="partner_address_id" label="Partner Address Id" type="INT4" notnull="true" fkey="res_partner_address(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('purchase_order_id_seq'::regclass)" pkey="true"/>
+    <column name="notes" label="Notes" type="TEXT"/>
+    <column name="invoice_method" label="Invoice Method" type="VARCHAR(16)" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="partner_ref" label="Partner Ref" type="VARCHAR(64)"/>
+    <column name="ref" label="Ref" type="VARCHAR(64)"/>
+    <column name="state" label="State" type="VARCHAR(16)"/>
+    <column name="origin" label="Origin" type="VARCHAR(64)"/>
+    <column name="date_approve" label="Date Approve" type="DATE"/>
+    <column name="date_order" label="Date Order" type="DATE" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="purchase_order_line" label="Purchase Order Line">
+    <column name="move_id" label="Move Id" type="INT4" fkey="stock_move(id)" opt="ouaodn"/>
+    <column name="move_dest_id" label="Move Dest Id" type="INT4" fkey="stock_move(id)" opt="ouaodn"/>
+    <column name="order_id" label="Order Id" type="INT4" fkey="purchase_order(id)" opt="ouaodn"/>
+    <column name="product_uom" label="Product Uom" type="INT4" notnull="true" fkey="product_uom(id)" opt="ouaodn"/>
+    <column name="product_id" label="Product Id" type="INT4" fkey="product_product(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('purchase_order_line_id_seq'::regclass)" pkey="true"/>
+    <column name="notes" label="Notes" type="TEXT"/>
+    <column name="price_unit" label="Price Unit" type="FLOAT8" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="date_planned" label="Date Planned" type="DATE" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+    <column name="product_qty" label="Product Qty" type="NUMERIC(1048578)" notnull="true"/>
+  </table>
+
+  <table name="purchase_order_taxe" label="Purchase Order Taxe">
+    <column name="tax_id" label="Tax Id" type="INT4" notnull="true" fkey="account_tax(id)" opt="ouaodc"/>
+    <column name="ord_id" label="Ord Id" type="INT4" notnull="true" fkey="purchase_order_line(id)" opt="ouaodc"/>
+  </table>
+
+  <table name="res_company" label="Res Company">
+    <column name="partner_id" label="Partner Id" type="INT4" notnull="true" fkey="res_partner(id)" opt="ouaodn"/>
+    <column name="parent_id" label="Parent Id" type="INT4" fkey="res_company(id)" opt="ouaodn"/>
+    <column name="currency_id" label="Currency Id" type="INT4" notnull="true" fkey="res_currency(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_company_id_seq'::regclass)" pkey="true"/>
+    <column name="rml_header1" label="Rml Header1" type="VARCHAR(200)"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="rml_footer2" label="Rml Footer2" type="VARCHAR(200)"/>
+    <column name="rml_footer1" label="Rml Footer1" type="VARCHAR(200)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="res_country" label="Res Country">
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_country_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)"/>
+    <column name="code" label="Code" type="VARCHAR(2)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="res_country_state" label="Res Country State">
+    <column name="country_id" label="Country Id" type="INT4" fkey="res_country(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_country_state_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)"/>
+    <column name="code" label="Code" type="VARCHAR(2)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="res_currency" label="Res Currency">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="accuracy" label="Accuracy" type="INT4"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_currency_id_seq'::regclass)" pkey="true"/>
+    <column name="rounding" label="Rounding" type="FLOAT8"/>
+    <column name="name" label="Name" type="VARCHAR(32)" notnull="true"/>
+    <column name="code" label="Code" type="VARCHAR(3)"/>
+    <column name="date" label="Date" type="DATE"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+    <column name="rate" label="Rate" type="NUMERIC(786438)"/>
+  </table>
+
+  <table name="res_groups" label="Res Groups">
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="ouaodn"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_groups_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="res_groups_users_rel" label="Res Groups Users Rel">
+    <column name="gid" label="Gid" type="INT4" notnull="true" fkey="res_groups(id)" opt="ouaodc"/>
+    <column name="uid" label="Uid" type="INT4" notnull="true" fkey="res_users(id)" opt="ouaodc"/>
+  </table>
+
+  <table name="res_lang" label="Res Lang">
+    <column name="translatable" label="Translatable" type="BOOL"/>
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_lang_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="code" label="Code" type="VARCHAR(5)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="res_partner" label="Res Partner">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="parent_id" label="Parent Id" type="INT4" fkey="res_partner(id)" opt="ouaodn"/>
+    <column name="responsible" label="Responsible" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="user_id" label="User Id" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_partner_id_seq'::regclass)" pkey="true"/>
+    <column name="comment" label="Comment" type="TEXT"/>
+    <column name="debit_limit" label="Debit Limit" type="FLOAT8"/>
+    <column name="credit_limit" label="Credit Limit" type="FLOAT8"/>
+    <column name="vat" label="Vat" type="VARCHAR(32)"/>
+    <column name="ref" label="Ref" type="VARCHAR(64)"/>
+    <column name="ean13" label="Ean13" type="VARCHAR(13)"/>
+    <column name="title" label="Title" type="VARCHAR(32)"/>
+    <column name="name" label="Name" type="VARCHAR(128)" notnull="true"/>
+    <column name="website" label="Website" type="VARCHAR(64)"/>
+    <column name="lang" label="Lang" type="VARCHAR(5)"/>
+    <column name="date" label="Date" type="DATE"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="res_partner_address" label="Res Partner Address">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="state_id" label="State Id" type="INT4" fkey="res_country_state(id)" opt="ouaodn"/>
+    <column name="country_id" label="Country Id" type="INT4" fkey="res_country(id)" opt="ouaodn"/>
+    <column name="partner_id" label="Partner Id" type="INT4" notnull="true" fkey="res_partner(id)" opt="ouaodc"/>
+    <column name="function" label="Function" type="INT4" fkey="res_partner_function(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_partner_address_id_seq'::regclass)" pkey="true"/>
+    <column name="email" label="Email" type="VARCHAR(64)"/>
+    <column name="type" label="Type" type="VARCHAR(16)"/>
+    <column name="street" label="Street" type="VARCHAR(128)"/>
+    <column name="phone" label="Phone" type="VARCHAR(64)"/>
+    <column name="birthdate" label="Birthdate" type="VARCHAR(64)"/>
+    <column name="street2" label="Street2" type="VARCHAR(128)"/>
+    <column name="mobile" label="Mobile" type="VARCHAR(64)"/>
+    <column name="title" label="Title" type="VARCHAR(32)"/>
+    <column name="zip" label="Zip" type="VARCHAR(24)"/>
+    <column name="name" label="Name" type="VARCHAR(64)"/>
+    <column name="fax" label="Fax" type="VARCHAR(64)"/>
+    <column name="city" label="City" type="VARCHAR(128)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="res_partner_bank" label="Res Partner Bank">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="partner_id" label="Partner Id" type="INT4" notnull="true" fkey="res_partner(id)" opt="ouaodc"/>
+    <column name="sequence" label="Sequence" type="INT4"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_partner_bank_id_seq'::regclass)" pkey="true"/>
+    <column name="swift" label="Swift" type="VARCHAR(64)"/>
+    <column name="bank_guichet" label="Bank Guichet" type="VARCHAR(64)"/>
+    <column name="iban" label="Iban" type="VARCHAR(64)"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="bank_name" label="Bank Name" type="VARCHAR(64)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="res_partner_canal" label="Res Partner Canal">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_partner_canal_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="res_partner_category" label="Res Partner Category">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="parent_id" label="Parent Id" type="INT4" fkey="res_partner_category(id)" opt="ouaodn"/>
+    <column name="type_id" label="Type Id" type="INT4" fkey="res_partner_category_type(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_partner_category_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="res_partner_category_rel" label="Res Partner Category Rel">
+    <column name="category_id" label="Category Id" type="INT4" notnull="true" fkey="res_partner_category(id)" opt="ouaodc"/>
+    <column name="partner_id" label="Partner Id" type="INT4" notnull="true" fkey="res_partner(id)" opt="ouaodc"/>
+  </table>
+
+  <table name="res_partner_category_type" label="Res Partner Category Type">
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_partner_category_type_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="res_partner_event" label="Res Partner Event">
+    <column name="som" label="Som" type="INT4" fkey="res_partner_som(id)" opt="ouaodn"/>
+    <column name="partner_id" label="Partner Id" type="INT4" fkey="res_partner(id)" opt="ouaodn"/>
+    <column name="canal_id" label="Canal Id" type="INT4" fkey="res_partner_canal(id)" opt="ouaodn"/>
+    <column name="user_id" label="User Id" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_partner_event_id_seq'::regclass)" pkey="true"/>
+    <column name="description" label="Description" type="TEXT"/>
+    <column name="planned_revenue" label="Planned Revenue" type="FLOAT8"/>
+    <column name="planned_cost" label="Planned Cost" type="FLOAT8"/>
+    <column name="probability" label="Probability" type="FLOAT8"/>
+    <column name="event_ical_id" label="Event Ical Id" type="VARCHAR(64)"/>
+    <column name="document" label="Document" type="VARCHAR(128)"/>
+    <column name="type" label="Type" type="VARCHAR(16)"/>
+    <column name="partner_type" label="Partner Type" type="VARCHAR(16)"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="date" label="Date" type="TIMESTAMP"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="res_partner_event_type" label="Res Partner Event Type">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_partner_event_type_id_seq'::regclass)" pkey="true"/>
+    <column name="key" label="Key" type="VARCHAR(64)" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="res_partner_function" label="Res Partner Function">
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_partner_function_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="code" label="Code" type="VARCHAR(8)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="res_partner_som" label="Res Partner Som">
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_partner_som_id_seq'::regclass)" pkey="true"/>
+    <column name="factor" label="Factor" type="FLOAT8" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="res_partner_title" label="Res Partner Title">
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_partner_title_id_seq'::regclass)" pkey="true"/>
+    <column name="shortcut" label="Shortcut" type="VARCHAR(16)" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(46)" notnull="true"/>
+    <column name="domain" label="Domain" type="VARCHAR(16)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="res_payterm" label="Res Payterm">
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_payterm_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="res_request" label="Res Request">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="act_to" label="Act To" type="INT4" notnull="true" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="ref_partner_id" label="Ref Partner Id" type="INT4" fkey="res_partner(id)" opt="ouaodn"/>
+    <column name="act_from" label="Act From" type="INT4" notnull="true" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_request_id_seq'::regclass)" pkey="true"/>
+    <column name="body" label="Body" type="TEXT"/>
+    <column name="ref_doc2" label="Ref Doc2" type="VARCHAR(128)"/>
+    <column name="priority" label="Priority" type="VARCHAR(16)" notnull="true"/>
+    <column name="state" label="State" type="VARCHAR(16)" notnull="true"/>
+    <column name="ref_doc1" label="Ref Doc1" type="VARCHAR(128)"/>
+    <column name="name" label="Name" type="VARCHAR(128)" notnull="true"/>
+    <column name="trigger_date" label="Trigger Date" type="TIMESTAMP"/>
+    <column name="date_sent" label="Date Sent" type="TIMESTAMP"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="res_request_history" label="Res Request History">
+    <column name="act_to" label="Act To" type="INT4" notnull="true" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="req_id" label="Req Id" type="INT4" notnull="true" fkey="res_request(id)" opt="ouaodc"/>
+    <column name="act_from" label="Act From" type="INT4" notnull="true" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_request_history_id_seq'::regclass)" pkey="true"/>
+    <column name="body" label="Body" type="TEXT"/>
+    <column name="name" label="Name" type="VARCHAR(128)" notnull="true"/>
+    <column name="date_sent" label="Date Sent" type="TIMESTAMP" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="res_request_link" label="Res Request Link">
+    <column name="priority" label="Priority" type="INT4"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_request_link_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="object" label="Object" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="res_roles" label="Res Roles">
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="parent_id" label="Parent Id" type="INT4" fkey="res_roles(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="ouaodn"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_roles_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="res_roles_users_rel" label="Res Roles Users Rel">
+    <column name="rid" label="Rid" type="INT4" notnull="true" fkey="res_roles(id)" opt="ouaodc"/>
+    <column name="uid" label="Uid" type="INT4" notnull="true" fkey="res_users(id)" opt="ouaodc"/>
+  </table>
+
+  <table name="res_users" label="Res Users">
+    <column name="active" label="Active" type="BOOL" default="true"/>
+    <column name="company_id" label="Company Id" type="INT4" fkey="res_company(id)" opt="ouaodn"/>
+    <column name="address_id" label="Address Id" type="INT4" fkey="res_partner_address(id)" opt="ouaodn"/>
+    <column name="action_id" label="Action Id" type="INT4"/>
+    <column name="perm_default" label="Perm Default" type="INT4" fkey="perm(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="ouaodn"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_users_id_seq'::regclass)" pkey="true"/>
+    <column name="signature" label="Signature" type="TEXT"/>
+    <column name="password" label="Password" type="VARCHAR(64)"/>
+    <column name="login" label="Login" type="VARCHAR(64)" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+  </table>
+
+  <table name="sale_order" label="Sale Order">
+    <column name="shipped" label="Shipped" type="BOOL"/>
+    <column name="invoiced" label="Invoiced" type="BOOL"/>
+    <column name="partner_shipping_id" label="Partner Shipping Id" type="INT4" notnull="true" fkey="res_partner_address(id)" opt="ouaodn"/>
+    <column name="partner_invoice_id" label="Partner Invoice Id" type="INT4" notnull="true" fkey="res_partner_address(id)" opt="ouaodn"/>
+    <column name="partner_order_id" label="Partner Order Id" type="INT4" notnull="true" fkey="res_partner_address(id)" opt="ouaodn"/>
+    <column name="project_id" label="Project Id" type="INT4" fkey="account_analytic_account(id)" opt="ouaodn"/>
+    <column name="pricelist_id" label="Pricelist Id" type="INT4" notnull="true" fkey="product_pricelist(id)" opt="ouaodn"/>
+    <column name="user_id" label="User Id" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="partner_id" label="Partner Id" type="INT4" fkey="res_partner(id)" opt="ouaodn"/>
+    <column name="shop_id" label="Shop Id" type="INT4" notnull="true" fkey="sale_shop(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('sale_order_id_seq'::regclass)" pkey="true"/>
+    <column name="note" label="Note" type="TEXT"/>
+    <column name="invoice_quantity" label="Invoice Quantity" type="VARCHAR(16)"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="incoterm" label="Incoterm" type="VARCHAR(3)"/>
+    <column name="state" label="State" type="VARCHAR(16)"/>
+    <column name="client_order_ref" label="Client Order Ref" type="VARCHAR(64)"/>
+    <column name="order_policy" label="Order Policy" type="VARCHAR(16)" notnull="true"/>
+    <column name="picking_policy" label="Picking Policy" type="VARCHAR(16)" notnull="true"/>
+    <column name="origin" label="Origin" type="VARCHAR(64)"/>
+    <column name="date_order" label="Date Order" type="DATE" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="sale_order_invoice_rel" label="Sale Order Invoice Rel">
+    <column name="invoice_id" label="Invoice Id" type="INT4" notnull="true" fkey="account_invoice(id)" opt="ouaodc"/>
+    <column name="order_id" label="Order Id" type="INT4" notnull="true" fkey="sale_order(id)" opt="ouaodc"/>
+  </table>
+
+  <table name="sale_order_line" label="Sale Order Line">
+    <column name="invoiced" label="Invoiced" type="BOOL"/>
+    <column name="address_allotment_id" label="Address Allotment Id" type="INT4" fkey="res_partner_address(id)" opt="ouaodn"/>
+    <column name="product_id" label="Product Id" type="INT4" fkey="product_product(id)" opt="ouaodn"/>
+    <column name="order_id" label="Order Id" type="INT4" notnull="true" fkey="sale_order(id)" opt="ouaodc"/>
+    <column name="procurement_id" label="Procurement Id" type="INT4" fkey="mrp_procurement(id)" opt="ouaodn"/>
+    <column name="product_packaging" label="Product Packaging" type="INT4" fkey="product_packaging(id)" opt="ouaodn"/>
+    <column name="product_uos" label="Product Uos" type="INT4" fkey="product_uom(id)" opt="ouaodn"/>
+    <column name="sequence" label="Sequence" type="INT4"/>
+    <column name="product_uom" label="Product Uom" type="INT4" notnull="true" fkey="product_uom(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('sale_order_line_id_seq'::regclass)" pkey="true"/>
+    <column name="notes" label="Notes" type="TEXT"/>
+    <column name="th_weight" label="Th Weight" type="FLOAT8"/>
+    <column name="price_unit_customer" label="Price Unit Customer" type="FLOAT8"/>
+    <column name="price_unit" label="Price Unit" type="FLOAT8" notnull="true"/>
+    <column name="product_uos_qty" label="Product Uos Qty" type="FLOAT8"/>
+    <column name="type" label="Type" type="VARCHAR(16)" notnull="true"/>
+    <column name="state" label="State" type="VARCHAR(16)" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(256)" notnull="true"/>
+    <column name="date_planned" label="Date Planned" type="DATE" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+    <column name="discount" label="Discount" type="NUMERIC(1048578)"/>
+    <column name="product_uom_qty" label="Product Uom Qty" type="NUMERIC(1048578)" notnull="true"/>
+  </table>
+
+  <table name="sale_order_line_invoice_rel" label="Sale Order Line Invoice Rel">
+    <column name="invoice_id" label="Invoice Id" type="INT4" notnull="true" fkey="account_invoice_line(id)" opt="ouaodc"/>
+    <column name="order_line_id" label="Order Line Id" type="INT4" notnull="true" fkey="sale_order_line(id)" opt="ouaodc"/>
+  </table>
+
+  <table name="sale_order_line_property_rel" label="Sale Order Line Property Rel">
+    <column name="property_id" label="Property Id" type="INT4" notnull="true" fkey="mrp_property(id)" opt="ouaodc"/>
+    <column name="order_id" label="Order Id" type="INT4" notnull="true" fkey="sale_order_line(id)" opt="ouaodc"/>
+  </table>
+
+  <table name="sale_order_payment" label="Sale Order Payment">
+    <column name="account_id" label="Account Id" type="INT4" fkey="account_account(id)" opt="ouaodn"/>
+    <column name="order_id" label="Order Id" type="INT4" fkey="sale_order(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('sale_order_payment_id_seq'::regclass)" pkey="true"/>
+    <column name="amount" label="Amount" type="FLOAT8" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="sale_order_tax" label="Sale Order Tax">
+    <column name="tax_id" label="Tax Id" type="INT4" notnull="true" fkey="account_tax(id)" opt="ouaodc"/>
+    <column name="order_line_id" label="Order Line Id" type="INT4" notnull="true" fkey="sale_order_line(id)" opt="ouaodc"/>
+  </table>
+
+  <table name="sale_shop" label="Sale Shop">
+    <column name="payment_default_id" label="Payment Default Id" type="INT4" notnull="true" fkey="account_payment_term(id)" opt="ouaodn"/>
+    <column name="project_id" label="Project Id" type="INT4" fkey="account_analytic_account(id)" opt="ouaodn"/>
+    <column name="pricelist_id" label="Pricelist Id" type="INT4" fkey="product_pricelist(id)" opt="ouaodn"/>
+    <column name="warehouse_id" label="Warehouse Id" type="INT4" fkey="stock_warehouse(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('sale_shop_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="sale_shop_account" label="Sale Shop Account">
+    <column name="account_id" label="Account Id" type="INT4" notnull="true" fkey="account_account(id)" opt="ouaodc"/>
+    <column name="shop_id" label="Shop Id" type="INT4" notnull="true" fkey="sale_shop(id)" opt="ouaodc"/>
+  </table>
+
+  <table name="stock_incoterms" label="Stock Incoterms">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('stock_incoterms_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="code" label="Code" type="VARCHAR(3)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="stock_inventory" label="Stock Inventory">
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('stock_inventory_id_seq'::regclass)" pkey="true"/>
+    <column name="state" label="State" type="VARCHAR(16)"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="date" label="Date" type="TIMESTAMP" notnull="true"/>
+    <column name="date_done" label="Date Done" type="TIMESTAMP"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="stock_inventory_line" label="Stock Inventory Line">
+    <column name="product_uom" label="Product Uom" type="INT4" notnull="true" fkey="product_uom(id)" opt="ouaodn"/>
+    <column name="product_id" label="Product Id" type="INT4" notnull="true" fkey="product_product(id)" opt="ouaodn"/>
+    <column name="location_id" label="Location Id" type="INT4" notnull="true" fkey="stock_location(id)" opt="ouaodn"/>
+    <column name="inventory_id" label="Inventory Id" type="INT4" fkey="stock_inventory(id)" opt="ouaodc"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('stock_inventory_line_id_seq'::regclass)" pkey="true"/>
+    <column name="product_qty" label="Product Qty" type="FLOAT8"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="stock_inventory_move_rel" label="Stock Inventory Move Rel">
+    <column name="move_id" label="Move Id" type="INT4" notnull="true" fkey="stock_move(id)" opt="ouaodc"/>
+    <column name="inventory_id" label="Inventory Id" type="INT4" notnull="true" fkey="stock_inventory(id)" opt="ouaodc"/>
+  </table>
+
+  <table name="stock_location" label="Stock Location">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="account_id" label="Account Id" type="INT4" fkey="account_account(id)" opt="ouaodn"/>
+    <column name="location_id" label="Location Id" type="INT4" fkey="stock_location(id)" opt="ouaodn"/>
+    <column name="posx" label="Posx" type="INT4" notnull="true"/>
+    <column name="posz" label="Posz" type="INT4" notnull="true"/>
+    <column name="posy" label="Posy" type="INT4" notnull="true"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('stock_location_id_seq'::regclass)" pkey="true"/>
+    <column name="comment" label="Comment" type="TEXT"/>
+    <column name="allocation_method" label="Allocation Method" type="VARCHAR(16)" notnull="true"/>
+    <column name="usage" label="Usage" type="VARCHAR(16)"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="stock_lot" label="Stock Lot">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('stock_lot_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="tracking" label="Tracking" type="VARCHAR(64)"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="stock_move" label="Stock Move">
+    <column name="sale_line_id" label="Sale Line Id" type="INT4" fkey="sale_order_line(id)" opt="ouaodn"/>
+    <column name="production_id" label="Production Id" type="INT4" fkey="mrp_production(id)" opt="ouaodn"/>
+    <column name="picking_id" label="Picking Id" type="INT4" fkey="stock_picking(id)" opt="ouaodn"/>
+    <column name="tracking_id" label="Tracking Id" type="INT4" fkey="stock_tracking(id)" opt="ouaodn"/>
+    <column name="location_dest_id" label="Location Dest Id" type="INT4" notnull="true" fkey="stock_location(id)" opt="ouaodn"/>
+    <column name="product_id" label="Product Id" type="INT4" notnull="true" fkey="product_product(id)" opt="ouaodn"/>
+    <column name="move_dest_id" label="Move Dest Id" type="INT4" fkey="stock_move(id)" opt="ouaodn"/>
+    <column name="prodlot_id" label="Prodlot Id" type="INT4" fkey="stock_production_lot(id)" opt="ouaodn"/>
+    <column name="product_packaging" label="Product Packaging" type="INT4" fkey="product_packaging(id)" opt="ouaodn"/>
+    <column name="location_id" label="Location Id" type="INT4" notnull="true" fkey="stock_location(id)" opt="ouaodn"/>
+    <column name="lot_id" label="Lot Id" type="INT4" fkey="stock_lot(id)" opt="ouaodn"/>
+    <column name="product_uos" label="Product Uos" type="INT4" fkey="product_uom(id)" opt="ouaodn"/>
+    <column name="product_uom" label="Product Uom" type="INT4" notnull="true" fkey="product_uom(id)" opt="ouaodn"/>
+    <column name="address_id" label="Address Id" type="INT4" fkey="res_partner_address(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('stock_move_id_seq'::regclass)" pkey="true"/>
+    <column name="note" label="Note" type="TEXT"/>
+    <column name="product_qty" label="Product Qty" type="FLOAT8" notnull="true"/>
+    <column name="product_uos_qty" label="Product Uos Qty" type="FLOAT8"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="state" label="State" type="VARCHAR(16)"/>
+    <column name="priority" label="Priority" type="VARCHAR(16)"/>
+    <column name="date_planned" label="Date Planned" type="DATE" notnull="true"/>
+    <column name="date" label="Date" type="TIMESTAMP"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="stock_move_history_ids" label="Stock Move History Ids">
+    <column name="child_id" label="Child Id" type="INT4" notnull="true" fkey="stock_move(id)" opt="ouaodc"/>
+    <column name="parent_id" label="Parent Id" type="INT4" notnull="true" fkey="stock_move(id)" opt="ouaodc"/>
+  </table>
+
+  <table name="stock_move_lot" label="Stock Move Lot">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="lot_id" label="Lot Id" type="INT4" notnull="true" fkey="stock_lot(id)" opt="ouaodn"/>
+    <column name="loc_dest_id" label="Loc Dest Id" type="INT4" notnull="true" fkey="stock_location(id)" opt="ouaodn"/>
+    <column name="address_id" label="Address Id" type="INT4" fkey="res_partner_address(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('stock_move_lot_id_seq'::regclass)" pkey="true"/>
+    <column name="serial" label="Serial" type="VARCHAR(32)"/>
+    <column name="state" label="State" type="VARCHAR(16)"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="origin" label="Origin" type="VARCHAR(64)"/>
+    <column name="date_moved" label="Date Moved" type="DATE"/>
+    <column name="date_planned" label="Date Planned" type="DATE"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="stock_picking" label="Stock Picking">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="auto_picking" label="Auto Picking" type="BOOL"/>
+    <column name="work" label="Work" type="BOOL"/>
+    <column name="sale_id" label="Sale Id" type="INT4" fkey="sale_order(id)" opt="ouaodn"/>
+    <column name="location_id" label="Location Id" type="INT4" fkey="stock_location(id)" opt="ouaodn"/>
+    <column name="move_lot_id" label="Move Lot Id" type="INT4" fkey="stock_move_lot(id)" opt="ouaodn"/>
+    <column name="loc_move_id" label="Loc Move Id" type="INT4" fkey="stock_location(id)" opt="ouaodn"/>
+    <column name="location_dest_id" label="Location Dest Id" type="INT4" fkey="stock_location(id)" opt="ouaodn"/>
+    <column name="lot_id" label="Lot Id" type="INT4" fkey="stock_lot(id)" opt="ouaodn"/>
+    <column name="address_id" label="Address Id" type="INT4" fkey="res_partner_address(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('stock_picking_id_seq'::regclass)" pkey="true"/>
+    <column name="note" label="Note" type="TEXT"/>
+    <column name="state" label="State" type="VARCHAR(16)"/>
+    <column name="invoice_state" label="Invoice State" type="VARCHAR(16)"/>
+    <column name="move_type" label="Move Type" type="VARCHAR(16)" notnull="true"/>
+    <column name="type" label="Type" type="VARCHAR(16)" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="origin" label="Origin" type="VARCHAR(64)"/>
+    <column name="date" label="Date" type="TIMESTAMP"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="stock_production_lot" label="Stock Production Lot">
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('stock_production_lot_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="ref" label="Ref" type="VARCHAR(64)"/>
+    <column name="date" label="Date" type="TIMESTAMP" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="stock_production_lot_revision" label="Stock Production Lot Revision">
+    <column name="author_id" label="Author Id" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="lot_id" label="Lot Id" type="INT4" fkey="stock_production_lot(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('stock_production_lot_revision_id_seq'::regclass)" pkey="true"/>
+    <column name="description" label="Description" type="TEXT"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="indice" label="Indice" type="VARCHAR(16)"/>
+    <column name="date" label="Date" type="DATE"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="stock_tracking" label="Stock Tracking">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('stock_tracking_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="serial" label="Serial" type="VARCHAR(64)"/>
+    <column name="date" label="Date" type="TIMESTAMP" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="stock_warehouse" label="Stock Warehouse">
+    <column name="lot_stock_id" label="Lot Stock Id" type="INT4" notnull="true" fkey="stock_location(id)" opt="ouaodn"/>
+    <column name="lot_output_id" label="Lot Output Id" type="INT4" notnull="true" fkey="stock_location(id)" opt="ouaodn"/>
+    <column name="partner_address_id" label="Partner Address Id" type="INT4" fkey="res_partner_address(id)" opt="ouaodn"/>
+    <column name="lot_input_id" label="Lot Input Id" type="INT4" notnull="true" fkey="stock_location(id)" opt="ouaodn"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('stock_warehouse_id_seq'::regclass)" pkey="true"/>
+    <column name="name" label="Name" type="VARCHAR(60)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="stock_warehouse_orderpoint" label="Stock Warehouse Orderpoint">
+    <column name="active" label="Active" type="BOOL"/>
+    <column name="warehouse_id" label="Warehouse Id" type="INT4" notnull="true" fkey="stock_warehouse(id)" opt="ouaodn"/>
+    <column name="product_uom" label="Product Uom" type="INT4" notnull="true" fkey="product_uom(id)" opt="ouaodn"/>
+    <column name="product_id" label="Product Id" type="INT4" notnull="true" fkey="product_product(id)" opt="ouaodn"/>
+    <column name="procurement_id" label="Procurement Id" type="INT4" fkey="mrp_procurement(id)" opt="ouaodn"/>
+    <column name="qty_multiple" label="Qty Multiple" type="INT4" notnull="true"/>
+    <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('stock_warehouse_orderpoint_id_seq'::regclass)" pkey="true"/>
+    <column name="product_min_qty" label="Product Min Qty" type="FLOAT8" notnull="true"/>
+    <column name="product_max_qty" label="Product Max Qty" type="FLOAT8" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(32)" notnull="true"/>
+    <column name="logic" label="Logic" type="VARCHAR(16)" notnull="true"/>
+    <column name="write_date" label="Write Date" type="TIMESTAMP"/>
+    <column name="create_date" label="Create Date" type="TIMESTAMP"/>
+  </table>
+
+  <table name="wkf" label="Wkf">
+    <column name="on_create" label="On Create" type="BOOL" default="false"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="ouaodn"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('wkf_id_seq'::regclass)" pkey="true"/>
+    <column name="osv" label="Osv" type="VARCHAR(64)" notnull="true"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+  </table>
+
+  <table name="wkf_activity" label="Wkf Activity">
+    <column name="flow_stop" label="Flow Stop" type="BOOL" default="false"/>
+    <column name="flow_start" label="Flow Start" type="BOOL" default="false"/>
+    <column name="subflow_id" label="Subflow Id" type="INT4" fkey="wkf(id)" opt="ouaodn"/>
+    <column name="wkf_id" label="Wkf Id" type="INT4" notnull="true" fkey="wkf(id)" opt="ouaodc"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="ouaodn"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('wkf_activity_id_seq'::regclass)" pkey="true"/>
+    <column name="action" label="Action" type="VARCHAR(64)"/>
+    <column name="signal_send" label="Signal Send" type="VARCHAR(32)"/>
+    <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
+    <column name="kind" label="Kind" type="VARCHAR(16)" notnull="true" default="'dummy'::character varying"/>
+    <column name="join_mode" label="Join Mode" type="VARCHAR(3)" notnull="true" default="'XOR'::character varying"/>
+    <column name="split_mode" label="Split Mode" type="VARCHAR(3)" notnull="true" default="'XOR'::character varying"/>
+  </table>
+
+  <table name="wkf_instance" label="Wkf Instance">
+    <column name="res_id" label="Res Id" type="INT4"/>
+    <column name="uid" label="Uid" type="INT4"/>
+    <column name="wkf_id" label="Wkf Id" type="INT4" fkey="wkf(id)" opt="ouaodn"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('wkf_instance_id_seq'::regclass)" pkey="true"/>
+    <column name="state" label="State" type="VARCHAR(32)" default="'active'::character varying"/>
+    <column name="res_type" label="Res Type" type="VARCHAR(64)"/>
+  </table>
+
+  <table name="wkf_logs" label="Wkf Logs">
+    <column name="act_id" label="Act Id" type="INT4" fkey="wkf_activity(id)" opt="ouaodn"/>
+    <column name="uid" label="Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
+    <column name="res_id" label="Res Id" type="INT4" notnull="true"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('wkf_logs_id_seq'::regclass)" pkey="true"/>
+    <column name="info" label="Info" type="VARCHAR(128)"/>
+    <column name="res_type" label="Res Type" type="VARCHAR(128)" notnull="true"/>
+    <column name="time" label="Time" type="TIME" notnull="true"/>
+  </table>
+
+  <table name="wkf_transition" label="Wkf Transition">
+    <column name="role_id" label="Role Id" type="INT4" fkey="res_roles(id)" opt="ouaodn"/>
+    <column name="act_to" label="Act To" type="INT4" notnull="true" fkey="wkf_activity(id)" opt="ouaodc"/>
+    <column name="act_from" label="Act From" type="INT4" notnull="true" fkey="wkf_activity(id)" opt="ouaodc"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="ouaodn"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('wkf_transition_id_seq'::regclass)" pkey="true"/>
+    <column name="trigger_model" label="Trigger Model" type="VARCHAR(128)"/>
+    <column name="signal" label="Signal" type="VARCHAR(64)"/>
+    <column name="trigger_expr_id" label="Trigger Expr Id" type="VARCHAR(128)"/>
+    <column name="trigger_type" label="Trigger Type" type="VARCHAR(128)"/>
+    <column name="condition" label="Condition" type="VARCHAR(128)" notnull="true"/>
+  </table>
+
+  <table name="wkf_triggers" label="Wkf Triggers">
+    <column name="res_id" label="Res Id" type="INT4"/>
+    <column name="workitem_id" label="Workitem Id" type="INT4" notnull="true" fkey="wkf_workitem(id)" opt="ouaodc"/>
+    <column name="instance_id" label="Instance Id" type="INT4" fkey="wkf_instance(id)" opt="ouaodc"/>
+    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('wkf_triggers_id_seq'::regclass)" pkey="true"/>
+    <column name="model" label="Model" type="VARCHAR(128)"/>
+  </table>
+
+  <table name="wkf_witm_trans" label="Wkf Witm Trans">
+    <column name="inst_id" label="Inst Id" type="INT4" notnull="true" fkey="wkf_instance(id)" opt="ouaodc"/>
+    <column name="trans_id" label="Trans Id" type="INT4" notnull="true" fkey="wkf_transition(id)" opt="ouaodc"/>
+  </table>
+
+  <table name="wkf_workitem" label="Wkf Workitem">
+    <column name="subflow_id" label="Subflow Id" type="INT4" fkey="wkf_instance(id)" opt="ouaodc"/>
+    <column name="inst_id" label="Inst Id" type="INT4" notnull="true" fkey="wkf_instance(id)" opt="ouaodc"/>
+    <column name="act_id" label="Act Id" type="INT4" notnull="true" fkey="wkf_activity(id)" opt="ouaodc"/>
+    <column name="id" label="Id" type="INT4" notnull="true" default="nextval('wkf_workitem_id_seq'::regclass)" pkey="true"/>
+    <column name="state" label="State" type="VARCHAR(64)" default="'blocked'::character varying"/>
+  </table>
+
+</analysis>
+

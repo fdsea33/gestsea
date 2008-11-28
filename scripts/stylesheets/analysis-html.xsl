@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml">
 
-  <xsl:output method="html" encoding="UTF-8" version="4.0" indent="yes"/>
+  <xsl:output method="xml" encoding="UTF-8" version="1.0" indent="no"/>
 
 <!--  <xsl:variable name="color_column_bg">#E0E7F7</xsl:variable>-->
   <xsl:variable name="color_column_bg">#E0e0FF</xsl:variable>
@@ -9,7 +9,7 @@
   <xsl:variable name="color_grant_bg"><xsl:value-of select="$color_column_bg"/></xsl:variable>
   <xsl:variable name="color_header_bg">#00007F</xsl:variable>
   <xsl:variable name="color_header_fg">#FFFFFF</xsl:variable>
-  <xsl:variable name="color_pk_bg">#C0C0FF</xsl:variable>
+  <xsl:variable name="color_pk_bg">#DFD</xsl:variable>
   <xsl:variable name="color_pk_fg">#0000FF</xsl:variable>
   <xsl:variable name="color_cont_fg">#A020F0</xsl:variable>
   <xsl:variable name="color_revoke_bg"><xsl:value-of select="$color_pk_bg"/></xsl:variable>
@@ -17,21 +17,24 @@
   <xsl:variable name="nb_columns">5</xsl:variable>
 
   <xsl:template match="/">
-    <html>
+    <html xmlns="http://www.w3.org/1999/xhtml">
       <head>
         <title>Modèle conceptuel de données <xsl:value-of select="analysis/@name"/></title>
         <style TYPE="text/css">
-text,body,p,div,span { FONT-SIZE: 8pt; FONT-FAMILY: Trebuchet MS, Verdana, Arial, Helvetica, sans-serif; color: <xsl:value-of select="$color_header_bg"/>; background: white; }
-HR { color: <xsl:value-of select="$color_header_bg"/>; }
+* {margin:0;padding:0;}
+body, p, div, span { color: <xsl:value-of select="$color_header_bg"/>; }
+body, p, div, span, a, td, th {font-size:11px; FONT-FAMILY: Trebuchet MS, Verdana, Arial, Helvetica, sans-serif;}
+hr { color: <xsl:value-of select="$color_header_bg"/>; }
 a         { color: #3040E0; text-decoration : none;}
-A:link    { color: #3040E0; text-decoration : none;}
-A:visited { color: #3040E0; text-decoration : none;}
-A:hover   {text-decoration : underline;}
+a:link    { color: #3040E0; text-decoration : none;}
+a:visited { color: #3040E0; text-decoration : none;}
+a:hover   {text-decoration : underline;}
 
-.sommaire {
-  border : 1px solid <xsl:value-of select="$color_header_bg"/>;
-  padding : 10px;
-}
+h3 {margin-bottom: 4px;}
+th { color:<xsl:value-of select="$color_header_fg"/>; background: <xsl:value-of select="$color_header_bg"/>; font-weight: normal; }
+th, td { padding: 1px 2px; }
+
+.sommaire { border : 1px solid <xsl:value-of select="$color_header_bg"/>; padding : 10px; }
 
 table.table {
   border:1px solid <xsl:value-of select="$color_header_bg"/>;
@@ -40,28 +43,19 @@ table.table {
   background-color : <xsl:value-of select="$color_column_bg"/>;
 }
 
-tr.part {
-  border-top       : 1px solid <xsl:value-of select="$color_header_bg"/>;
-}
+tr.pkey td { background: <xsl:value-of select="$color_pk_bg"/>; }
+tr.odd td { background: #e0e7ff; }
+tr.even td { background: #EbF4FF; }
+tr.part { border-top : 1px solid <xsl:value-of select="$color_header_bg"/>; }
 
-.texte {
-  margin-bottom    : 5px;
-  padding          : 10px; 
-  background-color : #DDDDFF;
-  border-left : 5px solid #777797;
-}
+.kw {color:<xsl:value-of select="$color_cont_fg"/>}
 
-#corps {
-  display:table-row;
-}
+.texte { margin: 4px 0px; padding : 6px 8px; background-color : #DDF; border-left : 4px solid #779;}
+#corps { display:table-row;}
 
-div.td {
-  display          : table-cell;
-}
+div.td { display          : table-cell;}
 
-#tables {
-  padding-left     : 1em;
-}
+#tables { padding-left     : 1em; }
 
 #menu {
   padding          : 0px;
@@ -71,34 +65,22 @@ div.td {
   vertical-align   : top;
 }
 
-ul {
-  padding-left     : 1.2em;
-  margin           : 0px;
-}
-li {
-  list-style-type  : square;
-}
-li.nopuce {
-  list-style-type  : none;
-}
-
-hr.bt {
-  border           : 1px solid <xsl:value-of select="$color_header_bg"/>;
-  margin-top       : 1em;
-  margin-bottom    : 4em;
-}
+ul { padding-left: 1.2em; margin: 0px; }
+li { list-style-type  : square; }
+li.nopuce { list-style-type  : none; }
+hr.bt { border: 1px solid <xsl:value-of select="$color_header_bg"/>; margin-top: 1em; margin-bottom: 4em; }
         </style>
       </head>
-      <body text="{$color_header_bg}"><!-- bgcolor="#FFFFAA">-->
+      <body>
 
-        <center><h1><a id="top">Modèle conceptuel de données <i><xsl:value-of select="analysis/@name"/></i></a></h1></center>
+        <center><h1 id="top">Modèle conceptuel de données <i><xsl:value-of select="analysis/@name"/></i></h1></center>
 
 	<xsl:if test="analysis/text!=''">
           <h2>Introduction</h2>
           <xsl:apply-templates select="analysis/text"/>
         </xsl:if>
 
-	<h2><a id="rapport">Statistiques</a></h2>
+	<h2 id="rapport">Statistiques</h2>
         <div class="texte">        
 Le modèle conceptuel de données comporte <b><xsl:value-of select="count(analysis/table)"/></b>
 tables soient :
@@ -143,7 +125,7 @@ Le taux de liaison est de <xsl:value-of select="100 * (count(analysis/table/colu
           </ul>
         </div>	
 
-	<h2><a id="tdm">Liste des <xsl:value-of select="count(analysis/table)"/> tables</a></h2>
+	<h2 id="tdm">Liste des <xsl:value-of select="count(analysis/table)"/> tables</h2>
 	<table>
           <tr>
             <td id="menu">
@@ -186,7 +168,7 @@ Le taux de liaison est de <xsl:value-of select="100 * (count(analysis/table/colu
 
 
   <xsl:template match="table" mode="std">
-    <h3><a id="{@name}"><xsl:value-of select="position()"/>. <b><xsl:value-of select="../@table"/><xsl:value-of select="@name"/></b> : table  des <i><xsl:value-of select="translate(@label,'ABCDEÉFGHIÎJKLMNOPQRSTUVWXYZ','abcdeéfghiîjklmnopqrstuvwxyz')"/></i></a></h3>
+    <h3 id="{@name}"><xsl:value-of select="position()"/>. <b><xsl:value-of select="../@table"/><xsl:value-of select="@name"/></b> : table des <xsl:value-of select="translate(@label,'ABCDEÉFGHIÎJKLMNOPQRSTUVWXYZ','abcdeéfghiîjklmnopqrstuvwxyz')"/></h3>
 
     <xsl:apply-templates select="text"/>
 
@@ -195,19 +177,19 @@ Le taux de liaison est de <xsl:value-of select="100 * (count(analysis/table/colu
     <table class="table" width="100%">
 
       <tr bgcolor="{$color_header_bg}">
-        <th colspan="{$nb_columns}"><font color="{$color_header_fg}">Requête de la vue <i><xsl:value-of select="../@view"/><xsl:value-of select="@name"/></i></font></th>
+        <th colspan="{$nb_columns}">Requête de la vue <i><xsl:value-of select="../@view"/><xsl:value-of select="@name"/></i></th>
       </tr>
 
       <tr>
         <td colspan="{$nb_columns}">
-          <font color="{$color_cont_fg}">SELECT </font>
+          <span class="kw">SELECT </span>
           <xsl:apply-templates select="column" mode="liste-virgule"/>
 	  <xsl:if test="@select!=''">
             <xsl:text>, </xsl:text>
 	    <xsl:value-of select="@select"/>
           </xsl:if>
           <br/>
-          <font color="{$color_cont_fg}">  FROM </font>
+          <span class="kw">  FROM </span>
           <xsl:value-of select="@name"/>
           <xsl:if test="@from!=''">
             <a>, </a>
@@ -215,20 +197,20 @@ Le taux de liaison est de <xsl:value-of select="100 * (count(analysis/table/colu
           </xsl:if>
           <xsl:if test="@where!=''">
             <br/>
-            <font color="{$color_cont_fg}">  WHERE </font>
+            <span class="kw">  WHERE </span>
             <xsl:value-of select="@where"/>
           </xsl:if>
           <a>;</a>
         </td>
       </tr>
 
-      <tr bgcolor="{$color_header_bg}" class="part">
-        <th><font color="{$color_header_fg}">Champs (<xsl:value-of select="count(column)"/>)</font></th>
-<!--        <th><font color="{$color_header_fg}">Label</font></th>-->
-        <th><font color="{$color_header_fg}">Type</font></th>
-        <th><font color="{$color_header_fg}">Contrainte</font></th>
-	<th><font color="{$color_header_fg}">Référence...</font></th>
-	<th><font color="{$color_header_fg}">Description</font></th>
+      <tr class="part">
+        <th>Champs (<xsl:value-of select="count(column)"/>)</th>
+<!--        <th>Label</th>-->
+        <th>Type</th>
+        <th>Contrainte</th>
+	<th>Référence...</th>
+	<th>Description</th>
       </tr>
 
       <xsl:apply-templates select="column">
@@ -242,9 +224,7 @@ Le taux de liaison est de <xsl:value-of select="100 * (count(analysis/table/colu
 <!--
       <xsl:if test="count(./grant)+count(./revoke)>0">
         <tr class="part">
-          <th rowspan="{count(grant)+count(revoke)+1}" bgcolor="{$color_header_bg}" align="center">
-	    <font color="{$color_header_fg}">Autorisations</font>
-          </th>
+          <th rowspan="{count(grant)+count(revoke)+1}" align="center">Autorisations</th>
         </tr>
 	<xsl:apply-templates select="grant">
 	  <xsl:sort select="@to"/>
@@ -258,9 +238,7 @@ Le taux de liaison est de <xsl:value-of select="100 * (count(analysis/table/colu
 
       <xsl:if test="seq/@name!=''">
         <tr class="part">
-          <th rowspan="{count(./seq)+1}" bgcolor="{$color_header_bg}" align="center">
-	    <font color="{$color_header_fg}">Séquences</font>
-          </th>
+          <th rowspan="{count(./seq)+1}" align="center">Séquences</th>
         </tr>
         <xsl:apply-templates select="./seq"/>
       </xsl:if>
@@ -269,9 +247,7 @@ Le taux de liaison est de <xsl:value-of select="100 * (count(analysis/table/colu
 <!--
       <xsl:if test="rule/@on!=''">
         <tr>
-          <th rowspan="{count(rule)+1}" bgcolor="{$color_header_bg}" align="center">
-	    <font color="{$color_header_fg}">Règles</font>
-          </th>
+          <th rowspan="{count(rule)+1}" align="center" style="color:{$color_header_fg}; background: {$color_header_bg};">Règles</th>
         </tr>
         <xsl:apply-templates select="rule"/>
       </xsl:if>
@@ -282,22 +258,20 @@ Le taux de liaison est de <xsl:value-of select="100 * (count(analysis/table/colu
       <xsl:variable name="nb_ref"><xsl:value-of select="count(../table/column[substring-before(@fkey,'(')=$tabol])"/></xsl:variable>
       <xsl:if test="$nb_ref>0">
         <tr class="part">
-          <th bgcolor="{$color_header_bg}" align="center">
-            <font color="{$color_header_fg}">
-              <xsl:choose>
-                <xsl:when test="$nb_ref=1"><xsl:text>Référence</xsl:text></xsl:when>
-                <xsl:otherwise>
-                  <xsl:text>Références</xsl:text>
-                  <br/>
-                  <xsl:text> (</xsl:text>
-	          <xsl:value-of select="$nb_ref"/>
-                  <xsl:text>)</xsl:text>
-                </xsl:otherwise>
-              </xsl:choose>
-            </font>
+          <th align="center">
+            <xsl:choose>
+              <xsl:when test="$nb_ref=1"><xsl:text>Référence</xsl:text></xsl:when>
+              <xsl:otherwise>
+                <xsl:text>Références</xsl:text>
+                <br/>
+                <xsl:text> (</xsl:text>
+	        <xsl:value-of select="$nb_ref"/>
+                <xsl:text>)</xsl:text>
+              </xsl:otherwise>
+            </xsl:choose>
           </th>
           <td colspan="{number($nb_columns)-1}" style="padding : 0px;">
-            <table width="100%" style="border-collapse : collapse; width : 100%; height : 100%;">
+            <table width="100%" style="border-collapse: collapse; width: 100%; height: 100%;">
               <xsl:apply-templates select="../table/column[substring-before(@fkey,'(')=$tabol]">
 		<xsl:sort select="../@name"/>
                 <xsl:with-param name="fkey">yes</xsl:with-param>
@@ -310,7 +284,7 @@ Le taux de liaison est de <xsl:value-of select="100 * (count(analysis/table/colu
 
 
     </table>
-    <small><a href="#tdm">Retour au sommaire</a><a> | </a><a href="#rapport">Retour au rapport</a><a> | </a><a href="#top">Haut de page</a></small>
+    <a href="#tdm">Retour au sommaire</a> | <a href="#rapport">Retour au rapport</a> | <a href="#top">Haut de page</a>
     <hr class="bt"/>
   </xsl:template>
 
@@ -358,19 +332,19 @@ Le taux de liaison est de <xsl:value-of select="100 * (count(analysis/table/colu
     <xsl:param name="fkey">no</xsl:param>
     <xsl:variable name="color">
       <xsl:choose>
-        <xsl:when test="@pkey='true'"><xsl:value-of select="$color_pk_bg"/></xsl:when>
-        <xsl:when test="position() mod 2=1">#F7E7D7</xsl:when>
-        <xsl:otherwise><xsl:value-of select="$color_column_bg"/></xsl:otherwise>
+        <xsl:when test="@pkey='true'">pkey</xsl:when>
+        <xsl:when test="position() mod 2=1">odd</xsl:when>
+        <xsl:otherwise>even</xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
-    <tr bgcolor="{$color}">
+    <tr class="{$color}">
       <td>
         <xsl:choose>
 	  <xsl:when test="$fkey='yes'">
 	    <a href="#{../@name}"><xsl:value-of select="../@name"/></a>(<a href="#{../@name}({@name})"><xsl:value-of select="@name"/></a><a>)</a>
 	  </xsl:when>
 	  <xsl:otherwise>
-	    <a id="{../@name}({@name})"><xsl:value-of select="@name"/></a>
+	    <span id="{../@name}({@name})"><xsl:value-of select="@name"/></span>
 	  </xsl:otherwise>
 	</xsl:choose>
       </td>
@@ -381,44 +355,44 @@ Le taux de liaison est de <xsl:value-of select="100 * (count(analysis/table/colu
 -->
       <td>
         <xsl:choose>
-          <xsl:when test="contains(@type,'VARCHAR')"><font color="#CF0000"><xsl:value-of select="@type"/></font></xsl:when>
-          <xsl:when test="contains(@type,'CHAR')"><font color="#CF0000"><xsl:value-of select="@type"/></font></xsl:when> 
-          <xsl:when test="contains(@type,'TEXT')"><font color="#CF0000"><xsl:value-of select="@type"/></font></xsl:when>
-          <xsl:when test="@type='SERIAL'"><b><font color="#007F3F">SERIAL</font></b></xsl:when>
-          <xsl:when test="@type='INTEGER'"><font color="#007F3F">INTEGER</font></xsl:when>
-          <xsl:when test="@type='SMALLINT'"><font color="#007F3F">SMALLINT</font></xsl:when>
-          <xsl:when test="@type='INT4'"><font color="#007F3F">INTEGER</font></xsl:when>
-          <xsl:when test="@type='DOUBLE'"><font color="#007F00">DOUBLE</font></xsl:when>
-          <xsl:when test="@type='FLOAT'"><font color="#007F00">FLOAT</font></xsl:when>
-          <xsl:when test="@type='FLOAT8'"><font color="#007F00">FLOAT</font></xsl:when>
-          <xsl:when test="contains(@type,'NUMERIC')"><font color="#007F00"><xsl:value-of select="@type"/></font></xsl:when>
-          <xsl:when test="@type='BOOLEAN'"><font color="#007FFF">BOOLEAN</font></xsl:when>
-          <xsl:when test="@type='BOOL'"><font color="#007FFF">BOOLEAN</font></xsl:when>
-          <xsl:when test="@type='DATE'"><font color="#703000">DATE</font></xsl:when>
-          <xsl:when test="@type='GEOMETRY'"><font color="#000000">GEOMETRY</font></xsl:when>
-          <xsl:when test="@type='TIMESTAMP'"><font color="#707070">TIMESTAMP</font></xsl:when>
-          <xsl:when test="contains(@type,'TIME')"><font color="#709070"><xsl:value-of select="@type"/></font></xsl:when>
-          <!--<xsl:when test="@type=''"><font color="#0000FF"></font></xsl:when>-->
+          <xsl:when test="contains(@type,'VARCHAR')"><span style="color:#CF0000"><xsl:value-of select="@type"/></span></xsl:when>
+          <xsl:when test="contains(@type,'CHAR')"><span style="color:#CF0000"><xsl:value-of select="@type"/></span></xsl:when> 
+          <xsl:when test="contains(@type,'TEXT')"><span style="color:#CF0000"><xsl:value-of select="@type"/></span></xsl:when>
+          <xsl:when test="@type='SERIAL'"><b><span style="color:#007F3F">SERIAL</span></b></xsl:when>
+          <xsl:when test="@type='INTEGER'"><span style="color:#007F3F">INTEGER</span></xsl:when>
+          <xsl:when test="@type='SMALLINT'"><span style="color:#007F3F">SMALLINT</span></xsl:when>
+          <xsl:when test="@type='INT4'"><span style="color:#007F3F">INTEGER</span></xsl:when>
+          <xsl:when test="@type='DOUBLE'"><span style="color:#007F00">DOUBLE</span></xsl:when>
+          <xsl:when test="@type='FLOAT'"><span style="color:#007F00">FLOAT</span></xsl:when>
+          <xsl:when test="@type='FLOAT8'"><span style="color:#007F00">FLOAT</span></xsl:when>
+          <xsl:when test="contains(@type,'NUMERIC')"><span style="color:#007F00"><xsl:value-of select="@type"/></span></xsl:when>
+          <xsl:when test="@type='BOOLEAN'"><span style="color:#007FFF">BOOLEAN</span></xsl:when>
+          <xsl:when test="@type='BOOL'"><span style="color:#007FFF">BOOLEAN</span></xsl:when>
+          <xsl:when test="@type='DATE'"><span style="color:#703000">DATE</span></xsl:when>
+          <xsl:when test="@type='GEOMETRY'"><span style="color:#000000">GEOMETRY</span></xsl:when>
+          <xsl:when test="@type='TIMESTAMP'"><span style="color:#707070">TIMESTAMP</span></xsl:when>
+          <xsl:when test="contains(@type,'TIME')"><span style="color:#709070"><xsl:value-of select="@type"/></span></xsl:when>
+          <!--<xsl:when test="@type=''"><span style="color:#0000FF"></span></xsl:when>-->
           <xsl:otherwise><blink><b>***<xsl:value-of select="@type"/>***</b></blink></xsl:otherwise>
         </xsl:choose>
-        <!--<small>(<xsl:value-of select="@type"/>)</small>-->
+        <!--(<xsl:value-of select="@type"/>)-->
       </td>
       <td>
         <xsl:if test="@notnull='true'">
-          <font color="{$color_cont_fg}">NOT NULL </font>
+          <span class="kw">NOT NULL </span>
         </xsl:if>
         <xsl:if test="contains(@const,'UNIQUE')">
-          <font color="{$color_cont_fg}">UNIQUE </font>
+          <span class="kw">UNIQUE </span>
         </xsl:if>
         <xsl:if test="@pkey='true'">
-          <font color="{$color_pk_fg}">PRIMARY KEY </font>
+          <span style="color:{$color_pk_fg}">PRIMARY KEY </span>
         </xsl:if>
         <xsl:if test="@default!=''">
-          <font color="{$color_cont_fg}">DEFAULT </font>
+          <span class="kw">DEFAULT </span>
 	  <xsl:variable name="apos">'</xsl:variable>
           <xsl:choose>
-	    <xsl:when test="contains(@default,$apos)"><font color="#BC8F8F"><xsl:value-of select="@default"/></font></xsl:when>
-            <xsl:when test="contains(@type,'BOOL')"><font color="#5F9EA0"><xsl:value-of select="@default"/></font></xsl:when>
+	    <xsl:when test="contains(@default,$apos)"><span style="color:#BC8F8F"><xsl:value-of select="@default"/></span></xsl:when>
+            <xsl:when test="contains(@type,'BOOL')"><span style="color:#5F9EA0"><xsl:value-of select="@default"/></span></xsl:when>
 	    <xsl:otherwise><xsl:value-of select="@default"/></xsl:otherwise>
 	  </xsl:choose>
         </xsl:if>
@@ -426,36 +400,34 @@ Le taux de liaison est de <xsl:value-of select="100 * (count(analysis/table/colu
       <td>
         <xsl:if test="@fkey!=''">
           <a href="#{normalize-space(substring-before(@fkey,'('))}"><xsl:value-of select="normalize-space(substring-before(@fkey,'('))"/></a>(<a href="#{@fkey}"><xsl:value-of select="normalize-space(substring-before(substring-after(@fkey,'('),')'))"/></a><xsl:text>) </xsl:text>
-          <small>
 	  <xsl:if test="contains(@opt,'od')">
-            <font color="{$color_cont_fg}">DEL. </font>
+            <span class="kw">DEL. </span>
 	    <xsl:choose>
               <xsl:when test="contains(@opt,'odna')">NO ACTION</xsl:when>
               <xsl:when test="contains(@opt,'oda')">NO ACTION</xsl:when>
 	      <xsl:when test="contains(@opt,'odr')" >RESTRICT</xsl:when>
 	      <xsl:when test="contains(@opt,'odc')" >CASCADE</xsl:when>
-	      <xsl:when test="contains(@opt,'odsn')"><font color="{$color_cont_fg}">SET NULL</font></xsl:when>
-	      <xsl:when test="contains(@opt,'odn')"><font color="{$color_cont_fg}">SET NULL</font></xsl:when>
-	      <xsl:when test="contains(@opt,'odsd')"><font color="{$color_cont_fg}">SET DEFAULT</font></xsl:when>
-	      <xsl:when test="contains(@opt,'odd')"><font color="{$color_cont_fg}">SET DEFAULT</font></xsl:when>
+	      <xsl:when test="contains(@opt,'odsn')"><span class="kw">SET NULL</span></xsl:when>
+	      <xsl:when test="contains(@opt,'odn')"><span class="kw">SET NULL</span></xsl:when>
+	      <xsl:when test="contains(@opt,'odsd')"><span class="kw">SET DEFAULT</span></xsl:when>
+	      <xsl:when test="contains(@opt,'odd')"><span class="kw">SET DEFAULT</span></xsl:when>
 	    </xsl:choose>
 	    <xsl:text> </xsl:text>	  
 	  </xsl:if>
 	  <xsl:if test="contains(@opt,'ou')">
-            <font color="{$color_cont_fg}">UPD. </font>
+            <span class="kw">UPD. </span>
             <xsl:choose>
               <xsl:when test="contains(@opt,'ouna')">NO ACTION</xsl:when>
               <xsl:when test="contains(@opt,'oua')">NO ACTION</xsl:when>
 	      <xsl:when test="contains(@opt,'our')" >RESTRICT</xsl:when>
 	      <xsl:when test="contains(@opt,'ouc')" >CASCADE</xsl:when>
-	      <xsl:when test="contains(@opt,'ousn')"><font color="{$color_cont_fg}">SET NULL</font></xsl:when>
-	      <xsl:when test="contains(@opt,'oun')"><font color="{$color_cont_fg}">SET NULL</font></xsl:when>
-	      <xsl:when test="contains(@opt,'ousd')"><font color="{$color_cont_fg}">SET DEFAULT</font></xsl:when>
-	      <xsl:when test="contains(@opt,'oud')"><font color="{$color_cont_fg}">SET DEFAULT</font></xsl:when>
+	      <xsl:when test="contains(@opt,'ousn')"><span class="kw">SET NULL</span></xsl:when>
+	      <xsl:when test="contains(@opt,'oun')"><span class="kw">SET NULL</span></xsl:when>
+	      <xsl:when test="contains(@opt,'ousd')"><span class="kw">SET DEFAULT</span></xsl:when>
+	      <xsl:when test="contains(@opt,'oud')"><span class="kw">SET DEFAULT</span></xsl:when>
 	    </xsl:choose>
 	  </xsl:if>
 	  <xsl:if test="@option!=''"><xsl:value-of select="@option"/></xsl:if>
-          </small>
 	</xsl:if>
       </td>
 <!--      <td bgcolor="{$color_desc_bg}"><xsl:apply-templates name="bidon"/></td>-->
@@ -471,7 +443,7 @@ Le taux de liaison est de <xsl:value-of select="100 * (count(analysis/table/colu
         <xsl:call-template name="sql-color">
           <xsl:with-param name="sql"><xsl:value-of select="substring($sql,0,string-length(substring-before($code,'default')))"/></xsl:with-param>
         </xsl:call-template>
-        <font color="{$color_cont_fg}">DEFAULT</font>
+        <span class="kw">DEFAULT</span>
         <xsl:call-template name="sql-color">
           <xsl:with-param name="sql"><xsl:value-of select="substring($sql,0,string-length(substring-before($code,'default')))"/></xsl:with-param>
         </xsl:call-template>
@@ -485,7 +457,7 @@ Le taux de liaison est de <xsl:value-of select="100 * (count(analysis/table/colu
   <xsl:template match="pkey">
     <tr bgcolor="{$color_pk_bg}">
       <td colspan="5" rowspan="1" nowrap="yes">
-        <font color="{$color_pk_fg}">PRIMARY KEY </font>
+        <span style="color:{$color_pk_fg}">PRIMARY KEY </span>
         <xsl:text>(</xsl:text>
  	<xsl:call-template name="key">
 	  <xsl:with-param name="chaine"><xsl:value-of select="@keys"/></xsl:with-param>

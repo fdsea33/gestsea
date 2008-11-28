@@ -1108,7 +1108,7 @@
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
 
-  <table name="Lettrage" abbrev="LT" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+  <table name="Lettrage" abbrev="LT" label="Lettrage" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
     <column name="LT_Numero"   type="INTEGER"     notnull="true" pkey="true"></column>
     <column name="LT_Lettre"   type="VARCHAR(10)" default="NULL"></column>
     <column name="SO_Numero"   type="INTEGER"     notnull="true" default="current_societe()" opt="odrour">Seul lien permettant d'identifier la societé</column>
