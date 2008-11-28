@@ -8,7 +8,7 @@
     <column name="company_id" label="Company Id" type="INT4" fkey="res_company(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_account_id_seq'::regclass)" pkey="true"/>
     <column name="note" label="Note" type="TEXT"/>
     <column name="type" label="Type" type="VARCHAR(16)" notnull="true"/>
@@ -35,7 +35,7 @@
     <column name="sequence" label="Sequence" type="INT4"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_account_type_id_seq'::regclass)" pkey="true"/>
     <column name="code_to" label="Code To" type="VARCHAR(10)"/>
     <column name="close_method" label="Close Method" type="VARCHAR(16)" notnull="true"/>
@@ -55,7 +55,7 @@
     <column name="partner_id" label="Partner Id" type="INT4" fkey="res_partner(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_analytic_account_id_seq'::regclass)" pkey="true"/>
     <column name="description" label="Description" type="TEXT"/>
     <column name="amount_max" label="Amount Max" type="FLOAT8"/>
@@ -74,7 +74,7 @@
     <column name="active" label="Active" type="BOOL"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_analytic_journal_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
     <column name="type" label="Type" type="VARCHAR(16)" notnull="true"/>
@@ -95,7 +95,7 @@
     <column name="user_id" label="User Id" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_analytic_line_id_seq'::regclass)" pkey="true"/>
     <column name="unit_amount" label="Unit Amount" type="FLOAT8"/>
     <column name="amount" label="Amount" type="FLOAT8" notnull="true"/>
@@ -110,7 +110,7 @@
     <column name="partner_id" label="Partner Id" type="INT4" fkey="res_partner(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_bank_id_seq'::regclass)" pkey="true"/>
     <column name="note" label="Note" type="TEXT"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
@@ -126,7 +126,7 @@
     <column name="journal_id" label="Journal Id" type="INT4" notnull="true" fkey="account_journal(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_bank_account_id_seq'::regclass)" pkey="true"/>
     <column name="swift" label="Swift" type="VARCHAR(24)"/>
     <column name="iban" label="Iban" type="VARCHAR(24)"/>
@@ -141,7 +141,7 @@
     <column name="journal_id" label="Journal Id" type="INT4" notnull="true" fkey="account_journal(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_bank_statement_id_seq'::regclass)" pkey="true"/>
     <column name="state" label="State" type="VARCHAR(16)" notnull="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
@@ -158,7 +158,7 @@
     <column name="statement_id" label="Statement Id" type="INT4" fkey="account_bank_statement(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_bank_statement_line_id_seq'::regclass)" pkey="true"/>
     <column name="amount" label="Amount" type="FLOAT8"/>
     <column name="type" label="Type" type="VARCHAR(16)" notnull="true"/>
@@ -171,7 +171,7 @@
   <table name="account_budget_post" label="Account Budget Post">
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_budget_post_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(256)" notnull="true"/>
     <column name="code" label="Code" type="VARCHAR(64)" notnull="true"/>
@@ -185,7 +185,7 @@
     <column name="post_id" label="Post Id" type="INT4" fkey="account_budget_post(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_budget_post_dotation_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)"/>
     <column name="write_date" label="Write Date" type="TIMESTAMP"/>
@@ -203,7 +203,7 @@
     <column name="company_id" label="Company Id" type="INT4" fkey="res_company(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_fiscalyear_id_seq'::regclass)" pkey="true"/>
     <column name="state" label="State" type="VARCHAR(16)"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
@@ -227,7 +227,7 @@
     <column name="payment_term" label="Payment Term" type="INT4" fkey="account_payment_term(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_invoice_id_seq'::regclass)" pkey="true"/>
     <column name="comment" label="Comment" type="TEXT"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
@@ -251,7 +251,7 @@
     <column name="uos_id" label="Uos Id" type="INT4" fkey="product_uom(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_invoice_line_id_seq'::regclass)" pkey="true"/>
     <column name="note" label="Note" type="TEXT"/>
     <column name="quantity" label="Quantity" type="FLOAT8" notnull="true"/>
@@ -276,7 +276,7 @@
     <column name="sequence" label="Sequence" type="INT4"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_invoice_tax_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
     <column name="write_date" label="Write Date" type="TIMESTAMP"/>
@@ -298,7 +298,7 @@
     <column name="default_debit_account_id" label="Default Debit Account Id" type="INT4" fkey="account_account(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_journal_id_seq'::regclass)" pkey="true"/>
     <column name="type" label="Type" type="VARCHAR(16)" notnull="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
@@ -314,7 +314,7 @@
     <column name="sequence" label="Sequence" type="INT4"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_journal_column_id_seq'::regclass)" pkey="true"/>
     <column name="field" label="Field" type="VARCHAR(32)" notnull="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
@@ -333,7 +333,7 @@
     <column name="journal_id" label="Journal Id" type="INT4" notnull="true" fkey="account_journal(id)" opt="ouaodc"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_journal_period_id_seq'::regclass)" pkey="true"/>
     <column name="state" label="State" type="VARCHAR(16)" notnull="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
@@ -349,7 +349,7 @@
   <table name="account_journal_view" label="Account Journal View">
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_journal_view_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
     <column name="write_date" label="Write Date" type="TIMESTAMP"/>
@@ -360,7 +360,7 @@
     <column name="journal_id" label="Journal Id" type="INT4" notnull="true" fkey="account_journal(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_model_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
     <column name="ref" label="Ref" type="VARCHAR(64)"/>
@@ -376,7 +376,7 @@
     <column name="model_id" label="Model Id" type="INT4" notnull="true" fkey="account_model(id)" opt="ouaodc"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_model_line_id_seq'::regclass)" pkey="true"/>
     <column name="amount_currency" label="Amount Currency" type="FLOAT8"/>
     <column name="ref" label="Ref" type="VARCHAR(16)"/>
@@ -395,7 +395,7 @@
     <column name="journal_id" label="Journal Id" type="INT4" notnull="true" fkey="account_journal(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_move_id_seq'::regclass)" pkey="true"/>
     <column name="ref" label="Ref" type="VARCHAR(64)"/>
     <column name="state" label="State" type="VARCHAR(16)" notnull="true"/>
@@ -418,7 +418,7 @@
     <column name="statement_id" label="Statement Id" type="INT4" fkey="account_bank_statement(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_move_line_id_seq'::regclass)" pkey="true"/>
     <column name="amount_currency" label="Amount Currency" type="FLOAT8"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
@@ -439,7 +439,7 @@
   <table name="account_move_reconcile" label="Account Move Reconcile">
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_move_reconcile_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
     <column name="type" label="Type" type="VARCHAR(16)" notnull="true"/>
@@ -451,7 +451,7 @@
     <column name="active" label="Active" type="BOOL"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_payment_term_id_seq'::regclass)" pkey="true"/>
     <column name="note" label="Note" type="TEXT"/>
     <column name="name" label="Name" type="VARCHAR(32)"/>
@@ -465,7 +465,7 @@
     <column name="payment_id" label="Payment Id" type="INT4" notnull="true" fkey="account_payment_term(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_payment_term_line_id_seq'::regclass)" pkey="true"/>
     <column name="value_amount" label="Value Amount" type="FLOAT8"/>
     <column name="condition" label="Condition" type="VARCHAR(16)" notnull="true"/>
@@ -479,7 +479,7 @@
     <column name="fiscalyear_id" label="Fiscalyear Id" type="INT4" notnull="true" fkey="account_fiscalyear(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_period_id_seq'::regclass)" pkey="true"/>
     <column name="state" label="State" type="VARCHAR(16)"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
@@ -496,7 +496,7 @@
     <column name="model_id" label="Model Id" type="INT4" notnull="true" fkey="account_model(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_subscription_id_seq'::regclass)" pkey="true"/>
     <column name="ref" label="Ref" type="VARCHAR(16)"/>
     <column name="period_type" label="Period Type" type="VARCHAR(16)" notnull="true"/>
@@ -512,7 +512,7 @@
     <column name="subscription_id" label="Subscription Id" type="INT4" notnull="true" fkey="account_subscription(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_subscription_line_id_seq'::regclass)" pkey="true"/>
     <column name="date" label="Date" type="DATE" notnull="true"/>
     <column name="write_date" label="Write Date" type="TIMESTAMP"/>
@@ -533,7 +533,7 @@
     <column name="ref_tax_code_id" label="Ref Tax Code Id" type="INT4" fkey="account_tax_code(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_tax_id_seq'::regclass)" pkey="true"/>
     <column name="python_compute" label="Python Compute" type="TEXT"/>
     <column name="python_applicable" label="Python Applicable" type="TEXT"/>
@@ -555,7 +555,7 @@
     <column name="parent_id" label="Parent Id" type="INT4" fkey="account_tax_code(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_tax_code_id_seq'::regclass)" pkey="true"/>
     <column name="info" label="Info" type="TEXT"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
@@ -575,7 +575,7 @@
     <column name="journal_id" label="Journal Id" type="INT4" notnull="true" fkey="account_journal(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('account_transfer_id_seq'::regclass)" pkey="true"/>
     <column name="adjust_amount" label="Adjust Amount" type="FLOAT8"/>
     <column name="state" label="State" type="VARCHAR(16)"/>
@@ -605,7 +605,7 @@
     <column name="canal_id" label="Canal Id" type="INT4" fkey="res_partner_canal(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('crm_case_id_seq'::regclass)" pkey="true"/>
     <column name="email_last" label="Email Last" type="TEXT"/>
     <column name="description" label="Description" type="TEXT"/>
@@ -632,7 +632,7 @@
     <column name="section_id" label="Section Id" type="INT4" fkey="crm_case_section(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('crm_case_categ_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
     <column name="write_date" label="Write Date" type="TIMESTAMP"/>
@@ -646,7 +646,7 @@
     <column name="user_id" label="User Id" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('crm_case_history_id_seq'::regclass)" pkey="true"/>
     <column name="description" label="Description" type="TEXT"/>
     <column name="name" label="Name" type="VARCHAR(64)"/>
@@ -673,7 +673,7 @@
     <column name="trg_categ_id" label="Trg Categ Id" type="INT4" fkey="crm_case_categ(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('crm_case_rule_id_seq'::regclass)" pkey="true"/>
     <column name="act_mail_body" label="Act Mail Body" type="TEXT"/>
     <column name="trg_state_from" label="Trg State From" type="VARCHAR(16)"/>
@@ -699,7 +699,7 @@
     <column name="user_id" label="User Id" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('crm_case_section_id_seq'::regclass)" pkey="true"/>
     <column name="reply_to" label="Reply To" type="VARCHAR(64)"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
@@ -716,7 +716,7 @@
     <column name="som_interval_max" label="Som Interval Max" type="INT4"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('crm_segmentation_id_seq'::regclass)" pkey="true"/>
     <column name="description" label="Description" type="TEXT"/>
     <column name="som_interval_decrease" label="Som Interval Decrease" type="FLOAT8"/>
@@ -731,7 +731,7 @@
     <column name="segmentation_id" label="Segmentation Id" type="INT4" fkey="crm_segmentation(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('crm_segmentation_line_id_seq'::regclass)" pkey="true"/>
     <column name="expr_value" label="Expr Value" type="FLOAT8" notnull="true"/>
     <column name="expr_operator" label="Expr Operator" type="VARCHAR(16)" notnull="true"/>
@@ -745,7 +745,7 @@
   <table name="hr_action_reason" label="Hr Action Reason">
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('hr_action_reason_id_seq'::regclass)" pkey="true"/>
     <column name="action_type" label="Action Type" type="VARCHAR(16)"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
@@ -757,7 +757,7 @@
     <column name="line_id" label="Line Id" type="INT4" fkey="account_analytic_line(id)" opt="ouaodc"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('hr_analytic_timesheet_id_seq'::regclass)" pkey="true"/>
     <column name="write_date" label="Write Date" type="TIMESTAMP"/>
     <column name="create_date" label="Create Date" type="TIMESTAMP"/>
@@ -768,7 +768,7 @@
     <column name="employee_id" label="Employee Id" type="INT4" notnull="true" fkey="hr_employee(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('hr_attendance_id_seq'::regclass)" pkey="true"/>
     <column name="action" label="Action" type="VARCHAR(16)"/>
     <column name="name" label="Name" type="TIMESTAMP"/>
@@ -788,7 +788,7 @@
     <column name="address_id" label="Address Id" type="INT4" fkey="res_partner_address(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('hr_employee_id_seq'::regclass)" pkey="true"/>
     <column name="notes" label="Notes" type="TEXT"/>
     <column name="regime" label="Regime" type="FLOAT8"/>
@@ -804,7 +804,7 @@
     <column name="parent_id" label="Parent Id" type="INT4" fkey="hr_employee_category(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('hr_employee_category_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
     <column name="write_date" label="Write Date" type="TIMESTAMP"/>
@@ -816,7 +816,7 @@
     <column name="employee_id" label="Employee Id" type="INT4" fkey="hr_employee(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('hr_holidays_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
     <column name="date_to" label="Date To" type="TIMESTAMP"/>
@@ -828,7 +828,7 @@
   <table name="hr_holidays_status" label="Hr Holidays Status">
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('hr_holidays_status_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
     <column name="write_date" label="Write Date" type="TIMESTAMP"/>
@@ -839,7 +839,7 @@
     <column name="tgroup_id" label="Tgroup Id" type="INT4" fkey="hr_timesheet_group(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('hr_timesheet_id_seq'::regclass)" pkey="true"/>
     <column name="hour_to" label="Hour To" type="VARCHAR(8)"/>
     <column name="hour_from" label="Hour From" type="VARCHAR(8)"/>
@@ -859,7 +859,7 @@
     <column name="manager" label="Manager" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('hr_timesheet_group_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
     <column name="write_date" label="Write Date" type="TIMESTAMP"/>
@@ -869,7 +869,7 @@
   <table name="hr_timesheet_invoice_factor" label="Hr Timesheet Invoice Factor">
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('hr_timesheet_invoice_factor_id_seq'::regclass)" pkey="true"/>
     <column name="factor" label="Factor" type="FLOAT8" notnull="true"/>
     <column name="customer_name" label="Customer Name" type="VARCHAR(128)"/>
@@ -888,7 +888,7 @@
   <table name="ir_act_execute" label="Ir Act Execute">
     <column name="write_uid" label="Write Uid" type="INT4"/>
     <column name="create_uid" label="Create Uid" type="INT4"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_actions_id_seq'::regclass)"/>
     <column name="func_arg" label="Func Arg" type="VARCHAR(64)"/>
     <column name="func_name" label="Func Name" type="VARCHAR(64)" notnull="true"/>
@@ -902,7 +902,7 @@
   <table name="ir_act_group" label="Ir Act Group">
     <column name="write_uid" label="Write Uid" type="INT4"/>
     <column name="create_uid" label="Create Uid" type="INT4"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_actions_id_seq'::regclass)"/>
     <column name="exec_type" label="Exec Type" type="VARCHAR(64)" notnull="true" default="'serial'::character varying"/>
     <column name="usage" label="Usage" type="VARCHAR(32)"/>
@@ -921,7 +921,7 @@
     <column name="write_uid" label="Write Uid" type="INT4"/>
     <column name="create_uid" label="Create Uid" type="INT4"/>
     <column name="report_id" label="Report Id" type="INT4" notnull="true"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_actions_id_seq'::regclass)"/>
     <column name="model" label="Model" type="VARCHAR(64)" notnull="true"/>
     <column name="usage" label="Usage" type="VARCHAR(32)"/>
@@ -935,7 +935,7 @@
     <column name="auto" label="Auto" type="BOOL" notnull="true" default="true"/>
     <column name="write_uid" label="Write Uid" type="INT4"/>
     <column name="create_uid" label="Create Uid" type="INT4"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_actions_id_seq'::regclass)"/>
     <column name="report_xml" label="Report Xml" type="VARCHAR(256)"/>
     <column name="report_rml" label="Report Rml" type="VARCHAR(256)"/>
@@ -953,7 +953,7 @@
     <column name="write_uid" label="Write Uid" type="INT4"/>
     <column name="create_uid" label="Create Uid" type="INT4"/>
     <column name="view_id" label="View Id" type="INT4"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_actions_id_seq'::regclass)" pkey="true"/>
     <column name="context" label="Context" type="VARCHAR(250)"/>
     <column name="view_mode" label="View Mode" type="VARCHAR(16)"/>
@@ -971,7 +971,7 @@
     <column name="multi" label="Multi" type="BOOL"/>
     <column name="write_uid" label="Write Uid" type="INT4"/>
     <column name="create_uid" label="Create Uid" type="INT4"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_actions_id_seq'::regclass)"/>
     <column name="wiz_name" label="Wiz Name" type="VARCHAR(64)" notnull="true"/>
     <column name="usage" label="Usage" type="VARCHAR(32)"/>
@@ -998,7 +998,7 @@
     <column name="res_id" label="Res Id" type="INT4" notnull="true"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_attachment_id_seq'::regclass)" pkey="true"/>
     <column name="description" label="Description" type="TEXT"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
@@ -1018,7 +1018,7 @@
     <column name="user_id" label="User Id" type="INT4" notnull="true" fkey="res_users(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_cron_id_seq'::regclass)" pkey="true"/>
     <column name="args" label="Args" type="TEXT"/>
     <column name="model" label="Model" type="VARCHAR(64)"/>
@@ -1035,7 +1035,7 @@
     <column name="uid" label="Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_default_id_seq'::regclass)" pkey="true"/>
     <column name="page" label="Page" type="VARCHAR(64)"/>
     <column name="field_name" label="Field Name" type="VARCHAR(64)"/>
@@ -1049,7 +1049,7 @@
   <table name="ir_exports" label="Ir Exports">
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_exports_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(128)"/>
     <column name="resource" label="Resource" type="VARCHAR(128)"/>
@@ -1061,7 +1061,7 @@
     <column name="export_id" label="Export Id" type="INT4" fkey="ir_exports(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_exports_line_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)"/>
     <column name="write_date" label="Write Date" type="TIMESTAMP"/>
@@ -1087,7 +1087,7 @@
     <column name="model_id" label="Model Id" type="INT4" notnull="true" fkey="ir_model(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_model_access_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
     <column name="write_date" label="Write Date" type="TIMESTAMP"/>
@@ -1099,7 +1099,7 @@
     <column name="res_id" label="Res Id" type="INT4"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_model_data_id_seq'::regclass)" pkey="true"/>
     <column name="model" label="Model" type="VARCHAR(64)" notnull="true"/>
     <column name="module" label="Module" type="VARCHAR(64)" notnull="true"/>
@@ -1136,7 +1136,7 @@
     <column name="parent_id" label="Parent Id" type="INT4" fkey="ir_module_category(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_module_category_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(128)" notnull="true"/>
     <column name="write_date" label="Write Date" type="TIMESTAMP"/>
@@ -1148,7 +1148,7 @@
     <column name="category_id" label="Category Id" type="INT4" fkey="ir_module_category(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_module_module_id_seq'::regclass)" pkey="true"/>
     <column name="description" label="Description" type="TEXT"/>
     <column name="shortdesc" label="Shortdesc" type="VARCHAR(256)"/>
@@ -1166,7 +1166,7 @@
     <column name="module_id" label="Module Id" type="INT4" fkey="ir_module_module(id)" opt="ouaodc"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_module_module_dependency_id_seq'::regclass)" pkey="true"/>
     <column name="version_pattern" label="Version Pattern" type="VARCHAR(128)"/>
     <column name="name" label="Name" type="VARCHAR(128)"/>
@@ -1177,7 +1177,7 @@
   <table name="ir_module_repository" label="Ir Module Repository">
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_module_repository_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(128)"/>
     <column name="url" label="Url" type="VARCHAR(256)" notnull="true"/>
@@ -1190,7 +1190,7 @@
     <column name="fields_id" label="Fields Id" type="INT4" notnull="true" fkey="ir_model_fields(id)" opt="ouaodc"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_property_id_seq'::regclass)" pkey="true"/>
     <column name="value" label="Value" type="VARCHAR(128)"/>
     <column name="name" label="Name" type="VARCHAR(128)"/>
@@ -1206,7 +1206,7 @@
     <column name="menu_id" label="Menu Id" type="INT4" fkey="ir_ui_menu(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_report_custom_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
     <column name="type" label="Type" type="VARCHAR(16)" notnull="true"/>
@@ -1238,7 +1238,7 @@
     <column name="fc2_operande" label="Fc2 Operande" type="INT4" fkey="ir_model_fields(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_report_custom_fields_id_seq'::regclass)" pkey="true"/>
     <column name="fc3_condition" label="Fc3 Condition" type="VARCHAR(64)"/>
     <column name="bgcolor" label="Bgcolor" type="VARCHAR(64)"/>
@@ -1264,7 +1264,7 @@
     <column name="number_next" label="Number Next" type="INT4" notnull="true"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_sequence_id_seq'::regclass)" pkey="true"/>
     <column name="suffix" label="Suffix" type="VARCHAR(64)"/>
     <column name="prefix" label="Prefix" type="VARCHAR(64)"/>
@@ -1277,7 +1277,7 @@
   <table name="ir_sequence_type" label="Ir Sequence Type">
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_sequence_type_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
     <column name="code" label="Code" type="VARCHAR(32)" notnull="true"/>
@@ -1287,7 +1287,7 @@
 
   <table name="ir_translation" label="Ir Translation">
     <column name="res_id" label="Res Id" type="INT4"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_translation_id_seq'::regclass)" pkey="true"/>
     <column name="value" label="Value" type="TEXT"/>
     <column name="src" label="Src" type="TEXT"/>
@@ -1336,7 +1336,7 @@
     <column name="user_id" label="User Id" type="INT4" notnull="true" fkey="res_users(id)" opt="ouaodc"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('ir_ui_view_sc_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
     <column name="resource" label="Resource" type="VARCHAR(64)" notnull="true"/>
@@ -1371,7 +1371,7 @@
     <column name="product_uom" label="Product Uom" type="INT4" notnull="true" fkey="product_uom(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('mrp_bom_id_seq'::regclass)" pkey="true"/>
     <column name="product_qty" label="Product Qty" type="FLOAT8" notnull="true"/>
     <column name="product_efficiency" label="Product Efficiency" type="FLOAT8" notnull="true"/>
@@ -1397,7 +1397,7 @@
     <column name="bom_id" label="Bom Id" type="INT4" fkey="mrp_bom(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('mrp_bom_revision_id_seq'::regclass)" pkey="true"/>
     <column name="description" label="Description" type="TEXT"/>
     <column name="last_indice" label="Last Indice" type="VARCHAR(64)"/>
@@ -1418,7 +1418,7 @@
     <column name="purchase_id" label="Purchase Id" type="INT4" fkey="purchase_order(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('mrp_procurement_id_seq'::regclass)" pkey="true"/>
     <column name="product_qty" label="Product Qty" type="FLOAT8" notnull="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
@@ -1448,7 +1448,7 @@
     <column name="location_src_id" label="Location Src Id" type="INT4" notnull="true" fkey="stock_location(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('mrp_production_id_seq'::regclass)" pkey="true"/>
     <column name="product_qty" label="Product Qty" type="FLOAT8" notnull="true"/>
     <column name="state" label="State" type="VARCHAR(16)"/>
@@ -1473,7 +1473,7 @@
     <column name="production_id" label="Production Id" type="INT4" fkey="mrp_production(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('mrp_production_product_line_id_seq'::regclass)" pkey="true"/>
     <column name="product_qty" label="Product Qty" type="FLOAT8" notnull="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
@@ -1487,7 +1487,7 @@
     <column name="sequence" label="Sequence" type="INT4" notnull="true"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('mrp_production_workcenter_line_id_seq'::regclass)" pkey="true"/>
     <column name="cycle" label="Cycle" type="FLOAT8"/>
     <column name="hour" label="Hour" type="FLOAT8"/>
@@ -1500,7 +1500,7 @@
     <column name="group_id" label="Group Id" type="INT4" notnull="true" fkey="mrp_property_group(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('mrp_property_id_seq'::regclass)" pkey="true"/>
     <column name="description" label="Description" type="TEXT"/>
     <column name="composition" label="Composition" type="VARCHAR(16)" notnull="true"/>
@@ -1512,7 +1512,7 @@
   <table name="mrp_property_group" label="Mrp Property Group">
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('mrp_property_group_id_seq'::regclass)" pkey="true"/>
     <column name="description" label="Description" type="TEXT"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
@@ -1525,7 +1525,7 @@
     <column name="location_id" label="Location Id" type="INT4" fkey="stock_location(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('mrp_routing_id_seq'::regclass)" pkey="true"/>
     <column name="note" label="Note" type="TEXT"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
@@ -1540,7 +1540,7 @@
     <column name="sequence" label="Sequence" type="INT4"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('mrp_routing_workcenter_id_seq'::regclass)" pkey="true"/>
     <column name="note" label="Note" type="TEXT"/>
     <column name="hour_nbr" label="Hour Nbr" type="FLOAT8" notnull="true"/>
@@ -1559,7 +1559,7 @@
     <column name="costs_journal_id" label="Costs Journal Id" type="INT4" fkey="account_analytic_journal(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('mrp_workcenter_id_seq'::regclass)" pkey="true"/>
     <column name="note" label="Note" type="TEXT"/>
     <column name="time_cycle" label="Time Cycle" type="FLOAT8"/>
@@ -1587,7 +1587,7 @@
     <column name="suppinfo_id" label="Suppinfo Id" type="INT4" notnull="true" fkey="product_supplierinfo(id)" opt="ouaodc"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('pricelist_partnerinfo_id_seq'::regclass)" pkey="true"/>
     <column name="price" label="Price" type="FLOAT8" notnull="true"/>
     <column name="min_quantity" label="Min Quantity" type="FLOAT8" notnull="true"/>
@@ -1601,7 +1601,7 @@
     <column name="parent_id" label="Parent Id" type="INT4" fkey="product_category(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('product_category_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
     <column name="write_date" label="Write Date" type="TIMESTAMP"/>
@@ -1616,7 +1616,7 @@
     <column name="rows" label="Rows" type="INT4" notnull="true"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('product_packaging_id_seq'::regclass)" pkey="true"/>
     <column name="weight_ul" label="Weight Ul" type="FLOAT8"/>
     <column name="qty" label="Qty" type="FLOAT8"/>
@@ -1633,7 +1633,7 @@
     <column name="currency_id" label="Currency Id" type="INT4" notnull="true" fkey="res_currency(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('product_price_type_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(32)" notnull="true"/>
     <column name="field" label="Field" type="VARCHAR(16)" notnull="true"/>
@@ -1646,7 +1646,7 @@
     <column name="currency_id" label="Currency Id" type="INT4" notnull="true" fkey="res_currency(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('product_pricelist_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
     <column name="type" label="Type" type="VARCHAR(16)" notnull="true"/>
@@ -1665,7 +1665,7 @@
     <column name="base_pricelist_id" label="Base Pricelist Id" type="INT4" fkey="product_pricelist(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('product_pricelist_item_id_seq'::regclass)" pkey="true"/>
     <column name="price_surcharge" label="Price Surcharge" type="FLOAT8"/>
     <column name="price_discount" label="Price Discount" type="FLOAT8"/>
@@ -1680,7 +1680,7 @@
   <table name="product_pricelist_type" label="Product Pricelist Type">
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('product_pricelist_type_id_seq'::regclass)" pkey="true"/>
     <column name="key" label="Key" type="VARCHAR(64)" notnull="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
@@ -1693,7 +1693,7 @@
     <column name="pricelist_id" label="Pricelist Id" type="INT4" notnull="true" fkey="product_pricelist(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('product_pricelist_version_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
     <column name="date_start" label="Date Start" type="DATE"/>
@@ -1707,7 +1707,7 @@
     <column name="product_tmpl_id" label="Product Tmpl Id" type="INT4" notnull="true" fkey="product_template(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('product_product_id_seq'::regclass)" pkey="true"/>
     <column name="price_margin" label="Price Margin" type="FLOAT8"/>
     <column name="price_extra" label="Price Extra" type="FLOAT8"/>
@@ -1726,7 +1726,7 @@
     <column name="product_id" label="Product Id" type="INT4" notnull="true" fkey="product_template(id)" opt="ouaodc"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('product_supplierinfo_id_seq'::regclass)" pkey="true"/>
     <column name="product_name" label="Product Name" type="VARCHAR(128)"/>
     <column name="product_code" label="Product Code" type="VARCHAR(64)"/>
@@ -1751,7 +1751,7 @@
     <column name="uos_id" label="Uos Id" type="INT4" fkey="product_uom(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('product_template_id_seq'::regclass)" pkey="true"/>
     <column name="description_sale" label="Description Sale" type="TEXT"/>
     <column name="description" label="Description" type="TEXT"/>
@@ -1779,7 +1779,7 @@
   <table name="product_ul" label="Product Ul">
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('product_ul_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)"/>
     <column name="type" label="Type" type="VARCHAR(16)" notnull="true"/>
@@ -1792,7 +1792,7 @@
     <column name="category_id" label="Category Id" type="INT4" notnull="true" fkey="product_uom_categ(id)" opt="ouaodc"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('product_uom_id_seq'::regclass)" pkey="true"/>
     <column name="factor" label="Factor" type="FLOAT8" notnull="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
@@ -1804,7 +1804,7 @@
   <table name="product_uom_categ" label="Product Uom Categ">
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('product_uom_categ_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
     <column name="write_date" label="Write Date" type="TIMESTAMP"/>
@@ -1830,7 +1830,7 @@
     <column name="contact_id" label="Contact Id" type="INT4" fkey="res_partner_address(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('project_project_id_seq'::regclass)" pkey="true"/>
     <column name="warn_header" label="Warn Header" type="TEXT"/>
     <column name="notes" label="Notes" type="TEXT"/>
@@ -1859,7 +1859,7 @@
     <column name="sequence" label="Sequence" type="INT4"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('project_task_id_seq'::regclass)" pkey="true"/>
     <column name="cust_desc" label="Cust Desc" type="TEXT"/>
     <column name="notes" label="Notes" type="TEXT"/>
@@ -1878,7 +1878,7 @@
   <table name="project_task_type" label="Project Task Type">
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('project_task_type_id_seq'::regclass)" pkey="true"/>
     <column name="description" label="Description" type="TEXT"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
@@ -1891,7 +1891,7 @@
     <column name="user_id" label="User Id" type="INT4" notnull="true" fkey="res_users(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('project_task_work_id_seq'::regclass)" pkey="true"/>
     <column name="hours" label="Hours" type="FLOAT8"/>
     <column name="name" label="Name" type="VARCHAR(128)"/>
@@ -1920,7 +1920,7 @@
     <column name="partner_address_id" label="Partner Address Id" type="INT4" notnull="true" fkey="res_partner_address(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('purchase_order_id_seq'::regclass)" pkey="true"/>
     <column name="notes" label="Notes" type="TEXT"/>
     <column name="invoice_method" label="Invoice Method" type="VARCHAR(16)" notnull="true"/>
@@ -1943,7 +1943,7 @@
     <column name="product_id" label="Product Id" type="INT4" fkey="product_product(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('purchase_order_line_id_seq'::regclass)" pkey="true"/>
     <column name="notes" label="Notes" type="TEXT"/>
     <column name="price_unit" label="Price Unit" type="FLOAT8" notnull="true"/>
@@ -1965,7 +1965,7 @@
     <column name="currency_id" label="Currency Id" type="INT4" notnull="true" fkey="res_currency(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_company_id_seq'::regclass)" pkey="true"/>
     <column name="rml_header1" label="Rml Header1" type="VARCHAR(200)"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
@@ -1978,7 +1978,7 @@
   <table name="res_country" label="Res Country">
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_country_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)"/>
     <column name="code" label="Code" type="VARCHAR(2)"/>
@@ -1990,7 +1990,7 @@
     <column name="country_id" label="Country Id" type="INT4" fkey="res_country(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_country_state_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)"/>
     <column name="code" label="Code" type="VARCHAR(2)"/>
@@ -2003,7 +2003,7 @@
     <column name="accuracy" label="Accuracy" type="INT4"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_currency_id_seq'::regclass)" pkey="true"/>
     <column name="rounding" label="Rounding" type="FLOAT8"/>
     <column name="name" label="Name" type="VARCHAR(32)" notnull="true"/>
@@ -2034,7 +2034,7 @@
     <column name="active" label="Active" type="BOOL"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_lang_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
     <column name="code" label="Code" type="VARCHAR(5)" notnull="true"/>
@@ -2049,7 +2049,7 @@
     <column name="user_id" label="User Id" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_partner_id_seq'::regclass)" pkey="true"/>
     <column name="comment" label="Comment" type="TEXT"/>
     <column name="debit_limit" label="Debit Limit" type="FLOAT8"/>
@@ -2074,7 +2074,7 @@
     <column name="function" label="Function" type="INT4" fkey="res_partner_function(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_partner_address_id_seq'::regclass)" pkey="true"/>
     <column name="email" label="Email" type="VARCHAR(64)"/>
     <column name="type" label="Type" type="VARCHAR(16)"/>
@@ -2098,7 +2098,7 @@
     <column name="sequence" label="Sequence" type="INT4"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_partner_bank_id_seq'::regclass)" pkey="true"/>
     <column name="swift" label="Swift" type="VARCHAR(64)"/>
     <column name="bank_guichet" label="Bank Guichet" type="VARCHAR(64)"/>
@@ -2113,7 +2113,7 @@
     <column name="active" label="Active" type="BOOL"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_partner_canal_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
     <column name="write_date" label="Write Date" type="TIMESTAMP"/>
@@ -2126,7 +2126,7 @@
     <column name="type_id" label="Type Id" type="INT4" fkey="res_partner_category_type(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_partner_category_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
     <column name="write_date" label="Write Date" type="TIMESTAMP"/>
@@ -2141,7 +2141,7 @@
   <table name="res_partner_category_type" label="Res Partner Category Type">
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_partner_category_type_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
     <column name="write_date" label="Write Date" type="TIMESTAMP"/>
@@ -2155,7 +2155,7 @@
     <column name="user_id" label="User Id" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_partner_event_id_seq'::regclass)" pkey="true"/>
     <column name="description" label="Description" type="TEXT"/>
     <column name="planned_revenue" label="Planned Revenue" type="FLOAT8"/>
@@ -2175,7 +2175,7 @@
     <column name="active" label="Active" type="BOOL"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_partner_event_type_id_seq'::regclass)" pkey="true"/>
     <column name="key" label="Key" type="VARCHAR(64)" notnull="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
@@ -2186,7 +2186,7 @@
   <table name="res_partner_function" label="Res Partner Function">
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_partner_function_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
     <column name="code" label="Code" type="VARCHAR(8)"/>
@@ -2197,7 +2197,7 @@
   <table name="res_partner_som" label="Res Partner Som">
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_partner_som_id_seq'::regclass)" pkey="true"/>
     <column name="factor" label="Factor" type="FLOAT8" notnull="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
@@ -2208,7 +2208,7 @@
   <table name="res_partner_title" label="Res Partner Title">
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_partner_title_id_seq'::regclass)" pkey="true"/>
     <column name="shortcut" label="Shortcut" type="VARCHAR(16)" notnull="true"/>
     <column name="name" label="Name" type="VARCHAR(46)" notnull="true"/>
@@ -2220,7 +2220,7 @@
   <table name="res_payterm" label="Res Payterm">
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_payterm_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)"/>
     <column name="write_date" label="Write Date" type="TIMESTAMP"/>
@@ -2234,7 +2234,7 @@
     <column name="act_from" label="Act From" type="INT4" notnull="true" fkey="res_users(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_request_id_seq'::regclass)" pkey="true"/>
     <column name="body" label="Body" type="TEXT"/>
     <column name="ref_doc2" label="Ref Doc2" type="VARCHAR(128)"/>
@@ -2254,7 +2254,7 @@
     <column name="act_from" label="Act From" type="INT4" notnull="true" fkey="res_users(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_request_history_id_seq'::regclass)" pkey="true"/>
     <column name="body" label="Body" type="TEXT"/>
     <column name="name" label="Name" type="VARCHAR(128)" notnull="true"/>
@@ -2267,7 +2267,7 @@
     <column name="priority" label="Priority" type="INT4"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('res_request_link_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
     <column name="object" label="Object" type="VARCHAR(64)" notnull="true"/>
@@ -2318,7 +2318,7 @@
     <column name="shop_id" label="Shop Id" type="INT4" notnull="true" fkey="sale_shop(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('sale_order_id_seq'::regclass)" pkey="true"/>
     <column name="note" label="Note" type="TEXT"/>
     <column name="invoice_quantity" label="Invoice Quantity" type="VARCHAR(16)"/>
@@ -2351,7 +2351,7 @@
     <column name="product_uom" label="Product Uom" type="INT4" notnull="true" fkey="product_uom(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('sale_order_line_id_seq'::regclass)" pkey="true"/>
     <column name="notes" label="Notes" type="TEXT"/>
     <column name="th_weight" label="Th Weight" type="FLOAT8"/>
@@ -2383,7 +2383,7 @@
     <column name="order_id" label="Order Id" type="INT4" fkey="sale_order(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('sale_order_payment_id_seq'::regclass)" pkey="true"/>
     <column name="amount" label="Amount" type="FLOAT8" notnull="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
@@ -2403,7 +2403,7 @@
     <column name="warehouse_id" label="Warehouse Id" type="INT4" fkey="stock_warehouse(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('sale_shop_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
     <column name="write_date" label="Write Date" type="TIMESTAMP"/>
@@ -2419,7 +2419,7 @@
     <column name="active" label="Active" type="BOOL"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('stock_incoterms_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
     <column name="code" label="Code" type="VARCHAR(3)" notnull="true"/>
@@ -2430,7 +2430,7 @@
   <table name="stock_inventory" label="Stock Inventory">
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('stock_inventory_id_seq'::regclass)" pkey="true"/>
     <column name="state" label="State" type="VARCHAR(16)"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
@@ -2447,7 +2447,7 @@
     <column name="inventory_id" label="Inventory Id" type="INT4" fkey="stock_inventory(id)" opt="ouaodc"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('stock_inventory_line_id_seq'::regclass)" pkey="true"/>
     <column name="product_qty" label="Product Qty" type="FLOAT8"/>
     <column name="write_date" label="Write Date" type="TIMESTAMP"/>
@@ -2468,7 +2468,7 @@
     <column name="posy" label="Posy" type="INT4" notnull="true"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('stock_location_id_seq'::regclass)" pkey="true"/>
     <column name="comment" label="Comment" type="TEXT"/>
     <column name="allocation_method" label="Allocation Method" type="VARCHAR(16)" notnull="true"/>
@@ -2482,7 +2482,7 @@
     <column name="active" label="Active" type="BOOL"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('stock_lot_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
     <column name="tracking" label="Tracking" type="VARCHAR(64)"/>
@@ -2507,7 +2507,7 @@
     <column name="address_id" label="Address Id" type="INT4" fkey="res_partner_address(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('stock_move_id_seq'::regclass)" pkey="true"/>
     <column name="note" label="Note" type="TEXT"/>
     <column name="product_qty" label="Product Qty" type="FLOAT8" notnull="true"/>
@@ -2533,7 +2533,7 @@
     <column name="address_id" label="Address Id" type="INT4" fkey="res_partner_address(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('stock_move_lot_id_seq'::regclass)" pkey="true"/>
     <column name="serial" label="Serial" type="VARCHAR(32)"/>
     <column name="state" label="State" type="VARCHAR(16)"/>
@@ -2558,7 +2558,7 @@
     <column name="address_id" label="Address Id" type="INT4" fkey="res_partner_address(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('stock_picking_id_seq'::regclass)" pkey="true"/>
     <column name="note" label="Note" type="TEXT"/>
     <column name="state" label="State" type="VARCHAR(16)"/>
@@ -2575,7 +2575,7 @@
   <table name="stock_production_lot" label="Stock Production Lot">
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('stock_production_lot_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
     <column name="ref" label="Ref" type="VARCHAR(64)"/>
@@ -2589,7 +2589,7 @@
     <column name="lot_id" label="Lot Id" type="INT4" fkey="stock_production_lot(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('stock_production_lot_revision_id_seq'::regclass)" pkey="true"/>
     <column name="description" label="Description" type="TEXT"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
@@ -2603,7 +2603,7 @@
     <column name="active" label="Active" type="BOOL"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('stock_tracking_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(64)" notnull="true"/>
     <column name="serial" label="Serial" type="VARCHAR(64)"/>
@@ -2619,7 +2619,7 @@
     <column name="lot_input_id" label="Lot Input Id" type="INT4" notnull="true" fkey="stock_location(id)" opt="ouaodn"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('stock_warehouse_id_seq'::regclass)" pkey="true"/>
     <column name="name" label="Name" type="VARCHAR(60)" notnull="true"/>
     <column name="write_date" label="Write Date" type="TIMESTAMP"/>
@@ -2635,7 +2635,7 @@
     <column name="qty_multiple" label="Qty Multiple" type="INT4" notnull="true"/>
     <column name="write_uid" label="Write Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
     <column name="create_uid" label="Create Uid" type="INT4" fkey="res_users(id)" opt="ouaodn"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('stock_warehouse_orderpoint_id_seq'::regclass)" pkey="true"/>
     <column name="product_min_qty" label="Product Min Qty" type="FLOAT8" notnull="true"/>
     <column name="product_max_qty" label="Product Max Qty" type="FLOAT8" notnull="true"/>
@@ -2704,7 +2704,7 @@
     <column name="res_id" label="Res Id" type="INT4"/>
     <column name="workitem_id" label="Workitem Id" type="INT4" notnull="true" fkey="wkf_workitem(id)" opt="ouaodc"/>
     <column name="instance_id" label="Instance Id" type="INT4" fkey="wkf_instance(id)" opt="ouaodc"/>
-    <column name="perm_id" label="Perm Id" type="INT4"/>
+    <column name="perm_id" label="Perm Id" type="INT4" fkey="perm(id)" opt="odsnouna"/>
     <column name="id" label="Id" type="INT4" notnull="true" default="nextval('wkf_triggers_id_seq'::regclass)" pkey="true"/>
     <column name="model" label="Model" type="VARCHAR(128)"/>
   </table>

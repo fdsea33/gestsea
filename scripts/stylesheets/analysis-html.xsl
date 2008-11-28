@@ -360,8 +360,9 @@ Le taux de liaison est de <xsl:value-of select="100 * (count(analysis/table/colu
           <xsl:when test="contains(@type,'TEXT')"><span style="color:#CF0000"><xsl:value-of select="@type"/></span></xsl:when>
           <xsl:when test="@type='SERIAL'"><b><span style="color:#007F3F">SERIAL</span></b></xsl:when>
           <xsl:when test="@type='INTEGER'"><span style="color:#007F3F">INTEGER</span></xsl:when>
-          <xsl:when test="@type='SMALLINT'"><span style="color:#007F3F">SMALLINT</span></xsl:when>
           <xsl:when test="@type='INT4'"><span style="color:#007F3F">INTEGER</span></xsl:when>
+          <xsl:when test="@type='SMALLINT'"><span style="color:#007F3F">SMALLINT</span></xsl:when>
+          <xsl:when test="@type='INT2'"><span style="color:#007F3F">SMALLINT</span></xsl:when>
           <xsl:when test="@type='DOUBLE'"><span style="color:#007F00">DOUBLE</span></xsl:when>
           <xsl:when test="@type='FLOAT'"><span style="color:#007F00">FLOAT</span></xsl:when>
           <xsl:when test="@type='FLOAT8'"><span style="color:#007F00">FLOAT</span></xsl:when>
@@ -370,6 +371,7 @@ Le taux de liaison est de <xsl:value-of select="100 * (count(analysis/table/colu
           <xsl:when test="@type='BOOL'"><span style="color:#007FFF">BOOLEAN</span></xsl:when>
           <xsl:when test="@type='DATE'"><span style="color:#703000">DATE</span></xsl:when>
           <xsl:when test="@type='GEOMETRY'"><span style="color:#000000">GEOMETRY</span></xsl:when>
+          <xsl:when test="@type='BYTEA'"><span style="color:#444444">BYTEA</span></xsl:when>
           <xsl:when test="@type='TIMESTAMP'"><span style="color:#707070">TIMESTAMP</span></xsl:when>
           <xsl:when test="contains(@type,'TIME')"><span style="color:#709070"><xsl:value-of select="@type"/></span></xsl:when>
           <!--<xsl:when test="@type=''"><span style="color:#0000FF"></span></xsl:when>-->

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet type="text/xsl" href="analysis-html.xsl" ?>
 <analysis name="AgriSIG" table="table_" view="">
   <text>
@@ -6,7 +6,7 @@ Voici le MCD du projet <it text="AgriSIG"/>.
 
 Pour faciliter la manipulation des tables des normes inter-tables ont été mise en place :
 <itemize>
-  <item>Toutes les clé primaires s'intitulent <bf text="XX_Numero"/>.</item>
+  <item>Toutes les clés primaires s'intitulent <bf text="XX_Numero"/>.</item>
   <item>Les champs de notes et date de traçage se nomment respectivement <bf text="note"/> et <bf text="created_by"/>, <bf text="created_at"/>, <bf text="updated_at"/> et <bf text="updated_by"/>.</item>
   <item>Les champs de <bf text="couleur"/> portent tous le même nom pour faciliter et fiabiliser leur repérage dans la base.</item>
   <item>Les séquences se nomment toutes <bf text="seq_[nom de la table]"/></item>
