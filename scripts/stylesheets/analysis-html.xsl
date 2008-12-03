@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml">
 
-  <xsl:output method="xml" encoding="UTF-8" version="1.0" indent="no"/>
+  <xsl:output method="xml" encoding="UTF-8" version="1.0" indent="yes"/>
 
 <!--  <xsl:variable name="color_column_bg">#E0E7F7</xsl:variable>-->
   <xsl:variable name="color_column_bg">#E0e0FF</xsl:variable>
@@ -35,15 +35,15 @@ h2 {margin: 32px 4px 8px;}
 h3 {margin: 16px 8px 4px;}
 /*th { color:<xsl:value-of select="$color_header_fg"/>; background: <xsl:value-of select="$color_header_bg"/>; font-weight: normal; }*/
 th { color: #005; background: #aac; padding: 2px;}
-td { padding: 1px 2px; }
+td { padding: 1px 2px 0px; }
 
 .sommaire { border : 1px solid <xsl:value-of select="$color_header_bg"/>; padding : 10px; }
 
 .table { border:1px solid #AAC; border-collapse : collapse; background-color : <xsl:value-of select="$color_column_bg"/>; width:100%; }
 
 tr.pkey td { background: <xsl:value-of select="$color_pk_bg"/>; }
-tr.odd td { background: #e0e7ff; }
-tr.even td { background: #EbF4FF; }
+tr.odd td { background: #e0e7ff; border-bottom: 1px solid #e0e7ff; }
+tr.even td { background: #EbF4FF; border-bottom: 1px solid #EbF4FF; }
 tr.part { border : 1px solid #AAC; }
 tr.title td {background: white; border-top: 1px solid #AAC; border-left: 1px solid white; border-right: 1px solid white;}
 
@@ -75,23 +75,23 @@ hr.bt { border: 1px solid <xsl:value-of select="$color_header_bg"/>; margin-top:
 
 	<h2 id="rapport">Statistiques</h2>
         <div class="texte">        
-Le modèle conceptuel de données comporte <b><xsl:value-of select="count(analysis/table)"/></b>
-tables soient :
+	  Le modèle conceptuel de données comporte <b><xsl:value-of select="count(analysis/table)"/></b>
+	  tables soient :
           <ul> 
             <li><xsl:value-of select="count(analysis/table[0>=count(column[@pkey='true'])])"/> tables sans clés primaires simples,</li>
             <li><xsl:value-of select="count(analysis/table[0>=count(column[@fkey!=''])])"/> tables sans clés étrangères,</li>
             <li><xsl:value-of select="count(analysis/table/seq)"/> séquences,</li>
-            <li><xsl:value-of select="count(analysis/table/column)+count(analysis/table/pkey)"/> champs dont :
-               <ul>
-                 <li><xsl:value-of select="count(analysis/table/column[@fkey!=''])"/> clés étrangères,</li>
-                 <li><xsl:value-of select="count(analysis/table/column[@pkey='true'])"/> clés primaires simples et <xsl:value-of select="count(analysis/table/pkey)"/> clés primaires composées</li>
-               </ul>
+            <li><xsl:value-of select="count(analysis/table/column)+count(analysis/table/pkey)"/> colonnes dont :
+              <ul>
+                <li><xsl:value-of select="count(analysis/table/column[@fkey!=''])"/> clés étrangères,</li>
+                <li><xsl:value-of select="count(analysis/table/column[@pkey='true'])"/> clés primaires simples et <xsl:value-of select="count(analysis/table/pkey)"/> clés primaires composées</li>
+              </ul>
             </li>
           </ul>
- La table moyenne comporte <xsl:value-of select="(count(analysis/table/column)+count(analysis/table/pkey)) div count(analysis/table)"/> champs dont <xsl:value-of select="count(analysis/table/column[@fkey!='']) div count(analysis/table)"/> clés étrangères.<br/>
-Le taux de liaison est de <xsl:value-of select="100 * (count(analysis/table/column[@fkey!='']) div count(analysis/table/column[not(@pkey='true')]))"/>%.<br/>
+	  La table moyenne comporte <xsl:value-of select="(count(analysis/table/column)+count(analysis/table/pkey)) div count(analysis/table)"/> colonnes dont <xsl:value-of select="count(analysis/table/column[@fkey!='']) div count(analysis/table)"/> clés étrangères.<br/>
+	  Le taux de liaison est de <xsl:value-of select="100 * (count(analysis/table/column[@fkey!='']) div count(analysis/table/column[not(@pkey='true')]))"/>%.<br/>
         </div>
- 
+	
 	<h2>Rapport d'erreurs</h2>
         <div class="texte">
           <ul>
@@ -164,152 +164,158 @@ Le taux de liaison est de <xsl:value-of select="100 * (count(analysis/table/colu
 
 
   <xsl:template match="table" mode="std">
-   <!-- <h3 id="{@name}"><xsl:value-of select="position()"/>. <b><xsl:value-of select="../@table"/><xsl:value-of select="@name"/></b> : table des <xsl:value-of select="translate(@label,'ABCDEÉFGHIÎJKLMNOPQRSTUVWXYZ','abcdeéfghiîjklmnopqrstuvwxyz')"/></h3>
+    <!-- <h3 id="{@name}"><xsl:value-of select="position()"/>. <b><xsl:value-of select="../@table"/><xsl:value-of select="@name"/></b> : table des <xsl:value-of select="translate(@label,'ABCDEÉFGHIÎJKLMNOPQRSTUVWXYZ','abcdeéfghiîjklmnopqrstuvwxyz')"/></h3>
 
-    <xsl:apply-templates select="text"/>
+	 <xsl:apply-templates select="text"/>
 
-    <table class="table" width="100%">-->
-   <tr class="title" id="{@name}"><td colspan="{$nb_columns}"><h3><xsl:value-of select="position()"/>. <b><xsl:value-of select="../@table"/><xsl:value-of select="@name"/></b> : table des <xsl:value-of select="translate(@label,'ABCDEÉFGHIÎJKLMNOPQRSTUVWXYZ','abcdeéfghiîjklmnopqrstuvwxyz')"/></h3></td></tr>
+	 <table class="table" width="100%">-->
+    <tr class="title" id="{@name}"><td colspan="{$nb_columns}"><h3><xsl:value-of select="position()"/>. <b><xsl:value-of select="../@table"/><xsl:value-of select="@name"/></b> : table des <xsl:value-of select="translate(@label,'ABCDEÉFGHIÎJKLMNOPQRSTUVWXYZ','abcdeéfghiîjklmnopqrstuvwxyz')"/></h3></td></tr>
 
-   <xsl:if test="@text!=''">
-     <tr><td colspan="{$nb_columns}"><xsl:apply-templates select="text"/></td></tr>
-   </xsl:if>
+    <xsl:if test="@text!=''">
+      <tr><td colspan="{$nb_columns}"><xsl:apply-templates select="text"/></td></tr>
+    </xsl:if>
 
-   <xsl:if test="@select!='' or @where!='' or @order!='' or @from!=''">
-	<tr class="part">
-          <th colspan="{$nb_columns}">Requête de la vue <i><xsl:value-of select="../@view"/><xsl:value-of select="@name"/></i></th>
-	</tr>
-	
-	<tr>
-          <td colspan="{$nb_columns}">
-            <span class="kw">SELECT </span>
-            <xsl:apply-templates select="column" mode="liste-virgule"/>
-	    <xsl:if test="@select!=''">
-              <xsl:text>, </xsl:text>
-	      <xsl:value-of select="@select"/>
-            </xsl:if>
-            <br/>
-            <span class="kw">  FROM </span>
-            <xsl:value-of select="@name"/>
-            <xsl:if test="@from!=''">
-              <a>, </a>
-              <xsl:value-of select="@from"/>
-            </xsl:if>
-            <xsl:if test="@where!=''">
-              <br/>
-              <span class="kw">  WHERE </span>
-              <xsl:value-of select="@where"/>
-            </xsl:if>
-            <a>;</a>
-          </td>
-	</tr>
-      </xsl:if>
-
+    <xsl:if test="@select!='' or @where!='' or @order!='' or @from!=''">
       <tr class="part">
-        <th>Champs (<xsl:value-of select="count(column)"/>)</th>
-<!--        <th>Label</th>-->
+        <th colspan="{$nb_columns}">Requête de la vue <i><xsl:value-of select="../@view"/><xsl:value-of select="@name"/></i></th>
+      </tr>
+      
+      <tr>
+        <td colspan="{$nb_columns}">
+          <span class="kw">SELECT </span>
+          <xsl:apply-templates select="column" mode="liste-virgule"/>
+	  <xsl:if test="@select!=''">
+            <xsl:text>, </xsl:text>
+	    <xsl:value-of select="@select"/>
+          </xsl:if>
+          <br/>
+          <span class="kw">FROM </span>
+          <xsl:value-of select="@name"/>
+          <xsl:if test="@from!=''">
+	    <xsl:text> </xsl:text>
+            <xsl:value-of select="@from"/>
+          </xsl:if>
+          <xsl:if test="@where!=''">
+            <br/>
+            <span class="kw">WHERE </span>
+            <xsl:value-of select="@where"/>
+          </xsl:if>
+          <a>;</a>
+        </td>
+      </tr>
+    </xsl:if>
+
+    <tr class="part">
+      <th>Colonnes (<xsl:value-of select="count(column)"/>)</th>
+      <th>Type</th>
+      <th>N</th>
+      <th>Default</th>
+      <th>Contraintes</th>
+      <th>Description</th>
+    </tr>
+
+    <xsl:apply-templates select="column">
+      <xsl:with-param name="fkey"/>
+    </xsl:apply-templates>
+
+    <xsl:apply-templates select="pkey"/>
+
+
+    <!--  AUTORISATIONS  -->
+    <!--
+	<xsl:if test="count(./grant)+count(./revoke)>0">
+          <tr class="part">
+            <th rowspan="{count(grant)+count(revoke)+1}" align="center">Autorisations</th>
+          </tr>
+	  <xsl:apply-templates select="grant">
+	    <xsl:sort select="@to"/>
+	  </xsl:apply-templates>
+	  <xsl:apply-templates select="revoke">
+	    <xsl:sort select="@from"/>
+	  </xsl:apply-templates>
+	</xsl:if>
+	-->
+    <!--  SEQUENCES  -->
+
+    <!--
+	<xsl:if test="seq/@name!=''">
+          <tr class="part">
+            <th rowspan="{count(./seq)+1}" align="center">Séquences</th>
+          </tr>
+          <xsl:apply-templates select="./seq"/>
+	</xsl:if>
+	-->
+    <!--  RULES  -->
+    <!--
+	<xsl:if test="rule/@on!=''">
+          <tr>
+            <th rowspan="{count(rule)+1}" align="center" style="color:{$color_header_fg}; background: {$color_header_bg};">Règles</th>
+          </tr>
+          <xsl:apply-templates select="rule"/>
+	</xsl:if>
+	-->
+    <!--  REFERENCED  -->
+
+    <xsl:variable name="tabol"><xsl:value-of select="@name"/></xsl:variable>
+    <xsl:variable name="nb_ref"><xsl:value-of select="count(../table/column[substring-before(@fkey,'(')=$tabol])"/></xsl:variable>
+    <xsl:if test="$nb_ref>0">
+      <!--
+          <tr class="part">
+            <th align="center">
+              <xsl:choose>
+		<xsl:when test="$nb_ref=1"><xsl:text>Référence</xsl:text></xsl:when>
+		<xsl:otherwise>
+                  <xsl:text>Références</xsl:text>
+                  <br/>
+                  <xsl:text> (</xsl:text>
+	          <xsl:value-of select="$nb_ref"/>
+                  <xsl:text>)</xsl:text>
+		</xsl:otherwise>
+              </xsl:choose>
+            </th>
+            <td colspan="{number($nb_columns)-1}" style="padding : 0px;">
+              <table width="100%" style="border-collapse: collapse; width: 100%; height: 100%;">
+		<xsl:apply-templates select="../table/column[substring-before(@fkey,'(')=$tabol]">
+		  <xsl:sort select="../@name"/>
+                  <xsl:with-param name="fkey">yes</xsl:with-param>
+		</xsl:apply-templates>
+	      </table>
+	    </td>
+	  </tr>
+	  -->	
+      <tr class="part">
+        <th>Références (<xsl:value-of select="count($nb_ref)"/>)</th>
         <th>Type</th>
         <th>N</th>
-        <th>Val. défaut</th>
+        <th>Default</th>
         <th>Contraintes</th>
-<!--	<th>Référence...</th>-->
 	<th>Description</th>
+	<!--	  
+		  <th colspan="{$nb_columns}">
+		    <xsl:choose>
+		      <xsl:when test="$nb_ref=1"><xsl:text>Référencée par...</xsl:text></xsl:when>
+		      <xsl:otherwise>
+			<xsl:text>Référencée </xsl:text>
+			<xsl:value-of select="$nb_ref"/>
+			<xsl:text> fois par...</xsl:text>
+		      </xsl:otherwise>
+		    </xsl:choose>
+		  </th>
+		  -->
       </tr>
-
-      <xsl:apply-templates select="column">
-        <xsl:with-param name="fkey"/>
+      <xsl:apply-templates select="../table/column[substring-before(@fkey,'(')=$tabol]">
+	<xsl:sort select="../@name"/>
+        <xsl:with-param name="fkey">yes</xsl:with-param>
       </xsl:apply-templates>
-
-      <xsl:apply-templates select="pkey"/>
-
-
-      <!--  AUTORISATIONS  -->
-<!--
-      <xsl:if test="count(./grant)+count(./revoke)>0">
-        <tr class="part">
-          <th rowspan="{count(grant)+count(revoke)+1}" align="center">Autorisations</th>
-        </tr>
-	<xsl:apply-templates select="grant">
-	  <xsl:sort select="@to"/>
-	</xsl:apply-templates>
-	<xsl:apply-templates select="revoke">
-	  <xsl:sort select="@from"/>
-	</xsl:apply-templates>
-      </xsl:if>
--->
-      <!--  SEQUENCES  -->
-
-<!--
-      <xsl:if test="seq/@name!=''">
-        <tr class="part">
-          <th rowspan="{count(./seq)+1}" align="center">Séquences</th>
-        </tr>
-        <xsl:apply-templates select="./seq"/>
-      </xsl:if>
--->
-      <!--  RULES  -->
-<!--
-      <xsl:if test="rule/@on!=''">
-        <tr>
-          <th rowspan="{count(rule)+1}" align="center" style="color:{$color_header_fg}; background: {$color_header_bg};">Règles</th>
-        </tr>
-        <xsl:apply-templates select="rule"/>
-      </xsl:if>
--->
-      <!--  REFERENCED  -->
-
-      <xsl:variable name="tabol"><xsl:value-of select="@name"/></xsl:variable>
-      <xsl:variable name="nb_ref"><xsl:value-of select="count(../table/column[substring-before(@fkey,'(')=$tabol])"/></xsl:variable>
-      <xsl:if test="$nb_ref>0">
-<!--
-        <tr class="part">
-          <th align="center">
-            <xsl:choose>
-              <xsl:when test="$nb_ref=1"><xsl:text>Référence</xsl:text></xsl:when>
-              <xsl:otherwise>
-                <xsl:text>Références</xsl:text>
-                <br/>
-                <xsl:text> (</xsl:text>
-	        <xsl:value-of select="$nb_ref"/>
-                <xsl:text>)</xsl:text>
-              </xsl:otherwise>
-            </xsl:choose>
-          </th>
-          <td colspan="{number($nb_columns)-1}" style="padding : 0px;">
-            <table width="100%" style="border-collapse: collapse; width: 100%; height: 100%;">
-              <xsl:apply-templates select="../table/column[substring-before(@fkey,'(')=$tabol]">
-		<xsl:sort select="../@name"/>
-                <xsl:with-param name="fkey">yes</xsl:with-param>
-	      </xsl:apply-templates>
-	    </table>
-	  </td>
-	</tr>
--->	
-        <tr class="part">
-          <th colspan="{$nb_columns}">
-            <xsl:choose>
-              <xsl:when test="$nb_ref=1"><xsl:text>Référencée par...</xsl:text></xsl:when>
-              <xsl:otherwise>
-                <xsl:text>Référencée </xsl:text>
-	        <xsl:value-of select="$nb_ref"/>
-                <xsl:text> fois par...</xsl:text>
-              </xsl:otherwise>
-            </xsl:choose>
-          </th>
-	</tr>
-        <xsl:apply-templates select="../table/column[substring-before(@fkey,'(')=$tabol]">
-	  <xsl:sort select="../@name"/>
-          <xsl:with-param name="fkey">yes</xsl:with-param>
-	</xsl:apply-templates>
-	
-      </xsl:if>
+      
+    </xsl:if>
 
 
-<!--    </table>-->
-<!--
-    <a href="#tdm">Retour au sommaire</a> | <a href="#rapport">Retour au rapport</a> | <a href="#top">Haut de page</a>
-    <hr class="bt"/>
--->
+    <!--    </table>-->
+    <!--
+	<a href="#tdm">Retour au sommaire</a> | <a href="#rapport">Retour au rapport</a> | <a href="#top">Haut de page</a>
+	<hr class="bt"/>
+	-->
   </xsl:template>
 
 
@@ -361,124 +367,120 @@ Le taux de liaison est de <xsl:value-of select="100 * (count(analysis/table/colu
         <xsl:otherwise>even</xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
-    <tr class="{$color}">
-      <td>
-        <xsl:choose>
-	  <xsl:when test="$fkey='yes'">
-	    <a href="#{../@name}"><xsl:value-of select="../@name"/></a>(<a href="#{../@name}({@name})"><xsl:value-of select="@name"/></a><a>)</a>
-	  </xsl:when>
-	  <xsl:otherwise>
-	    <span id="{../@name}({@name})"><xsl:value-of select="@name"/></span>
-	  </xsl:otherwise>
+    <xsl:if test="not(contains(../../@hide,concat(' ',@name,' ')))">
+      <xsl:variable name="style">
+	<xsl:choose>
+          <xsl:when test="contains(../../@hide,concat(' ',@name,' '))">display:none;</xsl:when>
+          <xsl:otherwise></xsl:otherwise>
 	</xsl:choose>
-      </td>
-<!--
-      <td>
-        <xsl:value-of select="@label"/>
-      </td>
--->
-      <td>
-        <xsl:choose>
-          <xsl:when test="contains(@type,'VARCHAR')"><span style="color:#CF0000"><xsl:value-of select="@type"/></span></xsl:when>
-          <xsl:when test="contains(@type,'CHAR')"><span style="color:#CF0000"><xsl:value-of select="@type"/></span></xsl:when> 
-          <xsl:when test="contains(@type,'TEXT')"><span style="color:#CF0000"><xsl:value-of select="@type"/></span></xsl:when>
-          <xsl:when test="@type='SERIAL'"><b><span style="color:#007F3F">SERIAL</span></b></xsl:when>
-          <xsl:when test="@type='INTEGER'"><span style="color:#007F3F">INTEGER</span></xsl:when>
-          <xsl:when test="@type='INT4'"><span style="color:#007F3F">INTEGER</span></xsl:when>
-          <xsl:when test="@type='SMALLINT'"><span style="color:#007F3F">SMALLINT</span></xsl:when>
-          <xsl:when test="@type='INT2'"><span style="color:#007F3F">SMALLINT</span></xsl:when>
-          <xsl:when test="@type='DOUBLE'"><span style="color:#007F00">DOUBLE</span></xsl:when>
-          <xsl:when test="@type='FLOAT'"><span style="color:#007F00">FLOAT</span></xsl:when>
-          <xsl:when test="@type='FLOAT8'"><span style="color:#007F00">FLOAT</span></xsl:when>
-          <xsl:when test="contains(@type,'NUMERIC')"><span style="color:#007F00"><xsl:value-of select="@type"/></span></xsl:when>
-          <xsl:when test="@type='BOOLEAN'"><span style="color:#007FFF">BOOLEAN</span></xsl:when>
-          <xsl:when test="@type='BOOL'"><span style="color:#007FFF">BOOLEAN</span></xsl:when>
-          <xsl:when test="@type='DATE'"><span style="color:#703000">DATE</span></xsl:when>
-          <xsl:when test="@type='GEOMETRY'"><span style="color:#000000">GEOMETRY</span></xsl:when>
-          <xsl:when test="@type='BYTEA'"><span style="color:#444444">BYTEA</span></xsl:when>
-          <xsl:when test="@type='TIMESTAMP'"><span style="color:#707070">TIMESTAMP</span></xsl:when>
-          <xsl:when test="contains(@type,'TIME')"><span style="color:#709070"><xsl:value-of select="@type"/></span></xsl:when>
-          <!--<xsl:when test="@type=''"><span style="color:#0000FF"></span></xsl:when>-->
-          <xsl:otherwise><blink><b>***<xsl:value-of select="@type"/>***</b></blink></xsl:otherwise>
-        </xsl:choose>
-        <!--(<xsl:value-of select="@type"/>)-->
-      </td>
-      <td>
-        <xsl:if test="@notnull='true'">
-          <span class="kw">⊗</span>
-        </xsl:if>
-      </td>
-      <td>
-        <xsl:if test="@default!=''">
-<!--          <span class="kw">DEFAULT </span>-->
-	  <xsl:variable name="apos">'</xsl:variable>
+      </xsl:variable>
+      <tr class="{$color}" style="{$style}">
+	<td>
           <xsl:choose>
-	    <xsl:when test="@default='NULL'"></xsl:when>
-	    <xsl:when test="contains(@default,$apos)"><span style="color:#BC8F8F"><xsl:value-of select="@default"/></span></xsl:when>
-            <xsl:when test="contains(@type,'BOOL')"><span style="color:#5F9EA0"><xsl:value-of select="@default"/></span></xsl:when>
-	    <xsl:otherwise><xsl:value-of select="@default"/></xsl:otherwise>
+	    <xsl:when test="$fkey='yes'">
+	      <a href="#{../@name}"><xsl:value-of select="../@name"/></a>(<a href="#{../@name}({@name})"><xsl:value-of select="@name"/></a><a>)</a>
+	    </xsl:when>
+	    <xsl:otherwise>
+	      <span id="{../@name}({@name})"><xsl:value-of select="@name"/></span>
+	    </xsl:otherwise>
 	  </xsl:choose>
-        </xsl:if>
-      </td>
+	</td>
+	<!--
+	    <td>
+              <xsl:value-of select="@label"/>
+	    </td>
+	    -->
+	<td>
+          <xsl:choose>
+            <xsl:when test="contains(@type,'VARCHAR')"><span style="color:#CF0000"><xsl:value-of select="@type"/></span></xsl:when>
+            <xsl:when test="contains(@type,'CHAR')"><span style="color:#CF0000"><xsl:value-of select="@type"/></span></xsl:when> 
+            <xsl:when test="contains(@type,'TEXT')"><span style="color:#CF0000"><xsl:value-of select="@type"/></span></xsl:when>
+            <xsl:when test="@type='SERIAL'"><b><span style="color:#007F3F">SERIAL</span></b></xsl:when>
+            <xsl:when test="@type='INTEGER'"><span style="color:#007F3F">INTEGER</span></xsl:when>
+            <xsl:when test="@type='INT4'"><span style="color:#007F3F">INTEGER</span></xsl:when>
+            <xsl:when test="@type='SMALLINT'"><span style="color:#007F3F">SMALLINT</span></xsl:when>
+            <xsl:when test="@type='INT2'"><span style="color:#007F3F">SMALLINT</span></xsl:when>
+            <xsl:when test="@type='DOUBLE'"><span style="color:#007F00">DOUBLE</span></xsl:when>
+            <xsl:when test="@type='FLOAT'"><span style="color:#007F00">FLOAT</span></xsl:when>
+            <xsl:when test="@type='FLOAT8'"><span style="color:#007F00">FLOAT</span></xsl:when>
+            <xsl:when test="contains(@type,'NUMERIC')"><span style="color:#007F00"><xsl:value-of select="@type"/></span></xsl:when>
+            <xsl:when test="@type='BOOLEAN'"><span style="color:#007FFF">BOOLEAN</span></xsl:when>
+            <xsl:when test="@type='BOOL'"><span style="color:#007FFF">BOOLEAN</span></xsl:when>
+            <xsl:when test="@type='DATE'"><span style="color:#703000">DATE</span></xsl:when>
+            <xsl:when test="@type='GEOMETRY'"><span style="color:#000000">GEOMETRY</span></xsl:when>
+            <xsl:when test="@type='BYTEA'"><span style="color:#444444">BYTEA</span></xsl:when>
+            <xsl:when test="@type='TIMESTAMP'"><span style="color:#707070">TIMESTAMP</span></xsl:when>
+            <xsl:when test="contains(@type,'TIME')"><span style="color:#709070"><xsl:value-of select="@type"/></span></xsl:when>
+            <!--<xsl:when test="@type=''"><span style="color:#0000FF"></span></xsl:when>-->
+            <xsl:otherwise><blink><b>***<xsl:value-of select="@type"/>***</b></blink></xsl:otherwise>
+          </xsl:choose>
+          <!--(<xsl:value-of select="@type"/>)-->
+	</td>
+	<td>
+          <xsl:if test="@notnull='true'">
+            <span class="kw">⊗</span>
+          </xsl:if>
+	</td>
+	<td>
+          <xsl:if test="@default!=''">
+	    <xsl:variable name="apos">'</xsl:variable>
+            <xsl:choose>
+	      <xsl:when test="@default='NULL'"></xsl:when>
+	      <xsl:when test="contains(@default,$apos)"><span style="color:#BC8F8F"><xsl:value-of select="@default"/></span></xsl:when>
+              <xsl:when test="contains(@type,'BOOL')"><span style="color:#5F9EA0"><xsl:value-of select="@default"/></span></xsl:when>
+	      <xsl:otherwise><xsl:value-of select="@default"/></xsl:otherwise>
+	    </xsl:choose>
+          </xsl:if>
+	</td>
 
-      <td>
-<!--
-        <xsl:if test="@notnull='true'">
-          <span class="kw">NOT NULL </span>
-        </xsl:if>
--->
-        <xsl:if test="contains(@const,'UNIQUE')">
-          <span class="kw">UNIQUE </span>
-        </xsl:if>
-        <xsl:if test="@pkey='true'">
-          <span style="color:{$color_pk_fg}">PRIMARY KEY </span>
-        </xsl:if>
-        <xsl:if test="@fkey!=''">
-	  <span class="kw">REF. </span>
-          <a href="#{normalize-space(substring-before(@fkey,'('))}"><xsl:value-of select="normalize-space(substring-before(@fkey,'('))"/></a>(<a href="#{@fkey}"><xsl:value-of select="normalize-space(substring-before(substring-after(@fkey,'('),')'))"/></a><xsl:text>) </xsl:text>
-<!--
-	  <xsl:if test="@opt!=''">
-	    <xsl:text> </xsl:text>
-	    <xsl:value-of select="@opt"/>
+	<td>
+          <xsl:if test="contains(@const,'UNIQUE')">
+            <span class="kw">UNIQUE </span>
+          </xsl:if>
+          <xsl:if test="@pkey='true'">
+            <span style="color:{$color_pk_fg}">PRIMARY KEY </span>
+          </xsl:if>
+          <xsl:if test="@fkey!=''">
+	    <span class="kw small">REF. </span>
+            <a href="#{normalize-space(substring-before(@fkey,'('))}"><xsl:value-of select="normalize-space(substring-before(@fkey,'('))"/></a>(<a href="#{@fkey}"><xsl:value-of select="normalize-space(substring-before(substring-after(@fkey,'('),')'))"/></a><xsl:text>) </xsl:text>
+	    <xsl:if test="contains(@opt,'od')">
+              <span class="kw small">
+		<xsl:text>D</xsl:text>
+		<xsl:choose>
+		  <xsl:when test="contains(@opt,'odna')">NA</xsl:when>
+		  <xsl:when test="contains(@opt,'oda')" >NA</xsl:when>
+		  <xsl:when test="contains(@opt,'odr')" >RE</xsl:when>
+		  <xsl:when test="contains(@opt,'odc')" >CA</xsl:when>
+		  <xsl:when test="contains(@opt,'odsn')">SN</xsl:when>
+		  <xsl:when test="contains(@opt,'odn')" >SN</xsl:when>
+		  <xsl:when test="contains(@opt,'odsd')">SD</xsl:when>
+		  <xsl:when test="contains(@opt,'odd')" >SD</xsl:when>
+		</xsl:choose>
+		<xsl:text> </xsl:text>
+	      </span>
+	    </xsl:if>
+	    <xsl:if test="contains(@opt,'ou')">
+              <span class="kw small">
+		<xsl:text>U</xsl:text>
+		<xsl:choose>
+		  <xsl:when test="contains(@opt,'ouna')">NA</xsl:when>
+		  <xsl:when test="contains(@opt,'oua')" >NA</xsl:when>
+		  <xsl:when test="contains(@opt,'our')" >RE</xsl:when>
+		  <xsl:when test="contains(@opt,'ouc')" >CA</xsl:when>
+		  <xsl:when test="contains(@opt,'ousn')">SN</xsl:when>
+		  <xsl:when test="contains(@opt,'oun')" >SN</xsl:when>
+		  <xsl:when test="contains(@opt,'ousd')">SD</xsl:when>
+		  <xsl:when test="contains(@opt,'oud')" >SD</xsl:when>
+		</xsl:choose>
+	      </span>
+	    </xsl:if>
+	    <xsl:if test="@option!=''"><xsl:value-of select="@option"/></xsl:if>
 	  </xsl:if>
--->
-	  <xsl:if test="contains(@opt,'od')">
-            <span class="kw small">
-	      <xsl:text>DEL. </xsl:text>
-	      <xsl:choose>
-		<xsl:when test="contains(@opt,'odna')">NO ACTION</xsl:when>
-		<xsl:when test="contains(@opt,'oda')" >NO ACTION</xsl:when>
-		<xsl:when test="contains(@opt,'odr')" >RESTRICT</xsl:when>
-		<xsl:when test="contains(@opt,'odc')" >CASCADE</xsl:when>
-		<xsl:when test="contains(@opt,'odsn')">SET NULL</xsl:when>
-		<xsl:when test="contains(@opt,'odn')" >SET NULL</xsl:when>
-		<xsl:when test="contains(@opt,'odsd')">SET DEFAULT</xsl:when>
-		<xsl:when test="contains(@opt,'odd')" >SET DEFAULT</xsl:when>
-	      </xsl:choose>
-	      <xsl:text> </xsl:text>
-	    </span>
-	  </xsl:if>
-	  <xsl:if test="contains(@opt,'ou')">
-            <span class="kw small">
-	      <xsl:text>UPD. </xsl:text>
-              <xsl:choose>
-		<xsl:when test="contains(@opt,'ouna')">NO ACTION</xsl:when>
-		<xsl:when test="contains(@opt,'oua')" >NO ACTION</xsl:when>
-		<xsl:when test="contains(@opt,'our')" >RESTRICT</xsl:when>
-		<xsl:when test="contains(@opt,'ouc')" >CASCADE</xsl:when>
-		<xsl:when test="contains(@opt,'ousn')">SET NULL</xsl:when>
-		<xsl:when test="contains(@opt,'oun')" >SET NULL</xsl:when>
-		<xsl:when test="contains(@opt,'ousd')">SET DEFAULT</xsl:when>
-		<xsl:when test="contains(@opt,'oud')" >SET DEFAULT</xsl:when>
-	      </xsl:choose>
-	    </span>
-	  </xsl:if>
-	  <xsl:if test="@option!=''"><xsl:value-of select="@option"/></xsl:if>
-	</xsl:if>
-      </td>
-<!--      <td bgcolor="{$color_desc_bg}"><xsl:apply-templates name="bidon"/></td>-->
-      <td><xsl:apply-templates name="bidon"/></td>
-    </tr>
+	</td>
+	<!--      <td bgcolor="{$color_desc_bg}"><xsl:apply-templates name="bidon"/></td>-->
+	<td><xsl:apply-templates name="bidon"/></td>
+      </tr>
+    </xsl:if>
   </xsl:template>
 
   
@@ -510,7 +512,7 @@ Le taux de liaison est de <xsl:value-of select="100 * (count(analysis/table/colu
 	</xsl:call-template>
         <xsl:text>)</xsl:text>
       </td>
-<!--      <td bgcolor="{$color_desc_bg}"><xsl:apply-templates name="bidon"/></td>-->
+      <!--      <td bgcolor="{$color_desc_bg}"><xsl:apply-templates name="bidon"/></td>-->
       <td><xsl:apply-templates name="bidon"/></td>
     </tr>
   </xsl:template>
@@ -529,7 +531,7 @@ Le taux de liaison est de <xsl:value-of select="100 * (count(analysis/table/colu
       </xsl:when>
       <xsl:otherwise>
         <xsl:if test="string-length($chaine)>0">
-         <a href="#{../@name}({normalize-space($chaine)})"><xsl:value-of select="normalize-space($chaine)"/></a>
+          <a href="#{../@name}({normalize-space($chaine)})"><xsl:value-of select="normalize-space($chaine)"/></a>
 	</xsl:if>
       </xsl:otherwise>
     </xsl:choose>
@@ -571,9 +573,9 @@ Le taux de liaison est de <xsl:value-of select="100 * (count(analysis/table/colu
   <xsl:template match="rule">
     <tr>
       <td align="right"><b><xsl:text>RULE_</xsl:text>
-        <xsl:value-of select="../@name"/>
-        <xsl:text>_</xsl:text>
-        <xsl:value-of select="@on"/></b>
+          <xsl:value-of select="../@name"/>
+          <xsl:text>_</xsl:text>
+          <xsl:value-of select="@on"/></b>
       </td>
       <td colspan="{number($nb_columns)-3}" rowspan="1" nowrap="yes">
         <xsl:text> fait </xsl:text>
@@ -611,7 +613,7 @@ Le taux de liaison est de <xsl:value-of select="100 * (count(analysis/table/colu
       <xsl:apply-templates select="item" mode="itemize"/>
     </ul>
   </xsl:template>
-   <xsl:template match="description">
+  <xsl:template match="description">
     <ul>
       <xsl:apply-templates select="item" mode="description"/>
     </ul>
@@ -624,7 +626,7 @@ Le taux de liaison est de <xsl:value-of select="100 * (count(analysis/table/colu
       <xsl:apply-templates name="bidon"/>
     </li>
   </xsl:template>
- 
+  
 
   <xsl:template match="exp"><sup><xsl:value-of select="@x"/></sup></xsl:template>
   <xsl:template match="it"><i><xsl:value-of select="@text"/></i></xsl:template>

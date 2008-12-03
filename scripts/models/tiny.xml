@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<analysis name="tiny">
+<analysis name="tiny" hide=" id perm_id write_uid write_date create_uid create_date ">
   <table name="account_account" label="Account Account">
     <column name="reconcile" label="Reconcile" type="BOOL"/>
     <column name="active" label="Active" type="BOOL"/>

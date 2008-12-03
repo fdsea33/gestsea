@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet type="text/xsl" href="analysis-html.xsl" ?>
-<analysis name="AgriSIG" table="table_" view="">
+<analysis name="AgriSIG" table="table_" view="" hide=" id lock_version updated_at created_at updated_by created_by ">
   <text>
 Voici le MCD du projet <it text="AgriSIG"/>.
 
