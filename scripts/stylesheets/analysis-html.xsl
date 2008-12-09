@@ -377,12 +377,8 @@ hr.bt { border: 1px solid <xsl:value-of select="$color_header_bg"/>; margin-top:
       <tr class="{$color}" style="{$style}">
 	<td>
           <xsl:choose>
-	    <xsl:when test="$fkey='yes'">
-	      <a href="#{../@name}"><xsl:value-of select="../@name"/></a>(<a href="#{../@name}({@name})"><xsl:value-of select="@name"/></a><a>)</a>
-	    </xsl:when>
-	    <xsl:otherwise>
-	      <span id="{../@name}({@name})"><xsl:value-of select="@name"/></span>
-	    </xsl:otherwise>
+	    <xsl:when test="$fkey='yes'"><a href="#{../@name}"><xsl:value-of select="../@name"/></a>(<a href="#{../@name}({@name})"><xsl:value-of select="@name"/></a>)</xsl:when>
+	    <xsl:otherwise><span id="{../@name}({@name})"><xsl:value-of select="@name"/></span></xsl:otherwise>
 	  </xsl:choose>
 	</td>
 	<!--
