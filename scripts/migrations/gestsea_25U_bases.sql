@@ -14,9 +14,6 @@ CREATE AGGREGATE concatenate (
 );
 
 
-
-
-
 --===========================================================================--
 -- Procedure permettant d'extraire une valeur d'un fichier au format BML(Brice Meta Language)
 -- SELECT SUBSTRING('{saved:false.,}{tutu:456, SDSD' FROM '%{titi:#"_[^}]*#"}%' FOR '#');
@@ -181,12 +178,14 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 -- d'une année
 -- DROP FUNCTION FC_MoisEnLettre(integer);
 
-CREATE OR REPLACE FUNCTION FC_MoisEnLettre(integer) RETURNS text AS
+CREATE OR REPLACE FUNCTION FC_MoisEnLettre(IN mois INTEGER) RETURNS text AS
 $$
 DECLARE
-  mois ALIAS FOR $1;
+  months CONSTANT varchar[12] = '{Janvier,Février,Mars,Avril,Mai,Juin,Juillet,Août,Septembre,Octobre,Novembre,Décembre}';
   ret text;
 BEGIN
+  SELECT COALESCE(months[mois+1],'Mois inconnu') INTO ret;
+/*
   SELECT CASE
            WHEN mois=00 THEN 'Janvier'
            WHEN mois=01 THEN 'Février'
@@ -202,6 +201,7 @@ BEGIN
            WHEN mois=11 THEN 'Décembre'
            ELSE 'Mois inconnu'
          END AS LeMois INTO ret;
+*/
   RETURN ret;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
@@ -228,35 +228,6 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 --   Nombre de jours à partir de la date de départ / Interval
 --   Fin de mois
 --   Nombre de jours supplémentaires / Interval
-/*
-CREATE OR REPLACE FUNCTION FC_Delai(IN done_on DATE, IN days INTEGER, IN end_of_month BOOLEAN, IN supp INTEGER) RETURNS DATE AS
-$$
-DECLARE
-  paid_on DATE;
-BEGIN
-  SELECT done_on+(days||' days')::INTERVAL INTO paid_on;
-  IF end_of_month THEN
-    SELECT (TO_CHAR(paid_on+('1 month')::INTERVAL, 'YYYY-MM')||'-01')::DATE-('1 day')::INTERVAL INTO paid_on;
-  END IF;
-  SELECT paid_on+(supp||' days')::INTERVAL INTO paid_on;
-  RETURN paid_on;
-END;
-$$ LANGUAGE 'plpgsql' VOLATILE;
-
-CREATE OR REPLACE FUNCTION FC_Delai(IN done_on DATE, IN days INTERVAL, IN end_of_month BOOLEAN, IN supp INTERVAL) RETURNS DATE AS
-$$
-DECLARE
-  paid_on DATE;
-BEGIN
-  SELECT done_on+days INTO paid_on;
-  IF end_of_month THEN
-    SELECT (TO_CHAR(paid_on+('1 month')::INTERVAL, 'YYYY-MM')||'-01')::DATE-('1 day')::INTERVAL INTO paid_on;
-  END IF;
-  SELECT paid_on+supp INTO paid_on;
-  RETURN paid_on;
-END;
-$$ LANGUAGE 'plpgsql' VOLATILE;
-*/
 CREATE OR REPLACE FUNCTION FC_Delai(IN done_on DATE, IN delay VARCHAR) RETURNS DATE AS
 $$
 DECLARE
@@ -456,12 +427,6 @@ CREATE OR REPLACE VIEW vue_adhesion_all AS
   SELECT cs_numero, cs_annee, p.pe_numero, ah_reduction, ah_libelle FROM table_cotisation join table_adherence on (bml_extract(cs_detail,'fdsea.forfait.produit')=pd_numero) join table_personne p on (bml_extract(cs_detail,'cotisation.societe')=p.pe_numero);
 
 
-/*
-CREATE OR REPLACE VIEW vue_ad2 AS
-  SELECT cs_numero, cs_annee, pe_numero, ah_reduction FROM table_lignefacture JOIN table_cotisation ON (fa_numero=bml_extract(cs_detail,'sacea.facture')) JOIN table_adherence USING (pd_numero)
-  UNION ALL
-  SELECT cs_numero, cs_annee, bml_extract(cs_detail,'cotisation.societe')::integer AS pe_numero, ah_reduction FROM table_lignefacture JOIN table_cotisation ON (fa_numero=bml_extract(cs_detail,'sacea.facture')) JOIN table_adherence USING (pd_numero) WHERE  bml_extract(cs_detail,'cotisation.societe')!='null';
-*/
 --===========================================================================--
 --
 
@@ -538,14 +503,6 @@ WHERE NOT de_locked and SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe
 
 
 
-
-
-
-
-
-
-
-
 /*****************************************************************************\
  * Procédures/Fonctions simples                                              *
 \*****************************************************************************/
@@ -595,7 +552,11 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 --DROP FUNCTION FC_CalculSommeDevis(INTEGER);
 
 CREATE OR REPLACE FUNCTION FC_Devis_Totalize(IN num_devis INTEGER) RETURNS VOID AS
-$$ UPDATE Devis SET DE_MontantHT=ROUND(T.MontantHT,2), DE_MontantTTC=ROUND(T.MontantTTC,2) FROM (SELECT sum(l_montantht*(CASE WHEN pd_reduction THEN 1-de_reduction/100 ELSE 1 END)) AS MontantHT, sum(l_montantttc*(CASE WHEN pd_reduction THEN 1-de_reduction/100 ELSE 1 END)) AS MontantTTC FROM ligne join devis using (de_numero) join produit using (pd_numero) WHERE ligne.de_numero=$1) AS T WHERE devis.de_numero=$1; $$ LANGUAGE SQL;
+$$ 
+BEGIN
+  UPDATE Devis SET DE_MontantHT=ROUND(T.MontantHT,2), DE_MontantTTC=ROUND(T.MontantTTC,2) FROM (SELECT sum(l_montantht*(CASE WHEN pd_reduction THEN 1-de_reduction/100 ELSE 1 END)) AS MontantHT, sum(l_montantttc*(CASE WHEN pd_reduction THEN 1-de_reduction/100 ELSE 1 END)) AS MontantTTC FROM ligne join devis using (de_numero) join produit using (pd_numero) WHERE ligne.de_numero=num_devis) AS T WHERE devis.de_numero=num_devis;
+END;
+$$ LANGUAGE 'plpgsql' IMMUTABLE;
 
 
 
@@ -897,45 +858,4 @@ BEGIN
   RETURN 'file://'||adresse;
 END;
 $$ LANGUAGE 'plpgsql';
-
-/*
-
-  SELECT EM_Service FROM Table_Employe WHERE EM_Login=CURRENT_USER INTO num_service;
-  -- Impressions des documents séparément
-  FOR s IN 1..3 LOOP
-    -- Passage dans la societe s
-    UPDATE table_employe 
-      SET EM_Service=se_numero 
-      FROM table_service 
-      WHERE se_societe=s AND em_login=current_user;
-    -- Impression de tous les documents de la societe
-    UPDATE table_impressiondocument 
-      SET ID_Filename=FC_Imprime2(ID_Modele, ID_Cle::integer)
-      FROM table_facture
-      WHERE num_groupe=table_impressiondocument.ig_numero 
-        AND FA_MontantTTC>0 AND ID_Cle::integer=FA_Numero AND SO_Numero=s;
-  END LOOP;
-  -- Concatenation des documents
-  SELECT '/tmp/'||current_user||E'_lot_pi_'||to_char(CURRENT_TIMESTAMP,'YYYYMMDD_HH24MISS_US')||E'.pdf' INTO adresse;
-  SELECT 'SELECT execution(''cd /tmp && touch '||adresse||E' && chmod 755 '||adresse||E' && gs -q -sPAPERSIZE=letter -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile='||adresse||concatenate(' '||SUBSTR(COALESCE(ID_Filename,''),8))||E''');'
-    FROM (SELECT id_filename
-    FROM table_impressiondocument JOIN table_facture ON (ID_Cle=FA_Numero)
-    WHERE num_groupe=table_impressiondocument.ig_numero AND FA_MontantTTC>0
-       ORDER BY fa_numero) x
-    INTO query;
---  RAISE NOTICE '> Query : %', query;
-  IF query IS NOT NULL THEN
-    EXECUTE query;
-  ELSE
-    RAISE NOTICE 'Pas d''impressions.';
-  END IF;
-
-
-*/
-
-
-
-
-
-
 
