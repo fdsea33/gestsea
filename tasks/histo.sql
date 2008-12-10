@@ -132,6 +132,8 @@ CREATE OR REPLACE VIEW VUE_Historique2 AS
 
 \a
 \f ;
+\timing
+
 \o historique.csv
 SELECT * FROM vue_historique;
 \o
@@ -142,6 +144,10 @@ SELECT * FROM vue_historique WHERE pe_numero IN (SELECT pe_numero FROM table_cot
 
 \o historique_2A.csv
 SELECT * FROM vue_historique WHERE pe_numero IN (SELECT pe_numero FROM table_cotisation WHERE cs_annee BETWEEN EXTRACT(YEAR FROM CURRENT_DATE)-1 AND EXTRACT(YEAR FROM CURRENT_DATE));
+\o
+
+\o historique_1A.csv
+SELECT * FROM vue_historique WHERE pe_numero IN (SELECT pe_numero FROM table_cotisation WHERE cs_annee = EXTRACT(YEAR FROM CURRENT_DATE));
 \o
 
 \o historique_avec_personnes_seulement.csv

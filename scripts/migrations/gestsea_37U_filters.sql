@@ -7,6 +7,13 @@ CREATE OR REPLACE VIEW VUE_Employe_Devis AS
   SELECT employe.*, em_numero AS cle from employe JOIN service ON (em_service=se_numero) WHERE se_societe IN (SELECT SE_Societe FROM VUE_CURRENT_Societe); 
 --SELECT tous.*, tous.em_numero AS cle FROM table_employe moi JOIN table_service ON (em_login=current_user and moi.em_service=se_numero) LEFT JOIN table_employe tous ON (tous.em_service=se_numero);
 
+CREATE OR REPLACE VIEW VUE_Prix AS
+  SELECT TRIM(pd_libelle)||' / '||px_tarifht::float||'€ HT' AS px_libelle, px_numero, px_numero AS cle, pd_numero
+    FROM table_prix JOIN table_Produit USING (PD_Numero)
+    WHERE px_actif AND pd_actif
+      AND SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)
+    ORDER BY pd_libelle, px_tarifht;
+
 
 CREATE OR REPLACE VIEW VUE_Adresse AS
 --  SELECT pe_numero-1000000||'. '||COALESCE(ad_libelle,'???') AS ad_full, adresse.*, ad_numero AS cle FROM adresse ORDER BY 1;

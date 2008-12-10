@@ -180,10 +180,9 @@ CREATE OR REPLACE VIEW "produit" AS
     ORDER BY pd_libelle;
 
 CREATE OR REPLACE VIEW "prix" AS
-   SELECT table_prix.px_numero, table_prix.tv_numero, table_prix.pd_numero, ROUND(table_prix.px_tarifht,4) AS px_tarifht, ROUND(table_prix.px_tarifttc,4) AS px_tarifttc, table_prix.px_actif, table_prix.px_datedebut, table_prix.px_datefin, table_prix.created_at, table_prix.created_by, table_prix.updated_at, table_prix.updated_by, table_prix.lock_version, table_prix.id, pd_libelle||' / '||px_tarifht::float||'€ HT' AS px_libelle, pd_actif AND px_actif AS px_vendable 
-     FROM "table_prix" JOIN table_Produit USING (PD_Numero) 
-    WHERE SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe) AND px_actif
-    ORDER BY pd_libelle;
+   SELECT table_prix.px_numero, table_prix.tv_numero, table_prix.pd_numero, ROUND(table_prix.px_tarifht,4) AS px_tarifht, ROUND(table_prix.px_tarifttc,4) AS px_tarifttc, table_prix.px_actif, table_prix.px_datedebut, table_prix.px_datefin, table_prix.created_at, table_prix.created_by, table_prix.updated_at, table_prix.updated_by, table_prix.lock_version, table_prix.id 
+     FROM "table_prix" 
+    WHERE px_actif;
 
 CREATE OR REPLACE VIEW "ligne" AS
    SELECT table_ligne.l_numero, table_ligne.pd_numero, table_ligne.de_numero, table_ligne.pe_numero, ROUND(table_ligne.l_quantite,4) AS l_quantite, ROUND(table_ligne.l_montantht,2) AS l_montantht, ROUND(table_ligne.l_montantttc,2) AS l_montantttc, table_ligne.px_numero, table_ligne.l_notes, table_ligne.created_at, table_ligne.created_by, table_ligne.updated_at, table_ligne.updated_by, table_ligne.lock_version, table_ligne.id 

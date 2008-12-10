@@ -673,7 +673,8 @@
 
 
 
-  <table name="Prix" abbrev="PX" label="Prix" select="pd_libelle||' / '||px_tarifht::float||'¤ HT' AS px_libelle, pd_actif AND px_actif AS px_vendable" from="JOIN ###_Produit USING (PD_Numero)" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe) AND px_actif" order="pd_libelle">
+<!--  <table name="Prix" abbrev="PX" label="Prix" select="pd_libelle||' / '||px_tarifht::float||'¤ HT' AS px_libelle, pd_actif AND px_actif AS px_vendable" from="JOIN ###_Produit USING (PD_Numero)" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe) AND px_actif" order="pd_libelle">-->
+  <table name="Prix" abbrev="PX" label="Prix" where="px_actif">
     <column name="PX_Numero"    type="INTEGER"       notnull="true" pkey="true" default="nextval('seq_prix')"></column>
     <column name="TV_Numero"    type="INTEGER"       notnull="true" fkey="Tva(TV_Numero)" opt="odrour"></column>
     <column name="PD_Numero"    type="INTEGER"       notnull="true" fkey="Produit(PD_Numero)" opt="odrour"></column>

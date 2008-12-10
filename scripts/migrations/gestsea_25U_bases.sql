@@ -539,3 +539,403 @@ WHERE NOT de_locked and SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe
 
 
 
+
+
+
+
+
+
+
+/*****************************************************************************\
+ * Procédures/Fonctions simples                                              *
+\*****************************************************************************/
+
+
+--===========================================================================--
+-- Fonction qui calcule les nième ligne non vide d'une adresse
+--DROP FUNCTION FC_AdresseLigne(integer,INTEGER);
+
+CREATE OR REPLACE FUNCTION FC_AdresseLigne(adresse_num integer, num integer) RETURNS TEXT AS
+$$
+DECLARE
+  lines text[4];
+  compact text[4];
+  d integer;
+  e integer;
+  r record;
+BEGIN
+  IF num-2>3 THEN
+    RAISE EXCEPTION 'Index too big %>3',num;
+  END IF;
+  SELECT ad_ligne2 AS t1,ad_ligne3 AS t2,ad_ligne4 AS t3,ad_ligne5 AS t4 FROM adresse WHERE ad_numero=adresse_num INTO r;
+  e := 0;
+  IF LENGTH(TRIM(r.t1))>0 THEN
+    compact[e] := r.t1;
+    e := e +1;
+  END IF;
+  IF LENGTH(TRIM(r.t2))>0 THEN
+    compact[e] := r.t2;
+    e := e +1;
+  END IF;
+  IF LENGTH(TRIM(r.t3))>0 THEN
+    compact[e] := r.t3;
+    e := e +1;
+  END IF;
+  IF LENGTH(TRIM(r.t4))>0 THEN
+    compact[e] := r.t4;
+    e := e +1;
+  END IF;
+  RETURN compact[num-2];
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+
+--===========================================================================--
+-- Procedure permettant de mettre à jour les montants du devis passé en paramètre
+--DROP FUNCTION FC_CalculSommeDevis(INTEGER);
+
+CREATE OR REPLACE FUNCTION FC_Devis_Totalize(IN num_devis INTEGER) RETURNS VOID AS
+$$ UPDATE Devis SET DE_MontantHT=ROUND(T.MontantHT,2), DE_MontantTTC=ROUND(T.MontantTTC,2) FROM (SELECT sum(l_montantht*(CASE WHEN pd_reduction THEN 1-de_reduction/100 ELSE 1 END)) AS MontantHT, sum(l_montantttc*(CASE WHEN pd_reduction THEN 1-de_reduction/100 ELSE 1 END)) AS MontantTTC FROM ligne join devis using (de_numero) join produit using (pd_numero) WHERE ligne.de_numero=$1) AS T WHERE devis.de_numero=$1; $$ LANGUAGE SQL;
+
+
+
+--===========================================================================--
+-- Procedure permettant de calculer le taux de réduction d'une personne à une date d
+--DROP FUNCTION FC_Personne_Reduction(INTEGER,DATE);
+
+CREATE OR REPLACE FUNCTION FC_Personne_Reduction(IN num_personne INTEGER, IN computed_on DATE) RETURNS NUMERIC AS
+$$ 
+DECLARE
+  compte INTEGER;
+  sacea TEXT;
+  annee INTEGER;
+BEGIN
+--  RAISE EXCEPTION 'Le calcul de réduction est en cours de développement.';
+  sacea := 'null';
+  SELECT EXTRACT(YEAR FROM computed_on) INTO annee;
+  SELECT count(*) FROM cotisation WHERE pe_numero=num_personne AND cs_annee=annee INTO compte;
+  IF compte>0 THEN
+    SELECT bml_extract(cs_detail,'sacea') FROM cotisation WHERE pe_numero=num_personne AND cs_annee=annee INTO sacea;
+  ELSE
+    SELECT count(*) FROM cotisation WHERE cs_societe=num_personne AND cs_annee=annee INTO compte;
+    IF compte>0 THEN
+      SELECT bml_extract(cs_detail,'sacea') FROM cotisation WHERE cs_societe=num_personne AND cs_annee=annee INTO sacea;
+    ELSE
+      SELECT el_personne1 FROM estlie JOIN cotisation ON (el_personne1=pe_numero) WHERE tl_code='>GERE>' AND el_personne2=num_personne AND cs_annee=annee INTO compte;
+      IF compte is not null THEN
+        SELECT bml_extract(cs_detail,'sacea') FROM cotisation WHERE pe_numero=compte AND cs_annee=annee INTO sacea;
+      END IF;
+    END IF;
+  END IF;
+
+  IF sacea='true' THEN
+    RETURN 25.00;
+  ELSIF sacea='null' THEN
+    RETURN 0.00;
+  ELSE
+    RETURN 15.00;
+  END IF;
+END;
+$$ LANGUAGE 'plpgsql';
+
+--===========================================================================--
+-- Calcule la premiere date utilisable d'un journal à partir d'un mois et d'une année
+--DROP FUNCTION FC_Cloture(integer,integer);
+
+CREATE OR REPLACE FUNCTION FC_Cloture(integer,integer) RETURNS date AS
+$$
+DECLARE
+  mois ALIAS FOR $1;
+  annee ALIAS FOR $2;
+  cloture text;
+BEGIN
+  cloture:='01/';
+  IF mois>=12 THEN
+    cloture:=cloture||'01/'||annee+1;
+  ELSE
+    cloture:=cloture||to_char(mois+1,'FM09')||'/'||annee;
+  END IF;
+  return cloture::date;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+
+--===========================================================================--
+-- Scanne la table des factures et met à jour la table des adhésions pour toutes les sociétés.     --
+-- Cette fonction ne peut être utilisée que par les administrateurs de la base de données.         --
+-- Note cette fonction peut-être adaptée pour tout le monde en passsant par une vue.
+--DROP FUNCTION FC_MAJ_Adhesion();
+/*
+CREATE OR REPLACE FUNCTION FC_MAJ_Adhesion() RETURNS integer AS
+$$
+BEGIN
+  DELETE FROM Adhesion;
+  ALTER SEQUENCE seq_adhesion RESTART WITH 1;
+  INSERT INTO Adhesion (as_reductionmax,pe_numero,po_numero,ah_numero,fa_numero,lf_numero, as_origine)
+    SELECT ah_reduction, pe_numero, po_numero, ah_numero, fa_numero, lf_numero, as_origine
+      FROM VUE_Adhesion;
+  RETURN 0;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+*/
+
+--===========================================================================--
+-- Met à jour les totaux debit/crédit des pièces et journaux
+--DROP FUNCTION FC_MAJ_Totaux();
+
+CREATE OR REPLACE FUNCTION FC_MAJ_Totaux() RETURNS integer AS
+$$
+BEGIN
+  UPDATE table_piece SET pi_credit=total.pi_credit, pi_debit=total.pi_debit 
+    FROM  vue_totaux_piece AS total
+    WHERE table_piece.pi_numero=total.pi_numero;
+  UPDATE table_journal SET jo_credit=total.jo_credit, jo_debit=total.jo_debit 
+    FROM  vue_totaux_journal AS total
+    WHERE table_journal.jo_numero=total.jo_numero;
+  RETURN 0;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+
+--===========================================================================--
+-- Fusionne le produit 2 au produit 1
+--DROP FUNCTION FC_FusionneProduit(integer,integer);
+
+CREATE OR REPLACE FUNCTION FC_FusionneProduit(p1 integer, p2 integer) RETURNS boolean AS
+$$
+DECLARE
+  unvalid boolean;
+BEGIN
+  SELECT a.pd_actif=b.pd_actif FROM table_produit a, table_produit b WHERE a.pd_numero=p1 AND b.pd_numero=p2 INTO unvalid;
+  IF unvalid THEN
+    RAISE EXCEPTION 'Les produits ont le même statut d''activité';
+  END IF;
+  -- Rapatriement des prix
+  UPDATE table_prix SET px_actif=false, pd_numero=p1 WHERE pd_numero=p2;
+  -- Rapatriement des comptes produit
+  UPDATE table_compteproduit SET ci_actif=false, pd_numero=p1 WHERE pd_numero=p2;
+  -- Rapatriement des lignes de devis
+  UPDATE table_ligne SET pd_numero=p1 WHERE pd_numero=p2;
+  -- Rapatriement des lignes de facture
+  UPDATE table_lignefacture SET pd_numero=p1 WHERE pd_numero=p2;
+  -- Rapatriement des lignes d'avoir
+  UPDATE table_ligneavoir SET pd_numero=p1 WHERE pd_numero=p2;
+  -- Rapatriement des lignes de modele
+  UPDATE table_lignemodele SET pd_numero=p1 WHERE pd_numero=p2;
+  -- Rapatriement des types d'adhesion
+  UPDATE table_adherence SET pd_numero=p1 WHERE pd_numero=p2;
+  -- Suppression du produit
+  DELETE FROM table_produit WHERE pd_numero=p2;
+  RETURN true;  
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+
+
+--===========================================================================--
+-- Transforme le detail d'une cotisation en lignes
+
+CREATE OR REPLACE FUNCTION fc_create_cotisation_lines(IN cs_num INTEGER) RETURNS INTEGER AS
+$$
+DECLARE
+  c record;
+  ligne text;
+  num integer;
+BEGIN
+  SELECT * FROM table_cotisation WHERE cs_numero=cs_num INTO c;
+  DELETE FROM table_lignecotisation WHERE cs_numero=cs_num;
+  num := 1;
+  LOOP
+    ligne:=split_part(c.cs_detail,E'\n',num);
+    num:=num+1;
+    EXIT WHEN ligne='';
+    INSERT INTO table_lignecotisation(cs_numero,key,value) VALUES (c.cs_numero, LTRIM(split_part(ligne,':',1),'{'), RTRIM(split_part(ligne,':',2),'}'));
+  END LOOP;
+  RETURN num;
+END;
+$$ LANGUAGE 'plpgsql';
+
+
+--===========================================================================--
+-- Fusionne le produit 2 au produit 1
+--DROP FUNCTION FC_Sequence(integer,integer);
+
+CREATE OR REPLACE FUNCTION FC_Sequence(starts integer, ends integer) RETURNS setof integer AS
+$$
+DECLARE
+  crement integer;
+  ind integer;
+  rec record;
+BEGIN
+  SELECT CASE WHEN ends>=starts THEN 1 ELSE -1 END INTO crement;
+  ind := starts;
+  LOOP
+--    SELECT ind INTO rec;
+    RETURN NEXT ind;
+    IF ind=ends THEN
+      EXIT;
+    END IF;
+    ind := ind + crement;
+  END LOOP;
+  RETURN;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+
+
+--===========================================================================--
+-- Fonctions Sequence
+--DROP FUNCTION FC_NextVal(INTEGER);
+
+CREATE OR REPLACE FUNCTION FC_NextVal(IN num_sequence INTEGER) RETURNS integer AS
+$$
+DECLARE
+  total INTEGER;
+  lasti INTEGER;
+  i INTEGER;
+  val INTEGER;
+  num_cache INTEGER;
+  SEQ table_sequence%ROWTYPE;
+BEGIN
+  SELECT * FROM table_Sequence WHERE sq_numero=num_sequence FOR UPDATE OF table_Sequence INTO SEQ;
+  IF SEQ.SQ_Numero IS NULL THEN
+    RAISE EXCEPTION 'La séquence n°% n''existe pas.', num_sequence;
+  END IF;
+  IF SEQ.SQ_Clear_Cache THEN
+    DELETE FROM table_SequenceCache WHERE SQ_Numero=SEQ.SQ_Numero;
+  END IF;
+  SELECT count(*) FROM table_SequenceCache WHERE SQ_Numero=SEQ.SQ_Numero INTO total;
+  IF total<SEQ.SQ_Nombre+1 THEN
+    lasti := SEQ.SQ_Last+(SEQ.SQ_Nombre-total)+1;
+    FOR i IN SEQ.SQ_Last+1..lasti LOOP
+      INSERT INTO table_SequenceCache(sq_numero, sc_valeur) VALUES (SEQ.SQ_Numero, i);
+    END LOOP;
+    SEQ.SQ_Last := lasti;
+  END IF;
+  SELECT sc_numero, sc_valeur FROM table_SequenceCache WHERE NOT SC_Locked AND SQ_Numero = SEQ.SQ_Numero ORDER BY sc_valeur FOR UPDATE OF table_SequenceCache INTO num_cache, val;
+  DELETE FROM table_SequenceCache WHERE SC_Numero=num_cache;
+  UPDATE table_Sequence SET SQ_Last = lasti, SQ_Clear_cache=false, SQ_Used_On=CURRENT_TIMESTAMP WHERE SQ_Numero=SEQ.SQ_Numero;
+  RETURN val;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+
+
+--===========================================================================--
+-- Fonctions Sequence
+--DROP FUNCTION FC_NextVal(TEXT);
+
+CREATE OR REPLACE FUNCTION FC_NextVal(IN nom_sequence TEXT) RETURNS integer AS
+$$
+DECLARE
+  val INTEGER;
+  num_sequence table_sequence.sq_numero%TYPE;
+BEGIN
+  SELECT sq_numero FROM table_Sequence WHERE sq_nom ilike nom_sequence INTO num_sequence;
+  IF num_sequence IS NULL THEN
+    RAISE EXCEPTION 'La séquence ''%'' n''existe pas.', nom_sequence;
+  END IF;
+  SELECT FC_Nextval(num_sequence) INTO val;
+  RETURN val;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+
+--===========================================================================--
+-- Fonctions Sequence
+--DROP FUNCTION FC_NextVal(TEXT);
+/*
+CREATE OR REPLACE FUNCTION FC_NextVal2(IN nom TEXT, IN nb integer) RETURNS TEXT AS
+$$
+DECLARE
+  i INTEGER;
+  ret TEXT;
+BEGIN
+  ret := '';
+  FOR i IN 1..nb LOOP
+    SELECT ret||' '||fc_nextval(nom) INTO ret;
+  END LOOP;
+  RETURN ret;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+*/
+
+--===========================================================================--
+-- Procedure permettant de générer le fichier de relance et générer les pénalités si nécessaire
+--DROP FUNCTION FC_Relance();
+
+CREATE OR REPLACE FUNCTION FC_Relance() RETURNS VARCHAR AS
+$$ 
+DECLARE
+  adresse TEXT;
+  query TEXT;
+  p RECORD;
+  f RECORD;
+BEGIN
+  -- Génération des factures de pénalité pour les factures R2
+  UPDATE table_facture SET fa_penalty=FC_Facture_Une_Ligne(pe_numero,COALESCE(pp::INTEGER,0),ROUND(COALESCE(dp::FLOAT*fa_solde,0)), 'Relative à la facture N°'||fa_numfact||' du '||FC_DateEnLettre(fa_date)) 
+    FROM VUE_PRINT_Relance_Factures 
+      LEFT JOIN table_constante dp ON (dp.cs_nom='DELAY_PENALTY') 
+      LEFT JOIN table_constante pp ON (pp.cs_nom='PENALTY_PRODUCT')
+    WHERE f.de_date>='2008-07-10' AND f.fa_penalty IS NULL AND fa_niveau>1;
+
+  -- Impression du document
+  SELECT '/tmp/'||current_user||E'_relance_'||to_char(CURRENT_TIMESTAMP,'YYYYMMDD_HH24MISS_US')||E'.pdf' INTO adresse;
+  query := E'SELECT execution(''cd /tmp && touch '||adresse||E' && chmod 755 '||adresse||E' && gs -q -sPAPERSIZE=letter -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile='||adresse;
+  FOR p IN SELECT * FROM VUE_PRINT_Relance_Entete ORDER BY pe_numero LOOP
+    SELECT query||' '||SUBSTR(COALESCE(FC_Imprime2('relance',p.pe_numero),''),8) INTO query;
+    FOR f IN SELECT * FROM VUE_PRINT_Relance_Factures WHERE pe_numero=p.pe_numero ORDER BY fa_numero LOOP
+      SELECT query||' '||SUBSTR(COALESCE(FC_Imprime2('facture',f.fa_numero),''),8) INTO query;
+    END LOOP;
+  END LOOP;
+  query := query||E''');';
+  IF query IS NOT NULL THEN
+    EXECUTE query;
+  ELSE
+    RAISE NOTICE 'Pas d''impressions.';
+  END IF;
+  RETURN 'file://'||adresse;
+END;
+$$ LANGUAGE 'plpgsql';
+
+/*
+
+  SELECT EM_Service FROM Table_Employe WHERE EM_Login=CURRENT_USER INTO num_service;
+  -- Impressions des documents séparément
+  FOR s IN 1..3 LOOP
+    -- Passage dans la societe s
+    UPDATE table_employe 
+      SET EM_Service=se_numero 
+      FROM table_service 
+      WHERE se_societe=s AND em_login=current_user;
+    -- Impression de tous les documents de la societe
+    UPDATE table_impressiondocument 
+      SET ID_Filename=FC_Imprime2(ID_Modele, ID_Cle::integer)
+      FROM table_facture
+      WHERE num_groupe=table_impressiondocument.ig_numero 
+        AND FA_MontantTTC>0 AND ID_Cle::integer=FA_Numero AND SO_Numero=s;
+  END LOOP;
+  -- Concatenation des documents
+  SELECT '/tmp/'||current_user||E'_lot_pi_'||to_char(CURRENT_TIMESTAMP,'YYYYMMDD_HH24MISS_US')||E'.pdf' INTO adresse;
+  SELECT 'SELECT execution(''cd /tmp && touch '||adresse||E' && chmod 755 '||adresse||E' && gs -q -sPAPERSIZE=letter -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile='||adresse||concatenate(' '||SUBSTR(COALESCE(ID_Filename,''),8))||E''');'
+    FROM (SELECT id_filename
+    FROM table_impressiondocument JOIN table_facture ON (ID_Cle=FA_Numero)
+    WHERE num_groupe=table_impressiondocument.ig_numero AND FA_MontantTTC>0
+       ORDER BY fa_numero) x
+    INTO query;
+--  RAISE NOTICE '> Query : %', query;
+  IF query IS NOT NULL THEN
+    EXECUTE query;
+  ELSE
+    RAISE NOTICE 'Pas d''impressions.';
+  END IF;
+
+
+*/
+
+
+
+
+
+
+

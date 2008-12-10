@@ -456,10 +456,11 @@ function CodeInPrincipal(centre){
     AllIt.AjouterCodeUserLoad('Filtre_DevisLigneProduit.setComposant(Compo_'+DevisLigneProduit.getNom_()+');\n');
 */
 
-    DevisLignePrix = It_Devis.AjouterComposantSimple("Produit","px_libelle",new Array("px_numero","px_numero","prix"),DevisLigne,LISTE_DEROULANTE);
+    DevisLignePrix = It_Devis.AjouterComposantSimple("Produit","px_libelle",new Array("px_numero","px_numero","vue_prix"),DevisLigne,LISTE_DEROULANTE);
+/*
     DevisLignePrix.getTheme().AddFiltre('Filtre_DevisLignePrix=new clInterfaceFiltragePermanantCustom("px_vendable=true")');
     AllIt.AjouterCodeUserLoad('Filtre_DevisLignePrix.setComposant(Compo_'+DevisLignePrix.getNom_()+');\n');
-
+*/
 /*
     DevisLigneProduit = It_Devis.AjouterComposantSimple("Produit","pd_nom",new Array("pd_numero","pd_numero","produit"),DevisLigne,LISTE_DEROULANTE);
     DevisLigneProduit.getTheme().AddFiltre('Filtre_DevisLigneProduit=new clInterfaceFiltragePermanantCustom("pd_vendable=true")');

@@ -2,7 +2,8 @@
 \i migrations/gestsea_25U_bases.sql
 \i migrations/gestsea_29U_noviews.sql
 \i migrations/gestsea_30G_views.sql
-\i migrations/gestsea_34U_print.sql
+\i migrations/gestsea_33U_print.sql
+\i migrations/gestsea_34U_triggers.sql
 \i migrations/gestsea_35U_functions.sql
 \i migrations/gestsea_37U_filters.sql
 -- Mise à jour des droits

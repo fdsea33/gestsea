@@ -1450,10 +1450,6 @@ function User_Insert_Modèles_d_impressions_Liste_des_modèles_d_impressions0(Comp
 
 Nbr d'esclaves = 7
 
-Id dans le tab: 384;
-simple
-Nbr Jointure: PAS DE JOINTURE;
-
 Id dans le tab: 385;
 simple
 Nbr Jointure: PAS DE JOINTURE;
@@ -1478,46 +1474,50 @@ Id dans le tab: 390;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
+Id dans le tab: 391;
+simple
+Nbr Jointure: PAS DE JOINTURE;
+
 ******************
 */
 
  var Table="impression";
  var CleMaitre = TAB_COMPO_PPTES[381].NewCle;
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var im_libelle=GetValAt(384);
- if (!ValiderChampsObligatoire(Table,"im_libelle",TAB_GLOBAL_COMPO[384],im_libelle,false))
+ var im_libelle=GetValAt(385);
+ if (!ValiderChampsObligatoire(Table,"im_libelle",TAB_GLOBAL_COMPO[385],im_libelle,false))
          return -1;
- if (!ValiderChampsType(Table,"im_libelle",TAB_GLOBAL_COMPO[384],im_libelle))
+ if (!ValiderChampsType(Table,"im_libelle",TAB_GLOBAL_COMPO[385],im_libelle))
          return -1;
- var im_nom=GetValAt(385);
- if (!ValiderChampsObligatoire(Table,"im_nom",TAB_GLOBAL_COMPO[385],im_nom,false))
+ var im_nom=GetValAt(386);
+ if (!ValiderChampsObligatoire(Table,"im_nom",TAB_GLOBAL_COMPO[386],im_nom,false))
          return -1;
- if (!ValiderChampsType(Table,"im_nom",TAB_GLOBAL_COMPO[385],im_nom))
+ if (!ValiderChampsType(Table,"im_nom",TAB_GLOBAL_COMPO[386],im_nom))
          return -1;
- var im_modele=GetValAt(386);
- if (!ValiderChampsObligatoire(Table,"im_modele",TAB_GLOBAL_COMPO[386],im_modele,false))
+ var im_modele=GetValAt(387);
+ if (!ValiderChampsObligatoire(Table,"im_modele",TAB_GLOBAL_COMPO[387],im_modele,false))
          return -1;
- if (!ValiderChampsType(Table,"im_modele",TAB_GLOBAL_COMPO[386],im_modele))
+ if (!ValiderChampsType(Table,"im_modele",TAB_GLOBAL_COMPO[387],im_modele))
          return -1;
- var im_defaut=GetValAt(387);
- if (!ValiderChampsObligatoire(Table,"im_defaut",TAB_GLOBAL_COMPO[387],im_defaut,false))
+ var im_defaut=GetValAt(388);
+ if (!ValiderChampsObligatoire(Table,"im_defaut",TAB_GLOBAL_COMPO[388],im_defaut,false))
          return -1;
- if (!ValiderChampsType(Table,"im_defaut",TAB_GLOBAL_COMPO[387],im_defaut))
+ if (!ValiderChampsType(Table,"im_defaut",TAB_GLOBAL_COMPO[388],im_defaut))
          return -1;
- var im_keytable=GetValAt(388);
- if (!ValiderChampsObligatoire(Table,"im_keytable",TAB_GLOBAL_COMPO[388],im_keytable,false))
+ var im_keytable=GetValAt(389);
+ if (!ValiderChampsObligatoire(Table,"im_keytable",TAB_GLOBAL_COMPO[389],im_keytable,false))
          return -1;
- if (!ValiderChampsType(Table,"im_keytable",TAB_GLOBAL_COMPO[388],im_keytable))
+ if (!ValiderChampsType(Table,"im_keytable",TAB_GLOBAL_COMPO[389],im_keytable))
          return -1;
- var im_keycle=GetValAt(389);
- if (!ValiderChampsObligatoire(Table,"im_keycle",TAB_GLOBAL_COMPO[389],im_keycle,false))
+ var im_keycle=GetValAt(390);
+ if (!ValiderChampsObligatoire(Table,"im_keycle",TAB_GLOBAL_COMPO[390],im_keycle,false))
          return -1;
- if (!ValiderChampsType(Table,"im_keycle",TAB_GLOBAL_COMPO[389],im_keycle))
+ if (!ValiderChampsType(Table,"im_keycle",TAB_GLOBAL_COMPO[390],im_keycle))
          return -1;
- var im_keydate=GetValAt(390);
- if (!ValiderChampsObligatoire(Table,"im_keydate",TAB_GLOBAL_COMPO[390],im_keydate,false))
+ var im_keydate=GetValAt(391);
+ if (!ValiderChampsObligatoire(Table,"im_keydate",TAB_GLOBAL_COMPO[391],im_keydate,false))
          return -1;
- if (!ValiderChampsType(Table,"im_keydate",TAB_GLOBAL_COMPO[390],im_keydate))
+ if (!ValiderChampsType(Table,"im_keydate",TAB_GLOBAL_COMPO[391],im_keydate))
          return -1;
  var Req="insert into "+Table+" ";
 var TabInsertionEnPlus=new Array();
@@ -1553,40 +1553,40 @@ function User_Update_Modèles_d_impressions_Liste_des_modèles_d_impressions0(Comp
  var Table="impression";
  var CleMaitre = Compo_Maitre.getCleVal();
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var im_libelle=GetValAt(384);
- if (!ValiderChampsObligatoire(Table,"im_libelle",TAB_GLOBAL_COMPO[384],im_libelle,false))
+ var im_libelle=GetValAt(385);
+ if (!ValiderChampsObligatoire(Table,"im_libelle",TAB_GLOBAL_COMPO[385],im_libelle,false))
          return -1;
- if (!ValiderChampsType(Table,"im_libelle",TAB_GLOBAL_COMPO[384],im_libelle))
+ if (!ValiderChampsType(Table,"im_libelle",TAB_GLOBAL_COMPO[385],im_libelle))
          return -1;
- var im_nom=GetValAt(385);
- if (!ValiderChampsObligatoire(Table,"im_nom",TAB_GLOBAL_COMPO[385],im_nom,false))
+ var im_nom=GetValAt(386);
+ if (!ValiderChampsObligatoire(Table,"im_nom",TAB_GLOBAL_COMPO[386],im_nom,false))
          return -1;
- if (!ValiderChampsType(Table,"im_nom",TAB_GLOBAL_COMPO[385],im_nom))
+ if (!ValiderChampsType(Table,"im_nom",TAB_GLOBAL_COMPO[386],im_nom))
          return -1;
- var im_modele=GetValAt(386);
- if (!ValiderChampsObligatoire(Table,"im_modele",TAB_GLOBAL_COMPO[386],im_modele,false))
+ var im_modele=GetValAt(387);
+ if (!ValiderChampsObligatoire(Table,"im_modele",TAB_GLOBAL_COMPO[387],im_modele,false))
          return -1;
- if (!ValiderChampsType(Table,"im_modele",TAB_GLOBAL_COMPO[386],im_modele))
+ if (!ValiderChampsType(Table,"im_modele",TAB_GLOBAL_COMPO[387],im_modele))
          return -1;
- var im_defaut=GetValAt(387);
- if (!ValiderChampsObligatoire(Table,"im_defaut",TAB_GLOBAL_COMPO[387],im_defaut,false))
+ var im_defaut=GetValAt(388);
+ if (!ValiderChampsObligatoire(Table,"im_defaut",TAB_GLOBAL_COMPO[388],im_defaut,false))
          return -1;
- if (!ValiderChampsType(Table,"im_defaut",TAB_GLOBAL_COMPO[387],im_defaut))
+ if (!ValiderChampsType(Table,"im_defaut",TAB_GLOBAL_COMPO[388],im_defaut))
          return -1;
- var im_keytable=GetValAt(388);
- if (!ValiderChampsObligatoire(Table,"im_keytable",TAB_GLOBAL_COMPO[388],im_keytable,false))
+ var im_keytable=GetValAt(389);
+ if (!ValiderChampsObligatoire(Table,"im_keytable",TAB_GLOBAL_COMPO[389],im_keytable,false))
          return -1;
- if (!ValiderChampsType(Table,"im_keytable",TAB_GLOBAL_COMPO[388],im_keytable))
+ if (!ValiderChampsType(Table,"im_keytable",TAB_GLOBAL_COMPO[389],im_keytable))
          return -1;
- var im_keycle=GetValAt(389);
- if (!ValiderChampsObligatoire(Table,"im_keycle",TAB_GLOBAL_COMPO[389],im_keycle,false))
+ var im_keycle=GetValAt(390);
+ if (!ValiderChampsObligatoire(Table,"im_keycle",TAB_GLOBAL_COMPO[390],im_keycle,false))
          return -1;
- if (!ValiderChampsType(Table,"im_keycle",TAB_GLOBAL_COMPO[389],im_keycle))
+ if (!ValiderChampsType(Table,"im_keycle",TAB_GLOBAL_COMPO[390],im_keycle))
          return -1;
- var im_keydate=GetValAt(390);
- if (!ValiderChampsObligatoire(Table,"im_keydate",TAB_GLOBAL_COMPO[390],im_keydate,false))
+ var im_keydate=GetValAt(391);
+ if (!ValiderChampsObligatoire(Table,"im_keydate",TAB_GLOBAL_COMPO[391],im_keydate,false))
          return -1;
- if (!ValiderChampsType(Table,"im_keydate",TAB_GLOBAL_COMPO[390],im_keydate))
+ if (!ValiderChampsType(Table,"im_keydate",TAB_GLOBAL_COMPO[391],im_keydate))
          return -1;
  var Req="update "+Table+" set ";
  Req+="im_libelle="+(im_libelle=="" ? "null" : "'"+ValiderChaine(im_libelle)+"'" )+",im_nom="+(im_nom=="" ? "null" : "'"+ValiderChaine(im_nom)+"'" )+",im_modele="+(im_modele=="" ? "null" : "'"+ValiderChaine(im_modele)+"'" )+",im_defaut="+(im_defaut=="true" ? "true" : "false")+",im_keytable="+(im_keytable=="" ? "null" : "'"+ValiderChaine(im_keytable)+"'" )+",im_keycle="+(im_keycle=="" ? "null" : "'"+ValiderChaine(im_keycle)+"'" )+",im_keydate="+(im_keydate=="" ? "null" : "'"+ValiderChaine(im_keydate)+"'" )+"";
@@ -1609,18 +1609,10 @@ function User_Insert_Impressions_Liste_des_modèles_d_impressions0(Compo_Maitre)
 
 Nbr d'esclaves = 8
 
-Id dans le tab: 394;
+Id dans le tab: 396;
 simple
 Nbr Jointure: 1;
     Joint n° 0 = societe,im_societe,so_numero
-
-Id dans le tab: 395;
-simple
-Nbr Jointure: PAS DE JOINTURE;
-
-Id dans le tab: 396;
-simple
-Nbr Jointure: PAS DE JOINTURE;
 
 Id dans le tab: 397;
 simple
@@ -1642,51 +1634,59 @@ Id dans le tab: 401;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
+Id dans le tab: 402;
+simple
+Nbr Jointure: PAS DE JOINTURE;
+
+Id dans le tab: 403;
+simple
+Nbr Jointure: PAS DE JOINTURE;
+
 ******************
 */
 
  var Table="table_impression";
- var CleMaitre = TAB_COMPO_PPTES[391].NewCle;
+ var CleMaitre = TAB_COMPO_PPTES[392].NewCle;
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var im_societe=GetValAt(394);
+ var im_societe=GetValAt(396);
  if (im_societe=="-1")
     im_societe="null";
- if (!ValiderChampsObligatoire(Table,"im_societe",TAB_GLOBAL_COMPO[394],im_societe,true))
+ if (!ValiderChampsObligatoire(Table,"im_societe",TAB_GLOBAL_COMPO[396],im_societe,true))
          return -1;
- var im_libelle=GetValAt(395);
- if (!ValiderChampsObligatoire(Table,"im_libelle",TAB_GLOBAL_COMPO[395],im_libelle,false))
+ var im_libelle=GetValAt(397);
+ if (!ValiderChampsObligatoire(Table,"im_libelle",TAB_GLOBAL_COMPO[397],im_libelle,false))
          return -1;
- if (!ValiderChampsType(Table,"im_libelle",TAB_GLOBAL_COMPO[395],im_libelle))
+ if (!ValiderChampsType(Table,"im_libelle",TAB_GLOBAL_COMPO[397],im_libelle))
          return -1;
- var im_nom=GetValAt(396);
- if (!ValiderChampsObligatoire(Table,"im_nom",TAB_GLOBAL_COMPO[396],im_nom,false))
+ var im_nom=GetValAt(398);
+ if (!ValiderChampsObligatoire(Table,"im_nom",TAB_GLOBAL_COMPO[398],im_nom,false))
          return -1;
- if (!ValiderChampsType(Table,"im_nom",TAB_GLOBAL_COMPO[396],im_nom))
+ if (!ValiderChampsType(Table,"im_nom",TAB_GLOBAL_COMPO[398],im_nom))
          return -1;
- var im_modele=GetValAt(397);
- if (!ValiderChampsObligatoire(Table,"im_modele",TAB_GLOBAL_COMPO[397],im_modele,false))
+ var im_modele=GetValAt(399);
+ if (!ValiderChampsObligatoire(Table,"im_modele",TAB_GLOBAL_COMPO[399],im_modele,false))
          return -1;
- if (!ValiderChampsType(Table,"im_modele",TAB_GLOBAL_COMPO[397],im_modele))
+ if (!ValiderChampsType(Table,"im_modele",TAB_GLOBAL_COMPO[399],im_modele))
          return -1;
- var im_defaut=GetValAt(398);
- if (!ValiderChampsObligatoire(Table,"im_defaut",TAB_GLOBAL_COMPO[398],im_defaut,false))
+ var im_defaut=GetValAt(400);
+ if (!ValiderChampsObligatoire(Table,"im_defaut",TAB_GLOBAL_COMPO[400],im_defaut,false))
          return -1;
- if (!ValiderChampsType(Table,"im_defaut",TAB_GLOBAL_COMPO[398],im_defaut))
+ if (!ValiderChampsType(Table,"im_defaut",TAB_GLOBAL_COMPO[400],im_defaut))
          return -1;
- var im_keytable=GetValAt(399);
- if (!ValiderChampsObligatoire(Table,"im_keytable",TAB_GLOBAL_COMPO[399],im_keytable,false))
+ var im_keytable=GetValAt(401);
+ if (!ValiderChampsObligatoire(Table,"im_keytable",TAB_GLOBAL_COMPO[401],im_keytable,false))
          return -1;
- if (!ValiderChampsType(Table,"im_keytable",TAB_GLOBAL_COMPO[399],im_keytable))
+ if (!ValiderChampsType(Table,"im_keytable",TAB_GLOBAL_COMPO[401],im_keytable))
          return -1;
- var im_keycle=GetValAt(400);
- if (!ValiderChampsObligatoire(Table,"im_keycle",TAB_GLOBAL_COMPO[400],im_keycle,false))
+ var im_keycle=GetValAt(402);
+ if (!ValiderChampsObligatoire(Table,"im_keycle",TAB_GLOBAL_COMPO[402],im_keycle,false))
          return -1;
- if (!ValiderChampsType(Table,"im_keycle",TAB_GLOBAL_COMPO[400],im_keycle))
+ if (!ValiderChampsType(Table,"im_keycle",TAB_GLOBAL_COMPO[402],im_keycle))
          return -1;
- var im_keydate=GetValAt(401);
- if (!ValiderChampsObligatoire(Table,"im_keydate",TAB_GLOBAL_COMPO[401],im_keydate,false))
+ var im_keydate=GetValAt(403);
+ if (!ValiderChampsObligatoire(Table,"im_keydate",TAB_GLOBAL_COMPO[403],im_keydate,false))
          return -1;
- if (!ValiderChampsType(Table,"im_keydate",TAB_GLOBAL_COMPO[401],im_keydate))
+ if (!ValiderChampsType(Table,"im_keydate",TAB_GLOBAL_COMPO[403],im_keydate))
          return -1;
  var Req="insert into "+Table+" ";
 var TabInsertionEnPlus=new Array();
@@ -1722,45 +1722,45 @@ function User_Update_Impressions_Liste_des_modèles_d_impressions0(Compo_Maitre)
  var Table="table_impression";
  var CleMaitre = Compo_Maitre.getCleVal();
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var im_societe=GetValAt(394);
+ var im_societe=GetValAt(396);
  if (im_societe=="-1")
     im_societe="null";
- if (!ValiderChampsObligatoire(Table,"im_societe",TAB_GLOBAL_COMPO[394],im_societe,true))
+ if (!ValiderChampsObligatoire(Table,"im_societe",TAB_GLOBAL_COMPO[396],im_societe,true))
          return -1;
- var im_libelle=GetValAt(395);
- if (!ValiderChampsObligatoire(Table,"im_libelle",TAB_GLOBAL_COMPO[395],im_libelle,false))
+ var im_libelle=GetValAt(397);
+ if (!ValiderChampsObligatoire(Table,"im_libelle",TAB_GLOBAL_COMPO[397],im_libelle,false))
          return -1;
- if (!ValiderChampsType(Table,"im_libelle",TAB_GLOBAL_COMPO[395],im_libelle))
+ if (!ValiderChampsType(Table,"im_libelle",TAB_GLOBAL_COMPO[397],im_libelle))
          return -1;
- var im_nom=GetValAt(396);
- if (!ValiderChampsObligatoire(Table,"im_nom",TAB_GLOBAL_COMPO[396],im_nom,false))
+ var im_nom=GetValAt(398);
+ if (!ValiderChampsObligatoire(Table,"im_nom",TAB_GLOBAL_COMPO[398],im_nom,false))
          return -1;
- if (!ValiderChampsType(Table,"im_nom",TAB_GLOBAL_COMPO[396],im_nom))
+ if (!ValiderChampsType(Table,"im_nom",TAB_GLOBAL_COMPO[398],im_nom))
          return -1;
- var im_modele=GetValAt(397);
- if (!ValiderChampsObligatoire(Table,"im_modele",TAB_GLOBAL_COMPO[397],im_modele,false))
+ var im_modele=GetValAt(399);
+ if (!ValiderChampsObligatoire(Table,"im_modele",TAB_GLOBAL_COMPO[399],im_modele,false))
          return -1;
- if (!ValiderChampsType(Table,"im_modele",TAB_GLOBAL_COMPO[397],im_modele))
+ if (!ValiderChampsType(Table,"im_modele",TAB_GLOBAL_COMPO[399],im_modele))
          return -1;
- var im_defaut=GetValAt(398);
- if (!ValiderChampsObligatoire(Table,"im_defaut",TAB_GLOBAL_COMPO[398],im_defaut,false))
+ var im_defaut=GetValAt(400);
+ if (!ValiderChampsObligatoire(Table,"im_defaut",TAB_GLOBAL_COMPO[400],im_defaut,false))
          return -1;
- if (!ValiderChampsType(Table,"im_defaut",TAB_GLOBAL_COMPO[398],im_defaut))
+ if (!ValiderChampsType(Table,"im_defaut",TAB_GLOBAL_COMPO[400],im_defaut))
          return -1;
- var im_keytable=GetValAt(399);
- if (!ValiderChampsObligatoire(Table,"im_keytable",TAB_GLOBAL_COMPO[399],im_keytable,false))
+ var im_keytable=GetValAt(401);
+ if (!ValiderChampsObligatoire(Table,"im_keytable",TAB_GLOBAL_COMPO[401],im_keytable,false))
          return -1;
- if (!ValiderChampsType(Table,"im_keytable",TAB_GLOBAL_COMPO[399],im_keytable))
+ if (!ValiderChampsType(Table,"im_keytable",TAB_GLOBAL_COMPO[401],im_keytable))
          return -1;
- var im_keycle=GetValAt(400);
- if (!ValiderChampsObligatoire(Table,"im_keycle",TAB_GLOBAL_COMPO[400],im_keycle,false))
+ var im_keycle=GetValAt(402);
+ if (!ValiderChampsObligatoire(Table,"im_keycle",TAB_GLOBAL_COMPO[402],im_keycle,false))
          return -1;
- if (!ValiderChampsType(Table,"im_keycle",TAB_GLOBAL_COMPO[400],im_keycle))
+ if (!ValiderChampsType(Table,"im_keycle",TAB_GLOBAL_COMPO[402],im_keycle))
          return -1;
- var im_keydate=GetValAt(401);
- if (!ValiderChampsObligatoire(Table,"im_keydate",TAB_GLOBAL_COMPO[401],im_keydate,false))
+ var im_keydate=GetValAt(403);
+ if (!ValiderChampsObligatoire(Table,"im_keydate",TAB_GLOBAL_COMPO[403],im_keydate,false))
          return -1;
- if (!ValiderChampsType(Table,"im_keydate",TAB_GLOBAL_COMPO[401],im_keydate))
+ if (!ValiderChampsType(Table,"im_keydate",TAB_GLOBAL_COMPO[403],im_keydate))
          return -1;
  var Req="update "+Table+" set ";
  Req+="im_societe="+im_societe+",im_libelle="+(im_libelle=="" ? "null" : "'"+ValiderChaine(im_libelle)+"'" )+",im_nom="+(im_nom=="" ? "null" : "'"+ValiderChaine(im_nom)+"'" )+",im_modele="+(im_modele=="" ? "null" : "'"+ValiderChaine(im_modele)+"'" )+",im_defaut="+(im_defaut=="true" ? "true" : "false")+",im_keytable="+(im_keytable=="" ? "null" : "'"+ValiderChaine(im_keytable)+"'" )+",im_keycle="+(im_keycle=="" ? "null" : "'"+ValiderChaine(im_keycle)+"'" )+",im_keydate="+(im_keydate=="" ? "null" : "'"+ValiderChaine(im_keydate)+"'" )+"";
