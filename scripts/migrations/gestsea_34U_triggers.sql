@@ -746,9 +746,9 @@ BEGIN
       SELECT PX_Numero FROM Prix WHERE New.PD_Numero=PD_Numero AND px_actif ORDER BY prix.id DESC INTO NEW.PX_Numero;
     END IF;
 
-    SELECT PX_tarifHT, PX_tarifTTC, PX_Libelle, PX_Numero FROM Prix WHERE NEW.PX_Numero=PX_Numero INTO tarifs;
+    SELECT PX_tarifHT, PX_tarifTTC, PD_Libelle, PX_Numero FROM Prix join Produit USING (pd_numero) WHERE NEW.PX_Numero=PX_Numero INTO tarifs;
     IF tarifs.PX_tarifHT IS NULL OR tarifs.PX_tarifTTC IS NULL THEN
-      RAISE EXCEPTION 'Les tarifs pour le produit "%" ne sont pas corrects.', tarifs.PX_Libelle;
+      RAISE EXCEPTION 'Les tarifs pour le produit "%" ne sont pas corrects.', tarifs.PD_Libelle;
     END IF;
     New.L_MontantHT  := tarifs.PX_tarifHT*New.L_Quantite;
     New.L_MontantTTC := tarifs.PX_tarifTTC*New.L_Quantite;
