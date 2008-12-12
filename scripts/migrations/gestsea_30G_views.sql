@@ -232,7 +232,7 @@ CREATE OR REPLACE VIEW "exercice" AS
     WHERE SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
 
 CREATE OR REPLACE VIEW "journal" AS
-   SELECT table_journal.jo_numero, table_journal.jo_abbrev, table_journal.jo_libelle, ROUND(table_journal.jo_debit,2) AS jo_debit, ROUND(table_journal.jo_credit,2) AS jo_credit, table_journal.so_numero, table_journal.tj_numero, table_journal.cg_numero, table_journal.jo_mois, table_journal.jo_annee, table_journal.jo_contrepartie, table_journal.jo_provisoire, table_journal.jo_visible, table_journal.jo_sequence, table_journal.created_at, table_journal.created_by, table_journal.updated_at, table_journal.updated_by, table_journal.lock_version, table_journal.id, FC_MoisEnLettre(COALESCE(JO_Mois-1,12))||' '||JO_Annee AS JO_MoisLettre, CASE WHEN JO_Contrepartie THEN 'Oui' ELSE 'Non' END AS JO_CP 
+   SELECT table_journal.jo_numero, table_journal.jo_abbrev, table_journal.jo_libelle, ROUND(table_journal.jo_debit,2) AS jo_debit, ROUND(table_journal.jo_credit,2) AS jo_credit, table_journal.so_numero, table_journal.tj_numero, table_journal.cg_numero, table_journal.jo_mois, table_journal.jo_annee, table_journal.jo_contrepartie, table_journal.jo_provisoire, table_journal.jo_visible, table_journal.jo_sequence, table_journal.created_at, table_journal.created_by, table_journal.updated_at, table_journal.updated_by, table_journal.lock_version, table_journal.id, FC_MoisEnLettre(COALESCE(JO_Mois,13))||' '||JO_Annee AS JO_MoisLettre, CASE WHEN JO_Contrepartie THEN 'Oui' ELSE 'Non' END AS JO_CP 
      FROM "table_journal" 
     WHERE SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
 

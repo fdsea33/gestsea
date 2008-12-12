@@ -626,6 +626,13 @@ BEGIN
   IF NEW.tl_numero IS NULL THEN
     SELECT tl_numero FROM typelien WHERE tl_code=NEW.tl_code INTO NEW.tl_numero;
   END IF;
+  IF TG_OP='UPDATE' THEN
+    IF NEW.tl_code!=OLD.tl_code THEN
+      SELECT tl_numero FROM typelien WHERE tl_code=NEW.tl_code INTO NEW.tl_numero;      
+    ELSE
+      SELECT tl_code FROM typelien WHERE tl_numero=NEW.tl_numero INTO NEW.tl_code;
+    END IF;
+  END IF;
   RETURN NEW;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;

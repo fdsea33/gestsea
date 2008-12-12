@@ -949,7 +949,7 @@
   </table>
 
   
-  <table name="Journal" abbrev="JO" label="Journaux comptables" select="FC_MoisEnLettre(COALESCE(JO_Mois-1,12))||' '||JO_Annee AS JO_MoisLettre, CASE WHEN JO_Contrepartie THEN 'Oui' ELSE 'Non' END AS JO_CP" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+  <table name="Journal" abbrev="JO" label="Journaux comptables" select="FC_MoisEnLettre(COALESCE(JO_Mois,13))||' '||JO_Annee AS JO_MoisLettre, CASE WHEN JO_Contrepartie THEN 'Oui' ELSE 'Non' END AS JO_CP" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
     <column name="JO_Numero"       type="INTEGER"     notnull="true" pkey="true"></column>
     <column name="JO_Abbrev"       type="VARCHAR(4)"  notnull="true">Abbreviation du libellé du journal</column>
     <column name="JO_Libelle"      type="VARCHAR"     notnull="true">Libellé explicite du journal</column>

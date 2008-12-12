@@ -176,7 +176,6 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 --===========================================================================--
 -- Calcule la premiere date utilisable d'un journal à partir d'un mois et
 -- d'une année
--- DROP FUNCTION FC_MoisEnLettre(integer);
 
 CREATE OR REPLACE FUNCTION FC_MoisEnLettre(IN mois INTEGER) RETURNS text AS
 $$
@@ -184,24 +183,7 @@ DECLARE
   months CONSTANT varchar[12] = '{Janvier,Février,Mars,Avril,Mai,Juin,Juillet,Août,Septembre,Octobre,Novembre,Décembre}';
   ret text;
 BEGIN
-  SELECT COALESCE(months[mois+1],'Mois inconnu') INTO ret;
-/*
-  SELECT CASE
-           WHEN mois=00 THEN 'Janvier'
-           WHEN mois=01 THEN 'Février'
-           WHEN mois=02 THEN 'Mars'
-           WHEN mois=03 THEN 'Avril'
-           WHEN mois=04 THEN 'Mai'
-           WHEN mois=05 THEN 'Juin'
-           WHEN mois=06 THEN 'Juillet'
-           WHEN mois=07 THEN 'Août'
-           WHEN mois=08 THEN 'Septembre'
-           WHEN mois=09 THEN 'Octobre'
-           WHEN mois=10 THEN 'Novembre'
-           WHEN mois=11 THEN 'Décembre'
-           ELSE 'Mois inconnu'
-         END AS LeMois INTO ret;
-*/
+  SELECT COALESCE(months[mois],'Mois inconnu') INTO ret;
   RETURN ret;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
@@ -209,14 +191,13 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 --===========================================================================--
 -- Calcule la premiere date utilisable d'un journal à partir d'un mois et
 -- d'une année
--- DROP FUNCTION FC_MoisEnLettre(integer);
 
 CREATE OR REPLACE FUNCTION FC_DateEnLettre(in jour date) RETURNS text AS
 $$
 DECLARE
   ret text;
 BEGIN
-  SELECT EXTRACT(DAY FROM jour)||' '||lower(fc_moisenlettre(EXTRACT(MONTH FROM jour)::integer-1))||' '||EXTRACT(YEAR FROM jour) INTO ret;
+  SELECT EXTRACT(DAY FROM jour)||' '||lower(fc_moisenlettre(EXTRACT(MONTH FROM jour)::integer))||' '||EXTRACT(YEAR FROM jour) INTO ret;
   RETURN ret;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
@@ -549,14 +530,18 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 
 --===========================================================================--
 -- Procedure permettant de mettre à jour les montants du devis passé en paramètre
---DROP FUNCTION FC_CalculSommeDevis(INTEGER);
 
 CREATE OR REPLACE FUNCTION FC_Devis_Totalize(IN num_devis INTEGER) RETURNS VOID AS
 $$ 
 BEGIN
-  UPDATE Devis SET DE_MontantHT=ROUND(T.MontantHT,2), DE_MontantTTC=ROUND(T.MontantTTC,2) FROM (SELECT sum(l_montantht*(CASE WHEN pd_reduction THEN 1-de_reduction/100 ELSE 1 END)) AS MontantHT, sum(l_montantttc*(CASE WHEN pd_reduction THEN 1-de_reduction/100 ELSE 1 END)) AS MontantTTC FROM ligne join devis using (de_numero) join produit using (pd_numero) WHERE ligne.de_numero=num_devis) AS T WHERE devis.de_numero=num_devis;
+  UPDATE Devis 
+    SET DE_MontantHT=ROUND(T.MontantHT,2), DE_MontantTTC=ROUND(T.MontantTTC,2) 
+    FROM (SELECT sum(l_montantht*(CASE WHEN pd_reduction THEN 1-de_reduction/100 ELSE 1 END)) AS MontantHT, sum(l_montantttc*(CASE WHEN pd_reduction THEN 1-de_reduction/100 ELSE 1 END)) AS MontantTTC 
+            FROM ligne join devis using (de_numero) join produit using (pd_numero) 
+            WHERE ligne.de_numero=num_devis) AS T 
+    WHERE devis.de_numero=num_devis;
 END;
-$$ LANGUAGE 'plpgsql' IMMUTABLE;
+$$ LANGUAGE 'plpgsql';
 
 
 
@@ -662,7 +647,7 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 -- Fusionne le produit 2 au produit 1
 --DROP FUNCTION FC_FusionneProduit(integer,integer);
 
-CREATE OR REPLACE FUNCTION FC_FusionneProduit(p1 integer, p2 integer) RETURNS boolean AS
+CREATE OR REPLACE FUNCTION FC_Fusionne_Produit(IN p1 integer, IN p2 integer) RETURNS boolean AS
 $$
 DECLARE
   unvalid boolean;
