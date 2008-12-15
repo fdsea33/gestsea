@@ -24,3 +24,13 @@ CREATE OR REPLACE VIEW VUE_Adresse AS
 
 CREATE OR REPLACE VIEW VUE_Allowed_Personne AS 
   SELECT personne.*, pe_numero AS cle FROM personne WHERE pe_actif AND pe_numero NOT IN (SELECT el_personne1 FROM estlie WHERE tl_numero=1006);
+
+
+CREATE OR REPLACE VIEW vue_contacts AS 
+  SELECT pe_numero, ck_numero, trim(trim(concatenate(distinct(cn_coordonnee)||' | ')),'|') AS cn_value
+    FROM (SELECT *, cn_coordonnee||CASE WHEN pe_numero!=true_pe_numero THEN '*' ELSE '' END AS cn_value, pe_numero=true_pe_numero AS cn_direct FROM contact) AS vue_contact
+    GROUP BY pe_numero, ck_numero;
+
+
+
+  

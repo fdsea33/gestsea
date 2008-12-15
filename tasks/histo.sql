@@ -134,6 +134,21 @@ CREATE OR REPLACE VIEW VUE_Historique2 AS
 \f ;
 \timing
 
+\o claf.csv
+SELECT DISTINCT er.pe_numero, COALESCE(NULLIF(TRIM(peac_titre),''),pe_canton) AS canton, re_nom, 
+  CASE WHEN er.pe_numero in (select pe_numero from table_cotisation where cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)-1) THEN 'X' else '' END as "N-1",
+  CASE WHEN er.pe_numero in (select pe_numero from table_cotisation where cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)) THEN 'X' else '' END as "N",
+  pe_adresse, 
+  tel.cn_value, fax.cn_value, port.cn_value, mail.cn_value
+  FROM estresponsable er join vue_personne using (pe_numero) join responsabilite using (re_numero) 
+  LEFT JOIN vue_contacts AS Tel  ON (Tel.PE_Numero=er.PE_Numero AND Tel.CK_Numero=107)
+  LEFT JOIN vue_contacts AS Fax  ON (Fax.PE_Numero=er.PE_Numero AND Fax.CK_Numero=105) 
+  LEFT JOIN vue_contacts AS Port ON (Port.PE_Numero=er.PE_Numero AND Port.CK_Numero=106) 
+  LEFT JOIN vue_contacts AS Mail ON (Mail.PE_Numero=er.PE_Numero AND Mail.CK_Numero=104)
+  WHERE re_numero in (33,62,34,61) order by 1;
+\o
+
+
 \o historique.csv
 SELECT * FROM vue_historique;
 \o
