@@ -65,19 +65,21 @@ SELECT 'INSERT INTO jos_gm_membre(id_membre,id_groupe) VALUES (63,6)'
 SELECT 'INSERT INTO jos_gm_membre(id_membre,id_groupe) VALUES (63,10)'
 ||concatenate(',('||pe_numero||',10)')
 ||' ON DUPLICATE KEY UPDATE id_membre=VALUES(id_membre);' AS "Inserts"
-  FROM (SELECT DISTINCT pe_numero FROM table_lignefacture 
+  FROM (SELECT DISTINCT f.pe_numero FROM table_lignefacture 
        JOIN table_adherence USING (pd_numero)
-       JOIN table_facture USING (fa_numero)
+       JOIN table_facture f USING (fa_numero)
   WHERE ah_libelle LIKE '[MAJCC]%'
-    AND fa_date+'8 months'::INTERVAL BETWEEN (EXTRACT(YEAR FROM CURRENT_DATE)||'-01-01')::date AND (EXTRACT(YEAR FROM CURRENT_DATE)||'-12-31')::date 
+    AND fa_date+'12 months'::INTERVAL > CURRENT_DATE
+--    AND fa_date+'8 months'::INTERVAL BETWEEN (EXTRACT(YEAR FROM CURRENT_DATE)||'-01-01')::date AND (EXTRACT(YEAR FROM CURRENT_DATE)||'-12-31')::date 
 --    AND fa_date+'6 months 15 days'::INTERVAL BETWEEN ((EXTRACT(YEAR FROM CURRENT_DATE)-1)||'-07-15')::date AND (EXTRACT(YEAR FROM CURRENT_DATE)||'-07-16')::date 
 UNION ALL
 SELECT DISTINCT el_personne1 FROM table_lignefacture 
        JOIN table_adherence USING (pd_numero)
-       JOIN table_facture USING (fa_numero)
-       JOIN table_estlie el ON (pe_numero=el_personne2)
+       JOIN table_facture f USING (fa_numero)
+       JOIN table_estlie el ON (f.pe_numero=el_personne2)
   WHERE ah_libelle LIKE '[MAJCC]%' AND el.tl_numero=1003
-    AND fa_date+'8 months'::INTERVAL BETWEEN (EXTRACT(YEAR FROM CURRENT_DATE)||'-01-01')::date AND (EXTRACT(YEAR FROM CURRENT_DATE)||'-12-31')::date 
+    AND fa_date+'12 months'::INTERVAL > CURRENT_DATE
+--    AND fa_date+'8 months'::INTERVAL BETWEEN (EXTRACT(YEAR FROM CURRENT_DATE)||'-01-01')::date AND (EXTRACT(YEAR FROM CURRENT_DATE)||'-12-31')::date 
 --    AND fa_date+'6 months 15 days'::INTERVAL BETWEEN ((EXTRACT(YEAR FROM CURRENT_DATE)-1)||'-07-15')::date AND (EXTRACT(YEAR FROM CURRENT_DATE)||'-07-16')::date 
 ) AS x;
 
