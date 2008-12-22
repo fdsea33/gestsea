@@ -13,7 +13,7 @@ top.document.getElementById('gestsea-lanceur').setAttribute('screenY',(screen.av
   </script>
   <vbox>
 <!--    <stack flex="1" >-->
-      <image flex="1" height="58" width="496" src="chrome://gestsea/skin/images/gestsea2008.png"/>
+      <image flex="1" height="58" width="496" src="chrome://gestsea/skin/images/gestsea.png"/>
 <!--    </stack>-->
     <separator flex="1" class="groove-thin"/>  
   </vbox>

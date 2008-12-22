@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<overlay id="gestseaTasksOverlay"
-    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<overlay id="gestseaTasksOverlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-<script type="application/x-javascript">
+  <script type="application/x-javascript">
   <![CDATA[
     function toGestsea() {
       if (!CycleWindow("gestsea:main")) 
@@ -14,20 +13,14 @@
       toOpenWindowByType('gestsea:main', 'chrome://gestsea/content/');
     }
   ]]>
-</script>
+  </script>
   
   <menupopup id="taskPopup">
-    <menuitem 
-      id="gestsea-menuitem" 
-      label="Gestsea" 
-    	oncommand="toGestsea()" />
+    <menuitem id="gestsea-menuitem" label="Gestsea" oncommand="toGestsea()" />
   </menupopup>
   
   <menupopup id="menu_ToolsPopup">
-    <menuitem
-    	id="gestsea-menuitem" 
-    	label="GestSEA - Menu principal" 
-    	oncommand="NewGestseaWindow()"/>
+    <menuitem id="gestsea-menuitem" label="GestSEA - Menu principal" oncommand="NewGestseaWindow()"/>
   </menupopup> 
   
 </overlay>
