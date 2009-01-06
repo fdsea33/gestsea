@@ -555,6 +555,7 @@ DECLARE
   compte INTEGER;
   sacea TEXT;
   annee INTEGER;
+  reduction NUMERIC;
 BEGIN
 --  RAISE EXCEPTION 'Le calcul de réduction est en cours de développement.';
   sacea := 'null';
@@ -577,7 +578,12 @@ BEGIN
   IF sacea='true' THEN
     RETURN 25.00;
   ELSIF sacea='null' THEN
-    RETURN 0.00;
+    IF EXTRACT(MONTH FROM computed_on)<=2 THEN
+      SELECT FC_Personne_Reduction(num_personne, ('31/12/'||(EXTRACT(YEAR FROM computed_on)-1))::DATE) INTO reduction;
+      RETURN reduction;
+    ELSE
+      RETURN 0.00;
+    END IF;
   ELSE
     RETURN 15.00;
   END IF;
