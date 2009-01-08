@@ -15,7 +15,9 @@ SELECT 'INSERT INTO jos_users(id,name,username,email,password,usertype,block,gid
 ||concatenate(',('||pe.pe_numero||',''' 
 || REPLACE(SUBSTR( TRIM( COALESCE(pe_titre||' ', '') || COALESCE(UPPER(pe_nom)||' ','') || COALESCE(INITCAP(pe_prenom),'')) ,1,42) ,'''','''''')
 ||''',''fdsea'||pe.pe_numero-1000000||''','''||LOWER(COALESCE(cn_coordonnee,''))
-||''','''|| md5(pe_motdepasse)||''',''Registered'','||CASE WHEN pe.pe_numero=1016535 OR pe.pe_numero IN (SELECT pe_numero FROM table_cotisation WHERE EXTRACT(YEAR FROM CURRENT_DATE)=cs_annee) THEN '0' ELSE '1' END||',18,CURRENT_TIMESTAMP' ||')')
+||''','''|| md5(pe_motdepasse)||''',''Registered'','||CASE WHEN pe.pe_numero=1016535 OR pe.pe_numero IN (SELECT pe_numero FROM table_cotisation WHERE 
+(cs_annee=EXTRACT(YEAR FROM CURRENT_DATE) OR (EXTRACT(MONTH FROM CURRENT_DATE)<=2 AND cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)-1))
+) THEN '0' ELSE '1' END||',18,CURRENT_TIMESTAMP' ||')')
 ||' ON DUPLICATE KEY UPDATE email=VALUES(email),name=VALUES(name),gid=VALUES(gid),usertype=VALUES(usertype),password=VALUES(password),block=VALUES(block);' AS "Inserts"
   FROM table_personne AS pe LEFT JOIN table_contact AS co ON (pe.pe_numero=co.pe_numero AND co.cn_actif is not false AND co.ck_numero=104)
   WHERE pe.pe_numero IN (SELECT pe_numero FROM table_cotisation WHERE cs_annee>=2007);
@@ -41,7 +43,7 @@ SELECT 'INSERT INTO jos_gm_membre(id_membre,id_groupe) VALUES (63,7)'
 ||concatenate(',('||pe_numero||',7)')
 ||' ON DUPLICATE KEY UPDATE id_membre=VALUES(id_membre);' AS "Inserts"
   FROM table_cotisation
-  WHERE cs_annee=EXTRACT(YEAR FROM CURRENT_DATE);
+  WHERE (cs_annee=EXTRACT(YEAR FROM CURRENT_DATE) OR (EXTRACT(MONTH FROM CURRENT_DATE)<=2 AND cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)-1));
 
        
 \qecho -- Ajout au groupe A+ (6)
@@ -50,7 +52,8 @@ SELECT 'INSERT INTO jos_gm_membre(id_membre,id_groupe) VALUES (63,6)'
 ||concatenate(',('||pe_numero||',6)')
 ||' ON DUPLICATE KEY UPDATE id_membre=VALUES(id_membre);' AS "Inserts"
   FROM table_cotisation
-  WHERE (cs_annee=EXTRACT(YEAR FROM CURRENT_DATE) AND bml_extract(cs_detail, 'sacea.produit')::integer-500000000 IN (36,65,69))
+  WHERE ((cs_annee=EXTRACT(YEAR FROM CURRENT_DATE) OR (EXTRACT(MONTH FROM CURRENT_DATE)<=2 AND cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)-1))
+      AND bml_extract(cs_detail, 'sacea.produit')::integer-500000000 IN (36,65,69))
     OR pe_numero = 1016535
 ;
 -- R.A.VITI
