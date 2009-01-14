@@ -15,9 +15,15 @@ SELECT stat_activite_annuelle(3,'Q');
 SELECT stat_activite_mensuelle(3,'M');
 SELECT stat_activite_mensuelle(3,'Q');
 
-SELECT stat_compta_mensuelle(1,EXTRACT(YEAR FROM CURRENT_DATE)::integer);
-SELECT stat_compta_mensuelle(2,EXTRACT(YEAR FROM CURRENT_DATE)::integer);
-SELECT stat_compta_mensuelle(3,EXTRACT(YEAR FROM CURRENT_DATE)::integer);
+SELECT stat_compta_mensuelle(1,2007);
+SELECT stat_compta_mensuelle(2,2007);
+SELECT stat_compta_mensuelle(3,2007);
+SELECT stat_compta_mensuelle(1,2008);
+SELECT stat_compta_mensuelle(2,2008);
+SELECT stat_compta_mensuelle(3,2008);
+SELECT stat_compta_mensuelle(1,2009);
+SELECT stat_compta_mensuelle(2,2009);
+SELECT stat_compta_mensuelle(3,2009);
 \o
 \timing
 
@@ -36,8 +42,12 @@ SELECT * FROM stat_activite_annuelle_1Q;
 SELECT * FROM stat_activite_mensuelle_1M;
 \o ./sacea_M_QTE
 SELECT * FROM stat_activite_mensuelle_1Q;
+\o ./sacea_compta_2007.csv
+SELECT * FROM stat_compta_mensuelle_1_2007;
 \o ./sacea_compta_2008.csv
 SELECT * FROM stat_compta_mensuelle_1_2008;
+\o ./sacea_compta_2009.csv
+SELECT * FROM stat_compta_mensuelle_1_2009;
 \o ./sacea_produits.csv
 SELECT cg_numcompte, pd_libelle,pd_numero from table_produit p left join table_compteproduit using (pd_numero) left join table_comptegen using (cg_numero) where ci_actif and pd_numero in (SELECT pd_numero FROM table_lignefacture join table_facture using (fa_numero) where fa_date>CURRENT_DATE-'1 year'::INTERVAL) AND p.so_numero=1 order by pd_libelle;
 
@@ -50,8 +60,12 @@ SELECT * FROM stat_activite_annuelle_2Q;
 SELECT * FROM stat_activite_mensuelle_2M;
 \o ./fdsea_M_QTE
 SELECT * FROM stat_activite_mensuelle_2Q;
+\o ./fdsea_compta_2007.csv
+SELECT * FROM stat_compta_mensuelle_2_2007;
 \o ./fdsea_compta_2008.csv
 SELECT * FROM stat_compta_mensuelle_2_2008;
+\o ./fdsea_compta_2009.csv
+SELECT * FROM stat_compta_mensuelle_2_2009;
 \o ./fdsea_produits.csv
 SELECT cg_numcompte, pd_libelle,pd_numero from table_produit p left join table_compteproduit using (pd_numero) left join table_comptegen using (cg_numero) where ci_actif and pd_numero in (SELECT pd_numero FROM table_lignefacture join table_facture using (fa_numero) where fa_date>CURRENT_DATE-'1 year'::INTERVAL) AND p.so_numero=2 order by pd_libelle;
 
@@ -64,8 +78,12 @@ SELECT * FROM stat_activite_annuelle_3Q;
 SELECT * FROM stat_activite_mensuelle_3M;
 \o ./aava_M_QTE
 SELECT * FROM stat_activite_mensuelle_3Q;
+\o ./aava_compta_2007.csv
+SELECT * FROM stat_compta_mensuelle_3_2007;
 \o ./aava_compta_2008.csv
 SELECT * FROM stat_compta_mensuelle_3_2008;
+\o ./aava_compta_2009.csv
+SELECT * FROM stat_compta_mensuelle_3_2009;
 \o ./aava_produits.csv
 SELECT cg_numcompte, pd_libelle,pd_numero from table_produit p left join table_compteproduit using (pd_numero) left join table_comptegen using (cg_numero) where ci_actif and pd_numero in (SELECT pd_numero FROM table_lignefacture join table_facture using (fa_numero) where fa_date>CURRENT_DATE-'1 year'::INTERVAL) AND p.so_numero=3 order by pd_libelle;
 

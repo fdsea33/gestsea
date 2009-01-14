@@ -8,4 +8,4 @@ psql gestsea -f /usr/local/bin/scripts/histo.sql
 mv historique.csv $last.csv
 #$d/csv2ods/csv2ods.py $last.ods historique
 rm -f $dir/$last.*
-mv $last.csv historique*.csv claf.csv $dir/
+mv -f $last.csv historique*.csv claf.csv sacea_*.csv $dir/

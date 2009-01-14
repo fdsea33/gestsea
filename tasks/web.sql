@@ -15,8 +15,10 @@ SELECT 'INSERT INTO jos_users(id,name,username,email,password,usertype,block,gid
 ||concatenate(',('||pe.pe_numero||',''' 
 || REPLACE(SUBSTR( TRIM( COALESCE(pe_titre||' ', '') || COALESCE(UPPER(pe_nom)||' ','') || COALESCE(INITCAP(pe_prenom),'')) ,1,42) ,'''','''''')
 ||''',''fdsea'||pe.pe_numero-1000000||''','''||LOWER(COALESCE(cn_coordonnee,''))
-||''','''|| md5(pe_motdepasse)||''',''Registered'','||CASE WHEN pe.pe_numero=1016535 OR pe.pe_numero IN (SELECT pe_numero FROM table_cotisation WHERE 
-(cs_annee=EXTRACT(YEAR FROM CURRENT_DATE) OR (EXTRACT(MONTH FROM CURRENT_DATE)<=2 AND cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)-1))
+||''','''|| md5(pe_motdepasse)||''',''Registered'','||CASE WHEN pe.pe_numero=1016535 OR pe.pe_numero IN (SELECT pe_numero FROM vue_current_cotisation -- WHERE 
+-- BEGIN: Adherent's condition
+--(cs_annee=EXTRACT(YEAR FROM CURRENT_DATE) OR (EXTRACT(MONTH FROM CURRENT_DATE)<=2 AND cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)-1))
+-- END
 ) THEN '0' ELSE '1' END||',18,CURRENT_TIMESTAMP' ||')')
 ||' ON DUPLICATE KEY UPDATE email=VALUES(email),name=VALUES(name),gid=VALUES(gid),usertype=VALUES(usertype),password=VALUES(password),block=VALUES(block);' AS "Inserts"
   FROM table_personne AS pe LEFT JOIN table_contact AS co ON (pe.pe_numero=co.pe_numero AND co.cn_actif is not false AND co.ck_numero=104)
@@ -42,8 +44,10 @@ SELECT 'INSERT INTO jos_core_acl_aro(section_value,value,order_value,name,hidden
 SELECT 'INSERT INTO jos_gm_membre(id_membre,id_groupe) VALUES (63,7)'
 ||concatenate(',('||pe_numero||',7)')
 ||' ON DUPLICATE KEY UPDATE id_membre=VALUES(id_membre);' AS "Inserts"
-  FROM table_cotisation
-  WHERE (cs_annee=EXTRACT(YEAR FROM CURRENT_DATE) OR (EXTRACT(MONTH FROM CURRENT_DATE)<=2 AND cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)-1));
+  FROM vue_current_cotisation;
+
+--table_cotisation
+--  WHERE (cs_annee=EXTRACT(YEAR FROM CURRENT_DATE) OR (EXTRACT(MONTH FROM CURRENT_DATE)<=2 AND cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)-1));
 
        
 \qecho -- Ajout au groupe A+ (6)
@@ -51,9 +55,11 @@ SELECT 'INSERT INTO jos_gm_membre(id_membre,id_groupe) VALUES (63,7)'
 SELECT 'INSERT INTO jos_gm_membre(id_membre,id_groupe) VALUES (63,6)'
 ||concatenate(',('||pe_numero||',6)')
 ||' ON DUPLICATE KEY UPDATE id_membre=VALUES(id_membre);' AS "Inserts"
-  FROM table_cotisation
-  WHERE ((cs_annee=EXTRACT(YEAR FROM CURRENT_DATE) OR (EXTRACT(MONTH FROM CURRENT_DATE)<=2 AND cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)-1))
-      AND bml_extract(cs_detail, 'sacea.produit')::integer-500000000 IN (36,65,69))
+  FROM vue_current_cotisation
+  WHERE 
+
+--((cs_annee=EXTRACT(YEAR FROM CURRENT_DATE) OR (EXTRACT(MONTH FROM CURRENT_DATE)<=2 AND cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)-1))
+       bml_extract(cs_detail, 'sacea.produit')::integer-500000000 IN (36,65,69))
     OR pe_numero = 1016535
 ;
 -- R.A.VITI
@@ -93,7 +99,8 @@ SELECT p.pe_numero, p.pe_libelle, p.pe_cp, p.pe_ville, 'fdsea'||p.pe_id, p.pe_mo
   FROM vue_personne p LEFT JOIN estlie on (el_personne1=p.pe_numero) 
        LEFT JOIN vue_personne s on (el_personne2=s.pe_numero)
   WHERE (tl_numero=1003 OR tl_numero IS NULL)
-    and p.pe_numero IN (SELECT pe_numero FROM cotisation WHERE cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)+(CASE WHEN EXTRACT(MONTH FROM CURRENT_DATE)<=2 THEN -1 ELSE 0 END))
+    and p.pe_numero IN (SELECT pe_numero FROM vue_current_cotisation)
+-- WHERE cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)+(CASE WHEN EXTRACT(MONTH FROM CURRENT_DATE)<=2 THEN -1 ELSE 0 END))
   ORDER BY p.pe_numero
 ;
 

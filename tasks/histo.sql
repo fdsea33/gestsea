@@ -10,18 +10,19 @@ CREATE OR REPLACE VIEW VUE_Historique AS
        CASE WHEN p.pe_numero IN (select pe_numero from table_cotisation where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-1 AND BML_EXTRACT(cs_detail,'fdsea.forfait.produit')::integer IN (500000124,500000053)) THEN 'X' ELSE '' END AS "Bailleur",
        CASE WHEN p.pe_numero IN (select pe_numero from table_cotisation where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-1 AND BML_EXTRACT(cs_detail,'fdsea.forfait.produit')::integer IN (500000054,500000124,500000150)) THEN 'X' ELSE '' END AS "Ancien",
        CASE WHEN p.pe_numero IN (select pe_numero from table_cotisation where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-1 AND cs_nature='ja') THEN 'X' ELSE '' END AS "J.A.",
-       CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=1997) THEN 'X' else '' END as "1997",
-       CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=1998) THEN 'X' else '' END as "1998",
-       CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=1999) THEN 'X' else '' END as "1999",
-       CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=2000) THEN 'X' else '' END as "2000",
-       CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=2001) THEN 'X' else '' END as "2001",
-       CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=2002) THEN 'X' else '' END as "2002",
-       CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=2003) THEN 'X' else '' END as "2003",
-       CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=2004) THEN 'X' else '' END as "2004",
-       CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=2005) THEN 'X' else '' END as "2005",
-       CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=2006) THEN 'X' else '' END as "2006",
-       CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=2007) THEN 'X' else '' END as "2007",
-       CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=2008) THEN 'X' else '' END as "2008",
+       CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=1997) THEN 'X' else '' END as "97",
+       CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=1998) THEN 'X' else '' END as "98",
+       CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=1999) THEN 'X' else '' END as "99",
+       CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=2000) THEN 'X' else '' END as "00",
+       CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=2001) THEN 'X' else '' END as "01",
+       CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=2002) THEN 'X' else '' END as "02",
+       CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=2003) THEN 'X' else '' END as "03",
+       CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=2004) THEN 'X' else '' END as "04",
+       CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=2005) THEN 'X' else '' END as "05",
+       CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=2006) THEN 'X' else '' END as "06",
+       CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=2007) THEN 'X' else '' END as "07",
+       CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=2008) THEN 'X' else '' END as "08",
+       CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=2009) THEN 'X' else '' END as "09",
        '="'||tel.cn_coordonnee||'"' as "Téléphone",
        '="'||fax.cn_coordonnee||'"' as "Fax",
        '="'||port.cn_coordonnee||'"' as "Portable",
@@ -78,18 +79,19 @@ CREATE OR REPLACE VIEW VUE_Historique2 AS
        CASE WHEN p.pe_numero IN (select pe_numero from table_cotisation where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-1 AND BML_EXTRACT(cs_detail,'fdsea.forfait.produit')::integer IN (500000124,500000053)) THEN 'X' ELSE '' END AS "Bailleur",
        CASE WHEN p.pe_numero IN (select pe_numero from table_cotisation where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-1 AND BML_EXTRACT(cs_detail,'fdsea.forfait.produit')::integer IN (500000054,500000124,500000150)) THEN 'X' ELSE '' END AS "Ancien",
        CASE WHEN p.pe_numero IN (select pe_numero from table_cotisation where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-1 AND cs_nature='ja') THEN 'X' ELSE '' END AS "J.A.",
-       CASE WHEN p.pe_numero in (select pe_numero from table_cotisation where cs_annee=1997) THEN 'X' else '' END as "1997",
-       CASE WHEN p.pe_numero in (select pe_numero from table_cotisation where cs_annee=1998) THEN 'X' else '' END as "1998",
-       CASE WHEN p.pe_numero in (select pe_numero from table_cotisation where cs_annee=1999) THEN 'X' else '' END as "1999",
-       CASE WHEN p.pe_numero in (select pe_numero from table_cotisation where cs_annee=2000) THEN 'X' else '' END as "2000",
-       CASE WHEN p.pe_numero in (select pe_numero from table_cotisation where cs_annee=2001) THEN 'X' else '' END as "2001",
-       CASE WHEN p.pe_numero in (select pe_numero from table_cotisation where cs_annee=2002) THEN 'X' else '' END as "2002",
-       CASE WHEN p.pe_numero in (select pe_numero from table_cotisation where cs_annee=2003) THEN 'X' else '' END as "2003",
-       CASE WHEN p.pe_numero in (select pe_numero from table_cotisation where cs_annee=2004) THEN 'X' else '' END as "2004",
-       CASE WHEN p.pe_numero in (select pe_numero from table_cotisation where cs_annee=2005) THEN 'X' else '' END as "2005",
-       CASE WHEN p.pe_numero in (select pe_numero from table_cotisation where cs_annee=2006) THEN 'X' else '' END as "2006",
-       CASE WHEN p.pe_numero in (select pe_numero from table_cotisation where cs_annee=2007) THEN 'X' else '' END as "2007",
-       CASE WHEN p.pe_numero in (select pe_numero from table_cotisation where cs_annee=2008) THEN 'X' else '' END as "2008",
+       CASE WHEN p.pe_numero in (select pe_numero from table_cotisation where cs_annee=1997) THEN 'X' else '' END as "97",
+       CASE WHEN p.pe_numero in (select pe_numero from table_cotisation where cs_annee=1998) THEN 'X' else '' END as "98",
+       CASE WHEN p.pe_numero in (select pe_numero from table_cotisation where cs_annee=1999) THEN 'X' else '' END as "99",
+       CASE WHEN p.pe_numero in (select pe_numero from table_cotisation where cs_annee=2000) THEN 'X' else '' END as "00",
+       CASE WHEN p.pe_numero in (select pe_numero from table_cotisation where cs_annee=2001) THEN 'X' else '' END as "01",
+       CASE WHEN p.pe_numero in (select pe_numero from table_cotisation where cs_annee=2002) THEN 'X' else '' END as "02",
+       CASE WHEN p.pe_numero in (select pe_numero from table_cotisation where cs_annee=2003) THEN 'X' else '' END as "03",
+       CASE WHEN p.pe_numero in (select pe_numero from table_cotisation where cs_annee=2004) THEN 'X' else '' END as "04",
+       CASE WHEN p.pe_numero in (select pe_numero from table_cotisation where cs_annee=2005) THEN 'X' else '' END as "05",
+       CASE WHEN p.pe_numero in (select pe_numero from table_cotisation where cs_annee=2006) THEN 'X' else '' END as "06",
+       CASE WHEN p.pe_numero in (select pe_numero from table_cotisation where cs_annee=2007) THEN 'X' else '' END as "07",
+       CASE WHEN p.pe_numero in (select pe_numero from table_cotisation where cs_annee=2008) THEN 'X' else '' END as "08",
+       CASE WHEN p.pe_numero in (select pe_numero from table_cotisation where cs_annee=2009) THEN 'X' else '' END as "09",
        '="'||tel.cn_coordonnee||'"' as "Téléphone",
        '="'||fax.cn_coordonnee||'"' as "Fax",
        '="'||port.cn_coordonnee||'"' as "Portable",
@@ -148,6 +150,18 @@ SELECT DISTINCT er.pe_numero, COALESCE(NULLIF(TRIM(peac_titre),''),pe_canton) AS
   WHERE re_numero in (33,62,34,61) order by 1;
 \o
 
+\o sacea_a+.csv
+SELECT * FROM vue_historique 
+  WHERE pe_numero IN (SELECT pe_numero FROM vue_current_cotisation WHERE bml_extract(cs_detail, 'sacea')='true')
+;
+\o
+
+\o sacea_a+_sans_email.csv
+SELECT * FROM vue_historique 
+  WHERE pe_numero IN (SELECT pe_numero FROM vue_current_cotisation WHERE bml_extract(cs_detail, 'sacea')='true')
+    AND pe_numero NOT IN (SELECT pe_numero FROM contact WHERE ck_numero=104)
+;
+\o
 
 \o historique.csv
 SELECT * FROM vue_historique;

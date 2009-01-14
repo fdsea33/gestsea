@@ -48,11 +48,22 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 
 
 --===========================================================================--
--- Procedure permettant de passer un devis en facture avec les écritures comptables qui vont bien  --
--- là où il le faut.
+-- Procedure permettant de passer un devis en facture
 --DROP FUNCTION FC_DevisVersFacture(integer);
 
 CREATE OR REPLACE FUNCTION FC_DevisVersFacture(IN num_devis integer) RETURNS integer AS
+$$
+DECLARE
+  num_facture INTEGER;
+BEGIN
+  SELECT FC_DevisVersFacture(num_devis, current_date) INTO num_facture;
+  return num_facture;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+
+
+CREATE OR REPLACE FUNCTION FC_DevisVersFacture(IN num_devis integer, IN date_facture date) RETURNS integer AS
 $$
 DECLARE
   num_facture   integer;
@@ -104,7 +115,7 @@ BEGIN
   SELECT fc_nextval(sq_numero) FROM societe where so_numero = num_societe INTO num_numfact;
 -- Creation de la facture
   insert into facture (fa_numero, pe_numero, fa_date, fa_reduction, fa_libelle, fa_numfact, fa_montantht, fa_montantttc, de_numero, ag_numero, ad_numero)
-    select num_facture, pe_numero, current_date, de_reduction, de_libelle, num_numfact, de_montantht, de_montantttc, de_numero, em_agent, ad_numero
+    select num_facture, pe_numero, date_facture, de_reduction, de_libelle, num_numfact, de_montantht, de_montantttc, de_numero, em_agent, ad_numero
       from devis join employe using (em_numero) where de_numero = num_devis;
 -- Création des lignes de la facture
   insert into lignefacture (fa_numero, pd_numero, lf_montantht, lf_montantttc, lf_quantite, px_numero, lf_notes, pe_numero)  
@@ -113,7 +124,7 @@ BEGIN
 
 -- Verrouillage le devis
   UPDATE devis SET de_locked=true WHERE de_numero=num_devis;
- return num_facture;
+  RETURN num_facture;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
