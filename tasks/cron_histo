@@ -1,11 +1,12 @@
 #!/bin/bash
 dir=/home/groupes/syndical/DOSSIERS_FDSEA33/Historique
-last=Dernier_historique
+last=dernier_historique
 d=/usr/local/bin/scripts
 cd /tmp
 rm -f $last.csv
 psql gestsea -f /usr/local/bin/scripts/histo.sql
 mv historique.csv $last.csv
 #$d/csv2ods/csv2ods.py $last.ods historique
-rm -f $dir/$last.*
+#rm -f $dir/$last.*
+mv -f $dir/*.* $dir/Ancien/
 mv -f $last.csv historique*.csv claf.csv sacea_*.csv $dir/

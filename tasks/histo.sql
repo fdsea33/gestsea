@@ -10,8 +10,7 @@ CREATE OR REPLACE VIEW VUE_Historique AS
        CASE WHEN p.pe_numero IN (select pe_numero from table_cotisation where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-1 AND BML_EXTRACT(cs_detail,'fdsea.forfait.produit')::integer IN (500000124,500000053)) THEN 'X' ELSE '' END AS "Bailleur",
        CASE WHEN p.pe_numero IN (select pe_numero from table_cotisation where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-1 AND BML_EXTRACT(cs_detail,'fdsea.forfait.produit')::integer IN (500000054,500000124,500000150)) THEN 'X' ELSE '' END AS "Ancien",
        CASE WHEN p.pe_numero IN (select pe_numero from table_cotisation where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-1 AND cs_nature='ja') THEN 'X' ELSE '' END AS "J.A.",
--- G.S.
-       CASE WHEN p.pe_numero IN (select pe_numero from table_cotisation where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-1 AND cs_nature='gs') THEN 'X' ELSE '' END AS "J.A.",
+       CASE WHEN p.pe_numero IN (select pe_numero from table_cotisation where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-1 AND cs_nature='gs') THEN 'X' ELSE '' END AS "G.S.",
 
        CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=1997) THEN 'X' else '' END as "97",
        CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=1998) THEN 'X' else '' END as "98",
@@ -82,6 +81,7 @@ CREATE OR REPLACE VIEW VUE_Historique2 AS
        CASE WHEN p.pe_numero IN (select pe_numero from table_cotisation where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-1 AND BML_EXTRACT(cs_detail,'fdsea.forfait.produit')::integer IN (500000124,500000053)) THEN 'X' ELSE '' END AS "Bailleur",
        CASE WHEN p.pe_numero IN (select pe_numero from table_cotisation where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-1 AND BML_EXTRACT(cs_detail,'fdsea.forfait.produit')::integer IN (500000054,500000124,500000150)) THEN 'X' ELSE '' END AS "Ancien",
        CASE WHEN p.pe_numero IN (select pe_numero from table_cotisation where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-1 AND cs_nature='ja') THEN 'X' ELSE '' END AS "J.A.",
+       CASE WHEN p.pe_numero IN (select pe_numero from table_cotisation where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-1 AND cs_nature='gs') THEN 'X' ELSE '' END AS "G.S.",
        CASE WHEN p.pe_numero in (select pe_numero from table_cotisation where cs_annee=1997) THEN 'X' else '' END as "97",
        CASE WHEN p.pe_numero in (select pe_numero from table_cotisation where cs_annee=1998) THEN 'X' else '' END as "98",
        CASE WHEN p.pe_numero in (select pe_numero from table_cotisation where cs_annee=1999) THEN 'X' else '' END as "99",
@@ -145,7 +145,7 @@ SELECT DISTINCT er.pe_numero, COALESCE(NULLIF(TRIM(peac_titre),''),pe_canton) AS
   CASE WHEN er.pe_numero in (select pe_numero from table_cotisation where cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)) THEN 'X' else '' END as "N",
   pe_adresse, 
   tel.cn_value, fax.cn_value, port.cn_value, mail.cn_value
-  FROM estresponsable er join vue_personne using (pe_numero) join responsabilite using (re_numero) 
+  FROM estresponsable er join vue_personne using (pe_numero) join responsabilite using (re_numero)
   LEFT JOIN vue_contacts AS Tel  ON (Tel.PE_Numero=er.PE_Numero AND Tel.CK_Numero=107)
   LEFT JOIN vue_contacts AS Fax  ON (Fax.PE_Numero=er.PE_Numero AND Fax.CK_Numero=105) 
   LEFT JOIN vue_contacts AS Port ON (Port.PE_Numero=er.PE_Numero AND Port.CK_Numero=106) 
