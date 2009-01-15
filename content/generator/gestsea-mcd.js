@@ -125,6 +125,7 @@ function mcd_getType(table,champs)
         case 'pe_numero': type=TYPE_INT;break;
         case 'ad_default': type=TYPE_BOOL;break;
         case 'ad_active': type=TYPE_BOOL;break;
+        case 'ct_numero': type=TYPE_INT;break;
         case 'ad_ligne2': type=TYPE_STRING;break;
         case 'ad_ligne3': type=TYPE_STRING;break;
         case 'ad_ligne4': type=TYPE_STRING;break;
@@ -1784,6 +1785,7 @@ function mcd_getLabel(table,champs)
         case 'pe_numero': label="";break;
         case 'ad_default': label="";break;
         case 'ad_active': label="";break;
+        case 'ct_numero': label="";break;
         case 'ad_ligne2': label="";break;
         case 'ad_ligne3': label="";break;
         case 'ad_ligne4': label="";break;
@@ -3440,6 +3442,7 @@ function mcd_obligatoire(table,champs)
         case 'pe_numero': obligatoire=true;break;
         case 'ad_default': obligatoire=true;break;
         case 'ad_active': obligatoire=true;break;
+        case 'ct_numero': obligatoire=false;break;
         case 'ad_ligne2': obligatoire=false;break;
         case 'ad_ligne3': obligatoire=false;break;
         case 'ad_ligne4': obligatoire=false;break;

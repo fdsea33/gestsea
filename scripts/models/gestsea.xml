@@ -34,7 +34,7 @@
 
 
 
-  <table name="Adresse" abbrev="AD" label="Adresses" select="(pe_numero-1000000)||'. '||COALESCE(Ad_Ligne2||', ','')||COALESCE(Ad_Ligne3||', ','')||COALESCE(Ad_Ligne4||', ','')||COALESCE(Ad_Ligne5||', ','')||CP_CodePostal||' '||VI_Nom AS AD_Libelle, COALESCE(Ad_Ligne2,'')||';'||COALESCE(Ad_Ligne3,'')||';'||COALESCE(Ad_Ligne4,'')||';'||COALESCE(Ad_Ligne5,'')||';'||CP_CodePostal||';'||VI_Nom AS AD_CSV, CASE WHEN AD_Default THEN 'Def.' ELSE '' END AS AD_Def, COALESCE(Ad_Ligne2||'#','')||COALESCE(Ad_Ligne3||'#','')||COALESCE(Ad_Ligne4||'#','')||COALESCE(Ad_Ligne5,'') AS AD_Lignes" from="JOIN ###_CodePostal AS CP USING (CP_Numero) JOIN ###_Ville AS VI USING (VI_Numero)" where="AD_Active">
+  <table name="Adresse" abbrev="AD" label="Adresses" select="(pe_numero-1000000)||'. '||COALESCE(Ad_Ligne2||', ','')||COALESCE(Ad_Ligne3||', ','')||COALESCE(Ad_Ligne4||', ','')||COALESCE(Ad_Ligne5||', ','')||CP_CodePostal||' '||VI_Nom AS AD_Libelle, COALESCE(Ad_Ligne2,'')||';'||COALESCE(Ad_Ligne3,'')||';'||COALESCE(Ad_Ligne4,'')||';'||COALESCE(Ad_Ligne5,'')||';'||CP_CodePostal||';'||VI_Nom AS AD_CSV, CASE WHEN AD_Default THEN 'Def.' ELSE '' END AS AD_Def, COALESCE(Ad_Ligne2||'#','')||COALESCE(Ad_Ligne3||'#','')||COALESCE(Ad_Ligne4||'#','')||COALESCE(Ad_Ligne5,'') AS AD_Lignes, COALESCE(###_Adresse.CT_Numero, VI.CT_Numero) AS AD_Canton" from="JOIN ###_CodePostal AS CP USING (CP_Numero) JOIN ###_Ville AS VI USING (VI_Numero)" where="AD_Active">
     <column name="AD_Numero"     type="INTEGER"      notnull="true" pkey="true">Clef primaire</column>
     <column name="AK_Numero"     type="INTEGER"      notnull="true" fkey="TypeAdresse(AK_Numero)" opt="odrour">Lien vers le type d'adresse</column>
     <column name="CP_Numero"     type="INTEGER"      notnull="true" fkey="CodePostal(CP_Numero)" opt="odrour">Lien vers le code postal</column>
@@ -42,6 +42,7 @@
     <column name="PE_Numero"     type="INTEGER"      notnull="true" fkey="Personne(PE_Numero)"   opt="odrour"></column>
     <column name="AD_Default"    type="BOOLEAN"      notnull="true" default="false">Adresse par défaut</column>
     <column name="AD_Active"     type="BOOLEAN"      notnull="true" default="true"></column>
+    <column name="CT_Numero"     type="INTEGER"      fkey="Canton(CT_Numero)" opt="odrour">Lien vers le canton alternatif</column>
     <column name="AD_Ligne2"     type="VARCHAR(38)"  default="NULL">Ligne 2 de l'adresse : N°App ou Boite - Etage - Couloir - Escalier ou Service - Identité du Destinataire</column>
     <column name="AD_Ligne3"      type="VARCHAR(38)"  default="NULL">Ligne 3 de l'adresse : Entrée - Tour - Immeuble - Batiment - Residence - ZI...</column>
     <column name="AD_Ligne4"      type="VARCHAR(38)"  default="NULL">Ligne 4 de l'adresse : N° - Type et nom de la voie </column>

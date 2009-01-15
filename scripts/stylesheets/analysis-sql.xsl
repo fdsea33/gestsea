@@ -317,7 +317,12 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
     <xsl:apply-templates select="column" mode="liste-declaration"/>
     <xsl:if test="@select!=''">
       <xsl:text>, </xsl:text>
-      <xsl:value-of select="@select"/>
+      <xsl:call-template name="replace">
+        <xsl:with-param name="ligne"><xsl:value-of select="@select"/></xsl:with-param>
+        <xsl:with-param name="motif"><xsl:value-of select="$table_prefix"/></xsl:with-param>
+        <xsl:with-param name="objet"><xsl:value-of select="../@table"/></xsl:with-param>
+      </xsl:call-template>
+
     </xsl:if>
     <xsl:text> 
      FROM &#34;</xsl:text>

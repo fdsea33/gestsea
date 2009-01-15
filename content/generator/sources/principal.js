@@ -128,7 +128,8 @@ function CodeInPrincipal(centre){
 //    PersonneAdresse.AjouterColonne("Mention spéciale.","ad_ligne5");
     PersonneAdresse.AjouterColonne("CP","cp_codepostal",new Array("cp_numero","cp_numero","codepostal"));
     PersonneAdresse.AjouterColonne("Ville","vi_nom",new Array("vi_numero","vi_numero","ville"));
-    PersonneAdresse.AjouterColonne("Canton","ct_nom",new Array("vi_numero","vi_numero","ville","ct_numero","ct_numero","canton"));
+    PersonneAdresse.AjouterColonne("Canton","ct_nom",new Array("ad_canton","ct_numero","canton"));
+//    PersonneAdresse.AjouterColonne("Canton","ct_nom",new Array("vi_numero","vi_numero","ville","ct_numero","ct_numero","canton"));
 
     PersonneAdresse.AddMode(INSERTION);
     PersonneAdresse.AddMode(SUPPRESSION);
@@ -145,6 +146,7 @@ function CodeInPrincipal(centre){
 //    PersonneAdresseType       = It_Personne.AjouterComposantSimple("Type","ad_type",null,PersonneAdresse,LISTE_DEROULANTE_STATIC,null,new Array("DEFAUT","COURRIER","PERSONNELLE","PROFESSIONNELLE"));
     PersonneAdresseCodepostal = It_Personne.AjouterComposantSimple("Code postal", "cp_codepostal", new Array("cp_numero","cp_numero","codepostal"),PersonneAdresse,LISTE_DEROULANTE); 
     PersonneAdresseVille      = It_Personne.AjouterComposantSimple("Ville", "vi_nom", new Array("vi_numero","vi_numero","ville"),PersonneAdresse,LISTE_DEROULANTE);
+    It_Personne.AjouterComposantSimple("Canton (si différent de celui par défaut)", "ct_nom", new Array ("ct_numero", "ct_numero", "canton"), PersonneAdresse, LISTE_DEROULANTE);
     It_Personne.AjouterComposantSimple("Adresse par défaut","ad_default",null,PersonneAdresse,CHECKBOX);
     
     // event user 

@@ -437,7 +437,15 @@ COALESCE(PE_Titre||' ','')||PE_Nom||COALESCE(' '||PE_Prenom,'')||';'||COALESCE(A
 CT_Nom, VI_Nom AS PE_Ville, CP_CodePostal AS PE_CP, CT_Nom AS PE_Canton, 
 to_char(PE_ID,'FM099999')||' - '||TRIM(COALESCE(PE_Titre||' ','')|| COALESCE(PE_Nom,'')|| COALESCE(' '||PE_Prenom,''))||' ('||COALESCE(CP_CodePostal,'?')||' '||COALESCE(vi_nom,'???')||')' AS PE_Description
  ,table_personne.pe_numero AS cle
-    FROM table_personne LEFT JOIN table_Adresse AS a ON (a.PE_Numero=table_Personne.PE_Numero AND AD_Active AND AD_Default) LEFT JOIN table_Codepostal USING (CP_Numero) LEFT JOIN table_Ville USING (VI_Numero) LEFT JOIN table_Canton USING (CT_Numero) LEFT JOIN table_Contact AS Tel ON (Tel.PE_Numero=table_Personne.PE_Numero AND Tel.CN_Actif IS NOT false AND Tel.CK_Numero=107) LEFT JOIN table_Contact AS Fax  ON (Fax.PE_Numero=table_Personne.PE_Numero AND Fax.CN_Actif IS NOT false AND Fax.CK_Numero=105) LEFT JOIN table_Contact AS Port  ON (Port.PE_Numero=table_Personne.PE_Numero AND Port.CN_Actif IS NOT false AND Port.CK_Numero=106) LEFT JOIN table_Contact AS Mail  ON (Mail.PE_Numero=table_Personne.PE_Numero AND Mail.CN_Actif IS NOT false AND Mail.CK_Numero=104);
+    FROM table_personne 
+LEFT JOIN table_Adresse AS a ON (a.PE_Numero=table_Personne.PE_Numero AND AD_Active AND AD_Default) 
+LEFT JOIN table_Codepostal USING (CP_Numero) 
+LEFT JOIN table_Ville v USING (VI_Numero) 
+LEFT JOIN table_Canton c on (c.CT_Numero=COALESCE(a.Ct_numero,v.ct_numero)) 
+LEFT JOIN table_Contact AS Tel ON (Tel.PE_Numero=table_Personne.PE_Numero AND Tel.CN_Actif IS NOT false AND Tel.CK_Numero=107)
+LEFT JOIN table_Contact AS Fax  ON (Fax.PE_Numero=table_Personne.PE_Numero AND Fax.CN_Actif IS NOT false AND Fax.CK_Numero=105)
+LEFT JOIN table_Contact AS Port  ON (Port.PE_Numero=table_Personne.PE_Numero AND Port.CN_Actif IS NOT false AND Port.CK_Numero=106)
+LEFT JOIN table_Contact AS Mail  ON (Mail.PE_Numero=table_Personne.PE_Numero AND Mail.CN_Actif IS NOT false AND Mail.CK_Numero=104);
 
 
 

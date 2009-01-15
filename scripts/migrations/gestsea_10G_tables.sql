@@ -118,6 +118,8 @@ ALTER TABLE "table_adresse"
   DROP CONSTRAINT fk_table_adresse_vi_numero;
 ALTER TABLE "table_adresse"
   DROP CONSTRAINT fk_table_adresse_pe_numero;
+ALTER TABLE "table_adresse"
+  DROP CONSTRAINT fk_table_adresse_ct_numero;
 ALTER TABLE "table_adresseversion"
   DROP CONSTRAINT fk_table_adresseversion_ad_numero;
 ALTER TABLE "table_adresseversion"
@@ -668,6 +670,7 @@ CREATE TABLE "table_adresse"
   "pe_numero" INTEGER,
   "ad_default" BOOLEAN,
   "ad_active" BOOLEAN,
+  "ct_numero" INTEGER,
   "ad_ligne2" VARCHAR(38),
   "ad_ligne3" VARCHAR(38),
   "ad_ligne4" VARCHAR(38),

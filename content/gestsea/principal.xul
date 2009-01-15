@@ -134,95 +134,95 @@
 </tabpanel>
 <tabpanel flex="1">
 <hbox flex="1">
-<vbox id="Personnes_Contact_20" flex="1"/>
+<vbox id="Personnes_Contact_21" flex="1"/>
 <splitter collapse="before"> <grippy/> </splitter>
 <vbox flex="1" style="overflow:auto">
-<vbox flex="1" id="Personnes_Contact_20_Slaves"/>
+<vbox flex="1" id="Personnes_Contact_21_Slaves"/>
 <arrowscrollbox  pack="end" align="stretch" class="fondstyle">
-    <button class="new-button16" disabled="true" id="Insert_Personnes_Contact_20" label="Ajouter" oncommand="Insert_Personnes_Contact_20()" />
-    <button class="edit-button16" disabled="true" id="Update_Personnes_Contact_20" label="Modifier" oncommand="Update_Personnes_Contact_20()" />
-    <button class="delete-button16" disabled="true" id="Delete_Personnes_Contact_20" label="Supprimer" oncommand="Delete_Personnes_Contact_20()" />
-    <button class="accept-button16" id="Validate_Personnes_Contact_20" label="Valider" oncommand="Validate_Personnes_Contact_20()"  disabled="true" />
-    <button class="cancel-button16" id="Annuler_Personnes_Contact_20" label="Annuler" oncommand="Annuler_Personnes_Contact_20()"  disabled="true" />
+    <button class="new-button16" disabled="true" id="Insert_Personnes_Contact_21" label="Ajouter" oncommand="Insert_Personnes_Contact_21()" />
+    <button class="edit-button16" disabled="true" id="Update_Personnes_Contact_21" label="Modifier" oncommand="Update_Personnes_Contact_21()" />
+    <button class="delete-button16" disabled="true" id="Delete_Personnes_Contact_21" label="Supprimer" oncommand="Delete_Personnes_Contact_21()" />
+    <button class="accept-button16" id="Validate_Personnes_Contact_21" label="Valider" oncommand="Validate_Personnes_Contact_21()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Personnes_Contact_21" label="Annuler" oncommand="Annuler_Personnes_Contact_21()"  disabled="true" />
 </arrowscrollbox>
 </vbox>
 </hbox>
 </tabpanel>
 <tabpanel flex="1">
 <hbox flex="1">
-<vbox id="Personnes_Tâches_24" flex="1"/>
+<vbox id="Personnes_Tâches_25" flex="1"/>
 <splitter collapse="before"> <grippy/> </splitter>
 <vbox flex="1" style="overflow:auto">
-<vbox flex="1" id="Personnes_Tâches_24_Slaves"/>
+<vbox flex="1" id="Personnes_Tâches_25_Slaves"/>
 <arrowscrollbox  pack="end" align="stretch" class="fondstyle">
-    <button class="new-button16" disabled="true" id="Insert_Personnes_Tâches_24" label="Ajouter" oncommand="Insert_Personnes_Tâches_24()" />
-    <button class="edit-button16" disabled="true" id="Update_Personnes_Tâches_24" label="Modifier" oncommand="Update_Personnes_Tâches_24()" />
-    <button class="delete-button16" disabled="true" id="Delete_Personnes_Tâches_24" label="Supprimer" oncommand="Delete_Personnes_Tâches_24()" />
-    <button class="accept-button16" id="Validate_Personnes_Tâches_24" label="Valider" oncommand="Validate_Personnes_Tâches_24()"  disabled="true" />
-    <button class="cancel-button16" id="Annuler_Personnes_Tâches_24" label="Annuler" oncommand="Annuler_Personnes_Tâches_24()"  disabled="true" />
+    <button class="new-button16" disabled="true" id="Insert_Personnes_Tâches_25" label="Ajouter" oncommand="Insert_Personnes_Tâches_25()" />
+    <button class="edit-button16" disabled="true" id="Update_Personnes_Tâches_25" label="Modifier" oncommand="Update_Personnes_Tâches_25()" />
+    <button class="delete-button16" disabled="true" id="Delete_Personnes_Tâches_25" label="Supprimer" oncommand="Delete_Personnes_Tâches_25()" />
+    <button class="accept-button16" id="Validate_Personnes_Tâches_25" label="Valider" oncommand="Validate_Personnes_Tâches_25()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Personnes_Tâches_25" label="Annuler" oncommand="Annuler_Personnes_Tâches_25()"  disabled="true" />
 </arrowscrollbox>
 </vbox>
 </hbox>
 </tabpanel>
 <tabpanel flex="1">
 <hbox flex="1">
-<vbox id="Personnes_Responsabilités_30" flex="1"/>
+<vbox id="Personnes_Responsabilités_31" flex="1"/>
 <splitter collapse="before"> <grippy/> </splitter>
 <vbox flex="1" style="overflow:auto">
-<vbox flex="1" id="Personnes_Responsabilités_30_Slaves"/>
+<vbox flex="1" id="Personnes_Responsabilités_31_Slaves"/>
 <arrowscrollbox  pack="end" align="stretch" class="fondstyle">
-    <button class="new-button16" disabled="true" id="Insert_Personnes_Responsabilités_30" label="Ajouter" oncommand="Insert_Personnes_Responsabilités_30()" />
-    <button class="edit-button16" disabled="true" id="Update_Personnes_Responsabilités_30" label="Modifier" oncommand="Update_Personnes_Responsabilités_30()" />
-    <button class="delete-button16" disabled="true" id="Delete_Personnes_Responsabilités_30" label="Supprimer" oncommand="Delete_Personnes_Responsabilités_30()" />
-    <button class="accept-button16" id="Validate_Personnes_Responsabilités_30" label="Valider" oncommand="Validate_Personnes_Responsabilités_30()"  disabled="true" />
-    <button class="cancel-button16" id="Annuler_Personnes_Responsabilités_30" label="Annuler" oncommand="Annuler_Personnes_Responsabilités_30()"  disabled="true" />
+    <button class="new-button16" disabled="true" id="Insert_Personnes_Responsabilités_31" label="Ajouter" oncommand="Insert_Personnes_Responsabilités_31()" />
+    <button class="edit-button16" disabled="true" id="Update_Personnes_Responsabilités_31" label="Modifier" oncommand="Update_Personnes_Responsabilités_31()" />
+    <button class="delete-button16" disabled="true" id="Delete_Personnes_Responsabilités_31" label="Supprimer" oncommand="Delete_Personnes_Responsabilités_31()" />
+    <button class="accept-button16" id="Validate_Personnes_Responsabilités_31" label="Valider" oncommand="Validate_Personnes_Responsabilités_31()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Personnes_Responsabilités_31" label="Annuler" oncommand="Annuler_Personnes_Responsabilités_31()"  disabled="true" />
 </arrowscrollbox>
 </vbox>
 </hbox>
 </tabpanel>
 <tabpanel flex="1">
 <hbox flex="1">
-<vbox id="Personnes_Attributs_36" flex="1"/>
+<vbox id="Personnes_Attributs_37" flex="1"/>
 <splitter collapse="before"> <grippy/> </splitter>
 <vbox flex="1" style="overflow:auto">
-<vbox flex="1" id="Personnes_Attributs_36_Slaves"/>
+<vbox flex="1" id="Personnes_Attributs_37_Slaves"/>
 <arrowscrollbox  pack="end" align="stretch" class="fondstyle">
-    <button class="new-button16" disabled="true" id="Insert_Personnes_Attributs_36" label="Ajouter" oncommand="Insert_Personnes_Attributs_36()" />
-    <button class="edit-button16" disabled="true" id="Update_Personnes_Attributs_36" label="Modifier" oncommand="Update_Personnes_Attributs_36()" />
-    <button class="delete-button16" disabled="true" id="Delete_Personnes_Attributs_36" label="Supprimer" oncommand="Delete_Personnes_Attributs_36()" />
-    <button class="accept-button16" id="Validate_Personnes_Attributs_36" label="Valider" oncommand="Validate_Personnes_Attributs_36()"  disabled="true" />
-    <button class="cancel-button16" id="Annuler_Personnes_Attributs_36" label="Annuler" oncommand="Annuler_Personnes_Attributs_36()"  disabled="true" />
+    <button class="new-button16" disabled="true" id="Insert_Personnes_Attributs_37" label="Ajouter" oncommand="Insert_Personnes_Attributs_37()" />
+    <button class="edit-button16" disabled="true" id="Update_Personnes_Attributs_37" label="Modifier" oncommand="Update_Personnes_Attributs_37()" />
+    <button class="delete-button16" disabled="true" id="Delete_Personnes_Attributs_37" label="Supprimer" oncommand="Delete_Personnes_Attributs_37()" />
+    <button class="accept-button16" id="Validate_Personnes_Attributs_37" label="Valider" oncommand="Validate_Personnes_Attributs_37()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Personnes_Attributs_37" label="Annuler" oncommand="Annuler_Personnes_Attributs_37()"  disabled="true" />
 </arrowscrollbox>
 </vbox>
 </hbox>
 </tabpanel>
 <tabpanel flex="1">
 <hbox flex="1">
-<vbox id="Personnes_Devis_40" flex="1"/>
+<vbox id="Personnes_Devis_41" flex="1"/>
 </hbox>
 </tabpanel>
 <tabpanel flex="1">
 <hbox flex="1">
-<vbox id="Personnes_Factures_41" flex="1"/>
+<vbox id="Personnes_Factures_42" flex="1"/>
 </hbox>
 </tabpanel>
 <tabpanel flex="1">
 <hbox flex="1">
-<vbox id="Personnes_Réglements_42" flex="1"/>
+<vbox id="Personnes_Réglements_43" flex="1"/>
 </hbox>
 </tabpanel>
 <tabpanel flex="1">
 <hbox flex="1">
-<vbox id="Personnes_Routages_43" flex="1"/>
+<vbox id="Personnes_Routages_44" flex="1"/>
 <splitter collapse="before"> <grippy/> </splitter>
 <vbox flex="1" style="overflow:auto">
-<vbox flex="1" id="Personnes_Routages_43_Slaves"/>
+<vbox flex="1" id="Personnes_Routages_44_Slaves"/>
 <arrowscrollbox  pack="end" align="stretch" class="fondstyle">
-    <button class="new-button16" disabled="true" id="Insert_Personnes_Routages_43" label="Ajouter" oncommand="Insert_Personnes_Routages_43()" hidden='true'/>
-    <button class="edit-button16" disabled="true" id="Update_Personnes_Routages_43" label="Modifier" oncommand="Update_Personnes_Routages_43()" />
-    <button class="delete-button16" disabled="true" id="Delete_Personnes_Routages_43" label="Supprimer" oncommand="Delete_Personnes_Routages_43()" />
-    <button class="accept-button16" id="Validate_Personnes_Routages_43" label="Valider" oncommand="Validate_Personnes_Routages_43()"  disabled="true" />
-    <button class="cancel-button16" id="Annuler_Personnes_Routages_43" label="Annuler" oncommand="Annuler_Personnes_Routages_43()"  disabled="true" />
+    <button class="new-button16" disabled="true" id="Insert_Personnes_Routages_44" label="Ajouter" oncommand="Insert_Personnes_Routages_44()" hidden='true'/>
+    <button class="edit-button16" disabled="true" id="Update_Personnes_Routages_44" label="Modifier" oncommand="Update_Personnes_Routages_44()" />
+    <button class="delete-button16" disabled="true" id="Delete_Personnes_Routages_44" label="Supprimer" oncommand="Delete_Personnes_Routages_44()" />
+    <button class="accept-button16" id="Validate_Personnes_Routages_44" label="Valider" oncommand="Validate_Personnes_Routages_44()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Personnes_Routages_44" label="Annuler" oncommand="Annuler_Personnes_Routages_44()"  disabled="true" />
 </arrowscrollbox>
 </vbox>
 </hbox>
@@ -241,8 +241,8 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Enregistrer une cotisation JA" oncommand="AjouterJA(TAB_GLOBAL_COMPO[404]);"/>
-    <button label="Envoyer son mot de passe pour le site fdsea33.fr" oncommand="EnvoyerPassword(TAB_GLOBAL_COMPO[404]);"/>
+    <button label="Enregistrer une cotisation JA" oncommand="AjouterJA(TAB_GLOBAL_COMPO[3]);"/>
+    <button label="Envoyer son mot de passe pour le site fdsea33.fr" oncommand="EnvoyerPassword(TAB_GLOBAL_COMPO[3]);"/>
   </arrowscrollbox>
 </hbox>
 </vbox>
@@ -281,10 +281,10 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Passer le devis en facture" oncommand="DevisVersFacture(TAB_GLOBAL_COMPO[508]);"/>
-    <button label="Imprimer le devis" oncommand="Imprimer(TAB_GLOBAL_COMPO[508],'devis');"/>
-    <button label="Recalculer le taux de réduction" oncommand="MajReductionDevis(TAB_GLOBAL_COMPO[508]);"/>
-    <button label="Saisir le taux de réduction" oncommand="SaisirReductionDevis(this,TAB_GLOBAL_COMPO[508]);"/>
+    <button label="Passer le devis en facture" oncommand="DevisVersFacture(TAB_GLOBAL_COMPO[108]);"/>
+    <button label="Imprimer le devis" oncommand="Imprimer(TAB_GLOBAL_COMPO[108],'devis');"/>
+    <button label="Recalculer le taux de réduction" oncommand="MajReductionDevis(TAB_GLOBAL_COMPO[108]);"/>
+    <button label="Saisir le taux de réduction" oncommand="SaisirReductionDevis(this,TAB_GLOBAL_COMPO[108]);"/>
   </arrowscrollbox>
   <hbox pack="end" align="center">
     <separator class="groove"/>
@@ -365,15 +365,15 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Passer en avoir" oncommand="FactureVersAvoir(TAB_GLOBAL_COMPO[531]);"/>
-    <button label="En perte" oncommand="FactureEnPerte(TAB_GLOBAL_COMPO[531]);"/>
-    <button label="Imprimer" oncommand="Imprimer(TAB_GLOBAL_COMPO[531],'facture');"/>
+    <button label="Passer en avoir" oncommand="FactureVersAvoir(TAB_GLOBAL_COMPO[131]);"/>
+    <button label="En perte" oncommand="FactureEnPerte(TAB_GLOBAL_COMPO[131]);"/>
+    <button label="Imprimer" oncommand="Imprimer(TAB_GLOBAL_COMPO[131],'facture');"/>
     <button label="Factures CM" oncommand="PrintLot(1,'facture');"/>
     <button label="Cartes CM" oncommand="PrintLot(1,'carte');"/>
-    <button label="Carte (Duplicata)" oncommand="PrintDuplicata(TAB_GLOBAL_COMPO[531]);"/>
-    <button label="Router un groupe..." oncommand="GroupeRoutage(TAB_GLOBAL_COMPO[531]);"/>
-    <button label="Supprimer les routages" oncommand="SupprimeRoutage(TAB_GLOBAL_COMPO[531]);"/>
-    <button label="Imprimer Pub" oncommand="Imprimer(TAB_GLOBAL_COMPO[531],'facture-publicite');"/>
+    <button label="Carte (Duplicata)" oncommand="PrintDuplicata(TAB_GLOBAL_COMPO[131]);"/>
+    <button label="Router un groupe..." oncommand="GroupeRoutage(TAB_GLOBAL_COMPO[131]);"/>
+    <button label="Supprimer les routages" oncommand="SupprimeRoutage(TAB_GLOBAL_COMPO[131]);"/>
+    <button label="Imprimer Pub" oncommand="Imprimer(TAB_GLOBAL_COMPO[131],'facture-publicite');"/>
   </arrowscrollbox>
   <hbox pack="end" align="center">
     <separator class="groove"/>
@@ -406,7 +406,7 @@
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
     <button label="Mettre à jour les adhésions" oncommand="MiseAJourAdhesion();"/>
-    <button label="Imprimer l'avoir" oncommand="Imprimer(TAB_GLOBAL_COMPO[576],'avoir');"/>
+    <button label="Imprimer l'avoir" oncommand="Imprimer(TAB_GLOBAL_COMPO[176],'avoir');"/>
   </arrowscrollbox>
   <hbox pack="end" align="center">
     <separator class="groove"/>
@@ -504,7 +504,7 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Imprimer le bordereau" oncommand="Imprimer(TAB_GLOBAL_COMPO[626],'bordereau');"/>
+    <button label="Imprimer le bordereau" oncommand="Imprimer(TAB_GLOBAL_COMPO[226],'bordereau');"/>
   </arrowscrollbox>
 </hbox>
 </vbox>

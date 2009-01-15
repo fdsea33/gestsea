@@ -22,6 +22,7 @@ CREATE INDEX idx_table_adresse_ak_numero ON table_adresse(ak_numero);
 CREATE INDEX idx_table_adresse_cp_numero ON table_adresse(cp_numero);
 CREATE INDEX idx_table_adresse_vi_numero ON table_adresse(vi_numero);
 CREATE INDEX idx_table_adresse_pe_numero ON table_adresse(pe_numero);
+CREATE INDEX idx_table_adresse_ct_numero ON table_adresse(ct_numero);
 CREATE INDEX idx_table_adresseversion_ad_numero ON table_adresseversion(ad_numero);
 CREATE INDEX idx_table_adresseversion_ak_numero ON table_adresseversion(ak_numero);
 CREATE INDEX idx_table_adresseversion_cp_numero ON table_adresseversion(cp_numero);
@@ -420,6 +421,11 @@ ALTER TABLE "table_adresse"
 ALTER TABLE "table_adresse"
   ADD CONSTRAINT fk_table_adresse_pe_numero
   FOREIGN KEY (pe_numero) REFERENCES table_Personne(PE_Numero)
+    ON DELETE RESTRICT 
+    ON UPDATE RESTRICT;
+ALTER TABLE "table_adresse"
+  ADD CONSTRAINT fk_table_adresse_ct_numero
+  FOREIGN KEY (ct_numero) REFERENCES table_Canton(CT_Numero)
     ON DELETE RESTRICT 
     ON UPDATE RESTRICT;
 ALTER TABLE "table_adresseversion"

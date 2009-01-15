@@ -10,6 +10,9 @@ CREATE OR REPLACE VIEW VUE_Historique AS
        CASE WHEN p.pe_numero IN (select pe_numero from table_cotisation where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-1 AND BML_EXTRACT(cs_detail,'fdsea.forfait.produit')::integer IN (500000124,500000053)) THEN 'X' ELSE '' END AS "Bailleur",
        CASE WHEN p.pe_numero IN (select pe_numero from table_cotisation where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-1 AND BML_EXTRACT(cs_detail,'fdsea.forfait.produit')::integer IN (500000054,500000124,500000150)) THEN 'X' ELSE '' END AS "Ancien",
        CASE WHEN p.pe_numero IN (select pe_numero from table_cotisation where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-1 AND cs_nature='ja') THEN 'X' ELSE '' END AS "J.A.",
+-- G.S.
+       CASE WHEN p.pe_numero IN (select pe_numero from table_cotisation where cs_annee>=EXTRACT(YEAR FROM CURRENT_DATE)-1 AND cs_nature='gs') THEN 'X' ELSE '' END AS "J.A.",
+
        CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=1997) THEN 'X' else '' END as "97",
        CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=1998) THEN 'X' else '' END as "98",
        CASE WHEN p.pe_numero in (select pe_numero from vue_cotisation_all where cs_annee=1999) THEN 'X' else '' END as "99",
@@ -48,8 +51,8 @@ CREATE OR REPLACE VIEW VUE_Historique AS
   from table_personne AS p
        left join table_adresse AS a on (a.pe_numero=p.pe_numero AND ad_active IS NOT FALSE)
        left join table_codepostal using (cp_numero)
-       left join table_ville using (vi_numero)
-       left join table_canton using (ct_numero)
+       left join table_ville AS v using (vi_numero)
+       left join table_canton AS c ON (c.ct_numero=COALESCE(a.ct_numero,v.ct_numero))
        left join table_contact AS email ON (p.pe_numero=email.pe_numero AND email.cn_actif IS NOT FALSE AND email.ck_numero=104)
        left join table_contact AS fax   ON (p.pe_numero=fax.pe_numero   AND fax.cn_actif   IS NOT FALSE AND fax.ck_numero=105)
        left join table_contact AS port  ON (p.pe_numero=port.pe_numero  AND port.cn_actif  IS NOT FALSE AND port.ck_numero=106)
@@ -117,8 +120,8 @@ CREATE OR REPLACE VIEW VUE_Historique2 AS
   from table_personne AS p
        left join table_adresse AS a on (a.pe_numero=p.pe_numero AND ad_active IS NOT FALSE)
        left join table_codepostal using (cp_numero)
-       left join table_ville using (vi_numero)
-       left join table_canton using (ct_numero)
+       left join table_ville AS v using (vi_numero)
+       left join table_canton AS c ON (c.ct_numero=COALESCE(a.ct_numero,v.ct_numero))
        left join table_contact AS email ON (p.pe_numero=email.pe_numero AND email.cn_actif IS NOT FALSE AND email.ck_numero=104)
        left join table_contact AS fax   ON (p.pe_numero=fax.pe_numero   AND fax.cn_actif   IS NOT FALSE AND fax.ck_numero=105)
        left join table_contact AS port  ON (p.pe_numero=port.pe_numero  AND port.cn_actif  IS NOT FALSE AND port.ck_numero=106)
