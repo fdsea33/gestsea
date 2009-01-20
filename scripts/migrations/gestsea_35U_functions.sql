@@ -1909,3 +1909,40 @@ $$ LANGUAGE 'plpgsql';
 
 
 
+
+CREATE OR REPLACE FUNCTION FC_personne_create(IN Titre VARCHAR, IN nom VARCHAR, IN prenom VARCHAR, IN ad1 VARCHAR, IN ad2 VARCHAR, IN cp VARCHAR, IN city VARCHAR) RETURNS INTEGER AS
+$$
+DECLARE
+  num_nature INTEGER;
+  num_cp INTEGER;
+  num_ville INTEGER;
+  id INTEGER;
+BEGIN
+  SELECT np_numero FROM naturepersonne WHERE np_abrev ilike titre OR np_nom ilike titre INTO num_nature;
+  IF num_nature IS NULL THEN
+    RAISE EXCEPTION 'Nature de personne inconnue : %', titre;
+  END IF;
+
+  SELECT cp_numero FROM codepostal WHERE cp_codepostal ilike cp INTO num_cp;
+  IF num_cp IS NULL THEN
+    RAISE EXCEPTION 'Code postal inconnu : %', cp;
+  END IF;
+
+  SELECT vi_numero FROM ville left join villecp using (vi_numero) WHERE (city ilike vi_nom OR REPLACE(city,'SAINT', 'ST') ILIKE vi_nom) AND cp_numero=num_cp INTO num_ville;
+  IF num_ville IS NULL THEN
+    RAISE EXCEPTION 'Ville inconnue : %', city;
+  END IF;
+
+  SELECT pe_numero FROM personne LEFT JOIN adresse using (pe_numero) WHERE np_numero=num_nature AND pe_nom ILIKE nom AND pe_prenom ILIKE prenom AND ad_lignes ILIKE '%'||REPLACE(COALESCE(ad1,''),' ','%')||'%'||REPLACE(COALESCE(ad2,''),' ','%')||'%' AND cp_numero=num_cp AND vi_numero=num_ville INTO id;
+  IF id IS NOT NULL THEN
+    RAISE NOTICE 'La personne % (%, %, %, %, %, %, %) semble être identique à la personne que vous voulez créer.', id, titre, nom, prenom, ad1, ad2, cp, city;
+  ELSE
+    SELECT nextval('seq_personne') INTO id;
+    INSERT INTO personne (pe_numero, np_numero, pe_nom, pe_prenom) VALUES (id, num_nature, nom, prenom);
+    INSERT INTO adresse (pe_numero, ad_ligne4, ad_ligne5, cp_numero, vi_numero) VALUES (id, ad1, ad2, num_cp, num_ville);
+  END IF;
+  RETURN id;
+END;
+$$ LANGUAGE 'plpgsql';
+
+

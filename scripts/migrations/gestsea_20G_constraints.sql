@@ -1104,6 +1104,7 @@ ALTER TABLE "table_adhesion" ALTER "created_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_adhesion" ALTER "updated_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_adhesion" ALTER "updated_by" SET DEFAULT CURRENT_USER;
 ALTER TABLE "table_adhesion" ALTER "lock_version" SET DEFAULT 0;
+ALTER TABLE "table_adresse" ALTER "ad_numero" SET DEFAULT nextval('seq_adresse');
 ALTER TABLE "table_adresse" ALTER "ad_default" SET DEFAULT false;
 ALTER TABLE "table_adresse" ALTER "ad_active" SET DEFAULT true;
 ALTER TABLE "table_adresse" ALTER "ad_ligne2" SET DEFAULT NULL;

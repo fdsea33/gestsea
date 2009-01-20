@@ -35,7 +35,7 @@
 
 
   <table name="Adresse" abbrev="AD" label="Adresses" select="(pe_numero-1000000)||'. '||COALESCE(Ad_Ligne2||', ','')||COALESCE(Ad_Ligne3||', ','')||COALESCE(Ad_Ligne4||', ','')||COALESCE(Ad_Ligne5||', ','')||CP_CodePostal||' '||VI_Nom AS AD_Libelle, COALESCE(Ad_Ligne2,'')||';'||COALESCE(Ad_Ligne3,'')||';'||COALESCE(Ad_Ligne4,'')||';'||COALESCE(Ad_Ligne5,'')||';'||CP_CodePostal||';'||VI_Nom AS AD_CSV, CASE WHEN AD_Default THEN 'Def.' ELSE '' END AS AD_Def, COALESCE(Ad_Ligne2||'#','')||COALESCE(Ad_Ligne3||'#','')||COALESCE(Ad_Ligne4||'#','')||COALESCE(Ad_Ligne5,'') AS AD_Lignes, COALESCE(###_Adresse.CT_Numero, VI.CT_Numero) AS AD_Canton" from="JOIN ###_CodePostal AS CP USING (CP_Numero) JOIN ###_Ville AS VI USING (VI_Numero)" where="AD_Active">
-    <column name="AD_Numero"     type="INTEGER"      notnull="true" pkey="true">Clef primaire</column>
+    <column name="AD_Numero"     type="INTEGER"      notnull="true" pkey="true" default="nextval('seq_adresse')">Clef primaire</column>
     <column name="AK_Numero"     type="INTEGER"      notnull="true" fkey="TypeAdresse(AK_Numero)" opt="odrour">Lien vers le type d'adresse</column>
     <column name="CP_Numero"     type="INTEGER"      notnull="true" fkey="CodePostal(CP_Numero)" opt="odrour">Lien vers le code postal</column>
     <column name="VI_Numero"     type="INTEGER"      notnull="true" fkey="Ville(VI_Numero)"      opt="odrour">Lien vers la ville</column>
