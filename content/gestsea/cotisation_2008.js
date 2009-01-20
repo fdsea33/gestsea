@@ -230,10 +230,18 @@ elem("wg-status-text").label = 'Fonctions env';
 function wg_onload() {
 
   pgsql_init(true);
+
   if (!pgsql_getConnectionState()){
     window.close();
     return false;
   }
+
+  if (requete("SELECT CASE WHEN usesuper THEN 1 ELSE 0 END FROM pg_user WHERE usename=CURRENT_USER;") !== 1) {
+    alert("Vous n'avez pas le droit d'utiliser l'application");
+    window.close();
+    return false;
+  }
+
   
   num_employe=requete("SELECT em_numero FROM employe  WHERE em_login=current_user;");
   num_service=requete("SELECT em_service FROM employe WHERE em_login=current_user;");
@@ -428,7 +436,7 @@ function wg_journal_load_adresses() {
 
 function wg_cotisation_load(personne, annee) {
   var c;
-  elem("wg-reglement-date").value = '01/01/2008';
+  elem("wg-reglement-date").value = '01/01/2009';
   elem("wg-reglement-banque").value = '';
   elem("wg-reglement-compte").value = '';
   elem("wg-reglement-mode").selectedIndex = 0;

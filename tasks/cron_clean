@@ -1,0 +1,15 @@
+#!/bin/bash
+old=Ancien
+dir=/home/groupes/commun
+d=`date +%Y%m%d_%H%M`
+cd $dir
+mkdir $old
+mkdir $old/M-1
+mkdir $old/M-2
+mkdir $old/M-3
+mkdir $old/M-N
+rm -fr $old/M-3/*
+mv -f $old/M-2/* $old/M-3/
+mv -f $old/M-1/* $old/M-2/
+mv -f *.* $old/M-1/
+tar cjvf $old/M-N/month_$d.bz2 $old/M-1/*

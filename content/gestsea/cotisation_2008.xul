@@ -432,9 +432,9 @@
             </radiogroup>
             <hbox align="center">
               <label value="Début"/>
-              <textbox id="wg-journal-debut" width="50" value="778" oninput="checkbox_check('wg-journal-checkbox',true); elem('wg-journal-fin').value = this.value*1+21;"/>
+              <textbox id="wg-journal-debut" width="50" value="800" oninput="checkbox_check('wg-journal-checkbox',true); elem('wg-journal-fin').value = this.value*1+21;"/>
               <label value="Fin"/>
-              <textbox id="wg-journal-fin" width="50"  value="799" oninput="checkbox_check('wg-journal-checkbox',true);"/>
+              <textbox id="wg-journal-fin" width="50"  value="821" oninput="checkbox_check('wg-journal-checkbox',true);"/>
               <label value="Nb. Ex."/>
               <textbox id="wg-journal-nbex" width="50" value="1" oninput="checkbox_check('wg-journal-checkbox',true);"/>
             </hbox>
