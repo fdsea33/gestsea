@@ -20,7 +20,7 @@ CREATE OR REPLACE VIEW "groupetable" AS
      FROM "table_groupetable";
 
 CREATE OR REPLACE VIEW "employe" AS
-   SELECT table_employe.em_numero, table_employe.dp_numero, table_employe.em_emploi, table_employe.em_service, table_employe.em_agent, table_employe.em_login, table_employe.em_reglement, table_employe.em_self_invoicing, table_employe.em_service_invoicing, table_employe.em_societe_invoicing, table_employe.em_personne_editing, table_employe.em_acces, table_employe.em_password, table_employe.em_super, table_employe.created_at, table_employe.created_by, table_employe.updated_at, table_employe.updated_by, table_employe.lock_version, table_employe.id, AG_Prenom||' '||AG_Nom||' (Service '||SE_Nom||')' AS EM_Libelle 
+   SELECT table_employe.em_numero, table_employe.dp_numero, table_employe.em_emploi, table_employe.em_service, table_employe.em_agent, table_employe.em_login, table_employe.em_reglement, table_employe.em_self_invoicing, table_employe.em_service_invoicing, table_employe.em_societe_invoicing, table_employe.em_personne_editing, table_employe.em_cancel_invoice, table_employe.em_acces, table_employe.em_password, table_employe.em_super, table_employe.created_at, table_employe.created_by, table_employe.updated_at, table_employe.updated_by, table_employe.lock_version, table_employe.id, AG_Prenom||' '||AG_Nom||' (Service '||SE_Nom||')' AS EM_Libelle 
      FROM "table_employe" JOIN table_Agent ON (EM_Agent=AG_Numero) JOIN table_Service ON (EM_Service=SE_Numero)
     ORDER BY AG_Nom, AG_Prenom;
 
@@ -200,18 +200,8 @@ CREATE OR REPLACE VIEW "lignefacture" AS
     WHERE SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
 
 CREATE OR REPLACE VIEW "facture" AS
-   SELECT table_facture.fa_numero, table_facture.de_numero, table_facture.pe_numero, table_facture.ag_numero, table_facture.fa_numfact, table_facture.fa_date, table_facture.fa_perte, table_facture.fa_next_reflation_on, table_facture.fa_penalty, ROUND(table_facture.fa_reduction,2) AS fa_reduction, ROUND(table_facture.fa_montantht,2) AS fa_montantht, ROUND(table_facture.fa_montantttc,2) AS fa_montantttc, ROUND(table_facture.fa_accompte,2) AS fa_accompte, table_facture.ad_numero, table_facture.fa_annotation, table_facture.fa_libelle, table_facture.so_numero, table_facture.created_at, table_facture.created_by, table_facture.updated_at, table_facture.updated_by, table_facture.lock_version, table_facture.id, CASE WHEN fa_perte THEN 'En perte' ELSE 'normal' END AS fa_etat 
+   SELECT table_facture.fa_numero, table_facture.de_numero, table_facture.pe_numero, table_facture.ag_numero, table_facture.fa_numfact, table_facture.fa_date, table_facture.fa_avoir, table_facture.fa_avoir_facture, table_facture.fa_perte, table_facture.fa_next_reflation_on, table_facture.fa_penalty, ROUND(table_facture.fa_reduction,2) AS fa_reduction, ROUND(table_facture.fa_montantht,2) AS fa_montantht, ROUND(table_facture.fa_montantttc,2) AS fa_montantttc, ROUND(table_facture.fa_accompte,2) AS fa_accompte, table_facture.ad_numero, table_facture.fa_annotation, table_facture.fa_libelle, table_facture.so_numero, table_facture.created_at, table_facture.created_by, table_facture.updated_at, table_facture.updated_by, table_facture.lock_version, table_facture.id, CASE WHEN fa_avoir THEN 'Avoir' WHEN fa_perte THEN 'En perte' ELSE 'Normal' END AS fa_etat 
      FROM "table_facture" 
-    WHERE SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
-
-CREATE OR REPLACE VIEW "ligneavoir" AS
-   SELECT table_ligneavoir.la_numero, table_ligneavoir.pd_numero, table_ligneavoir.av_numero, table_ligneavoir.px_numero, ROUND(table_ligneavoir.la_quantite,2) AS la_quantite, table_ligneavoir.pe_numero, ROUND(table_ligneavoir.la_montantht,2) AS la_montantht, ROUND(table_ligneavoir.la_montantttc,2) AS la_montantttc, table_ligneavoir.la_notes, table_ligneavoir.created_at, table_ligneavoir.created_by, table_ligneavoir.updated_at, table_ligneavoir.updated_by, table_ligneavoir.lock_version, table_ligneavoir.id 
-     FROM "table_ligneavoir" JOIN table_Produit USING (PD_Numero) 
-    WHERE SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
-
-CREATE OR REPLACE VIEW "avoir" AS
-   SELECT DISTINCT table_avoir.av_numero, table_avoir.pe_numero, table_avoir.fa_numero, table_avoir.av_numfact, table_avoir.av_date, ROUND(table_avoir.av_montantht,2) AS av_montantht, ROUND(table_avoir.av_montantttc,2) AS av_montantttc, ROUND(table_avoir.av_reduction,2) AS av_reduction, table_avoir.created_at, table_avoir.created_by, table_avoir.updated_at, table_avoir.updated_by, table_avoir.lock_version, table_avoir.id 
-     FROM "table_avoir" JOIN table_LigneAvoir USING (AV_Numero) JOIN table_Produit USING (PD_Numero) 
     WHERE SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
 
 CREATE OR REPLACE VIEW "routage" AS
@@ -479,16 +469,6 @@ CREATE OR REPLACE RULE rule_attribut_delete AS
   ON DELETE TO "attribut"
   DO INSTEAD DELETE FROM "table_attribut" WHERE old.AT_Numero=AT_Numero;
 
-CREATE OR REPLACE RULE rule_avoir_insert AS
-  ON INSERT TO "avoir"
-  DO INSTEAD INSERT INTO "table_avoir"(av_numero, pe_numero, fa_numero, av_numfact, av_date, av_montantht, av_montantttc, av_reduction, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (new.av_numero, new.pe_numero, new.fa_numero, new.av_numfact, COALESCE(NEW.av_date,CURRENT_DATE), ROUND(new.av_montantht,2), ROUND(new.av_montantttc,2), ROUND(new.av_reduction,2), CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
-CREATE OR REPLACE RULE rule_avoir_update AS
-  ON UPDATE TO "avoir"
-  DO INSTEAD UPDATE "table_avoir" SET av_numero=new.av_numero, pe_numero=new.pe_numero, fa_numero=new.fa_numero, av_numfact=new.av_numfact, av_date=COALESCE(NEW.av_date,CURRENT_DATE), av_montantht=ROUND(new.av_montantht,2), av_montantttc=ROUND(new.av_montantttc,2), av_reduction=ROUND(new.av_reduction,2), created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.AV_Numero=AV_Numero;
-CREATE OR REPLACE RULE rule_avoir_delete AS
-  ON DELETE TO "avoir"
-  DO INSTEAD DELETE FROM "table_avoir" WHERE old.AV_Numero=AV_Numero;
-
 CREATE OR REPLACE RULE rule_canton_insert AS
   ON INSERT TO "canton"
   DO INSTEAD INSERT INTO "table_canton"(ct_numero, ct_nom, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (new.ct_numero, new.ct_nom, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
@@ -641,10 +621,10 @@ CREATE OR REPLACE RULE rule_ecriture_delete AS
 
 CREATE OR REPLACE RULE rule_employe_insert AS
   ON INSERT TO "employe"
-  DO INSTEAD INSERT INTO "table_employe"(em_numero, dp_numero, em_emploi, em_service, em_agent, em_login, em_reglement, em_self_invoicing, em_service_invoicing, em_societe_invoicing, em_personne_editing, em_acces, em_password, em_super, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (new.em_numero, new.dp_numero, new.em_emploi, new.em_service, new.em_agent, new.em_login, COALESCE(NEW.em_reglement,false), COALESCE(NEW.em_self_invoicing,true), COALESCE(NEW.em_service_invoicing,false), COALESCE(NEW.em_societe_invoicing,false), COALESCE(NEW.em_personne_editing,false), new.em_acces, new.em_password, COALESCE(NEW.em_super,false), CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
+  DO INSTEAD INSERT INTO "table_employe"(em_numero, dp_numero, em_emploi, em_service, em_agent, em_login, em_reglement, em_self_invoicing, em_service_invoicing, em_societe_invoicing, em_personne_editing, em_cancel_invoice, em_acces, em_password, em_super, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (new.em_numero, new.dp_numero, new.em_emploi, new.em_service, new.em_agent, new.em_login, COALESCE(NEW.em_reglement,false), COALESCE(NEW.em_self_invoicing,true), COALESCE(NEW.em_service_invoicing,false), COALESCE(NEW.em_societe_invoicing,false), COALESCE(NEW.em_personne_editing,false), COALESCE(NEW.em_cancel_invoice,false), new.em_acces, new.em_password, COALESCE(NEW.em_super,false), CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
 CREATE OR REPLACE RULE rule_employe_update AS
   ON UPDATE TO "employe"
-  DO INSTEAD UPDATE "table_employe" SET em_numero=new.em_numero, dp_numero=new.dp_numero, em_emploi=new.em_emploi, em_service=new.em_service, em_agent=new.em_agent, em_login=new.em_login, em_reglement=COALESCE(NEW.em_reglement,false), em_self_invoicing=COALESCE(NEW.em_self_invoicing,true), em_service_invoicing=COALESCE(NEW.em_service_invoicing,false), em_societe_invoicing=COALESCE(NEW.em_societe_invoicing,false), em_personne_editing=COALESCE(NEW.em_personne_editing,false), em_acces=new.em_acces, em_password=new.em_password, em_super=COALESCE(NEW.em_super,false), created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.EM_Numero=EM_Numero;
+  DO INSTEAD UPDATE "table_employe" SET em_numero=new.em_numero, dp_numero=new.dp_numero, em_emploi=new.em_emploi, em_service=new.em_service, em_agent=new.em_agent, em_login=new.em_login, em_reglement=COALESCE(NEW.em_reglement,false), em_self_invoicing=COALESCE(NEW.em_self_invoicing,true), em_service_invoicing=COALESCE(NEW.em_service_invoicing,false), em_societe_invoicing=COALESCE(NEW.em_societe_invoicing,false), em_personne_editing=COALESCE(NEW.em_personne_editing,false), em_cancel_invoice=COALESCE(NEW.em_cancel_invoice,false), em_acces=new.em_acces, em_password=new.em_password, em_super=COALESCE(NEW.em_super,false), created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.EM_Numero=EM_Numero;
 CREATE OR REPLACE RULE rule_employe_delete AS
   ON DELETE TO "employe"
   DO INSTEAD DELETE FROM "table_employe" WHERE old.EM_Numero=EM_Numero;
@@ -701,10 +681,10 @@ CREATE OR REPLACE RULE rule_exercice_delete AS
 
 CREATE OR REPLACE RULE rule_facture_insert AS
   ON INSERT TO "facture"
-  DO INSTEAD INSERT INTO "table_facture"(fa_numero, de_numero, pe_numero, ag_numero, fa_numfact, fa_date, fa_perte, fa_next_reflation_on, fa_penalty, fa_reduction, fa_montantht, fa_montantttc, fa_accompte, ad_numero, fa_annotation, fa_libelle, so_numero, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (new.fa_numero, new.de_numero, new.pe_numero, new.ag_numero, new.fa_numfact, COALESCE(NEW.fa_date,CURRENT_DATE), COALESCE(NEW.fa_perte,false), COALESCE(NEW.fa_next_reflation_on,'0001-01-01'), new.fa_penalty, ROUND(COALESCE(NEW.fa_reduction,0),2), ROUND(COALESCE(NEW.fa_montantht,0),2), ROUND(COALESCE(NEW.fa_montantttc,0),2), ROUND(new.fa_accompte,2), new.ad_numero, new.fa_annotation, new.fa_libelle, COALESCE(NEW.so_numero,current_societe()), CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
+  DO INSTEAD INSERT INTO "table_facture"(fa_numero, de_numero, pe_numero, ag_numero, fa_numfact, fa_date, fa_avoir, fa_avoir_facture, fa_perte, fa_next_reflation_on, fa_penalty, fa_reduction, fa_montantht, fa_montantttc, fa_accompte, ad_numero, fa_annotation, fa_libelle, so_numero, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (COALESCE(NEW.fa_numero,nextval('seq_facture')), new.de_numero, new.pe_numero, new.ag_numero, new.fa_numfact, COALESCE(NEW.fa_date,CURRENT_DATE), COALESCE(NEW.fa_avoir,false), new.fa_avoir_facture, COALESCE(NEW.fa_perte,false), COALESCE(NEW.fa_next_reflation_on,'0001-01-01'), new.fa_penalty, ROUND(COALESCE(NEW.fa_reduction,0),2), ROUND(COALESCE(NEW.fa_montantht,0),2), ROUND(COALESCE(NEW.fa_montantttc,0),2), ROUND(new.fa_accompte,2), new.ad_numero, new.fa_annotation, new.fa_libelle, COALESCE(NEW.so_numero,current_societe()), CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
 CREATE OR REPLACE RULE rule_facture_update AS
   ON UPDATE TO "facture"
-  DO INSTEAD UPDATE "table_facture" SET fa_numero=new.fa_numero, de_numero=new.de_numero, pe_numero=new.pe_numero, ag_numero=new.ag_numero, fa_numfact=new.fa_numfact, fa_date=COALESCE(NEW.fa_date,CURRENT_DATE), fa_perte=COALESCE(NEW.fa_perte,false), fa_next_reflation_on=COALESCE(NEW.fa_next_reflation_on,'0001-01-01'), fa_penalty=new.fa_penalty, fa_reduction=ROUND(COALESCE(NEW.fa_reduction,0),2), fa_montantht=ROUND(COALESCE(NEW.fa_montantht,0),2), fa_montantttc=ROUND(COALESCE(NEW.fa_montantttc,0),2), fa_accompte=ROUND(new.fa_accompte,2), ad_numero=new.ad_numero, fa_annotation=new.fa_annotation, fa_libelle=new.fa_libelle, so_numero=COALESCE(NEW.so_numero,current_societe()), created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.FA_Numero=FA_Numero;
+  DO INSTEAD UPDATE "table_facture" SET fa_numero=COALESCE(NEW.fa_numero,nextval('seq_facture')), de_numero=new.de_numero, pe_numero=new.pe_numero, ag_numero=new.ag_numero, fa_numfact=new.fa_numfact, fa_date=COALESCE(NEW.fa_date,CURRENT_DATE), fa_avoir=COALESCE(NEW.fa_avoir,false), fa_avoir_facture=new.fa_avoir_facture, fa_perte=COALESCE(NEW.fa_perte,false), fa_next_reflation_on=COALESCE(NEW.fa_next_reflation_on,'0001-01-01'), fa_penalty=new.fa_penalty, fa_reduction=ROUND(COALESCE(NEW.fa_reduction,0),2), fa_montantht=ROUND(COALESCE(NEW.fa_montantht,0),2), fa_montantttc=ROUND(COALESCE(NEW.fa_montantttc,0),2), fa_accompte=ROUND(new.fa_accompte,2), ad_numero=new.ad_numero, fa_annotation=new.fa_annotation, fa_libelle=new.fa_libelle, so_numero=COALESCE(NEW.so_numero,current_societe()), created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.FA_Numero=FA_Numero;
 CREATE OR REPLACE RULE rule_facture_delete AS
   ON DELETE TO "facture"
   DO INSTEAD DELETE FROM "table_facture" WHERE old.FA_Numero=FA_Numero;
@@ -828,16 +808,6 @@ CREATE OR REPLACE RULE rule_ligne_update AS
 CREATE OR REPLACE RULE rule_ligne_delete AS
   ON DELETE TO "ligne"
   DO INSTEAD DELETE FROM "table_ligne" WHERE old.L_Numero=L_Numero;
-
-CREATE OR REPLACE RULE rule_ligneavoir_insert AS
-  ON INSERT TO "ligneavoir"
-  DO INSTEAD INSERT INTO "table_ligneavoir"(la_numero, pd_numero, av_numero, px_numero, la_quantite, pe_numero, la_montantht, la_montantttc, la_notes, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (new.la_numero, new.pd_numero, new.av_numero, new.px_numero, ROUND(COALESCE(NEW.la_quantite,0),2), new.pe_numero, ROUND(new.la_montantht,2), ROUND(new.la_montantttc,2), new.la_notes, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
-CREATE OR REPLACE RULE rule_ligneavoir_update AS
-  ON UPDATE TO "ligneavoir"
-  DO INSTEAD UPDATE "table_ligneavoir" SET la_numero=new.la_numero, pd_numero=new.pd_numero, av_numero=new.av_numero, px_numero=new.px_numero, la_quantite=ROUND(COALESCE(NEW.la_quantite,0),2), pe_numero=new.pe_numero, la_montantht=ROUND(new.la_montantht,2), la_montantttc=ROUND(new.la_montantttc,2), la_notes=new.la_notes, created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.LA_Numero=LA_Numero;
-CREATE OR REPLACE RULE rule_ligneavoir_delete AS
-  ON DELETE TO "ligneavoir"
-  DO INSTEAD DELETE FROM "table_ligneavoir" WHERE old.LA_Numero=LA_Numero;
 
 CREATE OR REPLACE RULE rule_lignecotisation_insert AS
   ON INSERT TO "lignecotisation"
@@ -1307,8 +1277,6 @@ REVOKE ALL ON "ligne" FROM PUBLIC;
 REVOKE ALL ON "devis" FROM PUBLIC;
 REVOKE ALL ON "lignefacture" FROM PUBLIC;
 REVOKE ALL ON "facture" FROM PUBLIC;
-REVOKE ALL ON "ligneavoir" FROM PUBLIC;
-REVOKE ALL ON "avoir" FROM PUBLIC;
 REVOKE ALL ON "routage" FROM PUBLIC;
 REVOKE ALL ON "service" FROM PUBLIC;
 REVOKE ALL ON "employe" FROM PUBLIC;

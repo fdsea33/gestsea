@@ -237,26 +237,6 @@ function mcd_getType(table,champs)
         default: type=TYPE_UNDEFINED;
       }
       break;
-    case 'table_avoir':
-    case 'avoir':
-      switch(champs.toLowerCase()){
-        case 'av_numero': type=TYPE_INT;break;
-        case 'pe_numero': type=TYPE_INT;break;
-        case 'fa_numero': type=TYPE_INT;break;
-        case 'av_numfact': type=TYPE_INT;break;
-        case 'av_date': type=TYPE_DATE;break;
-        case 'av_montantht': type=TYPE_FLOAT;break;
-        case 'av_montantttc': type=TYPE_FLOAT;break;
-        case 'av_reduction': type=TYPE_FLOAT;break;
-        case 'created_at': type=TYPE_DATETIME;break;
-        case 'created_by': type=TYPE_STRING;break;
-        case 'updated_at': type=TYPE_DATETIME;break;
-        case 'updated_by': type=TYPE_STRING;break;
-        case 'lock_version': type=TYPE_INT;break;
-        case 'id': type=TYPE_UNKNOWN;break;
-        default: type=TYPE_UNDEFINED;
-      }
-      break;
     case 'table_canton':
     case 'canton':
       switch(champs.toLowerCase()){
@@ -563,6 +543,7 @@ function mcd_getType(table,champs)
         case 'em_service_invoicing': type=TYPE_BOOL;break;
         case 'em_societe_invoicing': type=TYPE_BOOL;break;
         case 'em_personne_editing': type=TYPE_BOOL;break;
+        case 'em_cancel_invoice': type=TYPE_BOOL;break;
         case 'em_acces': type=TYPE_INT;break;
         case 'em_password': type=TYPE_STRING;break;
         case 'em_super': type=TYPE_BOOL;break;
@@ -722,6 +703,8 @@ function mcd_getType(table,champs)
         case 'ag_numero': type=TYPE_INT;break;
         case 'fa_numfact': type=TYPE_INT;break;
         case 'fa_date': type=TYPE_DATE;break;
+        case 'fa_avoir': type=TYPE_BOOL;break;
+        case 'fa_avoir_facture': type=TYPE_INT;break;
         case 'fa_perte': type=TYPE_BOOL;break;
         case 'fa_next_reflation_on': type=TYPE_DATE;break;
         case 'fa_penalty': type=TYPE_INT;break;
@@ -940,27 +923,6 @@ function mcd_getType(table,champs)
         case 'l_montantttc': type=TYPE_FLOAT;break;
         case 'px_numero': type=TYPE_INT;break;
         case 'l_notes': type=TYPE_STRING;break;
-        case 'created_at': type=TYPE_DATETIME;break;
-        case 'created_by': type=TYPE_STRING;break;
-        case 'updated_at': type=TYPE_DATETIME;break;
-        case 'updated_by': type=TYPE_STRING;break;
-        case 'lock_version': type=TYPE_INT;break;
-        case 'id': type=TYPE_UNKNOWN;break;
-        default: type=TYPE_UNDEFINED;
-      }
-      break;
-    case 'table_ligneavoir':
-    case 'ligneavoir':
-      switch(champs.toLowerCase()){
-        case 'la_numero': type=TYPE_INT;break;
-        case 'pd_numero': type=TYPE_INT;break;
-        case 'av_numero': type=TYPE_INT;break;
-        case 'px_numero': type=TYPE_INT;break;
-        case 'la_quantite': type=TYPE_FLOAT;break;
-        case 'pe_numero': type=TYPE_INT;break;
-        case 'la_montantht': type=TYPE_FLOAT;break;
-        case 'la_montantttc': type=TYPE_FLOAT;break;
-        case 'la_notes': type=TYPE_STRING;break;
         case 'created_at': type=TYPE_DATETIME;break;
         case 'created_by': type=TYPE_STRING;break;
         case 'updated_at': type=TYPE_DATETIME;break;
@@ -1897,26 +1859,6 @@ function mcd_getLabel(table,champs)
         default: label="";
       }
       break;
-    case 'table_avoir':
-    case 'avoir':
-      switch(champs.toLowerCase()){
-        case 'av_numero': label="";break;
-        case 'pe_numero': label="";break;
-        case 'fa_numero': label="";break;
-        case 'av_numfact': label="";break;
-        case 'av_date': label="";break;
-        case 'av_montantht': label="";break;
-        case 'av_montantttc': label="";break;
-        case 'av_reduction': label="";break;
-        case 'created_at': label="Date de creation";break;
-        case 'created_by': label="Login du createur";break;
-        case 'updated_at': label="Date de mise à jour";break;
-        case 'updated_by': label="Login du modificateur";break;
-        case 'lock_version': label="Numero de version";break;
-        case 'id': label="ID";break;
-        default: label="";
-      }
-      break;
     case 'table_canton':
     case 'canton':
       switch(champs.toLowerCase()){
@@ -2223,6 +2165,7 @@ function mcd_getLabel(table,champs)
         case 'em_service_invoicing': label="";break;
         case 'em_societe_invoicing': label="";break;
         case 'em_personne_editing': label="";break;
+        case 'em_cancel_invoice': label="";break;
         case 'em_acces': label="";break;
         case 'em_password': label="";break;
         case 'em_super': label="";break;
@@ -2382,6 +2325,8 @@ function mcd_getLabel(table,champs)
         case 'ag_numero': label="";break;
         case 'fa_numfact': label="";break;
         case 'fa_date': label="";break;
+        case 'fa_avoir': label="";break;
+        case 'fa_avoir_facture': label="";break;
         case 'fa_perte': label="";break;
         case 'fa_next_reflation_on': label="";break;
         case 'fa_penalty': label="";break;
@@ -2600,27 +2545,6 @@ function mcd_getLabel(table,champs)
         case 'l_montantttc': label="";break;
         case 'px_numero': label="";break;
         case 'l_notes': label="";break;
-        case 'created_at': label="Date de creation";break;
-        case 'created_by': label="Login du createur";break;
-        case 'updated_at': label="Date de mise à jour";break;
-        case 'updated_by': label="Login du modificateur";break;
-        case 'lock_version': label="Numero de version";break;
-        case 'id': label="ID";break;
-        default: label="";
-      }
-      break;
-    case 'table_ligneavoir':
-    case 'ligneavoir':
-      switch(champs.toLowerCase()){
-        case 'la_numero': label="";break;
-        case 'pd_numero': label="";break;
-        case 'av_numero': label="";break;
-        case 'px_numero': label="";break;
-        case 'la_quantite': label="";break;
-        case 'pe_numero': label="";break;
-        case 'la_montantht': label="";break;
-        case 'la_montantttc': label="";break;
-        case 'la_notes': label="";break;
         case 'created_at': label="Date de creation";break;
         case 'created_by': label="Login du createur";break;
         case 'updated_at': label="Date de mise à jour";break;
@@ -3554,26 +3478,6 @@ function mcd_obligatoire(table,champs)
         default: obligatoire=false;
       }
       break;
-    case 'table_avoir':
-    case 'avoir':
-      switch(champs.toLowerCase()){
-        case 'av_numero': obligatoire=true;break;
-        case 'pe_numero': obligatoire=true;break;
-        case 'fa_numero': obligatoire=true;break;
-        case 'av_numfact': obligatoire=true;break;
-        case 'av_date': obligatoire=true;break;
-        case 'av_montantht': obligatoire=false;break;
-        case 'av_montantttc': obligatoire=false;break;
-        case 'av_reduction': obligatoire=false;break;
-        case 'created_at': obligatoire=false;break;
-        case 'created_by': obligatoire=false;break;
-        case 'updated_at': obligatoire=false;break;
-        case 'updated_by': obligatoire=false;break;
-        case 'lock_version': obligatoire=true;break;
-        case 'id': obligatoire=true;break;
-        default: obligatoire=false;
-      }
-      break;
     case 'table_canton':
     case 'canton':
       switch(champs.toLowerCase()){
@@ -3880,6 +3784,7 @@ function mcd_obligatoire(table,champs)
         case 'em_service_invoicing': obligatoire=true;break;
         case 'em_societe_invoicing': obligatoire=true;break;
         case 'em_personne_editing': obligatoire=true;break;
+        case 'em_cancel_invoice': obligatoire=true;break;
         case 'em_acces': obligatoire=true;break;
         case 'em_password': obligatoire=true;break;
         case 'em_super': obligatoire=true;break;
@@ -4039,6 +3944,8 @@ function mcd_obligatoire(table,champs)
         case 'ag_numero': obligatoire=true;break;
         case 'fa_numfact': obligatoire=true;break;
         case 'fa_date': obligatoire=true;break;
+        case 'fa_avoir': obligatoire=true;break;
+        case 'fa_avoir_facture': obligatoire=false;break;
         case 'fa_perte': obligatoire=true;break;
         case 'fa_next_reflation_on': obligatoire=true;break;
         case 'fa_penalty': obligatoire=false;break;
@@ -4257,27 +4164,6 @@ function mcd_obligatoire(table,champs)
         case 'l_montantttc': obligatoire=false;break;
         case 'px_numero': obligatoire=false;break;
         case 'l_notes': obligatoire=false;break;
-        case 'created_at': obligatoire=false;break;
-        case 'created_by': obligatoire=false;break;
-        case 'updated_at': obligatoire=false;break;
-        case 'updated_by': obligatoire=false;break;
-        case 'lock_version': obligatoire=true;break;
-        case 'id': obligatoire=true;break;
-        default: obligatoire=false;
-      }
-      break;
-    case 'table_ligneavoir':
-    case 'ligneavoir':
-      switch(champs.toLowerCase()){
-        case 'la_numero': obligatoire=true;break;
-        case 'pd_numero': obligatoire=true;break;
-        case 'av_numero': obligatoire=true;break;
-        case 'px_numero': obligatoire=true;break;
-        case 'la_quantite': obligatoire=true;break;
-        case 'pe_numero': obligatoire=false;break;
-        case 'la_montantht': obligatoire=false;break;
-        case 'la_montantttc': obligatoire=false;break;
-        case 'la_notes': obligatoire=false;break;
         case 'created_at': obligatoire=false;break;
         case 'created_by': obligatoire=false;break;
         case 'updated_at': obligatoire=false;break;
@@ -5029,8 +4915,6 @@ function mcd_getCle(table)
     case 'appel': champs='AP_Numero';break;
     case 'table_attribut': 
     case 'attribut': champs='AT_Numero';break;
-    case 'table_avoir': 
-    case 'avoir': champs='AV_Numero';break;
     case 'table_canton': 
     case 'canton': champs='CT_Numero';break;
     case 'table_categorie': 
@@ -5099,8 +4983,6 @@ function mcd_getCle(table)
     case 'lieu': champs='ZL_Numero';break;
     case 'table_ligne': 
     case 'ligne': champs='L_Numero';break;
-    case 'table_ligneavoir': 
-    case 'ligneavoir': champs='LA_Numero';break;
     case 'table_lignecotisation': 
     case 'lignecotisation': champs='LC_Numero';break;
     case 'table_lignefacture': 
@@ -5202,7 +5084,6 @@ function mcd_getSequence(t) {
     case 'table_appartienta': case 'appartienta': s='#';break;
     case 'table_appel': case 'appel': s='seq_appel';break;
     case 'table_attribut': case 'attribut': s='seq_attribut';break;
-    case 'table_avoir': case 'avoir': s='seq_avoir';break;
     case 'table_canton': case 'canton': s='seq_canton';break;
     case 'table_categorie': case 'categorie': s='seq_categorie';break;
     case 'table_codepostal': case 'codepostal': s='seq_codepostal';break;
@@ -5237,7 +5118,6 @@ function mcd_getSequence(t) {
     case 'table_lettrage': case 'lettrage': s='seq_lettrage';break;
     case 'table_lieu': case 'lieu': s='seq_lieu';break;
     case 'table_ligne': case 'ligne': s='seq_ligne';break;
-    case 'table_ligneavoir': case 'ligneavoir': s='seq_ligneavoir';break;
     case 'table_lignecotisation': case 'lignecotisation': s='*';break;
     case 'table_lignefacture': case 'lignefacture': s='seq_lignefacture';break;
     case 'table_lignemodele': case 'lignemodele': s='seq_lignemodele';break;

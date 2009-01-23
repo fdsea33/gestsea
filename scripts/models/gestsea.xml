@@ -761,13 +761,15 @@
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
   
-  <table name="Facture" abbrev="FA" label="Factures" select="CASE WHEN fa_perte THEN 'En perte' ELSE 'normal' END AS fa_etat" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
-    <column name="FA_Numero"     type="INTEGER"     notnull="true" pkey="true"></column>
+  <table name="Facture" abbrev="FA" label="Factures" select="CASE WHEN fa_avoir THEN 'Avoir' WHEN fa_perte THEN 'En perte' ELSE 'Normal' END AS fa_etat" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+    <column name="FA_Numero"     type="INTEGER"     notnull="true" pkey="true" default="nextval('seq_facture')"></column>
     <column name="DE_Numero"     type="INTEGER"     notnull="true" fkey="Devis(DE_Numero)" opt="odrour">Devis qui a donné naissance à la facture</column>
     <column name="PE_Numero"     type="INTEGER"     notnull="true" fkey="Personne(PE_Numero)" opt="odrour"></column>
     <column name="AG_Numero"     type="INTEGER"     notnull="true" fkey="Agent(AG_Numero)" opt="odrour"></column>
     <column name="FA_NumFact"    type="INTEGER"     notnull="true">Numero de facture officiel</column>
     <column name="FA_Date"       type="DATE"        notnull="true" default="CURRENT_DATE"></column>
+    <column name="FA_Avoir"      type="BOOLEAN"     notnull="true" default="false">Si la facture est un AVOIR.</column>
+    <column name="FA_Avoir_Facture" type="INTEGER"  fkey="Facture(FA_Numero)">Si la facture est un AVOIR alors le champ fa_facture avoir doit être renseigné et contenir le numéro de la facture d'origine.</column>
     <column name="FA_Perte"      type="BOOLEAN"     notnull="true" default="false">Si la facture est passée en perte.</column>
     <column name="FA_Next_Reflation_On" type="DATE" notnull="true" default="'0001-01-01'">A partir de quand on peut relancer la facture</column>
     <column name="FA_Penalty"    type="INTEGER"     fkey="Facture(FA_Numero)" opt="odrouc">Facture de pénalité, s'il y en a une.</column>
@@ -789,6 +791,7 @@
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
   
+<!--
 
   <table name="LigneAvoir" abbrev="LA" label="Lignes d'avoirs" from="JOIN ###_Produit USING (PD_Numero)" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
     <column name="LA_Numero"     type="INTEGER"     notnull="true" pkey="true"></column>
@@ -810,11 +813,11 @@
   </table>
   
 
-  <table name="Avoir" abbrev="AV" label="Avoirs" distinct="true" from="JOIN ###_LigneAvoir USING (AV_Numero) JOIN ###_Produit USING (PD_Numero)" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
+  <table name="Avoir" abbrev="AV" label="Avoirs" where="SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)">
     <column name="AV_Numero"     type="INTEGER"     notnull="true" pkey="true"></column>
-<!--    <column name="FA_Numero"   type="INTEGER" default="NULL" fkey="Facture(FA_Numero)" opt="odrour"></column>-->
     <column name="PE_Numero"     type="INTEGER"     notnull="true" fkey="Personne(PE_Numero)" opt="odrour"></column>
     <column name="FA_Numero"     type="INTEGER"     notnull="true" fkey="Facture(FA_Numero)" opt="odrour"></column>
+    <column name="SO_Numero"     type="INTEGER"     notnull="true" fkey="Societe(SO_Numero)" opt="odrour"></column>
     <column name="AV_NumFact"    type="INTEGER"     notnull="true"></column>
     <column name="AV_Date"       type="DATE"        notnull="true" default="CURRENT_DATE"></column>
     <column name="AV_MontantHT"  type="NUMERIC(16,2)"     default="NULL"></column>
@@ -829,6 +832,7 @@
     <column name="id"           label="ID"                    type="SERIAL" notnull="true">Rails ID</column>
   </table>
 
+-->
 
   <table name="Routage" abbrev="RO" label="Routages" select="'du '||RO_DebutService||' au '||RO_FinService||' ('||RO_Numero||')' AS RO_Libelle">
     <column name="RO_Numero"       type="INTEGER"     notnull="true" pkey="true" default="nextval('seq_routage')"></column>
@@ -880,6 +884,7 @@
     <column name="EM_Service_Invoicing"  type="BOOLEAN"    notnull="true" default="false">Si l'employé peut facturer les devis de son service</column>
     <column name="EM_Societe_Invoicing"  type="BOOLEAN"    notnull="true" default="false">Si l'employé peut facturer tous les devis de la société</column>
     <column name="EM_Personne_Editing"   type="BOOLEAN"    notnull="true" default="false">Si l'employé peut modifier les informations critiques des personnes (nature, nom, prénom, état...)</column>
+    <column name="EM_Cancel_Invoice"     type="BOOLEAN"    notnull="true" default="false">Si l'employé peut faire des avoirs</column>
     <column name="EM_Acces"    type="INTEGER"     notnull="true" fkey="Acces(AC_Numero)" opt="odrour">Niveau d'accès à la compta</column>
     <column name="EM_Password" type="VARCHAR(16)" notnull="true">Mot de passe pas enregistré (juste pour l'interface le mot de passe est supprimé par trigger avant)</column>
     <column name="EM_Super"    type="BOOLEAN"     notnull="true" default="false">Défini si l'utilisateur peut créer des employés</column>

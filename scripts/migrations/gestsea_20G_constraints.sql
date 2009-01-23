@@ -36,8 +36,6 @@ CREATE INDEX idx_table_appel_pe_numero ON table_appel(pe_numero);
 CREATE INDEX idx_table_attribut_pe_numero ON table_attribut(pe_numero);
 CREATE INDEX idx_table_attribut_ta_numero ON table_attribut(ta_numero);
 CREATE INDEX idx_table_attribut_cr_numero ON table_attribut(cr_numero);
-CREATE INDEX idx_table_avoir_pe_numero ON table_avoir(pe_numero);
-CREATE INDEX idx_table_avoir_fa_numero ON table_avoir(fa_numero);
 CREATE INDEX idx_table_categorie_ta_numero ON table_categorie(ta_numero);
 CREATE INDEX idx_table_compteaux_cg_numero ON table_compteaux(cg_numero);
 CREATE INDEX idx_table_compteaux_ac_numero ON table_compteaux(ac_numero);
@@ -85,6 +83,7 @@ CREATE INDEX idx_table_exercice_so_numero ON table_exercice(so_numero);
 CREATE INDEX idx_table_facture_de_numero ON table_facture(de_numero);
 CREATE INDEX idx_table_facture_pe_numero ON table_facture(pe_numero);
 CREATE INDEX idx_table_facture_ag_numero ON table_facture(ag_numero);
+CREATE INDEX idx_table_facture_fa_avoir_facture ON table_facture(fa_avoir_facture);
 CREATE INDEX idx_table_facture_fa_penalty ON table_facture(fa_penalty);
 CREATE INDEX idx_table_facture_ad_numero ON table_facture(ad_numero);
 CREATE INDEX idx_table_facture_so_numero ON table_facture(so_numero);
@@ -100,10 +99,6 @@ CREATE INDEX idx_table_ligne_pd_numero ON table_ligne(pd_numero);
 CREATE INDEX idx_table_ligne_de_numero ON table_ligne(de_numero);
 CREATE INDEX idx_table_ligne_pe_numero ON table_ligne(pe_numero);
 CREATE INDEX idx_table_ligne_px_numero ON table_ligne(px_numero);
-CREATE INDEX idx_table_ligneavoir_pd_numero ON table_ligneavoir(pd_numero);
-CREATE INDEX idx_table_ligneavoir_av_numero ON table_ligneavoir(av_numero);
-CREATE INDEX idx_table_ligneavoir_px_numero ON table_ligneavoir(px_numero);
-CREATE INDEX idx_table_ligneavoir_pe_numero ON table_ligneavoir(pe_numero);
 CREATE INDEX idx_table_lignecotisation_cs_numero ON table_lignecotisation(cs_numero);
 CREATE INDEX idx_table_lignefacture_fa_numero ON table_lignefacture(fa_numero);
 CREATE INDEX idx_table_lignefacture_px_numero ON table_lignefacture(px_numero);
@@ -173,8 +168,6 @@ ALTER TABLE "table_appel"
   ADD CONSTRAINT pk_table_appel_ap_numero PRIMARY KEY (ap_numero);
 ALTER TABLE "table_attribut"
   ADD CONSTRAINT pk_table_attribut_at_numero PRIMARY KEY (at_numero);
-ALTER TABLE "table_avoir"
-  ADD CONSTRAINT pk_table_avoir_av_numero PRIMARY KEY (av_numero);
 ALTER TABLE "table_canton"
   ADD CONSTRAINT pk_table_canton_ct_numero PRIMARY KEY (ct_numero);
 ALTER TABLE "table_categorie"
@@ -243,8 +236,6 @@ ALTER TABLE "table_lieu"
   ADD CONSTRAINT pk_table_lieu_zl_numero PRIMARY KEY (zl_numero);
 ALTER TABLE "table_ligne"
   ADD CONSTRAINT pk_table_ligne_l_numero PRIMARY KEY (l_numero);
-ALTER TABLE "table_ligneavoir"
-  ADD CONSTRAINT pk_table_ligneavoir_la_numero PRIMARY KEY (la_numero);
 ALTER TABLE "table_lignecotisation"
   ADD CONSTRAINT pk_table_lignecotisation_lc_numero PRIMARY KEY (lc_numero);
 ALTER TABLE "table_lignefacture"
@@ -491,16 +482,6 @@ ALTER TABLE "table_attribut"
   FOREIGN KEY (cr_numero) REFERENCES table_Categorie(CR_Numero)
     ON DELETE RESTRICT 
     ON UPDATE CASCADE;
-ALTER TABLE "table_avoir"
-  ADD CONSTRAINT fk_table_avoir_pe_numero
-  FOREIGN KEY (pe_numero) REFERENCES table_Personne(PE_Numero)
-    ON DELETE RESTRICT 
-    ON UPDATE RESTRICT;
-ALTER TABLE "table_avoir"
-  ADD CONSTRAINT fk_table_avoir_fa_numero
-  FOREIGN KEY (fa_numero) REFERENCES table_Facture(FA_Numero)
-    ON DELETE RESTRICT 
-    ON UPDATE RESTRICT;
 ALTER TABLE "table_categorie"
   ADD CONSTRAINT fk_table_categorie_ta_numero
   FOREIGN KEY (ta_numero) REFERENCES table_TypeAttribut(TA_Numero)
@@ -731,6 +712,9 @@ ALTER TABLE "table_facture"
     ON DELETE RESTRICT 
     ON UPDATE RESTRICT;
 ALTER TABLE "table_facture"
+  ADD CONSTRAINT fk_table_facture_fa_avoir_facture
+  FOREIGN KEY (fa_avoir_facture) REFERENCES table_Facture(FA_Numero);
+ALTER TABLE "table_facture"
   ADD CONSTRAINT fk_table_facture_fa_penalty
   FOREIGN KEY (fa_penalty) REFERENCES table_Facture(FA_Numero)
     ON DELETE RESTRICT 
@@ -805,26 +789,6 @@ ALTER TABLE "table_ligne"
   FOREIGN KEY (px_numero) REFERENCES table_Prix(PX_Numero)
     ON DELETE RESTRICT 
     ON UPDATE RESTRICT;
-ALTER TABLE "table_ligneavoir"
-  ADD CONSTRAINT fk_table_ligneavoir_pd_numero
-  FOREIGN KEY (pd_numero) REFERENCES table_Produit(PD_Numero)
-    ON DELETE RESTRICT 
-    ON UPDATE RESTRICT;
-ALTER TABLE "table_ligneavoir"
-  ADD CONSTRAINT fk_table_ligneavoir_av_numero
-  FOREIGN KEY (av_numero) REFERENCES table_Avoir(AV_Numero)
-    ON DELETE RESTRICT 
-    ON UPDATE RESTRICT;
-ALTER TABLE "table_ligneavoir"
-  ADD CONSTRAINT fk_table_ligneavoir_px_numero
-  FOREIGN KEY (px_numero) REFERENCES table_Prix(PX_Numero)
-    ON DELETE RESTRICT 
-    ON UPDATE RESTRICT;
-ALTER TABLE "table_ligneavoir"
-  ADD CONSTRAINT fk_table_ligneavoir_pe_numero
-  FOREIGN KEY (pe_numero) REFERENCES table_Personne(PE_Numero)
-    ON DELETE CASCADE 
-    ON UPDATE CASCADE;
 ALTER TABLE "table_lignecotisation"
   ADD CONSTRAINT fk_table_lignecotisation_cs_numero
   FOREIGN KEY (cs_numero) REFERENCES table_Cotisation(CS_Numero)
@@ -1152,14 +1116,6 @@ ALTER TABLE "table_attribut" ALTER "created_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_attribut" ALTER "updated_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_attribut" ALTER "updated_by" SET DEFAULT CURRENT_USER;
 ALTER TABLE "table_attribut" ALTER "lock_version" SET DEFAULT 0;
-ALTER TABLE "table_avoir" ALTER "av_date" SET DEFAULT CURRENT_DATE;
-ALTER TABLE "table_avoir" ALTER "av_montantht" SET DEFAULT NULL;
-ALTER TABLE "table_avoir" ALTER "av_montantttc" SET DEFAULT NULL;
-ALTER TABLE "table_avoir" ALTER "av_reduction" SET DEFAULT NULL;
-ALTER TABLE "table_avoir" ALTER "created_at" SET DEFAULT CURRENT_TIMESTAMP;
-ALTER TABLE "table_avoir" ALTER "updated_at" SET DEFAULT CURRENT_TIMESTAMP;
-ALTER TABLE "table_avoir" ALTER "updated_by" SET DEFAULT CURRENT_USER;
-ALTER TABLE "table_avoir" ALTER "lock_version" SET DEFAULT 0;
 ALTER TABLE "table_canton" ALTER "created_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_canton" ALTER "updated_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_canton" ALTER "updated_by" SET DEFAULT CURRENT_USER;
@@ -1279,6 +1235,7 @@ ALTER TABLE "table_employe" ALTER "em_self_invoicing" SET DEFAULT true;
 ALTER TABLE "table_employe" ALTER "em_service_invoicing" SET DEFAULT false;
 ALTER TABLE "table_employe" ALTER "em_societe_invoicing" SET DEFAULT false;
 ALTER TABLE "table_employe" ALTER "em_personne_editing" SET DEFAULT false;
+ALTER TABLE "table_employe" ALTER "em_cancel_invoice" SET DEFAULT false;
 ALTER TABLE "table_employe" ALTER "em_super" SET DEFAULT false;
 ALTER TABLE "table_employe" ALTER "created_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_employe" ALTER "updated_at" SET DEFAULT CURRENT_TIMESTAMP;
@@ -1315,7 +1272,9 @@ ALTER TABLE "table_exercice" ALTER "created_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_exercice" ALTER "updated_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_exercice" ALTER "updated_by" SET DEFAULT CURRENT_USER;
 ALTER TABLE "table_exercice" ALTER "lock_version" SET DEFAULT 0;
+ALTER TABLE "table_facture" ALTER "fa_numero" SET DEFAULT nextval('seq_facture');
 ALTER TABLE "table_facture" ALTER "fa_date" SET DEFAULT CURRENT_DATE;
+ALTER TABLE "table_facture" ALTER "fa_avoir" SET DEFAULT false;
 ALTER TABLE "table_facture" ALTER "fa_perte" SET DEFAULT false;
 ALTER TABLE "table_facture" ALTER "fa_next_reflation_on" SET DEFAULT '0001-01-01';
 ALTER TABLE "table_facture" ALTER "fa_reduction" SET DEFAULT 0;
@@ -1406,14 +1365,6 @@ ALTER TABLE "table_ligne" ALTER "created_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_ligne" ALTER "updated_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_ligne" ALTER "updated_by" SET DEFAULT CURRENT_USER;
 ALTER TABLE "table_ligne" ALTER "lock_version" SET DEFAULT 0;
-ALTER TABLE "table_ligneavoir" ALTER "la_quantite" SET DEFAULT 0;
-ALTER TABLE "table_ligneavoir" ALTER "la_montantht" SET DEFAULT NULL;
-ALTER TABLE "table_ligneavoir" ALTER "la_montantttc" SET DEFAULT NULL;
-ALTER TABLE "table_ligneavoir" ALTER "la_notes" SET DEFAULT NULL;
-ALTER TABLE "table_ligneavoir" ALTER "created_at" SET DEFAULT CURRENT_TIMESTAMP;
-ALTER TABLE "table_ligneavoir" ALTER "updated_at" SET DEFAULT CURRENT_TIMESTAMP;
-ALTER TABLE "table_ligneavoir" ALTER "updated_by" SET DEFAULT CURRENT_USER;
-ALTER TABLE "table_ligneavoir" ALTER "lock_version" SET DEFAULT 0;
 ALTER TABLE "table_lignecotisation" ALTER "created_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_lignecotisation" ALTER "updated_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_lignecotisation" ALTER "updated_by" SET DEFAULT CURRENT_USER;
@@ -1748,13 +1699,6 @@ ALTER TABLE "table_attribut" ALTER "ta_numero" SET NOT NULL ;
 ALTER TABLE "table_attribut" ALTER "cr_numero" SET NOT NULL ;
 ALTER TABLE "table_attribut" ALTER "lock_version" SET NOT NULL ;
 ALTER TABLE "table_attribut" ALTER "id" SET NOT NULL ;
-ALTER TABLE "table_avoir" ALTER "av_numero" SET NOT NULL ;
-ALTER TABLE "table_avoir" ALTER "pe_numero" SET NOT NULL ;
-ALTER TABLE "table_avoir" ALTER "fa_numero" SET NOT NULL ;
-ALTER TABLE "table_avoir" ALTER "av_numfact" SET NOT NULL ;
-ALTER TABLE "table_avoir" ALTER "av_date" SET NOT NULL ;
-ALTER TABLE "table_avoir" ALTER "lock_version" SET NOT NULL ;
-ALTER TABLE "table_avoir" ALTER "id" SET NOT NULL ;
 ALTER TABLE "table_canton" ALTER "ct_numero" SET NOT NULL ;
 ALTER TABLE "table_canton" ALTER "ct_nom" SET NOT NULL ;
 ALTER TABLE "table_canton" ALTER "lock_version" SET NOT NULL ;
@@ -1880,6 +1824,7 @@ ALTER TABLE "table_employe" ALTER "em_self_invoicing" SET NOT NULL ;
 ALTER TABLE "table_employe" ALTER "em_service_invoicing" SET NOT NULL ;
 ALTER TABLE "table_employe" ALTER "em_societe_invoicing" SET NOT NULL ;
 ALTER TABLE "table_employe" ALTER "em_personne_editing" SET NOT NULL ;
+ALTER TABLE "table_employe" ALTER "em_cancel_invoice" SET NOT NULL ;
 ALTER TABLE "table_employe" ALTER "em_acces" SET NOT NULL ;
 ALTER TABLE "table_employe" ALTER "em_password" SET NOT NULL ;
 ALTER TABLE "table_employe" ALTER "em_super" SET NOT NULL ;
@@ -1923,6 +1868,7 @@ ALTER TABLE "table_facture" ALTER "pe_numero" SET NOT NULL ;
 ALTER TABLE "table_facture" ALTER "ag_numero" SET NOT NULL ;
 ALTER TABLE "table_facture" ALTER "fa_numfact" SET NOT NULL ;
 ALTER TABLE "table_facture" ALTER "fa_date" SET NOT NULL ;
+ALTER TABLE "table_facture" ALTER "fa_avoir" SET NOT NULL ;
 ALTER TABLE "table_facture" ALTER "fa_perte" SET NOT NULL ;
 ALTER TABLE "table_facture" ALTER "fa_next_reflation_on" SET NOT NULL ;
 ALTER TABLE "table_facture" ALTER "fa_reduction" SET NOT NULL ;
@@ -2004,13 +1950,6 @@ ALTER TABLE "table_ligne" ALTER "pd_numero" SET NOT NULL ;
 ALTER TABLE "table_ligne" ALTER "de_numero" SET NOT NULL ;
 ALTER TABLE "table_ligne" ALTER "lock_version" SET NOT NULL ;
 ALTER TABLE "table_ligne" ALTER "id" SET NOT NULL ;
-ALTER TABLE "table_ligneavoir" ALTER "la_numero" SET NOT NULL ;
-ALTER TABLE "table_ligneavoir" ALTER "pd_numero" SET NOT NULL ;
-ALTER TABLE "table_ligneavoir" ALTER "av_numero" SET NOT NULL ;
-ALTER TABLE "table_ligneavoir" ALTER "px_numero" SET NOT NULL ;
-ALTER TABLE "table_ligneavoir" ALTER "la_quantite" SET NOT NULL ;
-ALTER TABLE "table_ligneavoir" ALTER "lock_version" SET NOT NULL ;
-ALTER TABLE "table_ligneavoir" ALTER "id" SET NOT NULL ;
 ALTER TABLE "table_lignecotisation" ALTER "lc_numero" SET NOT NULL ;
 ALTER TABLE "table_lignecotisation" ALTER "key" SET NOT NULL ;
 ALTER TABLE "table_lignecotisation" ALTER "lock_version" SET NOT NULL ;

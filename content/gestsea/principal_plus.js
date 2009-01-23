@@ -44,6 +44,7 @@ function ChangerNumeroJournal()
   if (num!=null && num!=undefined) {
     query="UPDATE constante SET cs_valeur="+num+" WHERE cs_NOM='CURRENT_NUMBER';";
     pgsql_update(query);
+    compo.Refresh();
   }
 }
 
@@ -113,12 +114,12 @@ function DevisVersFacture(compo){
 function FactureVersAvoir(compo){
   if (confirm("Voulez-vous réellement passer cette facture en avoir?")) {
   query="SELECT FC_FactureVersAvoir("+compo.getCleVal()+");";
-  var NumFact=requete(query);
-  if (NumFact==null)
+  var num_facture=requete(query);
+  if (num_facture==null)
     alert("La facture n'a pas pu être passé en avoir.");
   else
     compo.Refresh();
-    alert("Avoir créé avec succès :\nN° "+NumFact);
+    alert("Facture d'avoir créée avec succès :\nN°"+requete("SELECT FA_NumFact FROM Facture WHERE FA_Numero="+num_facture));
   }
 }
 

@@ -252,7 +252,7 @@ function CodeInJournal(centre){
 
     It_Routage = new clInterfaceSimple("Routage");
 
-    It_Routage.AjouterBouton("Changer le numéro du journal...","ChangerNumeroJournal","");
+    It_Routage.AjouterBouton("Changer le numéro du journal...","ChangerNumeroJournal",ComposantDansCode(Maitre_Routage));
 
     Maitre_Routage = It_Routage.AjouterMaitre("Liste des routages","vue_current_routage");
     Maitre_Routage.AjouterColonne("N°Journal","rc_numero");

@@ -285,6 +285,7 @@ GRANT SELECT ON vue_current_routage TO PUBLIC;
 -- Permet de voir les abonnes a relancer
 
 -- DROP VIEW current_relance;
+/*
 CREATE OR REPLACE VIEW vue_current_relance AS 
   SELECT DISTINCT ro_numero AS cle, 
          ro_finservice AS RL_DernierNumero, 
@@ -296,8 +297,8 @@ CREATE OR REPLACE VIEW vue_current_relance AS
          table_Constante AS futur,
          table_Routage LEFT JOIN table_Personne USING (PE_Numero) 
            LEFT JOIN table_Adresse USING (PE_Numero) 
-           LEFT JOIN table_Facture USING (FA_Numero)
-           LEFT JOIN table_Avoir USING (FA_Numero)
+           LEFT JOIN table_Facture AS fa USING (FA_Numero)
+           LEFT JOIN table_Facture AS av ON (fa.FA_Numero=av.fa_avoir_facture)
            LEFT JOIN table_LigneFacture USING (FA_Numero)
            LEFT JOIN table_Codepostal USING (CP_Numero) 
            LEFT JOIN table_Ville USING (VI_Numero)
@@ -309,7 +310,37 @@ CREATE OR REPLACE VIEW vue_current_relance AS
       AND NOT ro_numero IN (SELECT ro_numero FROM (SELECT r.ro_numero, count(s) as total from table_routage as r left join table_routage as s using (pe_numero) where s.ro_finservice>r.ro_finservice group by r.ro_numero) as suivants WHERE total>=1)
       AND AD_Active
       AND pd_numero IN (500000094,500000098,500000099)
-      AND AV_Numero IS NULL;
+      AND fa.AV_Numero IS NULL;
+
+*/
+
+
+CREATE OR REPLACE VIEW vue_current_relance AS 
+  SELECT DISTINCT ro_numero AS cle, 
+         ro_finservice AS RL_DernierNumero, 
+         ro_finservice::INTEGER-present.cs_valeur::INTEGER AS RL_Niveau, 
+         table_routage.pe_numero, pe_titre, pe_nom, pe_prenom, 
+         ad_ligne2, ad_ligne3, ad_ligne4, ad_ligne5, cp_codepostal, vi_nom, telephone.cn_coordonnee AS rl_telephone, portable.cn_coordonnee AS rl_portable
+    FROM table_Constante AS passe,
+         table_Constante AS present,
+         table_Constante AS futur,
+         table_Routage LEFT JOIN table_Personne USING (PE_Numero) 
+           LEFT JOIN table_Adresse USING (PE_Numero) 
+           LEFT JOIN table_Facture AS fa USING (FA_Numero)
+           LEFT JOIN table_Facture AS av ON (fa.FA_Numero=av.fa_avoir_facture)
+           LEFT JOIN table_LigneFacture AS lf ON (lf.FA_Numero=fa.fa_numero)
+           LEFT JOIN table_Codepostal USING (CP_Numero) 
+           LEFT JOIN table_Ville USING (VI_Numero)
+           LEFT JOIN (SELECT pe_numero, cn_coordonnee FROM table_contact WHERE cn_actif AND ck_numero=107) AS telephone ON (table_Personne.pe_numero=telephone.pe_numero)
+           LEFT JOIN (SELECT pe_numero, cn_coordonnee FROM table_contact WHERE cn_actif AND ck_numero=106) AS portable ON (table_Personne.pe_numero=portable.pe_numero)
+    WHERE NOT RO_Suspendu
+      AND passe.cs_nom='PAST_NUMBER' AND futur.cs_nom='FUTURE_NUMBER' AND present.cs_nom='CURRENT_NUMBER' 
+      AND present.cs_valeur::integer+futur.cs_valeur::integer>=ro_finservice AND ro_finservice>=present.cs_valeur::integer-passe.cs_valeur::integer 
+--      AND NOT ro_numero IN (SELECT ro_numero FROM (SELECT r.ro_numero, count(s) as total from table_routage as r left join table_routage as s using (pe_numero) where s.ro_finservice>r.ro_finservice group by r.ro_numero) as suivants WHERE total>=1)
+      AND AD_Active
+      AND pd_numero IN (500000094,500000098,500000099)
+      AND AV.FA_Numero IS NULL;
+
 
 
 GRANT SELECT ON vue_current_relance TO PUBLIC;
@@ -470,9 +501,20 @@ CASE WHEN pe_numero IN (SELECT pe_numero FROM vue_cotisation_all WHERE cs_annee=
 --
 --DROP VIEW VUE_facture_A_Regler;
 CREATE OR REPLACE VIEW VUE_facture_A_Regler AS 
-SELECT fa.fa_numero AS cle, fa.fa_numero, fa.fa_numfact, fa.pe_numero, fa.fa_date, fc_dateenlettre(fa.fa_date) AS fa_datel, CASE WHEN current_date>fc_delai(fa.fa_date,COALESCE(r3.cs_valeur,'30 days, eom, 2 months')) THEN 3 WHEN current_date>fc_delai(fa.fa_date,COALESCE(r2.cs_valeur, '30 days, eom, 1 month')) THEN 2 WHEN current_date>fc_delai(fa.fa_date,COALESCE(r1.cs_valeur,'30 days, eom')) THEN 1 ELSE 0 END AS fa_niveau, fa_montantttc, COALESCE(fa_regle,0.00) AS fa_regle, fa_montantttc-COALESCE(fa_regle,0.00) AS fa_reste , CASE WHEN fa_next_reflation_on>CURRENT_DATE THEN fa_next_reflation_on::TEXT ELSE '-' END AS fa_relance, fa_next_reflation_on, de_date, fa_penalty
-FROM table_facture fa JOIN table_devis USING (de_numero) LEFT JOIN ( SELECT fa_numero, sum(fr_montant) as fa_regle FROM table_facturereglement GROUP BY 1) fr USING (fa_numero) left join table_avoir using (fa_numero) LEFT JOIN table_constante r1 ON (r1.cs_nom='FIRST_REFLATION') LEFT JOIN table_constante r2 ON (r1.cs_nom='SECOND_REFLATION') LEFT JOIN table_constante r3 ON (r1.cs_nom='THIRD_REFLATION')
-WHERE abs(COALESCE(fa_regle,0)-fa_montantttc)>0 and fa_date>='1/1/2006' and not fa_perte and av_numero is null and fa.SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
+SELECT fa.fa_numero AS cle, 
+fa.fa_numero, 
+fa.fa_numfact, 
+fa.pe_numero, 
+fa.fa_date, 
+fc_dateenlettre(fa.fa_date) AS fa_datel, 
+CASE WHEN current_date>fc_delai(fa.fa_date,COALESCE(r3.cs_valeur,'30 days, eom, 2 months')) THEN 3 WHEN current_date>fc_delai(fa.fa_date,COALESCE(r2.cs_valeur, '30 days, eom, 1 month')) THEN 2 WHEN current_date>fc_delai(fa.fa_date,COALESCE(r1.cs_valeur,'30 days, eom')) THEN 1 ELSE 0 END AS fa_niveau, 
+fa.fa_montantttc, 
+COALESCE(fa_regle,0.00) AS fa_regle, 
+fa.fa_montantttc-COALESCE(fa_regle,0.00) AS fa_reste, 
+CASE WHEN fa.fa_next_reflation_on>CURRENT_DATE THEN fa.fa_next_reflation_on::TEXT ELSE '-' END AS fa_relance, 
+fa.fa_next_reflation_on, de_date, fa.fa_penalty
+FROM table_facture fa JOIN table_devis USING (de_numero) LEFT JOIN ( SELECT fa_numero, sum(fr_montant) as fa_regle FROM table_facturereglement GROUP BY 1) fr USING (fa_numero) left join table_facture AS av ON (fa.fa_numero=av.fa_avoir_facture) LEFT JOIN table_constante r1 ON (r1.cs_nom='FIRST_REFLATION') LEFT JOIN table_constante r2 ON (r1.cs_nom='SECOND_REFLATION') LEFT JOIN table_constante r3 ON (r1.cs_nom='THIRD_REFLATION')
+WHERE abs(COALESCE(fa_regle,0)-fa.fa_montantttc)>0 and fa.fa_date>='1/1/2006' and not fa.fa_perte and av.fa_numero is null and fa.SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
 
 
 --DROP VIEW VUE_Reglement_A_Facturer;
@@ -490,6 +532,11 @@ FROM table_devis de
 WHERE NOT de_locked and SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
 
 
+CREATE OR REPLACE VIEW VUE_Prix_All AS
+  SELECT px.*
+    FROM table_prix px JOIN table_Produit USING (PD_Numero)
+    WHERE SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe)
+;
 
 
 /*****************************************************************************\
@@ -679,7 +726,7 @@ BEGIN
   -- Rapatriement des lignes de facture
   UPDATE table_lignefacture SET pd_numero=p1 WHERE pd_numero=p2;
   -- Rapatriement des lignes d'avoir
-  UPDATE table_ligneavoir SET pd_numero=p1 WHERE pd_numero=p2;
+--  UPDATE table_ligneavoir SET pd_numero=p1 WHERE pd_numero=p2;
   -- Rapatriement des lignes de modele
   UPDATE table_lignemodele SET pd_numero=p1 WHERE pd_numero=p2;
   -- Rapatriement des types d'adhesion

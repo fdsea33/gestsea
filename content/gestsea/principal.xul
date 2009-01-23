@@ -39,10 +39,9 @@
       <menuitem label="Personnes" oncommand="AllerAOnglet(0)"/>
       <menuitem label="Devis" oncommand="AllerAOnglet(1)"/>
       <menuitem label="Facture" oncommand="AllerAOnglet(2)"/>
-      <menuitem label="Avoir" oncommand="AllerAOnglet(3)"/>
-      <menuitem label="Réglement" oncommand="AllerAOnglet(4)"/>
-      <menuitem label="Bordereaux de réglements" oncommand="AllerAOnglet(5)"/>
-      <menuitem label="Cotisations" oncommand="AllerAOnglet(6)"/>
+      <menuitem label="Réglement" oncommand="AllerAOnglet(3)"/>
+      <menuitem label="Bordereaux de réglements" oncommand="AllerAOnglet(4)"/>
+      <menuitem label="Cotisations" oncommand="AllerAOnglet(5)"/>
       </menupopup>
     </menu>
     <menu id="affichage-menu" label="Affichage">
@@ -65,7 +64,6 @@
  <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Personnes" label="Personnes"/>
  <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Devis" label="Devis"/>
  <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Facture" label="Facture"/>
- <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Avoir" label="Avoir"/>
  <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Réglement" label="Réglement"/>
  <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Bordereaux_de_réglements" label="Bordereaux de réglements"/>
  <tab flex="100" maxwidth="250" minwidth="60" crop="end" class="tabbrowser-tab" id="Onglet_Cotisations" label="Cotisations"/>
@@ -304,19 +302,13 @@
 <tabbox id="tabbox_Facture_Liste_des_factures0" flex="1">
 <tabs >
 <tab label="Lignes de la facture"/>
-<tab label="Avoirs de la facture"/>
 <tab label="Règlements"/>
 <tab label="Routages"/>
 </tabs>
 <tabpanels flex="1">
 <tabpanel flex="1">
 <hbox flex="1">
-<vbox id="Facture_Lignes_de_la_facture_10" flex="1"/>
-</hbox>
-</tabpanel>
-<tabpanel flex="1">
-<hbox flex="1">
-<vbox id="Facture_Avoirs_de_la_facture_11" flex="1"/>
+<vbox id="Facture_Lignes_de_la_facture_11" flex="1"/>
 </hbox>
 </tabpanel>
 <tabpanel flex="1">
@@ -365,7 +357,6 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Passer en avoir" oncommand="FactureVersAvoir(TAB_GLOBAL_COMPO[131]);"/>
     <button label="En perte" oncommand="FactureEnPerte(TAB_GLOBAL_COMPO[131]);"/>
     <button label="Imprimer" oncommand="Imprimer(TAB_GLOBAL_COMPO[131],'facture');"/>
     <button label="Factures CM" oncommand="PrintLot(1,'facture');"/>
@@ -378,39 +369,6 @@
   <hbox pack="end" align="center">
     <separator class="groove"/>
     <button class="back-button16" label="Précédent" oncommand="Retour_Facture()"/>
-  </hbox>
-</hbox>
-</vbox>
-</tabpanel>
-<tabpanel flex="1" id="OngletPanel_Avoir" >
-<vbox flex="1">
-<hbox flex="1">
-<hbox flex="1">
-<vbox id="Avoir_Liste_des_avoirs0" flex="1"/>
-<splitter collapse="before"> <grippy/> </splitter>
-<vbox flex="1" style="overflow:auto">
-<vbox id="Avoir_Liste_des_avoirs0_Slaves"/>
-<hbox flex="1">
-<vbox id="Avoir_Lignes_de_l_avoir_5" flex="1"/>
-</hbox>
-<arrowscrollbox  pack="end" align="stretch" class="fondstyle">
-    <button class="new-button16" disabled="true" id="Insert_Avoir_Liste_des_avoirs0" label="Ajouter" oncommand="Insert_Avoir_Liste_des_avoirs0()" />
-    <button class="edit-button16" disabled="true" id="Update_Avoir_Liste_des_avoirs0" label="Modifier" oncommand="Update_Avoir_Liste_des_avoirs0()" />
-    <button class="delete-button16" disabled="true" id="Delete_Avoir_Liste_des_avoirs0" label="Supprimer" oncommand="Delete_Avoir_Liste_des_avoirs0()" />
-    <button class="accept-button16" id="Validate_Avoir_Liste_des_avoirs0" label="Valider" oncommand="Validate_Avoir_Liste_des_avoirs0()"  disabled="true" />
-    <button class="cancel-button16" id="Annuler_Avoir_Liste_des_avoirs0" label="Annuler" oncommand="Annuler_Avoir_Liste_des_avoirs0()"  disabled="true" />
-</arrowscrollbox>
-</vbox>
-</hbox>
-</hbox>
-<hbox class="fondstyle" pack="end">
-  <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Mettre à jour les adhésions" oncommand="MiseAJourAdhesion();"/>
-    <button label="Imprimer l'avoir" oncommand="Imprimer(TAB_GLOBAL_COMPO[176],'avoir');"/>
-  </arrowscrollbox>
-  <hbox pack="end" align="center">
-    <separator class="groove"/>
-    <button class="back-button16" label="Précédent" oncommand="Retour_Avoir()"/>
   </hbox>
 </hbox>
 </vbox>
@@ -504,7 +462,7 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Imprimer le bordereau" oncommand="Imprimer(TAB_GLOBAL_COMPO[226],'bordereau');"/>
+    <button label="Imprimer le bordereau" oncommand="Imprimer(TAB_GLOBAL_COMPO[211],'bordereau');"/>
   </arrowscrollbox>
 </hbox>
 </vbox>

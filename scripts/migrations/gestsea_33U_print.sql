@@ -150,23 +150,28 @@ ad_Ligne4,                       -- 5
 ad_Ligne5,                       -- 6
 cp_codepostal,                   -- 7
 vi_nom,                          -- 8
-fa_numFact,                      -- 9 
-FC_DateEnLettre(fa_date) AS fa_date, -- 10
-fa_numero,                       -- 11
+f.fa_numFact,                      -- 9 
+FC_DateEnLettre(f.fa_date) AS fa_date, -- 10
+f.fa_numero,                       -- 11
 cp_bureau,                       -- 12
 se_nom,                          -- 13
 fa_ok,                           -- 14
 fa_regle,                        -- 15
-FC_DateEnLettre(fc_delai(fa_date,COALESCE(dl.cs_valeur,'90 days'))) AS fa_reglement, -- 17
-DE_Numero,                       -- 18
+FC_DateEnLettre(fc_delai(f.fa_date,COALESCE(dl.cs_valeur,'90 days'))) AS fa_reglement, -- 17
+f.DE_Numero,                       -- 18
 FC_DateEnLettre(DE_Date) AS DE_Date, --19
-ag_initiales                     -- 20
+ag_initiales,                     -- 20
+f.fa_avoir,
+f.fa_avoir_facture,
+fo.fa_numfact AS fa_avoir_facture_num,
+fo.fa_date AS fa_avoir_facture_date
 FROM table_facture f LEFT JOIN table_personne AS p USING (pe_numero)
                    LEFT JOIN table_adresse AS a ON ((f.ad_numero IS NULL AND p.pe_numero=a.pe_numero AND ad_active AND ad_default) OR (f.ad_numero IS NOT NULL and f.ad_numero=a.ad_numero))
                    LEFT JOIN table_codepostal  USING (cp_numero)
                    LEFT JOIN table_ville       USING (vi_numero)
                    LEFT JOIN vue_facture_regle x USING (fa_numero)
-                   LEFT JOIN table_devis       USING (de_numero),
+                   LEFT JOIN table_devis       USING (de_numero)
+		   LEFT JOIN table_facture AS fo ON (fo.fa_numero=f.fa_avoir_facture),
      employe JOIN service ON (EM_Service=SE_Numero)
       LEFT JOIN table_constante dl ON (dl.cs_nom='PAYMENT_ON')
 WHERE EM_Login=CURRENT_USER AND f.SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
@@ -449,7 +454,7 @@ GROUP BY s.tv_code, s.tv_taux, s.de_numero;
  * Impression des avoirs                                                     *
 \*****************************************************************************/
 
-
+/*
 --===========================================================================--
 --DROP VIEW VUE_AvoirEntete;
 CREATE OR REPLACE VIEW VUE_AvoirEntete AS
@@ -594,7 +599,7 @@ av_montantttc               AS TT_montantTTC, -- 2
 av_numero                                     -- 3
 FROM avoir;
 
-
+*/
 
 /*****************************************************************************\
  * Impression des bordereaux de reglement                                    *

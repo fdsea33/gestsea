@@ -99,14 +99,10 @@ function User_Insert_Adhérence_Liste_des_adhérences0(Compo_Maitre)
 
 Nbr d'esclaves = 6
 
-Id dans le tab: 346;
+Id dans le tab: 347;
 simple
 Nbr Jointure: 1;
     Joint n° 0 = produit,pd_numero,pd_numero
-
-Id dans le tab: 347;
-simple
-Nbr Jointure: PAS DE JOINTURE;
 
 Id dans le tab: 348;
 simple
@@ -118,10 +114,14 @@ Nbr Jointure: PAS DE JOINTURE;
 
 Id dans le tab: 350;
 simple
+Nbr Jointure: PAS DE JOINTURE;
+
+Id dans le tab: 351;
+simple
 Nbr Jointure: 1;
     Joint n° 0 = typelien,tl_numero,tl_numero
 
-Id dans le tab: 354;
+Id dans le tab: 355;
 complexe
 Nbr Jointure: 2;
     Joint n° 0 = periodeadherence,ah_numero,ah_numero
@@ -131,32 +131,32 @@ Nbr Jointure: 2;
 */
 
  var Table="adherence";
- var CleMaitre = TAB_COMPO_PPTES[342].NewCle;
+ var CleMaitre = TAB_COMPO_PPTES[343].NewCle;
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var pd_numero=GetValAt(346);
+ var pd_numero=GetValAt(347);
  if (pd_numero=="-1")
     pd_numero="null";
- if (!ValiderChampsObligatoire(Table,"pd_numero",TAB_GLOBAL_COMPO[346],pd_numero,true))
+ if (!ValiderChampsObligatoire(Table,"pd_numero",TAB_GLOBAL_COMPO[347],pd_numero,true))
          return -1;
- var ah_libelle=GetValAt(347);
- if (!ValiderChampsObligatoire(Table,"ah_libelle",TAB_GLOBAL_COMPO[347],ah_libelle,false))
+ var ah_libelle=GetValAt(348);
+ if (!ValiderChampsObligatoire(Table,"ah_libelle",TAB_GLOBAL_COMPO[348],ah_libelle,false))
          return -1;
- if (!ValiderChampsType(Table,"ah_libelle",TAB_GLOBAL_COMPO[347],ah_libelle))
+ if (!ValiderChampsType(Table,"ah_libelle",TAB_GLOBAL_COMPO[348],ah_libelle))
          return -1;
- var ah_reduction=GetValAt(348);
- if (!ValiderChampsObligatoire(Table,"ah_reduction",TAB_GLOBAL_COMPO[348],ah_reduction,false))
+ var ah_reduction=GetValAt(349);
+ if (!ValiderChampsObligatoire(Table,"ah_reduction",TAB_GLOBAL_COMPO[349],ah_reduction,false))
          return -1;
- if (!ValiderChampsType(Table,"ah_reduction",TAB_GLOBAL_COMPO[348],ah_reduction))
+ if (!ValiderChampsType(Table,"ah_reduction",TAB_GLOBAL_COMPO[349],ah_reduction))
          return -1;
- var ah_cascade=GetValAt(349);
- if (!ValiderChampsObligatoire(Table,"ah_cascade",TAB_GLOBAL_COMPO[349],ah_cascade,false))
+ var ah_cascade=GetValAt(350);
+ if (!ValiderChampsObligatoire(Table,"ah_cascade",TAB_GLOBAL_COMPO[350],ah_cascade,false))
          return -1;
- if (!ValiderChampsType(Table,"ah_cascade",TAB_GLOBAL_COMPO[349],ah_cascade))
+ if (!ValiderChampsType(Table,"ah_cascade",TAB_GLOBAL_COMPO[350],ah_cascade))
          return -1;
- var tl_numero=GetValAt(350);
+ var tl_numero=GetValAt(351);
  if (tl_numero=="-1")
     tl_numero="null";
- if (!ValiderChampsObligatoire(Table,"tl_numero",TAB_GLOBAL_COMPO[350],tl_numero,true))
+ if (!ValiderChampsObligatoire(Table,"tl_numero",TAB_GLOBAL_COMPO[351],tl_numero,true))
          return -1;
  var Req="insert into "+Table+" ";
 var TabInsertionEnPlus=new Array();
@@ -167,7 +167,7 @@ var TabInsertionEnPlus=new Array();
         alert("Echec lors de l'insertion");
 
 /* table periode*/
-LstDouble_Exec_Req(GetSQLCompoAt(354),CleMaitre);
+LstDouble_Exec_Req(GetSQLCompoAt(355),CleMaitre);
 return CleMaitre;
 
 }
@@ -195,30 +195,30 @@ function User_Update_Adhérence_Liste_des_adhérences0(Compo_Maitre)
  var Table="adherence";
  var CleMaitre = Compo_Maitre.getCleVal();
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var pd_numero=GetValAt(346);
+ var pd_numero=GetValAt(347);
  if (pd_numero=="-1")
     pd_numero="null";
- if (!ValiderChampsObligatoire(Table,"pd_numero",TAB_GLOBAL_COMPO[346],pd_numero,true))
+ if (!ValiderChampsObligatoire(Table,"pd_numero",TAB_GLOBAL_COMPO[347],pd_numero,true))
          return -1;
- var ah_libelle=GetValAt(347);
- if (!ValiderChampsObligatoire(Table,"ah_libelle",TAB_GLOBAL_COMPO[347],ah_libelle,false))
+ var ah_libelle=GetValAt(348);
+ if (!ValiderChampsObligatoire(Table,"ah_libelle",TAB_GLOBAL_COMPO[348],ah_libelle,false))
          return -1;
- if (!ValiderChampsType(Table,"ah_libelle",TAB_GLOBAL_COMPO[347],ah_libelle))
+ if (!ValiderChampsType(Table,"ah_libelle",TAB_GLOBAL_COMPO[348],ah_libelle))
          return -1;
- var ah_reduction=GetValAt(348);
- if (!ValiderChampsObligatoire(Table,"ah_reduction",TAB_GLOBAL_COMPO[348],ah_reduction,false))
+ var ah_reduction=GetValAt(349);
+ if (!ValiderChampsObligatoire(Table,"ah_reduction",TAB_GLOBAL_COMPO[349],ah_reduction,false))
          return -1;
- if (!ValiderChampsType(Table,"ah_reduction",TAB_GLOBAL_COMPO[348],ah_reduction))
+ if (!ValiderChampsType(Table,"ah_reduction",TAB_GLOBAL_COMPO[349],ah_reduction))
          return -1;
- var ah_cascade=GetValAt(349);
- if (!ValiderChampsObligatoire(Table,"ah_cascade",TAB_GLOBAL_COMPO[349],ah_cascade,false))
+ var ah_cascade=GetValAt(350);
+ if (!ValiderChampsObligatoire(Table,"ah_cascade",TAB_GLOBAL_COMPO[350],ah_cascade,false))
          return -1;
- if (!ValiderChampsType(Table,"ah_cascade",TAB_GLOBAL_COMPO[349],ah_cascade))
+ if (!ValiderChampsType(Table,"ah_cascade",TAB_GLOBAL_COMPO[350],ah_cascade))
          return -1;
- var tl_numero=GetValAt(350);
+ var tl_numero=GetValAt(351);
  if (tl_numero=="-1")
     tl_numero="null";
- if (!ValiderChampsObligatoire(Table,"tl_numero",TAB_GLOBAL_COMPO[350],tl_numero,true))
+ if (!ValiderChampsObligatoire(Table,"tl_numero",TAB_GLOBAL_COMPO[351],tl_numero,true))
          return -1;
  var Req="update "+Table+" set ";
  Req+="pd_numero="+pd_numero+",ah_libelle="+(ah_libelle=="" ? "null" : "'"+ValiderChaine(ah_libelle)+"'" )+",ah_reduction="+(ah_reduction=="" ? "null" : "'"+ValiderChaine(ah_reduction)+"'" )+",ah_cascade="+(ah_cascade=="true" ? "true" : "false")+",tl_numero="+tl_numero+"";
@@ -228,7 +228,7 @@ function User_Update_Adhérence_Liste_des_adhérences0(Compo_Maitre)
         alert("Echec lors de la mise à jour");
 
 /* table periode*/
-LstDouble_Exec_Req(GetSQLCompoAt(354),CleMaitre);
+LstDouble_Exec_Req(GetSQLCompoAt(355),CleMaitre);
 return CleMaitre;
 
 }
@@ -243,10 +243,6 @@ function User_Insert_Agents_Liste_des_agents0(Compo_Maitre)
 ***** INFOS ******
 
 Nbr d'esclaves = 10
-
-Id dans le tab: 261;
-simple
-Nbr Jointure: PAS DE JOINTURE;
 
 Id dans le tab: 262;
 simple
@@ -266,12 +262,12 @@ Nbr Jointure: PAS DE JOINTURE;
 
 Id dans le tab: 266;
 simple
-Nbr Jointure: 1;
-    Joint n° 0 = equipe,eq_numero,eq_numero
+Nbr Jointure: PAS DE JOINTURE;
 
 Id dans le tab: 267;
 simple
-Nbr Jointure: PAS DE JOINTURE;
+Nbr Jointure: 1;
+    Joint n° 0 = equipe,eq_numero,eq_numero
 
 Id dans le tab: 268;
 simple
@@ -285,61 +281,65 @@ Id dans le tab: 270;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
+Id dans le tab: 271;
+simple
+Nbr Jointure: PAS DE JOINTURE;
+
 ******************
 */
 
  var Table="agent";
- var CleMaitre = TAB_COMPO_PPTES[255].NewCle;
+ var CleMaitre = TAB_COMPO_PPTES[256].NewCle;
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var ag_nom=GetValAt(261);
- if (!ValiderChampsObligatoire(Table,"ag_nom",TAB_GLOBAL_COMPO[261],ag_nom,false))
+ var ag_nom=GetValAt(262);
+ if (!ValiderChampsObligatoire(Table,"ag_nom",TAB_GLOBAL_COMPO[262],ag_nom,false))
          return -1;
- if (!ValiderChampsType(Table,"ag_nom",TAB_GLOBAL_COMPO[261],ag_nom))
+ if (!ValiderChampsType(Table,"ag_nom",TAB_GLOBAL_COMPO[262],ag_nom))
          return -1;
- var ag_prenom=GetValAt(262);
- if (!ValiderChampsObligatoire(Table,"ag_prenom",TAB_GLOBAL_COMPO[262],ag_prenom,false))
+ var ag_prenom=GetValAt(263);
+ if (!ValiderChampsObligatoire(Table,"ag_prenom",TAB_GLOBAL_COMPO[263],ag_prenom,false))
          return -1;
- if (!ValiderChampsType(Table,"ag_prenom",TAB_GLOBAL_COMPO[262],ag_prenom))
+ if (!ValiderChampsType(Table,"ag_prenom",TAB_GLOBAL_COMPO[263],ag_prenom))
          return -1;
- var ag_initiales=GetValAt(263);
- if (!ValiderChampsObligatoire(Table,"ag_initiales",TAB_GLOBAL_COMPO[263],ag_initiales,false))
+ var ag_initiales=GetValAt(264);
+ if (!ValiderChampsObligatoire(Table,"ag_initiales",TAB_GLOBAL_COMPO[264],ag_initiales,false))
          return -1;
- if (!ValiderChampsType(Table,"ag_initiales",TAB_GLOBAL_COMPO[263],ag_initiales))
+ if (!ValiderChampsType(Table,"ag_initiales",TAB_GLOBAL_COMPO[264],ag_initiales))
          return -1;
- var ag_actif=GetValAt(264);
- if (!ValiderChampsObligatoire(Table,"ag_actif",TAB_GLOBAL_COMPO[264],ag_actif,false))
+ var ag_actif=GetValAt(265);
+ if (!ValiderChampsObligatoire(Table,"ag_actif",TAB_GLOBAL_COMPO[265],ag_actif,false))
          return -1;
- if (!ValiderChampsType(Table,"ag_actif",TAB_GLOBAL_COMPO[264],ag_actif))
+ if (!ValiderChampsType(Table,"ag_actif",TAB_GLOBAL_COMPO[265],ag_actif))
          return -1;
- var ag_role=GetValAt(265);
- if (!ValiderChampsObligatoire(Table,"ag_role",TAB_GLOBAL_COMPO[265],ag_role,false))
+ var ag_role=GetValAt(266);
+ if (!ValiderChampsObligatoire(Table,"ag_role",TAB_GLOBAL_COMPO[266],ag_role,false))
          return -1;
- if (!ValiderChampsType(Table,"ag_role",TAB_GLOBAL_COMPO[265],ag_role))
+ if (!ValiderChampsType(Table,"ag_role",TAB_GLOBAL_COMPO[266],ag_role))
          return -1;
- var eq_numero=GetValAt(266);
+ var eq_numero=GetValAt(267);
  if (eq_numero=="-1")
     eq_numero="null";
- if (!ValiderChampsObligatoire(Table,"eq_numero",TAB_GLOBAL_COMPO[266],eq_numero,true))
+ if (!ValiderChampsObligatoire(Table,"eq_numero",TAB_GLOBAL_COMPO[267],eq_numero,true))
          return -1;
- var ag_telephone=GetValAt(267);
- if (!ValiderChampsObligatoire(Table,"ag_telephone",TAB_GLOBAL_COMPO[267],ag_telephone,false))
+ var ag_telephone=GetValAt(268);
+ if (!ValiderChampsObligatoire(Table,"ag_telephone",TAB_GLOBAL_COMPO[268],ag_telephone,false))
          return -1;
- if (!ValiderChampsType(Table,"ag_telephone",TAB_GLOBAL_COMPO[267],ag_telephone))
+ if (!ValiderChampsType(Table,"ag_telephone",TAB_GLOBAL_COMPO[268],ag_telephone))
          return -1;
- var ag_mobile=GetValAt(268);
- if (!ValiderChampsObligatoire(Table,"ag_mobile",TAB_GLOBAL_COMPO[268],ag_mobile,false))
+ var ag_mobile=GetValAt(269);
+ if (!ValiderChampsObligatoire(Table,"ag_mobile",TAB_GLOBAL_COMPO[269],ag_mobile,false))
          return -1;
- if (!ValiderChampsType(Table,"ag_mobile",TAB_GLOBAL_COMPO[268],ag_mobile))
+ if (!ValiderChampsType(Table,"ag_mobile",TAB_GLOBAL_COMPO[269],ag_mobile))
          return -1;
- var ag_email=GetValAt(269);
- if (!ValiderChampsObligatoire(Table,"ag_email",TAB_GLOBAL_COMPO[269],ag_email,false))
+ var ag_email=GetValAt(270);
+ if (!ValiderChampsObligatoire(Table,"ag_email",TAB_GLOBAL_COMPO[270],ag_email,false))
          return -1;
- if (!ValiderChampsType(Table,"ag_email",TAB_GLOBAL_COMPO[269],ag_email))
+ if (!ValiderChampsType(Table,"ag_email",TAB_GLOBAL_COMPO[270],ag_email))
          return -1;
- var ag_commentaire=GetValAt(270);
- if (!ValiderChampsObligatoire(Table,"ag_commentaire",TAB_GLOBAL_COMPO[270],ag_commentaire,false))
+ var ag_commentaire=GetValAt(271);
+ if (!ValiderChampsObligatoire(Table,"ag_commentaire",TAB_GLOBAL_COMPO[271],ag_commentaire,false))
          return -1;
- if (!ValiderChampsType(Table,"ag_commentaire",TAB_GLOBAL_COMPO[270],ag_commentaire))
+ if (!ValiderChampsType(Table,"ag_commentaire",TAB_GLOBAL_COMPO[271],ag_commentaire))
          return -1;
  var Req="insert into "+Table+" ";
 var TabInsertionEnPlus=new Array();
@@ -375,55 +375,55 @@ function User_Update_Agents_Liste_des_agents0(Compo_Maitre)
  var Table="agent";
  var CleMaitre = Compo_Maitre.getCleVal();
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var ag_nom=GetValAt(261);
- if (!ValiderChampsObligatoire(Table,"ag_nom",TAB_GLOBAL_COMPO[261],ag_nom,false))
+ var ag_nom=GetValAt(262);
+ if (!ValiderChampsObligatoire(Table,"ag_nom",TAB_GLOBAL_COMPO[262],ag_nom,false))
          return -1;
- if (!ValiderChampsType(Table,"ag_nom",TAB_GLOBAL_COMPO[261],ag_nom))
+ if (!ValiderChampsType(Table,"ag_nom",TAB_GLOBAL_COMPO[262],ag_nom))
          return -1;
- var ag_prenom=GetValAt(262);
- if (!ValiderChampsObligatoire(Table,"ag_prenom",TAB_GLOBAL_COMPO[262],ag_prenom,false))
+ var ag_prenom=GetValAt(263);
+ if (!ValiderChampsObligatoire(Table,"ag_prenom",TAB_GLOBAL_COMPO[263],ag_prenom,false))
          return -1;
- if (!ValiderChampsType(Table,"ag_prenom",TAB_GLOBAL_COMPO[262],ag_prenom))
+ if (!ValiderChampsType(Table,"ag_prenom",TAB_GLOBAL_COMPO[263],ag_prenom))
          return -1;
- var ag_initiales=GetValAt(263);
- if (!ValiderChampsObligatoire(Table,"ag_initiales",TAB_GLOBAL_COMPO[263],ag_initiales,false))
+ var ag_initiales=GetValAt(264);
+ if (!ValiderChampsObligatoire(Table,"ag_initiales",TAB_GLOBAL_COMPO[264],ag_initiales,false))
          return -1;
- if (!ValiderChampsType(Table,"ag_initiales",TAB_GLOBAL_COMPO[263],ag_initiales))
+ if (!ValiderChampsType(Table,"ag_initiales",TAB_GLOBAL_COMPO[264],ag_initiales))
          return -1;
- var ag_actif=GetValAt(264);
- if (!ValiderChampsObligatoire(Table,"ag_actif",TAB_GLOBAL_COMPO[264],ag_actif,false))
+ var ag_actif=GetValAt(265);
+ if (!ValiderChampsObligatoire(Table,"ag_actif",TAB_GLOBAL_COMPO[265],ag_actif,false))
          return -1;
- if (!ValiderChampsType(Table,"ag_actif",TAB_GLOBAL_COMPO[264],ag_actif))
+ if (!ValiderChampsType(Table,"ag_actif",TAB_GLOBAL_COMPO[265],ag_actif))
          return -1;
- var ag_role=GetValAt(265);
- if (!ValiderChampsObligatoire(Table,"ag_role",TAB_GLOBAL_COMPO[265],ag_role,false))
+ var ag_role=GetValAt(266);
+ if (!ValiderChampsObligatoire(Table,"ag_role",TAB_GLOBAL_COMPO[266],ag_role,false))
          return -1;
- if (!ValiderChampsType(Table,"ag_role",TAB_GLOBAL_COMPO[265],ag_role))
+ if (!ValiderChampsType(Table,"ag_role",TAB_GLOBAL_COMPO[266],ag_role))
          return -1;
- var eq_numero=GetValAt(266);
+ var eq_numero=GetValAt(267);
  if (eq_numero=="-1")
     eq_numero="null";
- if (!ValiderChampsObligatoire(Table,"eq_numero",TAB_GLOBAL_COMPO[266],eq_numero,true))
+ if (!ValiderChampsObligatoire(Table,"eq_numero",TAB_GLOBAL_COMPO[267],eq_numero,true))
          return -1;
- var ag_telephone=GetValAt(267);
- if (!ValiderChampsObligatoire(Table,"ag_telephone",TAB_GLOBAL_COMPO[267],ag_telephone,false))
+ var ag_telephone=GetValAt(268);
+ if (!ValiderChampsObligatoire(Table,"ag_telephone",TAB_GLOBAL_COMPO[268],ag_telephone,false))
          return -1;
- if (!ValiderChampsType(Table,"ag_telephone",TAB_GLOBAL_COMPO[267],ag_telephone))
+ if (!ValiderChampsType(Table,"ag_telephone",TAB_GLOBAL_COMPO[268],ag_telephone))
          return -1;
- var ag_mobile=GetValAt(268);
- if (!ValiderChampsObligatoire(Table,"ag_mobile",TAB_GLOBAL_COMPO[268],ag_mobile,false))
+ var ag_mobile=GetValAt(269);
+ if (!ValiderChampsObligatoire(Table,"ag_mobile",TAB_GLOBAL_COMPO[269],ag_mobile,false))
          return -1;
- if (!ValiderChampsType(Table,"ag_mobile",TAB_GLOBAL_COMPO[268],ag_mobile))
+ if (!ValiderChampsType(Table,"ag_mobile",TAB_GLOBAL_COMPO[269],ag_mobile))
          return -1;
- var ag_email=GetValAt(269);
- if (!ValiderChampsObligatoire(Table,"ag_email",TAB_GLOBAL_COMPO[269],ag_email,false))
+ var ag_email=GetValAt(270);
+ if (!ValiderChampsObligatoire(Table,"ag_email",TAB_GLOBAL_COMPO[270],ag_email,false))
          return -1;
- if (!ValiderChampsType(Table,"ag_email",TAB_GLOBAL_COMPO[269],ag_email))
+ if (!ValiderChampsType(Table,"ag_email",TAB_GLOBAL_COMPO[270],ag_email))
          return -1;
- var ag_commentaire=GetValAt(270);
- if (!ValiderChampsObligatoire(Table,"ag_commentaire",TAB_GLOBAL_COMPO[270],ag_commentaire,false))
+ var ag_commentaire=GetValAt(271);
+ if (!ValiderChampsObligatoire(Table,"ag_commentaire",TAB_GLOBAL_COMPO[271],ag_commentaire,false))
          return -1;
- if (!ValiderChampsType(Table,"ag_commentaire",TAB_GLOBAL_COMPO[270],ag_commentaire))
+ if (!ValiderChampsType(Table,"ag_commentaire",TAB_GLOBAL_COMPO[271],ag_commentaire))
          return -1;
  var Req="update "+Table+" set ";
  Req+="ag_nom="+(ag_nom=="" ? "null" : "'"+ValiderChaine(ag_nom)+"'" )+",ag_prenom="+(ag_prenom=="" ? "null" : "'"+ValiderChaine(ag_prenom)+"'" )+",ag_initiales="+(ag_initiales=="" ? "null" : "'"+ValiderChaine(ag_initiales)+"'" )+",ag_actif="+(ag_actif=="true" ? "true" : "false")+",ag_role="+(ag_role=="" ? "null" : "'"+ValiderChaine(ag_role)+"'" )+",eq_numero="+eq_numero+",ag_telephone="+(ag_telephone=="" ? "null" : "'"+ValiderChaine(ag_telephone)+"'" )+",ag_mobile="+(ag_mobile=="" ? "null" : "'"+ValiderChaine(ag_mobile)+"'" )+",ag_email="+(ag_email=="" ? "null" : "'"+ValiderChaine(ag_email)+"'" )+",ag_commentaire="+(ag_commentaire=="" ? "null" : "'"+ValiderChaine(ag_commentaire)+"'" )+"";
@@ -446,11 +446,11 @@ function User_Insert_Cantons_Liste_des_cantons0(Compo_Maitre)
 
 Nbr d'esclaves = 2
 
-Id dans le tab: 301;
+Id dans le tab: 302;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 302;
+Id dans le tab: 303;
 complexe
 Nbr Jointure: 1;
     Joint n° 0 = ville,ct_numero,ct_numero
@@ -459,12 +459,12 @@ Nbr Jointure: 1;
 */
 
  var Table="canton";
- var CleMaitre = TAB_COMPO_PPTES[298].NewCle;
+ var CleMaitre = TAB_COMPO_PPTES[299].NewCle;
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var ct_nom=GetValAt(301);
- if (!ValiderChampsObligatoire(Table,"ct_nom",TAB_GLOBAL_COMPO[301],ct_nom,false))
+ var ct_nom=GetValAt(302);
+ if (!ValiderChampsObligatoire(Table,"ct_nom",TAB_GLOBAL_COMPO[302],ct_nom,false))
          return -1;
- if (!ValiderChampsType(Table,"ct_nom",TAB_GLOBAL_COMPO[301],ct_nom))
+ if (!ValiderChampsType(Table,"ct_nom",TAB_GLOBAL_COMPO[302],ct_nom))
          return -1;
  var Req="insert into "+Table+" ";
 var TabInsertionEnPlus=new Array();
@@ -500,10 +500,10 @@ function User_Update_Cantons_Liste_des_cantons0(Compo_Maitre)
  var Table="canton";
  var CleMaitre = Compo_Maitre.getCleVal();
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var ct_nom=GetValAt(301);
- if (!ValiderChampsObligatoire(Table,"ct_nom",TAB_GLOBAL_COMPO[301],ct_nom,false))
+ var ct_nom=GetValAt(302);
+ if (!ValiderChampsObligatoire(Table,"ct_nom",TAB_GLOBAL_COMPO[302],ct_nom,false))
          return -1;
- if (!ValiderChampsType(Table,"ct_nom",TAB_GLOBAL_COMPO[301],ct_nom))
+ if (!ValiderChampsType(Table,"ct_nom",TAB_GLOBAL_COMPO[302],ct_nom))
          return -1;
  var Req="update "+Table+" set ";
  Req+="ct_nom="+(ct_nom=="" ? "null" : "'"+ValiderChaine(ct_nom)+"'" )+"";
@@ -526,11 +526,11 @@ function User_Insert_Codes_postaux_Liste_des_codes_postaux0(Compo_Maitre)
 
 Nbr d'esclaves = 2
 
-Id dans le tab: 283;
+Id dans le tab: 284;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 287;
+Id dans le tab: 288;
 complexe
 Nbr Jointure: 2;
     Joint n° 0 = villecp,cp_numero,cp_numero
@@ -540,12 +540,12 @@ Nbr Jointure: 2;
 */
 
  var Table="codepostal";
- var CleMaitre = TAB_COMPO_PPTES[280].NewCle;
+ var CleMaitre = TAB_COMPO_PPTES[281].NewCle;
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var cp_codepostal=GetValAt(283);
- if (!ValiderChampsObligatoire(Table,"cp_codepostal",TAB_GLOBAL_COMPO[283],cp_codepostal,false))
+ var cp_codepostal=GetValAt(284);
+ if (!ValiderChampsObligatoire(Table,"cp_codepostal",TAB_GLOBAL_COMPO[284],cp_codepostal,false))
          return -1;
- if (!ValiderChampsType(Table,"cp_codepostal",TAB_GLOBAL_COMPO[283],cp_codepostal))
+ if (!ValiderChampsType(Table,"cp_codepostal",TAB_GLOBAL_COMPO[284],cp_codepostal))
          return -1;
  var Req="insert into "+Table+" ";
 var TabInsertionEnPlus=new Array();
@@ -556,7 +556,7 @@ var TabInsertionEnPlus=new Array();
         alert("Echec lors de l'insertion");
 
 /* table ville*/
-LstDouble_Exec_Req(GetSQLCompoAt(287),CleMaitre);
+LstDouble_Exec_Req(GetSQLCompoAt(288),CleMaitre);
 return CleMaitre;
 
 }
@@ -584,10 +584,10 @@ function User_Update_Codes_postaux_Liste_des_codes_postaux0(Compo_Maitre)
  var Table="codepostal";
  var CleMaitre = Compo_Maitre.getCleVal();
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var cp_codepostal=GetValAt(283);
- if (!ValiderChampsObligatoire(Table,"cp_codepostal",TAB_GLOBAL_COMPO[283],cp_codepostal,false))
+ var cp_codepostal=GetValAt(284);
+ if (!ValiderChampsObligatoire(Table,"cp_codepostal",TAB_GLOBAL_COMPO[284],cp_codepostal,false))
          return -1;
- if (!ValiderChampsType(Table,"cp_codepostal",TAB_GLOBAL_COMPO[283],cp_codepostal))
+ if (!ValiderChampsType(Table,"cp_codepostal",TAB_GLOBAL_COMPO[284],cp_codepostal))
          return -1;
  var Req="update "+Table+" set ";
  Req+="cp_codepostal="+(cp_codepostal=="" ? "null" : "'"+ValiderChaine(cp_codepostal)+"'" )+"";
@@ -597,7 +597,7 @@ function User_Update_Codes_postaux_Liste_des_codes_postaux0(Compo_Maitre)
         alert("Echec lors de la mise à jour");
 
 /* table ville*/
-LstDouble_Exec_Req(GetSQLCompoAt(287),CleMaitre);
+LstDouble_Exec_Req(GetSQLCompoAt(288),CleMaitre);
 return CleMaitre;
 
 }
@@ -613,10 +613,6 @@ function User_Insert_Constantes_Liste_des_constantes0(Compo_Maitre)
 
 Nbr d'esclaves = 3
 
-Id dans le tab: 252;
-simple
-Nbr Jointure: PAS DE JOINTURE;
-
 Id dans le tab: 253;
 simple
 Nbr Jointure: PAS DE JOINTURE;
@@ -625,26 +621,30 @@ Id dans le tab: 254;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
+Id dans le tab: 255;
+simple
+Nbr Jointure: PAS DE JOINTURE;
+
 ******************
 */
 
  var Table="constante";
- var CleMaitre = TAB_COMPO_PPTES[248].NewCle;
+ var CleMaitre = TAB_COMPO_PPTES[249].NewCle;
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var cs_description=GetValAt(252);
- if (!ValiderChampsObligatoire(Table,"cs_description",TAB_GLOBAL_COMPO[252],cs_description,false))
+ var cs_description=GetValAt(253);
+ if (!ValiderChampsObligatoire(Table,"cs_description",TAB_GLOBAL_COMPO[253],cs_description,false))
          return -1;
- if (!ValiderChampsType(Table,"cs_description",TAB_GLOBAL_COMPO[252],cs_description))
+ if (!ValiderChampsType(Table,"cs_description",TAB_GLOBAL_COMPO[253],cs_description))
          return -1;
- var cs_valeur=GetValAt(253);
- if (!ValiderChampsObligatoire(Table,"cs_valeur",TAB_GLOBAL_COMPO[253],cs_valeur,false))
+ var cs_valeur=GetValAt(254);
+ if (!ValiderChampsObligatoire(Table,"cs_valeur",TAB_GLOBAL_COMPO[254],cs_valeur,false))
          return -1;
- if (!ValiderChampsType(Table,"cs_valeur",TAB_GLOBAL_COMPO[253],cs_valeur))
+ if (!ValiderChampsType(Table,"cs_valeur",TAB_GLOBAL_COMPO[254],cs_valeur))
          return -1;
- var cs_nom=GetValAt(254);
- if (!ValiderChampsObligatoire(Table,"cs_nom",TAB_GLOBAL_COMPO[254],cs_nom,false))
+ var cs_nom=GetValAt(255);
+ if (!ValiderChampsObligatoire(Table,"cs_nom",TAB_GLOBAL_COMPO[255],cs_nom,false))
          return -1;
- if (!ValiderChampsType(Table,"cs_nom",TAB_GLOBAL_COMPO[254],cs_nom))
+ if (!ValiderChampsType(Table,"cs_nom",TAB_GLOBAL_COMPO[255],cs_nom))
          return -1;
  var Req="insert into "+Table+" ";
 var TabInsertionEnPlus=new Array();
@@ -680,20 +680,20 @@ function User_Update_Constantes_Liste_des_constantes0(Compo_Maitre)
  var Table="constante";
  var CleMaitre = Compo_Maitre.getCleVal();
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var cs_description=GetValAt(252);
- if (!ValiderChampsObligatoire(Table,"cs_description",TAB_GLOBAL_COMPO[252],cs_description,false))
+ var cs_description=GetValAt(253);
+ if (!ValiderChampsObligatoire(Table,"cs_description",TAB_GLOBAL_COMPO[253],cs_description,false))
          return -1;
- if (!ValiderChampsType(Table,"cs_description",TAB_GLOBAL_COMPO[252],cs_description))
+ if (!ValiderChampsType(Table,"cs_description",TAB_GLOBAL_COMPO[253],cs_description))
          return -1;
- var cs_valeur=GetValAt(253);
- if (!ValiderChampsObligatoire(Table,"cs_valeur",TAB_GLOBAL_COMPO[253],cs_valeur,false))
+ var cs_valeur=GetValAt(254);
+ if (!ValiderChampsObligatoire(Table,"cs_valeur",TAB_GLOBAL_COMPO[254],cs_valeur,false))
          return -1;
- if (!ValiderChampsType(Table,"cs_valeur",TAB_GLOBAL_COMPO[253],cs_valeur))
+ if (!ValiderChampsType(Table,"cs_valeur",TAB_GLOBAL_COMPO[254],cs_valeur))
          return -1;
- var cs_nom=GetValAt(254);
- if (!ValiderChampsObligatoire(Table,"cs_nom",TAB_GLOBAL_COMPO[254],cs_nom,false))
+ var cs_nom=GetValAt(255);
+ if (!ValiderChampsObligatoire(Table,"cs_nom",TAB_GLOBAL_COMPO[255],cs_nom,false))
          return -1;
- if (!ValiderChampsType(Table,"cs_nom",TAB_GLOBAL_COMPO[254],cs_nom))
+ if (!ValiderChampsType(Table,"cs_nom",TAB_GLOBAL_COMPO[255],cs_nom))
          return -1;
  var Req="update "+Table+" set ";
  Req+="cs_description="+(cs_description=="" ? "null" : "'"+ValiderChaine(cs_description)+"'" )+",cs_valeur="+(cs_valeur=="" ? "null" : "'"+ValiderChaine(cs_valeur)+"'" )+",cs_nom="+(cs_nom=="" ? "null" : "'"+ValiderChaine(cs_nom)+"'" )+"";
@@ -716,11 +716,11 @@ function User_Insert_Profils_de_droits_Liste_des_profils_de_droits0(Compo_Maitre
 
 Nbr d'esclaves = 2
 
-Id dans le tab: 234;
+Id dans le tab: 235;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 235;
+Id dans le tab: 236;
 complexe
 Nbr Jointure: 1;
     Joint n° 0 = droit,dp_numero,dp_numero
@@ -729,12 +729,12 @@ Nbr Jointure: 1;
 */
 
  var Table="droitprofil";
- var CleMaitre = TAB_COMPO_PPTES[232].NewCle;
+ var CleMaitre = TAB_COMPO_PPTES[233].NewCle;
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var dp_libelle=GetValAt(234);
- if (!ValiderChampsObligatoire(Table,"dp_libelle",TAB_GLOBAL_COMPO[234],dp_libelle,false))
+ var dp_libelle=GetValAt(235);
+ if (!ValiderChampsObligatoire(Table,"dp_libelle",TAB_GLOBAL_COMPO[235],dp_libelle,false))
          return -1;
- if (!ValiderChampsType(Table,"dp_libelle",TAB_GLOBAL_COMPO[234],dp_libelle))
+ if (!ValiderChampsType(Table,"dp_libelle",TAB_GLOBAL_COMPO[235],dp_libelle))
          return -1;
  var Req="insert into "+Table+" ";
 var TabInsertionEnPlus=new Array();
@@ -770,10 +770,10 @@ function User_Update_Profils_de_droits_Liste_des_profils_de_droits0(Compo_Maitre
  var Table="droitprofil";
  var CleMaitre = Compo_Maitre.getCleVal();
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var dp_libelle=GetValAt(234);
- if (!ValiderChampsObligatoire(Table,"dp_libelle",TAB_GLOBAL_COMPO[234],dp_libelle,false))
+ var dp_libelle=GetValAt(235);
+ if (!ValiderChampsObligatoire(Table,"dp_libelle",TAB_GLOBAL_COMPO[235],dp_libelle,false))
          return -1;
- if (!ValiderChampsType(Table,"dp_libelle",TAB_GLOBAL_COMPO[234],dp_libelle))
+ if (!ValiderChampsType(Table,"dp_libelle",TAB_GLOBAL_COMPO[235],dp_libelle))
          return -1;
  var Req="update "+Table+" set ";
  Req+="dp_libelle="+(dp_libelle=="" ? "null" : "'"+ValiderChaine(dp_libelle)+"'" )+"";
@@ -796,14 +796,10 @@ function User_Insert_Profils_de_droits_Droits_2(Compo_Maitre)
 
 Nbr d'esclaves = 5
 
-Id dans le tab: 238;
+Id dans le tab: 239;
 simple
 Nbr Jointure: 1;
     Joint n° 0 = groupetable,gt_numero,gt_numero
-
-Id dans le tab: 239;
-simple
-Nbr Jointure: PAS DE JOINTURE;
 
 Id dans le tab: 240;
 simple
@@ -817,42 +813,46 @@ Id dans le tab: 242;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
+Id dans le tab: 243;
+simple
+Nbr Jointure: PAS DE JOINTURE;
+
 ******************
 */
 
  var Table="droit";
- var CleMaitre = TAB_COMPO_PPTES[235].NewCle;
+ var CleMaitre = TAB_COMPO_PPTES[236].NewCle;
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
  /* COMPOSANT LISTE AVEC JOINTURE SIMPLE */
- var gt_numero=GetValAt(238);
+ var gt_numero=GetValAt(239);
  if (gt_numero=="-1")
     gt_numero="null";
- if (!ValiderChampsObligatoire(Table,"gt_numero",TAB_GLOBAL_COMPO[238],gt_numero,true))
+ if (!ValiderChampsObligatoire(Table,"gt_numero",TAB_GLOBAL_COMPO[239],gt_numero,true))
          return -1;
- var dr_select=GetValAt(239);
- if (!ValiderChampsObligatoire(Table,"dr_select",TAB_GLOBAL_COMPO[239],dr_select,false))
+ var dr_select=GetValAt(240);
+ if (!ValiderChampsObligatoire(Table,"dr_select",TAB_GLOBAL_COMPO[240],dr_select,false))
          return -1;
- if (!ValiderChampsType(Table,"dr_select",TAB_GLOBAL_COMPO[239],dr_select))
+ if (!ValiderChampsType(Table,"dr_select",TAB_GLOBAL_COMPO[240],dr_select))
          return -1;
- var dr_insert=GetValAt(240);
- if (!ValiderChampsObligatoire(Table,"dr_insert",TAB_GLOBAL_COMPO[240],dr_insert,false))
+ var dr_insert=GetValAt(241);
+ if (!ValiderChampsObligatoire(Table,"dr_insert",TAB_GLOBAL_COMPO[241],dr_insert,false))
          return -1;
- if (!ValiderChampsType(Table,"dr_insert",TAB_GLOBAL_COMPO[240],dr_insert))
+ if (!ValiderChampsType(Table,"dr_insert",TAB_GLOBAL_COMPO[241],dr_insert))
          return -1;
- var dr_update=GetValAt(241);
- if (!ValiderChampsObligatoire(Table,"dr_update",TAB_GLOBAL_COMPO[241],dr_update,false))
+ var dr_update=GetValAt(242);
+ if (!ValiderChampsObligatoire(Table,"dr_update",TAB_GLOBAL_COMPO[242],dr_update,false))
          return -1;
- if (!ValiderChampsType(Table,"dr_update",TAB_GLOBAL_COMPO[241],dr_update))
+ if (!ValiderChampsType(Table,"dr_update",TAB_GLOBAL_COMPO[242],dr_update))
          return -1;
- var dr_delete=GetValAt(242);
- if (!ValiderChampsObligatoire(Table,"dr_delete",TAB_GLOBAL_COMPO[242],dr_delete,false))
+ var dr_delete=GetValAt(243);
+ if (!ValiderChampsObligatoire(Table,"dr_delete",TAB_GLOBAL_COMPO[243],dr_delete,false))
          return -1;
- if (!ValiderChampsType(Table,"dr_delete",TAB_GLOBAL_COMPO[242],dr_delete))
+ if (!ValiderChampsType(Table,"dr_delete",TAB_GLOBAL_COMPO[243],dr_delete))
          return -1;
  var Req="insert into "+Table+" ";
 var TabInsertionEnPlus=new Array();
  Req+="("+NomCleMaitre+",dp_numero,gt_numero,dr_select,dr_insert,dr_update,dr_delete"+(TabInsertionEnPlus.length!=0?","+TabInsertionEnPlus[0]:"")+")";
- Req+=" values ("+CleMaitre+","+TAB_COMPO_PPTES[232].NewCle+","+gt_numero+","+(dr_select=="true" ? "true" : "false")+","+(dr_insert=="true" ? "true" : "false")+","+(dr_update=="true" ? "true" : "false")+","+(dr_delete=="true" ? "true" : "false")+""+(TabInsertionEnPlus.length!=0?","+TabInsertionEnPlus[1]:"")+")";
+ Req+=" values ("+CleMaitre+","+TAB_COMPO_PPTES[233].NewCle+","+gt_numero+","+(dr_select=="true" ? "true" : "false")+","+(dr_insert=="true" ? "true" : "false")+","+(dr_update=="true" ? "true" : "false")+","+(dr_delete=="true" ? "true" : "false")+""+(TabInsertionEnPlus.length!=0?","+TabInsertionEnPlus[1]:"")+")";
 
  if (pgsql_update(Req)==0)
         alert("Echec lors de l'insertion");
@@ -883,30 +883,30 @@ function User_Update_Profils_de_droits_Droits_2(Compo_Maitre)
  var Table="droit";
  var CleMaitre = Compo_Maitre.getCleVal();
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var gt_numero=GetValAt(238);
+ var gt_numero=GetValAt(239);
  if (gt_numero=="-1")
     gt_numero="null";
- if (!ValiderChampsObligatoire(Table,"gt_numero",TAB_GLOBAL_COMPO[238],gt_numero,true))
+ if (!ValiderChampsObligatoire(Table,"gt_numero",TAB_GLOBAL_COMPO[239],gt_numero,true))
          return -1;
- var dr_select=GetValAt(239);
- if (!ValiderChampsObligatoire(Table,"dr_select",TAB_GLOBAL_COMPO[239],dr_select,false))
+ var dr_select=GetValAt(240);
+ if (!ValiderChampsObligatoire(Table,"dr_select",TAB_GLOBAL_COMPO[240],dr_select,false))
          return -1;
- if (!ValiderChampsType(Table,"dr_select",TAB_GLOBAL_COMPO[239],dr_select))
+ if (!ValiderChampsType(Table,"dr_select",TAB_GLOBAL_COMPO[240],dr_select))
          return -1;
- var dr_insert=GetValAt(240);
- if (!ValiderChampsObligatoire(Table,"dr_insert",TAB_GLOBAL_COMPO[240],dr_insert,false))
+ var dr_insert=GetValAt(241);
+ if (!ValiderChampsObligatoire(Table,"dr_insert",TAB_GLOBAL_COMPO[241],dr_insert,false))
          return -1;
- if (!ValiderChampsType(Table,"dr_insert",TAB_GLOBAL_COMPO[240],dr_insert))
+ if (!ValiderChampsType(Table,"dr_insert",TAB_GLOBAL_COMPO[241],dr_insert))
          return -1;
- var dr_update=GetValAt(241);
- if (!ValiderChampsObligatoire(Table,"dr_update",TAB_GLOBAL_COMPO[241],dr_update,false))
+ var dr_update=GetValAt(242);
+ if (!ValiderChampsObligatoire(Table,"dr_update",TAB_GLOBAL_COMPO[242],dr_update,false))
          return -1;
- if (!ValiderChampsType(Table,"dr_update",TAB_GLOBAL_COMPO[241],dr_update))
+ if (!ValiderChampsType(Table,"dr_update",TAB_GLOBAL_COMPO[242],dr_update))
          return -1;
- var dr_delete=GetValAt(242);
- if (!ValiderChampsObligatoire(Table,"dr_delete",TAB_GLOBAL_COMPO[242],dr_delete,false))
+ var dr_delete=GetValAt(243);
+ if (!ValiderChampsObligatoire(Table,"dr_delete",TAB_GLOBAL_COMPO[243],dr_delete,false))
          return -1;
- if (!ValiderChampsType(Table,"dr_delete",TAB_GLOBAL_COMPO[242],dr_delete))
+ if (!ValiderChampsType(Table,"dr_delete",TAB_GLOBAL_COMPO[243],dr_delete))
          return -1;
  var Req="update "+Table+" set ";
  Req+="gt_numero="+gt_numero+",dr_select="+(dr_select=="true" ? "true" : "false")+",dr_insert="+(dr_insert=="true" ? "true" : "false")+",dr_update="+(dr_update=="true" ? "true" : "false")+",dr_delete="+(dr_delete=="true" ? "true" : "false")+"";
@@ -927,7 +927,7 @@ function User_Insert_Employés_Liste_des_employés0(Compo_Maitre)
 /*
 ***** INFOS ******
 
-Nbr d'esclaves = 12
+Nbr d'esclaves = 13
 
 Id dans le tab: 220;
 simple
@@ -972,10 +972,14 @@ Nbr Jointure: PAS DE JOINTURE;
 
 Id dans le tab: 230;
 simple
+Nbr Jointure: PAS DE JOINTURE;
+
+Id dans le tab: 231;
+simple
 Nbr Jointure: 1;
     Joint n° 0 = acces,em_acces,ac_numero
 
-Id dans le tab: 231;
+Id dans le tab: 232;
 simple
 Nbr Jointure: 1;
     Joint n° 0 = droitprofil,dp_numero,dp_numero
@@ -1026,25 +1030,30 @@ Nbr Jointure: 1;
          return -1;
  if (!ValiderChampsType(Table,"em_societe_invoicing",TAB_GLOBAL_COMPO[227],em_societe_invoicing))
          return -1;
- var em_personne_editing=GetValAt(228);
- if (!ValiderChampsObligatoire(Table,"em_personne_editing",TAB_GLOBAL_COMPO[228],em_personne_editing,false))
+ var em_cancel_invoice=GetValAt(228);
+ if (!ValiderChampsObligatoire(Table,"em_cancel_invoice",TAB_GLOBAL_COMPO[228],em_cancel_invoice,false))
          return -1;
- if (!ValiderChampsType(Table,"em_personne_editing",TAB_GLOBAL_COMPO[228],em_personne_editing))
+ if (!ValiderChampsType(Table,"em_cancel_invoice",TAB_GLOBAL_COMPO[228],em_cancel_invoice))
          return -1;
- var em_emploi=GetValAt(229);
- if (!ValiderChampsObligatoire(Table,"em_emploi",TAB_GLOBAL_COMPO[229],em_emploi,false))
+ var em_personne_editing=GetValAt(229);
+ if (!ValiderChampsObligatoire(Table,"em_personne_editing",TAB_GLOBAL_COMPO[229],em_personne_editing,false))
          return -1;
- if (!ValiderChampsType(Table,"em_emploi",TAB_GLOBAL_COMPO[229],em_emploi))
+ if (!ValiderChampsType(Table,"em_personne_editing",TAB_GLOBAL_COMPO[229],em_personne_editing))
          return -1;
- var em_acces=GetValAt(230);
+ var em_emploi=GetValAt(230);
+ if (!ValiderChampsObligatoire(Table,"em_emploi",TAB_GLOBAL_COMPO[230],em_emploi,false))
+         return -1;
+ if (!ValiderChampsType(Table,"em_emploi",TAB_GLOBAL_COMPO[230],em_emploi))
+         return -1;
+ var em_acces=GetValAt(231);
  if (em_acces=="-1")
     em_acces="null";
- if (!ValiderChampsObligatoire(Table,"em_acces",TAB_GLOBAL_COMPO[230],em_acces,true))
+ if (!ValiderChampsObligatoire(Table,"em_acces",TAB_GLOBAL_COMPO[231],em_acces,true))
          return -1;
- var dp_numero=GetValAt(231);
+ var dp_numero=GetValAt(232);
  if (dp_numero=="-1")
     dp_numero="null";
- if (!ValiderChampsObligatoire(Table,"dp_numero",TAB_GLOBAL_COMPO[231],dp_numero,true))
+ if (!ValiderChampsObligatoire(Table,"dp_numero",TAB_GLOBAL_COMPO[232],dp_numero,true))
          return -1;
  var Req="insert into "+Table+" ";
 var TabInsertionEnPlus=new Array();
@@ -1062,8 +1071,8 @@ else
         alert("Vous devez d'abord valider "+CompoLieMaitre.getLabel()+" puis mettre à jour.");
         return -1;
 }
- Req+="("+NomCleMaitre+",em_agent,em_login,em_password,em_super,em_reglement,em_self_invoicing,em_service_invoicing,em_societe_invoicing,em_personne_editing,em_emploi,em_acces,dp_numero"+(Asso11?","+TabAsso11[0]:"")+(TabInsertionEnPlus.length!=0?","+TabInsertionEnPlus[0]:"")+")";
- Req+=" values ("+CleMaitre+","+em_agent+","+(em_login=="" ? "null" : "'"+ValiderChaine(em_login)+"'" )+","+(em_password=="" ? "null" : "'"+ValiderChaine(em_password)+"'" )+","+(em_super=="true" ? "true" : "false")+","+(em_reglement=="true" ? "true" : "false")+","+(em_self_invoicing=="true" ? "true" : "false")+","+(em_service_invoicing=="true" ? "true" : "false")+","+(em_societe_invoicing=="true" ? "true" : "false")+","+(em_personne_editing=="true" ? "true" : "false")+","+(em_emploi=="" ? "null" : "'"+ValiderChaine(em_emploi)+"'" )+","+em_acces+","+dp_numero+""+(Asso11?","+TabAsso11[1]:"")+(TabInsertionEnPlus.length!=0?","+TabInsertionEnPlus[1]:"")+")";
+ Req+="("+NomCleMaitre+",em_agent,em_login,em_password,em_super,em_reglement,em_self_invoicing,em_service_invoicing,em_societe_invoicing,em_cancel_invoice,em_personne_editing,em_emploi,em_acces,dp_numero"+(Asso11?","+TabAsso11[0]:"")+(TabInsertionEnPlus.length!=0?","+TabInsertionEnPlus[0]:"")+")";
+ Req+=" values ("+CleMaitre+","+em_agent+","+(em_login=="" ? "null" : "'"+ValiderChaine(em_login)+"'" )+","+(em_password=="" ? "null" : "'"+ValiderChaine(em_password)+"'" )+","+(em_super=="true" ? "true" : "false")+","+(em_reglement=="true" ? "true" : "false")+","+(em_self_invoicing=="true" ? "true" : "false")+","+(em_service_invoicing=="true" ? "true" : "false")+","+(em_societe_invoicing=="true" ? "true" : "false")+","+(em_cancel_invoice=="true" ? "true" : "false")+","+(em_personne_editing=="true" ? "true" : "false")+","+(em_emploi=="" ? "null" : "'"+ValiderChaine(em_emploi)+"'" )+","+em_acces+","+dp_numero+""+(Asso11?","+TabAsso11[1]:"")+(TabInsertionEnPlus.length!=0?","+TabInsertionEnPlus[1]:"")+")";
 
  if (pgsql_update(Req)==0)
         alert("Echec lors de l'insertion");
@@ -1158,28 +1167,33 @@ function User_Update_Employés_Liste_des_employés0(Compo_Maitre)
          return -1;
  if (!ValiderChampsType(Table,"em_societe_invoicing",TAB_GLOBAL_COMPO[227],em_societe_invoicing))
          return -1;
- var em_personne_editing=GetValAt(228);
- if (!ValiderChampsObligatoire(Table,"em_personne_editing",TAB_GLOBAL_COMPO[228],em_personne_editing,false))
+ var em_cancel_invoice=GetValAt(228);
+ if (!ValiderChampsObligatoire(Table,"em_cancel_invoice",TAB_GLOBAL_COMPO[228],em_cancel_invoice,false))
          return -1;
- if (!ValiderChampsType(Table,"em_personne_editing",TAB_GLOBAL_COMPO[228],em_personne_editing))
+ if (!ValiderChampsType(Table,"em_cancel_invoice",TAB_GLOBAL_COMPO[228],em_cancel_invoice))
          return -1;
- var em_emploi=GetValAt(229);
- if (!ValiderChampsObligatoire(Table,"em_emploi",TAB_GLOBAL_COMPO[229],em_emploi,false))
+ var em_personne_editing=GetValAt(229);
+ if (!ValiderChampsObligatoire(Table,"em_personne_editing",TAB_GLOBAL_COMPO[229],em_personne_editing,false))
          return -1;
- if (!ValiderChampsType(Table,"em_emploi",TAB_GLOBAL_COMPO[229],em_emploi))
+ if (!ValiderChampsType(Table,"em_personne_editing",TAB_GLOBAL_COMPO[229],em_personne_editing))
          return -1;
- var em_acces=GetValAt(230);
+ var em_emploi=GetValAt(230);
+ if (!ValiderChampsObligatoire(Table,"em_emploi",TAB_GLOBAL_COMPO[230],em_emploi,false))
+         return -1;
+ if (!ValiderChampsType(Table,"em_emploi",TAB_GLOBAL_COMPO[230],em_emploi))
+         return -1;
+ var em_acces=GetValAt(231);
  if (em_acces=="-1")
     em_acces="null";
- if (!ValiderChampsObligatoire(Table,"em_acces",TAB_GLOBAL_COMPO[230],em_acces,true))
+ if (!ValiderChampsObligatoire(Table,"em_acces",TAB_GLOBAL_COMPO[231],em_acces,true))
          return -1;
- var dp_numero=GetValAt(231);
+ var dp_numero=GetValAt(232);
  if (dp_numero=="-1")
     dp_numero="null";
- if (!ValiderChampsObligatoire(Table,"dp_numero",TAB_GLOBAL_COMPO[231],dp_numero,true))
+ if (!ValiderChampsObligatoire(Table,"dp_numero",TAB_GLOBAL_COMPO[232],dp_numero,true))
          return -1;
  var Req="update "+Table+" set ";
- Req+="em_agent="+em_agent+",em_login="+(em_login=="" ? "null" : "'"+ValiderChaine(em_login)+"'" )+",em_password="+(em_password=="" ? "null" : "'"+ValiderChaine(em_password)+"'" )+",em_super="+(em_super=="true" ? "true" : "false")+",em_reglement="+(em_reglement=="true" ? "true" : "false")+",em_self_invoicing="+(em_self_invoicing=="true" ? "true" : "false")+",em_service_invoicing="+(em_service_invoicing=="true" ? "true" : "false")+",em_societe_invoicing="+(em_societe_invoicing=="true" ? "true" : "false")+",em_personne_editing="+(em_personne_editing=="true" ? "true" : "false")+",em_emploi="+(em_emploi=="" ? "null" : "'"+ValiderChaine(em_emploi)+"'" )+",em_acces="+em_acces+",dp_numero="+dp_numero+"";
+ Req+="em_agent="+em_agent+",em_login="+(em_login=="" ? "null" : "'"+ValiderChaine(em_login)+"'" )+",em_password="+(em_password=="" ? "null" : "'"+ValiderChaine(em_password)+"'" )+",em_super="+(em_super=="true" ? "true" : "false")+",em_reglement="+(em_reglement=="true" ? "true" : "false")+",em_self_invoicing="+(em_self_invoicing=="true" ? "true" : "false")+",em_service_invoicing="+(em_service_invoicing=="true" ? "true" : "false")+",em_societe_invoicing="+(em_societe_invoicing=="true" ? "true" : "false")+",em_cancel_invoice="+(em_cancel_invoice=="true" ? "true" : "false")+",em_personne_editing="+(em_personne_editing=="true" ? "true" : "false")+",em_emploi="+(em_emploi=="" ? "null" : "'"+ValiderChaine(em_emploi)+"'" )+",em_acces="+em_acces+",dp_numero="+dp_numero+"";
  Req+=" where "+NomCleMaitre+"="+CleMaitre;
 
  if (pgsql_update(Req)==0)
@@ -1199,7 +1213,7 @@ function User_Insert_Équipes_Liste_des_équipes0(Compo_Maitre)
 
 Nbr d'esclaves = 1
 
-Id dans le tab: 273;
+Id dans le tab: 274;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
@@ -1207,12 +1221,12 @@ Nbr Jointure: PAS DE JOINTURE;
 */
 
  var Table="equipe";
- var CleMaitre = TAB_COMPO_PPTES[271].NewCle;
+ var CleMaitre = TAB_COMPO_PPTES[272].NewCle;
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var eq_nom=GetValAt(273);
- if (!ValiderChampsObligatoire(Table,"eq_nom",TAB_GLOBAL_COMPO[273],eq_nom,false))
+ var eq_nom=GetValAt(274);
+ if (!ValiderChampsObligatoire(Table,"eq_nom",TAB_GLOBAL_COMPO[274],eq_nom,false))
          return -1;
- if (!ValiderChampsType(Table,"eq_nom",TAB_GLOBAL_COMPO[273],eq_nom))
+ if (!ValiderChampsType(Table,"eq_nom",TAB_GLOBAL_COMPO[274],eq_nom))
          return -1;
  var Req="insert into "+Table+" ";
 var TabInsertionEnPlus=new Array();
@@ -1248,10 +1262,10 @@ function User_Update_Équipes_Liste_des_équipes0(Compo_Maitre)
  var Table="equipe";
  var CleMaitre = Compo_Maitre.getCleVal();
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var eq_nom=GetValAt(273);
- if (!ValiderChampsObligatoire(Table,"eq_nom",TAB_GLOBAL_COMPO[273],eq_nom,false))
+ var eq_nom=GetValAt(274);
+ if (!ValiderChampsObligatoire(Table,"eq_nom",TAB_GLOBAL_COMPO[274],eq_nom,false))
          return -1;
- if (!ValiderChampsType(Table,"eq_nom",TAB_GLOBAL_COMPO[273],eq_nom))
+ if (!ValiderChampsType(Table,"eq_nom",TAB_GLOBAL_COMPO[274],eq_nom))
          return -1;
  var Req="update "+Table+" set ";
  Req+="eq_nom="+(eq_nom=="" ? "null" : "'"+ValiderChaine(eq_nom)+"'" )+"";
@@ -1274,11 +1288,11 @@ function User_Insert_Groupe_de_tables_Liste_des_groupes_de_tables0(Compo_Maitre)
 
 Nbr d'esclaves = 2
 
-Id dans le tab: 246;
+Id dans le tab: 247;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 247;
+Id dans le tab: 248;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
@@ -1286,17 +1300,17 @@ Nbr Jointure: PAS DE JOINTURE;
 */
 
  var Table="groupetable";
- var CleMaitre = TAB_COMPO_PPTES[243].NewCle;
+ var CleMaitre = TAB_COMPO_PPTES[244].NewCle;
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var gt_libelle=GetValAt(246);
- if (!ValiderChampsObligatoire(Table,"gt_libelle",TAB_GLOBAL_COMPO[246],gt_libelle,false))
+ var gt_libelle=GetValAt(247);
+ if (!ValiderChampsObligatoire(Table,"gt_libelle",TAB_GLOBAL_COMPO[247],gt_libelle,false))
          return -1;
- if (!ValiderChampsType(Table,"gt_libelle",TAB_GLOBAL_COMPO[246],gt_libelle))
+ if (!ValiderChampsType(Table,"gt_libelle",TAB_GLOBAL_COMPO[247],gt_libelle))
          return -1;
- var gt_tables=GetValAt(247);
- if (!ValiderChampsObligatoire(Table,"gt_tables",TAB_GLOBAL_COMPO[247],gt_tables,false))
+ var gt_tables=GetValAt(248);
+ if (!ValiderChampsObligatoire(Table,"gt_tables",TAB_GLOBAL_COMPO[248],gt_tables,false))
          return -1;
- if (!ValiderChampsType(Table,"gt_tables",TAB_GLOBAL_COMPO[247],gt_tables))
+ if (!ValiderChampsType(Table,"gt_tables",TAB_GLOBAL_COMPO[248],gt_tables))
          return -1;
  var Req="insert into "+Table+" ";
 var TabInsertionEnPlus=new Array();
@@ -1332,15 +1346,15 @@ function User_Update_Groupe_de_tables_Liste_des_groupes_de_tables0(Compo_Maitre)
  var Table="groupetable";
  var CleMaitre = Compo_Maitre.getCleVal();
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var gt_libelle=GetValAt(246);
- if (!ValiderChampsObligatoire(Table,"gt_libelle",TAB_GLOBAL_COMPO[246],gt_libelle,false))
+ var gt_libelle=GetValAt(247);
+ if (!ValiderChampsObligatoire(Table,"gt_libelle",TAB_GLOBAL_COMPO[247],gt_libelle,false))
          return -1;
- if (!ValiderChampsType(Table,"gt_libelle",TAB_GLOBAL_COMPO[246],gt_libelle))
+ if (!ValiderChampsType(Table,"gt_libelle",TAB_GLOBAL_COMPO[247],gt_libelle))
          return -1;
- var gt_tables=GetValAt(247);
- if (!ValiderChampsObligatoire(Table,"gt_tables",TAB_GLOBAL_COMPO[247],gt_tables,false))
+ var gt_tables=GetValAt(248);
+ if (!ValiderChampsObligatoire(Table,"gt_tables",TAB_GLOBAL_COMPO[248],gt_tables,false))
          return -1;
- if (!ValiderChampsType(Table,"gt_tables",TAB_GLOBAL_COMPO[247],gt_tables))
+ if (!ValiderChampsType(Table,"gt_tables",TAB_GLOBAL_COMPO[248],gt_tables))
          return -1;
  var Req="update "+Table+" set ";
  Req+="gt_libelle="+(gt_libelle=="" ? "null" : "'"+ValiderChaine(gt_libelle)+"'" )+",gt_tables="+(gt_tables=="" ? "null" : "'"+ValiderChaine(gt_tables)+"'" )+"";
@@ -1450,10 +1464,6 @@ function User_Insert_Modèles_d_impressions_Liste_des_modèles_d_impressions0(Comp
 
 Nbr d'esclaves = 7
 
-Id dans le tab: 385;
-simple
-Nbr Jointure: PAS DE JOINTURE;
-
 Id dans le tab: 386;
 simple
 Nbr Jointure: PAS DE JOINTURE;
@@ -1478,46 +1488,50 @@ Id dans le tab: 391;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
+Id dans le tab: 392;
+simple
+Nbr Jointure: PAS DE JOINTURE;
+
 ******************
 */
 
  var Table="impression";
- var CleMaitre = TAB_COMPO_PPTES[381].NewCle;
+ var CleMaitre = TAB_COMPO_PPTES[382].NewCle;
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var im_libelle=GetValAt(385);
- if (!ValiderChampsObligatoire(Table,"im_libelle",TAB_GLOBAL_COMPO[385],im_libelle,false))
+ var im_libelle=GetValAt(386);
+ if (!ValiderChampsObligatoire(Table,"im_libelle",TAB_GLOBAL_COMPO[386],im_libelle,false))
          return -1;
- if (!ValiderChampsType(Table,"im_libelle",TAB_GLOBAL_COMPO[385],im_libelle))
+ if (!ValiderChampsType(Table,"im_libelle",TAB_GLOBAL_COMPO[386],im_libelle))
          return -1;
- var im_nom=GetValAt(386);
- if (!ValiderChampsObligatoire(Table,"im_nom",TAB_GLOBAL_COMPO[386],im_nom,false))
+ var im_nom=GetValAt(387);
+ if (!ValiderChampsObligatoire(Table,"im_nom",TAB_GLOBAL_COMPO[387],im_nom,false))
          return -1;
- if (!ValiderChampsType(Table,"im_nom",TAB_GLOBAL_COMPO[386],im_nom))
+ if (!ValiderChampsType(Table,"im_nom",TAB_GLOBAL_COMPO[387],im_nom))
          return -1;
- var im_modele=GetValAt(387);
- if (!ValiderChampsObligatoire(Table,"im_modele",TAB_GLOBAL_COMPO[387],im_modele,false))
+ var im_modele=GetValAt(388);
+ if (!ValiderChampsObligatoire(Table,"im_modele",TAB_GLOBAL_COMPO[388],im_modele,false))
          return -1;
- if (!ValiderChampsType(Table,"im_modele",TAB_GLOBAL_COMPO[387],im_modele))
+ if (!ValiderChampsType(Table,"im_modele",TAB_GLOBAL_COMPO[388],im_modele))
          return -1;
- var im_defaut=GetValAt(388);
- if (!ValiderChampsObligatoire(Table,"im_defaut",TAB_GLOBAL_COMPO[388],im_defaut,false))
+ var im_defaut=GetValAt(389);
+ if (!ValiderChampsObligatoire(Table,"im_defaut",TAB_GLOBAL_COMPO[389],im_defaut,false))
          return -1;
- if (!ValiderChampsType(Table,"im_defaut",TAB_GLOBAL_COMPO[388],im_defaut))
+ if (!ValiderChampsType(Table,"im_defaut",TAB_GLOBAL_COMPO[389],im_defaut))
          return -1;
- var im_keytable=GetValAt(389);
- if (!ValiderChampsObligatoire(Table,"im_keytable",TAB_GLOBAL_COMPO[389],im_keytable,false))
+ var im_keytable=GetValAt(390);
+ if (!ValiderChampsObligatoire(Table,"im_keytable",TAB_GLOBAL_COMPO[390],im_keytable,false))
          return -1;
- if (!ValiderChampsType(Table,"im_keytable",TAB_GLOBAL_COMPO[389],im_keytable))
+ if (!ValiderChampsType(Table,"im_keytable",TAB_GLOBAL_COMPO[390],im_keytable))
          return -1;
- var im_keycle=GetValAt(390);
- if (!ValiderChampsObligatoire(Table,"im_keycle",TAB_GLOBAL_COMPO[390],im_keycle,false))
+ var im_keycle=GetValAt(391);
+ if (!ValiderChampsObligatoire(Table,"im_keycle",TAB_GLOBAL_COMPO[391],im_keycle,false))
          return -1;
- if (!ValiderChampsType(Table,"im_keycle",TAB_GLOBAL_COMPO[390],im_keycle))
+ if (!ValiderChampsType(Table,"im_keycle",TAB_GLOBAL_COMPO[391],im_keycle))
          return -1;
- var im_keydate=GetValAt(391);
- if (!ValiderChampsObligatoire(Table,"im_keydate",TAB_GLOBAL_COMPO[391],im_keydate,false))
+ var im_keydate=GetValAt(392);
+ if (!ValiderChampsObligatoire(Table,"im_keydate",TAB_GLOBAL_COMPO[392],im_keydate,false))
          return -1;
- if (!ValiderChampsType(Table,"im_keydate",TAB_GLOBAL_COMPO[391],im_keydate))
+ if (!ValiderChampsType(Table,"im_keydate",TAB_GLOBAL_COMPO[392],im_keydate))
          return -1;
  var Req="insert into "+Table+" ";
 var TabInsertionEnPlus=new Array();
@@ -1553,40 +1567,40 @@ function User_Update_Modèles_d_impressions_Liste_des_modèles_d_impressions0(Comp
  var Table="impression";
  var CleMaitre = Compo_Maitre.getCleVal();
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var im_libelle=GetValAt(385);
- if (!ValiderChampsObligatoire(Table,"im_libelle",TAB_GLOBAL_COMPO[385],im_libelle,false))
+ var im_libelle=GetValAt(386);
+ if (!ValiderChampsObligatoire(Table,"im_libelle",TAB_GLOBAL_COMPO[386],im_libelle,false))
          return -1;
- if (!ValiderChampsType(Table,"im_libelle",TAB_GLOBAL_COMPO[385],im_libelle))
+ if (!ValiderChampsType(Table,"im_libelle",TAB_GLOBAL_COMPO[386],im_libelle))
          return -1;
- var im_nom=GetValAt(386);
- if (!ValiderChampsObligatoire(Table,"im_nom",TAB_GLOBAL_COMPO[386],im_nom,false))
+ var im_nom=GetValAt(387);
+ if (!ValiderChampsObligatoire(Table,"im_nom",TAB_GLOBAL_COMPO[387],im_nom,false))
          return -1;
- if (!ValiderChampsType(Table,"im_nom",TAB_GLOBAL_COMPO[386],im_nom))
+ if (!ValiderChampsType(Table,"im_nom",TAB_GLOBAL_COMPO[387],im_nom))
          return -1;
- var im_modele=GetValAt(387);
- if (!ValiderChampsObligatoire(Table,"im_modele",TAB_GLOBAL_COMPO[387],im_modele,false))
+ var im_modele=GetValAt(388);
+ if (!ValiderChampsObligatoire(Table,"im_modele",TAB_GLOBAL_COMPO[388],im_modele,false))
          return -1;
- if (!ValiderChampsType(Table,"im_modele",TAB_GLOBAL_COMPO[387],im_modele))
+ if (!ValiderChampsType(Table,"im_modele",TAB_GLOBAL_COMPO[388],im_modele))
          return -1;
- var im_defaut=GetValAt(388);
- if (!ValiderChampsObligatoire(Table,"im_defaut",TAB_GLOBAL_COMPO[388],im_defaut,false))
+ var im_defaut=GetValAt(389);
+ if (!ValiderChampsObligatoire(Table,"im_defaut",TAB_GLOBAL_COMPO[389],im_defaut,false))
          return -1;
- if (!ValiderChampsType(Table,"im_defaut",TAB_GLOBAL_COMPO[388],im_defaut))
+ if (!ValiderChampsType(Table,"im_defaut",TAB_GLOBAL_COMPO[389],im_defaut))
          return -1;
- var im_keytable=GetValAt(389);
- if (!ValiderChampsObligatoire(Table,"im_keytable",TAB_GLOBAL_COMPO[389],im_keytable,false))
+ var im_keytable=GetValAt(390);
+ if (!ValiderChampsObligatoire(Table,"im_keytable",TAB_GLOBAL_COMPO[390],im_keytable,false))
          return -1;
- if (!ValiderChampsType(Table,"im_keytable",TAB_GLOBAL_COMPO[389],im_keytable))
+ if (!ValiderChampsType(Table,"im_keytable",TAB_GLOBAL_COMPO[390],im_keytable))
          return -1;
- var im_keycle=GetValAt(390);
- if (!ValiderChampsObligatoire(Table,"im_keycle",TAB_GLOBAL_COMPO[390],im_keycle,false))
+ var im_keycle=GetValAt(391);
+ if (!ValiderChampsObligatoire(Table,"im_keycle",TAB_GLOBAL_COMPO[391],im_keycle,false))
          return -1;
- if (!ValiderChampsType(Table,"im_keycle",TAB_GLOBAL_COMPO[390],im_keycle))
+ if (!ValiderChampsType(Table,"im_keycle",TAB_GLOBAL_COMPO[391],im_keycle))
          return -1;
- var im_keydate=GetValAt(391);
- if (!ValiderChampsObligatoire(Table,"im_keydate",TAB_GLOBAL_COMPO[391],im_keydate,false))
+ var im_keydate=GetValAt(392);
+ if (!ValiderChampsObligatoire(Table,"im_keydate",TAB_GLOBAL_COMPO[392],im_keydate,false))
          return -1;
- if (!ValiderChampsType(Table,"im_keydate",TAB_GLOBAL_COMPO[391],im_keydate))
+ if (!ValiderChampsType(Table,"im_keydate",TAB_GLOBAL_COMPO[392],im_keydate))
          return -1;
  var Req="update "+Table+" set ";
  Req+="im_libelle="+(im_libelle=="" ? "null" : "'"+ValiderChaine(im_libelle)+"'" )+",im_nom="+(im_nom=="" ? "null" : "'"+ValiderChaine(im_nom)+"'" )+",im_modele="+(im_modele=="" ? "null" : "'"+ValiderChaine(im_modele)+"'" )+",im_defaut="+(im_defaut=="true" ? "true" : "false")+",im_keytable="+(im_keytable=="" ? "null" : "'"+ValiderChaine(im_keytable)+"'" )+",im_keycle="+(im_keycle=="" ? "null" : "'"+ValiderChaine(im_keycle)+"'" )+",im_keydate="+(im_keydate=="" ? "null" : "'"+ValiderChaine(im_keydate)+"'" )+"";
@@ -1609,14 +1623,10 @@ function User_Insert_Impressions_Liste_des_modèles_d_impressions0(Compo_Maitre)
 
 Nbr d'esclaves = 8
 
-Id dans le tab: 396;
+Id dans le tab: 397;
 simple
 Nbr Jointure: 1;
     Joint n° 0 = societe,im_societe,so_numero
-
-Id dans le tab: 397;
-simple
-Nbr Jointure: PAS DE JOINTURE;
 
 Id dans le tab: 398;
 simple
@@ -1642,51 +1652,55 @@ Id dans le tab: 403;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
+Id dans le tab: 404;
+simple
+Nbr Jointure: PAS DE JOINTURE;
+
 ******************
 */
 
  var Table="table_impression";
- var CleMaitre = TAB_COMPO_PPTES[392].NewCle;
+ var CleMaitre = TAB_COMPO_PPTES[393].NewCle;
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var im_societe=GetValAt(396);
+ var im_societe=GetValAt(397);
  if (im_societe=="-1")
     im_societe="null";
- if (!ValiderChampsObligatoire(Table,"im_societe",TAB_GLOBAL_COMPO[396],im_societe,true))
+ if (!ValiderChampsObligatoire(Table,"im_societe",TAB_GLOBAL_COMPO[397],im_societe,true))
          return -1;
- var im_libelle=GetValAt(397);
- if (!ValiderChampsObligatoire(Table,"im_libelle",TAB_GLOBAL_COMPO[397],im_libelle,false))
+ var im_libelle=GetValAt(398);
+ if (!ValiderChampsObligatoire(Table,"im_libelle",TAB_GLOBAL_COMPO[398],im_libelle,false))
          return -1;
- if (!ValiderChampsType(Table,"im_libelle",TAB_GLOBAL_COMPO[397],im_libelle))
+ if (!ValiderChampsType(Table,"im_libelle",TAB_GLOBAL_COMPO[398],im_libelle))
          return -1;
- var im_nom=GetValAt(398);
- if (!ValiderChampsObligatoire(Table,"im_nom",TAB_GLOBAL_COMPO[398],im_nom,false))
+ var im_nom=GetValAt(399);
+ if (!ValiderChampsObligatoire(Table,"im_nom",TAB_GLOBAL_COMPO[399],im_nom,false))
          return -1;
- if (!ValiderChampsType(Table,"im_nom",TAB_GLOBAL_COMPO[398],im_nom))
+ if (!ValiderChampsType(Table,"im_nom",TAB_GLOBAL_COMPO[399],im_nom))
          return -1;
- var im_modele=GetValAt(399);
- if (!ValiderChampsObligatoire(Table,"im_modele",TAB_GLOBAL_COMPO[399],im_modele,false))
+ var im_modele=GetValAt(400);
+ if (!ValiderChampsObligatoire(Table,"im_modele",TAB_GLOBAL_COMPO[400],im_modele,false))
          return -1;
- if (!ValiderChampsType(Table,"im_modele",TAB_GLOBAL_COMPO[399],im_modele))
+ if (!ValiderChampsType(Table,"im_modele",TAB_GLOBAL_COMPO[400],im_modele))
          return -1;
- var im_defaut=GetValAt(400);
- if (!ValiderChampsObligatoire(Table,"im_defaut",TAB_GLOBAL_COMPO[400],im_defaut,false))
+ var im_defaut=GetValAt(401);
+ if (!ValiderChampsObligatoire(Table,"im_defaut",TAB_GLOBAL_COMPO[401],im_defaut,false))
          return -1;
- if (!ValiderChampsType(Table,"im_defaut",TAB_GLOBAL_COMPO[400],im_defaut))
+ if (!ValiderChampsType(Table,"im_defaut",TAB_GLOBAL_COMPO[401],im_defaut))
          return -1;
- var im_keytable=GetValAt(401);
- if (!ValiderChampsObligatoire(Table,"im_keytable",TAB_GLOBAL_COMPO[401],im_keytable,false))
+ var im_keytable=GetValAt(402);
+ if (!ValiderChampsObligatoire(Table,"im_keytable",TAB_GLOBAL_COMPO[402],im_keytable,false))
          return -1;
- if (!ValiderChampsType(Table,"im_keytable",TAB_GLOBAL_COMPO[401],im_keytable))
+ if (!ValiderChampsType(Table,"im_keytable",TAB_GLOBAL_COMPO[402],im_keytable))
          return -1;
- var im_keycle=GetValAt(402);
- if (!ValiderChampsObligatoire(Table,"im_keycle",TAB_GLOBAL_COMPO[402],im_keycle,false))
+ var im_keycle=GetValAt(403);
+ if (!ValiderChampsObligatoire(Table,"im_keycle",TAB_GLOBAL_COMPO[403],im_keycle,false))
          return -1;
- if (!ValiderChampsType(Table,"im_keycle",TAB_GLOBAL_COMPO[402],im_keycle))
+ if (!ValiderChampsType(Table,"im_keycle",TAB_GLOBAL_COMPO[403],im_keycle))
          return -1;
- var im_keydate=GetValAt(403);
- if (!ValiderChampsObligatoire(Table,"im_keydate",TAB_GLOBAL_COMPO[403],im_keydate,false))
+ var im_keydate=GetValAt(404);
+ if (!ValiderChampsObligatoire(Table,"im_keydate",TAB_GLOBAL_COMPO[404],im_keydate,false))
          return -1;
- if (!ValiderChampsType(Table,"im_keydate",TAB_GLOBAL_COMPO[403],im_keydate))
+ if (!ValiderChampsType(Table,"im_keydate",TAB_GLOBAL_COMPO[404],im_keydate))
          return -1;
  var Req="insert into "+Table+" ";
 var TabInsertionEnPlus=new Array();
@@ -1722,45 +1736,45 @@ function User_Update_Impressions_Liste_des_modèles_d_impressions0(Compo_Maitre)
  var Table="table_impression";
  var CleMaitre = Compo_Maitre.getCleVal();
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var im_societe=GetValAt(396);
+ var im_societe=GetValAt(397);
  if (im_societe=="-1")
     im_societe="null";
- if (!ValiderChampsObligatoire(Table,"im_societe",TAB_GLOBAL_COMPO[396],im_societe,true))
+ if (!ValiderChampsObligatoire(Table,"im_societe",TAB_GLOBAL_COMPO[397],im_societe,true))
          return -1;
- var im_libelle=GetValAt(397);
- if (!ValiderChampsObligatoire(Table,"im_libelle",TAB_GLOBAL_COMPO[397],im_libelle,false))
+ var im_libelle=GetValAt(398);
+ if (!ValiderChampsObligatoire(Table,"im_libelle",TAB_GLOBAL_COMPO[398],im_libelle,false))
          return -1;
- if (!ValiderChampsType(Table,"im_libelle",TAB_GLOBAL_COMPO[397],im_libelle))
+ if (!ValiderChampsType(Table,"im_libelle",TAB_GLOBAL_COMPO[398],im_libelle))
          return -1;
- var im_nom=GetValAt(398);
- if (!ValiderChampsObligatoire(Table,"im_nom",TAB_GLOBAL_COMPO[398],im_nom,false))
+ var im_nom=GetValAt(399);
+ if (!ValiderChampsObligatoire(Table,"im_nom",TAB_GLOBAL_COMPO[399],im_nom,false))
          return -1;
- if (!ValiderChampsType(Table,"im_nom",TAB_GLOBAL_COMPO[398],im_nom))
+ if (!ValiderChampsType(Table,"im_nom",TAB_GLOBAL_COMPO[399],im_nom))
          return -1;
- var im_modele=GetValAt(399);
- if (!ValiderChampsObligatoire(Table,"im_modele",TAB_GLOBAL_COMPO[399],im_modele,false))
+ var im_modele=GetValAt(400);
+ if (!ValiderChampsObligatoire(Table,"im_modele",TAB_GLOBAL_COMPO[400],im_modele,false))
          return -1;
- if (!ValiderChampsType(Table,"im_modele",TAB_GLOBAL_COMPO[399],im_modele))
+ if (!ValiderChampsType(Table,"im_modele",TAB_GLOBAL_COMPO[400],im_modele))
          return -1;
- var im_defaut=GetValAt(400);
- if (!ValiderChampsObligatoire(Table,"im_defaut",TAB_GLOBAL_COMPO[400],im_defaut,false))
+ var im_defaut=GetValAt(401);
+ if (!ValiderChampsObligatoire(Table,"im_defaut",TAB_GLOBAL_COMPO[401],im_defaut,false))
          return -1;
- if (!ValiderChampsType(Table,"im_defaut",TAB_GLOBAL_COMPO[400],im_defaut))
+ if (!ValiderChampsType(Table,"im_defaut",TAB_GLOBAL_COMPO[401],im_defaut))
          return -1;
- var im_keytable=GetValAt(401);
- if (!ValiderChampsObligatoire(Table,"im_keytable",TAB_GLOBAL_COMPO[401],im_keytable,false))
+ var im_keytable=GetValAt(402);
+ if (!ValiderChampsObligatoire(Table,"im_keytable",TAB_GLOBAL_COMPO[402],im_keytable,false))
          return -1;
- if (!ValiderChampsType(Table,"im_keytable",TAB_GLOBAL_COMPO[401],im_keytable))
+ if (!ValiderChampsType(Table,"im_keytable",TAB_GLOBAL_COMPO[402],im_keytable))
          return -1;
- var im_keycle=GetValAt(402);
- if (!ValiderChampsObligatoire(Table,"im_keycle",TAB_GLOBAL_COMPO[402],im_keycle,false))
+ var im_keycle=GetValAt(403);
+ if (!ValiderChampsObligatoire(Table,"im_keycle",TAB_GLOBAL_COMPO[403],im_keycle,false))
          return -1;
- if (!ValiderChampsType(Table,"im_keycle",TAB_GLOBAL_COMPO[402],im_keycle))
+ if (!ValiderChampsType(Table,"im_keycle",TAB_GLOBAL_COMPO[403],im_keycle))
          return -1;
- var im_keydate=GetValAt(403);
- if (!ValiderChampsObligatoire(Table,"im_keydate",TAB_GLOBAL_COMPO[403],im_keydate,false))
+ var im_keydate=GetValAt(404);
+ if (!ValiderChampsObligatoire(Table,"im_keydate",TAB_GLOBAL_COMPO[404],im_keydate,false))
          return -1;
- if (!ValiderChampsType(Table,"im_keydate",TAB_GLOBAL_COMPO[403],im_keydate))
+ if (!ValiderChampsType(Table,"im_keydate",TAB_GLOBAL_COMPO[404],im_keydate))
          return -1;
  var Req="update "+Table+" set ";
  Req+="im_societe="+im_societe+",im_libelle="+(im_libelle=="" ? "null" : "'"+ValiderChaine(im_libelle)+"'" )+",im_nom="+(im_nom=="" ? "null" : "'"+ValiderChaine(im_nom)+"'" )+",im_modele="+(im_modele=="" ? "null" : "'"+ValiderChaine(im_modele)+"'" )+",im_defaut="+(im_defaut=="true" ? "true" : "false")+",im_keytable="+(im_keytable=="" ? "null" : "'"+ValiderChaine(im_keytable)+"'" )+",im_keycle="+(im_keycle=="" ? "null" : "'"+ValiderChaine(im_keycle)+"'" )+",im_keydate="+(im_keydate=="" ? "null" : "'"+ValiderChaine(im_keydate)+"'" )+"";
@@ -1783,11 +1797,11 @@ function User_Insert_Modèles_Liste_des_modèles0(Compo_Maitre)
 
 Nbr d'esclaves = 2
 
-Id dans le tab: 371;
+Id dans le tab: 372;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 372;
+Id dans le tab: 373;
 complexe
 Nbr Jointure: 1;
     Joint n° 0 = lignemodele,mo_numero,mo_numero
@@ -1796,12 +1810,12 @@ Nbr Jointure: 1;
 */
 
  var Table="modele";
- var CleMaitre = TAB_COMPO_PPTES[369].NewCle;
+ var CleMaitre = TAB_COMPO_PPTES[370].NewCle;
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var mo_libelle=GetValAt(371);
- if (!ValiderChampsObligatoire(Table,"mo_libelle",TAB_GLOBAL_COMPO[371],mo_libelle,false))
+ var mo_libelle=GetValAt(372);
+ if (!ValiderChampsObligatoire(Table,"mo_libelle",TAB_GLOBAL_COMPO[372],mo_libelle,false))
          return -1;
- if (!ValiderChampsType(Table,"mo_libelle",TAB_GLOBAL_COMPO[371],mo_libelle))
+ if (!ValiderChampsType(Table,"mo_libelle",TAB_GLOBAL_COMPO[372],mo_libelle))
          return -1;
  var Req="insert into "+Table+" ";
 var TabInsertionEnPlus=new Array();
@@ -1837,10 +1851,10 @@ function User_Update_Modèles_Liste_des_modèles0(Compo_Maitre)
  var Table="modele";
  var CleMaitre = Compo_Maitre.getCleVal();
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var mo_libelle=GetValAt(371);
- if (!ValiderChampsObligatoire(Table,"mo_libelle",TAB_GLOBAL_COMPO[371],mo_libelle,false))
+ var mo_libelle=GetValAt(372);
+ if (!ValiderChampsObligatoire(Table,"mo_libelle",TAB_GLOBAL_COMPO[372],mo_libelle,false))
          return -1;
- if (!ValiderChampsType(Table,"mo_libelle",TAB_GLOBAL_COMPO[371],mo_libelle))
+ if (!ValiderChampsType(Table,"mo_libelle",TAB_GLOBAL_COMPO[372],mo_libelle))
          return -1;
  var Req="update "+Table+" set ";
  Req+="mo_libelle="+(mo_libelle=="" ? "null" : "'"+ValiderChaine(mo_libelle)+"'" )+"";
@@ -1863,14 +1877,10 @@ function User_Insert_Modèles_Lignes_du_modèle_2(Compo_Maitre)
 
 Nbr d'esclaves = 4
 
-Id dans le tab: 377;
+Id dans le tab: 378;
 simple
 Nbr Jointure: 1;
     Joint n° 0 = produit,pd_numero,pd_numero
-
-Id dans le tab: 378;
-simple
-Nbr Jointure: PAS DE JOINTURE;
 
 Id dans le tab: 379;
 simple
@@ -1880,37 +1890,41 @@ Id dans le tab: 380;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
+Id dans le tab: 381;
+simple
+Nbr Jointure: PAS DE JOINTURE;
+
 ******************
 */
 
  var Table="lignemodele";
- var CleMaitre = TAB_COMPO_PPTES[372].NewCle;
+ var CleMaitre = TAB_COMPO_PPTES[373].NewCle;
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
  /* COMPOSANT LISTE AVEC JOINTURE SIMPLE */
- var pd_numero=GetValAt(377);
+ var pd_numero=GetValAt(378);
  if (pd_numero=="-1")
     pd_numero="null";
- if (!ValiderChampsObligatoire(Table,"pd_numero",TAB_GLOBAL_COMPO[377],pd_numero,true))
+ if (!ValiderChampsObligatoire(Table,"pd_numero",TAB_GLOBAL_COMPO[378],pd_numero,true))
          return -1;
- var lm_montantht=GetValAt(378);
- if (!ValiderChampsObligatoire(Table,"lm_montantht",TAB_GLOBAL_COMPO[378],lm_montantht,false))
+ var lm_montantht=GetValAt(379);
+ if (!ValiderChampsObligatoire(Table,"lm_montantht",TAB_GLOBAL_COMPO[379],lm_montantht,false))
          return -1;
- if (!ValiderChampsType(Table,"lm_montantht",TAB_GLOBAL_COMPO[378],lm_montantht))
+ if (!ValiderChampsType(Table,"lm_montantht",TAB_GLOBAL_COMPO[379],lm_montantht))
          return -1;
- var lm_montantttc=GetValAt(379);
- if (!ValiderChampsObligatoire(Table,"lm_montantttc",TAB_GLOBAL_COMPO[379],lm_montantttc,false))
+ var lm_montantttc=GetValAt(380);
+ if (!ValiderChampsObligatoire(Table,"lm_montantttc",TAB_GLOBAL_COMPO[380],lm_montantttc,false))
          return -1;
- if (!ValiderChampsType(Table,"lm_montantttc",TAB_GLOBAL_COMPO[379],lm_montantttc))
+ if (!ValiderChampsType(Table,"lm_montantttc",TAB_GLOBAL_COMPO[380],lm_montantttc))
          return -1;
- var lm_quantite=GetValAt(380);
- if (!ValiderChampsObligatoire(Table,"lm_quantite",TAB_GLOBAL_COMPO[380],lm_quantite,false))
+ var lm_quantite=GetValAt(381);
+ if (!ValiderChampsObligatoire(Table,"lm_quantite",TAB_GLOBAL_COMPO[381],lm_quantite,false))
          return -1;
- if (!ValiderChampsType(Table,"lm_quantite",TAB_GLOBAL_COMPO[380],lm_quantite))
+ if (!ValiderChampsType(Table,"lm_quantite",TAB_GLOBAL_COMPO[381],lm_quantite))
          return -1;
  var Req="insert into "+Table+" ";
 var TabInsertionEnPlus=new Array();
  Req+="("+NomCleMaitre+",mo_numero,pd_numero,lm_montantht,lm_montantttc,lm_quantite"+(TabInsertionEnPlus.length!=0?","+TabInsertionEnPlus[0]:"")+")";
- Req+=" values ("+CleMaitre+","+TAB_COMPO_PPTES[369].NewCle+","+pd_numero+","+(lm_montantht=="" ? "null" : "'"+ValiderChaine(lm_montantht)+"'" )+","+(lm_montantttc=="" ? "null" : "'"+ValiderChaine(lm_montantttc)+"'" )+","+(lm_quantite=="" ? "null" : "'"+ValiderChaine(lm_quantite)+"'" )+""+(TabInsertionEnPlus.length!=0?","+TabInsertionEnPlus[1]:"")+")";
+ Req+=" values ("+CleMaitre+","+TAB_COMPO_PPTES[370].NewCle+","+pd_numero+","+(lm_montantht=="" ? "null" : "'"+ValiderChaine(lm_montantht)+"'" )+","+(lm_montantttc=="" ? "null" : "'"+ValiderChaine(lm_montantttc)+"'" )+","+(lm_quantite=="" ? "null" : "'"+ValiderChaine(lm_quantite)+"'" )+""+(TabInsertionEnPlus.length!=0?","+TabInsertionEnPlus[1]:"")+")";
 
  if (pgsql_update(Req)==0)
         alert("Echec lors de l'insertion");
@@ -1941,25 +1955,25 @@ function User_Update_Modèles_Lignes_du_modèle_2(Compo_Maitre)
  var Table="lignemodele";
  var CleMaitre = Compo_Maitre.getCleVal();
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var pd_numero=GetValAt(377);
+ var pd_numero=GetValAt(378);
  if (pd_numero=="-1")
     pd_numero="null";
- if (!ValiderChampsObligatoire(Table,"pd_numero",TAB_GLOBAL_COMPO[377],pd_numero,true))
+ if (!ValiderChampsObligatoire(Table,"pd_numero",TAB_GLOBAL_COMPO[378],pd_numero,true))
          return -1;
- var lm_montantht=GetValAt(378);
- if (!ValiderChampsObligatoire(Table,"lm_montantht",TAB_GLOBAL_COMPO[378],lm_montantht,false))
+ var lm_montantht=GetValAt(379);
+ if (!ValiderChampsObligatoire(Table,"lm_montantht",TAB_GLOBAL_COMPO[379],lm_montantht,false))
          return -1;
- if (!ValiderChampsType(Table,"lm_montantht",TAB_GLOBAL_COMPO[378],lm_montantht))
+ if (!ValiderChampsType(Table,"lm_montantht",TAB_GLOBAL_COMPO[379],lm_montantht))
          return -1;
- var lm_montantttc=GetValAt(379);
- if (!ValiderChampsObligatoire(Table,"lm_montantttc",TAB_GLOBAL_COMPO[379],lm_montantttc,false))
+ var lm_montantttc=GetValAt(380);
+ if (!ValiderChampsObligatoire(Table,"lm_montantttc",TAB_GLOBAL_COMPO[380],lm_montantttc,false))
          return -1;
- if (!ValiderChampsType(Table,"lm_montantttc",TAB_GLOBAL_COMPO[379],lm_montantttc))
+ if (!ValiderChampsType(Table,"lm_montantttc",TAB_GLOBAL_COMPO[380],lm_montantttc))
          return -1;
- var lm_quantite=GetValAt(380);
- if (!ValiderChampsObligatoire(Table,"lm_quantite",TAB_GLOBAL_COMPO[380],lm_quantite,false))
+ var lm_quantite=GetValAt(381);
+ if (!ValiderChampsObligatoire(Table,"lm_quantite",TAB_GLOBAL_COMPO[381],lm_quantite,false))
          return -1;
- if (!ValiderChampsType(Table,"lm_quantite",TAB_GLOBAL_COMPO[380],lm_quantite))
+ if (!ValiderChampsType(Table,"lm_quantite",TAB_GLOBAL_COMPO[381],lm_quantite))
          return -1;
  var Req="update "+Table+" set ";
  Req+="pd_numero="+pd_numero+",lm_montantht="+(lm_montantht=="" ? "null" : "'"+ValiderChaine(lm_montantht)+"'" )+",lm_montantttc="+(lm_montantttc=="" ? "null" : "'"+ValiderChaine(lm_montantttc)+"'" )+",lm_quantite="+(lm_quantite=="" ? "null" : "'"+ValiderChaine(lm_quantite)+"'" )+"";
@@ -2406,11 +2420,11 @@ function User_Insert_Périodes_Liste_des_périodes0(Compo_Maitre)
 
 Nbr d'esclaves = 2
 
-Id dans le tab: 361;
+Id dans le tab: 362;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 362;
+Id dans le tab: 363;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
@@ -2418,17 +2432,17 @@ Nbr Jointure: PAS DE JOINTURE;
 */
 
  var Table="periode";
- var CleMaitre = TAB_COMPO_PPTES[357].NewCle;
+ var CleMaitre = TAB_COMPO_PPTES[358].NewCle;
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var po_debut=GetValAt(361);
- if (!ValiderChampsObligatoire(Table,"po_debut",TAB_GLOBAL_COMPO[361],po_debut,false))
+ var po_debut=GetValAt(362);
+ if (!ValiderChampsObligatoire(Table,"po_debut",TAB_GLOBAL_COMPO[362],po_debut,false))
          return -1;
- if (!ValiderChampsType(Table,"po_debut",TAB_GLOBAL_COMPO[361],po_debut))
+ if (!ValiderChampsType(Table,"po_debut",TAB_GLOBAL_COMPO[362],po_debut))
          return -1;
- var po_fin=GetValAt(362);
- if (!ValiderChampsObligatoire(Table,"po_fin",TAB_GLOBAL_COMPO[362],po_fin,false))
+ var po_fin=GetValAt(363);
+ if (!ValiderChampsObligatoire(Table,"po_fin",TAB_GLOBAL_COMPO[363],po_fin,false))
          return -1;
- if (!ValiderChampsType(Table,"po_fin",TAB_GLOBAL_COMPO[362],po_fin))
+ if (!ValiderChampsType(Table,"po_fin",TAB_GLOBAL_COMPO[363],po_fin))
          return -1;
  var Req="insert into "+Table+" ";
 var TabInsertionEnPlus=new Array();
@@ -2464,15 +2478,15 @@ function User_Update_Périodes_Liste_des_périodes0(Compo_Maitre)
  var Table="periode";
  var CleMaitre = Compo_Maitre.getCleVal();
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var po_debut=GetValAt(361);
- if (!ValiderChampsObligatoire(Table,"po_debut",TAB_GLOBAL_COMPO[361],po_debut,false))
+ var po_debut=GetValAt(362);
+ if (!ValiderChampsObligatoire(Table,"po_debut",TAB_GLOBAL_COMPO[362],po_debut,false))
          return -1;
- if (!ValiderChampsType(Table,"po_debut",TAB_GLOBAL_COMPO[361],po_debut))
+ if (!ValiderChampsType(Table,"po_debut",TAB_GLOBAL_COMPO[362],po_debut))
          return -1;
- var po_fin=GetValAt(362);
- if (!ValiderChampsObligatoire(Table,"po_fin",TAB_GLOBAL_COMPO[362],po_fin,false))
+ var po_fin=GetValAt(363);
+ if (!ValiderChampsObligatoire(Table,"po_fin",TAB_GLOBAL_COMPO[363],po_fin,false))
          return -1;
- if (!ValiderChampsType(Table,"po_fin",TAB_GLOBAL_COMPO[362],po_fin))
+ if (!ValiderChampsType(Table,"po_fin",TAB_GLOBAL_COMPO[363],po_fin))
          return -1;
  var Req="update "+Table+" set ";
  Req+="po_debut="+(po_debut=="" ? "null" : "'"+ValiderChaine(po_debut)+"'" )+",po_fin="+(po_fin=="" ? "null" : "'"+ValiderChaine(po_fin)+"'" )+"";
@@ -2495,7 +2509,7 @@ function User_Insert_Préfixes_Liste_des_préfixes0(Compo_Maitre)
 
 Nbr d'esclaves = 1
 
-Id dans le tab: 368;
+Id dans le tab: 369;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
@@ -2503,12 +2517,12 @@ Nbr Jointure: PAS DE JOINTURE;
 */
 
  var Table="prefixe";
- var CleMaitre = TAB_COMPO_PPTES[366].NewCle;
+ var CleMaitre = TAB_COMPO_PPTES[367].NewCle;
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var pf_nom=GetValAt(368);
- if (!ValiderChampsObligatoire(Table,"pf_nom",TAB_GLOBAL_COMPO[368],pf_nom,false))
+ var pf_nom=GetValAt(369);
+ if (!ValiderChampsObligatoire(Table,"pf_nom",TAB_GLOBAL_COMPO[369],pf_nom,false))
          return -1;
- if (!ValiderChampsType(Table,"pf_nom",TAB_GLOBAL_COMPO[368],pf_nom))
+ if (!ValiderChampsType(Table,"pf_nom",TAB_GLOBAL_COMPO[369],pf_nom))
          return -1;
  var Req="insert into "+Table+" ";
 var TabInsertionEnPlus=new Array();
@@ -2544,10 +2558,10 @@ function User_Update_Préfixes_Liste_des_préfixes0(Compo_Maitre)
  var Table="prefixe";
  var CleMaitre = Compo_Maitre.getCleVal();
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var pf_nom=GetValAt(368);
- if (!ValiderChampsObligatoire(Table,"pf_nom",TAB_GLOBAL_COMPO[368],pf_nom,false))
+ var pf_nom=GetValAt(369);
+ if (!ValiderChampsObligatoire(Table,"pf_nom",TAB_GLOBAL_COMPO[369],pf_nom,false))
          return -1;
- if (!ValiderChampsType(Table,"pf_nom",TAB_GLOBAL_COMPO[368],pf_nom))
+ if (!ValiderChampsType(Table,"pf_nom",TAB_GLOBAL_COMPO[369],pf_nom))
          return -1;
  var Req="update "+Table+" set ";
  Req+="pf_nom="+(pf_nom=="" ? "null" : "'"+ValiderChaine(pf_nom)+"'" )+"";
@@ -2570,22 +2584,18 @@ function User_Insert_Produits_Liste_des_produits0(Compo_Maitre)
 
 Nbr d'esclaves = 8
 
-Id dans le tab: 323;
-simple
-Nbr Jointure: PAS DE JOINTURE;
-
 Id dans le tab: 324;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
 Id dans le tab: 325;
 simple
-Nbr Jointure: 1;
-    Joint n° 0 = journal,jo_numero,jo_numero
+Nbr Jointure: PAS DE JOINTURE;
 
 Id dans le tab: 326;
 simple
-Nbr Jointure: PAS DE JOINTURE;
+Nbr Jointure: 1;
+    Joint n° 0 = journal,jo_numero,jo_numero
 
 Id dans le tab: 327;
 simple
@@ -2596,11 +2606,15 @@ simple
 Nbr Jointure: PAS DE JOINTURE;
 
 Id dans le tab: 329;
+simple
+Nbr Jointure: PAS DE JOINTURE;
+
+Id dans le tab: 330;
 complexe
 Nbr Jointure: 1;
     Joint n° 0 = prix,pd_numero,pd_numero
 
-Id dans le tab: 337;
+Id dans le tab: 338;
 complexe
 Nbr Jointure: 1;
     Joint n° 0 = compteproduit,pd_numero,pd_numero
@@ -2609,37 +2623,37 @@ Nbr Jointure: 1;
 */
 
  var Table="produit";
- var CleMaitre = TAB_COMPO_PPTES[319].NewCle;
+ var CleMaitre = TAB_COMPO_PPTES[320].NewCle;
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var pd_libelle=GetValAt(323);
- if (!ValiderChampsObligatoire(Table,"pd_libelle",TAB_GLOBAL_COMPO[323],pd_libelle,false))
+ var pd_libelle=GetValAt(324);
+ if (!ValiderChampsObligatoire(Table,"pd_libelle",TAB_GLOBAL_COMPO[324],pd_libelle,false))
          return -1;
- if (!ValiderChampsType(Table,"pd_libelle",TAB_GLOBAL_COMPO[323],pd_libelle))
+ if (!ValiderChampsType(Table,"pd_libelle",TAB_GLOBAL_COMPO[324],pd_libelle))
          return -1;
- var pd_titre=GetValAt(324);
- if (!ValiderChampsObligatoire(Table,"pd_titre",TAB_GLOBAL_COMPO[324],pd_titre,false))
+ var pd_titre=GetValAt(325);
+ if (!ValiderChampsObligatoire(Table,"pd_titre",TAB_GLOBAL_COMPO[325],pd_titre,false))
          return -1;
- if (!ValiderChampsType(Table,"pd_titre",TAB_GLOBAL_COMPO[324],pd_titre))
+ if (!ValiderChampsType(Table,"pd_titre",TAB_GLOBAL_COMPO[325],pd_titre))
          return -1;
- var jo_numero=GetValAt(325);
+ var jo_numero=GetValAt(326);
  if (jo_numero=="-1")
     jo_numero="null";
- if (!ValiderChampsObligatoire(Table,"jo_numero",TAB_GLOBAL_COMPO[325],jo_numero,true))
+ if (!ValiderChampsObligatoire(Table,"jo_numero",TAB_GLOBAL_COMPO[326],jo_numero,true))
          return -1;
- var pd_actif=GetValAt(326);
- if (!ValiderChampsObligatoire(Table,"pd_actif",TAB_GLOBAL_COMPO[326],pd_actif,false))
+ var pd_actif=GetValAt(327);
+ if (!ValiderChampsObligatoire(Table,"pd_actif",TAB_GLOBAL_COMPO[327],pd_actif,false))
          return -1;
- if (!ValiderChampsType(Table,"pd_actif",TAB_GLOBAL_COMPO[326],pd_actif))
+ if (!ValiderChampsType(Table,"pd_actif",TAB_GLOBAL_COMPO[327],pd_actif))
          return -1;
- var pd_sansquantite=GetValAt(327);
- if (!ValiderChampsObligatoire(Table,"pd_sansquantite",TAB_GLOBAL_COMPO[327],pd_sansquantite,false))
+ var pd_sansquantite=GetValAt(328);
+ if (!ValiderChampsObligatoire(Table,"pd_sansquantite",TAB_GLOBAL_COMPO[328],pd_sansquantite,false))
          return -1;
- if (!ValiderChampsType(Table,"pd_sansquantite",TAB_GLOBAL_COMPO[327],pd_sansquantite))
+ if (!ValiderChampsType(Table,"pd_sansquantite",TAB_GLOBAL_COMPO[328],pd_sansquantite))
          return -1;
- var pd_reduction=GetValAt(328);
- if (!ValiderChampsObligatoire(Table,"pd_reduction",TAB_GLOBAL_COMPO[328],pd_reduction,false))
+ var pd_reduction=GetValAt(329);
+ if (!ValiderChampsObligatoire(Table,"pd_reduction",TAB_GLOBAL_COMPO[329],pd_reduction,false))
          return -1;
- if (!ValiderChampsType(Table,"pd_reduction",TAB_GLOBAL_COMPO[328],pd_reduction))
+ if (!ValiderChampsType(Table,"pd_reduction",TAB_GLOBAL_COMPO[329],pd_reduction))
          return -1;
  var Req="insert into "+Table+" ";
 var TabInsertionEnPlus=new Array();
@@ -2675,35 +2689,35 @@ function User_Update_Produits_Liste_des_produits0(Compo_Maitre)
  var Table="produit";
  var CleMaitre = Compo_Maitre.getCleVal();
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var pd_libelle=GetValAt(323);
- if (!ValiderChampsObligatoire(Table,"pd_libelle",TAB_GLOBAL_COMPO[323],pd_libelle,false))
+ var pd_libelle=GetValAt(324);
+ if (!ValiderChampsObligatoire(Table,"pd_libelle",TAB_GLOBAL_COMPO[324],pd_libelle,false))
          return -1;
- if (!ValiderChampsType(Table,"pd_libelle",TAB_GLOBAL_COMPO[323],pd_libelle))
+ if (!ValiderChampsType(Table,"pd_libelle",TAB_GLOBAL_COMPO[324],pd_libelle))
          return -1;
- var pd_titre=GetValAt(324);
- if (!ValiderChampsObligatoire(Table,"pd_titre",TAB_GLOBAL_COMPO[324],pd_titre,false))
+ var pd_titre=GetValAt(325);
+ if (!ValiderChampsObligatoire(Table,"pd_titre",TAB_GLOBAL_COMPO[325],pd_titre,false))
          return -1;
- if (!ValiderChampsType(Table,"pd_titre",TAB_GLOBAL_COMPO[324],pd_titre))
+ if (!ValiderChampsType(Table,"pd_titre",TAB_GLOBAL_COMPO[325],pd_titre))
          return -1;
- var jo_numero=GetValAt(325);
+ var jo_numero=GetValAt(326);
  if (jo_numero=="-1")
     jo_numero="null";
- if (!ValiderChampsObligatoire(Table,"jo_numero",TAB_GLOBAL_COMPO[325],jo_numero,true))
+ if (!ValiderChampsObligatoire(Table,"jo_numero",TAB_GLOBAL_COMPO[326],jo_numero,true))
          return -1;
- var pd_actif=GetValAt(326);
- if (!ValiderChampsObligatoire(Table,"pd_actif",TAB_GLOBAL_COMPO[326],pd_actif,false))
+ var pd_actif=GetValAt(327);
+ if (!ValiderChampsObligatoire(Table,"pd_actif",TAB_GLOBAL_COMPO[327],pd_actif,false))
          return -1;
- if (!ValiderChampsType(Table,"pd_actif",TAB_GLOBAL_COMPO[326],pd_actif))
+ if (!ValiderChampsType(Table,"pd_actif",TAB_GLOBAL_COMPO[327],pd_actif))
          return -1;
- var pd_sansquantite=GetValAt(327);
- if (!ValiderChampsObligatoire(Table,"pd_sansquantite",TAB_GLOBAL_COMPO[327],pd_sansquantite,false))
+ var pd_sansquantite=GetValAt(328);
+ if (!ValiderChampsObligatoire(Table,"pd_sansquantite",TAB_GLOBAL_COMPO[328],pd_sansquantite,false))
          return -1;
- if (!ValiderChampsType(Table,"pd_sansquantite",TAB_GLOBAL_COMPO[327],pd_sansquantite))
+ if (!ValiderChampsType(Table,"pd_sansquantite",TAB_GLOBAL_COMPO[328],pd_sansquantite))
          return -1;
- var pd_reduction=GetValAt(328);
- if (!ValiderChampsObligatoire(Table,"pd_reduction",TAB_GLOBAL_COMPO[328],pd_reduction,false))
+ var pd_reduction=GetValAt(329);
+ if (!ValiderChampsObligatoire(Table,"pd_reduction",TAB_GLOBAL_COMPO[329],pd_reduction,false))
          return -1;
- if (!ValiderChampsType(Table,"pd_reduction",TAB_GLOBAL_COMPO[328],pd_reduction))
+ if (!ValiderChampsType(Table,"pd_reduction",TAB_GLOBAL_COMPO[329],pd_reduction))
          return -1;
  var Req="update "+Table+" set ";
  Req+="pd_libelle="+(pd_libelle=="" ? "null" : "'"+ValiderChaine(pd_libelle)+"'" )+",pd_titre="+(pd_titre=="" ? "null" : "'"+ValiderChaine(pd_titre)+"'" )+",jo_numero="+jo_numero+",pd_actif="+(pd_actif=="true" ? "true" : "false")+",pd_sansquantite="+(pd_sansquantite=="true" ? "true" : "false")+",pd_reduction="+(pd_reduction=="true" ? "true" : "false")+"";
@@ -2726,15 +2740,15 @@ function User_Insert_Produits_Prix_7(Compo_Maitre)
 
 Nbr d'esclaves = 3
 
-Id dans le tab: 334;
-simple
-Nbr Jointure: PAS DE JOINTURE;
-
 Id dans le tab: 335;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
 Id dans le tab: 336;
+simple
+Nbr Jointure: PAS DE JOINTURE;
+
+Id dans le tab: 337;
 simple
 Nbr Jointure: 1;
     Joint n° 0 = tva,tv_numero,tv_numero
@@ -2743,28 +2757,28 @@ Nbr Jointure: 1;
 */
 
  var Table="prix";
- var CleMaitre = TAB_COMPO_PPTES[329].NewCle;
+ var CleMaitre = TAB_COMPO_PPTES[330].NewCle;
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
  /* COMPOSANT LISTE AVEC JOINTURE SIMPLE */
- var px_tarifht=GetValAt(334);
- if (!ValiderChampsObligatoire(Table,"px_tarifht",TAB_GLOBAL_COMPO[334],px_tarifht,false))
+ var px_tarifht=GetValAt(335);
+ if (!ValiderChampsObligatoire(Table,"px_tarifht",TAB_GLOBAL_COMPO[335],px_tarifht,false))
          return -1;
- if (!ValiderChampsType(Table,"px_tarifht",TAB_GLOBAL_COMPO[334],px_tarifht))
+ if (!ValiderChampsType(Table,"px_tarifht",TAB_GLOBAL_COMPO[335],px_tarifht))
          return -1;
- var px_tarifttc=GetValAt(335);
- if (!ValiderChampsObligatoire(Table,"px_tarifttc",TAB_GLOBAL_COMPO[335],px_tarifttc,false))
+ var px_tarifttc=GetValAt(336);
+ if (!ValiderChampsObligatoire(Table,"px_tarifttc",TAB_GLOBAL_COMPO[336],px_tarifttc,false))
          return -1;
- if (!ValiderChampsType(Table,"px_tarifttc",TAB_GLOBAL_COMPO[335],px_tarifttc))
+ if (!ValiderChampsType(Table,"px_tarifttc",TAB_GLOBAL_COMPO[336],px_tarifttc))
          return -1;
- var tv_numero=GetValAt(336);
+ var tv_numero=GetValAt(337);
  if (tv_numero=="-1")
     tv_numero="null";
- if (!ValiderChampsObligatoire(Table,"tv_numero",TAB_GLOBAL_COMPO[336],tv_numero,true))
+ if (!ValiderChampsObligatoire(Table,"tv_numero",TAB_GLOBAL_COMPO[337],tv_numero,true))
          return -1;
  var Req="insert into "+Table+" ";
 var TabInsertionEnPlus=new Array();
  Req+="("+NomCleMaitre+",pd_numero,px_tarifht,px_tarifttc,tv_numero"+(TabInsertionEnPlus.length!=0?","+TabInsertionEnPlus[0]:"")+")";
- Req+=" values ("+CleMaitre+","+TAB_COMPO_PPTES[319].NewCle+","+(px_tarifht=="" ? "null" : "'"+ValiderChaine(px_tarifht)+"'" )+","+(px_tarifttc=="" ? "null" : "'"+ValiderChaine(px_tarifttc)+"'" )+","+tv_numero+""+(TabInsertionEnPlus.length!=0?","+TabInsertionEnPlus[1]:"")+")";
+ Req+=" values ("+CleMaitre+","+TAB_COMPO_PPTES[320].NewCle+","+(px_tarifht=="" ? "null" : "'"+ValiderChaine(px_tarifht)+"'" )+","+(px_tarifttc=="" ? "null" : "'"+ValiderChaine(px_tarifttc)+"'" )+","+tv_numero+""+(TabInsertionEnPlus.length!=0?","+TabInsertionEnPlus[1]:"")+")";
 
  if (pgsql_update(Req)==0)
         alert("Echec lors de l'insertion");
@@ -2795,20 +2809,20 @@ function User_Update_Produits_Prix_7(Compo_Maitre)
  var Table="prix";
  var CleMaitre = Compo_Maitre.getCleVal();
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var px_tarifht=GetValAt(334);
- if (!ValiderChampsObligatoire(Table,"px_tarifht",TAB_GLOBAL_COMPO[334],px_tarifht,false))
+ var px_tarifht=GetValAt(335);
+ if (!ValiderChampsObligatoire(Table,"px_tarifht",TAB_GLOBAL_COMPO[335],px_tarifht,false))
          return -1;
- if (!ValiderChampsType(Table,"px_tarifht",TAB_GLOBAL_COMPO[334],px_tarifht))
+ if (!ValiderChampsType(Table,"px_tarifht",TAB_GLOBAL_COMPO[335],px_tarifht))
          return -1;
- var px_tarifttc=GetValAt(335);
- if (!ValiderChampsObligatoire(Table,"px_tarifttc",TAB_GLOBAL_COMPO[335],px_tarifttc,false))
+ var px_tarifttc=GetValAt(336);
+ if (!ValiderChampsObligatoire(Table,"px_tarifttc",TAB_GLOBAL_COMPO[336],px_tarifttc,false))
          return -1;
- if (!ValiderChampsType(Table,"px_tarifttc",TAB_GLOBAL_COMPO[335],px_tarifttc))
+ if (!ValiderChampsType(Table,"px_tarifttc",TAB_GLOBAL_COMPO[336],px_tarifttc))
          return -1;
- var tv_numero=GetValAt(336);
+ var tv_numero=GetValAt(337);
  if (tv_numero=="-1")
     tv_numero="null";
- if (!ValiderChampsObligatoire(Table,"tv_numero",TAB_GLOBAL_COMPO[336],tv_numero,true))
+ if (!ValiderChampsObligatoire(Table,"tv_numero",TAB_GLOBAL_COMPO[337],tv_numero,true))
          return -1;
  var Req="update "+Table+" set ";
  Req+="px_tarifht="+(px_tarifht=="" ? "null" : "'"+ValiderChaine(px_tarifht)+"'" )+",px_tarifttc="+(px_tarifttc=="" ? "null" : "'"+ValiderChaine(px_tarifttc)+"'" )+",tv_numero="+tv_numero+"";
@@ -2831,12 +2845,12 @@ function User_Insert_Produits_Comptes_généraux_11(Compo_Maitre)
 
 Nbr d'esclaves = 2
 
-Id dans le tab: 340;
+Id dans le tab: 341;
 simple
 Nbr Jointure: 1;
     Joint n° 0 = comptegen,cg_numero,cg_numero
 
-Id dans le tab: 341;
+Id dans le tab: 342;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
@@ -2844,23 +2858,23 @@ Nbr Jointure: PAS DE JOINTURE;
 */
 
  var Table="compteproduit";
- var CleMaitre = TAB_COMPO_PPTES[337].NewCle;
+ var CleMaitre = TAB_COMPO_PPTES[338].NewCle;
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
  /* COMPOSANT LISTE AVEC JOINTURE SIMPLE */
- var cg_numero=GetValAt(340);
+ var cg_numero=GetValAt(341);
  if (cg_numero=="-1")
     cg_numero="null";
- if (!ValiderChampsObligatoire(Table,"cg_numero",TAB_GLOBAL_COMPO[340],cg_numero,true))
+ if (!ValiderChampsObligatoire(Table,"cg_numero",TAB_GLOBAL_COMPO[341],cg_numero,true))
          return -1;
- var ci_actif=GetValAt(341);
- if (!ValiderChampsObligatoire(Table,"ci_actif",TAB_GLOBAL_COMPO[341],ci_actif,false))
+ var ci_actif=GetValAt(342);
+ if (!ValiderChampsObligatoire(Table,"ci_actif",TAB_GLOBAL_COMPO[342],ci_actif,false))
          return -1;
- if (!ValiderChampsType(Table,"ci_actif",TAB_GLOBAL_COMPO[341],ci_actif))
+ if (!ValiderChampsType(Table,"ci_actif",TAB_GLOBAL_COMPO[342],ci_actif))
          return -1;
  var Req="insert into "+Table+" ";
 var TabInsertionEnPlus=new Array();
  Req+="("+NomCleMaitre+",pd_numero,cg_numero,ci_actif"+(TabInsertionEnPlus.length!=0?","+TabInsertionEnPlus[0]:"")+")";
- Req+=" values ("+CleMaitre+","+TAB_COMPO_PPTES[319].NewCle+","+cg_numero+","+(ci_actif=="true" ? "true" : "false")+""+(TabInsertionEnPlus.length!=0?","+TabInsertionEnPlus[1]:"")+")";
+ Req+=" values ("+CleMaitre+","+TAB_COMPO_PPTES[320].NewCle+","+cg_numero+","+(ci_actif=="true" ? "true" : "false")+""+(TabInsertionEnPlus.length!=0?","+TabInsertionEnPlus[1]:"")+")";
 
  if (pgsql_update(Req)==0)
         alert("Echec lors de l'insertion");
@@ -2891,15 +2905,15 @@ function User_Update_Produits_Comptes_généraux_11(Compo_Maitre)
  var Table="compteproduit";
  var CleMaitre = Compo_Maitre.getCleVal();
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var cg_numero=GetValAt(340);
+ var cg_numero=GetValAt(341);
  if (cg_numero=="-1")
     cg_numero="null";
- if (!ValiderChampsObligatoire(Table,"cg_numero",TAB_GLOBAL_COMPO[340],cg_numero,true))
+ if (!ValiderChampsObligatoire(Table,"cg_numero",TAB_GLOBAL_COMPO[341],cg_numero,true))
          return -1;
- var ci_actif=GetValAt(341);
- if (!ValiderChampsObligatoire(Table,"ci_actif",TAB_GLOBAL_COMPO[341],ci_actif,false))
+ var ci_actif=GetValAt(342);
+ if (!ValiderChampsObligatoire(Table,"ci_actif",TAB_GLOBAL_COMPO[342],ci_actif,false))
          return -1;
- if (!ValiderChampsType(Table,"ci_actif",TAB_GLOBAL_COMPO[341],ci_actif))
+ if (!ValiderChampsType(Table,"ci_actif",TAB_GLOBAL_COMPO[342],ci_actif))
          return -1;
  var Req="update "+Table+" set ";
  Req+="cg_numero="+cg_numero+",ci_actif="+(ci_actif=="true" ? "true" : "false")+"";
@@ -2922,10 +2936,6 @@ function User_Insert_Responsabilités_Responsabilités0(Compo_Maitre)
 
 Nbr d'esclaves = 3
 
-Id dans le tab: 308;
-simple
-Nbr Jointure: PAS DE JOINTURE;
-
 Id dans le tab: 309;
 simple
 Nbr Jointure: PAS DE JOINTURE;
@@ -2934,26 +2944,30 @@ Id dans le tab: 310;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
+Id dans le tab: 311;
+simple
+Nbr Jointure: PAS DE JOINTURE;
+
 ******************
 */
 
  var Table="responsabilite";
- var CleMaitre = TAB_COMPO_PPTES[304].NewCle;
+ var CleMaitre = TAB_COMPO_PPTES[305].NewCle;
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var re_code=GetValAt(308);
- if (!ValiderChampsObligatoire(Table,"re_code",TAB_GLOBAL_COMPO[308],re_code,false))
+ var re_code=GetValAt(309);
+ if (!ValiderChampsObligatoire(Table,"re_code",TAB_GLOBAL_COMPO[309],re_code,false))
          return -1;
- if (!ValiderChampsType(Table,"re_code",TAB_GLOBAL_COMPO[308],re_code))
+ if (!ValiderChampsType(Table,"re_code",TAB_GLOBAL_COMPO[309],re_code))
          return -1;
- var re_nom=GetValAt(309);
- if (!ValiderChampsObligatoire(Table,"re_nom",TAB_GLOBAL_COMPO[309],re_nom,false))
+ var re_nom=GetValAt(310);
+ if (!ValiderChampsObligatoire(Table,"re_nom",TAB_GLOBAL_COMPO[310],re_nom,false))
          return -1;
- if (!ValiderChampsType(Table,"re_nom",TAB_GLOBAL_COMPO[309],re_nom))
+ if (!ValiderChampsType(Table,"re_nom",TAB_GLOBAL_COMPO[310],re_nom))
          return -1;
- var re_famille=GetValAt(310);
- if (!ValiderChampsObligatoire(Table,"re_famille",TAB_GLOBAL_COMPO[310],re_famille,false))
+ var re_famille=GetValAt(311);
+ if (!ValiderChampsObligatoire(Table,"re_famille",TAB_GLOBAL_COMPO[311],re_famille,false))
          return -1;
- if (!ValiderChampsType(Table,"re_famille",TAB_GLOBAL_COMPO[310],re_famille))
+ if (!ValiderChampsType(Table,"re_famille",TAB_GLOBAL_COMPO[311],re_famille))
          return -1;
  var Req="insert into "+Table+" ";
 var TabInsertionEnPlus=new Array();
@@ -2989,20 +3003,20 @@ function User_Update_Responsabilités_Responsabilités0(Compo_Maitre)
  var Table="responsabilite";
  var CleMaitre = Compo_Maitre.getCleVal();
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var re_code=GetValAt(308);
- if (!ValiderChampsObligatoire(Table,"re_code",TAB_GLOBAL_COMPO[308],re_code,false))
+ var re_code=GetValAt(309);
+ if (!ValiderChampsObligatoire(Table,"re_code",TAB_GLOBAL_COMPO[309],re_code,false))
          return -1;
- if (!ValiderChampsType(Table,"re_code",TAB_GLOBAL_COMPO[308],re_code))
+ if (!ValiderChampsType(Table,"re_code",TAB_GLOBAL_COMPO[309],re_code))
          return -1;
- var re_nom=GetValAt(309);
- if (!ValiderChampsObligatoire(Table,"re_nom",TAB_GLOBAL_COMPO[309],re_nom,false))
+ var re_nom=GetValAt(310);
+ if (!ValiderChampsObligatoire(Table,"re_nom",TAB_GLOBAL_COMPO[310],re_nom,false))
          return -1;
- if (!ValiderChampsType(Table,"re_nom",TAB_GLOBAL_COMPO[309],re_nom))
+ if (!ValiderChampsType(Table,"re_nom",TAB_GLOBAL_COMPO[310],re_nom))
          return -1;
- var re_famille=GetValAt(310);
- if (!ValiderChampsObligatoire(Table,"re_famille",TAB_GLOBAL_COMPO[310],re_famille,false))
+ var re_famille=GetValAt(311);
+ if (!ValiderChampsObligatoire(Table,"re_famille",TAB_GLOBAL_COMPO[311],re_famille,false))
          return -1;
- if (!ValiderChampsType(Table,"re_famille",TAB_GLOBAL_COMPO[310],re_famille))
+ if (!ValiderChampsType(Table,"re_famille",TAB_GLOBAL_COMPO[311],re_famille))
          return -1;
  var Req="update "+Table+" set ";
  Req+="re_code="+(re_code=="" ? "null" : "'"+ValiderChaine(re_code)+"'" )+",re_nom="+(re_nom=="" ? "null" : "'"+ValiderChaine(re_nom)+"'" )+",re_famille="+(re_famille=="" ? "null" : "'"+ValiderChaine(re_famille)+"'" )+"";
@@ -3442,20 +3456,20 @@ function User_Insert_TVA_Liste_des_T_V_A_0(Compo_Maitre)
 
 Nbr d'esclaves = 4
 
-Id dans le tab: 315;
-simple
-Nbr Jointure: PAS DE JOINTURE;
-
 Id dans le tab: 316;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
 Id dans le tab: 317;
 simple
+Nbr Jointure: PAS DE JOINTURE;
+
+Id dans le tab: 318;
+simple
 Nbr Jointure: 1;
     Joint n° 0 = comptegen,cg_numero,cg_numero
 
-Id dans le tab: 318;
+Id dans le tab: 319;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
@@ -3463,27 +3477,27 @@ Nbr Jointure: PAS DE JOINTURE;
 */
 
  var Table="tva";
- var CleMaitre = TAB_COMPO_PPTES[311].NewCle;
+ var CleMaitre = TAB_COMPO_PPTES[312].NewCle;
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var tv_taux=GetValAt(315);
- if (!ValiderChampsObligatoire(Table,"tv_taux",TAB_GLOBAL_COMPO[315],tv_taux,false))
+ var tv_taux=GetValAt(316);
+ if (!ValiderChampsObligatoire(Table,"tv_taux",TAB_GLOBAL_COMPO[316],tv_taux,false))
          return -1;
- if (!ValiderChampsType(Table,"tv_taux",TAB_GLOBAL_COMPO[315],tv_taux))
+ if (!ValiderChampsType(Table,"tv_taux",TAB_GLOBAL_COMPO[316],tv_taux))
          return -1;
- var tv_code=GetValAt(316);
- if (!ValiderChampsObligatoire(Table,"tv_code",TAB_GLOBAL_COMPO[316],tv_code,false))
+ var tv_code=GetValAt(317);
+ if (!ValiderChampsObligatoire(Table,"tv_code",TAB_GLOBAL_COMPO[317],tv_code,false))
          return -1;
- if (!ValiderChampsType(Table,"tv_code",TAB_GLOBAL_COMPO[316],tv_code))
+ if (!ValiderChampsType(Table,"tv_code",TAB_GLOBAL_COMPO[317],tv_code))
          return -1;
- var cg_numero=GetValAt(317);
+ var cg_numero=GetValAt(318);
  if (cg_numero=="-1")
     cg_numero="null";
- if (!ValiderChampsObligatoire(Table,"cg_numero",TAB_GLOBAL_COMPO[317],cg_numero,true))
+ if (!ValiderChampsObligatoire(Table,"cg_numero",TAB_GLOBAL_COMPO[318],cg_numero,true))
          return -1;
- var tv_actif=GetValAt(318);
- if (!ValiderChampsObligatoire(Table,"tv_actif",TAB_GLOBAL_COMPO[318],tv_actif,false))
+ var tv_actif=GetValAt(319);
+ if (!ValiderChampsObligatoire(Table,"tv_actif",TAB_GLOBAL_COMPO[319],tv_actif,false))
          return -1;
- if (!ValiderChampsType(Table,"tv_actif",TAB_GLOBAL_COMPO[318],tv_actif))
+ if (!ValiderChampsType(Table,"tv_actif",TAB_GLOBAL_COMPO[319],tv_actif))
          return -1;
  var Req="insert into "+Table+" ";
 var TabInsertionEnPlus=new Array();
@@ -3519,25 +3533,25 @@ function User_Update_TVA_Liste_des_T_V_A_0(Compo_Maitre)
  var Table="tva";
  var CleMaitre = Compo_Maitre.getCleVal();
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var tv_taux=GetValAt(315);
- if (!ValiderChampsObligatoire(Table,"tv_taux",TAB_GLOBAL_COMPO[315],tv_taux,false))
+ var tv_taux=GetValAt(316);
+ if (!ValiderChampsObligatoire(Table,"tv_taux",TAB_GLOBAL_COMPO[316],tv_taux,false))
          return -1;
- if (!ValiderChampsType(Table,"tv_taux",TAB_GLOBAL_COMPO[315],tv_taux))
+ if (!ValiderChampsType(Table,"tv_taux",TAB_GLOBAL_COMPO[316],tv_taux))
          return -1;
- var tv_code=GetValAt(316);
- if (!ValiderChampsObligatoire(Table,"tv_code",TAB_GLOBAL_COMPO[316],tv_code,false))
+ var tv_code=GetValAt(317);
+ if (!ValiderChampsObligatoire(Table,"tv_code",TAB_GLOBAL_COMPO[317],tv_code,false))
          return -1;
- if (!ValiderChampsType(Table,"tv_code",TAB_GLOBAL_COMPO[316],tv_code))
+ if (!ValiderChampsType(Table,"tv_code",TAB_GLOBAL_COMPO[317],tv_code))
          return -1;
- var cg_numero=GetValAt(317);
+ var cg_numero=GetValAt(318);
  if (cg_numero=="-1")
     cg_numero="null";
- if (!ValiderChampsObligatoire(Table,"cg_numero",TAB_GLOBAL_COMPO[317],cg_numero,true))
+ if (!ValiderChampsObligatoire(Table,"cg_numero",TAB_GLOBAL_COMPO[318],cg_numero,true))
          return -1;
- var tv_actif=GetValAt(318);
- if (!ValiderChampsObligatoire(Table,"tv_actif",TAB_GLOBAL_COMPO[318],tv_actif,false))
+ var tv_actif=GetValAt(319);
+ if (!ValiderChampsObligatoire(Table,"tv_actif",TAB_GLOBAL_COMPO[319],tv_actif,false))
          return -1;
- if (!ValiderChampsType(Table,"tv_actif",TAB_GLOBAL_COMPO[318],tv_actif))
+ if (!ValiderChampsType(Table,"tv_actif",TAB_GLOBAL_COMPO[319],tv_actif))
          return -1;
  var Req="update "+Table+" set ";
  Req+="tv_taux="+(tv_taux=="" ? "null" : "'"+ValiderChaine(tv_taux)+"'" )+",tv_code="+(tv_code=="" ? "null" : "'"+ValiderChaine(tv_code)+"'" )+",cg_numero="+cg_numero+",tv_actif="+(tv_actif=="true" ? "true" : "false")+"";
@@ -3805,10 +3819,6 @@ function User_Insert_Types_de_contacts_Liste_des_types_de_contacts0(Compo_Maitre
 
 Nbr d'esclaves = 5
 
-Id dans le tab: 293;
-simple
-Nbr Jointure: PAS DE JOINTURE;
-
 Id dans le tab: 294;
 simple
 Nbr Jointure: PAS DE JOINTURE;
@@ -3825,36 +3835,40 @@ Id dans le tab: 297;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
+Id dans le tab: 298;
+simple
+Nbr Jointure: PAS DE JOINTURE;
+
 ******************
 */
 
  var Table="contacttype";
- var CleMaitre = TAB_COMPO_PPTES[290].NewCle;
+ var CleMaitre = TAB_COMPO_PPTES[291].NewCle;
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var ck_nom=GetValAt(293);
- if (!ValiderChampsObligatoire(Table,"ck_nom",TAB_GLOBAL_COMPO[293],ck_nom,false))
+ var ck_nom=GetValAt(294);
+ if (!ValiderChampsObligatoire(Table,"ck_nom",TAB_GLOBAL_COMPO[294],ck_nom,false))
          return -1;
- if (!ValiderChampsType(Table,"ck_nom",TAB_GLOBAL_COMPO[293],ck_nom))
+ if (!ValiderChampsType(Table,"ck_nom",TAB_GLOBAL_COMPO[294],ck_nom))
          return -1;
- var ck_code=GetValAt(294);
- if (!ValiderChampsObligatoire(Table,"ck_code",TAB_GLOBAL_COMPO[294],ck_code,false))
+ var ck_code=GetValAt(295);
+ if (!ValiderChampsObligatoire(Table,"ck_code",TAB_GLOBAL_COMPO[295],ck_code,false))
          return -1;
- if (!ValiderChampsType(Table,"ck_code",TAB_GLOBAL_COMPO[294],ck_code))
+ if (!ValiderChampsType(Table,"ck_code",TAB_GLOBAL_COMPO[295],ck_code))
          return -1;
- var ck_number=GetValAt(295);
- if (!ValiderChampsObligatoire(Table,"ck_number",TAB_GLOBAL_COMPO[295],ck_number,false))
+ var ck_number=GetValAt(296);
+ if (!ValiderChampsObligatoire(Table,"ck_number",TAB_GLOBAL_COMPO[296],ck_number,false))
          return -1;
- if (!ValiderChampsType(Table,"ck_number",TAB_GLOBAL_COMPO[295],ck_number))
+ if (!ValiderChampsType(Table,"ck_number",TAB_GLOBAL_COMPO[296],ck_number))
          return -1;
- var ck_email=GetValAt(296);
- if (!ValiderChampsObligatoire(Table,"ck_email",TAB_GLOBAL_COMPO[296],ck_email,false))
+ var ck_email=GetValAt(297);
+ if (!ValiderChampsObligatoire(Table,"ck_email",TAB_GLOBAL_COMPO[297],ck_email,false))
          return -1;
- if (!ValiderChampsType(Table,"ck_email",TAB_GLOBAL_COMPO[296],ck_email))
+ if (!ValiderChampsType(Table,"ck_email",TAB_GLOBAL_COMPO[297],ck_email))
          return -1;
- var ck_url=GetValAt(297);
- if (!ValiderChampsObligatoire(Table,"ck_url",TAB_GLOBAL_COMPO[297],ck_url,false))
+ var ck_url=GetValAt(298);
+ if (!ValiderChampsObligatoire(Table,"ck_url",TAB_GLOBAL_COMPO[298],ck_url,false))
          return -1;
- if (!ValiderChampsType(Table,"ck_url",TAB_GLOBAL_COMPO[297],ck_url))
+ if (!ValiderChampsType(Table,"ck_url",TAB_GLOBAL_COMPO[298],ck_url))
          return -1;
  var Req="insert into "+Table+" ";
 var TabInsertionEnPlus=new Array();
@@ -3890,30 +3904,30 @@ function User_Update_Types_de_contacts_Liste_des_types_de_contacts0(Compo_Maitre
  var Table="contacttype";
  var CleMaitre = Compo_Maitre.getCleVal();
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var ck_nom=GetValAt(293);
- if (!ValiderChampsObligatoire(Table,"ck_nom",TAB_GLOBAL_COMPO[293],ck_nom,false))
+ var ck_nom=GetValAt(294);
+ if (!ValiderChampsObligatoire(Table,"ck_nom",TAB_GLOBAL_COMPO[294],ck_nom,false))
          return -1;
- if (!ValiderChampsType(Table,"ck_nom",TAB_GLOBAL_COMPO[293],ck_nom))
+ if (!ValiderChampsType(Table,"ck_nom",TAB_GLOBAL_COMPO[294],ck_nom))
          return -1;
- var ck_code=GetValAt(294);
- if (!ValiderChampsObligatoire(Table,"ck_code",TAB_GLOBAL_COMPO[294],ck_code,false))
+ var ck_code=GetValAt(295);
+ if (!ValiderChampsObligatoire(Table,"ck_code",TAB_GLOBAL_COMPO[295],ck_code,false))
          return -1;
- if (!ValiderChampsType(Table,"ck_code",TAB_GLOBAL_COMPO[294],ck_code))
+ if (!ValiderChampsType(Table,"ck_code",TAB_GLOBAL_COMPO[295],ck_code))
          return -1;
- var ck_number=GetValAt(295);
- if (!ValiderChampsObligatoire(Table,"ck_number",TAB_GLOBAL_COMPO[295],ck_number,false))
+ var ck_number=GetValAt(296);
+ if (!ValiderChampsObligatoire(Table,"ck_number",TAB_GLOBAL_COMPO[296],ck_number,false))
          return -1;
- if (!ValiderChampsType(Table,"ck_number",TAB_GLOBAL_COMPO[295],ck_number))
+ if (!ValiderChampsType(Table,"ck_number",TAB_GLOBAL_COMPO[296],ck_number))
          return -1;
- var ck_email=GetValAt(296);
- if (!ValiderChampsObligatoire(Table,"ck_email",TAB_GLOBAL_COMPO[296],ck_email,false))
+ var ck_email=GetValAt(297);
+ if (!ValiderChampsObligatoire(Table,"ck_email",TAB_GLOBAL_COMPO[297],ck_email,false))
          return -1;
- if (!ValiderChampsType(Table,"ck_email",TAB_GLOBAL_COMPO[296],ck_email))
+ if (!ValiderChampsType(Table,"ck_email",TAB_GLOBAL_COMPO[297],ck_email))
          return -1;
- var ck_url=GetValAt(297);
- if (!ValiderChampsObligatoire(Table,"ck_url",TAB_GLOBAL_COMPO[297],ck_url,false))
+ var ck_url=GetValAt(298);
+ if (!ValiderChampsObligatoire(Table,"ck_url",TAB_GLOBAL_COMPO[298],ck_url,false))
          return -1;
- if (!ValiderChampsType(Table,"ck_url",TAB_GLOBAL_COMPO[297],ck_url))
+ if (!ValiderChampsType(Table,"ck_url",TAB_GLOBAL_COMPO[298],ck_url))
          return -1;
  var Req="update "+Table+" set ";
  Req+="ck_nom="+(ck_nom=="" ? "null" : "'"+ValiderChaine(ck_nom)+"'" )+",ck_code="+(ck_code=="" ? "null" : "'"+ValiderChaine(ck_code)+"'" )+",ck_number="+(ck_number=="true" ? "true" : "false")+",ck_email="+(ck_email=="true" ? "true" : "false")+",ck_url="+(ck_url=="true" ? "true" : "false")+"";
@@ -3936,7 +3950,7 @@ function User_Insert_Types_de_journaux_Liste_des_types_de_journaux0(Compo_Maitre
 
 Nbr d'esclaves = 1
 
-Id dans le tab: 365;
+Id dans le tab: 366;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
@@ -3944,12 +3958,12 @@ Nbr Jointure: PAS DE JOINTURE;
 */
 
  var Table="typejournal";
- var CleMaitre = TAB_COMPO_PPTES[363].NewCle;
+ var CleMaitre = TAB_COMPO_PPTES[364].NewCle;
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var tj_libelle=GetValAt(365);
- if (!ValiderChampsObligatoire(Table,"tj_libelle",TAB_GLOBAL_COMPO[365],tj_libelle,false))
+ var tj_libelle=GetValAt(366);
+ if (!ValiderChampsObligatoire(Table,"tj_libelle",TAB_GLOBAL_COMPO[366],tj_libelle,false))
          return -1;
- if (!ValiderChampsType(Table,"tj_libelle",TAB_GLOBAL_COMPO[365],tj_libelle))
+ if (!ValiderChampsType(Table,"tj_libelle",TAB_GLOBAL_COMPO[366],tj_libelle))
          return -1;
  var Req="insert into "+Table+" ";
 var TabInsertionEnPlus=new Array();
@@ -3985,10 +3999,10 @@ function User_Update_Types_de_journaux_Liste_des_types_de_journaux0(Compo_Maitre
  var Table="typejournal";
  var CleMaitre = Compo_Maitre.getCleVal();
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var tj_libelle=GetValAt(365);
- if (!ValiderChampsObligatoire(Table,"tj_libelle",TAB_GLOBAL_COMPO[365],tj_libelle,false))
+ var tj_libelle=GetValAt(366);
+ if (!ValiderChampsObligatoire(Table,"tj_libelle",TAB_GLOBAL_COMPO[366],tj_libelle,false))
          return -1;
- if (!ValiderChampsType(Table,"tj_libelle",TAB_GLOBAL_COMPO[365],tj_libelle))
+ if (!ValiderChampsType(Table,"tj_libelle",TAB_GLOBAL_COMPO[366],tj_libelle))
          return -1;
  var Req="update "+Table+" set ";
  Req+="tj_libelle="+(tj_libelle=="" ? "null" : "'"+ValiderChaine(tj_libelle)+"'" )+"";
@@ -4381,11 +4395,11 @@ function User_Insert_Villes_Liste_des_villes0(Compo_Maitre)
 
 Nbr d'esclaves = 2
 
-Id dans le tab: 278;
+Id dans le tab: 279;
 simple
 Nbr Jointure: PAS DE JOINTURE;
 
-Id dans le tab: 279;
+Id dans le tab: 280;
 simple
 Nbr Jointure: 1;
     Joint n° 0 = canton,ct_numero,ct_numero
@@ -4394,17 +4408,17 @@ Nbr Jointure: 1;
 */
 
  var Table="ville";
- var CleMaitre = TAB_COMPO_PPTES[274].NewCle;
+ var CleMaitre = TAB_COMPO_PPTES[275].NewCle;
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var vi_nom=GetValAt(278);
- if (!ValiderChampsObligatoire(Table,"vi_nom",TAB_GLOBAL_COMPO[278],vi_nom,false))
+ var vi_nom=GetValAt(279);
+ if (!ValiderChampsObligatoire(Table,"vi_nom",TAB_GLOBAL_COMPO[279],vi_nom,false))
          return -1;
- if (!ValiderChampsType(Table,"vi_nom",TAB_GLOBAL_COMPO[278],vi_nom))
+ if (!ValiderChampsType(Table,"vi_nom",TAB_GLOBAL_COMPO[279],vi_nom))
          return -1;
- var ct_numero=GetValAt(279);
+ var ct_numero=GetValAt(280);
  if (ct_numero=="-1")
     ct_numero="null";
- if (!ValiderChampsObligatoire(Table,"ct_numero",TAB_GLOBAL_COMPO[279],ct_numero,true))
+ if (!ValiderChampsObligatoire(Table,"ct_numero",TAB_GLOBAL_COMPO[280],ct_numero,true))
          return -1;
  var Req="insert into "+Table+" ";
 var TabInsertionEnPlus=new Array();
@@ -4440,15 +4454,15 @@ function User_Update_Villes_Liste_des_villes0(Compo_Maitre)
  var Table="ville";
  var CleMaitre = Compo_Maitre.getCleVal();
  var NomCleMaitre = DePrefixerChamp(Compo_Maitre.getCle());
- var vi_nom=GetValAt(278);
- if (!ValiderChampsObligatoire(Table,"vi_nom",TAB_GLOBAL_COMPO[278],vi_nom,false))
+ var vi_nom=GetValAt(279);
+ if (!ValiderChampsObligatoire(Table,"vi_nom",TAB_GLOBAL_COMPO[279],vi_nom,false))
          return -1;
- if (!ValiderChampsType(Table,"vi_nom",TAB_GLOBAL_COMPO[278],vi_nom))
+ if (!ValiderChampsType(Table,"vi_nom",TAB_GLOBAL_COMPO[279],vi_nom))
          return -1;
- var ct_numero=GetValAt(279);
+ var ct_numero=GetValAt(280);
  if (ct_numero=="-1")
     ct_numero="null";
- if (!ValiderChampsObligatoire(Table,"ct_numero",TAB_GLOBAL_COMPO[279],ct_numero,true))
+ if (!ValiderChampsObligatoire(Table,"ct_numero",TAB_GLOBAL_COMPO[280],ct_numero,true))
          return -1;
  var Req="update "+Table+" set ";
  Req+="vi_nom="+(vi_nom=="" ? "null" : "'"+ValiderChaine(vi_nom)+"'" )+",ct_numero="+ct_numero+"";

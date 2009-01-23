@@ -516,9 +516,10 @@ function CodeInPrincipal(centre){
     It_Facture.AjouterComposantSimple("Montant HT","fa_montantht",null,null,LABEL);
     It_Facture.AjouterComposantSimple("Montant TTC","fa_montantttc",null,null,LABEL);
     It_Facture.AjouterComposantSimple("N°Devis d'origine","de_numero",null,null,LABEL);
-    It_Facture.AjouterComposantSimple("Adresse de fact.","ad_libelle",new Array("ad_numero","ad_numero","adresse"),null,LISTE_DEROULANTE);
+    It_Facture.AjouterComposantSimple("Adresse de fact.","ad_libelle",new Array("ad_numero", "ad_numero", "adresse"), null, LISTE_DEROULANTE);
 //    It_Facture.AjouterComposantSimple("Annotation","fa_annotation");
     It_Facture.AjouterComposantSimple("NIF","fa_numero",null,null,LABEL);
+    It_Facture.AjouterComposantSimple("NIFA","fa_avoir_facture",null,null,LABEL);
     
     //***********************
     // LIGNEFACTURE
@@ -531,10 +532,11 @@ function CodeInPrincipal(centre){
 
     //***********************
     // AVOIRS
+    /*
     FactureAvoir = It_Facture.AjouterComposantComplexe("Avoirs de la facture", new Array("fa_numero","fa_numero","avoir"));
     FactureAvoir.AjouterColonne("Date","av_date");
     FactureAvoir.AjouterColonne("Montant","av_montantttc");
- 
+    */
     //***********************
     // FACTUREREGLEMENT
     FactureFacturereglement = It_Facture.AjouterComposantComplexe("Règlements",new Array("fa_numero","fa_numero","facturereglement"));
@@ -584,7 +586,7 @@ function CodeInPrincipal(centre){
     /****************************
      * AVOIR
      ****************************/
-    
+    /*
     var It_Avoir, Maitre_Avoir;
 
     It_Avoir = new clInterfaceSimple("Avoir");
@@ -611,7 +613,7 @@ function CodeInPrincipal(centre){
     AvoirLigne.AjouterColonne("Montant TTC","la_montantttc");
 
     principal_alert("Avoir...OK!");
-
+    */
 
 
     /****************************
@@ -855,7 +857,7 @@ function CodeInPrincipal(centre){
 
     
     // Liaisons
-    It_Avoir.LierA(FactureAvoir,It_Facture);
+//    It_Avoir.LierA(FactureAvoir,It_Facture);
 //    It_Contact.LierA(PersonneEstjoignableContact,It_Personne);
     It_Devis.LierFortementA(PersonneDevis,It_Personne);
     //    It_Facture.LierA(RoutageFacture,It_Routage);
@@ -879,7 +881,7 @@ function CodeInPrincipal(centre){
   //  AllIt.AjouterInterface(It_Contact);
     AllIt.AjouterInterface(It_Devis);
     AllIt.AjouterInterface(It_Facture);
-    AllIt.AjouterInterface(It_Avoir);
+    //    AllIt.AjouterInterface(It_Avoir);
     AllIt.AjouterInterface(It_Reglement);
     AllIt.AjouterInterface(It_ListeReglement);
     AllIt.AjouterInterface(It_Cotisation);

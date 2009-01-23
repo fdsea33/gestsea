@@ -544,6 +544,9 @@ DECLARE
 BEGIN
   mdp:='********';
   IF TG_OP!='DELETE' THEN
+    IF NEW.EM_cancel_invoice THEN
+      NEW.EM_Societe_Invoicing := true;
+    END IF;
     IF NEW.EM_Societe_Invoicing THEN
       NEW.EM_Service_Invoicing := true;
     END IF;
@@ -667,19 +670,42 @@ CREATE TRIGGER trigger_estlie_treatments
 CREATE OR REPLACE FUNCTION TG_facture_validation() RETURNS TRIGGER AS
 $$
 DECLARE
-  superuser BOOLEAN;
+  test BOOLEAN;
 BEGIN
-  SELECT usesuper FROM pg_user WHERE usename=CURRENT_USER INTO superuser;
-  IF NOT superuser THEN
-    NEW.AD_Numero := OLD.AD_Numero;
-    NEW.PE_Numero := OLD.PE_Numero;
+  IF TG_OP='UPDATE' THEN
+    SELECT usesuper FROM pg_user WHERE usename=CURRENT_USER INTO test;
+    IF NOT test THEN
+      NEW.AD_Numero := OLD.AD_Numero;
+      NEW.PE_Numero := OLD.PE_Numero;
+    END IF;
+    IF NEW.fa_avoir!=OLD.fa_avoir THEN
+      RAISE EXCEPTION 'Il est impossible de changer une facture en avoir.';
+    END IF;
+    IF NEW.fa_avoir_facture!=OLD.fa_avoir_facture THEN
+      RAISE EXCEPTION 'Il est impossible de changer la facture d''origine d''un avoir.';
+    END IF;
   END IF;
+
+
+  IF NEW.fa_avoir THEN
+    IF NEW.fa_montantht>0 THEN
+      RAISE EXCEPTION 'Les montants d''un avoir sont forcément inférieurs à 0.';
+    END IF;
+    IF NEW.fa_avoir_facture IS NULL THEN
+      RAISE EXCEPTION 'La facture d''origine est obligatoirement renseigné';
+    END IF;
+    SELECT fa_perte FROM facture WHERE fa_numero=NEW.fa_avoir_facture INTO test;
+    IF test THEN
+      RAISE EXCEPTION 'La facture d''origine d''un avoir ne peut pas être en perte'; 
+    END IF;
+  END IF;
+	
   RETURN NEW;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
 CREATE TRIGGER trigger_facture_validation
-  BEFORE UPDATE ON table_facture
+  BEFORE INSERT OR UPDATE ON table_facture
   FOR EACH ROW EXECUTE PROCEDURE TG_facture_validation();
 
 
@@ -739,10 +765,10 @@ BEGIN
     ELSIF NEW.PD_Numero IS NULL AND NEW.PX_Numero IS NOT NULL THEN
       SELECT PD_Numero FROM Prix WHERE PX_Numero=NEW.PX_Numero INTO NEW.PD_Numero;
     ELSIF NEW.PD_Numero IS NOT NULL AND NEW.PX_Numero IS NOT NULL THEN
-      SELECT NEW.PX_Numero IN (SELECT PX_Numero FROM Prix WHERE New.PD_Numero=PD_Numero AND PX_actif) INTO valid;
-      IF NOT valid THEN
-        NEW.PX_Numero := NULL;
-      END IF;
+--      SELECT NEW.PX_Numero IN (SELECT PX_Numero FROM Prix WHERE New.PD_Numero=PD_Numero AND PX_actif) INTO valid;
+--      IF NOT valid THEN
+--        NEW.PX_Numero := NULL;
+--      END IF;
     END IF;
 
     IF NEW.PX_Numero IS NULL THEN
@@ -753,7 +779,7 @@ BEGIN
       SELECT PX_Numero FROM Prix WHERE New.PD_Numero=PD_Numero AND px_actif ORDER BY prix.id DESC INTO NEW.PX_Numero;
     END IF;
 
-    SELECT PX_tarifHT, PX_tarifTTC, PD_Libelle, PX_Numero FROM Prix join Produit USING (pd_numero) WHERE NEW.PX_Numero=PX_Numero INTO tarifs;
+    SELECT PX_tarifHT, PX_tarifTTC, PD_Libelle, PX_Numero FROM vue_prix_all join Produit USING (pd_numero) WHERE NEW.PX_Numero=PX_Numero INTO tarifs;
     IF tarifs.PX_tarifHT IS NULL OR tarifs.PX_tarifTTC IS NULL THEN
       RAISE EXCEPTION 'Les tarifs pour le produit "%" ne sont pas corrects.', tarifs.PD_Libelle;
     END IF;

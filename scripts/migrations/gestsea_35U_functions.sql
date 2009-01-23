@@ -329,10 +329,9 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 -- Permet de faire un avoir global sur une facture
 --DROP FUNCTION FC_FactureVersAvoir(integer);
 
-CREATE OR REPLACE FUNCTION FC_FactureVersAvoir(integer) RETURNS integer AS
+CREATE OR REPLACE FUNCTION FC_FactureVersAvoir(IN num_facture integer) RETURNS integer AS
 $$
 DECLARE
-  num_facture ALIAS FOR $1;
   nom_seq      text;
   num_societe  integer;
   num_avoir    integer;
@@ -344,68 +343,37 @@ DECLARE
   num_piece    integer;
   compte       integer;
   montant      numeric;
+  test         boolean;
 BEGIN
   -- Vérifie que la facture ne soit pas déjà passée en avoir
-  SELECT count(*) from avoir WHERE fa_numero=num_facture INTO compte;
+  SELECT count(*) from facture WHERE fa_avoir_facture=num_facture INTO compte;
   IF compte>0 THEN
     RAISE EXCEPTION 'Cette facture a déjà été passée en avoir, il n''est pas possible de recommencer';
   END IF;
 
+  -- Verifie que la facture ne soit pas deja un avoir
+  SELECT fa_avoir from facture WHERE fa_numero=num_facture INTO test;
+  IF test THEN
+    RAISE EXCEPTION 'Cette facture est déjà un avoir, il n''est pas possible de l''annuler';
+  END IF;
+
   -- Copie des données de la facture
-  select into num_avoir nextval('seq_avoir');
+  select into num_avoir nextval('seq_facture');
 
   select current_societe() into num_societe;
-  num_numfact:=num_avoir;    
-
+  SELECT fc_nextval(sq_numero) FROM societe where so_numero = num_societe INTO num_numfact;
 
   --- Base de la facture
-  insert into avoir (av_numero, pe_numero, fa_numero, av_date, av_reduction, av_numfact, av_montantht, av_montantttc)
-  select num_avoir, pe_numero, fa_numero, current_date, fa_reduction, num_numfact, fa_montantht, fa_montantttc
-    from facture
-    where fa_numero = num_facture;
+  insert into facture (av_numero, pe_numero, av_date, av_reduction, av_numfact, av_montantht, av_montantttc, av_avoir, av_avoir_facture)
+  select num_avoir, pe_numero, current_date, fa_reduction, num_numfact, -fa_montantht, -fa_montantttc, true, fa_numero
+    from facture where fa_numero = num_facture;
 
   --- Lignes de la facture
-  insert into ligneavoir (av_numero, pd_numero, la_numero, la_montantht, la_montantttc, la_quantite, px_numero, pe_numero)
-  select num_avoir, pd_numero, nextval('seq_lignefacture'), lf_montantht, lf_montantttc, lf_quantite, px_numero, pe_numero
-    from lignefacture
-    where fa_numero = num_facture;
+  insert into lignefacture (av_numero, pd_numero, la_numero, la_montantht, la_montantttc, la_quantite, px_numero, pe_numero)
+  select num_avoir, pd_numero, nextval('seq_lignefacture'), -lf_montantht, -lf_montantttc, -lf_quantite, px_numero, pe_numero
+    from lignefacture where fa_numero = num_facture;
 
-  SELECT COALESCE(fa_montantttc,0) FROM facture where fa_numero=num_facture INTO montant;
-  IF montant<=0 THEN
-    RAISE NOTICE 'La facture étant à zéro elle ne passera pas en comptabilité.';
-  END IF;
-
-  IF montant>0 THEN
-  -- Passage en comptabilité
-    --- Création de la pièce
-    ---- Numéro de l'exercice actif pour la societe en cours
-    select ex_numero from exercice where ex_actif is true and so_numero = num_societe into num_exercice;
-
-    ---- Libelle de la piece + numéro du journal concerné
-    select distinct jo_abbrev, jo_numero
-        from ligneavoir join produit using (pd_numero) join journal using (jo_numero)
-        where av_numero = num_avoir    
-    into nom_journal, num_journal;
-
-    select av_date from avoir where av_numero = num_avoir into date_avoir;
-    select nextval('seq_piece') into num_piece;
-
-    insert into piece(pi_numero, pi_libelle, pi_date, jo_numero, pi_numpiece, ex_numero)
-       values (num_piece, 'AVOIR '||nom_journal || ' DU ' || date_avoir, date_avoir, num_journal, num_piece, num_exercice);
-
-    --- Création des écritures inverses
-
-    insert into ecriture(ec_numero, ec_libelle, ec_debit, pi_numero, cg_numero, ca_numero, ec_aux, pf_numero, ec_credit, ex_numero, av_numero)
-    select nextval('seq_ecriture'), '(A)'||ec_libelle, ec_credit, num_piece, cg_numero, ca_numero, ec_aux, 3, ec_debit, num_exercice, num_avoir
-    from ecriture
-      where fa_numero = num_facture;
-
-  END IF;
-  -- Fin
-  select so_sequence from societe where so_numero = num_societe into nom_seq;
-  select nextval(nom_seq) into num_numfact;
-  UPDATE Avoir SET av_numfact=num_numfact WHERE av_numero=num_avoir;
-  return num_numfact;
+  RETURN num_avoir;
 END
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
@@ -1910,7 +1878,7 @@ $$ LANGUAGE 'plpgsql';
 
 
 
-CREATE OR REPLACE FUNCTION FC_personne_create(IN Titre VARCHAR, IN nom VARCHAR, IN prenom VARCHAR, IN ad1 VARCHAR, IN ad2 VARCHAR, IN cp VARCHAR, IN city VARCHAR) RETURNS INTEGER AS
+CREATE OR REPLACE FUNCTION FC_personne_create(IN Titre VARCHAR, IN nom VARCHAR, IN prenom VARCHAR, IN ad1 VARCHAR, IN ad2 VARCHAR, IN cp VARCHAR, IN city VARCHAR, IN num_personne INTEGER) RETURNS INTEGER AS
 $$
 DECLARE
   num_nature INTEGER;
@@ -1933,13 +1901,22 @@ BEGIN
     RAISE EXCEPTION 'Ville inconnue : %', city;
   END IF;
 
-  SELECT pe_numero FROM personne LEFT JOIN adresse using (pe_numero) WHERE np_numero=num_nature AND pe_nom ILIKE nom AND pe_prenom ILIKE prenom AND ad_lignes ILIKE '%'||REPLACE(COALESCE(ad1,''),' ','%')||'%'||REPLACE(COALESCE(ad2,''),' ','%')||'%' AND cp_numero=num_cp AND vi_numero=num_ville INTO id;
-  IF id IS NOT NULL THEN
-    RAISE NOTICE 'La personne % (%, %, %, %, %, %, %) semble être identique à la personne que vous voulez créer.', id, titre, nom, prenom, ad1, ad2, cp, city;
+  SELECT pe_numero FROM personne WHERE pe_numero=num_personne INTO id;
+
+  IF id IS NULL THEN
+    SELECT pe_numero FROM personne LEFT JOIN adresse using (pe_numero) WHERE np_numero=num_nature AND pe_nom ILIKE nom AND pe_prenom ILIKE prenom AND ad_lignes ILIKE '%'||REPLACE(COALESCE(ad1,''),' ','%')||'%'||REPLACE(COALESCE(ad2,''),' ','%')||'%' AND cp_numero=num_cp AND vi_numero=num_ville INTO id;
+    IF id IS NOT NULL THEN
+      RAISE NOTICE 'La personne % (%, %, %, %, %, %, %) existe déjà.', id, titre, nom, prenom, ad1, ad2, cp, city;
+    ELSE
+      SELECT nextval('seq_personne') INTO id;
+      INSERT INTO personne (pe_numero, np_numero, pe_nom, pe_prenom) VALUES (id, num_nature, nom, prenom);
+      INSERT INTO adresse (pe_numero, ad_ligne4, ad_ligne5, cp_numero, vi_numero) VALUES (id, ad1, ad2, num_cp, num_ville);
+      RAISE NOTICE 'Création de la personne % (%, %, %, %, %, %, %).', id, titre, nom, prenom, ad1, ad2, cp, city;
+    END IF;
   ELSE
-    SELECT nextval('seq_personne') INTO id;
-    INSERT INTO personne (pe_numero, np_numero, pe_nom, pe_prenom) VALUES (id, num_nature, nom, prenom);
-    INSERT INTO adresse (pe_numero, ad_ligne4, ad_ligne5, cp_numero, vi_numero) VALUES (id, ad1, ad2, num_cp, num_ville);
+    UPDATE personne SET pe_nom=nom, pe_prenom=prenom, np_numero=num_nature WHERE pe_numero=id;
+    UPDATE adresse SET ad_ligne2='', ad_ligne3='', ad_ligne4=ad1, ad_ligne5=ad2, cp_numero=num_cp, vi_numero=num_ville WHERE pe_numero=id AND ad_default;
+    RAISE NOTICE 'Modification de la personne % (%, %, %, %, %, %, %).', id, titre, nom, prenom, ad1, ad2, cp, city;
   END IF;
   RETURN id;
 END;

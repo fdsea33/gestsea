@@ -10,7 +10,6 @@ DROP SEQUENCE "seq_adresseversion" CASCADE;
 DROP SEQUENCE "seq_agent" CASCADE;
 DROP SEQUENCE "seq_appel" CASCADE;
 DROP SEQUENCE "seq_attribut" CASCADE;
-DROP SEQUENCE "seq_avoir" CASCADE;
 DROP SEQUENCE "seq_canton" CASCADE;
 DROP SEQUENCE "seq_categorie" CASCADE;
 DROP SEQUENCE "seq_codepostal" CASCADE;
@@ -40,7 +39,6 @@ DROP SEQUENCE "seq_journal" CASCADE;
 DROP SEQUENCE "seq_lettrage" CASCADE;
 DROP SEQUENCE "seq_lieu" CASCADE;
 DROP SEQUENCE "seq_ligne" CASCADE;
-DROP SEQUENCE "seq_ligneavoir" CASCADE;
 DROP SEQUENCE "seq_lignefacture" CASCADE;
 DROP SEQUENCE "seq_lignemodele" CASCADE;
 DROP SEQUENCE "seq_listereglement" CASCADE;
@@ -146,10 +144,6 @@ ALTER TABLE "table_attribut"
   DROP CONSTRAINT fk_table_attribut_ta_numero;
 ALTER TABLE "table_attribut"
   DROP CONSTRAINT fk_table_attribut_cr_numero;
-ALTER TABLE "table_avoir"
-  DROP CONSTRAINT fk_table_avoir_pe_numero;
-ALTER TABLE "table_avoir"
-  DROP CONSTRAINT fk_table_avoir_fa_numero;
 ALTER TABLE "table_categorie"
   DROP CONSTRAINT fk_table_categorie_ta_numero;
 ALTER TABLE "table_compteaux"
@@ -245,6 +239,8 @@ ALTER TABLE "table_facture"
 ALTER TABLE "table_facture"
   DROP CONSTRAINT fk_table_facture_ag_numero;
 ALTER TABLE "table_facture"
+  DROP CONSTRAINT fk_table_facture_fa_avoir_facture;
+ALTER TABLE "table_facture"
   DROP CONSTRAINT fk_table_facture_fa_penalty;
 ALTER TABLE "table_facture"
   DROP CONSTRAINT fk_table_facture_ad_numero;
@@ -274,14 +270,6 @@ ALTER TABLE "table_ligne"
   DROP CONSTRAINT fk_table_ligne_pe_numero;
 ALTER TABLE "table_ligne"
   DROP CONSTRAINT fk_table_ligne_px_numero;
-ALTER TABLE "table_ligneavoir"
-  DROP CONSTRAINT fk_table_ligneavoir_pd_numero;
-ALTER TABLE "table_ligneavoir"
-  DROP CONSTRAINT fk_table_ligneavoir_av_numero;
-ALTER TABLE "table_ligneavoir"
-  DROP CONSTRAINT fk_table_ligneavoir_px_numero;
-ALTER TABLE "table_ligneavoir"
-  DROP CONSTRAINT fk_table_ligneavoir_pe_numero;
 ALTER TABLE "table_lignecotisation"
   DROP CONSTRAINT fk_table_lignecotisation_cs_numero;
 ALTER TABLE "table_lignefacture"
@@ -392,7 +380,6 @@ DROP TABLE "table_agent" CASCADE;
 DROP TABLE "table_appartienta" CASCADE;
 DROP TABLE "table_appel" CASCADE;
 DROP TABLE "table_attribut" CASCADE;
-DROP TABLE "table_avoir" CASCADE;
 DROP TABLE "table_canton" CASCADE;
 DROP TABLE "table_categorie" CASCADE;
 DROP TABLE "table_codepostal" CASCADE;
@@ -427,7 +414,6 @@ DROP TABLE "table_journal" CASCADE;
 DROP TABLE "table_lettrage" CASCADE;
 DROP TABLE "table_lieu" CASCADE;
 DROP TABLE "table_ligne" CASCADE;
-DROP TABLE "table_ligneavoir" CASCADE;
 DROP TABLE "table_lignecotisation" CASCADE;
 DROP TABLE "table_lignefacture" CASCADE;
 DROP TABLE "table_lignemodele" CASCADE;
@@ -479,7 +465,6 @@ CREATE SEQUENCE "seq_adresseversion" START 100;
 CREATE SEQUENCE "seq_agent" START 100;
 CREATE SEQUENCE "seq_appel" START 100;
 CREATE SEQUENCE "seq_attribut" START 100;
-CREATE SEQUENCE "seq_avoir" START 100;
 CREATE SEQUENCE "seq_canton" START 1000000;
 CREATE SEQUENCE "seq_categorie" START 100;
 CREATE SEQUENCE "seq_codepostal" START 1000000;
@@ -509,7 +494,6 @@ CREATE SEQUENCE "seq_journal" START 100;
 CREATE SEQUENCE "seq_lettrage" START 100;
 CREATE SEQUENCE "seq_lieu" START 100;
 CREATE SEQUENCE "seq_ligne" START 100;
-CREATE SEQUENCE "seq_ligneavoir" START 100;
 CREATE SEQUENCE "seq_lignefacture" START 100;
 CREATE SEQUENCE "seq_lignemodele" START 100;
 CREATE SEQUENCE "seq_listereglement" START 100;
@@ -623,6 +607,7 @@ CREATE TABLE "table_employe"
   "em_service_invoicing" BOOLEAN,
   "em_societe_invoicing" BOOLEAN,
   "em_personne_editing" BOOLEAN,
+  "em_cancel_invoice" BOOLEAN,
   "em_acces" INTEGER,
   "em_password" VARCHAR(16),
   "em_super" BOOLEAN,
@@ -1297,6 +1282,8 @@ CREATE TABLE "table_facture"
   "ag_numero" INTEGER,
   "fa_numfact" INTEGER,
   "fa_date" DATE,
+  "fa_avoir" BOOLEAN,
+  "fa_avoir_facture" INTEGER,
   "fa_perte" BOOLEAN,
   "fa_next_reflation_on" DATE,
   "fa_penalty" INTEGER,
@@ -1308,43 +1295,6 @@ CREATE TABLE "table_facture"
   "fa_annotation" TEXT,
   "fa_libelle" TEXT,
   "so_numero" INTEGER,
-  "created_at" TIMESTAMP,
-  "created_by" VARCHAR(32),
-  "updated_at" TIMESTAMP,
-  "updated_by" VARCHAR(32),
-  "lock_version" INTEGER,
-  "id" SERIAL
-);
-
-CREATE TABLE "table_ligneavoir"
-(
-  "la_numero" INTEGER,
-  "pd_numero" INTEGER,
-  "av_numero" INTEGER,
-  "px_numero" INTEGER,
-  "la_quantite" NUMERIC,
-  "pe_numero" INTEGER,
-  "la_montantht" NUMERIC(16,2),
-  "la_montantttc" NUMERIC(16,2),
-  "la_notes" TEXT,
-  "created_at" TIMESTAMP,
-  "created_by" VARCHAR(32),
-  "updated_at" TIMESTAMP,
-  "updated_by" VARCHAR(32),
-  "lock_version" INTEGER,
-  "id" SERIAL
-);
-
-CREATE TABLE "table_avoir"
-(
-  "av_numero" INTEGER,
-  "pe_numero" INTEGER,
-  "fa_numero" INTEGER,
-  "av_numfact" INTEGER,
-  "av_date" DATE,
-  "av_montantht" NUMERIC(16,2),
-  "av_montantttc" NUMERIC(16,2),
-  "av_reduction" NUMERIC,
   "created_at" TIMESTAMP,
   "created_by" VARCHAR(32),
   "updated_at" TIMESTAMP,
@@ -2069,8 +2019,6 @@ REVOKE ALL ON "table_ligne" FROM PUBLIC;
 REVOKE ALL ON "table_devis" FROM PUBLIC;
 REVOKE ALL ON "table_lignefacture" FROM PUBLIC;
 REVOKE ALL ON "table_facture" FROM PUBLIC;
-REVOKE ALL ON "table_ligneavoir" FROM PUBLIC;
-REVOKE ALL ON "table_avoir" FROM PUBLIC;
 REVOKE ALL ON "table_routage" FROM PUBLIC;
 REVOKE ALL ON "table_service" FROM PUBLIC;
 REVOKE ALL ON "table_employe" FROM PUBLIC;
@@ -2123,7 +2071,6 @@ GRANT SELECT, INSERT, UPDATE ON seq_adresseversion TO PUBLIC;
 GRANT SELECT, INSERT, UPDATE ON seq_agent TO PUBLIC;
 GRANT SELECT, INSERT, UPDATE ON seq_appel TO PUBLIC;
 GRANT SELECT, INSERT, UPDATE ON seq_attribut TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_avoir TO PUBLIC;
 GRANT SELECT, INSERT, UPDATE ON seq_canton TO PUBLIC;
 GRANT SELECT, INSERT, UPDATE ON seq_categorie TO PUBLIC;
 GRANT SELECT, INSERT, UPDATE ON seq_codepostal TO PUBLIC;
@@ -2153,7 +2100,6 @@ GRANT SELECT, INSERT, UPDATE ON seq_journal TO PUBLIC;
 GRANT SELECT, INSERT, UPDATE ON seq_lettrage TO PUBLIC;
 GRANT SELECT, INSERT, UPDATE ON seq_lieu TO PUBLIC;
 GRANT SELECT, INSERT, UPDATE ON seq_ligne TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_ligneavoir TO PUBLIC;
 GRANT SELECT, INSERT, UPDATE ON seq_lignefacture TO PUBLIC;
 GRANT SELECT, INSERT, UPDATE ON seq_lignemodele TO PUBLIC;
 GRANT SELECT, INSERT, UPDATE ON seq_listereglement TO PUBLIC;

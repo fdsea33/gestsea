@@ -1,7 +1,7 @@
 \qecho *** Chargement des procédures de calcul
 
 -- Products
-
+/*
 CREATE OR REPLACE VIEW credits AS
   SELECT CASE WHEN pd_reduction THEN lf_montantht*(100-fa_reduction)/100 ELSE lf_montantht END AS total, pd_numero as product, lf_quantite AS quantity, cg_numero as account, fa_date AS day, table_facture.so_numero as society
     FROM table_lignefacture JOIN table_facture USING (fa_numero)
@@ -22,9 +22,19 @@ CREATE OR REPLACE VIEW debits AS
     ORDER BY 3;
 
 CREATE OR REPLACE VIEW products AS SELECT * FROM credits UNION ALL SELECT * FROM debits ORDER BY 3;
+*/
+
+CREATE OR REPLACE VIEW products AS
+  SELECT CASE WHEN pd_reduction THEN lf_montantht*(100-fa_reduction)/100 ELSE lf_montantht END AS total, pd_numero as product, lf_quantite AS quantity, cg_numero as account, fa_date AS day, table_facture.so_numero as society
+    FROM table_lignefacture JOIN table_facture USING (fa_numero)
+                            JOIN table_produit USING (pd_numero)
+                            LEFT JOIN table_compteproduit USING (pd_numero)
+                            LEFT JOIN table_comptegen USING (cg_numero)
+    WHERE ci_actif AND NOT fa_perte
+    ORDER BY 3;
 
 -- Taxes
-
+/*
 CREATE OR REPLACE VIEW taxes_credits AS
   SELECT CASE WHEN pd_reduction THEN (lf_montantttc-lf_montantht)*(100-fa_reduction)/100 ELSE (lf_montantttc-lf_montantht) END AS total, px.pd_numero as product, lf_quantite AS quantity, cg_numero as account, fa_date AS day, table_facture.so_numero as society
     FROM table_lignefacture JOIN table_facture USING (fa_numero)
@@ -47,6 +57,16 @@ CREATE OR REPLACE VIEW taxes_debits AS
     ORDER BY 3;
 
 CREATE OR REPLACE VIEW taxes AS SELECT * FROM taxes_credits UNION ALL SELECT * FROM taxes_debits ORDER BY 3;
+*/
+CREATE OR REPLACE VIEW taxes AS
+  SELECT CASE WHEN pd_reduction THEN (lf_montantttc-lf_montantht)*(100-fa_reduction)/100 ELSE (lf_montantttc-lf_montantht) END AS total, px.pd_numero as product, lf_quantite AS quantity, cg_numero as account, fa_date AS day, table_facture.so_numero as society
+    FROM table_lignefacture JOIN table_facture USING (fa_numero)
+                            JOIN table_produit USING(pd_numero)
+                            JOIN table_prix px USING (px_numero)
+                            LEFT JOIN table_tva USING (tv_numero)
+                            LEFT JOIN table_comptegen USING (cg_numero)
+    WHERE NOT fa_perte
+    ORDER BY 3;
 
 CREATE OR REPLACE VIEW sales AS SELECT * FROM products UNION ALL SELECT * FROM taxes ORDER BY 3;
 
@@ -270,15 +290,15 @@ BEGIN
     -- Cotisation Hectares
     nb_lines := nb_lines + 1;
     proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
-    corp[nb_lines]:=corp[nb_lines]||' (select sum(lf_montantttc) AS nb FROM table_lignefacture join table_facture using (fa_numero) where pd_numero IN (500000060,500000059,500000057,500000058,500000055,500000056) AND extract(YEAR FROM fa_date)='||p||' and fa_numero NOT IN (SELECT fa_numero FROM table_avoir)) AS b'||p;
+    corp[nb_lines]:=corp[nb_lines]||' (select sum(lf_montantttc) AS nb FROM table_lignefacture join table_facture using (fa_numero) where pd_numero IN (500000060,500000059,500000057,500000058,500000055,500000056) AND extract(YEAR FROM fa_date)='||p||' and fa_numero NOT IN (SELECT fa_avoir_facture FROM table_facture WHERE fa_avoir)) AS b'||p;
     -- Abon Conseil Nb
     nb_lines := nb_lines + 1;
     proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
-    corp[nb_lines]:=corp[nb_lines]||' (select sum(lf_quantite) AS nb FROM table_lignefacture join table_facture using (fa_numero) where pd_numero IN (500000036,500000069,500000065) AND  extract(YEAR FROM fa_date)='||p||' and fa_numero NOT IN (SELECT fa_numero FROM table_avoir)) AS b'||p;
+    corp[nb_lines]:=corp[nb_lines]||' (select sum(lf_quantite) AS nb FROM table_lignefacture join table_facture using (fa_numero) where pd_numero IN (500000036,500000069,500000065) AND  extract(YEAR FROM fa_date)='||p||' and fa_numero NOT IN (SELECT fa_avoir_facture FROM table_facture WHERE fa_avoir)) AS b'||p;
     -- Abon Conseil
     nb_lines := nb_lines + 1;
     proc[nb_lines]:=proc[nb_lines]||', b'||p||'.nb AS "'||p||'"';
-    corp[nb_lines]:=corp[nb_lines]||' (select sum(lf_montantttc) AS nb FROM table_lignefacture join table_facture using (fa_numero) where pd_numero IN (500000036,500000069,500000065) AND extract(YEAR FROM fa_date)='||p||' and fa_numero NOT IN (SELECT fa_numero FROM table_avoir)) AS b'||p;
+    corp[nb_lines]:=corp[nb_lines]||' (select sum(lf_montantttc) AS nb FROM table_lignefacture join table_facture using (fa_numero) where pd_numero IN (500000036,500000069,500000065) AND extract(YEAR FROM fa_date)='||p||' and fa_numero NOT IN (SELECT fa_avoir_facture FROM table_facture WHERE fa_avoir)) AS b'||p;
 
 
 
