@@ -336,7 +336,9 @@ CREATE OR REPLACE VIEW vue_current_relance AS
     WHERE NOT RO_Suspendu
       AND passe.cs_nom='PAST_NUMBER' AND futur.cs_nom='FUTURE_NUMBER' AND present.cs_nom='CURRENT_NUMBER' 
       AND present.cs_valeur::integer+futur.cs_valeur::integer>=ro_finservice AND ro_finservice>=present.cs_valeur::integer-passe.cs_valeur::integer 
---      AND NOT ro_numero IN (SELECT ro_numero FROM (SELECT r.ro_numero, count(s) as total from table_routage as r left join table_routage as s using (pe_numero) where s.ro_finservice>r.ro_finservice group by r.ro_numero) as suivants WHERE total>=1)
+
+      AND table_routage.pe_numero NOT IN (SELECT pe_numero from table_routage where ro_finservice>(SELECT sum(cs_valeur::integer) FROM table_constante WHERE cs_nom in ('CURRENT_NUMBER','FUTURE_NUMBER')))
+--      AND ro_numero NOT IN (SELECT ro_numero FROM (SELECT r.ro_numero, count(s) as total from table_routage as r left join table_routage as s using (pe_numero) where s.ro_finservice>r.ro_finservice group by r.ro_numero) as suivants WHERE total>=1)
       AND AD_Active
       AND pd_numero IN (500000094,500000098,500000099)
       AND AV.FA_Numero IS NULL;
@@ -818,6 +820,8 @@ BEGIN
       INSERT INTO table_SequenceCache(sq_numero, sc_valeur) VALUES (SEQ.SQ_Numero, i);
     END LOOP;
     SEQ.SQ_Last := lasti;
+  ELSE
+    lasti := SEQ.SQ_Last;
   END IF;
   SELECT sc_numero, sc_valeur FROM table_SequenceCache WHERE NOT SC_Locked AND SQ_Numero = SEQ.SQ_Numero ORDER BY sc_valeur FOR UPDATE OF table_SequenceCache INTO num_cache, val;
   DELETE FROM table_SequenceCache WHERE SC_Numero=num_cache;

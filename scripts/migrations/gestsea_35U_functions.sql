@@ -962,16 +962,23 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 
 
 --===========================================================================--
--- Procedure permettant d'enregistrer facilement des coupons-réponses standard
---DROP FUNCTION FC_CreerFonctionPrint(text,text,text,boolean);
+-- Procedure permettant de créer des fonctions PL/pgSQL générant du PDF
 
-CREATE OR REPLACE FUNCTION FC_CreerFonctionPrint(text,text,text,boolean) RETURNS integer AS
+CREATE OR REPLACE FUNCTION FC_Print_Build(IN modele VARCHAR, IN nom_fonction VARCHAR, IN directory VARCHAR) RETURNS integer AS
 $$
 DECLARE
-  modele       ALIAS FOR $1;
-  nom_fonction ALIAS FOR $2;
-  directory    ALIAS FOR $3;
-  latex        ALIAS FOR $4;
+  ret INTEGER;
+BEGIN
+  SELECT FC_Print_Build(modele, nom_fonction, directory, NULL, NULL) INTO ret;
+  RETURN ret;
+END;
+$$ LANGUAGE 'plpgsql';
+
+--===========================================================================--
+
+CREATE OR REPLACE FUNCTION FC_Print_Build(IN modele VARCHAR, IN nom_fonction VARCHAR, IN directory VARCHAR, IN filename VARCHAR, IN postpare VARCHAR) RETURNS integer AS
+$$
+DECLARE
   fonction     text;
   query        text;
   q_select     text;
@@ -982,7 +989,7 @@ DECLARE
   compteur     integer;
   ligne        text;
   number       integer;
-  plast        integer; -- prodondeur de bloc
+  plast        integer; -- profondeur de bloc
   last         integer[64]; -- 0 BEGIN  1 IF  2 ELSE
   pparam       integer; -- profondeur parametrique
   nbparam      integer[64]; -- nombre de param
@@ -1006,9 +1013,13 @@ BEGIN
   fonction:='';
   fonction:=fonction||E'BEGIN\n';
 --  fonction:=fonction||E'  SELECT to_char(CURRENT_TIMESTAMP,''YYYYMMDD_HH24MISS_'')||to_char(floor(9999999999*random()),''FM0999999999'') INTO source;\n';
-  fonction:=fonction||E'  SELECT to_char(CURRENT_TIMESTAMP,''YYYYMMDD_HH24MISS_'')||pkey INTO '||kw_document||E';\n';
-  fonction:=fonction||E'  cible :=current_user||''_'||nom_fonction||E'_''||'||kw_document||E'||''.pdf'';\n';
-  fonction:=fonction||E'  source:=current_user||''_'||nom_fonction||E'_''||'||kw_document||E'||''.tex'';\n';
+  IF filename IS NULL THEN
+    fonction:=fonction||E'  SELECT current_user||''_'||nom_fonction||E'_''||to_char(CURRENT_TIMESTAMP,''YYYYMMDD_HH24MISS_'')||pkey INTO '||kw_document||E';\n';
+  ELSE
+    fonction:=fonction||E'  SELECT '||filename||' INTO '||kw_document||E';\n';
+  END IF;
+  fonction:=fonction||E'  cible :='||kw_document||E'||''.pdf'';\n';
+  fonction:=fonction||E'  source:='||kw_document||E'||''.tex'';\n';
   fonction:=fonction||E'  '||kw_document||E':='''';\n';
 --  fonction:=fonction||E'  RAISE NOTICE ''>> %'',source;\n';
 --  RAISE NOTICE '%',modele;
@@ -1111,7 +1122,7 @@ BEGIN
 --  fonction:=fonction||E'  RAISE NOTICE ''[%]'', '||kw_document||E';\n';
   fonction:=fonction||E'  SELECT writefile('''||directory||E'/''||source,'||kw_document||E') INTO res;\n';
   fonction:=fonction||E'  SELECT execution(''chmod 777 '||directory||E'/''||source) INTO res;\n';
-  IF latex THEN
+  IF postpare IS NULL OR postpare='latex' THEN
     fonction:=fonction||E'  SELECT execution(''cd '||directory||E' ; pdflatex ''||source||'' ; pdflatex ''||source||E'' ; chmod 755 ''||cible||'' ;'') INTO res;\n';
 --    fonction:=fonction||E'  SELECT execution(''cd '||directory||E' ; pdflatex ''||source||E'' ; pdflatex ''||source||E'' ; chmod 755 ''||cible||E'' ; rm -f ''||source) INTO res;\n';
 --    fonction=fonction||E'  SELECT execution(''rm -f '||directory||E'/''||source) INTO res;\n';
@@ -1324,7 +1335,7 @@ BEGIN
   total:=0;
   SELECT ROUND(MIN(im_numero),-3) FROM table_impression INTO mini;
   FOR i IN SELECT 'pi_'||im_numero-mini AS fcn, im_modele, im_numero FROM table_impression WHERE IM_Defaut LOOP
-    PERFORM FC_CreerFonctionPrint(i.im_modele, i.fcn, repertoire, true);
+    PERFORM FC_Print_Build(i.im_modele, i.fcn, repertoire);
     UPDATE table_impression SET im_fonction=i.fcn WHERE im_numero=i.im_numero;
 --    RAISE NOTICE 'Fonction %',i.fcn;
     total:=total+1;
