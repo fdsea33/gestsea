@@ -339,7 +339,7 @@ CREATE OR REPLACE VIEW vue_current_relance AS
 
       AND table_routage.pe_numero NOT IN (SELECT pe_numero from table_routage where ro_finservice>(SELECT sum(cs_valeur::integer) FROM table_constante WHERE cs_nom in ('CURRENT_NUMBER','FUTURE_NUMBER')))
 --      AND ro_numero NOT IN (SELECT ro_numero FROM (SELECT r.ro_numero, count(s) as total from table_routage as r left join table_routage as s using (pe_numero) where s.ro_finservice>r.ro_finservice group by r.ro_numero) as suivants WHERE total>=1)
-      AND AD_Active
+      AND (AD_Default OR AD_Active)
       AND pd_numero IN (500000094,500000098,500000099)
       AND AV.FA_Numero IS NULL;
 

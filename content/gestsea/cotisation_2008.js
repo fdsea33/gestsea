@@ -363,7 +363,7 @@ function wg_personne_search(){
 }
 
 /* Charge tous les éléments relatifs à la personne en cours */
-function wg_personne_load(){
+function wg_personne_load(params){
   // Fiche
   var num_personne = wg_entity_load('personne');
   // Conjoint
@@ -372,8 +372,10 @@ function wg_personne_load(){
     else elem('wg-conjoint-titre').value = 23;
   }
   // Société
-  menulist_fill("wg-societe-menulist", "SELECT pe_description, pe_numero FROM estlie join personne on (pe_numero=el_personne2) WHERE tl_numero=1003 AND el_personne1="+num_personne);
-  wg_societe_load();
+  if (params !== 'without-societe') {
+    menulist_fill("wg-societe-menulist", "SELECT pe_description, pe_numero FROM estlie join personne on (pe_numero=el_personne2) WHERE tl_numero=1003 AND el_personne1="+num_personne);
+    wg_societe_load('without-personne');
+  }
   // Associes
   checkbox_check('wg-associe-checkbox', false);
   return num_personne;
@@ -392,7 +394,7 @@ function wg_societe_search(){
 }
 
 
-function wg_societe_load() {
+function wg_societe_load(params) {
 //  alert(elem("wg-societe-menulist").selectedIndex);
   if (elem("wg-societe-menulist").selectedIndex>=0) 
     checkbox_check("wg-societe-checkbox", true);
@@ -405,6 +407,12 @@ function wg_societe_load() {
   // Associes
   wg_associe_list();
 //  checkbox_check('wg-associe-checkbox', true);
+
+  // Personne
+  if (params !== 'without-personne') {
+    menulist_fill("wg-personne-menulist", "SELECT pe_description, pe_numero FROM estlie join personne on (pe_numero=el_personne1) WHERE tl_numero=1003 AND el_personne2="+num_societe);
+    wg_personne_load('without-societe');
+  }
   
   return num_societe;
 }

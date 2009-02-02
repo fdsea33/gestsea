@@ -357,6 +357,7 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
+    <button label="Passer en avoir" oncommand="FactureVersAvoir(TAB_GLOBAL_COMPO[131]);"/>
     <button label="En perte" oncommand="FactureEnPerte(TAB_GLOBAL_COMPO[131]);"/>
     <button label="Imprimer" oncommand="Imprimer(TAB_GLOBAL_COMPO[131],'facture');"/>
     <button label="Factures CM" oncommand="PrintLot(1,'facture');"/>

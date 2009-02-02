@@ -112,7 +112,7 @@ function DevisVersFacture(compo){
 }
 
 function FactureVersAvoir(compo){
-  if (confirm("Voulez-vous réellement passer cette facture en avoir?")) {
+  if (confirm("Voulez-vous réellement passer cette facture en avoir ?")) {
   query="SELECT FC_FactureVersAvoir("+compo.getCleVal()+");";
   var num_facture=requete(query);
   if (num_facture==null)
