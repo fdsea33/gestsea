@@ -364,12 +364,12 @@ BEGIN
   SELECT fc_nextval(sq_numero) FROM societe where so_numero = num_societe INTO num_numfact;
 
   --- Base de la facture
-  insert into facture (av_numero, pe_numero, av_date, av_reduction, av_numfact, av_montantht, av_montantttc, av_avoir, av_avoir_facture)
-  select num_avoir, pe_numero, current_date, fa_reduction, num_numfact, -fa_montantht, -fa_montantttc, true, fa_numero
+  insert into facture (fa_numero, pe_numero, fa_date, fa_reduction, fa_numfact, fa_montantht, fa_montantttc, fa_avoir, fa_avoir_facture, ag_numero, fa_libelle)
+  select num_avoir, pe_numero, current_date, fa_reduction, num_numfact, -fa_montantht, -fa_montantttc, true, fa_numero, ag_numero, 'Avoir sur : '||COALESCE(fa_libelle,'')
     from facture where fa_numero = num_facture;
 
   --- Lignes de la facture
-  insert into lignefacture (av_numero, pd_numero, la_numero, la_montantht, la_montantttc, la_quantite, px_numero, pe_numero)
+  insert into lignefacture (fa_numero, pd_numero, lf_numero, lf_montantht, lf_montantttc, lf_quantite, px_numero, pe_numero)
   select num_avoir, pd_numero, nextval('seq_lignefacture'), -lf_montantht, -lf_montantttc, -lf_quantite, px_numero, pe_numero
     from lignefacture where fa_numero = num_facture;
 

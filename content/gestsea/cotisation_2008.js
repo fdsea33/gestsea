@@ -1498,7 +1498,7 @@ function wg_send_cotisation(send_query){
 */
         bulletin += wg_bml_field("cotisation.societe", current_societe());
         bulletin += wg_bml_field("fdsea.forfait.produit", elem("wg-conjoint-radiogroup").value);    
-        bulletin += wg_bml_field("fdsea.forfait.montant", elem("wg-conjoint-total").value);    
+        bulletin += wg_bml_field("fdsea.forfait.montant", elem("wg-conjoint-radiogroup").selectedItem.getAttribute("tarif"));    
         bulletin += wg_bml_field("fdsea.hectare", "false");
         bulletin += wg_bml_field("reglement.numero", num_reglement);
         bulletin += wg_bml_field("aava", "false");
@@ -1531,7 +1531,7 @@ function wg_send_cotisation(send_query){
 */
               bulletin += wg_bml_field("cotisation.societe", current_societe());
               bulletin += wg_bml_field("fdsea.forfait.produit", elem("wg-associe-radiogroup").value);    
-              bulletin += wg_bml_field("fdsea.forfait.montant", elem("wg-associe-total").value);    
+              bulletin += wg_bml_field("fdsea.forfait.montant", elem("wg-associe-radiogroup").selectedItem.getAttribute("tarif"));
               bulletin += wg_bml_field("fdsea.hectare", "false");
               bulletin += wg_bml_field("reglement.numero", num_reglement);
               bulletin += wg_bml_field("aava", "false");

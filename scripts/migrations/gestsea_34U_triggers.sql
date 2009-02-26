@@ -345,7 +345,7 @@ BEGIN
       -- Un acompte doit être versé si le montant du devis excède les 300 euros
       SELECT CASE WHEN NEW.DE_MontantTTC>=300 THEN true ELSE false END INTO NEW.DE_Acompte;
     ELSE
-      SELECT FC_Personne_Reduction(NEW.PE_Numero, CURRENT_DATE) INTO NEW.DE_Reduction;
+      SELECT FC_Personne_Reduction(NEW.PE_Numero, NEW.DE_Date) INTO NEW.DE_Reduction;
     END IF;
   
 --  IF (TG_OP='INSERT' AND NOT NEW.de_locked) OR (TG_OP='UPDATE' AND NOT superuser) THEN
