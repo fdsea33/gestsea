@@ -72,10 +72,10 @@ function GetTruc() {
 	return 5;
 }
 
-function GroupeRoutage(compo)
-{
+function GroupeRoutage(compo) {
   FactureEnCours=compo.getCleVal();
 	window.openDialog('principal_routage.xul', "showmore", "centerscreen,close=no,modal,chrome,scrollbars,resizable=no");
+  compo.Refresh();
 }
 
 function SupprimeRoutage(compo)
@@ -285,6 +285,18 @@ function AjouterJA(compo) {
         if (soc*1<1000000) soc=soc*1+1000000;
       num = requete('SELECT fc_ajouterja('+cle+','+soc+');');
       alert("Cotisation enregistrée");
+    }
+  }
+  compo.Refresh();
+}
+
+function AjouterGS(compo) {
+  var cle = compo.getCleVal();
+  if (confirm("Êtes-vous sûr(e) de vouloir enregistrer une cotisation Groupement Spécialisé pour cette personne")) {
+    var reglement=prompt("Indiquez le numéro du règlement","");
+    if (reglement!="") {
+      num = requete('SELECT fc_ajouter_gs('+cle+', '+reglement+');');
+      alert("Cotisation enregistrée s'il n'y a pas eu d'erreur");
     }
   }
   compo.Refresh();

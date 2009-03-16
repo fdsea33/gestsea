@@ -12,7 +12,9 @@
   <script src="mail.js"/>
   <groupbox flex="1">
     <caption label="Cliquez sur le lien"/>
-    <label id="adhfdsea" class="text-link" href="mailto:adherents@fdsea33.fr" value="Envoyer un e-mail à tous les adhérents"/>
+    <label id="adhfdsea" class="text-link"  href="mailto:adherents@fdsea33.fr" value="Envoyer un e-mail à tous les adhérents"/>
+    <label id="adhfdseal" class="text-link" href="mailto:adherents@fdsea33.fr" value="Envoyer un e-mail à tous les adhérents N-1 non-adhérents N"/>
+    <label id="adhfdseap" class="text-link" href="mailto:adherents@fdsea33.fr" value="Envoyer un e-mail à tous les adhérents N-1"/>
     <label id="adhfdseari" class="text-link" href="mailto:rapidinfos@fdsea33.fr" value="Envoyer un e-mail à tous les adhérents qui veulent recevoir le Rapid'Infos (dont SACEA, AAVA, JA, FRSEA, FDSEA24)"/>
     <label id="abonconseil" class="text-link" href="mailto:abonnes_conseil@fdsea33.fr" value="Envoyer un e-mail à tous les abonnés conseil SACEA"/>
     <label id="abonmajcc" class="text-link" href="mailto:abonnes_majcc@fdsea33.fr" value="Envoyer un e-mail à tous les abonnés Mise A Jour à la Convention Collective"/>

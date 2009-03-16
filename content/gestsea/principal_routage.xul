@@ -6,10 +6,21 @@
   <script src="principal_routage.js"/>
   <vbox style="padding:20px">
     <hbox align="center">
-      <label value="Selectionnez la catégorie à router pour la facture N°"/>
+      <label value="Groupe à router pour la facture N°"/>
       <label id="r-facture"/>
       <label value=":"/>
     </hbox>
+    <hbox align="center">
+      <menulist id="r-typelien-menulist" flex="2" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content">
+        <template>
+          <menupopup>
+            <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#tl_action" direct="rdf:http://www.mozilla.org/SQL-rdf#tl_direct" value="rdf:http://www.mozilla.org/SQL-rdf#tl_numero" />
+          </menupopup>
+        </template>
+      </menulist>
+      <label id="r-personne"/>
+    </hbox>
+<!--
     <hbox align="center">
       <label value="Type d'attribut"/>
       <menulist editable="true" id="r-typeattribut-menulist" flex="2" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" oncommand="ro_charge_categorie(this.selectedItem.value);" onselect="ro_charge_categorie(this.selectedItem.value);">
@@ -37,5 +48,6 @@
       <label value=" au numero"/>
       <textbox flex="1" id="r-fin"/>
     </hbox>
+-->
   </vbox>
 </dialog>
