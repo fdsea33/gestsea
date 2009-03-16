@@ -195,7 +195,7 @@ CREATE OR REPLACE VIEW "devis" AS
     WHERE SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
 
 CREATE OR REPLACE VIEW "lignefacture" AS
-   SELECT table_lignefacture.lf_numero, table_lignefacture.fa_numero, table_lignefacture.px_numero, table_lignefacture.pd_numero, ROUND(table_lignefacture.lf_quantite,2) AS lf_quantite, table_lignefacture.pe_numero, ROUND(table_lignefacture.lf_montantht,2) AS lf_montantht, ROUND(table_lignefacture.lf_montantttc,2) AS lf_montantttc, table_lignefacture.lf_notes, table_lignefacture.created_at, table_lignefacture.created_by, table_lignefacture.updated_at, table_lignefacture.updated_by, table_lignefacture.lock_version, table_lignefacture.id 
+   SELECT table_lignefacture.lf_numero, table_lignefacture.fa_numero, table_lignefacture.px_numero, table_lignefacture.pd_numero, ROUND(table_lignefacture.lf_quantite,2) AS lf_quantite, table_lignefacture.pe_numero, ROUND(table_lignefacture.lf_montantht,2) AS lf_montantht, ROUND(table_lignefacture.lf_montantttc,2) AS lf_montantttc, table_lignefacture.lf_avoir, table_lignefacture.lf_notes, table_lignefacture.created_at, table_lignefacture.created_by, table_lignefacture.updated_at, table_lignefacture.updated_by, table_lignefacture.lock_version, table_lignefacture.id 
      FROM "table_lignefacture" JOIN table_Produit USING (PD_Numero) 
     WHERE SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
 
@@ -821,10 +821,10 @@ CREATE OR REPLACE RULE rule_lignecotisation_delete AS
 
 CREATE OR REPLACE RULE rule_lignefacture_insert AS
   ON INSERT TO "lignefacture"
-  DO INSTEAD INSERT INTO "table_lignefacture"(lf_numero, fa_numero, px_numero, pd_numero, lf_quantite, pe_numero, lf_montantht, lf_montantttc, lf_notes, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (COALESCE(NEW.lf_numero,nextval('seq_lignefacture')), new.fa_numero, new.px_numero, new.pd_numero, ROUND(COALESCE(NEW.lf_quantite,0),2), new.pe_numero, ROUND(new.lf_montantht,2), ROUND(new.lf_montantttc,2), new.lf_notes, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
+  DO INSTEAD INSERT INTO "table_lignefacture"(lf_numero, fa_numero, px_numero, pd_numero, lf_quantite, pe_numero, lf_montantht, lf_montantttc, lf_avoir, lf_notes, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (COALESCE(NEW.lf_numero,nextval('seq_lignefacture')), new.fa_numero, new.px_numero, new.pd_numero, ROUND(COALESCE(NEW.lf_quantite,0),2), new.pe_numero, ROUND(new.lf_montantht,2), ROUND(new.lf_montantttc,2), COALESCE(NEW.lf_avoir,false), new.lf_notes, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
 CREATE OR REPLACE RULE rule_lignefacture_update AS
   ON UPDATE TO "lignefacture"
-  DO INSTEAD UPDATE "table_lignefacture" SET lf_numero=COALESCE(NEW.lf_numero,nextval('seq_lignefacture')), fa_numero=new.fa_numero, px_numero=new.px_numero, pd_numero=new.pd_numero, lf_quantite=ROUND(COALESCE(NEW.lf_quantite,0),2), pe_numero=new.pe_numero, lf_montantht=ROUND(new.lf_montantht,2), lf_montantttc=ROUND(new.lf_montantttc,2), lf_notes=new.lf_notes, created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.LF_Numero=LF_Numero;
+  DO INSTEAD UPDATE "table_lignefacture" SET lf_numero=COALESCE(NEW.lf_numero,nextval('seq_lignefacture')), fa_numero=new.fa_numero, px_numero=new.px_numero, pd_numero=new.pd_numero, lf_quantite=ROUND(COALESCE(NEW.lf_quantite,0),2), pe_numero=new.pe_numero, lf_montantht=ROUND(new.lf_montantht,2), lf_montantttc=ROUND(new.lf_montantttc,2), lf_avoir=COALESCE(NEW.lf_avoir,false), lf_notes=new.lf_notes, created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.LF_Numero=LF_Numero;
 CREATE OR REPLACE RULE rule_lignefacture_delete AS
   ON DELETE TO "lignefacture"
   DO INSTEAD DELETE FROM "table_lignefacture" WHERE old.LF_Numero=LF_Numero;

@@ -99,6 +99,13 @@ CREATE OR REPLACE VIEW VUE_FDSEA_Cotisation AS
                        LEFT JOIN Personne USING(PE_Numero);
 
 
+CREATE OR REPLACE VIEW VUE_Nouveaux_adherents AS
+  SELECT COALESCE(cs_societe,0) AS pe_numero FROM table_cotisation where cs_annee=EXTRACT(YEAR FROM CURRENT_DATE) and pe_numero not in (select pe_numero from table_cotisation where cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)-1) 
+  UNION ALL
+  SELECT pe_numero FROM table_cotisation where cs_annee=EXTRACT(YEAR FROM CURRENT_DATE) and pe_numero not in (select pe_numero from table_cotisation where cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)-1);
+
+
+
 --DROP VIEW VUE_FDSEA_Don;
 /*
 CREATE OR REPLACE VIEW VUE_FDSEA_Don AS 
@@ -114,7 +121,7 @@ CREATE OR REPLACE VIEW VUE_FDSEA_Don AS
 --DROP VIEW VUE_AAVA_Destinataire;
 CREATE OR REPLACE VIEW VUE_AAVA_Destinataire AS 
   SELECT to_char(PE_ID,'FM099999') AS DS_Numero,
-         TRIM(COALESCE(PE_Titre||' ','')||PE_Nom||COALESCE(PE_Prenom,'')) AS DS_Nom,
+         TRIM(COALESCE(PE_Titre||' ','')||PE_Nom||COALESCE(' '||PE_Prenom,'')) AS DS_Nom,
          AD_Ligne2 AS DS_Ligne2,
          AD_Ligne3 AS DS_Ligne3,
          AD_Ligne4 AS DS_Ligne4,
@@ -164,7 +171,10 @@ ag_initiales,                     -- 20
 f.fa_avoir,
 f.fa_avoir_facture,
 fo.fa_numfact AS fa_avoir_facture_num,
-fo.fa_date AS fa_avoir_facture_date
+fo.fa_date AS fa_avoir_facture_date,
+(f.pe_numero IN (SELECT pe_numero FROM vue_nouveaux_adherents))::BOOLEAN AS fa_nouveau,
+(LENGTH(TRIM(COALESCE(f.fa_annotation,'')))>0)::BOOLEAN AS fa_with_annotation,
+f.fa_annotation
 FROM table_facture f LEFT JOIN table_personne AS p USING (pe_numero)
                    LEFT JOIN table_adresse AS a ON ((f.ad_numero IS NULL AND p.pe_numero=a.pe_numero AND ad_active AND ad_default) OR (f.ad_numero IS NOT NULL and f.ad_numero=a.ad_numero))
                    LEFT JOIN table_codepostal  USING (cp_numero)

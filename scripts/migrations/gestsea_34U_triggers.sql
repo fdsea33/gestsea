@@ -822,6 +822,28 @@ CREATE TRIGGER trigger_ligne_treatments
 
 
 
+
+-- LigneFacture
+--===========================================================================--
+-- Calcule les montant TTC et HT de chaque LigneFacture sans tenir compte de la réduction
+-- DROP TRIGGER trigger_LigneFacture_validation ON table_LigneFacture;
+--DROP FUNCTION TG_LigneFacture_validation();
+
+CREATE OR REPLACE FUNCTION TG_LigneFacture_validation() RETURNS TRIGGER AS
+$$
+DECLARE
+BEGIN
+  SELECT fa_avoir FROM facture WHERE fa_numero=NEW.fa_numero INTO NEW.lf_avoir;
+  RETURN NEW;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+CREATE TRIGGER trigger_LigneFacture_validation 
+  BEFORE INSERT OR UPDATE ON table_LigneFacture 
+  FOR EACH ROW EXECUTE PROCEDURE TG_LigneFacture_validation();
+
+
+
 --===========================================================================--
 -- Permet de chercher la liste des reglements d'une personne et de l'attribuer
 --  au nouvel enregistrement

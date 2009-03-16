@@ -56,14 +56,13 @@ $$
 DECLARE
   num_facture INTEGER;
 BEGIN
-  SELECT FC_DevisVersFacture(num_devis, current_date) INTO num_facture;
+  SELECT FC_DevisVersFacture(num_devis, current_date, NULL) INTO num_facture;
   return num_facture;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
 
-
-CREATE OR REPLACE FUNCTION FC_DevisVersFacture(IN num_devis integer, IN date_facture date) RETURNS integer AS
+CREATE OR REPLACE FUNCTION FC_DevisVersFacture(IN num_devis integer, IN date_facture date, IN annotation VARCHAR) RETURNS integer AS
 $$
 DECLARE
   num_facture   integer;
@@ -114,8 +113,8 @@ BEGIN
   SELECT nextval('seq_facture') into num_facture;
   SELECT fc_nextval(sq_numero) FROM societe where so_numero = num_societe INTO num_numfact;
 -- Creation de la facture
-  insert into facture (fa_numero, pe_numero, fa_date, fa_reduction, fa_libelle, fa_numfact, fa_montantht, fa_montantttc, de_numero, ag_numero, ad_numero)
-    select num_facture, pe_numero, date_facture, de_reduction, de_libelle, num_numfact, de_montantht, de_montantttc, de_numero, em_agent, ad_numero
+  insert into facture (fa_numero, pe_numero, fa_date, fa_reduction, fa_libelle, fa_numfact, fa_montantht, fa_montantttc, de_numero, ag_numero, ad_numero, fa_annotation)
+    select num_facture, pe_numero, date_facture, de_reduction, de_libelle, num_numfact, de_montantht, de_montantttc, de_numero, em_agent,  ad_numero, annotation
       from devis join employe using (em_numero) where de_numero = num_devis;
 -- Création des lignes de la facture
   insert into lignefacture (fa_numero, pd_numero, lf_montantht, lf_montantttc, lf_quantite, px_numero, lf_notes, pe_numero)  
@@ -365,12 +364,12 @@ BEGIN
 
   --- Base de la facture
   insert into facture (fa_numero, pe_numero, fa_date, fa_reduction, fa_numfact, fa_montantht, fa_montantttc, fa_avoir, fa_avoir_facture, ag_numero, fa_libelle)
-  select num_avoir, pe_numero, current_date, fa_reduction, num_numfact, -fa_montantht, -fa_montantttc, true, fa_numero, ag_numero, 'Avoir sur : '||COALESCE(fa_libelle,'')
+  select num_avoir, pe_numero, current_date, fa_reduction, num_numfact, -fa_montantht, -fa_montantttc, true, fa_numero, current_agent(), 'Avoir sur : '||COALESCE(fa_libelle,'')
     from facture where fa_numero = num_facture;
 
   --- Lignes de la facture
-  insert into lignefacture (fa_numero, pd_numero, lf_numero, lf_montantht, lf_montantttc, lf_quantite, px_numero, pe_numero)
-  select num_avoir, pd_numero, nextval('seq_lignefacture'), -lf_montantht, -lf_montantttc, -lf_quantite, px_numero, pe_numero
+  insert into lignefacture   (fa_numero, pd_numero, lf_numero, lf_montantht, lf_montantttc, lf_quantite, px_numero, pe_numero, lf_notes, lf_avoir)
+  select num_avoir, pd_numero, nextval('seq_lignefacture'), -lf_montantht, -lf_montantttc, -lf_quantite, px_numero, pe_numero, lf_notes, true
     from lignefacture where fa_numero = num_facture;
 
   RETURN num_avoir;
@@ -593,6 +592,29 @@ BEGIN
       FROM attribut JOIN adresse USING (PE_Numero)
       WHERE ad_active AND cr_numero=num_categorie;
   RETURN 0;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+
+
+CREATE OR REPLACE FUNCTION FC_Route_par_lien(IN num_facture INTEGER, IN num_typelien INTEGER, IN direct BOOLEAN, IN num_debut INTEGER, IN num_fin INTEGER) RETURNS INTEGER AS
+$$
+DECLARE
+  num_personne  INTEGER;
+  compte1       integer;
+  compte2       integer;
+BEGIN
+  SELECT pe_numero FROM table_facture WHERE fa_numero=num_facture INTO num_personne;
+  SELECT count(*) FROM personne WHERE pe_numero IN (SELECT CASE WHEN direct THEN el_personne2 ELSE el_personne1 END FROM estlie WHERE num_personne = CASE WHEN direct THEN el_personne1 ELSE el_personne2 END) INTO compte1;
+  SELECT count(*) FROM adresse  WHERE pe_numero IN (SELECT CASE WHEN direct THEN el_personne2 ELSE el_personne1 END FROM estlie WHERE num_personne = CASE WHEN direct THEN el_personne1 ELSE el_personne2 END) AND ad_default INTO compte2;
+  IF compte1>compte2 THEN
+    RAISE EXCEPTION 'Attention des personnes sont sans adresse.';
+  END IF;
+  INSERT INTO routage(ad_numero, pe_numero, ro_debutservice, ro_finservice, ro_quantite, fa_numero)
+    SELECT ad_numero, pe_numero, num_debut, num_fin, 1, num_facture 
+      FROM estlie join adresse on (pe_numero=CASE WHEN direct THEN el_personne2 ELSE el_personne1 END)
+      WHERE num_personne = CASE WHEN direct THEN el_personne1 ELSE el_personne2 END AND ad_default;
+  RETURN compte1;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
@@ -1664,6 +1686,27 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 
 
 
+CREATE OR REPLACE FUNCTION FC_Ajouter_GS(IN num_personne INTEGER, IN num_reglement INTEGER) RETURNS BOOLEAN AS
+$$
+DECLARE
+  num_devis INTEGER;
+  num_facture INTEGER;
+  ret BOOLEAN;
+BEGIN
+  IF current_societe()!=2 THEN
+    RAISE EXCEPTION 'Il faut être connecté sous la FDSEA';
+  END IF;
+  SELECT nextval('seq_devis') INTO num_devis;
+  INSERT INTO devis(de_numero, pe_numero, de_libelle, em_numero) SELECT num_devis, num_personne, '[GS] Adhésion du '||CURRENT_DATE, current_employe();
+  INSERT INTO ligne (de_numero, pd_numero) VALUES (num_devis, 500000172);
+  SELECT FC_DevisVersFacture(num_devis) INTO num_facture;
+  SELECT FC_Ajouter_GS(num_personne, num_reglement, num_facture) INTO ret;
+  RETURN ret;
+END;
+$$ LANGUAGE 'plpgsql' VOLATILE;
+
+
+
 
 CREATE OR REPLACE FUNCTION FC_Ajouter_GS(IN num_personne INTEGER, IN num_reglement INTEGER, IN num_fac_fdsea INTEGER) RETURNS BOOLEAN AS
 $$
@@ -1810,6 +1853,19 @@ CREATE OR REPLACE FUNCTION FC_Facture_Une_Ligne(IN num_personne INTEGER, IN num_
 $$
 DECLARE
   num_numfact facture.fa_numfact%TYPE;
+BEGIN
+  SELECT fc_facture_une_ligne(num_personne,num_produit,quantity,notes,NULL) INTO num_numfact;
+  RETURN num_numfact;
+END;
+$$ LANGUAGE 'plpgsql';
+
+
+
+
+CREATE OR REPLACE FUNCTION FC_Facture_Une_Ligne(IN num_personne INTEGER, IN num_produit INTEGER, IN quantity NUMERIC, IN notes VARCHAR, IN annotation VARCHAR) RETURNS TEXT AS
+$$
+DECLARE
+  num_numfact facture.fa_numfact%TYPE;
   num_devis devis.de_numero%TYPE;
   num_facture facture.fa_numero%TYPE;
   test BOOLEAN;
@@ -1822,7 +1878,7 @@ BEGIN
   INSERT INTO devis(pe_numero, de_numero, de_libelle, em_numero) SELECT num_personne, num_devis, pd_libelle, current_employe() FROM produit WHERE pd_numero=num_produit;
   INSERT INTO ligne(de_numero, pd_numero, l_quantite, l_notes) VALUES (num_devis, num_produit, quantity, notes);
   
-  SELECT FC_DevisVersFacture(num_devis) INTO num_facture;
+  SELECT FC_DevisVersFacture(num_devis, CURRENT_DATE, annotation) INTO num_facture;
 
   SELECT fa_numfact FROM facture WHERE fa_numero=num_facture INTO num_numfact;
   RETURN num_numfact;

@@ -77,13 +77,15 @@ function ro_charge_detail(cr_num) {
 }
 
 function ro_valide() {
-  tl = elem('r-typelien-menulist');
-  tl_num = tl.selectedItem.value;
-  direct = tl.selectedItem.getAttribute('direct');
+  var tl = elem('r-typelien-menulist');
+  var tl_num = tl.selectedItem.value;
+  var direct = tl.selectedItem.getAttribute('direct');
+  var debut  = elem('r-debut').value;
+  var fin    = elem('r-fin').value;
   var total = requete('SELECT count(*) FROM personne WHERE pe_numero IN (SELECT CASE WHEN '+direct+' THEN el_personne2 ELSE el_personne1 END FROM estlie WHERE '+elem('r-personne').value+' = CASE WHEN '+direct+' THEN el_personne1 ELSE el_personne2 END)');
   if (total>0) {
     if (confirm('Il y a '+total+' personne(s) à ajouter au routage. Voulez-vous continuer ?')) {
-      alert("SELECT FC_Route_par_lien("+opener.FactureEnCours+", "+tl_num+", "+direct+", '"+debut+"', '"+fin+"');");
+      pgsql_query("SELECT FC_Route_par_lien("+opener.FactureEnCours+", "+tl_num+", "+direct+", '"+debut+"', '"+fin+"');");
     } else {
       alert('Aucune personne à ajouter au routage');
     }
@@ -91,8 +93,6 @@ function ro_valide() {
 
   /*
     var cr_num = elem('r-categorie-menulist').selectedItem.value;
-    var debut  = elem('r-debut').value;
-    var fin    = elem('r-fin').value;
     pgsql_query("SELECT FC_RoutageCategorie("+opener.FactureEnCours+", "+cr_num+","+debut+","+fin+");");
   */
   return true;

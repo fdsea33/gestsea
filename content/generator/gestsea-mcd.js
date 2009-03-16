@@ -959,6 +959,7 @@ function mcd_getType(table,champs)
         case 'pe_numero': type=TYPE_INT;break;
         case 'lf_montantht': type=TYPE_FLOAT;break;
         case 'lf_montantttc': type=TYPE_FLOAT;break;
+        case 'lf_avoir': type=TYPE_BOOL;break;
         case 'lf_notes': type=TYPE_STRING;break;
         case 'created_at': type=TYPE_DATETIME;break;
         case 'created_by': type=TYPE_STRING;break;
@@ -2581,6 +2582,7 @@ function mcd_getLabel(table,champs)
         case 'pe_numero': label="";break;
         case 'lf_montantht': label="";break;
         case 'lf_montantttc': label="";break;
+        case 'lf_avoir': label="";break;
         case 'lf_notes': label="";break;
         case 'created_at': label="Date de creation";break;
         case 'created_by': label="Login du createur";break;
@@ -4200,6 +4202,7 @@ function mcd_obligatoire(table,champs)
         case 'pe_numero': obligatoire=false;break;
         case 'lf_montantht': obligatoire=false;break;
         case 'lf_montantttc': obligatoire=false;break;
+        case 'lf_avoir': obligatoire=true;break;
         case 'lf_notes': obligatoire=false;break;
         case 'created_at': obligatoire=false;break;
         case 'created_by': obligatoire=false;break;

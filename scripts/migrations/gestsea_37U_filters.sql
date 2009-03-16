@@ -30,6 +30,8 @@ CREATE OR REPLACE VIEW vue_contacts AS
     FROM (SELECT *, cn_coordonnee||CASE WHEN pe_numero!=true_pe_numero THEN '*' ELSE '' END AS cn_value, pe_numero=true_pe_numero AS cn_direct FROM contact) AS vue_contact
     GROUP BY pe_numero, ck_numero;
 
+
+-- N et N-1 dans la limite de février
 CREATE OR REPLACE VIEW vue_current_cotisation AS
   SELECT * 
     FROM cotisation 
@@ -41,6 +43,21 @@ CREATE OR REPLACE VIEW vue_current_cotisation AS
        NOT cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)
        AND cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)-1 AND EXTRACT(MONTH FROM CURRENT_DATE)<=2)
 ;
+
+
+CREATE OR REPLACE VIEW vue_past_cotisation AS
+  SELECT * 
+    FROM cotisation 
+    WHERE cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)-1
+;
+
+CREATE OR REPLACE VIEW vue_lack_cotisation AS
+  SELECT * 
+    FROM cotisation 
+    WHERE cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)-1
+      AND pe_numero NOT IN (SELECT pe_numero FROM table_cotisation WHERE cs_annee=EXTRACT(YEAR FROM CURRENT_DATE))
+;
+
 
 /*
 

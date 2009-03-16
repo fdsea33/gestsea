@@ -53,7 +53,8 @@ function CodeInPrincipal(centre){
     //    Maitre_Personne.getTheme().AddFiltre('Filtre_PersonneA=new clInterfaceFiltragePermanantCustom("pe_nom=\'AAA\'")');
     //AllIt.AjouterCodeUserLoad('Filtre_PersonneA.setComposant(Compo_'+Maitre_Personne.getNom_()+');\n');
 
-    It_Personne.AjouterBouton("Enregistrer une cotisation JA","AjouterJA",ComposantDansCode(Maitre_Personne));
+    It_Personne.AjouterBouton("Enregistrer une cotisation JA", "AjouterJA", ComposantDansCode(Maitre_Personne));
+    It_Personne.AjouterBouton("Enregistrer une cotisation GS", "AjouterGS", ComposantDansCode(Maitre_Personne));
     It_Personne.AjouterBouton("Envoyer son mot de passe pour le site fdsea33.fr","EnvoyerPassword",ComposantDansCode(Maitre_Personne));
 
 
@@ -503,7 +504,7 @@ function CodeInPrincipal(centre){
     It_Facture.AjouterBouton("Factures CM","PrintLot","1,'facture'");
     It_Facture.AjouterBouton("Cartes CM","PrintLot","1,'carte'");
     It_Facture.AjouterBouton("Carte (Duplicata)","PrintDuplicata",ComposantDansCode(Maitre_Facture));
-    It_Facture.AjouterBouton("Router un groupe...","GroupeRoutage",ComposantDansCode(Maitre_Facture));
+    It_Facture.AjouterBouton("Router par liens...","GroupeRoutage",ComposantDansCode(Maitre_Facture));
     It_Facture.AjouterBouton("Supprimer les routages","SupprimeRoutage",ComposantDansCode(Maitre_Facture));
     It_Facture.AjouterBouton("Imprimer Pub","Imprimer",ComposantDansCode(Maitre_Facture)+",'facture-publicite'");
 
@@ -517,7 +518,7 @@ function CodeInPrincipal(centre){
     It_Facture.AjouterComposantSimple("Montant TTC","fa_montantttc",null,null,LABEL);
     It_Facture.AjouterComposantSimple("N°Devis d'origine","de_numero",null,null,LABEL);
     It_Facture.AjouterComposantSimple("Adresse de fact.","ad_libelle",new Array("ad_numero", "ad_numero", "adresse"), null, LISTE_DEROULANTE);
-//    It_Facture.AjouterComposantSimple("Annotation","fa_annotation");
+    It_Facture.AjouterComposantSimple("Annotation","fa_annotation",null,null,LABEL);
     It_Facture.AjouterComposantSimple("NIF","fa_numero",null,null,LABEL);
     It_Facture.AjouterComposantSimple("NIFA","fa_avoir_facture",null,null,LABEL);
     

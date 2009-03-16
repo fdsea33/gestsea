@@ -44,9 +44,43 @@ SELECT '', p.pe_id, p.pe_adresse, '="'||p.pe_telephone||'"','', '', ''
     AND pd_numero=500000180
 ORDER BY 1 DESC, p.pe_nom
 ;
-    
 
+\o    
 \f |
 \a
 \t
+
+
+\f ;
+\a
+\t
+\o /tmp/alvea.csv
+
+\qecho ;Personne;;;;;;;;;;;Société;;;;;;;;;;;
+\qecho Céréalier;N°;Titre;Nom;Prenom;Ligne_2;Ligne_3;Ligne_4;Ligne_5;CP;Ville;Telephone;N°; Titre;Nom;Prenom;Ligne_2;Ligne_3;Ligne_4;Ligne_5;CP;Ville;Telephone
+-- Personnel FDSEA/SACEA/AAVA
+SELECT '', p.pe_id, p.pe_adresse, '="'||p.pe_telephone||'"','', '', ''
+  FROM table_attribut JOIN vue_personne p USING (pe_numero)
+  WHERE cr_numero=217
+ORDER BY 1 DESC, p.pe_nom
+;
+-- Salariés
+SELECT '', p.pe_id, p.pe_adresse, '="'||p.pe_telephone||'"','', '', ''
+  FROM table_lignefacture l JOIN table_facture f USING (fa_numero) JOIN vue_personne p ON (l.pe_numero=p.pe_numero)
+  WHERE (f.created_at::date BETWEEN ('01/01/'||EXTRACT(YEAR FROM CURRENT_DATE))::DATE AND CURRENT_DATE)
+    AND pd_numero=500000180
+ORDER BY 1 DESC, p.pe_nom
+;
+-- Adhérents
+SELECT CASE WHEN c.cs_numero IN (SELECT cs_numero FROM VUE_Cerealiers) THEN 'X' ELSE '' END AS cereal, p.pe_id, p.pe_adresse, '="'||p.pe_telephone||'"', s.pe_id, s.pe_adresse, '="'||s.pe_telephone||'"'
+  FROM table_cotisation c join vue_personne p using (pe_numero) LEFT JOIN vue_personne s ON (c.cs_societe=s.pe_numero) 
+  WHERE cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)
+ORDER BY 1 DESC, p.pe_nom
+;
+
+\o
+\f |
+\a
+\t
+
 

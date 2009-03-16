@@ -751,7 +751,8 @@
     <column name="PE_Numero"     type="INTEGER"     fkey="Personne(PE_Numero)"  opt="odcouc"></column>
     <column name="LF_MontantHT"  type="NUMERIC(16,2)"></column>
     <column name="LF_MontantTTC" type="NUMERIC(16,2)"></column>
-    <column name="LF_Notes" type="VARCHAR"></column>
+    <column name="LF_Avoir"    type="BOOLEAN" notnull="true" default="false"></column>
+    <column name="LF_Notes"    type="VARCHAR"></column>
     <seq name="seq_lignefacture" start="100"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>
     <column name="created_at"   label="Date de creation"      type="TIMESTAMP" default="CURRENT_TIMESTAMP">Date de creation dans la base</column>
     <column name="created_by"   label="Login du createur"     type="VARCHAR(32)">Login du createur</column>

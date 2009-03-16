@@ -80,7 +80,7 @@ CREATE OR REPLACE VIEW vue_current_societe AS
   SELECT SE_Societe FROM table_Service, table_Employe 
   WHERE EM_Service=SE_Numero AND EM_Login=CURRENT_USER;
 
-GRANT SELECT ON vue_current_societe TO PUBLIC;
+-- GRANT SELECT ON vue_current_societe TO PUBLIC;
 
 --===========================================================================--
 -- Permet de savoir qui est la personne qui est connecté
@@ -90,7 +90,7 @@ CREATE OR REPLACE VIEW vue_current_agent AS
      FROM table_employe
      WHERE table_employe.em_login::name = "current_user"();
 
-GRANT SELECT ON vue_current_agent TO PUBLIC;
+-- GRANT SELECT ON vue_current_agent TO PUBLIC;
 
 --===========================================================================--
 -- Permet de savoir qui est l'employe qui est connecté
@@ -100,7 +100,7 @@ CREATE OR REPLACE VIEW vue_current_employe AS
      FROM table_employe
      WHERE table_employe.em_login::name = "current_user"();
 
-GRANT SELECT ON vue_current_employe TO PUBLIC;
+-- GRANT SELECT ON vue_current_employe TO PUBLIC;
 
 
 /*****************************************************************************
@@ -278,7 +278,7 @@ CREATE OR REPLACE VIEW vue_current_routage AS
   WHERE CS_Valeur::integer BETWEEN RO_DebutService AND RO_FinService AND CS_Nom='CURRENT_NUMBER'
   ORDER BY RC_CPOS, RC_BURD, RC_NOMP;
 	
-GRANT SELECT ON vue_current_routage TO PUBLIC;
+-- GRANT SELECT ON vue_current_routage TO PUBLIC;
 
 
 --===========================================================================--
@@ -345,7 +345,7 @@ CREATE OR REPLACE VIEW vue_current_relance AS
 
 
 
-GRANT SELECT ON vue_current_relance TO PUBLIC;
+-- GRANT SELECT ON vue_current_relance TO PUBLIC;
 
 
 
@@ -374,7 +374,7 @@ telephone.cn_coordonnee AS rl_telephone, portable.cn_coordonnee AS rl_portable
     AND s.pe_numero NOT IN (select rc_ncli FROM vue_current_routage)
     AND ad_active;
 	
-GRANT SELECT ON vue_current_relance_adherent TO PUBLIC;
+-- GRANT SELECT ON vue_current_relance_adherent TO PUBLIC;
 
 
 
@@ -465,8 +465,8 @@ TRIM(COALESCE(PE_Titre||' ','')|| COALESCE(PE_Nom,'')|| COALESCE(' '||PE_Prenom,
 COALESCE(PE_Nom||' ','')|| COALESCE(PE_Prenom,'')||COALESCE(' ('||NULLIF(TRIM(PE_Titre),'')||')','') AS PE_Fullname, 
 to_char(PE_ID,'FM099999') AS PE_NumPersonne, 
 Tel.CN_Coordonnee AS PE_telephone, Fax.CN_Coordonnee AS PE_Fax, Port.CN_Coordonnee AS PE_Portable, Mail.CN_Coordonnee AS PE_EMail, 
-COALESCE(PE_Titre,'')||';'|| COALESCE(PE_Nom,'')||';'|| COALESCE(PE_Prenom,'')||';'||COALESCE(AD_Ligne2,'')||';'|| COALESCE(Ad_Ligne3,'')||';'|| COALESCE(Ad_Ligne4,'')||';'|| COALESCE(Ad_Ligne5,'')||';'|| CP_CodePostal||';'|| VI_Nom AS PE_Adresse,
-COALESCE(PE_Titre||' ','')||PE_Nom||COALESCE(' '||PE_Prenom,'')||';'||COALESCE(AD_Ligne2,'')||';'|| COALESCE(Ad_Ligne3,'')||';'|| COALESCE(Ad_Ligne4,'')||';'|| COALESCE(Ad_Ligne5,'')||';'|| CP_CodePostal||';'|| VI_Nom AS PE_Address, 
+COALESCE(PE_Titre,'')||';'|| COALESCE(PE_Nom,'')||';'|| COALESCE(PE_Prenom,'')||';'||COALESCE(AD_Ligne2,'')||';'|| COALESCE(Ad_Ligne3,'')||';'|| COALESCE(Ad_Ligne4,'')||';'|| COALESCE(Ad_Ligne5,'')||';'|| COALESCE(CP_CodePostal,'')||';'|| COALESCE(VI_Nom, '') AS PE_Adresse,
+COALESCE(PE_Titre||' ','')||PE_Nom||COALESCE(' '||PE_Prenom,'')||';'||COALESCE(AD_Ligne2,'')||';'|| COALESCE(Ad_Ligne3,'')||';'|| COALESCE(Ad_Ligne4,'')||';'|| COALESCE(Ad_Ligne5,'')||';'|| COALESCE(CP_CodePostal,'')||';'|| COALESCE(VI_Nom, '') AS PE_Address, 
 CT_Nom, VI_Nom AS PE_Ville, CP_CodePostal AS PE_CP, CT_Nom AS PE_Canton, 
 to_char(PE_ID,'FM099999')||' - '||TRIM(COALESCE(PE_Titre||' ','')|| COALESCE(PE_Nom,'')|| COALESCE(' '||PE_Prenom,''))||' ('||COALESCE(CP_CodePostal,'?')||' '||COALESCE(vi_nom,'???')||')' AS PE_Description
  ,table_personne.pe_numero AS cle

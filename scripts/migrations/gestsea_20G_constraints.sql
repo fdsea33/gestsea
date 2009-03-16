@@ -1373,6 +1373,7 @@ ALTER TABLE "table_lignefacture" ALTER "lf_numero" SET DEFAULT nextval('seq_lign
 ALTER TABLE "table_lignefacture" ALTER "px_numero" SET DEFAULT NULL;
 ALTER TABLE "table_lignefacture" ALTER "pd_numero" SET DEFAULT NULL;
 ALTER TABLE "table_lignefacture" ALTER "lf_quantite" SET DEFAULT 0;
+ALTER TABLE "table_lignefacture" ALTER "lf_avoir" SET DEFAULT false;
 ALTER TABLE "table_lignefacture" ALTER "created_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_lignefacture" ALTER "updated_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_lignefacture" ALTER "updated_by" SET DEFAULT CURRENT_USER;
@@ -1957,6 +1958,7 @@ ALTER TABLE "table_lignecotisation" ALTER "id" SET NOT NULL ;
 ALTER TABLE "table_lignefacture" ALTER "lf_numero" SET NOT NULL ;
 ALTER TABLE "table_lignefacture" ALTER "fa_numero" SET NOT NULL ;
 ALTER TABLE "table_lignefacture" ALTER "lf_quantite" SET NOT NULL ;
+ALTER TABLE "table_lignefacture" ALTER "lf_avoir" SET NOT NULL ;
 ALTER TABLE "table_lignefacture" ALTER "lock_version" SET NOT NULL ;
 ALTER TABLE "table_lignefacture" ALTER "id" SET NOT NULL ;
 ALTER TABLE "table_lignemodele" ALTER "lm_numero" SET NOT NULL ;

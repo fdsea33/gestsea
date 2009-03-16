@@ -1265,6 +1265,7 @@ CREATE TABLE "table_lignefacture"
   "pe_numero" INTEGER,
   "lf_montantht" NUMERIC(16,2),
   "lf_montantttc" NUMERIC(16,2),
+  "lf_avoir" BOOLEAN,
   "lf_notes" VARCHAR,
   "created_at" TIMESTAMP,
   "created_by" VARCHAR(32),
