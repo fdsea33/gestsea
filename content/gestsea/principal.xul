@@ -239,9 +239,9 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Enregistrer une cotisation JA" oncommand="AjouterJA(TAB_GLOBAL_COMPO[3]);"/>
-    <button label="Enregistrer une cotisation GS" oncommand="AjouterGS(TAB_GLOBAL_COMPO[3]);"/>
-    <button label="Envoyer son mot de passe pour le site fdsea33.fr" oncommand="EnvoyerPassword(TAB_GLOBAL_COMPO[3]);"/>
+    <button label="Enregistrer une cotisation JA" oncommand="AjouterJA(TAB_GLOBAL_COMPO[405]);"/>
+    <button label="Enregistrer une cotisation GS" oncommand="AjouterGS(TAB_GLOBAL_COMPO[405]);"/>
+    <button label="Envoyer son mot de passe pour le site fdsea33.fr" oncommand="EnvoyerPassword(TAB_GLOBAL_COMPO[405]);"/>
   </arrowscrollbox>
 </hbox>
 </vbox>
@@ -280,10 +280,10 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Passer le devis en facture" oncommand="DevisVersFacture(TAB_GLOBAL_COMPO[108]);"/>
-    <button label="Imprimer le devis" oncommand="Imprimer(TAB_GLOBAL_COMPO[108],'devis');"/>
-    <button label="Recalculer le taux de réduction" oncommand="MajReductionDevis(TAB_GLOBAL_COMPO[108]);"/>
-    <button label="Saisir le taux de réduction" oncommand="SaisirReductionDevis(this,TAB_GLOBAL_COMPO[108]);"/>
+    <button label="Passer le devis en facture" oncommand="DevisVersFacture(TAB_GLOBAL_COMPO[510]);"/>
+    <button label="Imprimer le devis" oncommand="Imprimer(TAB_GLOBAL_COMPO[510],'devis');"/>
+    <button label="Recalculer le taux de réduction" oncommand="MajReductionDevis(TAB_GLOBAL_COMPO[510]);"/>
+    <button label="Saisir le taux de réduction" oncommand="SaisirReductionDevis(this,TAB_GLOBAL_COMPO[510]);"/>
   </arrowscrollbox>
   <hbox pack="end" align="center">
     <separator class="groove"/>
@@ -358,15 +358,12 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Passer en avoir" oncommand="FactureVersAvoir(TAB_GLOBAL_COMPO[131]);"/>
-    <button label="En perte" oncommand="FactureEnPerte(TAB_GLOBAL_COMPO[131]);"/>
-    <button label="Imprimer" oncommand="Imprimer(TAB_GLOBAL_COMPO[131],'facture');"/>
-    <button label="Factures CM" oncommand="PrintLot(1,'facture');"/>
-    <button label="Cartes CM" oncommand="PrintLot(1,'carte');"/>
-    <button label="Carte (Duplicata)" oncommand="PrintDuplicata(TAB_GLOBAL_COMPO[131]);"/>
-    <button label="Router par liens..." oncommand="GroupeRoutage(TAB_GLOBAL_COMPO[131]);"/>
-    <button label="Supprimer les routages" oncommand="SupprimeRoutage(TAB_GLOBAL_COMPO[131]);"/>
-    <button label="Imprimer Pub" oncommand="Imprimer(TAB_GLOBAL_COMPO[131],'facture-publicite');"/>
+    <button label="Passer en avoir" oncommand="FactureVersAvoir(TAB_GLOBAL_COMPO[533]);"/>
+    <button label="En perte" oncommand="FactureEnPerte(TAB_GLOBAL_COMPO[533]);"/>
+    <button label="Imprimer" oncommand="Imprimer(TAB_GLOBAL_COMPO[533],'facture');"/>
+    <button label="Carte (Duplicata)" oncommand="PrintDuplicata(TAB_GLOBAL_COMPO[533]);"/>
+    <button label="Gérer les routages..." oncommand="GererRoutage(TAB_GLOBAL_COMPO[533]);"/>
+    <button label="Imprimer Pub" oncommand="Imprimer(TAB_GLOBAL_COMPO[533],'facture-publicite');"/>
   </arrowscrollbox>
   <hbox pack="end" align="center">
     <separator class="groove"/>
@@ -464,7 +461,7 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Imprimer le bordereau" oncommand="Imprimer(TAB_GLOBAL_COMPO[212],'bordereau');"/>
+    <button label="Imprimer le bordereau" oncommand="Imprimer(TAB_GLOBAL_COMPO[614],'bordereau');"/>
   </arrowscrollbox>
 </hbox>
 </vbox>

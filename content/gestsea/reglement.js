@@ -70,7 +70,7 @@ function stProprieteCompo()
         this.Action_en_cours=null;
         this.NewCle=null;
 }
-var TAB_COMPO_PPTES = new Array(697);
+var TAB_COMPO_PPTES = new Array(683);
 /* on init le tableau */
 var id
 for(id=0;id<TAB_COMPO_PPTES.length;id++)
@@ -108,37 +108,37 @@ function OuvrirOnglet_Personnes()
 
 function Insert_Personnes_Liste_des_personnes0()
 {
- TAB_COMPO_PPTES[662].Action_en_cours = INSERT;
+ TAB_COMPO_PPTES[648].Action_en_cours = INSERT;
 /* On calcule la nouvelle clé */
- TAB_COMPO_PPTES[662].NewCle = getNewCle("personne");
+ TAB_COMPO_PPTES[648].NewCle = getNewCle("personne");
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[662].ActiverComposant(false,true);
+ TAB_GLOBAL_COMPO[648].ActiverComposant(false,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[667];
+ var Esclave_0=TAB_GLOBAL_COMPO[653];
  Esclave_0.ActiverComposant(true);
- var Esclave_1=TAB_GLOBAL_COMPO[668];
+ var Esclave_1=TAB_GLOBAL_COMPO[654];
  Esclave_1.ActiverComposant(true);
- var Esclave_2=TAB_GLOBAL_COMPO[669];
+ var Esclave_2=TAB_GLOBAL_COMPO[655];
  Esclave_2.ActiverComposant(true);
- var Esclave_3=TAB_GLOBAL_COMPO[670];
+ var Esclave_3=TAB_GLOBAL_COMPO[656];
  Esclave_3.ActiverComposant(true);
- var Esclave_4=TAB_GLOBAL_COMPO[671];
+ var Esclave_4=TAB_GLOBAL_COMPO[657];
  Esclave_4.ActiverComposant(true);
- var Esclave_5=TAB_GLOBAL_COMPO[672];
+ var Esclave_5=TAB_GLOBAL_COMPO[658];
  Esclave_5.ActiverComposant(true);
 top.document.getElementById("Validate_Personnes_Adresses_7").disabled=true;
 top.document.getElementById("Annuler_Personnes_Adresses_7").disabled=true;
 top.document.getElementById("Insert_Personnes_Adresses_7").disabled=false;
 top.document.getElementById("Delete_Personnes_Adresses_7").disabled=false;
 top.document.getElementById("Update_Personnes_Adresses_7").disabled=false;
- var Esclave_6=TAB_GLOBAL_COMPO[673];
+ var Esclave_6=TAB_GLOBAL_COMPO[659];
  Esclave_6.ActiverComposant(true);
 top.document.getElementById("Validate_Personnes_Liste_des_personnes0").disabled=false;
 top.document.getElementById("Annuler_Personnes_Liste_des_personnes0").disabled=false;
 top.document.getElementById("Insert_Personnes_Liste_des_personnes0").disabled=true;
 top.document.getElementById("Delete_Personnes_Liste_des_personnes0").disabled=true;
 top.document.getElementById("Update_Personnes_Liste_des_personnes0").disabled=true;
- var Maitre=TAB_GLOBAL_COMPO[662];
+ var Maitre=TAB_GLOBAL_COMPO[648];
  /* Pour une insertion on désectionne */
  var tree=Maitre.getComposantXul();
  if (tree.view!=null)
@@ -146,21 +146,21 @@ top.document.getElementById("Update_Personnes_Liste_des_personnes0").disabled=tr
          tree.currentIndex=-1;
          tree.view.selection.clearSelection();
  }
-return TAB_COMPO_PPTES[662].NewCle;
+return TAB_COMPO_PPTES[648].NewCle;
 }
 
 function Delete_Personnes_Liste_des_personnes0()
 {
- if (TAB_GLOBAL_COMPO[662].getCleVal()==-1)
+ if (TAB_GLOBAL_COMPO[648].getCleVal()==-1)
  {
          alert("Vous devez sélectionner l'enregistrement à supprimer");
          return;
  }
  /* On recupère le composant maitre  */
- var Maitre=TAB_GLOBAL_COMPO[662];
+ var Maitre=TAB_GLOBAL_COMPO[648];
  if (confirm("Voulez vous vraiment supprimer l'enregistrement en cours ?"))
  {
-        TAB_COMPO_PPTES[662].Action_en_cours = DELETE;
+        TAB_COMPO_PPTES[648].Action_en_cours = DELETE;
          User_Delete_Personnes_Liste_des_personnes0(Maitre);
         Maitre.RefreshTotal();
  }
@@ -168,42 +168,42 @@ function Delete_Personnes_Liste_des_personnes0()
 
 function Update_Personnes_Liste_des_personnes0()
 {
- if (TAB_GLOBAL_COMPO[662].getCleVal()==-1)
+ if (TAB_GLOBAL_COMPO[648].getCleVal()==-1)
  {
          alert("Vous devez selectionner l'enregistrement à mettre à jour");
          return -1;
  }
- TAB_COMPO_PPTES[662].Action_en_cours = UPDATE;
+ TAB_COMPO_PPTES[648].Action_en_cours = UPDATE;
 /* On calcule la nouvelle clé */
- TAB_COMPO_PPTES[662].NewCle = TAB_GLOBAL_COMPO[662].getCleVal();
+ TAB_COMPO_PPTES[648].NewCle = TAB_GLOBAL_COMPO[648].getCleVal();
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[662].ActiverComposant(false,true);
+ TAB_GLOBAL_COMPO[648].ActiverComposant(false,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[667];
+ var Esclave_0=TAB_GLOBAL_COMPO[653];
  Esclave_0.ActiverComposant(true);
- var Esclave_1=TAB_GLOBAL_COMPO[668];
+ var Esclave_1=TAB_GLOBAL_COMPO[654];
  Esclave_1.ActiverComposant(true);
- var Esclave_2=TAB_GLOBAL_COMPO[669];
+ var Esclave_2=TAB_GLOBAL_COMPO[655];
  Esclave_2.ActiverComposant(true);
- var Esclave_3=TAB_GLOBAL_COMPO[670];
+ var Esclave_3=TAB_GLOBAL_COMPO[656];
  Esclave_3.ActiverComposant(true);
- var Esclave_4=TAB_GLOBAL_COMPO[671];
+ var Esclave_4=TAB_GLOBAL_COMPO[657];
  Esclave_4.ActiverComposant(true);
- var Esclave_5=TAB_GLOBAL_COMPO[672];
+ var Esclave_5=TAB_GLOBAL_COMPO[658];
  Esclave_5.ActiverComposant(true);
 top.document.getElementById("Validate_Personnes_Adresses_7").disabled=true;
 top.document.getElementById("Annuler_Personnes_Adresses_7").disabled=true;
 top.document.getElementById("Insert_Personnes_Adresses_7").disabled=false;
 top.document.getElementById("Delete_Personnes_Adresses_7").disabled=false;
 top.document.getElementById("Update_Personnes_Adresses_7").disabled=false;
- var Esclave_6=TAB_GLOBAL_COMPO[673];
+ var Esclave_6=TAB_GLOBAL_COMPO[659];
  Esclave_6.ActiverComposant(true);
 top.document.getElementById("Validate_Personnes_Liste_des_personnes0").disabled=false;
 top.document.getElementById("Annuler_Personnes_Liste_des_personnes0").disabled=false;
 top.document.getElementById("Insert_Personnes_Liste_des_personnes0").disabled=true;
 top.document.getElementById("Delete_Personnes_Liste_des_personnes0").disabled=true;
 top.document.getElementById("Update_Personnes_Liste_des_personnes0").disabled=true;
-return TAB_COMPO_PPTES[662].NewCle;
+return TAB_COMPO_PPTES[648].NewCle;
 }
 
 function Validate_Personnes_Liste_des_personnes0(retour)
@@ -213,10 +213,10 @@ if (retour==null)
         retour=true;
 
  /* On recupère le composant maitre  */
- var Maitre=TAB_GLOBAL_COMPO[662];
+ var Maitre=TAB_GLOBAL_COMPO[648];
  /* On recupère la clé du nouvel enregistrement */
  var NewCle=null;
- switch(TAB_COMPO_PPTES[662].Action_en_cours){
+ switch(TAB_COMPO_PPTES[648].Action_en_cours){
         case INSERT :
         if ((NewCle = User_Insert_Personnes_Liste_des_personnes0(Maitre))==-1)
                 return -1;
@@ -243,19 +243,19 @@ if (retour==null)
         Maitre.Union(ReqNewCle);
  }
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[662].ActiverComposant(true,true);
+ TAB_GLOBAL_COMPO[648].ActiverComposant(true,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[667];
+ var Esclave_0=TAB_GLOBAL_COMPO[653];
  Esclave_0.ActiverComposant(false);
- var Esclave_1=TAB_GLOBAL_COMPO[668];
+ var Esclave_1=TAB_GLOBAL_COMPO[654];
  Esclave_1.ActiverComposant(false);
- var Esclave_2=TAB_GLOBAL_COMPO[669];
+ var Esclave_2=TAB_GLOBAL_COMPO[655];
  Esclave_2.ActiverComposant(false);
- var Esclave_3=TAB_GLOBAL_COMPO[670];
+ var Esclave_3=TAB_GLOBAL_COMPO[656];
  Esclave_3.ActiverComposant(false);
- var Esclave_4=TAB_GLOBAL_COMPO[671];
+ var Esclave_4=TAB_GLOBAL_COMPO[657];
  Esclave_4.ActiverComposant(false);
- var Esclave_5=TAB_GLOBAL_COMPO[672];
+ var Esclave_5=TAB_GLOBAL_COMPO[658];
  Esclave_5.ActiverComposant(false);
 Annuler_Personnes_Adresses_7();
 top.document.getElementById("Validate_Personnes_Adresses_7").disabled=true;
@@ -263,7 +263,7 @@ top.document.getElementById("Annuler_Personnes_Adresses_7").disabled=true;
 top.document.getElementById("Insert_Personnes_Adresses_7").disabled=true;
 top.document.getElementById("Delete_Personnes_Adresses_7").disabled=true;
 top.document.getElementById("Update_Personnes_Adresses_7").disabled=true;
- var Esclave_6=TAB_GLOBAL_COMPO[673];
+ var Esclave_6=TAB_GLOBAL_COMPO[659];
  Esclave_6.ActiverComposant(false);
 top.document.getElementById("Validate_Personnes_Liste_des_personnes0").disabled=true;
 top.document.getElementById("Annuler_Personnes_Liste_des_personnes0").disabled=true;
@@ -271,33 +271,33 @@ top.document.getElementById("Insert_Personnes_Liste_des_personnes0").disabled=fa
 top.document.getElementById("Delete_Personnes_Liste_des_personnes0").disabled=false;
 top.document.getElementById("Update_Personnes_Liste_des_personnes0").disabled=false;
  if (NewCle==null)
-         NewCle=TAB_COMPO_PPTES[662].NewCle;
+         NewCle=TAB_COMPO_PPTES[648].NewCle;
  Maitre.ForceNextSelection(NewCle)
  Maitre.RefreshTotal();
  if(retour)
  {
  }
- TAB_COMPO_PPTES[662].Action_en_cours = null;
+ TAB_COMPO_PPTES[648].Action_en_cours = null;
  return NewCle;
 }
 
 function Annuler_Personnes_Liste_des_personnes0()
 {
- TAB_COMPO_PPTES[662].Action_en_cours = null;
+ TAB_COMPO_PPTES[648].Action_en_cours = null;
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[662].ActiverComposant(true,true);
+ TAB_GLOBAL_COMPO[648].ActiverComposant(true,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[667];
+ var Esclave_0=TAB_GLOBAL_COMPO[653];
  Esclave_0.ActiverComposant(false);
- var Esclave_1=TAB_GLOBAL_COMPO[668];
+ var Esclave_1=TAB_GLOBAL_COMPO[654];
  Esclave_1.ActiverComposant(false);
- var Esclave_2=TAB_GLOBAL_COMPO[669];
+ var Esclave_2=TAB_GLOBAL_COMPO[655];
  Esclave_2.ActiverComposant(false);
- var Esclave_3=TAB_GLOBAL_COMPO[670];
+ var Esclave_3=TAB_GLOBAL_COMPO[656];
  Esclave_3.ActiverComposant(false);
- var Esclave_4=TAB_GLOBAL_COMPO[671];
+ var Esclave_4=TAB_GLOBAL_COMPO[657];
  Esclave_4.ActiverComposant(false);
- var Esclave_5=TAB_GLOBAL_COMPO[672];
+ var Esclave_5=TAB_GLOBAL_COMPO[658];
  Esclave_5.ActiverComposant(false);
 Annuler_Personnes_Adresses_7();
 top.document.getElementById("Validate_Personnes_Adresses_7").disabled=true;
@@ -305,7 +305,7 @@ top.document.getElementById("Annuler_Personnes_Adresses_7").disabled=true;
 top.document.getElementById("Insert_Personnes_Adresses_7").disabled=true;
 top.document.getElementById("Delete_Personnes_Adresses_7").disabled=true;
 top.document.getElementById("Update_Personnes_Adresses_7").disabled=true;
- var Esclave_6=TAB_GLOBAL_COMPO[673];
+ var Esclave_6=TAB_GLOBAL_COMPO[659];
  Esclave_6.ActiverComposant(false);
 top.document.getElementById("Validate_Personnes_Liste_des_personnes0").disabled=true;
 top.document.getElementById("Annuler_Personnes_Liste_des_personnes0").disabled=true;
@@ -316,7 +316,7 @@ top.document.getElementById("Update_Personnes_Liste_des_personnes0").disabled=fa
 
 function Insert_Personnes_Adresses_7()
 {
- if (TAB_COMPO_PPTES[662].Action_en_cours == INSERT)
+ if (TAB_COMPO_PPTES[648].Action_en_cours == INSERT)
          {
                  if (confirm("Pour continuer, vous devez enregistrer votre saisie\n Voulez vous poursuivre ?"))
                 {
@@ -335,32 +335,32 @@ function Insert_Personnes_Adresses_7()
                 }
                  return;
          }
- TAB_COMPO_PPTES[673].Action_en_cours = INSERT;
+ TAB_COMPO_PPTES[659].Action_en_cours = INSERT;
 /* On calcule la nouvelle clé */
- TAB_COMPO_PPTES[673].NewCle = getNewCle("adresse");
+ TAB_COMPO_PPTES[659].NewCle = getNewCle("adresse");
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[673].ActiverComposant(false,true);
+ TAB_GLOBAL_COMPO[659].ActiverComposant(false,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[677];
+ var Esclave_0=TAB_GLOBAL_COMPO[663];
  Esclave_0.ActiverComposant(true);
- var Esclave_1=TAB_GLOBAL_COMPO[678];
+ var Esclave_1=TAB_GLOBAL_COMPO[664];
  Esclave_1.ActiverComposant(true);
- var Esclave_2=TAB_GLOBAL_COMPO[679];
+ var Esclave_2=TAB_GLOBAL_COMPO[665];
  Esclave_2.ActiverComposant(true);
- var Esclave_3=TAB_GLOBAL_COMPO[680];
+ var Esclave_3=TAB_GLOBAL_COMPO[666];
  Esclave_3.ActiverComposant(true);
- var Esclave_4=TAB_GLOBAL_COMPO[681];
+ var Esclave_4=TAB_GLOBAL_COMPO[667];
  Esclave_4.ActiverComposant(true);
- var Esclave_5=TAB_GLOBAL_COMPO[682];
+ var Esclave_5=TAB_GLOBAL_COMPO[668];
  Esclave_5.ActiverComposant(true);
- var Esclave_6=TAB_GLOBAL_COMPO[683];
+ var Esclave_6=TAB_GLOBAL_COMPO[669];
  Esclave_6.ActiverComposant(true);
 top.document.getElementById("Validate_Personnes_Adresses_7").disabled=false;
 top.document.getElementById("Annuler_Personnes_Adresses_7").disabled=false;
 top.document.getElementById("Insert_Personnes_Adresses_7").disabled=true;
 top.document.getElementById("Delete_Personnes_Adresses_7").disabled=true;
 top.document.getElementById("Update_Personnes_Adresses_7").disabled=true;
- var Maitre=TAB_GLOBAL_COMPO[673];
+ var Maitre=TAB_GLOBAL_COMPO[659];
  /* Pour une insertion on désectionne */
  var tree=Maitre.getComposantXul();
  if (tree.view!=null)
@@ -368,21 +368,21 @@ top.document.getElementById("Update_Personnes_Adresses_7").disabled=true;
          tree.currentIndex=-1;
          tree.view.selection.clearSelection();
  }
-return TAB_COMPO_PPTES[673].NewCle;
+return TAB_COMPO_PPTES[659].NewCle;
 }
 
 function Delete_Personnes_Adresses_7()
 {
- if (TAB_GLOBAL_COMPO[673].getCleVal()==-1)
+ if (TAB_GLOBAL_COMPO[659].getCleVal()==-1)
  {
          alert("Vous devez sélectionner l'enregistrement à supprimer");
          return;
  }
  /* On recupère le composant maitre  */
- var Maitre=TAB_GLOBAL_COMPO[673];
+ var Maitre=TAB_GLOBAL_COMPO[659];
  if (confirm("Voulez vous vraiment supprimer l'enregistrement en cours ?"))
  {
-        TAB_COMPO_PPTES[673].Action_en_cours = DELETE;
+        TAB_COMPO_PPTES[659].Action_en_cours = DELETE;
          User_Delete_Personnes_Adresses_7(Maitre);
         Maitre.RefreshTotal();
  }
@@ -390,37 +390,37 @@ function Delete_Personnes_Adresses_7()
 
 function Update_Personnes_Adresses_7()
 {
- if (TAB_GLOBAL_COMPO[673].getCleVal()==-1)
+ if (TAB_GLOBAL_COMPO[659].getCleVal()==-1)
  {
          alert("Vous devez selectionner l'enregistrement à mettre à jour");
          return -1;
  }
- TAB_COMPO_PPTES[673].Action_en_cours = UPDATE;
+ TAB_COMPO_PPTES[659].Action_en_cours = UPDATE;
 /* On calcule la nouvelle clé */
- TAB_COMPO_PPTES[673].NewCle = TAB_GLOBAL_COMPO[673].getCleVal();
+ TAB_COMPO_PPTES[659].NewCle = TAB_GLOBAL_COMPO[659].getCleVal();
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[673].ActiverComposant(false,true);
+ TAB_GLOBAL_COMPO[659].ActiverComposant(false,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[677];
+ var Esclave_0=TAB_GLOBAL_COMPO[663];
  Esclave_0.ActiverComposant(true);
- var Esclave_1=TAB_GLOBAL_COMPO[678];
+ var Esclave_1=TAB_GLOBAL_COMPO[664];
  Esclave_1.ActiverComposant(true);
- var Esclave_2=TAB_GLOBAL_COMPO[679];
+ var Esclave_2=TAB_GLOBAL_COMPO[665];
  Esclave_2.ActiverComposant(true);
- var Esclave_3=TAB_GLOBAL_COMPO[680];
+ var Esclave_3=TAB_GLOBAL_COMPO[666];
  Esclave_3.ActiverComposant(true);
- var Esclave_4=TAB_GLOBAL_COMPO[681];
+ var Esclave_4=TAB_GLOBAL_COMPO[667];
  Esclave_4.ActiverComposant(true);
- var Esclave_5=TAB_GLOBAL_COMPO[682];
+ var Esclave_5=TAB_GLOBAL_COMPO[668];
  Esclave_5.ActiverComposant(true);
- var Esclave_6=TAB_GLOBAL_COMPO[683];
+ var Esclave_6=TAB_GLOBAL_COMPO[669];
  Esclave_6.ActiverComposant(true);
 top.document.getElementById("Validate_Personnes_Adresses_7").disabled=false;
 top.document.getElementById("Annuler_Personnes_Adresses_7").disabled=false;
 top.document.getElementById("Insert_Personnes_Adresses_7").disabled=true;
 top.document.getElementById("Delete_Personnes_Adresses_7").disabled=true;
 top.document.getElementById("Update_Personnes_Adresses_7").disabled=true;
-return TAB_COMPO_PPTES[673].NewCle;
+return TAB_COMPO_PPTES[659].NewCle;
 }
 
 function Validate_Personnes_Adresses_7(retour)
@@ -430,10 +430,10 @@ if (retour==null)
         retour=true;
 
  /* On recupère le composant maitre  */
- var Maitre=TAB_GLOBAL_COMPO[673];
+ var Maitre=TAB_GLOBAL_COMPO[659];
  /* On recupère la clé du nouvel enregistrement */
  var NewCle=null;
- switch(TAB_COMPO_PPTES[673].Action_en_cours){
+ switch(TAB_COMPO_PPTES[659].Action_en_cours){
         case INSERT :
         if ((NewCle = User_Insert_Personnes_Adresses_7(Maitre))==-1)
                 return -1;
@@ -460,21 +460,21 @@ if (retour==null)
         Maitre.Union(ReqNewCle);
  }
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[673].ActiverComposant(true,true);
+ TAB_GLOBAL_COMPO[659].ActiverComposant(true,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[677];
+ var Esclave_0=TAB_GLOBAL_COMPO[663];
  Esclave_0.ActiverComposant(false);
- var Esclave_1=TAB_GLOBAL_COMPO[678];
+ var Esclave_1=TAB_GLOBAL_COMPO[664];
  Esclave_1.ActiverComposant(false);
- var Esclave_2=TAB_GLOBAL_COMPO[679];
+ var Esclave_2=TAB_GLOBAL_COMPO[665];
  Esclave_2.ActiverComposant(false);
- var Esclave_3=TAB_GLOBAL_COMPO[680];
+ var Esclave_3=TAB_GLOBAL_COMPO[666];
  Esclave_3.ActiverComposant(false);
- var Esclave_4=TAB_GLOBAL_COMPO[681];
+ var Esclave_4=TAB_GLOBAL_COMPO[667];
  Esclave_4.ActiverComposant(false);
- var Esclave_5=TAB_GLOBAL_COMPO[682];
+ var Esclave_5=TAB_GLOBAL_COMPO[668];
  Esclave_5.ActiverComposant(false);
- var Esclave_6=TAB_GLOBAL_COMPO[683];
+ var Esclave_6=TAB_GLOBAL_COMPO[669];
  Esclave_6.ActiverComposant(false);
 top.document.getElementById("Validate_Personnes_Adresses_7").disabled=true;
 top.document.getElementById("Annuler_Personnes_Adresses_7").disabled=true;
@@ -482,35 +482,35 @@ top.document.getElementById("Insert_Personnes_Adresses_7").disabled=false;
 top.document.getElementById("Delete_Personnes_Adresses_7").disabled=false;
 top.document.getElementById("Update_Personnes_Adresses_7").disabled=false;
  if (NewCle==null)
-         NewCle=TAB_COMPO_PPTES[673].NewCle;
+         NewCle=TAB_COMPO_PPTES[659].NewCle;
  Maitre.ForceNextSelection(NewCle)
  Maitre.RefreshTotal();
  if(retour)
  {
  }
- TAB_COMPO_PPTES[673].Action_en_cours = null;
+ TAB_COMPO_PPTES[659].Action_en_cours = null;
  return NewCle;
 }
 
 function Annuler_Personnes_Adresses_7()
 {
- TAB_COMPO_PPTES[673].Action_en_cours = null;
+ TAB_COMPO_PPTES[659].Action_en_cours = null;
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[673].ActiverComposant(true,true);
+ TAB_GLOBAL_COMPO[659].ActiverComposant(true,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[677];
+ var Esclave_0=TAB_GLOBAL_COMPO[663];
  Esclave_0.ActiverComposant(false);
- var Esclave_1=TAB_GLOBAL_COMPO[678];
+ var Esclave_1=TAB_GLOBAL_COMPO[664];
  Esclave_1.ActiverComposant(false);
- var Esclave_2=TAB_GLOBAL_COMPO[679];
+ var Esclave_2=TAB_GLOBAL_COMPO[665];
  Esclave_2.ActiverComposant(false);
- var Esclave_3=TAB_GLOBAL_COMPO[680];
+ var Esclave_3=TAB_GLOBAL_COMPO[666];
  Esclave_3.ActiverComposant(false);
- var Esclave_4=TAB_GLOBAL_COMPO[681];
+ var Esclave_4=TAB_GLOBAL_COMPO[667];
  Esclave_4.ActiverComposant(false);
- var Esclave_5=TAB_GLOBAL_COMPO[682];
+ var Esclave_5=TAB_GLOBAL_COMPO[668];
  Esclave_5.ActiverComposant(false);
- var Esclave_6=TAB_GLOBAL_COMPO[683];
+ var Esclave_6=TAB_GLOBAL_COMPO[669];
  Esclave_6.ActiverComposant(false);
 top.document.getElementById("Validate_Personnes_Adresses_7").disabled=true;
 top.document.getElementById("Annuler_Personnes_Adresses_7").disabled=true;
@@ -538,34 +538,34 @@ function OuvrirOnglet_Réglement()
 
 function Insert_Réglement_Liste_des_réglements0()
 {
- TAB_COMPO_PPTES[684].Action_en_cours = INSERT;
+ TAB_COMPO_PPTES[670].Action_en_cours = INSERT;
 /* On calcule la nouvelle clé */
- TAB_COMPO_PPTES[684].NewCle = getNewCle("reglement");
+ TAB_COMPO_PPTES[670].NewCle = getNewCle("reglement");
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[684].ActiverComposant(false,true);
+ TAB_GLOBAL_COMPO[670].ActiverComposant(false,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[689];
+ var Esclave_0=TAB_GLOBAL_COMPO[675];
  Esclave_0.ActiverComposant(true);
- var Esclave_1=TAB_GLOBAL_COMPO[690];
+ var Esclave_1=TAB_GLOBAL_COMPO[676];
  Esclave_1.ActiverComposant(true);
- var Esclave_2=TAB_GLOBAL_COMPO[691];
+ var Esclave_2=TAB_GLOBAL_COMPO[677];
  Esclave_2.ActiverComposant(true);
- var Esclave_3=TAB_GLOBAL_COMPO[692];
+ var Esclave_3=TAB_GLOBAL_COMPO[678];
  Esclave_3.ActiverComposant(true);
- var Esclave_4=TAB_GLOBAL_COMPO[693];
+ var Esclave_4=TAB_GLOBAL_COMPO[679];
  Esclave_4.ActiverComposant(true);
- var Esclave_5=TAB_GLOBAL_COMPO[694];
+ var Esclave_5=TAB_GLOBAL_COMPO[680];
  Esclave_5.ActiverComposant(true);
- var Esclave_6=TAB_GLOBAL_COMPO[695];
+ var Esclave_6=TAB_GLOBAL_COMPO[681];
  Esclave_6.ActiverComposant(true);
- var Esclave_7=TAB_GLOBAL_COMPO[696];
+ var Esclave_7=TAB_GLOBAL_COMPO[682];
  Esclave_7.ActiverComposant(true);
 top.document.getElementById("Validate_Réglement_Liste_des_réglements0").disabled=false;
 top.document.getElementById("Annuler_Réglement_Liste_des_réglements0").disabled=false;
 top.document.getElementById("Insert_Réglement_Liste_des_réglements0").disabled=true;
 top.document.getElementById("Delete_Réglement_Liste_des_réglements0").disabled=true;
 top.document.getElementById("Update_Réglement_Liste_des_réglements0").disabled=true;
- var Maitre=TAB_GLOBAL_COMPO[684];
+ var Maitre=TAB_GLOBAL_COMPO[670];
  /* Pour une insertion on désectionne */
  var tree=Maitre.getComposantXul();
  if (tree.view!=null)
@@ -573,21 +573,21 @@ top.document.getElementById("Update_Réglement_Liste_des_réglements0").disabled=t
          tree.currentIndex=-1;
          tree.view.selection.clearSelection();
  }
-return TAB_COMPO_PPTES[684].NewCle;
+return TAB_COMPO_PPTES[670].NewCle;
 }
 
 function Delete_Réglement_Liste_des_réglements0()
 {
- if (TAB_GLOBAL_COMPO[684].getCleVal()==-1)
+ if (TAB_GLOBAL_COMPO[670].getCleVal()==-1)
  {
          alert("Vous devez sélectionner l'enregistrement à supprimer");
          return;
  }
  /* On recupère le composant maitre  */
- var Maitre=TAB_GLOBAL_COMPO[684];
+ var Maitre=TAB_GLOBAL_COMPO[670];
  if (confirm("Voulez vous vraiment supprimer l'enregistrement en cours ?"))
  {
-        TAB_COMPO_PPTES[684].Action_en_cours = DELETE;
+        TAB_COMPO_PPTES[670].Action_en_cours = DELETE;
          User_Delete_Réglement_Liste_des_réglements0(Maitre);
         Maitre.RefreshTotal();
  }
@@ -595,39 +595,39 @@ function Delete_Réglement_Liste_des_réglements0()
 
 function Update_Réglement_Liste_des_réglements0()
 {
- if (TAB_GLOBAL_COMPO[684].getCleVal()==-1)
+ if (TAB_GLOBAL_COMPO[670].getCleVal()==-1)
  {
          alert("Vous devez selectionner l'enregistrement à mettre à jour");
          return -1;
  }
- TAB_COMPO_PPTES[684].Action_en_cours = UPDATE;
+ TAB_COMPO_PPTES[670].Action_en_cours = UPDATE;
 /* On calcule la nouvelle clé */
- TAB_COMPO_PPTES[684].NewCle = TAB_GLOBAL_COMPO[684].getCleVal();
+ TAB_COMPO_PPTES[670].NewCle = TAB_GLOBAL_COMPO[670].getCleVal();
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[684].ActiverComposant(false,true);
+ TAB_GLOBAL_COMPO[670].ActiverComposant(false,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[689];
+ var Esclave_0=TAB_GLOBAL_COMPO[675];
  Esclave_0.ActiverComposant(true);
- var Esclave_1=TAB_GLOBAL_COMPO[690];
+ var Esclave_1=TAB_GLOBAL_COMPO[676];
  Esclave_1.ActiverComposant(true);
- var Esclave_2=TAB_GLOBAL_COMPO[691];
+ var Esclave_2=TAB_GLOBAL_COMPO[677];
  Esclave_2.ActiverComposant(true);
- var Esclave_3=TAB_GLOBAL_COMPO[692];
+ var Esclave_3=TAB_GLOBAL_COMPO[678];
  Esclave_3.ActiverComposant(true);
- var Esclave_4=TAB_GLOBAL_COMPO[693];
+ var Esclave_4=TAB_GLOBAL_COMPO[679];
  Esclave_4.ActiverComposant(true);
- var Esclave_5=TAB_GLOBAL_COMPO[694];
+ var Esclave_5=TAB_GLOBAL_COMPO[680];
  Esclave_5.ActiverComposant(true);
- var Esclave_6=TAB_GLOBAL_COMPO[695];
+ var Esclave_6=TAB_GLOBAL_COMPO[681];
  Esclave_6.ActiverComposant(true);
- var Esclave_7=TAB_GLOBAL_COMPO[696];
+ var Esclave_7=TAB_GLOBAL_COMPO[682];
  Esclave_7.ActiverComposant(true);
 top.document.getElementById("Validate_Réglement_Liste_des_réglements0").disabled=false;
 top.document.getElementById("Annuler_Réglement_Liste_des_réglements0").disabled=false;
 top.document.getElementById("Insert_Réglement_Liste_des_réglements0").disabled=true;
 top.document.getElementById("Delete_Réglement_Liste_des_réglements0").disabled=true;
 top.document.getElementById("Update_Réglement_Liste_des_réglements0").disabled=true;
-return TAB_COMPO_PPTES[684].NewCle;
+return TAB_COMPO_PPTES[670].NewCle;
 }
 
 function Validate_Réglement_Liste_des_réglements0(retour)
@@ -637,10 +637,10 @@ if (retour==null)
         retour=true;
 
  /* On recupère le composant maitre  */
- var Maitre=TAB_GLOBAL_COMPO[684];
+ var Maitre=TAB_GLOBAL_COMPO[670];
  /* On recupère la clé du nouvel enregistrement */
  var NewCle=null;
- switch(TAB_COMPO_PPTES[684].Action_en_cours){
+ switch(TAB_COMPO_PPTES[670].Action_en_cours){
         case INSERT :
         if ((NewCle = User_Insert_Réglement_Liste_des_réglements0(Maitre))==-1)
                 return -1;
@@ -667,23 +667,23 @@ if (retour==null)
         Maitre.Union(ReqNewCle);
  }
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[684].ActiverComposant(true,true);
+ TAB_GLOBAL_COMPO[670].ActiverComposant(true,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[689];
+ var Esclave_0=TAB_GLOBAL_COMPO[675];
  Esclave_0.ActiverComposant(false);
- var Esclave_1=TAB_GLOBAL_COMPO[690];
+ var Esclave_1=TAB_GLOBAL_COMPO[676];
  Esclave_1.ActiverComposant(false);
- var Esclave_2=TAB_GLOBAL_COMPO[691];
+ var Esclave_2=TAB_GLOBAL_COMPO[677];
  Esclave_2.ActiverComposant(false);
- var Esclave_3=TAB_GLOBAL_COMPO[692];
+ var Esclave_3=TAB_GLOBAL_COMPO[678];
  Esclave_3.ActiverComposant(false);
- var Esclave_4=TAB_GLOBAL_COMPO[693];
+ var Esclave_4=TAB_GLOBAL_COMPO[679];
  Esclave_4.ActiverComposant(false);
- var Esclave_5=TAB_GLOBAL_COMPO[694];
+ var Esclave_5=TAB_GLOBAL_COMPO[680];
  Esclave_5.ActiverComposant(false);
- var Esclave_6=TAB_GLOBAL_COMPO[695];
+ var Esclave_6=TAB_GLOBAL_COMPO[681];
  Esclave_6.ActiverComposant(false);
- var Esclave_7=TAB_GLOBAL_COMPO[696];
+ var Esclave_7=TAB_GLOBAL_COMPO[682];
  Esclave_7.ActiverComposant(false);
 top.document.getElementById("Validate_Réglement_Liste_des_réglements0").disabled=true;
 top.document.getElementById("Annuler_Réglement_Liste_des_réglements0").disabled=true;
@@ -691,37 +691,37 @@ top.document.getElementById("Insert_Réglement_Liste_des_réglements0").disabled=f
 top.document.getElementById("Delete_Réglement_Liste_des_réglements0").disabled=false;
 top.document.getElementById("Update_Réglement_Liste_des_réglements0").disabled=false;
  if (NewCle==null)
-         NewCle=TAB_COMPO_PPTES[684].NewCle;
+         NewCle=TAB_COMPO_PPTES[670].NewCle;
  Maitre.ForceNextSelection(NewCle)
  Maitre.RefreshTotal();
  if(retour)
  {
  }
- TAB_COMPO_PPTES[684].Action_en_cours = null;
+ TAB_COMPO_PPTES[670].Action_en_cours = null;
  return NewCle;
 }
 
 function Annuler_Réglement_Liste_des_réglements0()
 {
- TAB_COMPO_PPTES[684].Action_en_cours = null;
+ TAB_COMPO_PPTES[670].Action_en_cours = null;
 /* On désactive le composant maitre */
- TAB_GLOBAL_COMPO[684].ActiverComposant(true,true);
+ TAB_GLOBAL_COMPO[670].ActiverComposant(true,true);
 /* On active les composants esclaves et on vide les champs */
- var Esclave_0=TAB_GLOBAL_COMPO[689];
+ var Esclave_0=TAB_GLOBAL_COMPO[675];
  Esclave_0.ActiverComposant(false);
- var Esclave_1=TAB_GLOBAL_COMPO[690];
+ var Esclave_1=TAB_GLOBAL_COMPO[676];
  Esclave_1.ActiverComposant(false);
- var Esclave_2=TAB_GLOBAL_COMPO[691];
+ var Esclave_2=TAB_GLOBAL_COMPO[677];
  Esclave_2.ActiverComposant(false);
- var Esclave_3=TAB_GLOBAL_COMPO[692];
+ var Esclave_3=TAB_GLOBAL_COMPO[678];
  Esclave_3.ActiverComposant(false);
- var Esclave_4=TAB_GLOBAL_COMPO[693];
+ var Esclave_4=TAB_GLOBAL_COMPO[679];
  Esclave_4.ActiverComposant(false);
- var Esclave_5=TAB_GLOBAL_COMPO[694];
+ var Esclave_5=TAB_GLOBAL_COMPO[680];
  Esclave_5.ActiverComposant(false);
- var Esclave_6=TAB_GLOBAL_COMPO[695];
+ var Esclave_6=TAB_GLOBAL_COMPO[681];
  Esclave_6.ActiverComposant(false);
- var Esclave_7=TAB_GLOBAL_COMPO[696];
+ var Esclave_7=TAB_GLOBAL_COMPO[682];
  Esclave_7.ActiverComposant(false);
 top.document.getElementById("Validate_Réglement_Liste_des_réglements0").disabled=true;
 top.document.getElementById("Annuler_Réglement_Liste_des_réglements0").disabled=true;
@@ -908,8 +908,8 @@ Compo_Personnes_Liste_des_personnes0.GenererXUL(top.document.getElementById("Per
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 662*/
-top.TAB_GLOBAL_COMPO[662]=Compo_Personnes_Liste_des_personnes0;
+	/* On l'ajoute au tableau global à l'indice 648*/
+top.TAB_GLOBAL_COMPO[648]=Compo_Personnes_Liste_des_personnes0;
 
 	/* Ce composant représente: des éléments de la table personne sous le nom "Numéro" */
  if(ALeDroit(0,"personne"))
@@ -918,8 +918,8 @@ Compo_Personnes_Numéro_1.GenererXUL(top.document.getElementById("Personnes_Liste
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 667*/
-top.TAB_GLOBAL_COMPO[667]=Compo_Personnes_Numéro_1;
+	/* On l'ajoute au tableau global à l'indice 653*/
+top.TAB_GLOBAL_COMPO[653]=Compo_Personnes_Numéro_1;
 
 	/* Ce composant représente: des éléments de la table naturepersonne sous le nom "Titre ou F.J." */
  if(ALeDroit(0,"naturepersonne"))
@@ -928,8 +928,8 @@ Compo_Personnes_Titre_ou_F_J__2.GenererXUL(top.document.getElementById("Personne
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 668*/
-top.TAB_GLOBAL_COMPO[668]=Compo_Personnes_Titre_ou_F_J__2;
+	/* On l'ajoute au tableau global à l'indice 654*/
+top.TAB_GLOBAL_COMPO[654]=Compo_Personnes_Titre_ou_F_J__2;
 
 	/* Ce composant représente: des éléments de la table personne sous le nom "Nom ou D.S." */
  if(ALeDroit(0,"personne"))
@@ -938,8 +938,8 @@ Compo_Personnes_Nom_ou_D_S__3.GenererXUL(top.document.getElementById("Personnes_
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 669*/
-top.TAB_GLOBAL_COMPO[669]=Compo_Personnes_Nom_ou_D_S__3;
+	/* On l'ajoute au tableau global à l'indice 655*/
+top.TAB_GLOBAL_COMPO[655]=Compo_Personnes_Nom_ou_D_S__3;
 
 	/* Ce composant représente: des éléments de la table personne sous le nom "Prénom" */
  if(ALeDroit(0,"personne"))
@@ -948,8 +948,8 @@ Compo_Personnes_Prénom_4.GenererXUL(top.document.getElementById("Personnes_Liste
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 670*/
-top.TAB_GLOBAL_COMPO[670]=Compo_Personnes_Prénom_4;
+	/* On l'ajoute au tableau global à l'indice 656*/
+top.TAB_GLOBAL_COMPO[656]=Compo_Personnes_Prénom_4;
 
 	/* Ce composant représente: des éléments de la table personne sous le nom "N°TVA intrac." */
  if(ALeDroit(0,"personne"))
@@ -958,8 +958,8 @@ Compo_Personnes_N_TVA_intrac__5.GenererXUL(top.document.getElementById("Personne
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 671*/
-top.TAB_GLOBAL_COMPO[671]=Compo_Personnes_N_TVA_intrac__5;
+	/* On l'ajoute au tableau global à l'indice 657*/
+top.TAB_GLOBAL_COMPO[657]=Compo_Personnes_N_TVA_intrac__5;
 
 	/* Ce composant représente: des éléments de la table personne sous le nom "Né(e) le" */
  if(ALeDroit(0,"personne"))
@@ -968,8 +968,8 @@ Compo_Personnes_Né_e__le_6.GenererXUL(top.document.getElementById("Personnes_Lis
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 672*/
-top.TAB_GLOBAL_COMPO[672]=Compo_Personnes_Né_e__le_6;
+	/* On l'ajoute au tableau global à l'indice 658*/
+top.TAB_GLOBAL_COMPO[658]=Compo_Personnes_Né_e__le_6;
 
 	/* Ce composant représente: adresse.undefined sous le nom "Adresses" */
  if(ALeDroit(0,"adresse"))
@@ -978,8 +978,8 @@ Compo_Personnes_Adresses_7.GenererXUL(top.document.getElementById("Personnes_Adr
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 673*/
-top.TAB_GLOBAL_COMPO[673]=Compo_Personnes_Adresses_7;
+	/* On l'ajoute au tableau global à l'indice 659*/
+top.TAB_GLOBAL_COMPO[659]=Compo_Personnes_Adresses_7;
 
 	/* Ce composant représente: des éléments de la table typeadresse sous le nom "Type" */
  if(ALeDroit(0,"typeadresse"))
@@ -988,8 +988,8 @@ Compo_Personnes_Type_8.GenererXUL(top.document.getElementById("Personnes_Adresse
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 677*/
-top.TAB_GLOBAL_COMPO[677]=Compo_Personnes_Type_8;
+	/* On l'ajoute au tableau global à l'indice 663*/
+top.TAB_GLOBAL_COMPO[663]=Compo_Personnes_Type_8;
 
 	/* Ce composant représente: des éléments de la table adresse sous le nom "Apt ou Dest." */
  if(ALeDroit(0,"adresse"))
@@ -998,8 +998,8 @@ Compo_Personnes_Apt_ou_Dest__9.GenererXUL(top.document.getElementById("Personnes
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 678*/
-top.TAB_GLOBAL_COMPO[678]=Compo_Personnes_Apt_ou_Dest__9;
+	/* On l'ajoute au tableau global à l'indice 664*/
+top.TAB_GLOBAL_COMPO[664]=Compo_Personnes_Apt_ou_Dest__9;
 
 	/* Ce composant représente: des éléments de la table adresse sous le nom "Bat, étage..." */
  if(ALeDroit(0,"adresse"))
@@ -1008,8 +1008,8 @@ Compo_Personnes_Bat__étage____10.GenererXUL(top.document.getElementById("Personn
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 679*/
-top.TAB_GLOBAL_COMPO[679]=Compo_Personnes_Bat__étage____10;
+	/* On l'ajoute au tableau global à l'indice 665*/
+top.TAB_GLOBAL_COMPO[665]=Compo_Personnes_Bat__étage____10;
 
 	/* Ce composant représente: des éléments de la table adresse sous le nom "N° et Voie" */
  if(ALeDroit(0,"adresse"))
@@ -1018,8 +1018,8 @@ Compo_Personnes_N__et_Voie_11.GenererXUL(top.document.getElementById("Personnes_
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 680*/
-top.TAB_GLOBAL_COMPO[680]=Compo_Personnes_N__et_Voie_11;
+	/* On l'ajoute au tableau global à l'indice 666*/
+top.TAB_GLOBAL_COMPO[666]=Compo_Personnes_N__et_Voie_11;
 
 	/* Ce composant représente: des éléments de la table adresse sous le nom "BP ou Lieu-dit" */
  if(ALeDroit(0,"adresse"))
@@ -1028,8 +1028,8 @@ Compo_Personnes_BP_ou_Lieu_dit_12.GenererXUL(top.document.getElementById("Person
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 681*/
-top.TAB_GLOBAL_COMPO[681]=Compo_Personnes_BP_ou_Lieu_dit_12;
+	/* On l'ajoute au tableau global à l'indice 667*/
+top.TAB_GLOBAL_COMPO[667]=Compo_Personnes_BP_ou_Lieu_dit_12;
 
 	/* Ce composant représente: des éléments de la table codepostal sous le nom "Code postal" */
 var Joint_Filtre_CP_Personne=new clJointureMulti("codepostal",
@@ -1043,8 +1043,8 @@ Compo_Personnes_Code_postal_13.GenererXUL(top.document.getElementById("Personnes
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 682*/
-top.TAB_GLOBAL_COMPO[682]=Compo_Personnes_Code_postal_13;
+	/* On l'ajoute au tableau global à l'indice 668*/
+top.TAB_GLOBAL_COMPO[668]=Compo_Personnes_Code_postal_13;
 
 	/* Ce composant représente: des éléments de la table ville sous le nom "Ville" */
 var Joint_Filtre_Ville_Personne=new clJointureMulti("ville",
@@ -1058,8 +1058,8 @@ Compo_Personnes_Ville_14.GenererXUL(top.document.getElementById("Personnes_Adres
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 683*/
-top.TAB_GLOBAL_COMPO[683]=Compo_Personnes_Ville_14;
+	/* On l'ajoute au tableau global à l'indice 669*/
+top.TAB_GLOBAL_COMPO[669]=Compo_Personnes_Ville_14;
 var Col_N0_N_Reg__De_Réglement_Liste_des_réglements0=new clAttribut("rg_numero","reglement",null);
 
 var Col_N1_N_Pers__De_Réglement_Liste_des_réglements0=new clAttribut("pe_numero","reglement",null);
@@ -1150,8 +1150,8 @@ Compo_Réglement_Liste_des_réglements0.GenererXUL(top.document.getElementById("Ré
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 684*/
-top.TAB_GLOBAL_COMPO[684]=Compo_Réglement_Liste_des_réglements0;
+	/* On l'ajoute au tableau global à l'indice 670*/
+top.TAB_GLOBAL_COMPO[670]=Compo_Réglement_Liste_des_réglements0;
 
 	/* Ce composant représente: des éléments de la table personne sous le nom "Personne" */
  if(ALeDroit(0,"personne"))
@@ -1160,8 +1160,8 @@ Compo_Réglement_Personne_1.GenererXUL(top.document.getElementById("Réglement_Lis
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 689*/
-top.TAB_GLOBAL_COMPO[689]=Compo_Réglement_Personne_1;
+	/* On l'ajoute au tableau global à l'indice 675*/
+top.TAB_GLOBAL_COMPO[675]=Compo_Réglement_Personne_1;
 
 	/* Ce composant représente: des éléments de la table reglement sous le nom "Date" */
  if(ALeDroit(0,"reglement"))
@@ -1170,8 +1170,8 @@ Compo_Réglement_Date_2.GenererXUL(top.document.getElementById("Réglement_Liste_d
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 690*/
-top.TAB_GLOBAL_COMPO[690]=Compo_Réglement_Date_2;
+	/* On l'ajoute au tableau global à l'indice 676*/
+top.TAB_GLOBAL_COMPO[676]=Compo_Réglement_Date_2;
 
 	/* Ce composant représente: des éléments de la table reglement sous le nom "Montant" */
  if(ALeDroit(0,"reglement"))
@@ -1180,8 +1180,8 @@ Compo_Réglement_Montant_3.GenererXUL(top.document.getElementById("Réglement_List
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 691*/
-top.TAB_GLOBAL_COMPO[691]=Compo_Réglement_Montant_3;
+	/* On l'ajoute au tableau global à l'indice 677*/
+top.TAB_GLOBAL_COMPO[677]=Compo_Réglement_Montant_3;
 
 	/* Ce composant représente: des éléments de la table modereglement sous le nom "Mode" */
  if(ALeDroit(0,"modereglement"))
@@ -1190,8 +1190,8 @@ Compo_Réglement_Mode_4.GenererXUL(top.document.getElementById("Réglement_Liste_d
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 692*/
-top.TAB_GLOBAL_COMPO[692]=Compo_Réglement_Mode_4;
+	/* On l'ajoute au tableau global à l'indice 678*/
+top.TAB_GLOBAL_COMPO[678]=Compo_Réglement_Mode_4;
 
 	/* Ce composant représente: des éléments de la table reglement sous le nom "Banque" */
  if(ALeDroit(0,"reglement"))
@@ -1200,8 +1200,8 @@ Compo_Réglement_Banque_5.GenererXUL(top.document.getElementById("Réglement_Liste
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 693*/
-top.TAB_GLOBAL_COMPO[693]=Compo_Réglement_Banque_5;
+	/* On l'ajoute au tableau global à l'indice 679*/
+top.TAB_GLOBAL_COMPO[679]=Compo_Réglement_Banque_5;
 
 	/* Ce composant représente: des éléments de la table reglement sous le nom "N° compte" */
  if(ALeDroit(0,"reglement"))
@@ -1210,8 +1210,8 @@ Compo_Réglement_N__compte_6.GenererXUL(top.document.getElementById("Réglement_Li
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 694*/
-top.TAB_GLOBAL_COMPO[694]=Compo_Réglement_N__compte_6;
+	/* On l'ajoute au tableau global à l'indice 680*/
+top.TAB_GLOBAL_COMPO[680]=Compo_Réglement_N__compte_6;
 
 	/* Ce composant représente: des éléments de la table reglement sous le nom "Référence" */
  if(ALeDroit(0,"reglement"))
@@ -1220,8 +1220,8 @@ Compo_Réglement_Référence_7.GenererXUL(top.document.getElementById("Réglement_Li
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 695*/
-top.TAB_GLOBAL_COMPO[695]=Compo_Réglement_Référence_7;
+	/* On l'ajoute au tableau global à l'indice 681*/
+top.TAB_GLOBAL_COMPO[681]=Compo_Réglement_Référence_7;
 
 	/* Ce composant représente: des éléments de la table vue_employe_reglement sous le nom "Responsable" */
  if(ALeDroit(0,"vue_employe_reglement"))
@@ -1230,12 +1230,12 @@ Compo_Réglement_Responsable_8.GenererXUL(top.document.getElementById("Réglement_
 
  }
 
-	/* On l'ajoute au tableau global à l'indice 696*/
-top.TAB_GLOBAL_COMPO[696]=Compo_Réglement_Responsable_8;
+	/* On l'ajoute au tableau global à l'indice 682*/
+top.TAB_GLOBAL_COMPO[682]=Compo_Réglement_Responsable_8;
  if(ALeDroit(5,"personne"))
  {
 /* On refresh les composants non dépendents de l'onget Personnes*/
-var Composant_0 = TAB_GLOBAL_COMPO[662];
+var Composant_0 = TAB_GLOBAL_COMPO[648];
 if (Composant_0!=null){
 Composant_0.ActiverComposant(true);
 Composant_0.Refresh();
@@ -1327,7 +1327,7 @@ if (nb_button==0)
  if(ALeDroit(5,"reglement"))
  {
 /* On refresh les composants non dépendents de l'onget Réglement*/
-var Composant_0 = TAB_GLOBAL_COMPO[684];
+var Composant_0 = TAB_GLOBAL_COMPO[670];
 if (Composant_0!=null){
 Composant_0.ActiverComposant(true);
 Composant_0.Refresh();

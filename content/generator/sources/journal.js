@@ -1,7 +1,7 @@
 /* -*- Mode: Java; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2; coding: latin-1 -*- */
 
 function journal_alert(x){
-    	//    alert(x);
+  // alert(x);
 }
 
 function CodeInJournal(centre){
@@ -26,7 +26,7 @@ function CodeInJournal(centre){
      ****************************/
     
     var It_Personne,Maitre_Personne;
-    var PersonneContact, PersonneObservation, PersonneCotisation, PersonneResponsabilite, PersonneProduction, PersonneAbonConseil, PersonneAdresse, PersonneVente, PersonneDossier;
+/*    var PersonneContact, PersonneObservation, PersonneCotisation, PersonneResponsabilite, PersonneProduction, PersonneAbonConseil, PersonneAdresse, PersonneVente, PersonneDossier;*/
 
 
     It_Personne = new clInterfaceSimple("Personnes");
@@ -38,7 +38,7 @@ function CodeInJournal(centre){
     
     //    It_Personne.AjouterComposantSimple("N° Adhérent", "pe_numpersonne",null,null,LABEL);
     It_Personne.AjouterComposantSimple("Numéro","pe_id",null,null,LABEL);
-    It_Personne.AjouterComposantSimple("Titre ou F.J.","np_libelle",new Array("np_numero","np_numero","naturepersonne"),null,LISTE_DEROULANTE);
+    It_Personne.AjouterComposantSimple("Titre ou F.J.","np_libelle", ["np_numero", "np_numero", "naturepersonne"], null, LISTE_DEROULANTE);
     It_Personne.AjouterComposantSimple("Nom ou D.S.","pe_nom");
     It_Personne.AjouterComposantSimple("Prénom","pe_prenom");
     It_Personne.AjouterComposantSimple("N°TVA intrac.","pe_numtvaic");
@@ -56,7 +56,7 @@ function CodeInJournal(centre){
 
     //***********************
     // COTISATIONS
-    PersonneCotisation = It_Personne.AjouterComposantComplexe("Cotisations",new Array("pe_numero","pe_numero","vue_cotisation"));
+    PersonneCotisation = It_Personne.AjouterComposantComplexe("Cotisations", ["pe_numero", "pe_numero", "vue_cotisation"]);
     PersonneCotisation.AjouterColonne("Année","cs_annee");
     PersonneCotisation.AjouterColonne("Type","cs_type");
     PersonneCotisation.AjouterColonne("FDSEA","cs_fdsea");
@@ -67,7 +67,7 @@ function CodeInJournal(centre){
 
     //***********************
     // ADRESSE
-    PersonneAdresse = It_Personne.AjouterComposantComplexe("Adresses", new Array("pe_numero","pe_numero","adresse"));
+    PersonneAdresse = It_Personne.AjouterComposantComplexe("Adresses", ["pe_numero","pe_numero","adresse"]);
 
     PersonneAdresse.AjouterColonne("Déf.","ad_def");
 //    PersonneAdresse.AjouterColonne("Apt ou Destinataire","ad_ligne2");
@@ -122,41 +122,7 @@ function CodeInJournal(centre){
     CodeInit_Ville+='Filtre_Ville_Personne.setComposant(Compo_'+PersonneAdresseCodepostal.getNom_()+',Joint_Filtre_Ville_Personne);\n';
     PersonneAdresseVille.CodeUserOnInit=CodeInit_Ville;
     
-    
-    /*
-
-    TypeAdresse = It_Adresse.AjouterComposantSimple("Type","ad_type",null,null,LISTE_DEROULANTE_STATIC,null,new Array("DEFAUT","COURRIER","PERSONNELLE","PROFESSIONNELLE"));
-    
-    AdresseCodepostal = It_Adresse.AjouterComposantSimple("Code postal", "cp_codepostal", new Array("cp_numero","cp_numero","codepostal"),null,LISTE_DEROULANTE); 
-    AdresseVille      = It_Adresse.AjouterComposantSimple("Ville", "vi_nom", new Array("vi_numero","vi_numero","ville"),null,LISTE_DEROULANTE);
-
-    // event user 
-    Maitre_Adresse.OnModeInsert=ComposantDansCode(TypeAdresse)+'.my_CompoXUL.value="DEFAUT";\n';
-    
-    // Filtre perso (on filtre les Communes par rapport aux CP)
-    AdresseCodepostal.getTheme().AddFiltre('Filtre_CP_Personne=new clInterfaceFiltrageContenuHautBas()');
-    // Filtre perso (on filtre les CP par rapport aux Communes)
-    AdresseVille.getTheme().AddFiltre('Filtre_Ville_Personne=new clInterfaceFiltrageContenuHautBas(Filtre_CP_Personne)');
-    
-    var CodeInit_CP='';
-    CodeInit_CP+='var Joint_Filtre_CP_Personne=new clJointureMulti("codepostal",\n';
-    CodeInit_CP+='	new Array(\n';
-    CodeInit_CP+='		new stJointure("villecp","cp_numero","cp_numero",null,false),\n';
-    CodeInit_CP+='		new stJointure("ville","vi_numero","vi_numero",null,false)));\n';
-    CodeInit_CP+='Filtre_CP_Personne.setComposant(Compo_'+AdresseVille.getNom_()+',Joint_Filtre_CP_Personne);\n';
-    AdresseCodepostal.CodeUserOnInit=CodeInit_CP;
-    
-    var CodeInit_Ville='';
-    CodeInit_Ville+='var Joint_Filtre_Ville_Personne=new clJointureMulti("ville",\n';
-    CodeInit_Ville+='	new Array(\n';
-    CodeInit_Ville+='		new stJointure("villecp","vi_numero","vi_numero",null,false),\n';
-    CodeInit_Ville+='		new stJointure("codepostal","cp_numero","cp_numero",null,false)));\n';
-    CodeInit_Ville+='Filtre_Ville_Personne.setComposant(Compo_'+AdresseCodepostal.getNom_()+',Joint_Filtre_Ville_Personne);\n';
-    AdresseVille.CodeUserOnInit=CodeInit_Ville;
-
-    */
-
-    
+        
     
 
     //***********************
@@ -167,21 +133,12 @@ function CodeInJournal(centre){
     PersonneEstjoignable.AjouterColonne("Type","ck_nom",new Array("ck_numero","ck_numero","contacttype"));
     PersonneEstjoignable.AjouterColonne("Coordonnée","cn_coordonnee");
     
-    //Filtrage OK
-    //    PersonneEstjoignable.getTheme().AddFiltre('Filtre_PersonneEstjoignable=new clInterfaceFiltragePermanantCustom("ej_actif=true")');
-    // AllIt.AjouterCodeUserLoad('Filtre_PersonneEstjoignable.setComposant(Compo_'+PersonneEstjoignable.getNom_()+');\n');
-
-    // Filtre perso
-    /*
-    PersonneEstjoignable.getTheme().AddFiltre('Filtre_EstJoignable=new clInterfaceFiltrageEnsXCustom(new Array("Fax","contact.cn_type = \'FAX\'","Tel","contact.cn_type = \'TELEPHONE\'","Portable","contact.cn_type = \'PORTABLE\'"))');
-    AllIt.AjouterCodeUserLoad('Filtre_EstJoignable.setComposant(Compo_'+PersonneEstjoignable.getNom_()+');\n');
-    */
     
     PersonneEstjoignable.AddMode(INSERTION);
     PersonneEstjoignable.AddMode(SUPPRESSION);
     PersonneEstjoignable.AddMode(MODIFICATION);
 
-    It_Personne.AjouterComposantSimple("Type","ck_nom",new Array("ck_numero","ck_numero","contacttype"),PersonneEstjoignable,LISTE_DEROULANTE);
+    It_Personne.AjouterComposantSimple("Type","ck_nom",new Array("ck_numero","ck_numero","contacttype"), PersonneEstjoignable, LISTE_DEROULANTE);
     It_Personne.AjouterComposantSimple("Coordonnée","cn_coordonnee",null,PersonneEstjoignable);
 /*    
     PersonneEstjoignable.OnModeInsert= ComposantDansCode(PersonneEstjoignableActif)+'.my_CompoXUL.value=true;\n';
@@ -200,8 +157,8 @@ function CodeInJournal(centre){
     PersonneAttribut.AddMode(SUPPRESSION);
     PersonneAttribut.AddMode(MODIFICATION);
 
-    PersonneAttributTypeattribut = It_Personne.AjouterComposantSimple("Attribut","ta_nom",new Array("ta_numero","ta_numero","typeattribut"),PersonneAttribut,LISTE_DEROULANTE);
-    PersonneAttributCategorie    = It_Personne.AjouterComposantSimple("Valeur","cr_libelle",new Array("cr_numero","cr_numero","categorie"),PersonneAttribut,LISTE_DEROULANTE);
+    PersonneAttributTypeattribut = It_Personne.AjouterComposantSimple("Attribut","ta_nom",new Array("ta_numero","ta_numero","typeattribut"), PersonneAttribut,LISTE_DEROULANTE);
+    PersonneAttributCategorie    = It_Personne.AjouterComposantSimple("Valeur","cr_libelle",new Array("cr_numero","cr_numero","categorie"), PersonneAttribut, LISTE_DEROULANTE);
     It_Personne.AjouterComposantSimple("Détail","at_valeur",null,PersonneAttribut,null,null,null,true);    
 
 
@@ -252,7 +209,6 @@ function CodeInJournal(centre){
 
     It_Routage = new clInterfaceSimple("Routage");
 
-    It_Routage.AjouterBouton("Changer le numéro du journal...","ChangerNumeroJournal",ComposantDansCode(Maitre_Routage));
 
     Maitre_Routage = It_Routage.AjouterMaitre("Liste des routages","vue_current_routage");
     Maitre_Routage.AjouterColonne("N°Journal","rc_numero");
@@ -267,6 +223,8 @@ function CodeInJournal(centre){
     Maitre_Routage.AjouterColonne("Ville","rc_burd");
     Maitre_Routage.AjouterColonne("Nb. Ex.","rc_nbex");
 
+    It_Routage.AjouterBouton("Changer le numéro du journal...","ChangerNumeroJournal",ComposantDansCode(Maitre_Routage));
+
 
     journal_alert("Routage...OK!");
 
@@ -277,9 +235,6 @@ function CodeInJournal(centre){
     var It_RelanceJournal, Maitre_RelanceJournal;
 
     It_RelanceJournal = new clInterfaceSimple("Relances");
-
-    It_RelanceJournal.AjouterBouton("Nombre de numéros passés","ChangerNombrePasses","");
-    It_RelanceJournal.AjouterBouton("Nombre de numéros futurs","ChangerNombreFuturs","");
 
     Maitre_RelanceJournal = It_RelanceJournal.AjouterMaitre("Liste des relances","vue_current_relance");
     Maitre_RelanceJournal.AjouterColonne("Niveau","rl_niveau");
@@ -297,6 +252,9 @@ function CodeInJournal(centre){
     Maitre_RelanceJournal.AjouterColonne("Téléphone","rl_telephone");
     Maitre_RelanceJournal.AjouterColonne("Portable","rl_portable");
 
+    It_RelanceJournal.AjouterBouton("Nombre de numéros passés","ChangerNombrePasses","");
+    It_RelanceJournal.AjouterBouton("Nombre de numéros futurs","ChangerNombreFuturs","");
+
     journal_alert("RelanceJournal...OK!");
 
 
@@ -308,7 +266,7 @@ function CodeInJournal(centre){
 
     It_RelanceAdherentJournal = new clInterfaceSimple("Relances des adhérents");
 
-    Maitre_RelanceAdherentJournal = It_RelanceAdherentJournal.AjouterMaitre("Liste des relances adhérents","vue_current_relance_adherent");
+    Maitre_RelanceAdherentJournal = It_RelanceAdherentJournal.AjouterMaitre("Liste des relances adhérents", "vue_current_relance_adherent");
     Maitre_RelanceAdherentJournal.AjouterColonne("N°Client","pe_numero");
     Maitre_RelanceAdherentJournal.AjouterColonne("Titre","pe_titre");
     Maitre_RelanceAdherentJournal.AjouterColonne("Nom","pe_nom");
@@ -329,7 +287,7 @@ function CodeInJournal(centre){
     /*      EVALUATION DE CONSTRUCTION      */
     /****************************************/
     /*                                      */
-    eval(centre);
+    /*eval(centre);*/
     /*                                      */
     /****************************************/
 

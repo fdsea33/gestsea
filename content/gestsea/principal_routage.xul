@@ -2,64 +2,79 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://gestsea/skin/icons.css" type="text/css"?>
 
-<dialog  id="gestsea:routage" title="GestSEA - Saisie de groupe de routage" buttons="accept,cancel" onload="ro_start();" ondialogaccept="ro_valide(); return true;" ondialogcancel="return true;" orient="vertical" sizemode="normal" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<window id="gestsea:routage" title="GestSEA - Gérer les routages" buttons="accept,cancel" onload="ro_start();" orient="vertical" sizemode="normal" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script src="principal_routage.js"/>
-  <hbox style="padding:20px">
+  <box style="padding:0px" orient="vertical" flex="1">
     <groupbox>
-      <caption value="Router un groupe"/>
+      <caption label="Router par type de liens"/>
       <hbox align="center">
-	<label value="Groupe à router pour la facture N°"/>
-	<label id="r-facture"/>
-	<label value=":"/>
+        <label value="Groupe à router pour la facture N°"/>
+        <label id="r-facture"/>
+        <label value=":"/>
       </hbox>
       <hbox align="center">
-	<menulist id="r-typelien-menulist" flex="2" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content">
-	  <template>
-	    <menupopup>
-	      <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#tl_action" direct="rdf:http://www.mozilla.org/SQL-rdf#tl_direct" value="rdf:http://www.mozilla.org/SQL-rdf#tl_numero" />
-	    </menupopup>
-	  </template>
-	</menulist>
-	<label id="r-personne"/>
+        <label id="r-personne"/>
+        <menulist id="r-typelien-menulist" flex="2" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content">
+          <template>
+            <menupopup>
+              <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#tl_action" direct="rdf:http://www.mozilla.org/SQL-rdf#tl_direct" value="rdf:http://www.mozilla.org/SQL-rdf#tl_numero" />
+            </menupopup>
+          </template>
+        </menulist>
       </hbox>
       <!--
-	  <hbox align="center">
-	    <label value="Type d'attribut"/>
-	    <menulist editable="true" id="r-typeattribut-menulist" flex="2" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" oncommand="ro_charge_categorie(this.selectedItem.value);" onselect="ro_charge_categorie(this.selectedItem.value);">
-	      <template>
-		<menupopup>
-		  <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#ta_nom" value="rdf:http://www.mozilla.org/SQL-rdf#ta_numero"/>
-		</menupopup>
-	      </template>
-	    </menulist>
-	  </hbox>
-	  <hbox align="center">
-	    <label value="Catégorie"/>
-	    <menulist editable="true" id="r-categorie-menulist" flex="2" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" oncommand="ro_charge_detail(this.selectedItem.value);" onselect="ro_charge_detail(this.selectedItem.value);">
-	      <template>
-		<menupopup>
-		  <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#cr_libelle" value="rdf:http://www.mozilla.org/SQL-rdf#cr_numero"/>
-		</menupopup>
-	      </template>
-	    </menulist>
-	  </hbox>
-	  <label id="r-categorie-détail"/>
-	  -->
+          <hbox align="center">
+            <label value="Type d'attribut"/>
+            <menulist editable="true" id="r-typeattribut-menulist" flex="2" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" oncommand="ro_charge_categorie(this.selectedItem.value);" onselect="ro_charge_categorie(this.selectedItem.value);">
+              <template>
+                <menupopup>
+                  <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#ta_nom" value="rdf:http://www.mozilla.org/SQL-rdf#ta_numero"/>
+                </menupopup>
+              </template>
+            </menulist>
+          </hbox>
+          <hbox align="center">
+            <label value="Catégorie"/>
+            <menulist editable="true" id="r-categorie-menulist" flex="2" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" oncommand="ro_charge_detail(this.selectedItem.value);" onselect="ro_charge_detail(this.selectedItem.value);">
+              <template>
+                <menupopup>
+                  <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#cr_libelle" value="rdf:http://www.mozilla.org/SQL-rdf#cr_numero"/>
+                </menupopup>
+              </template>
+            </menulist>
+          </hbox>
+          <label id="r-categorie-détail"/>
+          -->
       <hbox align="center">
-	<label value="Du numéro"/>
-	<textbox flex="1" id="r-debut"/>
-	<label value=" au numero"/>
-	<textbox flex="1" id="r-fin"/>
+        <label value="Du numéro"/>
+        <textbox id="r-debut"/>
+        <label value=" au numero"/>
+        <textbox id="r-fin"/>
       </hbox>
+      <button label="Router" oncommand="ro_routage_create();"/>
     </groupbox>
 
     <groupbox orient="vertical">
-      <caption value="Modifier le numéros"/>
+      <caption label="Modifier les numéros"/>
       <label value="Filtrer sur :"/>
       <hbox>
         <checkbox id="r-filter-debut-checkbox" label="Début" check="false"/>
+        <menulist id="r-filter-debut-menulist">
+          <menupopup>
+            <menuitem label="=" value="="/>
+            <menuitem label="&gt;=" value="&gt;="/>
+            <menuitem label="&lt;=" value="&lt;="/>
+          </menupopup>
+        </menulist>
         <textbox id="r-filter-debut"/>
         <checkbox id="r-filter-fin-checkbox" label="Fin" check="false"/>
+        <menulist id="r-filter-fin-menulist">
+          <menupopup>
+            <menuitem label="=" value="="/>
+            <menuitem label="&gt;=" value="&gt;="/>
+            <menuitem label="&lt;=" value="&lt;="/>
+          </menupopup>
+        </menulist>
         <textbox id="r-filter-fin"/>
       </hbox>
       <label value="Nouvelles valeurs :"/>
@@ -69,9 +84,14 @@
         <checkbox id="r-new-fin-checkbox" label="Fin" check="false"/>
         <textbox id="r-new-fin"/>
       </hbox>
-
+      <button label="Modifier" oncommand="ro_routage_update();"/>
+      <button label="Supprimer (déconseillé)" oncommand="ro_routage_delete();"/>
     </groupbox>
 
 
-  </hbox>
-</dialog>
+  </box>
+  
+  <statusbar>
+    <statusbarpanel flex="1" id="last-query"/>
+  </statusbar>
+</window>

@@ -1,5 +1,6 @@
 /* -*- Mode: Java; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2; coding: latin-1 -*- */
 var FactureEnCours = 14;
+var CurrentCompo;
 var fa_numero;
 
 /*
@@ -78,12 +79,19 @@ function GroupeRoutage(compo) {
   compo.Refresh();
 }
 
+function GererRoutage(compo) {
+  CurrentCompo   = compo;
+  FactureEnCours = compo.getCleVal();
+	window.openDialog('principal_routage.xul', "showmore", "centerscreen,chrome,scrollbars,resizable=no");
+  compo.Refresh();
+}
+
 function SupprimeRoutage(compo)
 {
   FactureEnCours=compo.getCleVal();
   if (confirm("Etes-vous sûr(e) de vouloir supprimer tous les routages associés à cette facture ?")) {
-    compo.Refresh();
 	  pgsql_update("DELETE FROM routage WHERE fa_numero="+FactureEnCours+";");
+    compo.Refresh();
   }
 }
 

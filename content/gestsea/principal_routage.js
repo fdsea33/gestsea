@@ -1,5 +1,6 @@
 /* -*- Mode: Java; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2; coding: latin-1 -*- */
 function pgsql_query(query){ return opener.pgsql_query(query); }
+function pgsql_update(query){ return opener.pgsql_update(query); }
 
 function DeleteDataSource(object) {
   var sources=object.database.GetDataSources();
@@ -76,7 +77,7 @@ function ro_charge_detail(cr_num) {
   elem('c-detail').value=requete('SELECT count(*) AS nb FROM attribut WHERE cr_numero='+cr_num+';')+' personne(s) concernée(s)';
 }
 
-function ro_valide() {
+function ro_routage_create() {
   var tl = elem('r-typelien-menulist');
   var tl_num = tl.selectedItem.value;
   var direct = tl.selectedItem.getAttribute('direct');
@@ -86,6 +87,8 @@ function ro_valide() {
   if (total>0) {
     if (confirm('Il y a '+total+' personne(s) à ajouter au routage. Voulez-vous continuer ?')) {
       pgsql_query("SELECT FC_Route_par_lien("+opener.FactureEnCours+", "+tl_num+", "+direct+", '"+debut+"', '"+fin+"');");
+      opener.CurrentCompo.Refresh();
+      alert("Opération terminée");
     } else {
       alert('Aucune personne à ajouter au routage');
     }
@@ -97,6 +100,55 @@ function ro_valide() {
   */
   return true;
 }
+
+
+
+function ro_routage_update() {
+  if (confirm("Etes-vous sûr(e) de modifier ces routages ?")) {
+    var where = ro_where();
+    var attributes = ro_attributes();
+    elem('last-query').label = "UPDATE routage SET "+attributes+" WHERE fa_numero="+opener.FactureEnCours+" AND "+where+";";
+ 	  pgsql_update("UPDATE routage SET "+attributes+" WHERE fa_numero="+opener.FactureEnCours+" AND "+where+";");    
+    opener.CurrentCompo.Refresh();
+    alert('Routages mis à jour');
+  }  
+  return true;
+}
+
+function ro_routage_delete() {
+  if (confirm("Etes-vous sûr(e) de vouloir supprimer ces routages associés à cette facture ?")) {
+    var where = ro_where();
+ 	  pgsql_update("DELETE FROM routage WHERE fa_numero="+opener.FactureEnCours+" AND "+where+";");
+    opener.CurrentCompo.Refresh();
+    alert('Routages supprimés');
+  }
+  return true;
+}
+
+
+function ro_where() {
+  var where='true';
+  if (elem('r-filter-debut-checkbox').checked) {
+    where += ' AND ro_debutservice '+elem('r-filter-debut-menulist').selectedItem.value+' '+elem('r-filter-debut').value
+  }
+  if (elem('r-filter-fin-checkbox').checked) {
+    where += ' AND ro_finservice '+elem('r-filter-fin-menulist').selectedItem.value+' '+elem('r-filter-fin').value
+  }
+  return where;
+}
+
+function ro_attributes() {
+  var attributes = 'updated_at=current_timestamp';
+  if (elem('r-new-debut-checkbox').checked) {
+    attributes += ', ro_debutservice='+elem('r-new-debut').value
+  }
+  if (elem('r-new-fin-checkbox').checked) {
+    attributes += ', ro_finservice='+elem('r-new-fin').value
+  }
+  return attributes;
+}
+
+
 
 /*
 alert("OK c'est chargé au moins "+opener.location.pathname);
