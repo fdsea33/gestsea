@@ -1,4 +1,5 @@
--- CREATE LANGUAGE plpgsql;
+CREATE LANGUAGE 'plpgsql';
+
 
 CREATE OR REPLACE FUNCTION pgsql2xml() RETURNS TEXT AS 
 $$
