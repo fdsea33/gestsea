@@ -430,12 +430,12 @@ function CodeInPrincipal(centre){
     DevisDate = It_Devis.AjouterComposantSimple("Date","de_date");
     It_Devis.AjouterComposantSimple("Libellé","de_libelle");
     //    It_Devis.AjouterComposantSimple("Suivi par","ag_libelle",new Array("ag_numero","ag_numero","agent"),null,LISTE_DEROULANTE);
-    It_Devis.AjouterComposantSimple("Adresse de facturation (facultatif)","ad_libelle",new Array("ad_numero","ad_numero","adresse"),null,LISTE_DEROULANTE);
-    It_Devis.AjouterComposantSimple("Suivi par","em_libelle",new Array("em_numero","em_numero","vue_employe_devis"),null,LISTE_DEROULANTE);
+    It_Devis.AjouterComposantSimple("Adresse de facturation (facultatif)", "ad_libelle",  ["ad_numero", "ad_numero", "adresse"], null, LISTE_DEROULANTE);
+    It_Devis.AjouterComposantSimple("Suivi par", "em_libelle", ["em_numero", "em_numero", "vue_employe_devis"], null, LISTE_DEROULANTE);
 //    It_Devis.AjouterComposantSimple("Acompte à payer","de_acompte",null,null,CHECKBOX);
     It_Devis.AjouterComposantSimple("Devis sous forme de lettre","de_lettre",null,null,CHECKBOX);
     DevisCivilites = It_Devis.AjouterComposantSimple("Civilités","de_civilites");
-    DevisIntroduction = It_Devis.AjouterComposantSimple("Introduction de la lettre","de_introduction",null,null,null,null,null,true);
+    DevisIntroduction = It_Devis.AjouterComposantSimple("Introduction de la lettre", "de_introduction", null, null, null, null, null, true);
     
     Maitre_Devis.OnModeInsert='var ladate=new Date();\n';
     Maitre_Devis.OnModeInsert+='var today=ladate.getDate()+"/"+(ladate.getMonth()+1)+"/"+ladate.getFullYear();\n';
@@ -443,7 +443,7 @@ function CodeInPrincipal(centre){
     Maitre_Devis.OnModeInsert+=ComposantDansCode(DevisCivilites)+'.my_CompoXUL.value="Chère Madame, Cher Monsieur";\n';
     Maitre_Devis.OnModeInsert+=ComposantDansCode(DevisIntroduction)+'.my_CompoXUL.value="Suite à notre conversation, je vous communique les éléments du devis concernant mon intervention sur le dossier de ";\n';
 
-    DevisLigne = It_Devis.AjouterComposantComplexe("Lignes du devis",new Array("de_numero","de_numero","ligne"));
+    DevisLigne = It_Devis.AjouterComposantComplexe("Lignes du devis", ["de_numero", "de_numero", "ligne"]);
     DevisLigne.AjouterColonne("Produit","pd_libelle",new Array("pd_numero","pd_numero","produit"));
     DevisLigne.AjouterColonne("Qté.","l_quantite");
     DevisLigne.AjouterColonne("Montant HT","l_montantht");
