@@ -9,6 +9,9 @@
 #include "fmgr.h"
 #include "blog.h"
 
+#ifdef PG_MODULE_MAGIC
+PG_MODULE_MAGIC;
+#endif
 
 Datum execution(PG_FUNCTION_ARGS);
 Datum writefile(PG_FUNCTION_ARGS);
