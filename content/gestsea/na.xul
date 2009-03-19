@@ -6,7 +6,7 @@
 
 <window	id="gestsea-na" 
         title="GestSEA Enregistrement des Non Adhérents" 
-        onload="na_onload()" orient="vertical" sizemode="maximized" 
+        onload="alert('load'); na_onload(); alert('loaded'); return true;" orient="vertical" sizemode="maximized" 
         xmlns:html="http://www.w3.org/TR/REC-html40"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script src="../generator/utils_xul.js"/>

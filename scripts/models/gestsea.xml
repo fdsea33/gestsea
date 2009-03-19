@@ -7,7 +7,7 @@
     <column name="CS_Numero" type="INTEGER"     notnull="true" pkey="true" default="nextval('seq_constante')"></column>
 <!--    <column name="CS_Type"   type="INTEGER"     notnull="true">Identifiant du type de constante</column>-->
     <column name="CS_Valeur" type="VARCHAR"     notnull="true"></column>
-    <column name="CS_Nom"    type="VARCHAR(32)" notnull="true" default="MD5(RANDOM())">Identifiant</column>
+    <column name="CS_Nom"    type="VARCHAR(32)" notnull="true" default="MD5(CAST(RANDOM() AS TEXT))">Identifiant</column>
     <column name="CS_Description" type="TEXT"   >Description</column>
     <column name="SO_Numero" type="INTEGER"     notnull="true" default="current_societe()" fkey="Societe(SO_Numero)" opt="odrour"></column>
     <seq name="seq_constante" start="1000"><grant priv="SELECT, INSERT, UPDATE" to="PUBLIC"/></seq>

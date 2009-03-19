@@ -25,23 +25,23 @@ BEGIN
       IF c<=0 THEN
         SELECT count(*) FROM ligne WHERE de_numero=d.de_numero AND pd_numero=100051 INTO c;
         IF c<=0 THEN
-          message := message||'La personne n''est pas adhérente et n''a pas payé de cotisation à 10€. Est-ce normal ?\n';
+          message := message||E'La personne n''est pas adhérente et n''a pas payé de cotisation à 10€. Est-ce normal ?\n';
         END IF;
       END IF;
     END IF;
     -- Frais de ports
     SELECT count(*) FROM ligne JOIN produit USING (pd_numero) WHERE de_numero=d.de_numero AND (pd_libelle ilike 'port %' OR pd_libelle ilike '%poste%') INTO c;
     IF c<=0 THEN
-      message := message||'Le devis ne contient aucun frais de poste. Est-ce normal ?\n';
+      message := message||E'Le devis ne contient aucun frais de poste. Est-ce normal ?\n';
     END IF;
     -- Réduction
     IF r!=d.de_reduction THEN
-      message := message||'La réduction du devis qui était de '||d.de_reduction||'% est passé à ';
-      message := message||r||'%. Faut-il mettre à jour le taux de réduction ?\n';
+      message := message||E'La réduction du devis qui était de '||d.de_reduction||E'% est passé à ';
+      message := message||r||E'%. Faut-il mettre à jour le taux de réduction ?\n';
     END IF;
-    message := message||'\n';
+    message := message||E'\n';
   END IF;
-  message := message||'Voulez-vous réellement passer ce devis en facture ?';
+  message := message||E'Voulez-vous réellement passer ce devis en facture ?';
   RETURN message;
 END;
 $$ LANGUAGE 'plpgsql' VOLATILE;

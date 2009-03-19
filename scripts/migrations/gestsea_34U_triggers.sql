@@ -1339,7 +1339,7 @@ BEGIN
     NEW.SO_Sequence:='seq_societe'||New.SO_Numero;
     query:='CREATE SEQUENCE '||NEW.SO_Sequence||' START 100;';
     EXECUTE query;
-    query:='GRANT SELECT, INSERT, UPDATE ON '||NEW.SO_Sequence||' TO PUBLIC;';
+    query:='GRANT SELECT, USAGE, UPDATE ON '||NEW.SO_Sequence||' TO PUBLIC;';
     EXECUTE query;  
     RETURN NEW; 
   ELSIF TG_OP='DELETE' THEN

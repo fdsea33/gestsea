@@ -531,10 +531,10 @@ CREATE OR REPLACE RULE rule_compteproduit_delete AS
 
 CREATE OR REPLACE RULE rule_constante_insert AS
   ON INSERT TO "constante"
-  DO INSTEAD INSERT INTO "table_constante"(cs_numero, cs_valeur, cs_nom, cs_description, so_numero, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (COALESCE(NEW.cs_numero,nextval('seq_constante')), new.cs_valeur, COALESCE(NEW.cs_nom,MD5(RANDOM())), new.cs_description, COALESCE(NEW.so_numero,current_societe()), CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
+  DO INSTEAD INSERT INTO "table_constante"(cs_numero, cs_valeur, cs_nom, cs_description, so_numero, created_at, created_by, updated_at, updated_by, lock_version, id) VALUES (COALESCE(NEW.cs_numero,nextval('seq_constante')), new.cs_valeur, COALESCE(NEW.cs_nom,MD5(CAST(RANDOM() AS TEXT))), new.cs_description, COALESCE(NEW.so_numero,current_societe()), CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0, DEFAULT);
 CREATE OR REPLACE RULE rule_constante_update AS
   ON UPDATE TO "constante"
-  DO INSTEAD UPDATE "table_constante" SET cs_numero=COALESCE(NEW.cs_numero,nextval('seq_constante')), cs_valeur=new.cs_valeur, cs_nom=COALESCE(NEW.cs_nom,MD5(RANDOM())), cs_description=new.cs_description, so_numero=COALESCE(NEW.so_numero,current_societe()), created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.CS_Numero=CS_Numero;
+  DO INSTEAD UPDATE "table_constante" SET cs_numero=COALESCE(NEW.cs_numero,nextval('seq_constante')), cs_valeur=new.cs_valeur, cs_nom=COALESCE(NEW.cs_nom,MD5(CAST(RANDOM() AS TEXT))), cs_description=new.cs_description, so_numero=COALESCE(NEW.so_numero,current_societe()), created_at=OLD.created_at, created_by=OLD.created_by, updated_at=CURRENT_TIMESTAMP, updated_by=CURRENT_USER, lock_version=OLD.lock_version+1, id=OLD.id WHERE new.CS_Numero=CS_Numero;
 CREATE OR REPLACE RULE rule_constante_delete AS
   ON DELETE TO "constante"
   DO INSTEAD DELETE FROM "table_constante" WHERE old.CS_Numero=CS_Numero;

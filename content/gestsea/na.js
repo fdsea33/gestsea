@@ -1,5 +1,6 @@
 /* -*- Mode: Java; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2; coding: latin-1 -*- */
 /*----------------------------------------------------------------------------*/
+alert('ok');
 
 function DeleteDataSource(object)
 {
@@ -521,6 +522,7 @@ var Timer=setInterval("na_liste_refresh()", 3*60*1000);
 function na_onload() {
     // Connexion
     pgsql_init(true);
+    alert('Trop cool');
     if (!pgsql_getConnectionState()){
 	window.close();
     }
@@ -537,4 +539,5 @@ function na_onload() {
     //    alert("bonjour");
 }
 
-//alert("OK");
+alert("OK");
+

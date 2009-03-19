@@ -1152,7 +1152,7 @@ ALTER TABLE "table_compteproduit" ALTER "updated_at" SET DEFAULT CURRENT_TIMESTA
 ALTER TABLE "table_compteproduit" ALTER "updated_by" SET DEFAULT CURRENT_USER;
 ALTER TABLE "table_compteproduit" ALTER "lock_version" SET DEFAULT 0;
 ALTER TABLE "table_constante" ALTER "cs_numero" SET DEFAULT nextval('seq_constante');
-ALTER TABLE "table_constante" ALTER "cs_nom" SET DEFAULT MD5(RANDOM());
+ALTER TABLE "table_constante" ALTER "cs_nom" SET DEFAULT MD5(CAST(RANDOM() AS TEXT));
 ALTER TABLE "table_constante" ALTER "so_numero" SET DEFAULT current_societe();
 ALTER TABLE "table_constante" ALTER "created_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_constante" ALTER "updated_at" SET DEFAULT CURRENT_TIMESTAMP;

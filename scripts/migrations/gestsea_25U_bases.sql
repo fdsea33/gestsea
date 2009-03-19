@@ -223,7 +223,7 @@ BEGIN
     EXIT WHEN d ILIKE '';
     IF d IN ('eom','end of month','fdm','fin de mois') THEN
       SELECT (TO_CHAR(paid_on+('1 month')::INTERVAL, 'YYYY-MM')||'-01')::DATE-('1 day')::INTERVAL INTO paid_on;
-    ELSIF d ~ '^(\\d+\\s+(sec|second|min|minute|hour|day|week|month|year|decade|century|millennium)(s)?(\\sago)?(\\s+|$))+$' THEN
+    ELSIF d ~ E'^(\\d+\\s+(sec|second|min|minute|hour|day|week|month|year|decade|century|millennium)(s)?(\\sago)?(\\s+|$))+$' THEN
       SELECT paid_on+d::INTERVAL INTO paid_on;
     ELSE
       RAISE EXCEPTION 'L''expression ''%'' est invalide (délai : ''%'').', d, delay;
@@ -239,11 +239,12 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
 
 --===========================================================================--
 -- Permet de réaliser un cast de boolean -> text
+/*
 CREATE OR REPLACE FUNCTION FC_text(boolean) RETURNS text AS
 $$ SELECT CASE WHEN $1 THEN 'true' ELSE 'false' END $$ LANGUAGE SQL IMMUTABLE;
 
 CREATE CAST (boolean AS text) WITH FUNCTION FC_text(boolean);
-
+*/
 -- Permet de réaliser un cast de text->boolean
 CREATE OR REPLACE FUNCTION FC_booleen(text) RETURNS boolean AS
 $$ SELECT CASE WHEN $1='false' THEN false ELSE true END $$ LANGUAGE SQL IMMUTABLE;
@@ -431,14 +432,15 @@ CREATE OR REPLACE VIEW vue_adhesion AS
 
 
 CREATE OR REPLACE VIEW vue_adhesion AS
-  SELECT cs_numero, cs_annee, c.pe_numero AS cs_personne, NULLIF(NULLIF(bml_extract(cs_detail,'cotisation.societe'),'null'),0) AS cs_societe, ah_reduction, ah_libelle 
-    FROM table_lignefacture JOIN table_cotisation c ON (fa_numero=bml_extract(cs_detail,'sacea.facture')) 
-                            JOIN table_adherence USING (pd_numero);
+  SELECT cs_numero, cs_annee, c.pe_numero AS cs_personne, cs_societe, ah_reduction, ah_libelle 
+    FROM table_lignefacture JOIN table_cotisation c ON (fa_numero=CAST(bml_extract(cs_detail,'sacea.facture') AS INTEGER)) JOIN table_adherence USING (pd_numero);
+--  SELECT cs_numero, cs_annee, c.pe_numero AS cs_personne, NULLIF(NULLIF(bml_extract(cs_detail, 'cotisation.societe'), 'null'), 0)::INTEGER AS cs_societe, ah_reduction, ah_libelle 
+--    FROM table_lignefacture JOIN table_cotisation c ON (fa_numero=CAST(bml_extract(cs_detail,'sacea.facture') AS INTEGER)) JOIN table_adherence USING (pd_numero);
 
 CREATE OR REPLACE VIEW vue_adhesion_all AS
-  SELECT cs_numero, cs_annee, pe_numero, ah_reduction, ah_libelle FROM table_cotisation join table_adherence on (bml_extract(cs_detail,'fdsea.forfait.produit')=pd_numero)
+  SELECT cs_numero, cs_annee, pe_numero, ah_reduction, ah_libelle FROM table_cotisation join table_adherence on (bml_extract(cs_detail,'fdsea.forfait.produit')::INTEGER=pd_numero)
   UNION ALL
-  SELECT cs_numero, cs_annee, p.pe_numero, ah_reduction, ah_libelle FROM table_cotisation join table_adherence on (bml_extract(cs_detail,'fdsea.forfait.produit')=pd_numero) join table_personne p on (bml_extract(cs_detail,'cotisation.societe')=p.pe_numero);
+  SELECT cs_numero, cs_annee, p.pe_numero, ah_reduction, ah_libelle FROM table_cotisation join table_adherence on (bml_extract(cs_detail,'fdsea.forfait.produit')::INTEGER=pd_numero) join table_personne p on (bml_extract(cs_detail,'cotisation.societe')::integer=p.pe_numero);
 
 
 --===========================================================================--
