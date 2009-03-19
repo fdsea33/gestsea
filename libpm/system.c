@@ -23,7 +23,7 @@ PG_FUNCTION_INFO_V1(execution);
 Datum execution(PG_FUNCTION_ARGS)
 {
   text * in = PG_GETARG_TEXT_P(0);
-  int4 len  = VARATT_SIZEP(in)-VARHDRSZ;
+  int4 len  = VARSIZE(in)-VARHDRSZ;
   int4 i    = 0;
   //  int * status=0;
   char * commande;
@@ -56,10 +56,10 @@ PG_FUNCTION_INFO_V1(writefile);
 Datum writefile(PG_FUNCTION_ARGS)
 {
   text * text_adresse = PG_GETARG_TEXT_P(0);
-  int4 lena  = VARATT_SIZEP(text_adresse)-VARHDRSZ;
+  int4 lena  = VARSIZE(text_adresse)-VARHDRSZ;
   char * adresse;
   text * text_data = PG_GETARG_TEXT_P(1);
-  int4 lend  = VARATT_SIZEP(text_data)-VARHDRSZ;
+  int4 lend  = VARSIZE(text_data)-VARHDRSZ;
   char * data;
   int fout;
 
