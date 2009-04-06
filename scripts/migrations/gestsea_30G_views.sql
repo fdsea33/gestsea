@@ -1,8 +1,8 @@
 -- Introduction
     /* Voici le MCD du projet . */
--- Suppression des vues
+/* Suppression des vues */
 
--- Creation des vues sur tables et des règles qui vont avec
+/* Creation des vues sur tables et des règles qui vont avec */
 CREATE OR REPLACE VIEW "societe" AS
    SELECT table_societe.so_numero, table_societe.so_libelle, table_societe.so_abbrev, table_societe.pe_numero, table_societe.so_detail, table_societe.so_sequence, table_societe.ts_numero, table_societe.sq_numero, table_societe.created_at, table_societe.created_by, table_societe.updated_at, table_societe.updated_by, table_societe.lock_version, table_societe.id 
      FROM "table_societe";
@@ -1229,93 +1229,3 @@ CREATE OR REPLACE RULE rule_Prix_UPDATE AS
   ON UPDATE TO Prix
   DO INSTEAD (INSERT INTO table_prix (TV_Numero, PD_Numero,PX_TarifHT,PX_TarifTTC,PX_Actif,PX_DateDebut, PX_DateFin, created_at,created_by,updated_at,updated_by,lock_version) VALUES (NEW.TV_Numero,OLD.PD_Numero,NEW.PX_TarifHT,NEW.PX_TarifTTC, true,CURRENT_TIMESTAMP, NULL, CURRENT_TIMESTAMP, CURRENT_USER, CURRENT_TIMESTAMP, CURRENT_USER, 0); UPDATE table_prix SET PX_Actif=FALSE, PX_DateFin=CURRENT_TIMESTAMP WHERE PX_numero=OLD.PX_Numero);
 
-
-
--- Revoke et Grant
-
----- Views
-REVOKE ALL ON "constante" FROM PUBLIC;
-REVOKE ALL ON "typeadresse" FROM PUBLIC;
-REVOKE ALL ON "adresse" FROM PUBLIC;
-REVOKE ALL ON "adresseversion" FROM PUBLIC;
-REVOKE ALL ON "canton" FROM PUBLIC;
-REVOKE ALL ON "appartienta" FROM PUBLIC;
-REVOKE ALL ON "groupecanton" FROM PUBLIC;
-REVOKE ALL ON "codepostal" FROM PUBLIC;
-REVOKE ALL ON "villecp" FROM PUBLIC;
-REVOKE ALL ON "ville" FROM PUBLIC;
-REVOKE ALL ON "contacttype" FROM PUBLIC;
-REVOKE ALL ON "contact" FROM PUBLIC;
-REVOKE ALL ON "contactversion" FROM PUBLIC;
-REVOKE ALL ON "typelien" FROM PUBLIC;
-REVOKE ALL ON "estlie" FROM PUBLIC;
-REVOKE ALL ON "naturepersonne" FROM PUBLIC;
-REVOKE ALL ON "personne" FROM PUBLIC;
-REVOKE ALL ON "personneupdate" FROM PUBLIC;
-REVOKE ALL ON "estresponsable" FROM PUBLIC;
-REVOKE ALL ON "responsabilite" FROM PUBLIC;
-REVOKE ALL ON "attribut" FROM PUBLIC;
-REVOKE ALL ON "typeattribut" FROM PUBLIC;
-REVOKE ALL ON "categorie" FROM PUBLIC;
-REVOKE ALL ON "tva" FROM PUBLIC;
-REVOKE ALL ON "typepersonne" FROM PUBLIC;
-REVOKE ALL ON "typetache" FROM PUBLIC;
-REVOKE ALL ON "appel" FROM PUBLIC;
-REVOKE ALL ON "societe" FROM PUBLIC;
-REVOKE ALL ON "typesociete" FROM PUBLIC;
-REVOKE ALL ON "adherence" FROM PUBLIC;
-REVOKE ALL ON "periodeadherence" FROM PUBLIC;
-REVOKE ALL ON "adhesion" FROM PUBLIC;
-REVOKE ALL ON "periode" FROM PUBLIC;
-REVOKE ALL ON "observation" FROM PUBLIC;
-REVOKE ALL ON "typejournal" FROM PUBLIC;
-REVOKE ALL ON "modele" FROM PUBLIC;
-REVOKE ALL ON "lignemodele" FROM PUBLIC;
-REVOKE ALL ON "produit" FROM PUBLIC;
-REVOKE ALL ON "prix" FROM PUBLIC;
-REVOKE ALL ON "ligne" FROM PUBLIC;
-REVOKE ALL ON "devis" FROM PUBLIC;
-REVOKE ALL ON "lignefacture" FROM PUBLIC;
-REVOKE ALL ON "facture" FROM PUBLIC;
-REVOKE ALL ON "routage" FROM PUBLIC;
-REVOKE ALL ON "service" FROM PUBLIC;
-REVOKE ALL ON "employe" FROM PUBLIC;
-REVOKE ALL ON "agent" FROM PUBLIC;
-REVOKE ALL ON "equipe" FROM PUBLIC;
-REVOKE ALL ON "exercice" FROM PUBLIC;
-REVOKE ALL ON "journal" FROM PUBLIC;
-REVOKE ALL ON "piece" FROM PUBLIC;
-REVOKE ALL ON "ecriture" FROM PUBLIC;
-REVOKE ALL ON "comptegen" FROM PUBLIC;
-REVOKE ALL ON "compteproduit" FROM PUBLIC;
-REVOKE ALL ON "compteaux" FROM PUBLIC;
-REVOKE ALL ON "acces" FROM PUBLIC;
-REVOKE ALL ON "pointage" FROM PUBLIC;
-REVOKE ALL ON "lettrage" FROM PUBLIC;
-REVOKE ALL ON "prefixe" FROM PUBLIC;
-REVOKE ALL ON "facturereglement" FROM PUBLIC;
-REVOKE ALL ON "modereglement" FROM PUBLIC;
-REVOKE ALL ON "listereglement" FROM PUBLIC;
-REVOKE ALL ON "reglement" FROM PUBLIC;
-REVOKE ALL ON "moderepartition" FROM PUBLIC;
-REVOKE ALL ON "repartition" FROM PUBLIC;
-REVOKE ALL ON "impression" FROM PUBLIC;
-REVOKE ALL ON "impressionlot" FROM PUBLIC;
-REVOKE ALL ON "impressiongroupe" FROM PUBLIC;
-REVOKE ALL ON "impressiondocument" FROM PUBLIC;
-REVOKE ALL ON "cotisation" FROM PUBLIC;
-REVOKE ALL ON "lignecotisation" FROM PUBLIC;
-REVOKE ALL ON "groupetable" FROM PUBLIC;
-REVOKE ALL ON "droit" FROM PUBLIC;
-REVOKE ALL ON "droitprofil" FROM PUBLIC;
-REVOKE ALL ON "activite" FROM PUBLIC;
-REVOKE ALL ON "tache" FROM PUBLIC;
-REVOKE ALL ON "typesujet" FROM PUBLIC;
-REVOKE ALL ON "sujet" FROM PUBLIC;
-REVOKE ALL ON "lieu" FROM PUBLIC;
-REVOKE ALL ON "groupe" FROM PUBLIC;
-REVOKE ALL ON "nonadherent" FROM PUBLIC;
-REVOKE ALL ON "sequence" FROM PUBLIC;
-REVOKE ALL ON "sequencecache" FROM PUBLIC;
-REVOKE ALL ON "evoplus" FROM PUBLIC;
-GRANT ALL ON "routage" TO brice;

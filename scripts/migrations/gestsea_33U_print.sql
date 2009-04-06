@@ -707,10 +707,10 @@ CASE WHEN conjoint.pe_numero IS NOT NULL THEN to_char(conjoint.pe_numero-1000000
 substr(TRIM(CASE WHEN conjoint.pe_numero IS NOT NULL THEN COALESCE(conjoint.PE_Titre||' ','')||conjoint.PE_Nom||COALESCE(' '||conjoint.PE_Prenom,'') WHEN societe.pe_numero IS NOT NULL THEN COALESCE(societe.PE_Titre||' ','')||societe.PE_Nom||COALESCE(' '||societe.PE_Prenom,'') ELSE '---' END),1,24) AS ck_libelle2,
 adherent.pe_numero,
 fa_numero                        -- 4
-FROM table_facture JOIN table_cotisation c ON (bml_extract(cs_detail,'fdsea.facture')::INTEGER=fa_numero)
+FROM table_facture JOIN table_cotisation c ON (bml_extract(cs_detail,'fdsea.facture')=fa_numero::VARCHAR)
   LEFT JOIN table_personne adherent ON (c.pe_numero=adherent.pe_numero)
-  LEFT JOIN table_personne conjoint ON (bml_extract(cs_detail,'fdsea.conjoint.numero')::INTEGER=conjoint.pe_numero)
-  LEFT JOIN table_personne societe ON (bml_extract(cs_detail,'cotisation.societe')::INTEGER=societe.pe_numero);
+  LEFT JOIN table_personne conjoint ON (bml_extract(cs_detail,'fdsea.conjoint.numero')=conjoint.pe_numero::VARCHAR)
+  LEFT JOIN table_personne societe ON (bml_extract(cs_detail,'cotisation.societe')=societe.pe_numero::VARCHAR);
 
 --===========================================================================--
 --DROP VIEW VUE_PRINT_Carte_Salarie;

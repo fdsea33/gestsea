@@ -519,14 +519,14 @@ function wg_load_cities(id, cp, city) {
 
 function wg_reglement_search(){
   var sw=elem('wg-reglement-menulist').value;
-  var query="SELECT 'N°'||rg_numero||' : '||rg_montant||'€ payés le '||rg_date||' par '||pe_nom||' (N°'||pe_numero-1000000||')' AS rg_libelle, rg_numero from table_reglement join table_personne using (pe_numero) where so_numero=2 AND (rg_numero like '"+sw+"' OR pe_numero-1000000 like '"+sw+"' OR pe_nom ilike '%'||REPLACE('"+sw+"',' ','%')||'%');";
+  var query="SELECT 'N°'||rg_numero::VARCHAR||' : '||rg_montant::VARCHAR||'€ payés le '||rg_date::VARCHAR||' par '||pe_nom||' (N°'||(pe_numero-1000000)::VARCHAR||')' AS rg_libelle, rg_numero from table_reglement join table_personne using (pe_numero) where so_numero=2 AND (rg_numero::VARCHAR like '"+sw+"' OR (pe_numero-1000000)::VARCHAR like '"+sw+"' OR pe_nom ilike '%'||REPLACE('"+sw+"',' ','%')||'%');";
   menulist_fill("wg-reglement-menulist",query);
 }
 
 function wg_reglement_load(){
   var menulist = elem("wg-reglement-menulist");
   if (menulist.selectedIndex>-1) {
-    elem("wg-reglement-tiersreglement-detail").value = requete("SELECT 'N°'||rg_numero||' : '||rg_montant||'€ payés le '||rg_date||' par '||pe_nom||COALESCE(' '||pe_prenom,'')||' (N°'||pe_numero-1000000||')' FROM table_reglement join personne USING (pe_numero) WHERE rg_numero="+menulist.selectedItem.value);
+    elem("wg-reglement-tiersreglement-detail").value = requete("SELECT 'N°'||rg_numero||' : '||rg_montant||'€ payés le '||rg_date||' par '||pe_nom||COALESCE(' '||pe_prenom,'')||' (N°'||(pe_numero-1000000)::VARCHAR||')' FROM table_reglement join personne USING (pe_numero) WHERE rg_numero="+menulist.selectedItem.value);
     elem("wg-reglement-tiersreglement-adresse").value = requete("SELECT COALESCE(ad_libelle,'') FROM table_reglement left join adresse USING (pe_numero) WHERE rg_numero="+menulist.selectedItem.value);
   } else elem("wg-reglement-tiersreglement-detail").value = "";
 }
@@ -534,7 +534,7 @@ function wg_reglement_load(){
 
 function wg_regsupp_search(){
   var sw=elem('wg-regsupp-menulist').value;
-  var query="SELECT 'N°'||rg_numero||' : '||rg_montant||'€ payés le '||rg_date||' par '||pe_nom||' (N°'||pe_numero-1000000||')' AS rg_libelle, rg_numero from table_reglement join table_personne using (pe_numero) where so_numero=2 AND (rg_numero like '"+sw+"' OR pe_numero-1000000 like '"+sw+"' OR pe_nom ilike '%'||REPLACE('"+sw+"',' ','%')||'%');";
+  var query="SELECT 'N°'||rg_numero||' : '||rg_montant||'€ payés le '||rg_date||' par '||pe_nom||' (N°'||pe_numero-1000000||')' AS rg_libelle, rg_numero from table_reglement join table_personne using (pe_numero) where so_numero=2 AND (rg_numero::VARCHAR like '"+sw+"' OR (pe_numero-1000000)::VARCHAR like '"+sw+"' OR pe_nom ilike '%'||REPLACE('"+sw+"',' ','%')||'%');";
   menulist_fill("wg-regsupp-menulist",query);
 }
 

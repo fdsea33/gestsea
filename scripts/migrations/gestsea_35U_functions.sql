@@ -160,7 +160,7 @@ BEGIN
     RETURN 1;
   END IF;
 -- On verifie que l'on a pas de compte auxilaires bidon (si la requete plante c'est que y'a des trucs mauvais)
-  SELECT count(to_number(ca_numcompte::text, '99999999'::text)) FROM table_compteaux LEFT JOIN table_comptegen USING (cg_numero) WHERE so_numero=num_societe INTO compte;
+  SELECT count(to_number(ca_numcompte::VARCHAR, '99999999'::VARCHAR)) FROM table_compteaux LEFT JOIN table_comptegen USING (cg_numero) WHERE so_numero=num_societe INTO compte;
 -- On vérifie que le client a un compte auxiliaire et on lui crée si nécessaire
   SELECT pe_numero  FROM table_facture  WHERE fa_numero=num_facture  INTO num_personne;
   SELECT COALESCE(pe_titre||' ','')||COALESCE(pe_nom||' ','')||COALESCE(pe_prenom,'') AS pe_libelle FROM table_personne WHERE pe_numero=num_personne INTO nom_personne;
@@ -269,7 +269,7 @@ BEGIN
     RETURN 1;
   END IF;
 -- On verifie que l'on a pas de compte auxilaires bidon (si la requete plante c'est que y'a des trucs mauvais)
-  SELECT count(to_number(ca_numcompte::text, '99999999'::text)) FROM table_compteaux LEFT JOIN table_comptegen USING (cg_numero) WHERE so_numero=num_societe INTO compte;
+  SELECT count(to_number(ca_numcompte::VARCHAR, '99999999'::VARCHAR)) FROM table_compteaux LEFT JOIN table_comptegen USING (cg_numero) WHERE so_numero=num_societe INTO compte;
 -- On vérifie que le client a un compte auxiliaire et on lui crée si nécessaire
   SELECT pe_numero  FROM table_avoir LEFT JOIN table_facture USING (fa_numero) WHERE av_numero=num_avoir  INTO num_personne;
   SELECT COALESCE(pe_titre||' ','')||COALESCE(pe_nom||' ','')||COALESCE(pe_prenom,'') AS pe_libelle FROM table_personne WHERE pe_numero=num_personne INTO nom_personne;
@@ -674,7 +674,7 @@ BEGIN
     RETURN true;
   END IF;
   detail := cotis.cs_detail;
-  SELECT pe_numero FROM table_personne WHERE bml_extract(detail, 'cotisation.societe')=pe_numero::text INTO num_gerance;
+  SELECT pe_numero FROM table_personne WHERE bml_extract(detail, 'cotisation.societe')=pe_numero::VARCHAR INTO num_gerance;
 
   IF bml_extract(detail,'cotisation.type')='ja' THEN
     RAISE EXCEPTION 'Ohohohohoho pas de JA maintenant !';
@@ -692,12 +692,12 @@ BEGIN
   SELECT nextval('seq_impressiongroupe') INTO num_groupe;
   INSERT INTO table_impressiongroupe (ig_numero, il_numero, ig_date) VALUES (num_groupe,1,CURRENT_DATE);
   UPDATE cotisation SET ig_numero=num_groupe WHERE cs_numero=num_cotisation;
-  detail := bml_put(detail,'cotisation.impression.groupe',num_groupe);
+  detail := bml_put(detail,'cotisation.impression.groupe',num_groupe::VARCHAR);
   IF bml_extract(detail,'conjoint') THEN
     UPDATE cotisation SET CS_Duo=true WHERE CS_Numero=num_cotisation;
   END IF;
 
-  SELECT rg_numero, em_numero, pe_numero FROM table_reglement WHERE rg_numero LIKE bml_extract(detail,'reglement.numero') INTO num_reglement, num_encaisseur, num_payeur;
+  SELECT rg_numero, em_numero, pe_numero FROM table_reglement WHERE rg_numero::VARCHAR LIKE bml_extract(detail,'reglement.numero') INTO num_reglement, num_encaisseur, num_payeur;
   IF num_reglement IS NULL THEN
     report := report||E'\nPas de réglement :\n'||detail;
     UPDATE table_cotisation SET cs_valid = false, cs_report=report WHERE cs_numero=num_cotisation;
@@ -715,20 +715,20 @@ BEGIN
   -- Devis FDSEA
   UPDATE employe SET EM_Service=SE_Numero FROM service WHERE employe.EM_Numero=num_employe AND SE_Societe=2;
   SELECT nextval('seq_devis') INTO num_devis;
-  detail := bml_put(detail,'fdsea.devis',num_devis);
+  detail := bml_put(detail,'fdsea.devis',num_devis::VARCHAR);
   report := report||E'\nDevis FDSEA N°'||num_devis;
   INSERT INTO devis (de_numero, pe_numero, de_libelle, em_numero) VALUES (num_devis, num_payeur, '[CR] Cotisation du '||CURRENT_DATE, num_encaisseur);
   hectare := false;
   IF bml_extract(detail,'fdsea.hectare')='true' THEN
-    FOR i IN 1..bml_extract(detail,'fdsea.hectare.nombre') LOOP
+    FOR i IN 1..bml_extract(detail,'fdsea.hectare.nombre')::INTEGER LOOP
       report := report||E'\nCotisation hectare N°'||i;
-      SELECT px_numero FROM prix WHERE pd_numero=bml_extract(detail,'fdsea.hectare.'||i||E'.produit') INTO num_prix;
+      SELECT px_numero FROM prix WHERE pd_numero=bml_extract(detail,'fdsea.hectare.'||i||E'.produit')::INTEGER INTO num_prix;
       IF num_prix IS NULL THEN
         report := report||E' : Pas de prix actifs';
         UPDATE table_cotisation SET cs_valid = false, cs_report=report WHERE cs_numero=num_cotisation;
         RETURN false;
       END IF;
-      detail := bml_put(detail,'fdsea.hectare.'||i||'.prix',num_prix);
+      detail := bml_put(detail,'fdsea.hectare.'||i||'.prix',num_prix::VARCHAR);
       INSERT INTO ligne (de_numero, px_numero, l_quantite) VALUES (num_devis, num_prix, bml_extract(detail,'fdsea.hectare.'||i||'.quantite')::numeric);
       hectare:=true;
     END LOOP;
@@ -746,14 +746,14 @@ BEGIN
     UPDATE table_cotisation SET cs_valid = false, cs_report=report WHERE cs_numero=num_cotisation;
     RETURN false;
   END IF;
-  detail := bml_put(detail,'fdsea.forfait.prix',num_prix);
+  detail := bml_put(detail,'fdsea.forfait.prix',num_prix::VARCHAR);
   INSERT INTO ligne (de_numero, px_numero) SELECT num_devis, num_prix;
   num_devis_fdsea := num_devis;
 
   -- Devis SACEA
   UPDATE employe SET EM_Service=SE_Numero FROM service WHERE employe.EM_Numero=num_employe AND SE_Societe=1;
   SELECT nextval('seq_devis') INTO num_devis;
-  detail := bml_put(detail,'sacea.devis',num_devis);
+  detail := bml_put(detail,'sacea.devis',num_devis::VARCHAR);
   report := report||E'\nDevis SACEA N°'||num_devis;
   INSERT INTO devis(de_numero, pe_numero, de_libelle, em_numero) SELECT num_devis, num_payeur, '[CR] Abonnement conseil du '||CURRENT_DATE, num_encaisseur;
   SELECT px_numero FROM prix WHERE pd_numero=CASE WHEN bml_extract(detail,'sacea')::boolean THEN bml_extract(detail,'sacea.produit')::integer ELSE 500000095 END AND px_tarifttc=COALESCE(bml_extract(detail,'sacea.montant')::numeric,0)::numeric INTO num_prix;
@@ -762,7 +762,7 @@ BEGIN
     UPDATE table_cotisation SET cs_valid = false, cs_report=report WHERE cs_numero=num_cotisation;
     RETURN false;
   END IF;
-  detail := bml_put(detail,'sacea.prix',num_prix);
+  detail := bml_put(detail,'sacea.prix',num_prix::VARCHAR);
   INSERT INTO ligne (de_numero, px_numero) VALUES (num_devis, num_prix);
   num_devis_sacea := num_devis;
 
@@ -771,7 +771,7 @@ BEGIN
   num_devis_aava := NULL;
   IF bml_extract(detail,'aava')::boolean THEN
     SELECT nextval('seq_devis') INTO num_devis;
-    detail := bml_put(detail,'aava.devis',num_devis);
+    detail := bml_put(detail,'aava.devis',num_devis::VARCHAR);
     report := report||E'\nDevis AAVA N°'||num_devis;
     INSERT INTO devis(de_numero, pe_numero, de_libelle, em_numero) SELECT num_devis, num_payeur, '[CR] Abonnement du '||CURRENT_DATE, num_encaisseur;
     SELECT px_numero FROM prix WHERE pd_numero=bml_extract(detail,'aava.produit')::integer INTO num_prix;
@@ -780,7 +780,7 @@ BEGIN
       UPDATE table_cotisation SET cs_valid = false, cs_report=report WHERE cs_numero=num_cotisation;
       RETURN false;
     END IF;
-    detail := bml_put(detail,'aava.prix',num_prix);
+    detail := bml_put(detail,'aava.prix',num_prix::VARCHAR);
     INSERT INTO ligne (de_numero, px_numero, l_quantite) VALUES (num_devis, num_prix, COALESCE(bml_extract(detail,'aava.quantite')::integer,1)::integer);
     SELECT DE_MontantTTC FROM devis WHERE de_numero=num_devis INTO total;
     IF bml_extract(detail,'aava.montant')::numeric!=total THEN
@@ -800,12 +800,12 @@ BEGIN
   IF (bml_extract(detail,'fdsea.forfait.produit')='500000052' AND hectare) OR (bml_extract(detail,'fdsea.forfait.produit')!='500000052' AND bml_extract(detail,'cotisation.type')!='conjoint') THEN
     INSERT INTO table_impressiondocument (ig_numero,id_modele,id_cle) VALUES (num_groupe, 'carte', num_facture_fdsea); 
   END IF;
-  detail := bml_put(detail,'fdsea.facture',num_facture_fdsea);
+  detail := bml_put(detail,'fdsea.facture',num_facture_fdsea::VARCHAR);
 
   UPDATE employe SET EM_Service=SE_Numero FROM service WHERE employe.EM_Numero=num_employe AND SE_Societe=1;
   SELECT FC_DevisVersFacture(num_devis_sacea) INTO num_facture_sacea;
   INSERT INTO table_impressiondocument (ig_numero,id_modele,id_cle) VALUES (num_groupe, 'facture', num_facture_sacea);
-  detail := bml_put(detail,'sacea.facture',num_facture_sacea);
+  detail := bml_put(detail,'sacea.facture',num_facture_sacea::VARCHAR);
 
   IF num_devis_aava IS NOT NULL THEN
     UPDATE employe SET EM_Service=SE_Numero FROM service WHERE employe.EM_Numero=num_employe AND SE_Societe=3;
@@ -820,16 +820,16 @@ BEGIN
 		END IF;
     INSERT INTO routage(ad_numero, ro_debutservice, ro_finservice, ro_quantite, fa_numero)
       VALUES (num_adresse, bml_extract(detail,'aava.debut')::integer, bml_extract(detail,'aava.fin')::integer, bml_extract(detail,'aava.quantite')::integer, num_facture_aava);
-    detail := bml_put(detail,'aava.facture',num_facture_aava);
+    detail := bml_put(detail, 'aava.facture', num_facture_aava::VARCHAR);
   END IF;
 
   -- Reglement
   SELECT COALESCE(fa_montantttc,0) FROM table_facture WHERE fa_numero=num_facture_fdsea INTO total_fdsea;
   SELECT COALESCE(fa_montantttc,0) FROM table_facture WHERE fa_numero=num_facture_sacea INTO total_sacea;
   SELECT COALESCE(fa_montantttc,0) FROM table_facture WHERE fa_numero=num_facture_aava  INTO total_aava;
-  detail := bml_put(detail,'fdsea.montant',total_fdsea);
-  detail := bml_put(detail,'sacea.montant',total_sacea);
-  detail := bml_put(detail,'aava.montant',COALESCE(total_aava,0));
+  detail := bml_put(detail,'fdsea.montant',total_fdsea::VARCHAR);
+  detail := bml_put(detail,'sacea.montant',total_sacea::VARCHAR);
+  detail := bml_put(detail,'aava.montant',COALESCE(total_aava,0)::VARCHAR);
 --  detail := bml_put(detail,'cotisation.montant',total_fdsea+total_sacea+total_aava);
 
   UPDATE employe SET EM_Service=SE_Numero FROM service WHERE employe.EM_Numero=num_employe AND SE_Societe=2;
@@ -838,7 +838,7 @@ BEGIN
   IF NULLIF(bml_extract(detail,'reglement.complement.numero'),'null') IS NULL THEN
     INSERT INTO facturereglement (rg_numero, fa_numero, fr_partiel, fr_montant) VALUES (num_reglement,num_facture_fdsea,true,total_fdsea);
   ELSE
-    SELECT rg_montant FROM table_reglement WHERE rg_numero=bml_extract(detail,'reglement.complement.numero') INTO complement;
+    SELECT rg_montant FROM table_reglement WHERE rg_numero::VARCHAR=bml_extract(detail,'reglement.complement.numero') INTO complement;
     INSERT INTO facturereglement (rg_numero, fa_numero, fr_partiel, fr_montant) VALUES (bml_extract(detail,'reglement.complement.numero')::integer,num_facture_fdsea,false,complement);
     INSERT INTO facturereglement (rg_numero, fa_numero, fr_partiel, fr_montant) SELECT num_reglement,num_facture_fdsea,true,total_fdsea-complement;
   END IF;
@@ -870,7 +870,7 @@ BEGIN
     INSERT INTO repartition(rg_numero, mp_numero, rp_montant)
       SELECT num_reglement, mp_numero, total_dons FROM moderepartition WHERE mp_societe=2;
   END IF;
-  detail := bml_put(detail,'reglement.don.montant', CASE WHEN bml_extract(detail,'reglement.don')='true' THEN total_dons ELSE 0 END);
+  detail := bml_put(detail,'reglement.don.montant', CASE WHEN bml_extract(detail,'reglement.don')='true' THEN total_dons ELSE 0 END::VARCHAR);
 
   UPDATE employe SET EM_Service=num_service WHERE EM_Numero=num_employe;
   report := report||E'\n**************';
@@ -905,36 +905,36 @@ BEGIN
   END IF;
   detail := '';
   detail := bml_put(detail,'saved','true');
-  detail := bml_put(detail,'fdsea.facture',lf.fa_numero::text);
-  detail := bml_put(detail,'fdsea.forfait.produit',lf.pd_numero::text);
-  detail := bml_put(detail,'fdsea.forfait.prix',lf.px_numero::text);
-  detail := bml_put(detail,'fdsea.forfait.montant',lf.lf_montantttc::text);
+  detail := bml_put(detail,'fdsea.facture',lf.fa_numero::VARCHAR);
+  detail := bml_put(detail,'fdsea.forfait.produit',lf.pd_numero::VARCHAR);
+  detail := bml_put(detail,'fdsea.forfait.prix',lf.px_numero::VARCHAR);
+  detail := bml_put(detail,'fdsea.forfait.montant',lf.lf_montantttc::VARCHAR);
   detail := bml_put(detail,'fdsea.hectare','unknown');
   detail := bml_put(detail,'fdsea.conjoint','unknown');
   detail := bml_put(detail,'fdsea.associe','unknown');
-  detail := bml_put(detail,'cotisation.personne',num_personne::text);
-  detail := bml_put(detail,'cotisation.annee',annee::text);
+  detail := bml_put(detail,'cotisation.personne',num_personne::VARCHAR);
+  detail := bml_put(detail,'cotisation.annee',annee::VARCHAR);
   detail := bml_put(detail,'cotisation.type',CASE WHEN lf.pd_numero=500000162 THEN 'associe' WHEN lf.pd_numero=500000150 THEN 'conjoint' ELSE 'standard' END);
   SELECT l.* FROM table_lignefacture l JOIN table_facture USING (fa_numero) LEFT JOIN table_avoir USING (fa_numero) WHERE av_numero IS NULL AND EXTRACT(YEAR FROM fa_date)=annee AND pd_numero-500000000 IN (36,65,69) AND pe_numero=num_personne INTO lf;
   IF lf.fa_numero IS NULL THEN
     detail := bml_put(detail,'sacea','false');
   ELSE
     detail := bml_put(detail,'sacea','true');
-    detail := bml_put(detail,'sacea.facture',lf.fa_numero::text);
-    detail := bml_put(detail,'sacea.produit',lf.pd_numero::text);
-    detail := bml_put(detail,'sacea.prix',lf.px_numero::text);
-    detail := bml_put(detail,'sacea.montant',lf.lf_montantttc::text);
+    detail := bml_put(detail,'sacea.facture',lf.fa_numero::VARCHAR);
+    detail := bml_put(detail,'sacea.produit',lf.pd_numero::VARCHAR);
+    detail := bml_put(detail,'sacea.prix',lf.px_numero::VARCHAR);
+    detail := bml_put(detail,'sacea.montant',lf.lf_montantttc::VARCHAR);
   END IF;
   SELECT l.* FROM table_lignefacture l JOIN table_facture USING (fa_numero) LEFT JOIN table_avoir USING (fa_numero) WHERE av_numero IS NULL AND EXTRACT(YEAR FROM fa_date)=annee AND pd_numero-500000000 IN (96) AND pe_numero=num_personne INTO lf;
   IF lf.fa_numero IS NULL THEN
     detail := bml_put(detail,'aava','false');
   ELSE
     detail := bml_put(detail,'aava','true');
-    detail := bml_put(detail,'aava.facture',lf.fa_numero::text);
-    detail := bml_put(detail,'aava.produit',lf.pd_numero::text);
-    detail := bml_put(detail,'aava.prix',lf.px_numero::text);
-    detail := bml_put(detail,'aava.quantite',lf.lf_quantite::text);
-    detail := bml_put(detail,'aava.montant',lf.lf_montantttc::text);
+    detail := bml_put(detail,'aava.facture',lf.fa_numero::VARCHAR);
+    detail := bml_put(detail,'aava.produit',lf.pd_numero::VARCHAR);
+    detail := bml_put(detail,'aava.prix',lf.px_numero::VARCHAR);
+    detail := bml_put(detail,'aava.quantite',lf.lf_quantite::VARCHAR);
+    detail := bml_put(detail,'aava.montant',lf.lf_montantttc::VARCHAR);
   END IF;
   RETURN detail;
 END;
@@ -1036,7 +1036,7 @@ BEGIN
   fonction:=fonction||E'BEGIN\n';
 --  fonction:=fonction||E'  SELECT to_char(CURRENT_TIMESTAMP,''YYYYMMDD_HH24MISS_'')||to_char(floor(9999999999*random()),''FM0999999999'') INTO source;\n';
   IF filename IS NULL THEN
-    fonction:=fonction||E'  SELECT current_user||''_'||nom_fonction||E'_''||to_char(CURRENT_TIMESTAMP,''YYYYMMDD_HH24MISS_'')||pkey INTO '||kw_document||E';\n';
+    fonction:=fonction||E'  SELECT current_user||''_'||nom_fonction||E'_''||to_char(CURRENT_TIMESTAMP,''YYYYMMDD_HH24MISS_'')||pkey::VARCHAR INTO '||kw_document||E';\n';
   ELSE
     fonction:=fonction||E'  SELECT '||filename||' INTO '||kw_document||E';\n';
   END IF;
@@ -1078,8 +1078,8 @@ BEGIN
           param:=SUBSTRING(param FROM POSITION('DISTINCT' IN param)+8);
           q_as:=q_as||E'DISTINCT ';
         END IF;
-        q_as:=q_as||'FC_LC(('||TRIM(param)||')::text) AS p'||nparam;
---        q_as:=q_as||E'REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(COALESCE(('||param||E')::text,''''),''$'',''\\\\$''),''%'',''\\\\%''),''['',''\$[\$''),'']'',''\$]\$''),''&'',''\\\\&'') AS p'||nparam;
+        q_as:=q_as||'FC_LC(('||TRIM(param)||')::VARCHAR) AS p'||nparam;
+--        q_as:=q_as||E'REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(COALESCE(('||param||E')::VARCHAR,''''),''$'',''\\\\$''),''%'',''\\\\%''),''['',''\$[\$''),'']'',''\$]\$''),''&'',''\\\\&'') AS p'||nparam;
       END LOOP;
       query:='SELECT '||q_as||E' '||q_suite;
   --    RAISE NOTICE 'query %',query;
@@ -1127,6 +1127,7 @@ BEGIN
         RAISE EXCEPTION 'Le modèle est mal formaté. Type de boucle inconnu. Ligne %', number;
       END IF;
     ELSE     
+--      fonction:=fonction||E'  RAISE NOTICE ''>>> Ligne '||number::VARCHAR||E' '';\n';
       IF TRIM(ligne) NOT LIKE E'\\%%'THEN
         ligne:='  '||kw_document||':='||kw_document||'||E'''||TRIM(TRIM(quote_literal(TRIM(ligne)),'E'),'''')||E'\\n'';\n';
         IF pparam>0 THEN
@@ -1252,7 +1253,7 @@ BEGIN
           param:=SUBSTRING(param FROM POSITION('DISTINCT' IN param)+8);
           q_as:=q_as||E'DISTINCT ';
         END IF;
-        q_as:=q_as||E'REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(COALESCE(('||param||E')::text,''''),''$'',''\\\\$''),''%'',''\\\\%''),''['',''\$[\$''),'']'',''\$]\$''),''&'',''\\\\&'') AS p'||nparam;
+        q_as:=q_as||E'REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(COALESCE(('||param||E')::VARCHAR,''''),''$'',''\\\\$''),''%'',''\\\\%''),''['',''\$[\$''),'']'',''\$]\$''),''&'',''\\\\&'') AS p'||nparam;
       END LOOP;
       query:='SELECT '||q_as||E' '||q_suite;
   --    RAISE NOTICE 'query %',query;
@@ -1419,7 +1420,7 @@ DECLARE
   query      text;
   adresse    text;
 BEGIN
-  SELECT 'SELECT '||im_fonction||E'('||cle||E');' FROM impression WHERE im_nom ilike nom_logique AND IM_Defaut INTO query;
+  SELECT 'SELECT '||im_fonction||E'('||cle::VARCHAR||E');' FROM impression WHERE im_nom ilike nom_logique AND IM_Defaut INTO query;
 --  RAISE NOTICE '>> %', COALESCE(query,'x');
   IF query IS NULL THEN
     RAISE EXCEPTION 'Le modèle % n''existe pas', COALESCE(nom_logique,'[unknown]');
@@ -1467,12 +1468,12 @@ BEGIN
         AND ID_Cle::integer=FA_Numero AND SO_Numero=s;
   END LOOP;
   -- Concatenation des documents
-  SELECT '/tmp/'||current_user||E'_lot_pi_'||modele||'_'||to_char(debut,'YYYYMMDD')||'_'||to_char(fin,'YYYYMMDD')||'_'||to_char(CURRENT_TIMESTAMP,'YYYYMMDD_HH24MISS_US')||E'.pdf' INTO adresse;
-  SELECT 'SELECT execution(''cd /tmp && touch '||adresse||E' && chmod 755 '||adresse||E' && gs -q -sPAPERSIZE=letter -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile='||adresse||concatenate(' '||SUBSTR(COALESCE(ID_Filename,''),8))||E''');'
+  SELECT '/tmp/'||current_user||E'_lot_pi_'||modele::VARCHAR||'_'||to_char(debut,'YYYYMMDD')||'_'||to_char(fin,'YYYYMMDD')||'_'||to_char(CURRENT_TIMESTAMP,'YYYYMMDD_HH24MISS_US')||E'.pdf' INTO adresse;
+  SELECT 'SELECT execution(''cd /tmp && touch '||adresse||E' && chmod 755 '||adresse||E' && gs -q -sPAPERSIZE=letter -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile='||adresse||concatenate(' '||SUBSTR(COALESCE(ID_Filename,''),8))::VARCHAR||E''');'
     FROM (SELECT id_filename
     FROM table_impressiondocument 
          JOIN table_impressiongroupe USING (IG_Numero)
-         JOIN table_facture ON (ID_Cle=FA_Numero) 
+         JOIN table_facture ON (ID_Cle::INTEGER=FA_Numero) 
     WHERE true
         AND IL_Numero=num_lot AND ID_Modele=modele AND FA_MontantTTC>0 AND (fa_date BETWEEN debut AND fin)
        ORDER BY fa_numero) x
@@ -1601,10 +1602,10 @@ END;
 $$ LANGUAGE 'plpgsql' VOLATILE;
 
 /*
-UPDATE table_cotisation SET cs_detail = bml_put(cs_detail,'fdsea.montant',f.fa_montantttc::text) FROM table_facture WHERE fa_numero=bml_extract('fdsea.facture');
-UPDATE table_cotisation SET cs_detail = bml_put(cs_detail,'sacea.montant',f.fa_montantttc::text) FROM table_facture WHERE fa_numero=bml_extract('sacea.facture');
-UPDATE table_cotisation SET cs_detail = bml_put(cs_detail,'aava.montant',f.fa_montantttc::text) FROM table_facture WHERE fa_numero=bml_extract('aava.facture');
-UPDATE table_cotisation SET cs_detail = bml_put(cs_detail,'cotisation.montant', (bml_extract(cs_detail,'fdsea.montant')::numeric+bml_extract(cs_detail,'sacea.montant')::numeric+bml_extract(cs_detail,'aava.montant')::numeric)::text);
+UPDATE table_cotisation SET cs_detail = bml_put(cs_detail,'fdsea.montant',f.fa_montantttc::VARCHAR) FROM table_facture WHERE fa_numero=bml_extract('fdsea.facture');
+UPDATE table_cotisation SET cs_detail = bml_put(cs_detail,'sacea.montant',f.fa_montantttc::VARCHAR) FROM table_facture WHERE fa_numero=bml_extract('sacea.facture');
+UPDATE table_cotisation SET cs_detail = bml_put(cs_detail,'aava.montant',f.fa_montantttc::VARCHAR) FROM table_facture WHERE fa_numero=bml_extract('aava.facture');
+UPDATE table_cotisation SET cs_detail = bml_put(cs_detail,'cotisation.montant', (bml_extract(cs_detail,'fdsea.montant')::numeric+bml_extract(cs_detail,'sacea.montant')::numeric+bml_extract(cs_detail,'aava.montant')::numeric)::VARCHAR);
 */
 
 
@@ -1641,11 +1642,11 @@ BEGIN
 
   detail := '';
   detail := bml_put(detail,'saved', 'true');
-  detail := bml_put(detail,'cotisation.annee', annee::text);
+  detail := bml_put(detail,'cotisation.annee', annee::VARCHAR);
   detail := bml_put(detail,'cotisation.montant', '0');
   detail := bml_put(detail,'cotisation.type', 'ja');
-  detail := bml_put(detail,'cotisation.personne', num_personne);
-  detail := bml_put(detail,'cotisation.societe', COALESCE(num_soc::text,''));
+  detail := bml_put(detail,'cotisation.personne', num_personne::VARCHAR);
+  detail := bml_put(detail,'cotisation.societe', COALESCE(num_soc::VARCHAR,''));
   detail := bml_put(detail,'fdsea', 'false');
   detail := bml_put(detail,'fdsea.associe', 'false');
   detail := bml_put(detail,'fdsea.conjoint', 'false');
@@ -1659,8 +1660,8 @@ BEGIN
   num_devis_sacea := num_devis;
   SELECT FC_DevisVersFacture(num_devis_sacea) INTO num_facture_sacea;
   detail := bml_put(detail,'sacea', 'false');
-  detail := bml_put(detail,'sacea.devis', num_devis_sacea::text);
-  detail := bml_put(detail,'sacea.facture', num_facture_sacea::text);
+  detail := bml_put(detail,'sacea.devis', num_devis_sacea::VARCHAR);
+  detail := bml_put(detail,'sacea.facture', num_facture_sacea::VARCHAR);
 
   -- Devis AAVA
 --  IF aava THEN
@@ -1674,8 +1675,8 @@ BEGIN
       SELECT pe_numero, a.ad_numero, MAX(ro_finservice)+1, MAX(ro_finservice)+22, num_facture_aava,1 FROM routage r left join adresse a USING (pe_numero) where pe_numero=num_personne group by 1,2 ORDER BY 3 DESC LIMIT 1;
 --      SELECT pe_numero, ad_numero, MAX(ro_finservice))+1, MAX(ro_finservice))+22 FROM routage left join adresse USING (pe_numero) WHERE pe_numero=num_personne;
   detail := bml_put(detail,'aava', 'true');
-  detail := bml_put(detail,'aava.devis', num_devis_aava::text);
-  detail := bml_put(detail,'aava.facture', num_facture_aava::text);
+  detail := bml_put(detail,'aava.devis', num_devis_aava::VARCHAR);
+  detail := bml_put(detail,'aava.facture', num_facture_aava::VARCHAR);
 --  END IF;
 
   UPDATE employe SET EM_Service=num_service WHERE EM_Numero=num_employe;
@@ -1754,7 +1755,7 @@ BEGIN
 
   detail := '';
   detail := bml_put(detail,'saved', 'true');
-  detail := bml_put(detail,'reglement.numero', num_reglement::text);
+  detail := bml_put(detail,'reglement.numero', num_reglement::VARCHAR);
   -- FDSEA
   num_facture_fdsea := num_fac_fdsea;
   UPDATE employe SET EM_Service=SE_Numero FROM service WHERE employe.EM_Numero=num_employe AND SE_Societe=2;
@@ -1770,9 +1771,9 @@ BEGIN
   INSERT INTO table_impressiondocument (ig_numero,id_modele,id_cle) VALUES (num_groupe, 'carte', num_facture_fdsea); 
   SELECT fa_montantttc FROM table_facture WHERE fa_numero=num_facture_fdsea INTO montant;
   detail := bml_put(detail,'fdsea', 'true');
-  detail := bml_put(detail,'fdsea.devis', num_devis_fdsea::text);
-  detail := bml_put(detail,'fdsea.facture', num_facture_fdsea::text);
-  detail := bml_put(detail,'fdsea.montant', montant::text);
+  detail := bml_put(detail,'fdsea.devis', num_devis_fdsea::VARCHAR);
+  detail := bml_put(detail,'fdsea.facture', num_facture_fdsea::VARCHAR);
+  detail := bml_put(detail,'fdsea.montant', montant::VARCHAR);
   detail := bml_put(detail,'fdsea.associe', 'false');
   detail := bml_put(detail,'fdsea.conjoint', 'false');
   detail := bml_put(detail,'fdsea.hectare', 'false');
@@ -1786,8 +1787,8 @@ BEGIN
   INSERT INTO ligne (de_numero, pd_numperero) VALUES (num_devis, 500000123);
   num_devis_sacea := num_devis;
   SELECT FC_DevisVersFacture(num_devis_sacea) INTO num_facture_sacea;
-  detail := bml_put(detail,'sacea.devis', num_devis_sacea::text);
-  detail := bml_put(detail,'sacea.facture', num_facture_sacea::text);
+  detail := bml_put(detail,'sacea.devis', num_devis_sacea::VARCHAR);
+  detail := bml_put(detail,'sacea.facture', num_facture_sacea::VARCHAR);
 */
   -- COTISATION
   UPDATE employe SET EM_Service=num_service WHERE EM_Numero=num_employe;
@@ -1894,7 +1895,7 @@ $$
 DECLARE
   ret TEXT;
 BEGIN
-  SELECT ROUND(COALESCE(s::numeric,0),2)::numeric(16,2)::text INTO ret;
+  SELECT ROUND(COALESCE(s::numeric,0),2)::numeric(16,2)::VARCHAR INTO ret;
   RETURN ret;
 END;
 $$ LANGUAGE 'plpgsql';

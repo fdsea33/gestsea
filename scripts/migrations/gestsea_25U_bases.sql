@@ -51,7 +51,7 @@ BEGIN
 	END LOOP;
   bml := string_to_array(TRIM(TRIM(TRIM(TRIM(detail,E'\n'),'}'),E'\n'),'{'),E'}\n{');
 	IF array_upper(bml,1)>1 THEN
-	  tablename :=  'bml_sort_'||MD5(current_timestamp||RANDOM());
+	  tablename :=  'bml_sort_'||MD5(current_timestamp::VARCHAR||RANDOM()::VARCHAR);
   	EXECUTE 'CREATE TEMPORARY TABLE '||tablename||' (keyword TEXT, val TEXT);';
   	FOR i IN array_lower(bml,1)..array_upper(bml,1) LOOP
   	  EXECUTE 'INSERT INTO '||tablename||' VALUES ('''||SUBSTRING(bml[i] FROM '.[^:]*')||''','''||SUBSTR(SUBSTRING(bml[i] FROM ':.*'),2)||''');';

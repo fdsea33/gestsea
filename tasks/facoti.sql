@@ -1,3 +1,4 @@
+
 -- Création de la fonction
 CREATE OR REPLACE FUNCTION fc_finish_cotisations(IN started_on DATE, IN stopped_on DATE) RETURNS BOOLEAN AS
 $$

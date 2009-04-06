@@ -138,11 +138,11 @@ clInterfaceFiltrage.prototype.CalculerCondition =
 	    if (strict)
 		cond=this.my_Champs+"='"+ValValide+"'";
 	    else
-		cond=this.my_Champs+" ilike '%"+ValValide+"%' ";
+		cond="("+this.my_Champs+")::VARCHAR ILIKE '%"+ValValide+"%' ";
 
 	}
 	else
-	cond=this.my_Champs+" is NULL";
+	cond=this.my_Champs+" IS NULL";
 
 	this.my_Filtre.setCondition(cond);
 	return cond;
@@ -213,7 +213,7 @@ clInterfaceFiltrageMenuListe.prototype.Filtrer =
 	{
 	    this.my_Valeur=Val;
 	    var ValValide=ValiderChaine(this.my_Valeur);
-	    var Cond=this.my_Champs+" ilike '"+ValValide+"%' ";
+	    var Cond="("+this.my_Champs+")::VARCHAR ILIKE '"+ValValide+"%' ";
 	    this.my_Filtre.setCondition(Cond);
 	}
 	this.Activer(Activer);

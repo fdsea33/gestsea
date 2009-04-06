@@ -12,7 +12,7 @@
 
     <xsl:if test="contains($operation,'extra')">
       <xsl:text>
--- Ajout des colonnes supplémentaires
+/* Ajout des colonnes supplémentaires */
 BEGIN;
 </xsl:text>
       <xsl:apply-templates select="analysis/table" mode="extra">
@@ -26,13 +26,13 @@ COMMIT;
 
     <xsl:if test="contains($operation,'create')">
       <xsl:text>
--- Suppression des sequences
+/* Suppression des sequences */
 </xsl:text>
       <xsl:apply-templates select="analysis/table/seq" mode="drop">
         <xsl:sort select="@name"/>
       </xsl:apply-templates>
       <xsl:text>
--- Suppression des contraintes foreign key
+/* Suppression des contraintes foreign key */
 </xsl:text>
       <xsl:apply-templates select="analysis/table/column" mode="fkey-drop">
         <xsl:sort select="../@name"/>
@@ -40,29 +40,29 @@ COMMIT;
     </xsl:if>
     <xsl:if test="contains($operation,'vues')">
       <xsl:text>
--- Suppression des vues
+/* Suppression des vues */
 </xsl:text>
 <!--
       <xsl:apply-templates select="analysis/table" mode="drop-view">
         <xsl:sort select="@name"/>
       </xsl:apply-templates>
--->
+ -->
     </xsl:if>
     <xsl:if test="contains($operation,'create')">
       <xsl:text>
--- Suppression des tables
+/* Suppression des tables */
 </xsl:text>
       <xsl:apply-templates select="analysis/table" mode="drop">
         <xsl:sort select="@name"/>
       </xsl:apply-templates>
       <xsl:text>
--- Creation des sequences
+/* Creation des sequences */
 </xsl:text>
       <xsl:apply-templates select="analysis/table/seq" mode="create">
         <xsl:sort select="@name"/>
       </xsl:apply-templates>
       <xsl:text>
--- Creation des tables
+/* Creation des tables */
 </xsl:text>
       <xsl:apply-templates select="analysis/table" mode="create">
         <xsl:sort select="@ordre+(@ordre=0)*99999"/>
@@ -71,7 +71,7 @@ COMMIT;
 
     <xsl:if test="contains($operation,'fonctions')">
       <xsl:text>
--- Création des fonctions
+/* Création des fonctions */
 </xsl:text>
       <xsl:apply-templates select="analysis/table/function">
         <xsl:sort select="@name"/>
@@ -81,7 +81,7 @@ COMMIT;
 
     <xsl:if test="contains($operation,'vues')">
       <xsl:text>
--- Creation des vues sur tables et des règles qui vont avec
+/* Creation des vues sur tables et des règles qui vont avec */
 </xsl:text>
       <xsl:apply-templates select="analysis/table[not(@view='false')]" mode="create-view">
         <xsl:sort select="@ordre+(@ordre=0)*99999"/>
@@ -96,7 +96,7 @@ COMMIT;
     
     <xsl:if test="contains($operation,'regles')">
       <xsl:text>
--- Creation des règles
+/* Creation des règles */
 </xsl:text>
       <xsl:apply-templates select="analysis/table/rule[not(@sur!='')]" mode="create-rule">
         <xsl:sort select="@name"/>
@@ -107,7 +107,7 @@ COMMIT;
 
     <xsl:if test="contains($operation,'constraints')">
       <xsl:text>
--- Indexes
+/* Indexes */
 </xsl:text>
       <xsl:apply-templates select="analysis/table/column[@index='true']" mode="index">
         <xsl:sort select="../@name"/>
@@ -117,35 +117,35 @@ COMMIT;
       </xsl:apply-templates>
 
       <xsl:text>
--- Primary keys
+/* Primary keys */
 </xsl:text>
       <xsl:apply-templates select="analysis/table/column[@pkey='true']" mode="pkey">
         <xsl:sort select="../@name"/>
       </xsl:apply-templates>
 
       <xsl:text>
--- Foreign keys
+/* Foreign keys */
 </xsl:text>
       <xsl:apply-templates select="analysis/table/column" mode="fkey">
         <xsl:sort select="../@name"/>
       </xsl:apply-templates>
 
       <xsl:text>
--- Unique
+/* Unique */
 </xsl:text>
       <xsl:apply-templates select="analysis/table/unique" mode="create">
         <xsl:sort select="../@name"/>
       </xsl:apply-templates>
 
       <xsl:text>
--- Default
+/* Default */
 </xsl:text>
       <xsl:apply-templates select="analysis/table/column[@default!='']" mode="default">
         <xsl:sort select="../@name"/>
       </xsl:apply-templates>
 
       <xsl:text>
--- Not null
+/* Not null */
 </xsl:text>
       <xsl:apply-templates select="analysis/table/column[@notnull='true']" mode="notnull">
         <xsl:sort select="../@name"/>
@@ -154,15 +154,14 @@ COMMIT;
     </xsl:if>
 
 
+<!--
+    <xsl:text>
 
-
+/* Revoke et Grant */
+</xsl:text>
     <xsl:if test="contains($operation,'vues')">
       <xsl:text>
-
--- Revoke et Grant
-</xsl:text>
-      <xsl:text>
----- Views
+/*== Views */
 </xsl:text>
       <xsl:apply-templates select="analysis/table" mode="view-revoke">
         <xsl:sort select="../@name"/>
@@ -174,13 +173,13 @@ COMMIT;
 
     <xsl:if test="contains($operation,'create')">
       <xsl:text>
----- Tables
+/*== Tables */
 </xsl:text>
       <xsl:apply-templates select="analysis/table" mode="table-revoke">
         <xsl:sort select="../@name"/>
       </xsl:apply-templates>
       <xsl:text>
----- Séquences
+/*== Séquences */
 </xsl:text>
       <xsl:apply-templates select="analysis/table/seq/revoke">
         <xsl:sort select="../@name"/>
@@ -189,10 +188,10 @@ COMMIT;
         <xsl:sort select="../@name"/>
       </xsl:apply-templates>
     </xsl:if>
-
+  -->
     <xsl:if test="contains($operation,'delete')">
       <xsl:text>
--- Nettoyage des tables
+/* Nettoyage des tables */
 </xsl:text>
       <xsl:apply-templates select="analysis/table" mode="delete">
         <xsl:sort select="@name"/>
@@ -229,7 +228,7 @@ COMMIT;
 <!--
     <xsl:apply-templates select="function"/>
     <xsl:apply-templates select="trigger"/>
--->
+  -->
   </xsl:template>
 
   <xsl:template match="function">
@@ -343,7 +342,7 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
       <xsl:call-template name="from-prefixe">
         <xsl:with-param name="from"><xsl:value-of select="@from"/></xsl:with-param>
       </xsl:call-template>
--->
+  -->
 <!--      <xsl:value-of select="@from"/>-->
     </xsl:if>
     <xsl:if test="@where!=''">
@@ -527,7 +526,7 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
     <xsl:value-of select="translate(@name,$majuscules,$minuscules)"/>
     <xsl:text>&#34; ADD lock_version INTEGER DEFAULT 0;
 </xsl:text>
--->
+  -->
   </xsl:template>
 
 
@@ -577,7 +576,7 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
       <xsl:with-param name="left">false</xsl:with-param>
       <xsl:with-param name="prefixe">new.</xsl:with-param>
     </xsl:apply-templates>
--->
+  -->
     <xsl:text>);
 </xsl:text>
     <xsl:text>CREATE OR REPLACE RULE rule_</xsl:text>
@@ -600,7 +599,7 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
       <xsl:with-param name="left">true</xsl:with-param>
       <xsl:with-param name="prefixe">=new.</xsl:with-param>
     </xsl:apply-templates>
--->
+  -->
     <xsl:text> WHERE </xsl:text>
     <xsl:call-template name="pkey-egal">
       <xsl:with-param name="prefixe">new</xsl:with-param>
@@ -856,7 +855,7 @@ $$ LANGUAGE 'plpgsql' VOLATILE;
   <xsl:text> ELSE new.</xsl:text>
   <xsl:value-of select="translate(@name,$majuscules,$minuscules)"/>
   <xsl:text> END</xsl:text>
--->
+  -->
       </xsl:when>
       <xsl:otherwise>
         <xsl:text>new.</xsl:text>

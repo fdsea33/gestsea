@@ -1,6 +1,6 @@
 -- Introduction
     /* Voici le MCD du projet . */
--- Suppression des sequences
+/* Suppression des sequences */
 DROP SEQUENCE "seq_acces" CASCADE;
 DROP SEQUENCE "seq_activite" CASCADE;
 DROP SEQUENCE "seq_adherence" CASCADE;
@@ -75,7 +75,7 @@ DROP SEQUENCE "seq_typesujet" CASCADE;
 DROP SEQUENCE "seq_typetache" CASCADE;
 DROP SEQUENCE "seq_ville" CASCADE;
 
--- Suppression des contraintes foreign key
+/* Suppression des contraintes foreign key */
 ALTER TABLE "table_activite"
   DROP CONSTRAINT fk_table_activite_em_numero;
 ALTER TABLE "table_activite"
@@ -369,7 +369,7 @@ ALTER TABLE "table_villecp"
 ALTER TABLE "table_villecp"
   DROP CONSTRAINT fk_table_villecp_cp_numero;
 
--- Suppression des tables
+/* Suppression des tables */
 DROP TABLE "table_acces" CASCADE;
 DROP TABLE "table_activite" CASCADE;
 DROP TABLE "table_adherence" CASCADE;
@@ -455,7 +455,7 @@ DROP TABLE "table_typetache" CASCADE;
 DROP TABLE "table_ville" CASCADE;
 DROP TABLE "table_villecp" CASCADE;
 
--- Creation des sequences
+/* Creation des sequences */
 CREATE SEQUENCE "seq_acces" START 100;
 CREATE SEQUENCE "seq_activite" START 100;
 CREATE SEQUENCE "seq_adherence" START 100;
@@ -530,7 +530,7 @@ CREATE SEQUENCE "seq_typesujet" START 100;
 CREATE SEQUENCE "seq_typetache" START 100;
 CREATE SEQUENCE "seq_ville" START 1000000;
 
--- Creation des tables
+/* Creation des tables */
 CREATE TABLE "table_societe"
 (
   "so_numero" INTEGER,
@@ -1975,164 +1975,3 @@ CREATE TABLE "table_evoplus"
   "id" SERIAL
 );
 
-
----- Tables
-REVOKE ALL ON "table_constante" FROM PUBLIC;
-REVOKE ALL ON "table_typeadresse" FROM PUBLIC;
-REVOKE ALL ON "table_adresse" FROM PUBLIC;
-REVOKE ALL ON "table_adresseversion" FROM PUBLIC;
-REVOKE ALL ON "table_canton" FROM PUBLIC;
-REVOKE ALL ON "table_appartienta" FROM PUBLIC;
-REVOKE ALL ON "table_groupecanton" FROM PUBLIC;
-REVOKE ALL ON "table_codepostal" FROM PUBLIC;
-REVOKE ALL ON "table_villecp" FROM PUBLIC;
-REVOKE ALL ON "table_ville" FROM PUBLIC;
-REVOKE ALL ON "table_contacttype" FROM PUBLIC;
-REVOKE ALL ON "table_contact" FROM PUBLIC;
-REVOKE ALL ON "table_contactversion" FROM PUBLIC;
-REVOKE ALL ON "table_typelien" FROM PUBLIC;
-REVOKE ALL ON "table_estlie" FROM PUBLIC;
-REVOKE ALL ON "table_naturepersonne" FROM PUBLIC;
-REVOKE ALL ON "table_personne" FROM PUBLIC;
-REVOKE ALL ON "table_personneupdate" FROM PUBLIC;
-REVOKE ALL ON "table_estresponsable" FROM PUBLIC;
-REVOKE ALL ON "table_responsabilite" FROM PUBLIC;
-REVOKE ALL ON "table_attribut" FROM PUBLIC;
-REVOKE ALL ON "table_typeattribut" FROM PUBLIC;
-REVOKE ALL ON "table_categorie" FROM PUBLIC;
-REVOKE ALL ON "table_tva" FROM PUBLIC;
-REVOKE ALL ON "table_typepersonne" FROM PUBLIC;
-REVOKE ALL ON "table_typetache" FROM PUBLIC;
-REVOKE ALL ON "table_appel" FROM PUBLIC;
-REVOKE ALL ON "table_societe" FROM PUBLIC;
-REVOKE ALL ON "table_typesociete" FROM PUBLIC;
-REVOKE ALL ON "table_adherence" FROM PUBLIC;
-REVOKE ALL ON "table_periodeadherence" FROM PUBLIC;
-REVOKE ALL ON "table_adhesion" FROM PUBLIC;
-REVOKE ALL ON "table_periode" FROM PUBLIC;
-REVOKE ALL ON "table_observation" FROM PUBLIC;
-REVOKE ALL ON "table_typejournal" FROM PUBLIC;
-REVOKE ALL ON "table_modele" FROM PUBLIC;
-REVOKE ALL ON "table_lignemodele" FROM PUBLIC;
-REVOKE ALL ON "table_produit" FROM PUBLIC;
-REVOKE ALL ON "table_prix" FROM PUBLIC;
-REVOKE ALL ON "table_ligne" FROM PUBLIC;
-REVOKE ALL ON "table_devis" FROM PUBLIC;
-REVOKE ALL ON "table_lignefacture" FROM PUBLIC;
-REVOKE ALL ON "table_facture" FROM PUBLIC;
-REVOKE ALL ON "table_routage" FROM PUBLIC;
-REVOKE ALL ON "table_service" FROM PUBLIC;
-REVOKE ALL ON "table_employe" FROM PUBLIC;
-REVOKE ALL ON "table_agent" FROM PUBLIC;
-REVOKE ALL ON "table_equipe" FROM PUBLIC;
-REVOKE ALL ON "table_exercice" FROM PUBLIC;
-REVOKE ALL ON "table_journal" FROM PUBLIC;
-REVOKE ALL ON "table_piece" FROM PUBLIC;
-REVOKE ALL ON "table_ecriture" FROM PUBLIC;
-REVOKE ALL ON "table_comptegen" FROM PUBLIC;
-REVOKE ALL ON "table_compteproduit" FROM PUBLIC;
-REVOKE ALL ON "table_compteaux" FROM PUBLIC;
-REVOKE ALL ON "table_acces" FROM PUBLIC;
-REVOKE ALL ON "table_pointage" FROM PUBLIC;
-REVOKE ALL ON "table_lettrage" FROM PUBLIC;
-REVOKE ALL ON "table_prefixe" FROM PUBLIC;
-REVOKE ALL ON "table_facturereglement" FROM PUBLIC;
-REVOKE ALL ON "table_modereglement" FROM PUBLIC;
-REVOKE ALL ON "table_listereglement" FROM PUBLIC;
-REVOKE ALL ON "table_reglement" FROM PUBLIC;
-REVOKE ALL ON "table_moderepartition" FROM PUBLIC;
-REVOKE ALL ON "table_repartition" FROM PUBLIC;
-REVOKE ALL ON "table_impression" FROM PUBLIC;
-REVOKE ALL ON "table_impressionlot" FROM PUBLIC;
-REVOKE ALL ON "table_impressiongroupe" FROM PUBLIC;
-REVOKE ALL ON "table_impressiondocument" FROM PUBLIC;
-REVOKE ALL ON "table_cotisation" FROM PUBLIC;
-REVOKE ALL ON "table_lignecotisation" FROM PUBLIC;
-REVOKE ALL ON "table_groupetable" FROM PUBLIC;
-REVOKE ALL ON "table_droit" FROM PUBLIC;
-REVOKE ALL ON "table_droitprofil" FROM PUBLIC;
-REVOKE ALL ON "table_activite" FROM PUBLIC;
-REVOKE ALL ON "table_tache" FROM PUBLIC;
-REVOKE ALL ON "table_typesujet" FROM PUBLIC;
-REVOKE ALL ON "table_sujet" FROM PUBLIC;
-REVOKE ALL ON "table_lieu" FROM PUBLIC;
-REVOKE ALL ON "table_groupe" FROM PUBLIC;
-REVOKE ALL ON "table_nonadherent" FROM PUBLIC;
-REVOKE ALL ON "table_sequence" FROM PUBLIC;
-REVOKE ALL ON "table_sequencecache" FROM PUBLIC;
-REVOKE ALL ON "table_evoplus" FROM PUBLIC;
-
----- Séquences
-GRANT SELECT, INSERT, UPDATE ON seq_acces TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_activite TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_adherence TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_adhesion TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_adresse TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_adresseversion TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_agent TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_appel TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_attribut TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_canton TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_categorie TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_codepostal TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_compteaux TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_comptegen TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_compteproduit TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_constante TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_contact TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_contacttype TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_contactversion TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_devis TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_droit TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_droitprofil TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_ecriture TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_employe TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_equipe TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_estlie TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_estresponsable TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_exercice TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_facture TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_facturereglement TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_groupe TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_groupecanton TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_groupetable TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_impression TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_journal TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_lettrage TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_lieu TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_ligne TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_lignefacture TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_lignemodele TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_listereglement TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_modele TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_modereglement TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_moderepartition TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_naturepersonne TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_nonadherent TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_observation TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_periode TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_personne TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_personneupdate TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_piece TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_pointage TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_prefixe TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_prix TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_produit TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_reglement TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_repartition TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_responsabilite TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_routage TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_service TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_societe TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_sujet TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_tache TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_tva TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_typeadresse TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_typeattribut TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_typejournal TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_typelien TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_typepersonne TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_typesociete TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_typesujet TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_typetache TO PUBLIC;
-GRANT SELECT, INSERT, UPDATE ON seq_ville TO PUBLIC;

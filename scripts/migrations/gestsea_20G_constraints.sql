@@ -1,6 +1,6 @@
 -- Introduction
     /* Voici le MCD du projet . */
--- Indexes
+/* Indexes */
 CREATE INDEX idx_table_cotisation_cs_nature ON table_cotisation(cs_nature);
 CREATE INDEX idx_table_activite_em_numero ON table_activite(em_numero);
 CREATE INDEX idx_table_activite_zt_numero ON table_activite(zt_numero);
@@ -149,7 +149,7 @@ CREATE INDEX idx_table_ville_ct_numero ON table_ville(ct_numero);
 CREATE INDEX idx_table_villecp_vi_numero ON table_villecp(vi_numero);
 CREATE INDEX idx_table_villecp_cp_numero ON table_villecp(cp_numero);
 
--- Primary keys
+/* Primary keys */
 ALTER TABLE "table_acces"
   ADD CONSTRAINT pk_table_acces_ac_numero PRIMARY KEY (ac_numero);
 ALTER TABLE "table_activite"
@@ -313,7 +313,7 @@ ALTER TABLE "table_typetache"
 ALTER TABLE "table_ville"
   ADD CONSTRAINT pk_table_ville_vi_numero PRIMARY KEY (vi_numero);
 
--- Foreign keys
+/* Foreign keys */
 ALTER TABLE "table_activite"
   ADD CONSTRAINT fk_table_activite_em_numero
   FOREIGN KEY (em_numero) REFERENCES table_Employe(EM_Numero)
@@ -1033,9 +1033,9 @@ ALTER TABLE "table_villecp"
     ON DELETE RESTRICT 
     ON UPDATE RESTRICT;
 
--- Unique
+/* Unique */
 
--- Default
+/* Default */
 ALTER TABLE "table_acces" ALTER "created_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_acces" ALTER "updated_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_acces" ALTER "updated_by" SET DEFAULT CURRENT_USER;
@@ -1622,7 +1622,7 @@ ALTER TABLE "table_villecp" ALTER "updated_at" SET DEFAULT CURRENT_TIMESTAMP;
 ALTER TABLE "table_villecp" ALTER "updated_by" SET DEFAULT CURRENT_USER;
 ALTER TABLE "table_villecp" ALTER "lock_version" SET DEFAULT 0;
 
--- Not null
+/* Not null */
 ALTER TABLE "table_acces" ALTER "ac_numero" SET NOT NULL ;
 ALTER TABLE "table_acces" ALTER "ac_libelle" SET NOT NULL ;
 ALTER TABLE "table_acces" ALTER "ac_niveau" SET NOT NULL ;
