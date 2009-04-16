@@ -1538,7 +1538,7 @@ BEGIN
   SELECT '/tmp/'||current_user||E'_lot_pi_'||to_char(CURRENT_TIMESTAMP,'YYYYMMDD_HH24MISS_US')||E'.pdf' INTO adresse;
   SELECT 'SELECT execution(''cd /tmp && touch '||adresse||E' && chmod 755 '||adresse||E' && gs -q -sPAPERSIZE=letter -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile='||adresse||concatenate(' '||SUBSTR(COALESCE(ID_Filename,''),8))||E''');'
     FROM (SELECT id_filename
-    FROM table_impressiondocument JOIN table_facture ON (ID_Cle=FA_Numero)
+    FROM table_impressiondocument JOIN table_facture ON (CAST(ID_Cle AS INTEGER)=FA_Numero)
     WHERE num_groupe=table_impressiondocument.ig_numero AND FA_MontantTTC>0
        ORDER BY fa_numero) x
     INTO query;
