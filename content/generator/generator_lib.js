@@ -2575,6 +2575,7 @@ clTabInterfaceSimple.prototype.GenererInterface=
     StrXul+='        <menuseparator/>\n';
     StrXul+='        <menuitem label="Zoom +" oncommand="ZoomManager.prototype.getInstance().enlarge();" disabled="true"/>\n';
     StrXul+='        <menuitem label="Zoom -" oncommand="ZoomManager.prototype.getInstance().reduce();" disabled="true"/>\n';
+    StrXul+='        <menuitem label="Afficher/Cacher les logs" oncommand="var elem = document.getElementById(\'status_query_long\'); elem.hidden = !elem.hidden;"/>\n';
     StrXul+='      </menupopup>\n';
     StrXul+='    </menu>\n';
 
@@ -2620,17 +2621,18 @@ clTabInterfaceSimple.prototype.GenererInterface=
     }
     StrXul+='</tabpanels>\n';
     StrXul+='</tabbox>\n';
+    StrXul+='<textbox hidden="true" multiline="true" id="status_query_long" rows="10"/>';
     if (!overlay) StrXul+='</vbox>\n';
 
 
     /* barre d'etat */
     //StrXul+='<textbox id="status_log" value="Init" style="min-height:50px" flex="1" multiline="true"/>\n';
     StrXul+='<statusbar id="statusbar">\n';
-    StrXul+='  <statusbarpanel id="status_espace" label="" width="5"/>\n';
     StrXul+='  <statusbarpanel id="status_login" label=""/>\n';
     StrXul+='  <statusbarpanel id="status_Info" label=""/>\n';
-    StrXul+='  <statusbarpanel id="status_TpsExec" flex="1" label=""/>\n';
-    StrXul+='  <statusbarpanel id="status_counter" flex="1" label=""/>\n';
+    StrXul+='  <statusbarpanel id="status_TpsExec" label=""/>\n';
+    StrXul+='  <statusbarpanel id="status_counter" label=""/>\n';
+    StrXul+='  <statusbarpanel id="status_query" label="" flex="1"/>\n';
     StrXul+='</statusbar>\n';
 
     if (overlay)
@@ -2785,7 +2787,7 @@ clTabInterfaceSimple.prototype.GenererInterface=
     StrJs+="var query='SELECT current_user, current_date;';\n";
     StrJs+="var result=pgsql_query(query);\n";
     //    StrXul+='\tid="Page_'+MonNomFichier+'"\n';
-    StrJs+="if (result.rowCount>0){var enum=result.enumerate();enum.first(); var user_name = enum.getVariant(0); window.title = user_name+' - '+window.title; stlog = top.document.getElementById('status_login'); if (stlog!=null) {stlog.label='Nom d\\'utilisateur : '+user_name;} }\n";
+    StrJs+="if (result.rowCount>0){var enum=result.enumerate();enum.first(); var user_name = enum.getVariant(0); document.title = user_name+' - '+document.title; stlog = top.document.getElementById('status_login'); if (stlog!=null) {stlog.label=user_name;} }\n";
 
 
     for(i=0;i<this.mes_interfaces.length;i++) {
@@ -3161,4 +3163,4 @@ clTabInterfaceSimple.prototype.GenererInterface=
     */
 }
 
-//alert("GIL chargé");
+// alert("GL chargé");

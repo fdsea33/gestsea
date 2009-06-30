@@ -366,14 +366,15 @@ telephone.cn_coordonnee AS rl_telephone, portable.cn_coordonnee AS rl_portable
              JOIN table_Ville USING (VI_Numero)
            LEFT JOIN (SELECT pe_numero, cn_coordonnee FROM table_contact WHERE cn_actif AND ck_numero=107) AS telephone ON (p.pe_numero=telephone.pe_numero)
            LEFT JOIN (SELECT pe_numero, cn_coordonnee FROM table_contact WHERE cn_actif AND ck_numero=106) AS portable ON (p.pe_numero=portable.pe_numero)
-  WHERE cs_annee=EXTRACT(YEAR FROM CURRENT_DATE) AND BML_EXTRACT(CS_DETAIL, 'cotisation.type')!='ja'
+  WHERE cs_annee=EXTRACT(YEAR FROM CURRENT_DATE) AND cs_nature NOT IN ('ja', 'associe', 'conjoint')
 /*
     AND p.PE_Numero NOT IN (SELECT pe_numero FROM table_lignefacture JOIN table_facture USING (fa_numero) WHERE pd_numero-500000000 IN (96,109,125,94,100) AND fa_date>=('01/01/'||EXTRACT(YEAR FROM CURRENT_DATE))::date)
     AND s.PE_Numero NOT IN (SELECT pe_numero FROM table_lignefacture JOIN table_facture USING (fa_numero) WHERE pd_numero-500000000 IN (96,109,125,94,100) AND fa_date>=('01/01/'||EXTRACT(YEAR FROM CURRENT_DATE))::date)
 */
     AND p.pe_numero NOT IN (select rc_ncli FROM vue_current_routage)
     AND s.pe_numero NOT IN (select rc_ncli FROM vue_current_routage)
-    AND ad_active;
+    AND ad_active
+    ;
 	
 -- GRANT SELECT ON vue_current_relance_adherent TO PUBLIC;
 
@@ -449,9 +450,9 @@ CREATE OR REPLACE VIEW vue_adhesion_all AS
 --DROP VIEW VUe_Cotisation_All;
 
 CREATE OR REPLACE VIEW VUE_Cotisation_All AS
-  SELECT cs_numero, cs_annee, pe_numero, cs_detail, cs_montant, created_at FROM table_cotisation
+  SELECT cs_numero, cs_annee, cs_nature, pe_numero, cs_detail, cs_montant, created_at FROM table_cotisation
   UNION ALL
-  SELECT cs_numero, cs_annee, cs_societe AS pe_numero, cs_detail, cs_montant, created_at FROM table_cotisation WHERE cs_societe IS NOT NULL;
+  SELECT cs_numero, cs_annee, cs_nature, cs_societe AS pe_numero, cs_detail, cs_montant, created_at FROM table_cotisation WHERE cs_societe IS NOT NULL;
 
 --DROP VIEW VUe_Cotisation;
 

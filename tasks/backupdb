@@ -5,11 +5,13 @@ if [ $# != 1 ]; then
 fi
 cd /tmp
 d=`date +%Y%m%d_%H%M`
+server=save.fdsea33.fr
 f=db_$1_$d.sql
 z=$f.tar.bz2
 pg_dump -COx --schema=public $1 > $f
 tar cvjf $z $f
 rm -f $f
 cp $z /home/groupes/informatique/backup/
-sudo -u brice scp $z brice@91.121.24.96:Sauvegardes
+sudo -u brice ssh brice@${server} mkdir -p /home/backup/db/$1
+sudo -u brice scp $z brice@${server}:/home/backup/db/$1/
 rm -f $z

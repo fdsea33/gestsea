@@ -114,8 +114,10 @@ function DevisVersFacture(compo){
       alert("Le devis n'a pas pu être passé en facture.");
     else {
       compo.Refresh();
-      alert("Facture créée avec succès :\nN°"+requete("SELECT FA_NumFact FROM Facture WHERE FA_Numero="+num_facture));
-    } 
+      if (confirm("Facture créée avec succès :\nN°"+requete("SELECT FA_NumFact FROM Facture WHERE FA_Numero="+num_facture)+"\nVoulez-vous imprimer la facture ?")) {
+        Imprimer2(num_facture, 'facture');
+      }
+    }
   }
 }
 
@@ -236,12 +238,15 @@ function SaisirReductionDevis(button, compo) {
 function PrintDuplicata(compo){
   var cle = compo.getCleVal();
   if (cle>0) {
+    Imprimer(compo,'carte')
+/*
     var query = "SELECT count(*) FROM lignefacture left join avoir using (fa_numero) WHERE pd_numero-500000000 IN (153,144,56,57,58,59,60) AND fa_numero="+cle+" AND av_numero IS NULL;";
     var query2 = "SELECT CASE WHEN CURRENT_DATE>='01/01/2008' THEN 1 ELSE 0 END AS strict;";
     var query3 = "SELECT CASE WHEN CURRENT_USER='brice' THEN 1 ELSE 0 END AS admin;";
     if (requete(query)>=1 || requete(query2)==0 || requete(query3)==1) {
       Imprimer(compo,'carte')
     } else { alert("Cette facture n'autorise pas la création de duplicata"); }
+*/
   } else { alert("Il faut sélectionner une facture");}
 }
 
@@ -316,9 +321,9 @@ var current_personne = 25;
 function EnvoyerPassword(compo) {
   current_personne = compo.getCleVal();
   /* C'est pas joli mais ça suffit dans l'immédiat */
-  var superuser = requete("SELECT case when usesuper then 1 when usename IN ('nt_synd','fb_synd') then 1 else 0 end from pg_user where usename=current_user;");
+  var superuser = requete("SELECT CASE WHEN em_service_invoicing OR em_super THEN 1 ELSE 0 END FROM employe WHERE em_login=current_user;");
   if (superuser==1) {
-    window.openDialog('principal_mail.xul', "showmore", "centerscreen,close=no,modal,chrome,scrollbars,resizable=no");
+    window.openDialog("principal_mail.xul", "showmore", "centerscreen,close=no,modal,chrome,scrollbars,resizable=no");
   } else {
     alert("Vous ne pouvez pas effectuer cette opération.");
   }
@@ -779,5 +784,5 @@ function ConstruireOngletEstLie(Nom_tabbox,IdTab)
 //***********************************************************************
 // Fin
 //***********************************************************************
-//alert('OK');
+//alert('PP chargé');
 

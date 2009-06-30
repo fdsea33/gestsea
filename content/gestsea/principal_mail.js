@@ -58,16 +58,17 @@ function elem(id){
 
 function wg_onload() {
   var num_personne = opener.current_personne;
-  var morale = requete("SELECT CASE WHEN np_morale THEN 1 ELSE 0 END FROM table_personne join table_naturepersonne USING (np_numero) WHERE pe_numero="+num_personne);
+  var morale = requete("SELECT CASE WHEN np_morale THEN 1 ELSE 0 END FROM personne join naturepersonne USING (np_numero) WHERE pe_numero="+num_personne);
   if (morale=='1') {
-    alert('Vous devez changer de fiche, les sociétés ne peuvent pas avoir de compte sur le site web.\n Allez voir dans les liens.');
+    alert("Vous devez changer de fiche, les sociétés ne peuvent pas avoir de compte sur le site web.\n Allez voir dans les liens.");
+    window.close();
     return;
   }
 
-  var pmail = requete("SELECT cn_coordonnee FROM table_contact WHERE cn_actif AND ck_numero=104 and pe_numero="+num_personne);
-  var pid   = requete("SELECT pe_id FROM table_personne WHERE pe_numero="+num_personne);
-  var ppass = requete("SELECT pe_motdepasse FROM table_personne WHERE pe_numero="+num_personne);
-  var mailto = "mailto:"+pmail+'?subject=[FDSEA33] Identifiants de connexion au site www.fdsea33.fr&body=Bonjour,%0A%0AVoici les informations nécessaires pour vous connecter sur le site :%0A - Nom d\'utilisateur : fdsea'+pid+'%0A - Mot de passe : '+ppass+'%0A%0ASi le navigateur vous montre un message disant qu\'il y a un problème de sécurité avec le "certificat", il faut demander à poursuivre sur le site quand même.%0A%0ACordialement,%0A%0ALe Service Informatique de la FDSEA';
+  var pmail = requete("SELECT cn_coordonnee FROM contact WHERE cn_actif AND ck_numero=104 and pe_numero="+num_personne);
+  var pid   = requete("SELECT pe_id FROM personne WHERE pe_numero="+num_personne);
+  var ppass = requete("SELECT pe_motdepasse FROM personne WHERE pe_numero="+num_personne);
+  var mailto = "mailto:"+pmail+"?subject=[FDSEA33] Identifiants de connexion au site www.fdsea33.fr&body=Bonjour,%0A%0AVoici les informations nécessaires pour vous connecter sur le site :%0A - Nom d\'utilisateur : fdsea"+pid+"%0A - Mot de passe : "+ppass+"%0A%0ACordialement,%0A%0ALe Service Informatique de la FDSEA";
   var l = elem("mailto");
   l.setAttribute("value",pmail);
   l.setAttribute("href",mailto);

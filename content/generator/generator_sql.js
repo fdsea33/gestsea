@@ -269,31 +269,31 @@ function GenererSQL(TheReqSQLP)
     /* on optimise */
     var TheReqSQL=OptimiserReqSQL(TheReqSQLP);
 
-    var Req="select ";
+    var Req="SELECT ";
     var i;
 
     if (TheReqSQL.Distinct)
-	Req=Req+"distinct ";
+	Req=Req+"DISTINCT ";
 
     for(i=0;i<TheReqSQL.TabSelect.length;i++)
 	{
 	    if(i!=0)
 		Req=Req+", ";
-	    Req=Req+TheReqSQL.TabSelect[i]+' as "'+TheReqSQL.TabSelect[i]+'"';
+	    Req=Req+TheReqSQL.TabSelect[i]+' AS "'+TheReqSQL.TabSelect[i]+'"';
 	}
 
-    Req=Req+" from "+TheReqSQL.FromRoot+" ";
+    Req=Req+" FROM "+TheReqSQL.FromRoot+" ";
     for(i=0;i<TheReqSQL.TabJointureExt.length;i++)
 	{
 	    if (TheReqSQL.TabJointureExt[i].JointureLarge)
-		Req=Req+"left outer ";
+		Req=Req+"LEFT OUTER ";
 
-	    Req=Req+"join "+TheReqSQL.TabJointureExt[i].Table+" on ("+TheReqSQL.TabJointureExt[i].CleDebut+"="+TheReqSQL.TabJointureExt[i].CleFin+") ";
+	    Req=Req+"JOIN "+TheReqSQL.TabJointureExt[i].Table+" ON ("+TheReqSQL.TabJointureExt[i].CleDebut+"="+TheReqSQL.TabJointureExt[i].CleFin+") ";
 	}
 
     if (TheReqSQL.TabWhere.length!=0)
 	{
-	    Req=Req+"where ";
+	    Req=Req+"WHERE ";
 	}
     for(i=0;i<TheReqSQL.TabWhere.length;i++)
 	{
@@ -304,7 +304,7 @@ function GenererSQL(TheReqSQLP)
 
     if (TheReqSQL.TabOrderBy.length!=0)
 	{
-	    Req=Req+"order by ";
+	    Req=Req+"ORDER BY ";
 	}
     for(i=0;i<TheReqSQL.TabOrderBy.length;i++)
 	{
@@ -970,3 +970,8 @@ function clEnsembleAttributs(NomTable,Liaison_Attributs,Esclaves) {
 
 clEnsembleAttributs.prototype.getLiaison_Attributs =
     function(){return this.Liaison_Attributs;}
+
+
+
+
+// alert('GS chargé');

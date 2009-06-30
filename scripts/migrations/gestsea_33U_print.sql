@@ -710,7 +710,7 @@ fa_numero                        -- 4
 FROM table_facture JOIN table_cotisation c ON (bml_extract(cs_detail,'fdsea.facture')=fa_numero::VARCHAR)
   LEFT JOIN table_personne adherent ON (c.pe_numero=adherent.pe_numero)
   LEFT JOIN table_personne conjoint ON (bml_extract(cs_detail,'fdsea.conjoint.numero')=conjoint.pe_numero::VARCHAR)
-  LEFT JOIN table_personne societe ON (bml_extract(cs_detail,'cotisation.societe')=societe.pe_numero::VARCHAR);
+  LEFT JOIN table_personne societe ON (cs_societe=societe.pe_numero);
 
 --===========================================================================--
 --DROP VIEW VUE_PRINT_Carte_Salarie;

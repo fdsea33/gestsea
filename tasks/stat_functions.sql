@@ -425,11 +425,11 @@ BEGIN
   proc:=proc||' CASE WHEN pd_actif THEN ''actif'' ELSE ''inactif'' END AS "Etat",';
   SELECT EXTRACT(YEAR FROM CURRENT_DATE) INTO last_year;
   FOR current_year IN 1997..last_year LOOP
-    proc:=proc||'REPLACE(round(year'||current_year||'.total,2),''.'','','') AS "'||current_year||'",\n';
-    corp:=corp||' LEFT JOIN (SELECT '||agg||' as total, product, society FROM products where day BETWEEN ''01/01/'||current_year||''' AND ''31/12/'||current_year||''' GROUP BY 2,3) AS year'||current_year||' ON (year'||current_year||'.product=pd_numero AND year'||current_year||'.society='||num_societe||')\n';
+    proc:=proc||'REPLACE(round(year'||current_year||'.total,2)::VARCHAR,''.'','','') AS "'||current_year||E'",\n';
+    corp:=corp||' LEFT JOIN (SELECT '||agg||' as total, product, society FROM products where day BETWEEN ''01/01/'||current_year||''' AND ''31/12/'||current_year||''' GROUP BY 2,3) AS year'||current_year||' ON (year'||current_year||'.product=pd_numero AND year'||current_year||'.society='||num_societe||E')\n';
   END LOOP;
-  corp:=corp||' LEFT JOIN (SELECT '||agg||' as total, product, society FROM products where day BETWEEN ''01/01/1997'' AND ''31/12/'||last_year||''' GROUP BY 2,3) AS years ON (years.product=pd_numero AND years.society='||num_societe||')\n';
-  proc:=proc||' REPLACE(round(years.total,2),''.'','','') AS "Total"\n FROM table_produit \n'||corp;
+  corp:=corp||' LEFT JOIN (SELECT '||agg||' as total, product, society FROM products where day BETWEEN ''01/01/1997'' AND ''31/12/'||last_year||''' GROUP BY 2,3) AS years ON (years.product=pd_numero AND years.society='||num_societe||E')\n';
+  proc:=proc||E' REPLACE(round(years.total,2)::VARCHAR,''.'','','') AS "Total"\n FROM table_produit \n'||corp;
   proc:=proc||' WHERE so_numero='||num_societe;
   proc:=proc||' ORDER BY 3,2';
 
@@ -478,12 +478,12 @@ BEGIN
   SELECT EXTRACT(YEAR FROM CURRENT_DATE) INTO last_year;
   FOR current_year IN 1997..last_year LOOP
     FOR m IN 1..12 LOOP
-      proc:=proc||'REPLACE(round(col'||m||'_'||current_year||'.total,2),''.'','','') AS "'||m||'_'||current_year||'", ';
-      corp:=corp||' LEFT JOIN (SELECT '||agg||' as total, product, society FROM products where day BETWEEN ''01/'||m||'/'||current_year||''' AND '''||('01/'||m||'/'||current_year)::date+'1 month'::interval-'1 day'::interval||''' GROUP BY 2,3) AS col'||m||'_'||current_year||' ON (col'||m||'_'||current_year||'.product=pd_numero AND col'||m||'_'||current_year||'.society='||num_societe||')\n';
+      proc:=proc||'REPLACE(round(col'||m||'_'||current_year||'.total,2)::VARCHAR,''.'','','') AS "'||m||'_'||current_year||'", ';
+      corp:=corp||' LEFT JOIN (SELECT '||agg||' as total, product, society FROM products where day BETWEEN ''01/'||m||'/'||current_year||''' AND '''||('01/'||m||'/'||current_year)::date+'1 month'::interval-'1 day'::interval||''' GROUP BY 2,3) AS col'||m||'_'||current_year||' ON (col'||m||'_'||current_year||'.product=pd_numero AND col'||m||'_'||current_year||'.society='||num_societe||E')\n';
     END LOOP;
   END LOOP;
-  corp:=corp||' LEFT JOIN (SELECT '||agg||' as total, product, society FROM products where day BETWEEN ''01/01/1997'' AND ''31/12/'||last_year||''' GROUP BY 2,3) AS years ON (years.product=pd_numero AND years.society='||num_societe||')\n';
-  proc:=proc||' REPLACE(round(years.total,2),''.'','','') AS "Total"\n FROM table_produit \n'||corp;
+  corp:=corp||' LEFT JOIN (SELECT '||agg||' as total, product, society FROM products where day BETWEEN ''01/01/1997'' AND ''31/12/'||last_year||''' GROUP BY 2,3) AS years ON (years.product=pd_numero AND years.society='||num_societe||E')\n';
+  proc:=proc||E' REPLACE(round(years.total,2)::VARCHAR,''.'','','') AS "Total"\n FROM table_produit \n'||corp;
   proc:=proc||' WHERE so_numero='||num_societe;
   proc:=proc||' ORDER BY 3,2';
 
@@ -523,19 +523,19 @@ BEGIN
     EXECUTE query;
   END IF;
   query:='CREATE TEMPORARY TABLE '||table_name||' AS ';
-  proc:='SELECT cg_numero AS "Int.", INITCAP(cg_libelle) AS "Compte", RTRIM(cg_numcompte,''0'') AS "N.Cpt.",\n';
+  proc:=E'SELECT cg_numero AS "Int.", INITCAP(cg_libelle) AS "Compte", RTRIM(cg_numcompte::VARCHAR, ''0''::VARCHAR) AS "N.Cpt.",\n';
   corp:='';
   FOR month IN 1..12 LOOP
-    proc:=proc||'REPLACE(ROUND(z'||month||'.total,2),''.'','','') AS "'||month||' - '||year||'",\n';
+    proc:=proc||'REPLACE(ROUND(z'||month||'.total,2)::VARCHAR,''.'','','') AS "'||month||' - '||year||E'",\n';
     IF month=12 THEN
       sup:=1;
       msup:=-12;
     END IF;
-    corp:=corp||'LEFT JOIN (SELECT SUM(total) AS total, account, society FROM @@TABLE@@ WHERE ''01/'||month||'/'||year||'''<=day AND day<''01/'||month+1+msup||'/'||year+sup||''' GROUP BY 2,3) AS z'||month||' ON (z'||month||'.account=cg_numero AND z'||month||'.society='||num_societe||')\n';
+    corp:=corp||'LEFT JOIN (SELECT SUM(total) AS total, account, society FROM @@TABLE@@ WHERE ''01/'||month||'/'||year||'''<=day AND day<''01/'||month+1+msup||'/'||year+sup||''' GROUP BY 2,3) AS z'||month||' ON (z'||month||'.account=cg_numero AND z'||month||'.society='||num_societe||E')\n';
   END LOOP;
-  corp:=corp||'LEFT JOIN (SELECT SUM(total) AS total, account, society FROM @@TABLE@@ WHERE ''1/1/'||year||'''<=day AND day<=''31/12/'||year||''' GROUP BY 2,3) AS year ON (year.account=cg_numero AND year.society='||num_societe||')\n';
+  corp:=corp||'LEFT JOIN (SELECT SUM(total) AS total, account, society FROM @@TABLE@@ WHERE ''1/1/'||year||'''<=day AND day<=''31/12/'||year||''' GROUP BY 2,3) AS year ON (year.account=cg_numero AND year.society='||num_societe||E')\n';
 
-  proc:=proc||'REPLACE(ROUND(year.total,2),''.'','','') AS "Total"\nFROM table_comptegen\n'||corp;
+  proc:=proc||E'REPLACE(ROUND(year.total,2)::VARCHAR,''.'','','') AS "Total"\nFROM table_comptegen\n'||corp;
   proc:=proc||'WHERE (cg_numcompte::varchar like ''445%'' OR cg_numcompte::varchar like ''7%'' OR cg_numcompte::varchar like ''635%'' OR cg_numcompte::varchar like ''626%'')'; 
   proc:=proc||' AND so_numero='||num_societe;
 

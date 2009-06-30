@@ -1782,7 +1782,7 @@ clComposantSQL.prototype.Refresh =
 	var query=this.my_ReqRefresh.GenererReq();
 	if ((this.isLimited) && (!this.HasContenu))
 	{
-	    query+=" limit "+LIMIT+" offset "+this.my_OffSet;
+	    query+=" LIMIT "+LIMIT+" OFFSET "+this.my_OffSet;
 	}
 	//alert("requete=\n"+query);
 	var result=pgsql_query(query);
@@ -1808,7 +1808,7 @@ clComposantSQL.prototype.RefreshContenu =
 	var query=this.my_ReqContenu.GenererReq();
 	if (this.isLimited)
 	{
-	    query+=" limit "+LIMIT+" offset "+this.my_OffSet;
+	    query+=" LIMIT "+LIMIT+" OFFSET "+this.my_OffSet;
 	}
 	var result=pgsql_query(query);
 	this.RefreshMyCompoContenu(result);
@@ -3498,7 +3498,7 @@ function CompoListeDeroulante_SelectItem(ListeDeroulante,cle)
 	    var query=ListeDeroulante.my_ReqContenu.GenererReq();
 	    if (ListeDeroulante.isLimited)
 		{
-		    query+=" limit "+LIMIT+" offset "+ListeDeroulante.my_OffSet;
+		    query+=" LIMIT "+LIMIT+" OFFSET "+ListeDeroulante.my_OffSet;
 		}
 	    var result=pgsql_query(query);
 	    ListeDeroulante.RefreshMyCompoContenu(result);
@@ -3742,3 +3742,6 @@ function CompoListeDeroulante_GenererCompoXUL(ListeDeroulante,ParentXul)
 
     return hboxOr;
 }
+
+
+// alert('GX chargé');

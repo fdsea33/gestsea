@@ -1,26 +1,28 @@
-const ACTIVER_CACHE = false;
-const ACTIVER_LOG = false;
+/*jslint browser: true */
+var ACTIVER_CACHE = false;
+var ACTIVER_LOG = true;
 
 function ChercherCompoRec(CompoBase,NodeName,Tab,LongMax) {
   //    alert(NodeName+"-"+CompoBase.nodeName);
   if (CompoBase.nodeName==NodeName)  {
     Tab.push(CompoBase);
-    if (Tab.length>=LongMax)
+    if (Tab.length>=LongMax) {
       return true;
+    }
   }
 
   var i;
   for(i=0;i<CompoBase.childNodes.length;i++) {
-    if (ChercherCompoRec(CompoBase.childNodes[i],NodeName,Tab,LongMax))
+    if (ChercherCompoRec(CompoBase.childNodes[i],NodeName,Tab,LongMax)) {
       return true;
+    }
   }
   return false;
 }
 
 function ChercherCompo(CompoBase,NodeName,LongMax) {
-  var Tab=new Array();
-  if (LongMax==null)
-  LongMax=1;
+  var Tab=[];
+  if (LongMax==null) { LongMax=1; }
   ChercherCompoRec(CompoBase,NodeName,Tab,LongMax);
   return Tab;
 }
@@ -32,10 +34,8 @@ function DePrefixerChamp(Champ) {
   var ap_point=false;
   var max=Champ.length;
   for(i=0;i<max;i++) {
-    if(ap_point)
-      StrRes+=Champ[i];
-    if(Champ[i]==".")
-      ap_point=true;
+    if(ap_point) { StrRes+=Champ[i]; }
+    if(Champ[i]==".") { ap_point=true; }
   }
   if (!ap_point)
     StrRes=Champ;
@@ -146,12 +146,12 @@ function CalculerNombreDeLigne(query) {
   return CodeValue;
 }
 
-const DT_SELECT = 0;
-const DT_UPDATE = 1;
-const DT_INSERT = 2;
-const DT_DELETE = 4;
-const DT_ONGLET = 5;
-const NOM_VUE_DROIT = 'vue_droit';
+var DT_SELECT = 0;
+var DT_UPDATE = 1;
+var DT_INSERT = 2;
+var DT_DELETE = 4;
+var DT_ONGLET = 5;
+var NOM_VUE_DROIT = 'vue_droit';
 
 var TABLEAU_DES_DROITS=null;
 
@@ -362,16 +362,17 @@ function PushCache(Req,Result)
 }
 
 /* pour la barre d'etat */
-function AddLog(str)
-{
-    if (!ACTIVER_LOG)
-  return;
-
-    var status_log=top.document.getElementById("status_log");
-    if (status_log!=null)
-  {
-      status_log.value+="\n"+str;
+function AddLog(str) {
+  //  if (!ACTIVER_LOG) return;
+/*
+  var status_log=top.document.getElementById("status_query_long");
+  if (status_log!=null) {
+    if (status_log.hidden==false) {
+      status_log.value += "\n"+str;
+    }
   }
+  return true
+*/
 }
 
 /*
@@ -434,3 +435,8 @@ function AddLog(str)
   alert("Requête bidon=\n",Req)
   }
 */
+
+
+
+
+// alert('UX chargé');

@@ -59,7 +59,7 @@ SELECT 'INSERT INTO jos_gm_membre(id_membre,id_groupe) VALUES (63,6)'
   WHERE 
 
 --((cs_annee=EXTRACT(YEAR FROM CURRENT_DATE) OR (EXTRACT(MONTH FROM CURRENT_DATE)<=2 AND cs_annee=EXTRACT(YEAR FROM CURRENT_DATE)-1))
-       bml_extract(cs_detail, 'sacea.produit')::integer-500000000 IN (36,65,69))
+       bml_extract(cs_detail, 'sacea.produit')::integer-500000000 IN (36,65,69)
     OR pe_numero = 1016535
 ;
 -- R.A.VITI

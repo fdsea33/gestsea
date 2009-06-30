@@ -16,7 +16,7 @@ $$
 LANGUAGE 'plpgsql';
 
 -- Mise en application de la fonction
-SELECT fc_finish_cotisations((CURRENT_DATE-'7 days'::INTERVAL)::DATE, (CURRENT_DATE-'0 days'::INTERVAL)::DATE);
+SELECT fc_finish_cotisations((CURRENT_DATE-'6 days'::INTERVAL)::DATE, (CURRENT_DATE-'0 days'::INTERVAL)::DATE);
 
 -- Creation de la vue des cerealiers ALVEA
 DROP VIEW VUE_Cerealiers;
@@ -35,13 +35,13 @@ CREATE OR REPLACE VIEW VUE_Cerealiers AS
 \qecho Céréalier;N°;Titre;Nom;Prenom;Ligne_2;Ligne_3;Ligne_4;Ligne_5;CP;Ville;Telephone;N°; Titre;Nom;Prenom;Ligne_2;Ligne_3;Ligne_4;Ligne_5;CP;Ville;Telephone
 SELECT CASE WHEN c.cs_numero IN (SELECT cs_numero FROM VUE_Cerealiers) THEN 'X' ELSE '' END AS cereal, p.pe_id, p.pe_adresse, '="'||p.pe_telephone||'"', s.pe_id, s.pe_adresse, '="'||s.pe_telephone||'"'
   FROM table_cotisation c join vue_personne p using (pe_numero) LEFT JOIN vue_personne s ON (c.cs_societe=s.pe_numero) 
-  WHERE cs_annee=EXTRACT(YEAR FROM CURRENT_DATE) AND (c.created_at::date BETWEEN (CURRENT_DATE-'7 days'::INTERVAL)::DATE AND (CURRENT_DATE-'0 days'::INTERVAL)::DATE)
+  WHERE cs_annee=EXTRACT(YEAR FROM CURRENT_DATE) AND (c.created_at::date BETWEEN (CURRENT_DATE-'6 days'::INTERVAL)::DATE AND (CURRENT_DATE-'0 days'::INTERVAL)::DATE)
 ORDER BY 1 DESC, p.pe_nom
 ;
 
 SELECT '', p.pe_id, p.pe_adresse, '="'||p.pe_telephone||'"','', '', ''
   FROM table_lignefacture l JOIN table_facture f USING (fa_numero) JOIN vue_personne p ON (l.pe_numero=p.pe_numero)
-  WHERE (f.created_at::date BETWEEN (CURRENT_DATE-'7 days'::INTERVAL)::DATE AND (CURRENT_DATE-'0 days'::INTERVAL)::DATE)
+  WHERE (f.created_at::date BETWEEN (CURRENT_DATE-'6 days'::INTERVAL)::DATE AND (CURRENT_DATE-'0 days'::INTERVAL)::DATE)
     AND pd_numero=500000180
 ORDER BY 1 DESC, p.pe_nom
 ;

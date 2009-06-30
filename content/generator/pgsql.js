@@ -226,16 +226,16 @@ function pgsql_query( query ) {
   var Tps=Debut_TpsExec();
   /* pour la barre d'etat */
   // BEGIN à commenter ?
+  var CompoQuery=top.document.getElementById("status_query");
+  if (CompoQuery!=null) CompoQuery.label = query.substr(0,6);
+  CompoQuery=top.document.getElementById("status_query_long");
+  if (CompoQuery!=null) CompoQuery.value = query;
   var CompoInfo=top.document.getElementById("status_Info");
-  if (CompoInfo!=null)
-  {
-  CompoInfo.label="Chargement...";
-  }
+  if (CompoInfo!=null)  CompoInfo.label="Chargement...";
   // END à commenter ?
-  AddLog("Requête:"+query);
-var result=UseCache(query);
-if (result==null)
-{
+  // AddLog("SQL: "+query);
+  var result=UseCache(query);
+  if (result==null) {
   try {
     var result = connection.executeQuery(query);
   }
@@ -264,7 +264,7 @@ if (result==null)
   }
   var CompoTpsExec=top.document.getElementById("status_TpsExec");
   if (CompoTpsExec!=null) {
-    CompoTpsExec.label="Temps d'execution : "+Fin_TpsExec(Tps)+"ms";
+    CompoTpsExec.label=Fin_TpsExec(Tps)+"ms";
   }
   // END
   return result;
@@ -485,51 +485,4 @@ function pgsql_rollback(savepoint)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// alert('PG chargé');

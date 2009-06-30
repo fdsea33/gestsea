@@ -1210,7 +1210,7 @@ if (!pgsql_getConnectionState())
 Init_ALeDroit();
 var query='SELECT current_user, current_date;';
 var result=pgsql_query(query);
-if (result.rowCount>0){var enum=result.enumerate();enum.first(); var user_name = enum.getVariant(0); window.title = user_name+' - '+window.title; stlog = top.document.getElementById('status_login'); if (stlog!=null) {stlog.label='Nom d\'utilisateur : '+user_name;} }
+if (result.rowCount>0){var enum=result.enumerate();enum.first(); var user_name = enum.getVariant(0); document.title = user_name+' - '+document.title; stlog = top.document.getElementById('status_login'); if (stlog!=null) {stlog.label=user_name;} }
 var Col_N0_Nom______________De_Personnes_Liste_des_personnes0=new clAttribut("pe_fullname","personne",null);
 
 var Col_N1_N__De_Personnes_Liste_des_personnes0=new clAttribut("pe_id","personne",null);
