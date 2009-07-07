@@ -389,32 +389,32 @@
 <tabpanels flex="1">
 <tabpanel flex="1">
 <hbox flex="1">
-<vbox id="Réglement_Factures_concernées_8" flex="1"/>
+<vbox id="Réglement_Factures_concernées_9" flex="1"/>
 <splitter collapse="before"> <grippy/> </splitter>
 <vbox flex="1" style="overflow:auto">
-<vbox flex="1" id="Réglement_Factures_concernées_8_Slaves"/>
+<vbox flex="1" id="Réglement_Factures_concernées_9_Slaves"/>
 <arrowscrollbox  pack="end" align="stretch" class="fondstyle">
-    <button class="new-button16" disabled="true" id="Insert_Réglement_Factures_concernées_8" label="Ajouter" oncommand="Insert_Réglement_Factures_concernées_8()" />
-    <button class="edit-button16" disabled="true" id="Update_Réglement_Factures_concernées_8" label="Modifier" oncommand="Update_Réglement_Factures_concernées_8()" />
-    <button class="delete-button16" disabled="true" id="Delete_Réglement_Factures_concernées_8" label="Supprimer" oncommand="Delete_Réglement_Factures_concernées_8()" />
-    <button class="accept-button16" id="Validate_Réglement_Factures_concernées_8" label="Valider" oncommand="Validate_Réglement_Factures_concernées_8()"  disabled="true" />
-    <button class="cancel-button16" id="Annuler_Réglement_Factures_concernées_8" label="Annuler" oncommand="Annuler_Réglement_Factures_concernées_8()"  disabled="true" />
+    <button class="new-button16" disabled="true" id="Insert_Réglement_Factures_concernées_9" label="Ajouter" oncommand="Insert_Réglement_Factures_concernées_9()" />
+    <button class="edit-button16" disabled="true" id="Update_Réglement_Factures_concernées_9" label="Modifier" oncommand="Update_Réglement_Factures_concernées_9()" />
+    <button class="delete-button16" disabled="true" id="Delete_Réglement_Factures_concernées_9" label="Supprimer" oncommand="Delete_Réglement_Factures_concernées_9()" />
+    <button class="accept-button16" id="Validate_Réglement_Factures_concernées_9" label="Valider" oncommand="Validate_Réglement_Factures_concernées_9()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Réglement_Factures_concernées_9" label="Annuler" oncommand="Annuler_Réglement_Factures_concernées_9()"  disabled="true" />
 </arrowscrollbox>
 </vbox>
 </hbox>
 </tabpanel>
 <tabpanel flex="1">
 <hbox flex="1">
-<vbox id="Réglement_Dont_reversements____13" flex="1"/>
+<vbox id="Réglement_Dont_reversements____14" flex="1"/>
 <splitter collapse="before"> <grippy/> </splitter>
 <vbox flex="1" style="overflow:auto">
-<vbox flex="1" id="Réglement_Dont_reversements____13_Slaves"/>
+<vbox flex="1" id="Réglement_Dont_reversements____14_Slaves"/>
 <arrowscrollbox  pack="end" align="stretch" class="fondstyle">
-    <button class="new-button16" disabled="true" id="Insert_Réglement_Dont_reversements____13" label="Ajouter" oncommand="Insert_Réglement_Dont_reversements____13()" />
-    <button class="edit-button16" disabled="true" id="Update_Réglement_Dont_reversements____13" label="Modifier" oncommand="Update_Réglement_Dont_reversements____13()" />
-    <button class="delete-button16" disabled="true" id="Delete_Réglement_Dont_reversements____13" label="Supprimer" oncommand="Delete_Réglement_Dont_reversements____13()" />
-    <button class="accept-button16" id="Validate_Réglement_Dont_reversements____13" label="Valider" oncommand="Validate_Réglement_Dont_reversements____13()"  disabled="true" />
-    <button class="cancel-button16" id="Annuler_Réglement_Dont_reversements____13" label="Annuler" oncommand="Annuler_Réglement_Dont_reversements____13()"  disabled="true" />
+    <button class="new-button16" disabled="true" id="Insert_Réglement_Dont_reversements____14" label="Ajouter" oncommand="Insert_Réglement_Dont_reversements____14()" />
+    <button class="edit-button16" disabled="true" id="Update_Réglement_Dont_reversements____14" label="Modifier" oncommand="Update_Réglement_Dont_reversements____14()" />
+    <button class="delete-button16" disabled="true" id="Delete_Réglement_Dont_reversements____14" label="Supprimer" oncommand="Delete_Réglement_Dont_reversements____14()" />
+    <button class="accept-button16" id="Validate_Réglement_Dont_reversements____14" label="Valider" oncommand="Validate_Réglement_Dont_reversements____14()"  disabled="true" />
+    <button class="cancel-button16" id="Annuler_Réglement_Dont_reversements____14" label="Annuler" oncommand="Annuler_Réglement_Dont_reversements____14()"  disabled="true" />
 </arrowscrollbox>
 </vbox>
 </hbox>
@@ -462,7 +462,7 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Imprimer le bordereau" oncommand="Imprimer(TAB_GLOBAL_COMPO[614],'bordereau');"/>
+    <button label="Imprimer le bordereau" oncommand="Imprimer(TAB_GLOBAL_COMPO[615],'bordereau');"/>
   </arrowscrollbox>
 </hbox>
 </vbox>

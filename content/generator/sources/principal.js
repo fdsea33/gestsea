@@ -643,11 +643,12 @@ function CodeInPrincipal(centre){
    //    It_Reglement.AjouterComposantSimple("N° Facture (Si le règlement correspond)","fa_numfact",new Array("fa_numero","fa_numero","facture"),null,LISTE_DEROULANTE);
     It_Reglement.AjouterComposantSimple("Date","rg_date");
     It_Reglement.AjouterComposantSimple("Montant","rg_montant");
-    ReglementModereglement = It_Reglement.AjouterComposantSimple("Mode","mr_libelle",new Array("mr_numero","mr_numero","modereglement"),null,LISTE_DEROULANTE);
-    It_Reglement.AjouterComposantSimple("Banque","rg_libellebanque");
-    It_Reglement.AjouterComposantSimple("N° compte","rg_numerocompte");
-    It_Reglement.AjouterComposantSimple("Référence","rg_reference");
-    It_Reglement.AjouterComposantSimple("Responsable","em_libelle",new Array("em_numero","em_numero","vue_employe_reglement"),null,LISTE_DEROULANTE);
+    ReglementModereglement = It_Reglement.AjouterComposantSimple("Mode", "mr_libelle", new Array("mr_numero", "mr_numero", "modereglement"), null, LISTE_DEROULANTE);
+    It_Reglement.AjouterComposantSimple("Banque", "rg_libellebanque");
+    It_Reglement.AjouterComposantSimple("N° compte", "rg_numerocompte");
+    It_Reglement.AjouterComposantSimple("Référence", "rg_reference");
+    It_Reglement.AjouterComposantSimple("Responsable", "em_libelle", new Array("em_numero", "em_numero", "vue_employe_reglement"), null, LISTE_DEROULANTE);
+    It_Reglement.AjouterComposantSimple("Remise de chèque", "lr_numero", null, null, LABEL);
 
     //    ReglementModereglement.getTheme().AddFiltre('Filtre_ReglementModereglement=new clInterfaceFiltragePermanantCustom("mr_actif=true")');
     //    AllIt.AjouterCodeUserLoad('Filtre_ReglementModereglement.setComposant(Compo_'+ReglementModereglement.getNom_()+');\n');

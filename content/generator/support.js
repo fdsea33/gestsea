@@ -146,9 +146,9 @@ function menulist_fill(id, query, selectedValue){
     menulist.database.AddDataSource(ds);
   }
   menulist.builder.rebuild();
-  menulist.selectedIndex = 0;
   menulist.setAttribute("lines",result.rowCount);
-  if (selectedValue !== null) {
+  menulist.selectedIndex = 0;
+  if (selectedValue !== null && selectedValue !== undefined) {
     menulist.value = selectedValue;
   }
   return menulist;
@@ -157,7 +157,7 @@ function menulist_fill(id, query, selectedValue){
 /* Retourne la valeur courante d'une menulist
  */
 function menulist_value(id, cond) {
-  if (cond === null || cond) {
+  if (cond === undefined || cond) {
     var menulist = elem(id);
     if (menulist.selectedIndex>-1) {
       return menulist.selectedItem.value;
@@ -249,7 +249,7 @@ function isTime(h) {
   var regTimeSplit = new RegExp("[:\\.]", "i");
   if (regTimeTest.test(h)) {
     var res = h.split(regTimeSplit);
-    if (((1.*res[0]+5)*2) < 60) {
+    if (((1.0*res[0]+5)*2) < 60) {
       return true;
     }
   }
@@ -304,9 +304,11 @@ function StringToBool(s) {
 function verifyTime(object) {
   var id = object.getAttribute("id");
   var textbox = top.document.getElementById(id);
-  if (!isTime(textbox.value) && textbox.value!="") {
+  if (!isTime(textbox.value) && textbox.value!=="") {
     alert("Attention le champ de "+textbox.getAttribute("label")+" n'est pas renseigné correctement.");
     return false;
   }
   return true;
 }
+
+

@@ -1840,8 +1840,8 @@ BEGIN
   END IF;
 
   SELECT nextval('seq_impressiongroupe') INTO num_groupe;
-  INSERT INTO impressiongroupe (ig_numero, il_numero, ig_date) VALUES (num_groupe,2,CURRENT_DATE);
-  INSERT INTO impressiondocument (id_numero, ig_numero,id_modele,id_cle) VALUES (nextval('table_impressiondocument_id_numero_seq'), num_groupe, 'facture', num_facture);
+  INSERT INTO impressiongroupe (ig_numero, il_numero, ig_date) VALUES (num_groupe, 2, CURRENT_DATE);
+  INSERT INTO impressiondocument (id_numero, ig_numero, id_modele, id_cle) VALUES (nextval('table_impressiondocument_id_numero_seq'), num_groupe, 'facture', num_facture);
 
   SELECT fa_numfact FROM facture WHERE fa_numero=num_facture INTO num_numfact;
   RETURN num_numfact;

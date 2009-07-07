@@ -10,12 +10,12 @@
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script src="../generator/utils_xul.js"/>
   <script src="../generator/pgsql.js"/>
-  <script src="support.js"/>
+  <script src="../generator/support.js"/>
   <script src="easynvoice.js"/>
   <vbox flex="1">
     <groupbox>
       <caption label="1. Adhérent"/>
-      <menulist editable="true" id="wg-personne-menulist" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" onchange="wg_personne_search(); this.doCommand();" oncommand="this.inputField.select(); wg_personne_load();" onfocus="this.inputField.select();">
+      <menulist editable="true" id="wg-personne-menulist" seltype="single" datasources="rdf:null" ref="SQL:ResultRoot" flags="dont-build-content" onchange="wg_personne_search(); this.doCommand();" oncommand="wg_personne_load();" onfocus="this.inputField.select();">
         <template>
           <menupopup>
             <menuitem uri="rdf:*" label="rdf:http://www.mozilla.org/SQL-rdf#pe_description" value="rdf:http://www.mozilla.org/SQL-rdf#pe_numero"/>

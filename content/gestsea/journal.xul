@@ -176,7 +176,7 @@
 </hbox>
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
-    <button label="Changer le numéro du journal..." oncommand="ChangerNumeroJournal(TAB_GLOBAL_COMPO[808]);"/>
+    <button label="Changer le numéro du journal..." oncommand="ChangerNumeroJournal(TAB_GLOBAL_COMPO[809]);"/>
   </arrowscrollbox>
 </hbox>
 </vbox>
