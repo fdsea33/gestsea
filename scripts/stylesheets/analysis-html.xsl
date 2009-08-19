@@ -46,7 +46,7 @@ tr.odd td { background: #e0e7ff; border-bottom: 1px solid #e0e7ff; }
 tr.even td { background: #EbF4FF; border-bottom: 1px solid #EbF4FF; }
 tr.part { border : 1px solid #AAC; }
 tr.title td {background: white; border-top: 1px solid #AAC; border-left: 1px solid white; border-right: 1px solid white;}
-
+tr.end td {background: #aac;}
 .kw {color:<xsl:value-of select="$color_cont_fg"/>}
 .small {font-size: 9px;}
 
@@ -284,7 +284,7 @@ hr.bt { border: 1px solid <xsl:value-of select="$color_header_bg"/>; margin-top:
 	  </tr>
 	  -->	
       <tr class="part">
-        <th>Références (<xsl:value-of select="count($nb_ref)"/>)</th>
+        <th>Références (<xsl:value-of select="$nb_ref"/>)</th>
         <th>Type</th>
         <th>N</th>
         <th>Default</th>
@@ -309,6 +309,7 @@ hr.bt { border: 1px solid <xsl:value-of select="$color_header_bg"/>; margin-top:
       </xsl:apply-templates>
       
     </xsl:if>
+    <tr class="end"><td colspan="6"/></tr>
 
 
     <!--    </table>-->
