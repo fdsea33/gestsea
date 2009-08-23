@@ -11,9 +11,8 @@ backup:
 	zip backup.zip backup.xml
 
 %.xml: gst2eky.rb
-	ruby gst2eky.rb $*.xml debug
-
-%.zip: gst2eky.rb
 	ruby gst2eky.rb $*.xml
+
+%.zip: gst2eky.rb %.xml
 	xmllint --xmlout --nowarning --output backup.xml $*.xml
 	zip $*.zip backup.xml

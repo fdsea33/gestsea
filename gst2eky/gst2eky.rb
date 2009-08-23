@@ -37,11 +37,16 @@ end
 
 require 'schema_hash'
 
+NULL = "NULL"
+
+def log(*args)
+  puts "B> "+args[0], *args[1..-1]
+end
+
 class Migrator
 
-
   def colorize(array)
-    array.sort.collect do |x|
+    array.sort{|a,b| a.to_s<=>b.to_s}.collect do |x|
       if x.to_s.match(/_id$/)
         "\033\[01;32m#{x}\033\[00m"
       elsif x.to_s.match(/_numero$/)
@@ -52,13 +57,13 @@ class Migrator
     end.join(", ")
   end
 
-  def stamps(exists=false)
+  def stamps(exists=true)
     if exists.is_a? FalseClass
-      ', CURRENT_TIMESTAMP AS created_at, CURRENT_TIMESTAMP AS updated_at, NULL AS created_by, NULL AS updated_by, 0 AS lock_version '
+      return {:created_at=>'CURRENT_TIMESTAMP', :updated_at=>'CURRENT_TIMESTAMP', :creator_id=>NULL, :updater_id=>NULL, :lock_version=>0}
     else
       prefix = ''
       prefix = exists+'.' if exists.is_a? String
-      ", #{prefix}created_at, #{prefix}updated_at, #{prefix}created_by, #{prefix}updated_by, #{prefix}lock_version "
+      return {:created_at=>"#{prefix}created_at", :updated_at=>"#{prefix}updated_at", :creator_id=>"#{prefix}created_by", :updater_id=>"#{prefix}updated_by", :lock_version=>"#{prefix}lock_version"}
     end
   end
   
@@ -70,13 +75,54 @@ class Migrator
 
 
 
+  def rows_sql(reflection, result, columns)
+    cols = columns.sort{|a,b| a[1][:name]<=>b[1][:name]}
+    values = cols.collect do |column, attrs|
+      r = "result.getvalue(i,#{attrs[:index]})"
+      "(#{r}.nil? ? '\\N' : "+if attrs[:name].match(/^(cre|upd)ated_at$/)
+                                "(#{r}||Time.now).to_s"
+                              elsif attrs[:name].match(/^(cre|upd)at(o|e)r_id$/)
+                                "@users[#{r}].to_s"
+                              elsif attrs[:type] == :bool
+                                "(#{r}=='t' ? 'true' : 'false')"
+                              elsif attrs[:type] == :int4
+                                "#{r}.to_s"
+                              else
+                                "#{r}.to_s.gsub(/\\n/,\"\\\\n\").gsub(/\\t/,\"\\\\t\")"
+                              end+")"
+    end.join("+\"\t\"+")
+    count = result.num_tuples
+    log "  count: "+count.to_s unless @debug
+    code = ''
+    if count>3000
+      part = (count/10).to_i
+      for x in 0..9
+        code += "for i in #{x*part}..#{(x==9 ? count : (x+1)*part)-1}\n"
+        code += "  @file.write("+values+"+\"\\n\")\n"
+        code += "end\n"
+        code += "log '.'\n" unless @debug
+      end
+    else
+      code += "result.num_tuples.times do |i|\n"
+      code += "  @file.write("+values+"+\"\\n\")\n"
+      code += "end\n"
+    end
+    # raise Exception.new code
+    @file.write "COPY #{reflection} (#{cols.collect{|a| a[1][:name]}.join(', ')}) FROM stdin;\n"
+    eval(code)
+    @file.write "\\.\n"
+  end
+
+
+
+
 
 
 
 
 
   def rows_xml(reflection, result, columns)
-    # puts columns.inspect
+    # log columns.inspect
     values = columns.sort{|a,b| a[1][:name]<=>b[1][:name]}.collect do |column, attrs|
       r = "result.getvalue(i,#{attrs[:index]})"
       attrs[:name]+"=\\\"\"+"+
@@ -93,7 +139,7 @@ class Migrator
         end+"+\"\\\""
     end.join(" ")
     count = result.num_tuples
-    puts "  count: "+count.to_s unless @debug
+    log "  count: "+count.to_s unless @debug
     code = ''
     if count>3000
       part = (count/10).to_i
@@ -101,7 +147,7 @@ class Migrator
         code += "for i in #{x*part}..#{(x==9 ? count : (x+1)*part)-1}\n"
         code += "  @file.write(\"      <row "+values+"/>\\n\"\n)"
         code += "end\n"
-        code += "puts '.'\n" unless @debug
+        code += "log '  - #{(x==9 ? count : (x+1)*part)}'\n" unless @debug
       end
     else
       code += "result.num_tuples.times do |i|\n"
@@ -115,104 +161,93 @@ class Migrator
   end
 
 
-  def rows_sql(reflection, result, columns)
-    cols = columns.sort{|a,b| a[1][:name]<=>b[1][:name]}
-    values = cols.collect do |column, attrs|
-      r = "result.getvalue(i,#{attrs[:index]})"
-      "(#{r}.nil? ? '\\N' : "+if attrs[:name].match(/^(cre|upd)ated_at$/)
-                               "(#{r}||Time.now).to_s"
-                             elsif attrs[:name].match(/^(cre|upd)at(o|e)r_id$/)
-                               "@users[#{r}].to_s"
-                             elsif attrs[:type] == :bool
-                               "(#{r}=='t' ? 'true' : 'false')"
-                             elsif attrs[:type] == :int4
-                               "#{r}.to_s"
-                             else
-                               "#{r}.to_s.gsub(/\\n/,\"\\\\n\").gsub(/\\t/,\"\\\\t\")"
-                             end+")"
-    end.join("+\"\t\"+")
-    count = result.num_tuples
-    puts "  count: "+count.to_s unless @debug
-    code = ''
-    if count>3000
-      part = (count/10).to_i
-      for x in 0..9
-        code += "for i in #{x*part}..#{(x==9 ? count : (x+1)*part)-1}\n"
-        code += "  @file.write("+values+"+\"\\n\")\n"
-        code += "end\n"
-        code += "puts '.'\n" unless @debug
-      end
-    else
-      code += "result.num_tuples.times do |i|\n"
-      code += "  @file.write("+values+"+\"\\n\")\n"
-      code += "end\n"
+  def generate_query(options={})
+    if options[:select].is_a? Hash
+      st = options[:select].delete(:_stamps)
+      options[:select].merge!(stamps(options[:from] ? st : false)) 
     end
-    # raise Exception.new code
-    @file.write "COPY #{reflection} (#{cols.collect{|a| a[1][:name]}.join(', ')}) FROM stdin;\n"
-    eval(code)
-    @file.write "\\.\n"
+    options[:limit] ||= (@debug ? 500 : nil)
+    query  = "SELECT "
+    if options[:distinct].is_a? TrueClass
+      query += "DISTINCT " 
+    elsif options[:distinct].is_a? Array
+      query += "DISTINCT ON ("+options[:distinct].join(", ")+") "
+    end
+
+    if options[:select].is_a? Hash
+      query += options[:select].collect{|k, v| v.to_s+" AS "+k.to_s}.join(", ")
+    else
+      query += "*"
+    end
+    query += " FROM "+options[:from] if options[:from]
+    query += " WHERE "+options[:conditions] if options[:conditions]
+    query += " LIMIT "+options[:limit].to_s if options[:limit]
+    return query
   end
 
-
-
-
-  def rows(reflection, query, conversion={})
-    default_conversion = {'updated_at'=>'updated_at', 'created_at'=>'created_at', 'updated_by'=>'updater_id', 'created_by'=>'creator_id', 'lock_version'=>'lock_version'} #, 'so_numero'=>:none}
-    conversion = default_conversion.merge(conversion)
-    puts(reflection.to_s) unless @debug
+  def rows(reflection, options={})
+    log(reflection.to_s+(options[:select] ? "["+options[:select].keys.size.to_s+"]" : "")) unless @debug
     raise Exception.new(reflection.inspect) if EKYLIBRE[reflection].nil?
-
     @reflections.delete reflection
+    
+    
+    all_columns = []
+    if @debug
+      if options[:from]
+        query = generate_query(options.merge(:select=>nil, :limit=>1))
+        result = @conn.exec(query) 
+        all_columns = result.fields.collect{|x| x.to_sym}
+        all_columns -= [:created_at, :updated_at, :created_by, :updated_by, :lock_version, :id]
+      end
+    end
 
-    query.gsub!(/@@@/, (@debug ? ' LIMIT 30 ' : ''))
+    query = generate_query(options)
+    # puts query
     result = @conn.exec(query) 
     
-    conversion['thekey'] = 'id' if result.fields.include? 'thekey'
-    conversion['id'] = :none if result.fields.include? 'id'
-    
-    columns = EKYLIBRE[reflection].keys
-    # Automatic conversions
-    for column in columns
-      conversion[column] = column if conversion[column].nil? and result.fields.include?(column)# and default_conversion[column].nil?
-    end
-    unused = []
     columns = {}
     result.fields.size.times do |i|
       name = result.fields[i]
-      if conversion[name].nil?
-        unused << name unless default_conversion.keys.include? name
-      elsif conversion[name] == 'thekey'
-        columns[name] = {:type=>@types[result.ftype(i).to_s], :name=>'id', :index=>i}
-      elsif conversion[name] != :none
-        columns[name] = {:type=>@types[result.ftype(i).to_s], :name=>conversion[name], :index=>i}
-      end
+      columns[name.to_sym] = {:type=>@types[result.ftype(i).to_s], :name=>name.to_s, :index=>i}
     end
-    
-    forgotten = []
-    for k, v in conversion
-      forgotten << k unless result.fields.include? k.to_s
-    end
-    
-    if @debug
-      unfilled = EKYLIBRE[reflection].collect{|k,v| v[:null] ? nil : k}.compact-conversion.values-default_conversion.values-["company_id", "id"]
-      puts "\033\[01;31m#{reflection.to_s.rjust(20,' ')} UNF***\033\[00m : "+colorize(unfilled) if unfilled.size>0
-      unfilled2 = EKYLIBRE[reflection].keys-conversion.values-default_conversion.values-["company_id", "id"]-unfilled
-      puts "#{reflection.to_s.rjust(20,' ')} UNFILL : "+colorize(unfilled2) if unfilled2.size>0 
-      puts "#{reflection.to_s.rjust(20,' ')} UNUSED : "+colorize(unused) if unused.size>0 and (unfilled2.size>0 or unfilled.size>0)
-      unvalid = columns.collect{|k,v| EKYLIBRE[reflection].keys.include?(v[:name].to_s) ? nil : v[:name]}.compact
-      puts "\033\[01;33m#{reflection.to_s.rjust(20,' ')} UNWANT\033\[00m : "+colorize(unvalid) if unvalid.size>0
-      puts "\033\[01;35m#{reflection.to_s.rjust(20,' ')} FORGOT\033\[00m : "+colorize(forgotten) if forgotten.size>0
-    end
-    
-    # puts reflection.to_s.rjust(20,' ')+"\n"+columns.collect{|k,v| (k.to_s.ljust(20,' ')+' AS '+v[:name].to_s) if v[:name]=='id'}.compact.join("\n")
 
+
+    ref_columns = EKYLIBRE[reflection].keys.collect{|k| k.to_sym}
+
+    if @debug
+      unfilled  = EKYLIBRE[reflection].collect{|k,v| v[:null] ? nil : k.to_sym}.compact-options[:select].keys-[:company_id]
+      log "\033\[01;31m#{reflection.to_s.ljust(20,' ')} UNF***\033\[00m : "+colorize(unfilled) if unfilled.size>0
+      unfilled2 = ref_columns-options[:select].keys-[:company_id]-unfilled
+      log "#{reflection.to_s.ljust(20,' ')} UNFILL : "+colorize(unfilled2) if unfilled2.size>0 
+      unused = all_columns.delete_if{|x| options[:select].detect{|y| y.to_s.match(/#{x.to_s}/i)}}
+      log "#{reflection.to_s.ljust(20,' ')} UNUSED : "+colorize(unused) if unused.size>0 and (unfilled.size>0 or unfilled2.size>0)
+      unwanted  = options[:select].keys-ref_columns 
+      log "\033\[01;33m#{reflection.to_s.ljust(20,' ')} UNWANT\033\[00m : "+colorize(unwanted) if unwanted.size>0
+    end
+    
     send('rows_'+@mode.to_s, reflection, result, columns)    
   end
   
   
-  def migrate(abbrev='SAC', mode=:xml, debug=false)
-    @mode = mode
-    @debug = debug
+  def migrate(file, options={})
+    array = file.split(/\./)
+    code, ext, debug = nil, nil, nil
+    if array.size == 1
+      code = array[0]
+    elsif array.size == 2
+      code, ext = array[0], array[1]
+    elsif array.size == 3
+      code, debug, ext = array[0], array[1], array[2]
+    else
+      code, debug, ext = array[0..-3].join('.'), array[-2], array[-1]
+    end
+    code ||= 'SAC'
+    @mode = (ext||:xml).to_sym
+    @debug = (debug.to_s.size>0)
+
+
+    log "Creating backup for #{code} in #{@mode}"+(@debug ? " (Mode debug)" : "")+"..."
+
     @start = Time.now.to_i
     @conn = PGconn.open(:dbname => 'brice', :user=>'brice', :password=>'calypso')
 
@@ -227,11 +262,11 @@ class Migrator
 
     @reflections = EKYLIBRE.keys
 
-    @conn.exec("SELECT * FROM table_societe WHERE so_abbrev='#{abbrev||'SAC'}'").each do |company|
+    @conn.exec("SELECT * FROM table_societe WHERE so_abbrev='#{code||'SAC'}'").each do |company|
       company_id = company['so_numero']
       company_code = company['so_abbrev']
       maximum_id = 999999999
-      @file = File.open(company_code.to_s+'.xml', 'wb')
+      @file = File.open(file, 'wb')
       if @mode==:xml
         @file.write "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
         @file.write "<backup creator=\"Brice\" version=\"20090820202020\">\n"
@@ -239,83 +274,80 @@ class Migrator
       elsif @mode==:sql
         @file.write "-- version: 20090731080018\n"
       end
-      rows(:entities,       "SELECT #{maximum_id} AS thekey, so.*, 1 AS category_id, 'fr' AS country, true AS vat_submissive, COALESCE(so_detail, so_libelle, '#{company_id}') AS full_name, false AS supplier, true AS reflation_submissive, false AS client, 1 AS language_id, np_numero AS nature_id, true AS active #{stamps('so')} FROM table_societe so, table_naturepersonne np WHERE so_numero=#{company_id} AND np_morale LIMIT 1", 'so_libelle'=>'name', 'so_abbrev'=>'code')
-      rows(:establishments, "SELECT 1 AS thekey, 'Établissement principal' AS name, '00000000000000' AS siret, '00000' AS nic, 'AG' AS comment #{stamps}")
-      rows(:currencies,     "SELECT 1 AS thekey, 'Euro' AS name, 'EUR' AS code, 1 AS rate, true AS active, '%f €' AS format, '' AS comment #{stamps}")
-      rows(:languages,      "SELECT 1 AS thekey, 'Français' AS native_name, 'French' AS name, 'fr' AS iso2, 'fra' AS iso3 #{stamps}")
-      rows(:units,          "SELECT 1 AS thekey, 'u' AS name, 1 AS quantity, 'Unité' AS label, 'u' AS base #{stamps}")
-      rows(:delays,         "SELECT 1 AS thekey, 'Délai 30 jours' AS name, '30 jours' AS expression, true AS active, NULL AS comment #{stamps}")
-      rows(:shelves,        "SELECT 1 AS thekey, 'Défaut' AS name, 'Général' AS catalog_name, 'Tout' AS catalog_description, NULL AS comment, NULL AS parent_id #{stamps}")
-      rows(:address_norms,  "SELECT 1 AS thekey, 'Norme AFNOR ZX110' AS name, false AS default, 'left' AS align, false AS rtl, '' AS reference #{stamps}")
-      rows(:bank_accounts,  "SELECT 1 AS thekey, #{maximum_id} AS entity_id, #{maximum_id} AS account_id, 'Compte courant' AS name, 1 AS currency_id, 'FR76' AS iban, 'FR76' AS iban_label, false AS deleted, 'iban' AS mode, true AS default, jo_numero AS journal_id #{stamps(true)} FROM table_journal WHERE jo_libelle ilike 'b%' and so_numero=#{company_id} LIMIT 1")
-      rows(:departments, "SELECT *, NULL AS parent_id FROM table_service WHERE se_societe=#{company_id} @@@", {'se_numero'=>'thekey', 'se_nom'=>'name', 'se_code'=>'comment'})
-      rows(:journals, "SELECT *, false AS deleted, 1 AS currency_id, CURRENT_DATE-'5 years'::INTERVAL AS closed_on, 'various' AS nature from table_journal WHERE so_numero=#{company_id} @@@", {'jo_numero'=>'thekey', 'jo_libelle'=>'name', 'jo_abbrev'=>'code', 'cg_numero'=>'counterpart_id'})
-      rows(:accounts, "SELECT #{maximum_id} AS thekey, 'Compte banque' AS name, false AS is_debit, '51200001' AS number, true AS usable, true AS groupable, true AS keep_entries, true AS letterable, false AS deleted, '51200001 - Compte banque' AS label, false AS transferable, 0 AS parent_id, true AS pointable, NULL AS alpha, NULL AS comment, NULL AS last_letter #{stamps}")
-      rows(:roles, "SELECT *, '' AS rights FROM droitprofil", {'dp_numero'=>'thekey', 'dp_libelle'=>'name'})      
-      rows(:users, "SELECT em.*, ag.*, 1 AS language_id, false AS locked, false AS deleted, '' AS rights, false AS credits, false AS free_price, 5 AS reduction_percent, '_Y§UV9TBiYTo<Oy[>ViBkcAWmJ08f.2R;-g}N{VqR%v§dfZV3e;AYBjVz}SpQLHe' AS salt, '201d1d52be36ea80195dc7c00c3d723663cada50a9412987207543d143b1f00f' AS hashed_password FROM table_employe em join table_service on (em_service=se_numero) join agent ag on (em_agent=ag_numero) WHERE se_societe=#{company_id} @@@", {'em_numero'=>'thekey', 'em_login'=>'name', 'em_super'=>'admin', 'ag_nom'=>'last_name', 'ag_prenom'=>'first_name', 'dp_numero'=>'role_id', 'ag_email'=>'email'})
-      rows(:professions, "SELECT *, true AS commercial, NULL as rome, UPPER(TRIM(dp_libelle)) AS code FROM droitprofil", {'dp_numero'=>'thekey', 'dp_libelle'=>'name'})
-      rows(:employees, "SELECT em.*, ag.*, '1946-01-01' AS arrived_on,  NULL AS departed_on, NULL AS office, 1 AS establishment_id, true AS commercial, em.em_numero AS user_id, SUBSTR(em_emploi,1,32) AS title FROM table_employe em join table_service on (em_service=se_numero) join agent ag on (em_agent=ag_numero) WHERE se_societe=#{company_id} @@@", {'em_numero'=>'thekey', 'em_service'=>'department_id', 'ag_nom'=>'last_name', 'ag_prenom'=>'first_name', 'ag_commentaire'=>'comment', 'ag_role'=>'role', 'dp_numero'=>'profession_id'})
-      rows(:entity_categories, "SELECT 1 AS thekey, 'Catégorie par défaut' AS name, true AS \"default\", false AS deleted, 'DEFAUT' AS code, 'Catégorie utilisée pour tout le monde' AS description #{stamps}")
-      rows(:accounts, "SELECT #{maximum_id+1} AS thekey, false AS  deleted, false AS groupable, false AS is_debit, false AS keep_entries, '3 Stocks et en-cours' AS label, false AS letterable, 'Stocks et en-cours' AS name, 3 AS number, 0 AS parent_id, false AS pointable, false AS transferable, true AS usable, NULL AS alpha, NULL AS comment, NULL AS last_letter #{stamps}")
-      rows(:stock_locations,    "SELECT 1 AS thekey, 'Entrepôt par défaut' AS name, #{maximum_id+1} AS account_id, 1 AS establishment_id, 0 AS parent_id, false AS reservoir, 1 AS number #{stamps}")
-      rows(:sale_order_natures, "SELECT 1 AS thekey, 'Vente classique' AS name, 1 AS expiration_id, true AS downpayment, 1 AS payment_delay_id, 0.3 AS downpayment_rate, 300 AS downpayment_minimum, true AS active, 'check' AS payment_type, NULL AS comment #{stamps}")
-
-      rows(:entity_natures, "SELECT *, true AS active, not np_morale AS physical, NULL AS description FROM table_naturepersonne @@@", {'np_numero'=>'thekey', 'np_nom'=>'name', 'np_abrev'=>'abbreviation', 'np_titre'=>'title', 'physical'=>'physical', 'np_inclu'=>'in_name', 'active'=>'active'})
-      rows(:entities, "SELECT *, 1 AS language_id, 1 AS category_id, 0 AS reduction_rate, 0 AS discount_rate, SUBSTR(REPLACE(pe_numtvaic,' ',''),1,15) AS vat_number, true AS client, false AS supplier, 'fr' AS country, true AS vat_submissive, true AS reflation_submissive, pe_libelle AS full_name, NULL AS proposer_id FROM personne ORDER BY pe_numero @@@", {'pe_numero'=>'thekey', 'pe_nom'=>'name', 'pe_prenom'=>'first_name', 'pe_naissance'=>'born_on', 'pe_id'=>'code', 'pe_actif'=>'active', 'np_numero'=>'nature_id', 'pe_motdepasse'=>'webpass'})
-      rows(:accounts, "SELECT *, NULL AS alpha, NULL AS last_letter, NULL AS comment, false AS keep_entries, false AS deleted, cg_numcompte::TEXT||' '||cg_libelle AS label, false AS transferable, 0 AS parent_id FROM table_comptegen WHERE so_numero=#{company_id} @@@", {'cg_libelle'=>'name', 'cg_numero'=>'thekey', 'cg_numcompte'=>'number', 'cg_utilisable'=>'usable', 'cg_debit'=>'is_debit', 'cg_pointable'=>'pointable', 'cg_groupable'=>'groupable', 'cg_lettrable'=>'letterable'})
-      rows(:districts, "SELECT *, ct_numero AS code FROM table_canton @@@", {'ct_numero'=>'thekey', 'ct_nom'=>'name'})
-      rows(:areas, "SELECT NULL AS code, vc.id, cp_codepostal AS postcode, vi_nom AS city, TRIM(split_part(vi_nom, 'CEDEX', 1)) AS city_name, 'fr' AS country, TRIM(COALESCE(cp_codepostal,'')||' '||COALESCE(vi_nom)) AS name, ct_numero AS district_id #{stamps('vc')} from villecp vc join ville using (vi_numero) join codepostal cp using (cp_numero) @@@")
-      rows(:contacts, "SELECT distinct 1 AS norm_id, 'fr' AS country, true AS active, false AS deleted, ad_default AS \"default\", pe_numero AS entity_id, ad_numero AS thekey, ad_ligne2 AS line_2, ad_ligne3 AS line_3, '' AS line_4_number, ad_ligne4 AS line_4_street, ad_ligne5 AS line_5, TRIM(COALESCE(cp_codepostal,'')||' '||COALESCE(vi_nom)) AS line_6, TRIM(COALESCE(cp_codepostal,'')||' '||COALESCE(vi_nom)) AS address ,  vc.id AS area_id, tel.cn_coordonnee AS phone, fax.cn_coordonnee AS fax, port.cn_coordonnee AS mobile, mail.cn_coordonnee AS email, www.cn_coordonnee AS website #{stamps('ad')} from table_adresse as ad left join (select * FROM table_contact where ck_numero=104) as mail using (pe_numero)  left join (select * FROM table_contact where ck_numero=105) as fax using (pe_numero) left join (select * FROM table_contact where ck_numero=106) as port using (pe_numero) left join (select * FROM table_contact where ck_numero=107) as tel using (pe_numero) left join (select * FROM table_contact where ck_numero=108) as www using (pe_numero) LEFT JOIN table_villecp vc ON (vc.vi_numero=ad.vi_numero AND vc.cp_numero=ad.cp_numero) left join table_ville vi on (vc.vi_numero=vi.vi_numero) left join table_codepostal cp on (vc.cp_numero=cp.cp_numero) where ad_active ORDER BY pe_numero @@@")
-      rows(:entity_link_natures, "SELECT *, LENGTH(TRIM(tl_action21))<=0 AS symetrique, tl_code='>GERE>' AS propage FROM table_typelien @@@", {'tl_numero'=>'thekey', 'tl_libelle'=>'name', 'tl_action12'=>'name_1_to_2', 'tl_action21'=>'name_2_to_1', 'symetrique'=>'symmetric', 'propage'=>'propagate_contacts', 'tl_description'=>'comment'})
-      rows(:entity_links, "SELECT * FROM table_estlie @@@", {'el_numero'=>'thekey', 'el_personne1'=>'entity1_id', 'el_personne2'=>'entity2_id', 'tl_numero'=>'nature_id', 'el_debut'=>'started_on', 'el_fin'=>'stopped_on', 'tl_code'=>'comment'})
-      rows(:observations, "SELECT *, 'normal' AS importance FROM table_observation ORDER BY pe_numero @@@", {'ob_numero'=>'thekey', 'pe_numero'=>'entity_id', 'ob_observation'=>'description', 'importance'=>'importance'})
-      rows(:mandates, "SELECT r.re_famille, r.re_nom, e.* from estresponsable e join responsabilite r USING (re_numero) ORDER BY pe_numero @@@", {'peac_numero'=>'thekey', 'pe_numero'=>'entity_id', 'peac_periodedebut'=>'started_on', 'peac_periodefin'=>'stopped_on', 're_famille'=>'family', 'peac_titre'=>'title', 're_nom'=>'organization'})
-      rows(:complements, "SELECT *, false as required, true as active, 'choice' AS nature, NULL AS length_max, NULL AS decimal_max, NULL AS decimal_min, NULL AS position FROM table_typeattribut @@@", {'ta_numero'=>'thekey', 'ta_nom'=>'name'})
-      rows(:complement_choices, "SELECT *, 0 AS position FROM table_categorie @@@", {'cr_numero'=>'thekey', 'cr_libelle'=>'name', 'cr_description'=>'value', 'ta_numero'=>'complement_id'})
-      rows(:complement_data, "SELECT DISTINCT ON (pe_numero, ta_numero) *, NULL AS date_value, NULL AS datetime_value, NULL AS decimal_value, NULL AS boolean_value FROM table_attribut @@@", {'at_numero'=>'thekey', 'pe_numero'=>'entity_id', 'ta_numero'=>'complement_id', 'at_valeur'=>'string_value', 'cr_numero'=>'choice_value_id'})
-      rows(:event_natures, "SELECT *, 'manual' AS usage, 10 AS duration FROM table_typetache @@@", {'th_numero'=>'thekey', 'th_libelle'=>'name'})
-      rows(:events, "SELECT ap.*, TRIM(COALESCE(ap_libelle||CASE WHEN ap_description IS NULL THEN '' ELSE ' ('||ap_description||')' END, ap_description)) as reason, COALESCE(em_numero,500000076) AS employee_id, COALESCE(ap_date, ap.created_at) AS started_at, 0 AS started_sec, 'Lieu de travail' AS location FROM table_appel ap left join table_employe on (em_login=ap.updated_by) ORDER BY pe_numero @@@", {'ap_numero'=>'thekey', 'pe_numero'=>'entity_id', 'ap_duree'=>'duration', 'th_numero'=>'nature_id'})
-
-      rows(:sequences, "SELECT sq.*, '' AS format, 1 AS number_increment, 1 AS number_start, 'number' AS period, EXTRACT(YEAR FROM CURRENT_DATE) AS last_year, EXTRACT(MONTH FROM CURRENT_DATE) AS last_month, EXTRACT(WEEK FROM CURRENT_DATE) AS last_cweek from table_societe join sequence sq using (sq_numero) WHERE so_numero=#{company_id}", 'sq_numero'=>'id', 'sq_nom'=>'name', 'sq_last'=>'last_number')
-      rows(:parameters, "SELECT 1 AS thekey, 'management.invoicing.numeration' AS name, sq_numero AS record_value_id, 'Sequence' AS record_value_type, 'record' AS nature, NULL AS user_id #{stamps} FROM table_societe JOIN sequence sq using (sq_numero) WHERE so_numero=#{company_id}")
+      rows(:entities,       :select=>{:id=>maximum_id, :category_id=>1, :country=>"'fr'", :vat_submissive=>true, :full_name=>"COALESCE(so_detail, so_libelle, '#{company_id}')", :supplier=>false, :reflation_submissive=>true, :client=>false, :language_id=>1, :nature_id=>:np_numero, :active=>true, :_stamps=>'so', :name=>:so_libelle, :code=>:so_abbrev}, :from=>"table_societe so, table_naturepersonne np", :conditions=>"so_numero=#{company_id} AND np_morale", :limit=>1)
+      rows(:establishments, :select=>{:id=>1, :name=>"'Établissement principal'", :siret=>"'00000000000000'", :nic=>"'00000'", :comment=>"'Par défaut'"})
+      rows(:currencies,     :select=>{:id=>1, :name=>"'Euro'", :code=>"'EUR'", :rate=>1, :active=>true, :format=>true, :comment=>"'Par défaut'"})
+      rows(:languages,      :select=>{:id=>1, :name=>"'French'", :native_name=>"'Français'", :iso2=>"'fr'", :iso3=>"'fra'"})
+      rows(:units,          :select=>{:id=>1, :name=>"'u'",:quantity=>1, :label=>"'Unité'", :base=>"'u'"})
+      rows(:delays,         :select=>{:id=>1, :name=>"'Délai 30 jours'", :expression=>"'30 jours'", :active=>true, :comment=>NULL})
+      rows(:shelves,        :select=>{:id=>1, :name=>"'Défaut'", :catalog_name=>"'Général'", :catalog_description=>"'Tout'", :comment=>NULL, :parent_id=>NULL})
+      rows(:address_norms,  :select=>{:id=>1, :name=>"'Norme AFNOR ZX110'", :default=>false, :align=>"'left'", :rtl=>false, :reference=>"''"})
+      rows(:bank_accounts,  :select=>{:id=>1, :name=>"'Compte courant'", :entity_id=>maximum_id, :account_id=>maximum_id, :currency_id=>1, :iban=>"'FR76'", :iban_label=>"'FR76'", :deleted=>false, :mode=>"'iban'", :default=>true, :journal_id=>:jo_numero, :_stamps=>true}, :from=>"table_journal", :conditions=>"jo_libelle ilike 'b%' and so_numero=#{company_id}", :limit=>1)
+      rows(:departments,    :select=>{:id=>:se_numero, :name=>:se_nom, :comment=>:se_code, :parent_id=>NULL}, :from=>"table_service", :conditions=>"se_societe=#{company_id}")
+      rows(:journals,       :select=>{:id=>:jo_numero, :name=>:jo_libelle, :code=>:jo_abbrev, :counterpart_id=>:cg_numero, :deleted=>false, :currency_id=>1, :closed_on=>"CURRENT_DATE-'5 years'::INTERVAL", :nature=>"'various'"}, :from=>"table_journal", :conditions=>"so_numero=#{company_id}")
+      rows(:accounts,       :select=>{:id=>maximum_id, :name=>"'Compte banque'", :is_debit=>false, :number=>"'51200001'", :usable=>true, :groupable=>true, :keep_entries=>true, :letterable=>true, :deleted=>false, :label=>"'51200001 - Compte banque'", :transferable=>false, :parent_id=>0, :pointable=>true, :alpha=>NULL, :comment=>NULL, :last_letter=>NULL})
+      rows(:roles,          :select=>{:id=>:dp_numero, :name=>:dp_libelle, :rights=>"''"}, :from=>"droitprofil")
+      rows(:users,          :select=>{:id=>:em_numero, :name=>:em_login, :admin=>:em_super, :last_name=>:ag_nom, :first_name=>:ag_prenom, :role_id=>:dp_numero, :email=>:ag_email, :language_id=>1, :locked=>false, :deleted=>false, :rights=>"''", :credits=>false, :free_price=>false,:reduction_percent=>5, :salt=>"'_Y§UV9TBiYTo<Oy[>ViBkcAWmJ08f.2R;-g}N{VqR%v§dfZV3e;AYBjVz}SpQLHe'", :hashed_password=>"'201d1d52be36ea80195dc7c00c3d723663cada50a9412987207543d143b1f00f'", :_stamps=>'em'}, :from=>"table_employe em join table_service on (em_service=se_numero) join agent ag on (em_agent=ag_numero)", :conditions=>"se_societe=#{company_id}")
+      rows(:professions,    :select=>{:id=>:dp_numero, :name=>:dp_libelle, :commercial=>true, :rome=>NULL, :code=>"UPPER(TRIM(dp_libelle))"}, :from=>"droitprofil")
+      rows(:employees,      :select=>{:id=>:em_numero, :department_id=>:em_service, :last_name=>:ag_nom, :first_name=>:ag_prenom, :comment=>:ag_commentaire, :role=>:ag_role, :profession_id=>:dp_numero, :arrived_on=>"'1946-01-01'::DATE", :departed_on=>NULL, :office=>NULL, :establishment_id=>1, :commercial=>true, :user_id=>:em_numero, :title=>"SUBSTR(em_emploi,1,32)", :_stamps=>'em'}, :from=>"table_employe em join table_service on (em_service=se_numero) join agent ag on (em_agent=ag_numero)", :conditions=>"se_societe=#{company_id}")
+      rows(:entity_categories,  :select=>{:id=>1, :name=>"'Catégorie par défaut'", :code=>"'DEFAUT'", :default=>true, :deleted=>false, :description=>"'Catégorie utilisée pour tout le monde'"})
+      rows(:accounts,           :select=>{:id=>maximum_id+1, :name=>"'Stocks et en-cours'", :deleted=>false, :label=>"'3 Stocks et en-cours'", :number=>3, :parent_id=>0, :usable=>true, :alpha=>NULL, :comment=>NULL, :last_letter=>NULL, :groupable=>false, :is_debit=>false, :keep_entries=>false, :letterable=>false, :pointable=>false, :transferable=>false})
+      rows(:stock_locations,    :select=>{:id=>1, :name=>"'Entrepôt par défaut'",:account_id=>maximum_id+1, :establishment_id=>1, :parent_id=>0, :reservoir=>false, :number=>false})
+      rows(:sale_order_natures, :select=>{:id=>1, :name=>"'Vente classique'", :expiration_id=>1, :downpayment=>true, :payment_delay_id=>1, :downpayment_rate=>0.3, :downpayment_minimum=>300, :active=>true, :payment_type=>"'check'", :comment=>NULL})
+      rows(:entity_natures,     :select=>{:id=>:np_numero, :name=>:np_nom, :abbreviation=>:np_abrev, :title=>:np_titre, :in_name=>:np_inclu, :active=>true, :physical=>"NOT np_morale", :description=>NULL}, :from=>"table_naturepersonne")
+      rows(:entities,       :select=>{:id=>:pe_numero, :name=>:pe_nom, :first_name=>:pe_prenom, :born_on=>:pe_naissance, :code=>:pe_id, :active=>:pe_actif, :nature_id=>:np_numero, :webpass=>:pe_motdepasse, :full_name=>:pe_libelle, :language_id=>1, :category_id=>1, :reduction_rate=>0, :discount_rate=>0, :vat_number=>"SUBSTR(REPLACE(pe_numtvaic,' ',''),1,15)", :client=>true, :supplier=>false, :country=>"'fr'", :vat_submissive=>true, :reflation_submissive=>true, :proposer_id=>NULL}, :from=>"personne ORDER BY pe_numero")
+      rows(:accounts,       :select=>{:id=>:cg_numero, :name=>:cg_libelle, :number=>:cg_numcompte, :usable=>:cg_utilisable, :is_debit=>:cg_debit, :pointable=>:cg_pointable, :groupable=>:cg_groupable, :letterable=>:cg_lettrable, :alpha=>NULL, :comment=>NULL, :last_letter=>NULL, :keep_entries=>false, :deleted=>false, :label=>"cg_numcompte::TEXT||' '||cg_libelle", :transferable=>false, :parent_id=>0}, :from=>"table_comptegen", :conditions=>"so_numero=#{company_id}")
+      rows(:districts,      :select=>{:id=>:ct_numero, :name=>:ct_nom, :code=>:ct_numero}, :from=>"table_canton")
+      rows(:areas,          :select=>{:id=>"vc.id", :name=>"TRIM(COALESCE(cp_codepostal,'')||' '||COALESCE(vi_nom))", :code=>NULL, :postcode=>:cp_codepostal, :city=>:vi_nom, :city_name=>"TRIM(split_part(vi_nom, 'CEDEX', 1))", :country=>"'fr'", :district_id=>:ct_numero, :_stamps=>'vc'}, :from=>"villecp vc JOIN ville USING (vi_numero) JOIN codepostal cp USING (cp_numero)")
+      rows(:contacts, :distinct=>true, :select=>{:id=>:ad_numero, :norm_id=>1, :country=>"'fr'",:active=>true, :deleted=>false, :default=>:ad_default, :entity_id=>:pe_numero, :line_2=>:ad_ligne2, :line_3=>:ad_ligne3, :line_4_number=>"''", :line_4_street=>:ad_ligne4, :line_5=>:ad_ligne5, :line_6=>"TRIM(COALESCE(cp_codepostal,'')||' '||COALESCE(vi_nom))", :address=>"TRIM(COALESCE(cp_codepostal,'')||' '||COALESCE(vi_nom))", :area_id=>"vc.id", :phone=>"tel.cn_coordonnee", :fax=>"fax.cn_coordonnee", :mobile=>"port.cn_coordonnee", :email=>"mail.cn_coordonnee", :website=>"www.cn_coordonnee", :_stamps=>'ad'}, :from=>"table_adresse AS ad LEFT JOIN (SELECT pe_numero, cn_coordonnee FROM table_contact where ck_numero=104) AS mail using (pe_numero)  LEFT JOIN (SELECT pe_numero, cn_coordonnee FROM table_contact where ck_numero=105) AS fax using (pe_numero) LEFT JOIN (SELECT pe_numero, cn_coordonnee FROM table_contact where ck_numero=106) AS port using (pe_numero) LEFT JOIN (SELECT pe_numero, cn_coordonnee FROM table_contact where ck_numero=107) AS tel using (pe_numero) LEFT JOIN (SELECT pe_numero, cn_coordonnee FROM table_contact where ck_numero=108) AS www using (pe_numero) LEFT JOIN table_villecp vc ON (vc.vi_numero=ad.vi_numero AND vc.cp_numero=ad.cp_numero) LEFT JOIN table_ville vi on (vc.vi_numero=vi.vi_numero) LEFT JOIN table_codepostal cp on (vc.cp_numero=cp.cp_numero)", :conditions=>"ad_active ORDER BY pe_numero")
+      rows(:entity_link_natures, :select=>{:id=>:tl_numero, :name=>:tl_libelle, :name_1_to_2=>:tl_action12, :name_2_to_1=>:tl_action21, :comment=>:tl_description, :symmetric=>"LENGTH(TRIM(tl_action21))<=0", :propagate_contacts=>"tl_code='>GERE>'"}, :from=>"table_typelien")
+      rows(:entity_links, :select=>{:id=>:el_numero, :entity1_id=>:el_personne1, :entity2_id=>:el_personne2, :nature_id=>:tl_numero, :started_on=>:el_debut, :stopped_on=>:el_fin, :comment=>:tl_code}, :from=>"table_estlie")
+      rows(:observations, :select=>{:id=>:ob_numero, :entity_id=>:pe_numero, :description=>:ob_observation, :importance=>"'normal'"}, :from=>"table_observation ORDER BY pe_numero")
+      rows(:mandates,     :select=>{:id=>:peac_numero, :entity_id=>:pe_numero, :started_on=>:peac_periodedebut, :stopped_on=>:peac_periodefin, :family=>:re_famille, :title=>:peac_titre, :organization=>:re_nom, :_stamps=>'e'}, :from=>"estresponsable e join responsabilite r USING (re_numero) ORDER BY pe_numero")
+      rows(:complements,  :select=>{:id=>:ta_numero, :name=>:ta_nom, :required=>false, :active=>true, :nature=>"'choice'", :length_max=>NULL, :decimal_max=>NULL, :decimal_min=>NULL, :position=>NULL}, :from=>"table_typeattribut")
+      rows(:complement_choices, :select=>{:id=>:cr_numero, :name=>:cr_libelle, :value=>:cr_description, :complement_id=>:ta_numero, :position=>0}, :from=>"table_categorie")
+      rows(:complement_data, :distinct=>[:pe_numero, :ta_numero], :select=>{:id=>:at_numero, :entity_id=>:pe_numero, :complement_id=>:ta_numero, :string_value=>:at_valeur, :choice_value_id=>:cr_numero, :date_value=>NULL, :datetime_value=>NULL, :decimal_value=>NULL, :boolean_value=>NULL}, :from=>"table_attribut")
+      rows(:event_natures, :select=>{:id=>:th_numero, :name=>:th_libelle, :usage=>"'manual'", :duration=>10}, :from=>"table_typetache")
+      rows(:events,       :select=>{:id=>:ap_numero, :entity_id=>:pe_numero, :duration=>:ap_duree, :nature_id=>:th_numero, :reason=>"TRIM(COALESCE(ap_libelle||CASE WHEN ap_description IS NULL THEN '' ELSE ' ('||ap_description||')' END, ap_description))", :employee_id=>"COALESCE(em_numero,500000076)", :started_at=>"COALESCE(ap_date, ap.created_at)", :started_sec=>0, :location=>"'Lieu de travail'", :_stamps=>'ap'}, :from=>"table_appel ap LEFT JOIN table_employe on (em_login=ap.updated_by)", :conditions=>"em_service IN (SELECT se_numero FROM table_service WHERE se_societe=#{company_id}) ORDER BY pe_numero")
+      rows(:sequences,    :select=>{:id=>:sq_numero, :name=>:sq_nom, :last_number=>:sq_last, :format=>"'F[number|10]'", :number_increment=>1, :number_start=>1, :period=>"'number'", :last_year=>"EXTRACT(YEAR FROM CURRENT_DATE)", :last_month=>"EXTRACT(MONTH FROM CURRENT_DATE)", :last_cweek=>"EXTRACT(WEEK FROM CURRENT_DATE)", :_stamps=>'sq'}, :from=>"table_societe join sequence sq using (sq_numero)", :conditions=>"so_numero=#{company_id}")
+      rows(:parameters,   :select=>{:id=>1, :name=>"'management.invoicing.numeration'", :record_value_id=>:sq_numero, :record_value_type=>"'Sequence'", :nature=>"'record'", :user_id=>NULL, :boolean_value=>NULL, :decimal_value=>NULL, :integer_value=>NULL, :string_value=>NULL, :_stamps=>'sq'}, :from=>"table_societe JOIN sequence sq using (sq_numero)", :conditions=>"so_numero=#{company_id}")
 
       subscription_nature = 0
       if company_code == 'SAC'
         products = {'1'=>[500000095,500000164,500000183,500000163,500000123], '2'=>[500000036,500000065,500000069], '3'=>[500000002,500000003], '4'=>[100051]}
-        rows(:subscription_natures, "SELECT 1 AS thekey, 'Adhésion Adhérent FDSEA' AS name,      'period' AS nature, NULL AS actual_number, 'Adhésion de droit pour les adhérents FDSEA (15% de réduction)' AS comment #{stamps}")
-        rows(:subscription_natures, "SELECT 2 AS thekey, 'Abonnement Conseil Juridique' AS name, 'period' AS nature, NULL AS actual_number, 'Abonnement Conseil (25% de réduction)' AS comment #{stamps}")
-        rows(:subscription_natures, "SELECT 3 AS thekey, 'Abonnement MAJ Convention Collective' AS name, 'period' AS nature, NULL AS actual_number, 'Abon. MAJCC' AS comment #{stamps}")
-        rows(:subscription_natures, "SELECT 4 AS thekey, 'Adhésion Non-Adhérent FDSEA' AS name,  'period' AS nature, NULL AS actual_number, 'Adhésion pour les non-adhérents FDSEA (0% de reduction)' AS comment #{stamps}")
+        rows(:subscription_natures, :select=>{:id=>1, :name=>"'Adhésion Adhérent FDSEA'",      :nature=>"'period'", :actual_number=>NULL, :comment=>"'Adhésion de droit pour les adhérents FDSEA (15% de réduction)'"})
+        rows(:subscription_natures, :select=>{:id=>2, :name=>"'Abonnement Conseil Juridique'", :nature=>"'period'", :actual_number=>NULL, :comment=>"'Abonnement Conseil (25% de réduction)'"})
+        rows(:subscription_natures, :select=>{:id=>3, :name=>"'Abonnement MAJ Convention Collective'", :nature=>"'period'", :actual_number=>NULL, :comment=>"'Abon. MAJCC'"})
+        rows(:subscription_natures, :select=>{:id=>4, :name=>"'Adhésion Non-Adhérent FDSEA'",  :nature=>"'period'", :actual_number=>NULL, :comment=>"'Adhésion pour les non-adhérents FDSEA (0% de reduction)'"})
         
         for k,v in products
-          rows(:subscriptions, "SELECT #{k} AS nature_id, NULL AS first_number, false AS suspended, NULL AS last_number, 1 AS quantity, (EXTRACT(YEAR FROM fa_date)::TEXT||'-01-01')::DATE AS started_on, (EXTRACT(YEAR FROM fa_date)::TEXT||'-12-31')::DATE AS stopped_on,lf.*, fa.* from table_lignefacture lf JOIN table_facture fa using (fa_numero) LEFT JOIN (SELECT fa_numero AS avoir FROM table_facture WHERE fa_avoir) av ON (fa_avoir_facture=avoir) where avoir is null and pd_numero in (#{v.join(',')})", 'pd_numero'=>'product_id', 'pe_numero'=>'entity_id', 'fa_numero'=>'invoice_id', 'lf_notes'=>'comment', 'de_numero'=>'sale_order_id', 'ad_numero'=>'contact_id')
-          # rows(:subscriptions, "SELECT *, false AS suspended, NULL AS first_number, NULL AS last_number, 1 AS quantity, (cs_annee::TEXT||'-01-01')::DATE AS started_on, (cs_annee::TEXT||'-12-31')::DATE AS stopped_on FROM table_cotisation", 'cs_numero'=>'thekey', 'pe_numero'=>'entity_id')
+          rows(:subscriptions, :select=>{:id=>:lf_numero, :product_id=>:pd_numero, :entity_id=>"fa.pe_numero", :invoice_id=>:fa_numero, :comment=>:lf_notes, :sale_order_id=>:de_numero, :contact_id=>:ad_numero, :nature_id=>k, :first_number=>NULL, :suspended=>false, :last_number=>false, :quantity=>1, :started_on=>"(EXTRACT(YEAR FROM fa_date)::TEXT||'-01-01')::DATE", :stopped_on=>"(EXTRACT(YEAR FROM fa_date)::TEXT||'-12-31')::DATE", :_stamps=>'lf'}, :from=>"table_lignefacture lf JOIN table_facture fa using (fa_numero) LEFT JOIN (SELECT fa_numero AS avoir FROM table_facture WHERE fa_avoir) av ON (fa_avoir_facture=avoir) where avoir is null and pd_numero in (#{v.join(',')}) ORDER BY fa.pe_numero")
         end
       elsif company_code == 'FDS'
         products = {'1'=>[300017,300006,500000172,500000052,500000150,500000053,500000162,500000124,500000054]}
-        rows(:subscription_natures, "SELECT 1 AS thekey, 'Adhésion FDSEA' AS name, 'period' AS nature, NULL AS actual_number, 'Adhésion à la FDSEA (la seule et unique)' AS comment #{stamps}")
-        rows(:subscriptions, "SELECT *, false AS suspended, NULL AS first_number, NULL AS last_number, 1 AS quantity, bml_extract(cs_detail, 'fdsea.forfait.produit') AS product_id, bml_extract(cs_detail, 'fdsea.facture') AS invoice_id, 1 AS nature_id, (cs_annee::TEXT||'-01-01')::DATE AS started_on, (cs_annee::TEXT||'-12-31')::DATE AS stopped_on FROM table_cotisation", 'cs_numero'=>'thekey', 'pe_numero'=>'entity_id', 'cs_detail'=>'comment')
-        #        rows(:subscriptions, "SELECT 1 AS nature_id, NULL AS first_number, false AS suspended, NULL AS last_number, 1 AS quantity, (EXTRACT(YEAR FROM fa_date)::TEXT||'-01-01')::DATE AS started_on, (EXTRACT(YEAR FROM fa_date)::TEXT||'-12-31')::DATE AS stopped_on,lf.* from table_lignefacture lf JOIN table_facture using (fa_numero) LEFT JOIN (SELECT fa_numero AS avoir FROM table_facture WHERE fa_avoir) av ON (fa_avoir_facture=avoir) where avoir is null and pd_numero in (300017,300006,500000172,500000052,500000150,500000053,500000162,500000124,500000054)", 'pd_numero'=>'product_id')
+        rows(:subscription_natures, :select=>{:id=>1, :name=>"'Adhésion FDSEA'", :nature=>"'period'", :actual_number=>NULL, :comment=>"'Adhésion à la FDSEA (la seule et unique)'"})
+        rows(:subscriptions, :select=>{:id=>:cs_numero, :entity_id=>:pe_numero, :comment=>:cs_detail, :suspended=>false, :first_number=>NULL, :last_number=>NULL, :quantity=>1, :product_id=>"bml_extract(cs_detail, 'fdsea.forfait.produit')", :invoice_id=>"bml_extract(cs_detail, 'fdsea.facture')", :nature_id=>1, :started_on=>"(cs_annee::TEXT||'-01-01')::DATE", :stopped_on=>"(cs_annee::TEXT||'-12-31')::DATE"}, :from=>"table_cotisation ORDER BY pe_numero")
+        # rows(:subscriptions, :select=>{"1"=>:nature_id, NULL"=>:first_number, false"=>:suspended, NULL"=>:last_number, 1"=>:quantity, (EXTRACT(YEAR"}, :from=>"fa_date)::TEXT||'-01-01')::DATE"=>:started_on, (EXTRACT(YEAR"}, :from=>"fa_date)::TEXT||'-12-31')::DATE"=>:stopped_on,lf.* from table_lignefacture lf JOIN table_facture using (fa_numero) LEFT JOIN (SELECT fa_numero"=>:avoir"}, :from=>"table_facture", :conditions=>"fa_avoir) av ON (fa_avoir_facture=avoir) where avoir is null and pd_numero in (300017,300006,500000172,500000052,500000150,500000053,500000162,500000124,500000054)", 'pd_numero'=>'product_id')
       elsif company_code == 'AAV'
         products = {'1'=>[1400002,1400006,500000094,500000096,500000098,500000099,500000100,500000109,500000125]}
-        rows(:subscription_natures, "SELECT 1 AS thekey, 'Avenir Aquitain' AS name, 'quantity' AS nature, cs_valeur AS actual_number, NULL AS comment #{stamps} FROM table_constante WHERE cs_nom='CURRENT_NUMBER'")
-        rows(:subscriptions, "SELECT ro.*, 1 AS nature_id, NULL AS started_on, NULL AS stopped_on, de_numero AS sale_order_id, pd_numero AS product_id, NULL AS comment FROM table_routage ro left join table_facture using (fa_numero) left join table_lignefacture using (fa_numero) @@@", {'ro_numero'=>'thekey', 'ro_debutservice'=>'first_number', 'ro_finservice'=>'last_number', 'ad_numero'=>'contact_id', 'ro_suspendu'=>'suspended', 'ro_quantite'=>'quantity', 'fa_numero'=>'invoice_id', 'pe_numero'=>'entity_id'})
+        rows(:subscription_natures, :select=>{:id=>1, :name=>"'L''Avenir Agricole & Viticole Aquitain'", :nature=>"'quantity'", :actual_number=>:cs_valeur, :comment=>NULL}, :from=>"table_constante", :conditions=>"cs_nom='CURRENT_NUMBER'")
+        rows(:subscriptions,        :select=>{:id=>:ro_numero, :first_number=>:ro_debutservice, :last_number=>:ro_finservice, :contact_id=>"ro.ad_numero", :suspended=>:ro_suspendu, :quantity=>:ro_quantite, :invoice_id=>:fa_numero, :entity_id=>"ro.pe_numero", :nature_id=>1, :started_on=>NULL, :stopped_on=>NULL, :sale_order_id=>:de_numero, :product_id=>:pd_numero, :comment=>NULL, :_stamps=>'ro'}, :from=>"table_routage ro LEFT JOIN table_facture using (fa_numero) LEFT JOIN table_lignefacture using (fa_numero) ORDER BY ro.pe_numero")
       end
 
       subscription_nature = "CASE "+products.collect{|k,v| "WHEN pd.pd_numero IN (#{v.join(',')}) THEN #{k}"}.join(" ")+" ELSE NULL END"
       product_nature = "CASE "+products.collect{|k,v| "WHEN pd.pd_numero IN (#{v.join(',')}) THEN 'subscrip'"}.join(" ")+" ELSE 'service' END"
 
-      rows(:products, "SELECT pd.*, pd_id AS number, #{subscription_nature} AS subscription_nature_id, 1 AS unit_id, 1 AS shelf_id, #{product_nature} AS nature, false AS manage_stocks, true AS to_sale, false AS to_purchase, false AS to_rent, 'buy' AS supply_method, 1 AS critic_quantity_min, 5 AS quantity_min, pd_libelle||' ('||pd_id||')' AS name, ci.cg_numero AS product_account_id, 0 AS weight FROM table_produit pd LEFT JOIN table_compteproduit ci ON (pd.pd_numero=ci.pd_numero AND ci_actif) WHERE so_numero=#{company_id} @@@", {'pd_numero'=>'thekey', 'pd_titre'=>'catalog_name', 'pd_actif'=>'active', 'pd_id'=>'code', 'pd_reduction'=>'reduction_submissive', 'pd_sansquantite'=>'unquantifiable'})
-      rows(:taxes, "SELECT *, NOT tv_actif AS deleted, true AS reductible, false AS included, 'percent' AS nature, NULL AS description, NULL AS account_paid_id FROM table_tva WHERE so_numero=#{company_id} @@@", {'tv_numero'=>'thekey', 'tv_taux'=>'amount', 'tv_code'=>'name', 'cg_numero'=>'account_collected_id'})
-      rows(:prices, "SELECT px.*, #{maximum_id} AS entity_id, 1 AS category_id, px_actif AS \"default\", 1 AS currency_id, false AS use_range, 0 AS quantity_min, 0 AS quantity_max FROM table_prix px join table_produit using (pd_numero) WHERE so_numero=#{company_id} @@@", {'px_numero'=>'thekey', 'pd_numero'=>'product_id', 'px_tarifht'=>'amount', 'px_tarifttc'=>'amount_with_taxes', 'tv_numero'=>'tax_id', 'px_actif'=>'active', 'px_datedebut'=>'started_at', 'px_datefin'=>'stopped_at'})
-      rows(:sale_orders, "SELECT *, 1 AS expiration_id, 'P' AS state, COALESCE(de_montantht,0) AS amount, COALESCE(de_montantttc,0) AS amount_with_taxes, de_numero AS number, COALESCE(de_acompte, false) AS has_downpayment, 1 AS payment_delay_id, 1 AS nature_id, 'wt' AS sum_method, de_date+'1 month'::INTERVAL AS expired_on, ad_numero AS invoice_contact_id, ad_numero AS delivery_contact_id, ROUND(0.3*COALESCE(de_montantttc,0), 2) AS downpayment_amount FROM table_devis WHERE so_numero=#{company_id} @@@", {'de_numero'=>'thekey', 'de_libelle'=>'comment', 'pe_numero'=>'client_id', 'de_introduction'=>'introduction', 'de_civilites'=>'function_title', 'de_date'=>'created_on', 'de_locked'=>'invoiced', 'de_lettre'=>'letter_format', 'em_numero'=>'responsible_id', 'ad_numero'=>'contact_id'})
-      rows(:sale_order_lines, "SELECT l.*, 0 AS position, 1 AS location_id, 1 AS unit_id, cg_numero AS account_id, de_locked AS invoiced FROM table_ligne l JOIN table_devis USING (de_numero) left join table_compteproduit using (pd_numero) WHERE ci_actif AND so_numero=#{company_id} @@@", {'de_numero'=>'order_id', 'l_numero'=>'thekey', 'pd_numero'=>'product_id', 'px_numero'=>'price_id', 'l_quantite'=>'quantity', 'l_montantht'=>'amount', 'l_montantttc'=>'amount_with_taxes', 'l_notes'=>'annotation', 'pe_numero'=>'entity_id'})
-      rows(:invoices, "SELECT *, COALESCE(fa_montantht,0) AS amount, COALESCE(fa_montantttc,0) AS amount_with_taxes, CASE WHEN COALESCE(fa.fa_montantttc,0)>0 THEN 'S' ELSE 'C' END AS nature, 1 AS payment_delay_id, fa_date+'1 month'::INTERVAL AS payment_on, fa_ok AS paid, COALESCE(fa_accompte,0)>0 AS has_downpayment, COALESCE(fa_accompte,0) AS downpayment_amount FROM table_facture fa left join vue_facture_regle using(fa_numero) WHERE fa.so_numero=#{company_id} @@@", {'fa_numero'=>'thekey', 'de_numero'=>'sale_order_id', 'pe_numero'=>'client_id', 'fa_numfact'=>'number', 'fa_date'=>'created_on', 'fa_avoir_facture'=>'origin_id', 'fa_perte'=>'lost', 'ad_numero'=>'contact_id', 'fa_avoir'=>'credit', 'fa_annotation'=>'annotation'})
-      rows(:invoice_lines, "SELECT l.*, 0 AS position, ld.l_numero AS order_line_id, COALESCE(lf.lf_montantht,0) AS amount, COALESCE(lf.lf_montantttc) AS amount_with_taxes FROM table_lignefacture l join table_facture fa using (fa_numero) join table_ligne ld ON (ld.pd_numero=l.pd_numero AND fa.de_numero=ld.de_numero) WHERE so_numero=#{company_id} @@@", {'lf_numero'=>'thekey', 'fa_numero'=>'invoice_id', 'pd_numero'=>'product_id', 'px_numero'=>'price_id', 'lf_quantite'=>'quantity', 'lf_notes'=>'annotation', 'pe_numero'=>'entity_id'})
-      rows(:embankments, "SELECT *, true AS locked, 1 AS bank_account_id FROM table_listereglement JOIN (SELECT lr_numero, count(rg_numero) AS payments_count from table_reglement group by 1) as c USING (lr_numero) WHERE so_numero=#{company_id} @@@", {'lr_numero'=>'thekey', 'lr_montant'=>'amount', 'lr_date'=>'created_on', 'lr_commentaire'=>'comment', 'mr_numero'=>'mode_id', 'em_numero'=>'embanker_id'})
-      rows(:payments, "SELECT rg.*, COALESCE(rg.created_at::DATE, rg_date, '0001-01-01'::DATE) AS to_bank_on, true AS received, false AS scheduled, parts_amount FROM table_reglement rg LEFT JOIN (SELECT table_facturereglement.rg_numero, sum(table_facturereglement.fr_montant) AS parts_amount FROM table_facturereglement GROUP BY table_facturereglement.rg_numero) pa USING (rg_numero) WHERE so_numero=#{company_id} @@@", {'rg_numero'=>'thekey', 'pe_numero'=>'entity_id', 'rg_reference'=>'check_number', 'rg_montant'=>'amount', 'mr_numero'=>'mode_id', 'rg_numerocompte'=>'account_number', 'rg_libellebanque'=>'bank', 'lr_numero'=>'embankment_id', 'em_numero'=>'embanker_id', 'rg_date'=>'paid_on'})
-      rows(:payment_parts, "SELECT fr.*, COALESCE(de_numero,0) AS order_id FROM table_facturereglement fr join table_reglement rg using (rg_numero) join table_facture using (fa_numero) WHERE rg.so_numero=#{company_id} @@@", {'fr_numero'=>'thekey', 'rg_numero'=>'payment_id', 'fr_montant'=>'amount', 'fr_acompte'=>'downpayment', 'fa_numero'=>'invoice_id'})
-      rows(:payment_modes, "SELECT *, 1 AS bank_account_id, CASE WHEN mr_cheque THEN 'check' ELSE 'other' END AS mode, 'U' AS nature FROM table_modereglement WHERE so_numero=#{company_id} @@@", {'mr_numero'=>'thekey', 'mr_libelle'=>'name', 'cg_numero'=>'account_id'})
+      rows(:products,    :select=>{:id=>"pd.pd_numero", :name=>"CASE WHEN pd_actif THEN pd_libelle ELSE pd_libelle||' ('||pd_id||')' END", :comment=>"pd.pd_numero", :catalog_name=>:pd_titre, :active=>:pd_actif, :code=>:pd_id, :reduction_submissive=>:pd_reduction, :unquantifiable=>:pd_sansquantite, :number=>:pd_id, :subscription_nature_id=>subscription_nature, :unit_id=>1, :shelf_id=>1, :nature=>product_nature, :manage_stocks=>false, :to_sale=>true, :to_purchase=>false, :to_rent=>false, :supply_method=>"'buy'", :critic_quantity_min=>1, :quantity_min=>5, :product_account_id=>"ci.cg_numero", :weight=>0, :_stamps=>'pd'}, :from=>"table_produit pd LEFT JOIN table_compteproduit ci ON (pd.pd_numero=ci.pd_numero AND ci_actif)", :conditions=>"so_numero=#{company_id} ORDER BY pd_libelle")
+      rows(:taxes,       :select=>{:id=>:tv_numero, :amount=>:tv_taux, :name=>:tv_code, :account_collected_id=>:cg_numero, :deleted=>"NOT tv_actif", :reductible=>true, :included=>false, :nature=>"'percent'", :description=>NULL, :account_paid_id=>NULL}, :from=>"table_tva", :conditions=>"so_numero=#{company_id}")
+      rows(:prices,      :select=>{:id=>:px_numero, :product_id=>:pd_numero, :amount=>:px_tarifht, :amount_with_taxes=>:px_tarifttc, :tax_id=>:tv_numero, :active=>:px_actif, :started_at=>:px_datedebut, :stopped_at=>:px_datefin, :entity_id=>maximum_id, :category_id=>1, :default=>:px_actif, :currency_id=>1, :use_range=>false, :quantity_min=>0, :quantity_max=>0, :_stamps=>'px'}, :from=>"table_prix px join table_produit using (pd_numero)", :conditions=>"so_numero=#{company_id}")
+      rows(:sale_orders, :select=>{:id=>:de_numero, :comment=>:de_libelle, :client_id=>:pe_numero, :introduction=>:de_introduction, :function_title=>:de_civilites, :created_on=>:de_date, :invoiced=>:de_locked, :letter_format=>:de_lettre, :responsible_id=>:em_numero, :contact_id=>:ad_numero, :expiration_id=>1, :state=>"'P'", :amount=>"COALESCE(de_montantht,0)", :amount_with_taxes=>"COALESCE(de_montantttc,0)", :number=>:de_numero, :has_downpayment=>"COALESCE(de_acompte, false)", :payment_delay_id=>1, :nature_id=>1, :sum_method=>"'wt'", :expired_on=>"de_date+'1 month'::INTERVAL", :invoice_contact_id=>:ad_numero, :delivery_contact_id=>:ad_numero, :downpayment_amount=>"ROUND(0.3*COALESCE(de_montantttc,0), 2)"}, :from=>"table_devis", :conditions=>"so_numero=#{company_id} ORDER BY pe_numero")
+      rows(:sale_order_lines, :select=>{:id=>:l_numero, :order_id=>:de_numero, :product_id=>"l.pd_numero", :price_id=>:px_numero, :quantity=>:l_quantite, :amount=>:l_montantht, :amount_with_taxes=>:l_montantttc, :annotation=>:l_notes, :entity_id=>"l.pe_numero", :position=>0, :location_id=>1, :unit_id=>1, :account_id=>"COALESCE(cg_numero, 0)", :invoiced=>:de_locked, :_stamps=>'l'}, :from=>"table_ligne l JOIN table_devis de USING (de_numero) LEFT JOIN table_compteproduit ci on (l.pd_numero=ci.pd_numero AND ci_actif)", :conditions=>"so_numero=#{company_id} ORDER BY de.pe_numero")
+      rows(:invoices, :select=>{:id=>:fa_numero, :sale_order_id=>:de_numero, :client_id=>:pe_numero, :number=>:fa_numfact, :created_on=>:fa_date, :origin_id=>:fa_avoir_facture, :lost=>:fa_perte, :contact_id=>:ad_numero, :credit=>:fa_avoir, :annotation=>:fa_annotation, :amount=>"COALESCE(fa.fa_montantht,0)", :amount_with_taxes=>"COALESCE(fa.fa_montantttc,0)", :nature=>"CASE WHEN COALESCE(fa.fa_montantttc,0)>0 THEN 'S' ELSE 'C' END", :payment_delay_id=>1, :payment_on=>"fa_date+'1 month'::INTERVAL", :paid=>"COALESCE(fa_ok, false)", :has_downpayment=>"COALESCE(fa.fa_accompte,0)>0", :downpayment_amount=>"COALESCE(fa_accompte,0)", :_stamps=>'fa'}, :from=>"table_facture fa LEFT JOIN vue_facture_regle using(fa_numero)", :conditions=>"fa.so_numero=#{company_id} ORDER BY pe_numero")
+      rows(:invoice_lines, :select=>{:id=>:lf_numero, :invoice_id=>:fa_numero, :product_id=>"COALESCE(lf.pd_numero,0)", :price_id=>"COALESCE(lf.px_numero,0)", :quantity=>:lf_quantite, :annotation=>:lf_notes, :entity_id=>"lf.pe_numero", :position=>0, :order_line_id=>"l_numero", :amount=>"COALESCE(lf_montantht,0)", :amount_with_taxes=>"COALESCE(lf_montantttc)", :_stamps=>'lf'}, :from=>"table_lignefacture lf join table_facture fa using (fa_numero) LEFT JOIN table_ligne ld ON (ld.pd_numero=lf.pd_numero AND fa.de_numero=ld.de_numero)", :conditions=>"so_numero=#{company_id} ORDER BY fa.pe_numero")
+      rows(:embankments, :select=>{:id=>:lr_numero, :amount=>:lr_montant, :created_on=>:lr_date, :mode_id=>:mr_numero, :comment=>:lr_commentaire, :embanker_id=>:em_numero, :locked=>true, :bank_account_id=>1, :payments_count=>:pcount}, :from=>"table_listereglement JOIN (SELECT lr_numero, count(rg_numero) AS pcount from table_reglement group by 1) AS c USING (lr_numero)", :conditions=>"so_numero=#{company_id}")
+      rows(:payments, :select=>{:id=>:rg_numero, :entity_id=>:pe_numero, :check_number=>:rg_reference, :amount=>:rg_montant, :mode_id=>:mr_numero, :account_number=>:rg_numerocompte, :bank=>:rg_libellebanque, :embankment_id=>:lr_numero, :embanker_id=>:em_numero, :paid_on=>:rg_date, :to_bank_on=>"COALESCE(rg.created_at::DATE, rg_date, '0001-01-01'::DATE)", :received=>true, :scheduled=>false, :parts_amount=>:pamount}, :from=>"table_reglement rg LEFT JOIN (SELECT table_facturereglement.rg_numero, sum(table_facturereglement.fr_montant) AS pamount FROM table_facturereglement GROUP BY table_facturereglement.rg_numero) pa USING (rg_numero)", :conditions=>"so_numero=#{company_id} ORDER BY pe_numero")
+      rows(:payment_parts, :select=>{:id=>:fr_numero, :payment_id=>:rg_numero, :amount=>:fr_montant, :downpayment=>:fr_acompte, :invoice_id=>:fa_numero, :order_id=>"COALESCE(de_numero,0)", :_stamps=>"fr"}, :from=>"table_facturereglement fr join table_reglement rg using (rg_numero) join table_facture using (fa_numero)", :conditions=>"rg.so_numero=#{company_id}")
+      rows(:payment_modes, :select=>{:id=>:mr_numero, :name=>:mr_libelle, :account_id=>:cg_numero, :bank_account_id=>1, :mode=>"CASE WHEN mr_cheque THEN 'check' ELSE 'other' END", :nature=>"'U'"}, :from=>"table_modereglement", :conditions=>"so_numero=#{company_id}")
       if @mode==:xml
         @file.write "  </company>\n"
         @file.write "</backup>"
@@ -324,18 +356,16 @@ class Migrator
       
 
     end
-    puts (Time.now.to_i-@start).to_s+" secondes"
-    puts @reflections.join(", ")
+    log "#{@reflections.size} unfilled ekylibre models: "+@reflections.collect{|x| x.to_s}.sort.join(", ")+"."
+    log (Time.now.to_i-@start).to_s+" seconds"
   end
 
 end
 
 
 if ARGV.size>0
-  file = ARGV[0]
-  code, ext = file.split(/\./)
-  Migrator.new.migrate(code, (ext||:xml).to_sym, !ARGV[1].nil?)
+  Migrator.new.migrate(ARGV[0])
 else
-  puts "Usage: gst2eky file.ext [debug]"
+  puts "Usage: gst2eky file[.debug].ext"
 end
 
