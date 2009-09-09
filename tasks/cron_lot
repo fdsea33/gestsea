@@ -1,0 +1,10 @@
+#!/bin/sh
+d=/usr/local/bin/scripts
+dir=/home/groupes/juridique/Conventions_collectives/Mises_a_jour
+mkdir -p $dir
+day=`date +%Y%m%d`
+psql gestsea -f ${d}/cron_lot.sql
+cp -f /tmp/LOT_*.pdf ${dir}
+chmod 664 ${dir}/*
+rm -f /tmp/LOT_*.pdf
+

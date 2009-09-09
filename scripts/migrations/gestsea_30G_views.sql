@@ -237,9 +237,9 @@ CREATE OR REPLACE VIEW "ecriture" AS
     WHERE SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe);
 
 CREATE OR REPLACE VIEW "comptegen" AS
-   SELECT table_comptegen.cg_numero, table_comptegen.cg_numcompte, table_comptegen.cg_libelle, table_comptegen.ac_numero, table_comptegen.cg_accepteaux, table_comptegen.cg_utilisable, table_comptegen.cg_lettrable, table_comptegen.cg_pointable, table_comptegen.so_numero, table_comptegen.cg_groupable, table_comptegen.cg_debit, table_comptegen.created_at, table_comptegen.created_by, table_comptegen.updated_at, table_comptegen.updated_by, table_comptegen.lock_version, table_comptegen.id, CG_NumCompte||' '||CG_Libelle AS CG_Nom, COALESCE(SUM(ec_debit),0) AS cg_vdebit, COALESCE(SUM(ec_credit),0) AS cg_vcredit 
-     FROM "table_comptegen" LEFT JOIN table_Ecriture USING(cg_numero), table_Acces AS a, table_Acces AS b, table_Employe 
-    WHERE table_CompteGen.AC_Numero=a.AC_Numero AND EM_Login=CURRENT_USER AND EM_Acces=b.AC_Numero AND a.AC_Niveau>=b.AC_Niveau AND SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe) 
+   SELECT table_comptegen.cg_numero, table_comptegen.cg_numcompte, table_comptegen.cg_libelle, table_comptegen.ac_numero, table_comptegen.cg_accepteaux, table_comptegen.cg_utilisable, table_comptegen.cg_lettrable, table_comptegen.cg_pointable, table_comptegen.so_numero, table_comptegen.cg_groupable, table_comptegen.cg_debit, table_comptegen.created_at, table_comptegen.created_by, table_comptegen.updated_at, table_comptegen.updated_by, table_comptegen.lock_version, table_comptegen.id, CG_NumCompte||' '||CG_Libelle AS CG_Nom, 0 AS cg_vdebit, 0 AS cg_vcredit 
+     FROM "table_comptegen" 
+    WHERE SO_Numero IN (SELECT SE_Societe FROM VUE_CURRENT_Societe) 
  GROUP BY  table_comptegen.cg_numero, table_comptegen.cg_numcompte, table_comptegen.cg_libelle, table_comptegen.ac_numero, table_comptegen.cg_accepteaux, table_comptegen.cg_utilisable, table_comptegen.cg_lettrable, table_comptegen.cg_pointable, table_comptegen.so_numero, table_comptegen.cg_groupable, table_comptegen.cg_debit, table_comptegen.created_at, table_comptegen.created_by, table_comptegen.updated_at, table_comptegen.updated_by, table_comptegen.lock_version, table_comptegen.id;
 
 CREATE OR REPLACE VIEW "compteproduit" AS

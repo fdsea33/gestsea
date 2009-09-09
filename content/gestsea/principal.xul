@@ -463,6 +463,7 @@
 <hbox class="fondstyle" pack="end">
   <arrowscrollbox orient="horizontal" flex="1" pack="start" align="center">
     <button label="Imprimer le bordereau" oncommand="Imprimer(TAB_GLOBAL_COMPO[615],'bordereau');"/>
+    <button label="Imprimer le bordereau trié" oncommand="Imprimer(TAB_GLOBAL_COMPO[615],'bordereau-tri');"/>
   </arrowscrollbox>
 </hbox>
 </vbox>

@@ -736,6 +736,7 @@ function CodeInPrincipal(centre){
 //    Maitre_ListeReglement.AjouterColonne("Montant","lr_montant");
 
     It_ListeReglement.AjouterBouton("Imprimer le bordereau","Imprimer",ComposantDansCode(Maitre_ListeReglement)+",'bordereau'");
+    It_ListeReglement.AjouterBouton("Imprimer le bordereau trié","Imprimer",ComposantDansCode(Maitre_ListeReglement)+",'bordereau-tri'");
 
     It_ListeReglement.AjouterComposantSimple("Employé(e)", "em_libelle", new Array("em_numero", "em_numero", "vue_employe_reglement"), null, LISTE_DEROULANTE);
     It_ListeReglement.AjouterComposantSimple("Mode reg.", "mr_libelle", new Array("mr_numero", "mr_numero", "modereglement"), null, LISTE_DEROULANTE);

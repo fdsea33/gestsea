@@ -686,7 +686,8 @@ SUBSTRING(rg_numerocompte FOR 12) as RG_Compte, -- 4
 SUBSTRING(rg_reference FOR 7) as RG_Cheque, -- 5
 RG_Date,  -- 6
 RG_Montant, -- 7
-LR_Numero
+LR_Numero,
+reglement.created_at AS RG_created_at
 FROM reglement join table_personne using (pe_numero) join listereglement l using (lr_numero)
 ORDER BY rg_date, pe_libelle;
 

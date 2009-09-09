@@ -321,7 +321,7 @@ var current_personne = 25;
 function EnvoyerPassword(compo) {
   current_personne = compo.getCleVal();
   /* C'est pas joli mais ça suffit dans l'immédiat */
-  var superuser = requete("SELECT CASE WHEN em_service_invoicing OR em_super THEN 1 ELSE 0 END FROM employe WHERE em_login=current_user;");
+  var superuser = requete("SELECT CASE WHEN em_self_invoicing OR em_super THEN 1 ELSE 0 END FROM employe WHERE em_login=current_user;");
   if (superuser==1) {
     window.openDialog("principal_mail.xul", "showmore", "centerscreen,close=no,modal,chrome,scrollbars,resizable=no");
   } else {
